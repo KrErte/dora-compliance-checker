@@ -47,6 +47,6 @@ export const CATEGORY_LABELS: { [key: string]: string } = {
   RISK: 'Riskihaldus',
   LEGAL: 'Õigusnõuded',
   CONTINUITY: 'Talitluspidevus',
-  RECRUITMENT: 'Värbamine ja personal (Finestmedia)',
-  FINANCIAL_REPORTING: 'Finantsaruandlus (Finestmedia)'
+  RECRUITMENT: 'Värbamine ja personal',
+  FINANCIAL_REPORTING: 'Finantsaruandlus'
 };
