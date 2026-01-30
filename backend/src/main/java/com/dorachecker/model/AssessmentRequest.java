@@ -16,6 +16,6 @@ public record AssessmentRequest(
         String contractName,
 
         @NotNull(message = "Answers are required")
-        @Size(min = 15, max = 15, message = "All 15 questions must be answered")
+        @Size(min = 1, message = "At least one answer is required")
         Map<Integer, Boolean> answers
 ) {}
