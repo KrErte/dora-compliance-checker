@@ -48,5 +48,9 @@ export const CATEGORY_LABELS: { [key: string]: string } = {
   LEGAL: 'Õigusnõuded',
   CONTINUITY: 'Talitluspidevus',
   RECRUITMENT: 'Värbamine ja personal',
-  FINANCIAL_REPORTING: 'Finantsaruandlus'
+  FINANCIAL_REPORTING: 'Finantsaruandlus',
+  ICT_RISK_MANAGEMENT: 'ICT riskihaldus',
+  INCIDENT_MANAGEMENT: 'Intsidentide haldus (laiendatud)',
+  TESTING: 'Testimine',
+  INFORMATION_SHARING: 'Info jagamine'
 };

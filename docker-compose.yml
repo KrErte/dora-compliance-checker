@@ -1,12 +1,26 @@
 services:
   backend:
     build: ./backend
+    container_name: dora-backend
+    restart: unless-stopped
     expose:
       - "8080"
+    networks:
+      - default
+      - tax-autopilot_tax-autopilot-net
 
   frontend:
     build: ./frontend
-    ports:
-      - "3000:80"
+    container_name: dora-frontend
+    restart: unless-stopped
+    expose:
+      - "80"
     depends_on:
       - backend
+    networks:
+      - default
+      - tax-autopilot_tax-autopilot-net
+
+networks:
+  tax-autopilot_tax-autopilot-net:
+    external: true

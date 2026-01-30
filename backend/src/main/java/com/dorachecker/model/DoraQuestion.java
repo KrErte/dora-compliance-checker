@@ -24,6 +24,10 @@ public record DoraQuestion(
         LEGAL,
         CONTINUITY,
         RECRUITMENT,
-        FINANCIAL_REPORTING
+        FINANCIAL_REPORTING,
+        ICT_RISK_MANAGEMENT,
+        INCIDENT_MANAGEMENT,
+        TESTING,
+        INFORMATION_SHARING
     }
 }
