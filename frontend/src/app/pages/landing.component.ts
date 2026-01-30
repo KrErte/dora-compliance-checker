@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-landing',
@@ -121,11 +121,12 @@ import { RouterLink } from '@angular/router';
           <p class="text-xs uppercase tracking-wider text-slate-600 mb-6 text-center">DORA 5 sammast</p>
           <div class="grid grid-cols-5 gap-2">
             <div *ngFor="let pillar of pillars; let i = index"
-                 class="text-center p-4 rounded-xl border card-hover animate-fade-in-up"
+                 class="text-center p-4 rounded-xl border card-hover animate-fade-in-up cursor-pointer"
                  [class]="pillar.active
-                   ? 'bg-emerald-500/5 border-emerald-500/20'
+                   ? 'bg-emerald-500/5 border-emerald-500/20 hover:bg-emerald-500/10'
                    : 'bg-slate-800/30 border-slate-700/30'"
-                 [style.animation-delay]="(i * 100 + 800) + 'ms'">
+                 [style.animation-delay]="(i * 100 + 800) + 'ms'"
+                 (click)="navigateToPillar(pillar.id)">
               <div class="text-2xl mb-2">{{ pillar.icon }}</div>
               <p class="text-xs font-medium" [class]="pillar.active ? 'text-emerald-400' : 'text-slate-500'">{{ pillar.label }}</p>
               <p class="text-xs mt-1" [class]="pillar.active ? 'text-emerald-500/70' : 'text-slate-600'">{{ pillar.articles }}</p>
@@ -204,12 +205,18 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   categories = ['Teenustase', 'V\u00e4ljumisstrateegia', 'Audit', 'Intsidendid', 'Andmekaitse', 'Allhange', 'Risk', '\u00d5igus', 'Pidevus', 'V\u00e4rbamine', 'Finantsaruandlus', 'IKT riskihaldus', 'Intsidendid (laiendatud)', 'Testimine', 'Info jagamine'];
 
   pillars = [
-    { icon: '\u{1F6E1}\uFE0F', label: 'IKT riskihaldus', articles: 'Art. 5\u201316', active: true },
-    { icon: '\u{1F4CB}', label: 'Intsidendid', articles: 'Art. 17\u201323', active: true },
-    { icon: '\u{1F50D}', label: 'Testimine', articles: 'Art. 24\u201327', active: true },
-    { icon: '\u{1F91D}', label: 'Kolmandad osapooled', articles: 'Art. 28\u201344', active: true },
-    { icon: '\u{1F4E1}', label: 'Info jagamine', articles: 'Art. 45', active: true }
+    { id: 'ICT_RISK_MANAGEMENT', icon: '\u{1F6E1}\uFE0F', label: 'IKT riskihaldus', articles: 'Art. 5\u201316', active: true },
+    { id: 'INCIDENT_MANAGEMENT', icon: '\u{1F4CB}', label: 'Intsidendid', articles: 'Art. 17\u201323', active: true },
+    { id: 'TESTING', icon: '\u{1F50D}', label: 'Testimine', articles: 'Art. 24\u201327', active: true },
+    { id: 'THIRD_PARTY', icon: '\u{1F91D}', label: 'Kolmandad osapooled', articles: 'Art. 28\u201344', active: true },
+    { id: 'INFORMATION_SHARING', icon: '\u{1F4E1}', label: 'Info jagamine', articles: 'Art. 45', active: true }
   ];
+
+  constructor(private router: Router) {}
+
+  navigateToPillar(pillarId: string) {
+    this.router.navigate(['/assessment'], { queryParams: { pillar: pillarId } });
+  }
 
   ngOnInit() {
     this.countUp();

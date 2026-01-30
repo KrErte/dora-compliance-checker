@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../api.service';
 import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
 
@@ -101,6 +101,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
 
         <!-- Questions grouped by category -->
         <div *ngFor="let group of groupedQuestions; let gi = index"
+             [id]="'cat-' + group.category"
              class="bg-slate-800/50 backdrop-blur rounded-xl p-6 mb-4 border border-slate-700/50 card-hover animate-fade-in-up"
              [style.animation-delay]="(gi * 100 + 200) + 'ms'">
           <h2 class="text-lg font-semibold text-emerald-400 mb-1 flex items-center gap-2">
@@ -234,7 +235,18 @@ export class AssessmentComponent implements OnInit {
   error = '';
   submitting = false;
 
-  constructor(private api: ApiService, private router: Router) {}
+  private scrollToCategory = '';
+
+  // Pillar → category mapping
+  private pillarCategories: { [key: string]: string[] } = {
+    'ICT_RISK_MANAGEMENT': ['ICT_RISK_MANAGEMENT'],
+    'INCIDENT_MANAGEMENT': ['INCIDENT_MANAGEMENT', 'INCIDENT'],
+    'TESTING': ['TESTING'],
+    'THIRD_PARTY': ['SERVICE_LEVEL', 'EXIT_STRATEGY', 'AUDIT', 'INCIDENT', 'DATA', 'SUBCONTRACTING', 'RISK', 'LEGAL', 'CONTINUITY'],
+    'INFORMATION_SHARING': ['INFORMATION_SHARING']
+  };
+
+  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) {}
 
   get step(): number {
     if (this.submitting) return 3;
@@ -243,11 +255,22 @@ export class AssessmentComponent implements OnInit {
   }
 
   ngOnInit() {
+    const pillar = this.route.snapshot.queryParamMap.get('pillar');
+    if (pillar && this.pillarCategories[pillar]) {
+      this.scrollToCategory = this.pillarCategories[pillar][0];
+    }
+
     this.api.getQuestions().subscribe({
       next: (questions) => {
         this.questions = questions;
         this.groupByCategory();
         this.loading = false;
+        if (this.scrollToCategory) {
+          setTimeout(() => {
+            const el = document.getElementById('cat-' + this.scrollToCategory);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 400);
+        }
       },
       error: () => {
         this.error = 'K\u00fcsimuste laadimine eba\u00f5nnestus. Palun kontrollige, kas server t\u00f6\u00f6tab.';
