@@ -326,46 +326,64 @@ export class AssessmentComponent implements OnInit {
   }
 
   applyScenario(scenario: 'ideal' | 'average' | 'weak') {
-    const ids = this.questions.map(q => q.id);
+    // Kategooriad, mis on tüüpiliselt nõrgad keskmises lepingus
+    const avgWeakCategories = ['DATA', 'SUBCONTRACTING', 'AUDIT', 'RISK',
+      'RECRUITMENT', 'FINANCIAL_REPORTING', 'TESTING', 'INFORMATION_SHARING'];
+    // Kategooriad, mis on tüüpiliselt nõrgad nõrgas lepingus (peaaegu kõik)
+    const weakOkCategories = ['SERVICE_LEVEL', 'LEGAL'];
+
     switch (scenario) {
       case 'ideal':
         this.companyName = 'AS Finantsteenused';
         this.contractName = 'Pilveteenuse SLA leping 2025';
-        for (const id of ids) this.answers[id] = true;
+        for (const q of this.questions) this.answers[q.id] = true;
         break;
       case 'average':
         this.companyName = 'O\u00dc DigiLahendused';
         this.contractName = 'IT-taristu hooldusleping';
-        for (const id of ids) this.answers[id] = Math.random() > 0.35;
-        // Ensure some are always non-compliant for realism
-        if (ids.length >= 15) {
-          this.answers[ids[4]] = false;  // Andmekaitse
-          this.answers[ids[7]] = false;  // Allhankimine
-          this.answers[ids[10]] = false; // Audit
-          this.answers[ids[13]] = false; // Riskihaldus
+        for (const q of this.questions) {
+          if (avgWeakCategories.includes(q.category)) {
+            // Need kategooriad on tüüpiliselt puudulikud
+            this.answers[q.id] = Math.random() > 0.6;
+          } else {
+            this.answers[q.id] = Math.random() > 0.2;
+          }
         }
-        // Finestmedia värbamise ja finantside küsimused
-        if (ids.length >= 22) {
-          this.answers[ids[15]] = false; // Tagasiside puudumine
-          this.answers[ids[18]] = false; // Kasumimarginaal
-          this.answers[ids[19]] = false; // Negatiivne käibekapital
-        }
+        // Kindlusta konkreetsed puudused realistlikkuse jaoks
+        this.setAnswerByCategory('TESTING', false, 2);         // TLPT ja jätkuvuse testid puudu
+        this.setAnswerByCategory('INFORMATION_SHARING', false, 2); // Info jagamine nõrk
+        this.setAnswerByCategory('INCIDENT_MANAGEMENT', false, 1); // Üks intsidendi puudus
+        this.setAnswerByCategory('FINANCIAL_REPORTING', false, 2); // Finantsriskid
         break;
       case 'weak':
         this.companyName = 'O\u00dc V\u00e4ikeettev\u00f5te';
         this.contractName = 'P\u00f5hiline IT-leping';
-        for (const id of ids) this.answers[id] = Math.random() > 0.75;
-        // Ensure most critical ones are non-compliant
-        if (ids.length >= 10) {
-          for (let i = 0; i < Math.min(10, ids.length); i++) {
-            this.answers[ids[i]] = false;
+        for (const q of this.questions) {
+          if (weakOkCategories.includes(q.category)) {
+            this.answers[q.id] = Math.random() > 0.4;
+          } else {
+            this.answers[q.id] = Math.random() > 0.8;
           }
         }
-        // Finestmedia küsimused kõik mittevastav nõrga lepingu puhul
-        for (let i = 15; i < ids.length; i++) {
-          this.answers[ids[i]] = false;
-        }
+        // Kindlusta, et kriitilised valdkonnad on mittevastav
+        this.setAnswerByCategory('ICT_RISK_MANAGEMENT', false);
+        this.setAnswerByCategory('INCIDENT_MANAGEMENT', false);
+        this.setAnswerByCategory('TESTING', false);
+        this.setAnswerByCategory('INFORMATION_SHARING', false);
+        this.setAnswerByCategory('RECRUITMENT', false);
+        this.setAnswerByCategory('FINANCIAL_REPORTING', false);
+        this.setAnswerByCategory('EXIT_STRATEGY', false);
+        this.setAnswerByCategory('CONTINUITY', false);
         break;
+    }
+  }
+
+  /** Määra kategooria küsimustele vastus. Kui count on antud, muuda ainult nii palju. */
+  private setAnswerByCategory(category: string, value: boolean, count?: number) {
+    const qs = this.questions.filter(q => q.category === category);
+    const target = count !== undefined ? Math.min(count, qs.length) : qs.length;
+    for (let i = 0; i < target; i++) {
+      this.answers[qs[i].id] = value;
     }
   }
 

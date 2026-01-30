@@ -13,8 +13,8 @@ services:
     build: ./frontend
     container_name: dora-frontend
     restart: unless-stopped
-    expose:
-      - "80"
+    ports:
+      - "3000:80"
     depends_on:
       - backend
     networks:
