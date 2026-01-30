@@ -1,0 +1,30 @@
+# Build artifacts
+backend/build/
+backend/target/
+backend/.gradle/
+frontend/dist/
+frontend/node_modules/
+frontend/.angular/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Logs and temp files
+*.log
+app.log
+mvn_output.txt
+mvn_out.txt
+mvn_err.txt
+ng_out.txt
+ng_err.txt
+questions_test.json
+NUL
+
+# Deploy artifacts
+deploy.tar
+
+# OS
+.DS_Store
+Thumbs.db
