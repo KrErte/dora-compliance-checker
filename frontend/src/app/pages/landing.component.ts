@@ -91,7 +91,7 @@ import { RouterLink } from '@angular/router';
             <div class="card-3d-inner bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6 text-left animate-shimmer" style="animation-delay:1s">
               <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold mb-3 animate-float" style="animation-delay:0.5s">2</div>
               <h3 class="font-semibold text-slate-200 mb-1">Vasta k&uuml;simustele</h3>
-              <p class="text-sm text-slate-500">15 k&uuml;simust 9 DORA kategooriast</p>
+              <p class="text-sm text-slate-500">37 k&uuml;simust 15 DORA kategooriast</p>
             </div>
           </div>
           <div class="animate-fade-in-up delay-600 card-3d">
@@ -201,14 +201,14 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   private animationFrame = 0;
   private particles: { x: number; y: number; vx: number; vy: number; size: number }[] = [];
 
-  categories = ['Teenustase', 'V\u00e4ljumisstrateegia', 'Audit', 'Intsidendid', 'Andmekaitse', 'Allhange', 'Risk', '\u00d5igus', 'Pidevus'];
+  categories = ['Teenustase', 'V\u00e4ljumisstrateegia', 'Audit', 'Intsidendid', 'Andmekaitse', 'Allhange', 'Risk', '\u00d5igus', 'Pidevus', 'V\u00e4rbamine', 'Finantsaruandlus', 'IKT riskihaldus', 'Intsidendid (laiendatud)', 'Testimine', 'Info jagamine'];
 
   pillars = [
-    { icon: '\u{1F6E1}\uFE0F', label: 'IKT riskihaldus', articles: 'Art. 5\u201316', active: false },
-    { icon: '\u{1F4CB}', label: 'Intsidendid', articles: 'Art. 17\u201323', active: false },
-    { icon: '\u{1F50D}', label: 'Testimine', articles: 'Art. 24\u201327', active: false },
+    { icon: '\u{1F6E1}\uFE0F', label: 'IKT riskihaldus', articles: 'Art. 5\u201316', active: true },
+    { icon: '\u{1F4CB}', label: 'Intsidendid', articles: 'Art. 17\u201323', active: true },
+    { icon: '\u{1F50D}', label: 'Testimine', articles: 'Art. 24\u201327', active: true },
     { icon: '\u{1F91D}', label: 'Kolmandad osapooled', articles: 'Art. 28\u201344', active: true },
-    { icon: '\u{1F4E1}', label: 'Info jagamine', articles: 'Art. 45', active: false }
+    { icon: '\u{1F4E1}', label: 'Info jagamine', articles: 'Art. 45', active: true }
   ];
 
   ngOnInit() {
@@ -224,7 +224,7 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   countUp() {
-    const targets = { articles: 79, questions: 15, categories: 9, assessments: this.getHistoryCount() };
+    const targets = { articles: 79, questions: 37, categories: 15, assessments: this.getHistoryCount() };
     const duration = 2000;
     const startTime = Date.now();
 
