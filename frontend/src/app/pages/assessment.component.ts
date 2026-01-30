@@ -47,6 +47,14 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
         {{ error }}
       </div>
 
+      <!-- Draft restored indicator -->
+      <div *ngIf="hasDraft && !loading" class="flex items-center gap-2 mb-4 px-4 py-2 bg-cyan-500/10 border border-cyan-500/20 rounded-lg text-xs text-cyan-400 animate-fade-in">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+        </svg>
+        Eelmine mustand taastatud &middot; {{ answeredCount }} vastust salvestatud
+      </div>
+
       <!-- Scenario buttons -->
       <div *ngIf="!loading && !error" class="flex flex-wrap gap-2 mb-6 animate-fade-in-up delay-100">
         <span class="text-xs text-slate-500 self-center mr-1">Demo:</span>
@@ -74,7 +82,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
 
       <form *ngIf="!loading && !error" (ngSubmit)="onSubmit()" #assessmentForm="ngForm">
         <!-- Company info -->
-        <div class="bg-slate-800/50 backdrop-blur rounded-xl p-6 mb-6 border border-slate-700/50 card-hover animate-fade-in-up">
+        <div class="glass-card p-6 mb-6 card-hover animate-fade-in-up">
           <h2 class="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
             <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
@@ -102,11 +110,13 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
         <!-- Questions grouped by category -->
         <div *ngFor="let group of groupedQuestions; let gi = index"
              [id]="'cat-' + group.category"
-             class="bg-slate-800/50 backdrop-blur rounded-xl p-6 mb-4 border border-slate-700/50 card-hover animate-fade-in-up"
+             class="glass-card p-6 mb-4 card-hover animate-fade-in-up"
              [style.animation-delay]="(gi * 100 + 200) + 'ms'">
           <h2 class="text-lg font-semibold text-emerald-400 mb-1 flex items-center gap-2">
-            <span class="w-6 h-6 rounded bg-emerald-500/10 flex items-center justify-center text-xs text-emerald-400">{{ gi + 1 }}</span>
+            <span class="w-7 h-7 rounded-lg flex items-center justify-center text-base"
+                  [class]="getCategoryIconBg(group.category)">{{ getCategoryIcon(group.category) }}</span>
             {{ getCategoryLabel(group.category) }}
+            <span *ngIf="getCategoryProgress(group) === 100" class="ml-auto text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">&#10003;</span>
           </h2>
           <p class="text-xs text-slate-500 mb-4">{{ group.questions.length }} k&uuml;simus{{ group.questions.length > 1 ? 't' : '' }}</p>
 
@@ -133,14 +143,14 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
               </div>
               <div class="flex items-center gap-1.5 shrink-0 mt-1">
                 <button type="button"
-                        (click)="answers[q.id] = true"
+                        (click)="answers[q.id] = true; autoSave()"
                         [class]="answers[q.id] === true
                           ? 'px-4 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-emerald-400 text-slate-900 shadow-lg shadow-emerald-500/20 scale-105 transition-all duration-200'
                           : 'px-4 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
                   Jah
                 </button>
                 <button type="button"
-                        (click)="answers[q.id] = false"
+                        (click)="answers[q.id] = false; autoSave()"
                         [class]="answers[q.id] === false
                           ? 'px-4 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-red-500 to-red-400 text-white shadow-lg shadow-red-500/20 scale-105 transition-all duration-200'
                           : 'px-4 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
@@ -234,6 +244,7 @@ export class AssessmentComponent implements OnInit {
   loading = true;
   error = '';
   submitting = false;
+  hasDraft = false;
 
   private scrollToCategory = '';
 
@@ -244,6 +255,24 @@ export class AssessmentComponent implements OnInit {
     'TESTING': ['TESTING'],
     'THIRD_PARTY': ['SERVICE_LEVEL', 'EXIT_STRATEGY', 'AUDIT', 'INCIDENT', 'DATA', 'SUBCONTRACTING', 'RISK', 'LEGAL', 'CONTINUITY'],
     'INFORMATION_SHARING': ['INFORMATION_SHARING']
+  };
+
+  private categoryIcons: { [key: string]: string } = {
+    SERVICE_LEVEL: '\u{1F4CB}',
+    EXIT_STRATEGY: '\u{1F6AA}',
+    AUDIT: '\u{1F50D}',
+    INCIDENT: '\u26A0\uFE0F',
+    DATA: '\u{1F512}',
+    SUBCONTRACTING: '\u{1F91D}',
+    RISK: '\u{1F6E1}\uFE0F',
+    LEGAL: '\u2696\uFE0F',
+    CONTINUITY: '\u{1F504}',
+    RECRUITMENT: '\u{1F465}',
+    FINANCIAL_REPORTING: '\u{1F4B0}',
+    ICT_RISK_MANAGEMENT: '\u{1F5A5}\uFE0F',
+    INCIDENT_MANAGEMENT: '\u{1F6A8}',
+    TESTING: '\u{1F9EA}',
+    INFORMATION_SHARING: '\u{1F4E1}'
   };
 
   constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) {}
@@ -260,6 +289,8 @@ export class AssessmentComponent implements OnInit {
       this.scrollToCategory = this.pillarCategories[pillar][0];
     }
 
+    this.loadDraft();
+    this.hasDraft = Object.keys(this.answers).length > 0;
     this.api.getQuestions().subscribe({
       next: (questions) => {
         this.questions = questions;
@@ -410,10 +441,60 @@ export class AssessmentComponent implements OnInit {
     }
   }
 
+  getCategoryIcon(category: string): string {
+    return this.categoryIcons[category] || '\u{1F4C4}';
+  }
+
+  getCategoryIconBg(category: string): string {
+    const bg: { [key: string]: string } = {
+      SERVICE_LEVEL: 'bg-emerald-500/10',
+      EXIT_STRATEGY: 'bg-amber-500/10',
+      AUDIT: 'bg-cyan-500/10',
+      INCIDENT: 'bg-red-500/10',
+      DATA: 'bg-violet-500/10',
+      SUBCONTRACTING: 'bg-blue-500/10',
+      RISK: 'bg-orange-500/10',
+      LEGAL: 'bg-indigo-500/10',
+      CONTINUITY: 'bg-teal-500/10',
+      RECRUITMENT: 'bg-pink-500/10',
+      FINANCIAL_REPORTING: 'bg-yellow-500/10',
+      ICT_RISK_MANAGEMENT: 'bg-emerald-500/10',
+      INCIDENT_MANAGEMENT: 'bg-red-500/10',
+      TESTING: 'bg-purple-500/10',
+      INFORMATION_SHARING: 'bg-cyan-500/10'
+    };
+    return bg[category] || 'bg-slate-500/10';
+  }
+
+  getCategoryProgress(group: { category: string; questions: DoraQuestion[] }): number {
+    const answered = group.questions.filter(q => this.answers[q.id] !== undefined).length;
+    return group.questions.length > 0 ? (answered / group.questions.length) * 100 : 0;
+  }
+
+  autoSave() {
+    localStorage.setItem('dora_draft', JSON.stringify({
+      companyName: this.companyName,
+      contractName: this.contractName,
+      answers: this.answers
+    }));
+  }
+
+  private loadDraft() {
+    try {
+      const draft = JSON.parse(localStorage.getItem('dora_draft') || 'null');
+      if (draft && Object.keys(draft.answers || {}).length > 0) {
+        this.companyName = draft.companyName || '';
+        this.contractName = draft.contractName || '';
+        this.answers = draft.answers || {};
+      }
+    } catch {}
+  }
+
   clearAll() {
     this.companyName = '';
     this.contractName = '';
     this.answers = {};
+    localStorage.removeItem('dora_draft');
   }
 
   onSubmit() {
@@ -428,6 +509,7 @@ export class AssessmentComponent implements OnInit {
 
     this.api.submitAssessment(request).subscribe({
       next: (result) => {
+        localStorage.removeItem('dora_draft');
         this.router.navigate(['/results', result.id]);
       },
       error: () => {

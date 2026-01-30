@@ -1,34 +1,55 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { LangService } from './lang.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   template: `
-    <nav class="bg-slate-800/80 backdrop-blur-md border-b border-slate-700/50 sticky top-0 z-50">
-      <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+    <nav class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50">
+      <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
         <a routerLink="/" class="flex items-center gap-3 group">
           <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-sm
-                      group-hover:shadow-lg group-hover:shadow-emerald-500/25 transition-all duration-300">
+                      group-hover:shadow-lg group-hover:shadow-emerald-500/25 transition-all duration-300 group-hover:scale-105">
             D
           </div>
-          <span class="text-xl font-bold gradient-text">
-            DORA Vastavuskontroll
-          </span>
+          <div class="flex flex-col">
+            <span class="text-lg font-bold gradient-text leading-tight">
+              DORA Vastavuskontroll
+            </span>
+            <span class="text-[10px] text-slate-600 leading-tight hidden sm:block">EU 2022/2554</span>
+          </div>
         </a>
-        <div class="flex items-center gap-4 hidden sm:flex">
-          <a routerLink="/history"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5">
+        <div class="flex items-center gap-1 hidden sm:flex">
+          <a routerLink="/dashboard" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+            Paneel
+          </a>
+          <a routerLink="/assessment" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            {{ lang.t('nav.assessment') }}
+          </a>
+          <a routerLink="/compare" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7"/>
+            </svg>
+            V&otilde;rdlus
+          </a>
+          <a routerLink="/history" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
             {{ lang.t('nav.history') }}
           </a>
-          <a routerLink="/assessment"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200">
-            {{ lang.t('nav.assessment') }}
-          </a>
+          <div class="w-px h-5 bg-slate-700/50 mx-1"></div>
           <!-- Language toggle -->
           <button (click)="lang.toggle()"
                   class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
@@ -45,8 +66,28 @@ import { LangService } from './lang.service';
     <main class="max-w-5xl mx-auto px-4 py-8">
       <router-outlet />
     </main>
-    <footer class="border-t border-slate-800 mt-16 py-6 text-center text-xs text-slate-600">
-      DORA (EU) 2022/2554 &middot; Vastavuskontrolli t&ouml;&ouml;riist
+    <footer class="border-t border-slate-800 mt-16 py-8">
+      <div class="max-w-5xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-7 h-7 rounded-md bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs">D</div>
+            <div>
+              <p class="text-sm font-semibold text-slate-400">DORA Vastavuskontroll</p>
+              <p class="text-xs text-slate-600">EU m&auml;&auml;rus 2022/2554</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-6 text-xs text-slate-600">
+            <a routerLink="/assessment" class="hover:text-emerald-400 transition-colors">Hindamine</a>
+            <a routerLink="/dashboard" class="hover:text-emerald-400 transition-colors">Juhtpaneel</a>
+            <a routerLink="/compare" class="hover:text-emerald-400 transition-colors">V&otilde;rdlus</a>
+            <a routerLink="/history" class="hover:text-emerald-400 transition-colors">Ajalugu</a>
+          </div>
+          <div class="flex items-center gap-3 text-xs text-slate-600">
+            <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-500/70 border border-emerald-500/10">v2.0</span>
+            <span>Digitaalse tegevuskerksuse m&auml;&auml;rus</span>
+          </div>
+        </div>
+      </div>
     </footer>
   `
 })

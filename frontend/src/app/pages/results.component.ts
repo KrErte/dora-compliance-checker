@@ -274,6 +274,96 @@ interface HeatmapCell {
           </div>
         </div>
 
+        <!-- Compliance Roadmap -->
+        <div *ngIf="nonCompliantItems.length > 0" class="glass-card p-6 mb-8 animate-fade-in-up delay-600">
+          <h2 class="text-sm font-semibold text-slate-300 mb-6 flex items-center gap-2">
+            <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+            </svg>
+            Vastavuse tegevuskava
+          </h2>
+
+          <div class="relative">
+            <!-- Timeline line -->
+            <div class="absolute left-[15px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-red-500 via-amber-500 to-emerald-500 opacity-40"></div>
+
+            <!-- Phase 1: Critical (0-3 months) -->
+            <div class="relative pl-10 pb-8 animate-fade-in-up delay-700">
+              <div class="absolute left-[7px] top-1 w-[18px] h-[18px] rounded-full bg-red-500/20 border-2 border-red-400 flex items-center justify-center">
+                <div class="w-2 h-2 rounded-full bg-red-400"></div>
+              </div>
+              <div class="glass-card p-4">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="text-xs font-bold text-red-400 uppercase tracking-wider">Faas 1</span>
+                  <span class="text-xs text-slate-500">&middot; Kriitilised puudused</span>
+                  <span class="text-xs px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 ml-auto">0&ndash;3 kuud</span>
+                </div>
+                <div class="w-full bg-slate-700 rounded-full h-1.5 mb-3">
+                  <div class="h-1.5 rounded-full bg-gradient-to-r from-red-500 to-red-400 animate-progress-fill" [style.width.%]="roadmapPhase1Progress"></div>
+                </div>
+                <div class="space-y-1.5">
+                  <div *ngFor="let item of roadmapPhase1; let i = index"
+                       class="flex items-center gap-2 text-sm animate-slide-in-right"
+                       [style.animation-delay]="(i * 60 + 800) + 'ms'">
+                    <span class="w-5 h-5 rounded bg-red-500/10 flex items-center justify-center text-xs text-red-400 shrink-0">{{ i + 1 }}</span>
+                    <span class="text-slate-300 truncate">{{ item.question }}</span>
+                    <span class="text-xs text-slate-600 shrink-0">{{ item.articleReference }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phase 2: Important (3-6 months) -->
+            <div class="relative pl-10 pb-8 animate-fade-in-up delay-800">
+              <div class="absolute left-[7px] top-1 w-[18px] h-[18px] rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center">
+                <div class="w-2 h-2 rounded-full bg-amber-400"></div>
+              </div>
+              <div class="glass-card p-4">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">Faas 2</span>
+                  <span class="text-xs text-slate-500">&middot; Olulised parandused</span>
+                  <span class="text-xs px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 ml-auto">3&ndash;6 kuud</span>
+                </div>
+                <div class="w-full bg-slate-700 rounded-full h-1.5 mb-3">
+                  <div class="h-1.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-400 animate-progress-fill delay-300" [style.width.%]="roadmapPhase2Progress"></div>
+                </div>
+                <div class="space-y-1.5">
+                  <div *ngFor="let item of roadmapPhase2; let i = index"
+                       class="flex items-center gap-2 text-sm animate-slide-in-right"
+                       [style.animation-delay]="(i * 60 + 1000) + 'ms'">
+                    <span class="w-5 h-5 rounded bg-amber-500/10 flex items-center justify-center text-xs text-amber-400 shrink-0">{{ i + 1 }}</span>
+                    <span class="text-slate-300 truncate">{{ item.question }}</span>
+                    <span class="text-xs text-slate-600 shrink-0">{{ item.articleReference }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phase 3: Full compliance -->
+            <div class="relative pl-10 animate-fade-in-up delay-1000">
+              <div class="absolute left-[7px] top-1 w-[18px] h-[18px] rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center">
+                <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+              </div>
+              <div class="glass-card p-4">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Faas 3</span>
+                  <span class="text-xs text-slate-500">&middot; T&auml;ielik vastavus</span>
+                  <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 ml-auto">6&ndash;12 kuud</span>
+                </div>
+                <div class="w-full bg-slate-700 rounded-full h-1.5 mb-3">
+                  <div class="h-1.5 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 animate-progress-fill delay-500" [style.width.%]="roadmapPhase3Progress"></div>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-emerald-400">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  <span>Pidev j&auml;relevalve ja regulaarne &uuml;levaatus</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Question breakdown -->
         <h2 class="text-lg font-semibold text-slate-200 mb-4 animate-fade-in-up delay-400 flex items-center gap-2">
           <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -372,13 +462,18 @@ export class ResultsComponent implements OnInit {
   radarDataPoints: { x: number; y: number; value: number }[] = [];
   heatmapCells: HeatmapCell[] = [];
   nonCompliantItems: { question: string; articleReference: string; category: string }[] = [];
+  roadmapPhase1: { question: string; articleReference: string }[] = [];
+  roadmapPhase2: { question: string; articleReference: string }[] = [];
+  roadmapPhase1Progress = 0;
+  roadmapPhase2Progress = 0;
+  roadmapPhase3Progress = 0;
 
   doraPillars = [
-    { icon: '\u{1F6E1}\uFE0F', label: 'IKT risk', active: false },
-    { icon: '\u{1F4CB}', label: 'Intsidendid', active: false },
-    { icon: '\u{1F50D}', label: 'Testimine', active: false },
+    { icon: '\u{1F6E1}\uFE0F', label: 'IKT risk', active: true },
+    { icon: '\u{1F4CB}', label: 'Intsidendid', active: true },
+    { icon: '\u{1F50D}', label: 'Testimine', active: true },
     { icon: '\u{1F91D}', label: 'Kolmandad osapooled', active: true },
-    { icon: '\u{1F4E1}', label: 'Info jagamine', active: false }
+    { icon: '\u{1F4E1}', label: 'Info jagamine', active: true }
   ];
 
   constructor(private api: ApiService, private route: ActivatedRoute, private renderer: Renderer2) {}
@@ -392,6 +487,7 @@ export class ResultsComponent implements OnInit {
         this.buildRadarChart();
         this.buildHeatmap();
         this.buildNonCompliantList();
+        this.buildRoadmap();
         this.saveToHistory();
         this.loading = false;
         if (result.complianceLevel === 'GREEN') {
@@ -556,6 +652,20 @@ export class ResultsComponent implements OnInit {
         articleReference: qr.articleReference,
         category: qr.category
       }));
+  }
+
+  buildRoadmap() {
+    if (!this.result) return;
+    const items = this.nonCompliantItems;
+    // Split: first 3 are critical (phase 1), rest are important (phase 2)
+    this.roadmapPhase1 = items.slice(0, Math.min(3, items.length));
+    this.roadmapPhase2 = items.slice(3);
+    // Progress = percentage of compliant questions already done
+    const total = this.result.totalQuestions;
+    const done = this.result.compliantCount;
+    this.roadmapPhase1Progress = items.length > 0 ? Math.round((done / total) * 100) : 100;
+    this.roadmapPhase2Progress = items.length > 3 ? Math.round(((done + this.roadmapPhase1.length) / total) * 100) : this.roadmapPhase1Progress;
+    this.roadmapPhase3Progress = 100;
   }
 
   getCategoryLabel(category: string): string {

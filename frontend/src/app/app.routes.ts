@@ -20,5 +20,13 @@ export const routes: Routes = [
   {
     path: 'certificate/:id',
     loadComponent: () => import('./pages/certificate.component').then(m => m.CertificateComponent)
+  },
+  {
+    path: 'dashboard',
+    loadComponent: () => import('./pages/dashboard.component').then(m => m.DashboardComponent)
+  },
+  {
+    path: 'compare',
+    loadComponent: () => import('./pages/compare.component').then(m => m.CompareComponent)
   }
 ];
