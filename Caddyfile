@@ -1,7 +1,7 @@
-doracheck.eu {
+doraaudit.eu {
     reverse_proxy frontend:80
 }
 
-www.doracheck.eu {
-    redir https://doracheck.eu{uri} permanent
+www.doraaudit.eu {
+    redir https://doraaudit.eu{uri} permanent
 }
