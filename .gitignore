@@ -1,0 +1,25 @@
+# Environment & secrets
+.env
+**/application-local.properties
+
+# Build artifacts
+backend/target/
+frontend/dist/
+frontend/node_modules/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs & temp files
+*.log
+hs_err_pid*.log
+backend-log.txt
+
+# Test artifacts
+test-*.pdf

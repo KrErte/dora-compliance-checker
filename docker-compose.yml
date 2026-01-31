@@ -1,10 +1,36 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: dora-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: doradb
+      POSTGRES_USER: dora
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dora_secret}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    expose:
+      - "5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dora -d doradb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   backend:
     build: ./backend
     container_name: dora-backend
     restart: unless-stopped
     expose:
       - "8080"
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - DATABASE_URL=jdbc:postgresql://postgres:5432/doradb
+      - DATABASE_USERNAME=dora
+      - DATABASE_PASSWORD=${POSTGRES_PASSWORD:-dora_secret}
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   frontend:
     build: ./frontend
@@ -31,5 +57,6 @@ services:
       - frontend
 
 volumes:
+  postgres_data:
   caddy_data:
   caddy_config:

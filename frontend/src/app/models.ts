@@ -65,6 +65,47 @@ export interface AssessmentResult {
   estimatedPenaltyRiskPercent: number;
 }
 
+// Contract Analysis types
+export interface ContractAnalysisResult {
+  id: string;
+  companyName: string;
+  contractName: string;
+  fileName: string;
+  analysisDate: string;
+  defensibilityScore: number;
+  defensibilityLevel: 'GREEN' | 'YELLOW' | 'RED';
+  coveredCount: number;
+  weakCount: number;
+  missingCount: number;
+  totalRequirements: number;
+  requirements: RequirementAnalysis[];
+  gaps: GapItem[];
+  executiveSummary: string;
+}
+
+export interface RequirementAnalysis {
+  requirementId: number;
+  articleReference: string;
+  requirementText: string;
+  category: string;
+  severity: string;
+  weight: number;
+  status: 'COVERED' | 'WEAK' | 'MISSING';
+  evidenceFound: string;
+  analysis: string;
+}
+
+export interface GapItem {
+  requirementId: number;
+  articleReference: string;
+  requirementText: string;
+  category: string;
+  severity: string;
+  status: 'WEAK' | 'MISSING';
+  recommendation: string;
+  suggestedClause: string;
+}
+
 export const CATEGORY_LABELS: { [key: string]: string } = {
   SERVICE_LEVEL: 'Teenustaseme nõuded',
   EXIT_STRATEGY: 'Väljumisstrateegia',

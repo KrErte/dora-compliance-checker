@@ -28,5 +28,13 @@ export const routes: Routes = [
   {
     path: 'compare',
     loadComponent: () => import('./pages/compare.component').then(m => m.CompareComponent)
+  },
+  {
+    path: 'contract-analysis',
+    loadComponent: () => import('./pages/contract-upload.component').then(m => m.ContractUploadComponent)
+  },
+  {
+    path: 'contract-results/:id',
+    loadComponent: () => import('./pages/contract-results.component').then(m => m.ContractResultsComponent)
   }
 ];

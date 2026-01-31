@@ -32,7 +32,7 @@ public class AssessmentEntity {
     @Column(nullable = false)
     private String complianceLevel;
 
-    @Column(length = 4000)
+    @Column(columnDefinition = "TEXT")
     private String answersJson;
 
     public AssessmentEntity() {}
