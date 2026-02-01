@@ -114,6 +114,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'contract.sample_title': { et: 'Pole lepingut k\u00e4ep\u00e4rast?', en: 'No contract at hand?' },
   'contract.sample_desc': { et: 'Laadi n\u00e4idis IKT-leping testimiseks', en: 'Load a sample ICT contract for testing' },
   'contract.load_sample': { et: 'Laadi n\u00e4idisleping', en: 'Load sample contract' },
+  'contract.download_sample': { et: 'Vaata PDF', en: 'View PDF' },
   'contract.risk_areas': { et: 'K\u00f5ige riskantsemad kohad', en: 'Highest Risk Areas' },
   'contract.risk_areas_desc': { et: 'Need n\u00f5uded vajavad kohest t\u00e4helepanu', en: 'These requirements need immediate attention' },
 };

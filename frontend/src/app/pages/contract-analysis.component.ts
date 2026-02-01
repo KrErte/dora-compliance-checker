@@ -23,17 +23,28 @@ import { ContractAnalysisResult } from '../models';
             <p class="text-sm font-medium text-slate-300">{{ lang.t('contract.sample_title') }}</p>
             <p class="text-xs text-slate-500">{{ lang.t('contract.sample_desc') }}</p>
           </div>
-          <button (click)="loadSampleContract()" [disabled]="loadingSample"
-                  class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
-                         bg-cyan-500/10 border border-cyan-500/30 text-cyan-400
-                         hover:bg-cyan-500/20 hover:shadow-lg hover:shadow-cyan-500/10
-                         disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
-            <svg *ngIf="!loadingSample" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-            </svg>
-            <div *ngIf="loadingSample" class="w-4 h-4 border-2 border-cyan-400/30 border-t-cyan-400 rounded-full animate-spin"></div>
-            {{ lang.t('contract.load_sample') }}
-          </button>
+          <div class="flex items-center gap-2">
+            <a href="/api/sample/sample-pdf" target="_blank"
+               class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
+                      bg-slate-500/10 border border-slate-500/30 text-slate-400
+                      hover:bg-slate-500/20 hover:text-slate-300 flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              {{ lang.t('contract.download_sample') }}
+            </a>
+            <button (click)="loadSampleContract()" [disabled]="loadingSample"
+                    class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
+                           bg-cyan-500/10 border border-cyan-500/30 text-cyan-400
+                           hover:bg-cyan-500/20 hover:shadow-lg hover:shadow-cyan-500/10
+                           disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+              <svg *ngIf="!loadingSample" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              <div *ngIf="loadingSample" class="w-4 h-4 border-2 border-cyan-400/30 border-t-cyan-400 rounded-full animate-spin"></div>
+              {{ lang.t('contract.load_sample') }}
+            </button>
+          </div>
         </div>
       </div>
 
