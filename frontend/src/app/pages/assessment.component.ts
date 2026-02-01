@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../api.service';
+import { LangService } from '../lang.service';
 import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
 
 @Component({
@@ -16,26 +17,26 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
           <div [class]="step >= 1
             ? 'w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-sm font-bold'
             : 'w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-slate-400 text-sm font-bold'">1</div>
-          <span class="text-sm hidden sm:inline" [class]="step >= 1 ? 'text-emerald-400' : 'text-slate-500'">Andmed</span>
+          <span class="text-sm hidden sm:inline" [class]="step >= 1 ? 'text-emerald-400' : 'text-slate-500'">{{ lang.t('assessment.step_data') }}</span>
         </div>
         <div class="w-12 h-px" [class]="step >= 2 ? 'bg-emerald-500' : 'bg-slate-700'"></div>
         <div class="flex items-center gap-2">
           <div [class]="step >= 2
             ? 'w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-sm font-bold'
             : 'w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-slate-400 text-sm font-bold'">2</div>
-          <span class="text-sm hidden sm:inline" [class]="step >= 2 ? 'text-emerald-400' : 'text-slate-500'">K&uuml;simused</span>
+          <span class="text-sm hidden sm:inline" [class]="step >= 2 ? 'text-emerald-400' : 'text-slate-500'">{{ lang.t('assessment.step_questions') }}</span>
         </div>
         <div class="w-12 h-px" [class]="step >= 3 ? 'bg-emerald-500' : 'bg-slate-700'"></div>
         <div class="flex items-center gap-2">
           <div [class]="step >= 3
             ? 'w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-sm font-bold'
             : 'w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-slate-400 text-sm font-bold'">3</div>
-          <span class="text-sm hidden sm:inline" [class]="step >= 3 ? 'text-emerald-400' : 'text-slate-500'">Tulemused</span>
+          <span class="text-sm hidden sm:inline" [class]="step >= 3 ? 'text-emerald-400' : 'text-slate-500'">{{ lang.t('assessment.step_results') }}</span>
         </div>
       </div>
 
       <h1 class="text-2xl font-bold mb-6 animate-fade-in-up">
-        <span class="gradient-text">DORA vastavuse hindamine</span>
+        <span class="gradient-text">{{ lang.t('assessment.title') }}</span>
       </h1>
 
       <div *ngIf="loading" class="text-center py-16 animate-fade-in">
@@ -61,22 +62,22 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
         <button type="button" (click)="applyScenario('ideal')"
                 class="px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20
                        hover:bg-emerald-500/20 transition-all duration-200">
-          Ideaalne leping
+          {{ lang.t('assessment.scenario_ideal') }}
         </button>
         <button type="button" (click)="applyScenario('average')"
                 class="px-3 py-1.5 rounded-lg text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20
                        hover:bg-amber-500/20 transition-all duration-200">
-          Keskmine leping
+          {{ lang.t('assessment.scenario_average') }}
         </button>
         <button type="button" (click)="applyScenario('weak')"
                 class="px-3 py-1.5 rounded-lg text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20
                        hover:bg-red-500/20 transition-all duration-200">
-          N&otilde;rk leping
+          {{ lang.t('assessment.scenario_weak') }}
         </button>
         <button type="button" (click)="clearAll()"
                 class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-700/50 text-slate-400 border border-slate-600/30
                        hover:bg-slate-600/50 transition-all duration-200">
-          T&uuml;hjenda
+          {{ lang.t('assessment.clear') }}
         </button>
       </div>
 
@@ -87,23 +88,39 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
             <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
             </svg>
-            Ettev&otilde;tte andmed
+            {{ lang.t('assessment.company') }}
           </h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label class="block text-sm text-slate-400 mb-1.5">Ettev&otilde;tte nimi</label>
+              <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.company_name') }}</label>
               <input type="text" [(ngModel)]="companyName" name="companyName" required
                      class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
                             focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300"
-                     placeholder="O&Uuml; N&auml;idis">
+                     [placeholder]="lang.currentLang === 'et' ? 'OÜ Näidis' : 'Example Ltd'">
             </div>
             <div>
-              <label class="block text-sm text-slate-400 mb-1.5">Lepingu nimetus</label>
+              <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.contract_name') }}</label>
               <input type="text" [(ngModel)]="contractName" name="contractName" required
                      class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
                             focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300"
-                     placeholder="Pilveteenus leping">
+                     [placeholder]="lang.currentLang === 'et' ? 'Pilveteenus leping' : 'Cloud service agreement'">
             </div>
+            <div>
+              <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.sector') }}</label>
+              <select [(ngModel)]="selectedSector" name="sector"
+                      class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
+                             focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300 appearance-none">
+                <option value="">{{ lang.t('assessment.select_sector') }}</option>
+                <option *ngFor="let s of sectors" [value]="s.value">{{ lang.currentLang === 'et' ? s.et : s.en }}</option>
+              </select>
+            </div>
+          </div>
+          <!-- Sector hint -->
+          <div *ngIf="sectorHint" class="mt-3 flex items-start gap-2 px-3 py-2 bg-cyan-500/5 border border-cyan-500/15 rounded-lg">
+            <svg class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <p class="text-xs text-cyan-300/80">{{ sectorHint }}</p>
           </div>
         </div>
 
@@ -147,14 +164,14 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
                         [class]="answers[q.id] === true
                           ? 'px-4 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-emerald-400 text-slate-900 shadow-lg shadow-emerald-500/20 scale-105 transition-all duration-200'
                           : 'px-4 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
-                  Jah
+                  {{ lang.t('assessment.yes') }}
                 </button>
                 <button type="button"
                         (click)="answers[q.id] = false; autoSave()"
                         [class]="answers[q.id] === false
                           ? 'px-4 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-red-500 to-red-400 text-white shadow-lg shadow-red-500/20 scale-105 transition-all duration-200'
                           : 'px-4 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
-                  Ei
+                  {{ lang.t('assessment.no') }}
                 </button>
               </div>
             </div>
@@ -183,7 +200,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
                   </div>
                 </div>
                 <div>
-                  <p class="text-xs text-slate-400">Eeldatav skoor</p>
+                  <p class="text-xs text-slate-400">{{ lang.t('assessment.score_preview') }}</p>
                   <div class="flex items-center gap-2">
                     <span class="text-sm font-semibold" [style.color]="liveScoreColor">{{ liveScoreLabel }}</span>
                     <span class="text-xs text-slate-600">&middot;</span>
@@ -219,10 +236,10 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
                     [class]="canSubmit && !submitting
                       ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-900 font-semibold px-8 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 flex items-center gap-2'
                       : 'bg-slate-700 text-slate-500 font-semibold px-8 py-2.5 rounded-lg cursor-not-allowed flex items-center gap-2'">
-              <span *ngIf="!submitting">Esita hindamine</span>
+              <span *ngIf="!submitting">{{ lang.t('assessment.submit') }}</span>
               <span *ngIf="submitting" class="flex items-center gap-2">
                 <span class="w-4 h-4 border-2 border-slate-900/30 border-t-slate-900 rounded-full animate-spin"></span>
-                Hindamine...
+                {{ lang.t('assessment.submitting') }}
               </span>
               <svg *ngIf="!submitting" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
@@ -275,7 +292,33 @@ export class AssessmentComponent implements OnInit {
     INFORMATION_SHARING: '\u{1F4E1}'
   };
 
-  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) {}
+  selectedSector = '';
+
+  sectors = [
+    { value: 'bank', et: 'Pank', en: 'Bank' },
+    { value: 'insurance', et: 'Kindlustus', en: 'Insurance' },
+    { value: 'payment', et: 'Makseasutus', en: 'Payment Institution' },
+    { value: 'crypto', et: 'Kr\u00fcptovara teenusepakkuja', en: 'Crypto Asset Provider' },
+    { value: 'fund', et: 'Fondivalitseja', en: 'Fund Manager' },
+    { value: 'ict', et: 'IKT-teenusepakkuja', en: 'ICT Service Provider' }
+  ];
+
+  private sectorHints: { [key: string]: { et: string; en: string } } = {
+    bank: { et: 'Pangad peavad tagama k\u00f5igi IKT-teenusepakkujate lepingute vastavuse DORA Art. 28\u201330. P\u00f6\u00f6rake erilist t\u00e4helepanu audit\u00f5igustele ja andmekaitsele.', en: 'Banks must ensure all ICT service provider contracts comply with DORA Art. 28\u201330. Pay special attention to audit rights and data protection.' },
+    insurance: { et: 'Kindlustusseltsidel on sageli palju kolmandate osapoolte s\u00f5ltuvusi. Kontrollige eriti exit-strateegia ja \u00e4ritegevuse j\u00e4tkuvuse klausleid.', en: 'Insurance companies often have many third-party dependencies. Check especially exit strategy and business continuity clauses.' },
+    payment: { et: 'Makseasutuste kriitilised teenused s\u00f5ltuvad IT-taristust. DORA n\u00f5uab rangemaid SLA ja intsidentide teavitamise klausleid.', en: 'Payment institutions\u2019 critical services depend on IT infrastructure. DORA requires stricter SLA and incident notification clauses.' },
+    crypto: { et: 'Kr\u00fcptovara teenusepakkujad on DORA all uus reguleeritud sektor. K\u00f5ik IKT-lepingud vajavad \u00fclevaatamist.', en: 'Crypto asset providers are a newly regulated sector under DORA. All ICT contracts need review.' },
+    fund: { et: 'Fondivalitsejad peavad kaardistama k\u00f5ik IKT-s\u00f5ltuvused ja tagama, et lepingud vastavad DORA kolmandate osapoolte n\u00f5uetele.', en: 'Fund managers must map all ICT dependencies and ensure contracts meet DORA third-party requirements.' },
+    ict: { et: 'IKT-teenusepakkujatena peavad teie klientide lepingud vastama DORA n\u00f5uetele. See hindamine aitab tuvastada puudused.', en: 'As an ICT provider, your client contracts must meet DORA requirements. This assessment helps identify gaps.' }
+  };
+
+  get sectorHint(): string {
+    if (!this.selectedSector) return '';
+    const hint = this.sectorHints[this.selectedSector];
+    return hint ? (this.lang.currentLang === 'et' ? hint.et : hint.en) : '';
+  }
+
+  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, public lang: LangService) {}
 
   get step(): number {
     if (this.submitting) return 3;

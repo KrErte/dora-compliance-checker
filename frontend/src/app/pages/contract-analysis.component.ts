@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
 import { ContractAnalysisResult } from '../models';
@@ -14,6 +15,22 @@ import { ContractAnalysisResult } from '../models';
       <div class="text-center mb-8">
         <h1 class="text-2xl font-bold gradient-text mb-2">{{ lang.t('contract.title') }}</h1>
         <p class="text-slate-400 text-sm">{{ lang.t('contract.subtitle') }}</p>
+      </div>
+
+      <!-- Auto-demo banner -->
+      <div *ngIf="autoDemo && !selectedFile" class="mb-6 rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-5 animate-fade-in">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-sm font-semibold text-emerald-300">{{ lang.t('contract.auto_demo_title') }}</p>
+            <p class="text-xs text-slate-400">{{ lang.t('contract.auto_demo_desc') }}</p>
+          </div>
+          <div class="ml-auto w-6 h-6 border-2 border-emerald-400/30 border-t-emerald-400 rounded-full animate-spin"></div>
+        </div>
       </div>
 
       <!-- Load sample contract -->
@@ -253,6 +270,84 @@ import { ContractAnalysisResult } from '../models';
         </div>
       </div>
 
+      <!-- Suggested contract clauses for missing/partial -->
+      <div *ngIf="riskFindings.length > 0" class="glass-card p-5 mb-6">
+        <div class="flex items-center gap-2 mb-4">
+          <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          <div>
+            <h3 class="text-sm font-semibold text-cyan-300">{{ lang.t('contract.suggested_clauses') }}</h3>
+            <p class="text-xs text-slate-500">{{ lang.t('contract.suggested_clauses_desc') }}</p>
+          </div>
+        </div>
+        <div *ngFor="let rf of riskFindings; let ci = index"
+             [class]="'py-3' + (ci > 0 ? ' border-t border-slate-700/50' : '')">
+          <p class="text-xs font-medium text-slate-300 mb-1">{{ lang.currentLang === 'et' ? rf.requirementEt : rf.requirementEn }}
+            <span class="text-slate-600 ml-1">{{ rf.doraReference }}</span>
+          </p>
+          <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-3 mt-1">
+            <p class="text-xs text-cyan-300/80 font-mono leading-relaxed">{{ getClause(rf.requirementId) }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Regulatory references -->
+      <div class="glass-card p-5 mb-6">
+        <div class="flex items-center gap-2 mb-4">
+          <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+          </svg>
+          <h3 class="text-sm font-semibold text-amber-300">{{ lang.t('contract.reg_references') }}</h3>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <a href="https://www.fi.ee/et/finantsinspektsioon/finantsinnovatsioon/dora" target="_blank" rel="noopener"
+             class="flex items-center gap-2 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30 hover:border-amber-500/30 transition-colors group">
+            <span class="text-xs font-medium text-slate-300 group-hover:text-amber-300">Finantsinspektsioon</span>
+            <svg class="w-3 h-3 text-slate-600 group-hover:text-amber-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+          </a>
+          <a href="https://eur-lex.europa.eu/legal-content/ET/TXT/?uri=CELEX:32022R2554" target="_blank" rel="noopener"
+             class="flex items-center gap-2 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30 hover:border-amber-500/30 transition-colors group">
+            <span class="text-xs font-medium text-slate-300 group-hover:text-amber-300">EUR-Lex DORA</span>
+            <svg class="w-3 h-3 text-slate-600 group-hover:text-amber-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+          </a>
+          <a href="https://www.eiopa.europa.eu/browse/regulation-and-policy/digital-operational-resilience-act-dora_en" target="_blank" rel="noopener"
+             class="flex items-center gap-2 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30 hover:border-amber-500/30 transition-colors group">
+            <span class="text-xs font-medium text-slate-300 group-hover:text-amber-300">ESA {{ lang.t('contract.guidelines') }}</span>
+            <svg class="w-3 h-3 text-slate-600 group-hover:text-amber-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Lead capture -->
+      <div *ngIf="!emailCaptured" class="glass-card p-5 mb-6 border-emerald-500/20">
+        <div class="flex flex-col md:flex-row items-center gap-4">
+          <div class="flex-1">
+            <h3 class="text-sm font-semibold text-slate-200 mb-1">{{ lang.t('contract.share_title') }}</h3>
+            <p class="text-xs text-slate-500">{{ lang.t('contract.share_desc') }}</p>
+          </div>
+          <div class="flex items-center gap-2 w-full md:w-auto">
+            <input type="email" [(ngModel)]="email" [placeholder]="lang.t('contract.email_placeholder')"
+                   class="bg-slate-900/50 border border-slate-600/50 rounded-lg px-3 py-2 text-sm text-slate-100
+                          focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all w-full md:w-56">
+            <button (click)="captureEmail()"
+                    class="px-4 py-2 rounded-lg text-sm font-medium bg-emerald-500/20 border border-emerald-500/30 text-emerald-400
+                           hover:bg-emerald-500/30 transition-all whitespace-nowrap">
+              {{ lang.t('contract.send') }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="emailCaptured" class="glass-card p-4 mb-6 border-emerald-500/20 text-center">
+        <p class="text-sm text-emerald-400">{{ lang.t('contract.email_saved') }}</p>
+      </div>
+
       <!-- Action buttons -->
       <div class="flex items-center justify-center gap-3 mt-8">
         <button (click)="downloadPdf()"
@@ -273,7 +368,7 @@ import { ContractAnalysisResult } from '../models';
     </div>
   `
 })
-export class ContractAnalysisComponent {
+export class ContractAnalysisComponent implements OnInit {
   companyName = '';
   contractName = '';
   selectedFile: File | null = null;
@@ -282,8 +377,88 @@ export class ContractAnalysisComponent {
   loadingSample = false;
   error = '';
   result: ContractAnalysisResult | null = null;
+  autoDemo = false;
+  email = '';
+  emailCaptured = false;
 
-  constructor(private api: ApiService, public lang: LangService) {}
+  private clauseMap: { [id: string]: { et: string; en: string } } = {
+    '1': {
+      et: '"Teenusepakkuja tagab teenuse kättesaadavuse vähemalt 99,5% tasemega kvartalis, mõõdetuna [monitooringusüsteemi] abil. Teenustaseme languse korral rakendatakse [X]% lepingutasu vähendamist."',
+      en: '"The provider shall ensure service availability of at least 99.5% per quarter, measured by [monitoring system]. Service level degradation shall result in [X]% fee reduction."'
+    },
+    '2': {
+      et: '"Teenusepakkuja teavitab tellijat kõigist IKT-intsidentidest viivitamatult, kuid mitte hiljem kui [4] tundi pärast intsidendi tuvastamist. Teavitus sisaldab mõjuanalüüsi, prognoosi ja parandusmeetmeid."',
+      en: '"The provider shall notify the client of all ICT incidents without delay, no later than [4] hours after detection. Notification shall include impact analysis, prognosis and remediation measures."'
+    },
+    '3': {
+      et: '"Tellijal on õigus teostada teenusepakkuja süsteemides auditit vähemalt [1] kord aastas, kaasates sõltumatuid audiitoreid. Teenusepakkuja tagab auditi läbiviimiseks vajaliku ligipääsu ja dokumentatsiooni."',
+      en: '"The client shall have the right to audit the provider systems at least [1] time per year, involving independent auditors. The provider shall ensure access and documentation necessary for the audit."'
+    },
+    '4': {
+      et: '"Lepingu lõppemisel või ülesütlemisel tagab teenusepakkuja andmete ja protsesside üleandmise [90] kalendripäeva jooksul. Üleandmise plaan sisaldab andmeformaate, migratsiooni ajakava ja vastutavaid isikuid."',
+      en: '"Upon termination, the provider shall ensure data and process handover within [90] calendar days. The transition plan shall include data formats, migration schedule and responsible persons."'
+    },
+    '5': {
+      et: '"Teenusepakkuja töötleb tellija andmeid ainult Euroopa Liidu/EMP piires. Allhankijate kaasamiseks on vajalik tellija eelnev kirjalik nõusolek. Andmete turvameetmed vastavad ISO 27001 standardile."',
+      en: '"The provider shall process client data only within the EU/EEA. Subcontracting requires prior written consent. Data security measures shall comply with ISO 27001 standard."'
+    },
+    '6': {
+      et: '"Teenusepakkuja ei kaasa allhankijaid ilma tellija eelneva kirjaliku nõusolekuta. Allhankijate nimekiri ja nende IKT-riskiprofiil esitatakse tellijale enne lepingu sõlmimist ning iga muudatuse korral."',
+      en: '"The provider shall not engage subcontractors without prior written consent. The list of subcontractors and their ICT risk profiles shall be provided before contract signing and upon any changes."'
+    },
+    '7': {
+      et: '"Teenusepakkuja hoiab ajakohasena IKT riskihalduse raamistikku, mis hõlmab riskide tuvastamist, hindamist ja maandamist. Riskianalüüsi tulemused ja maandamismeetmed esitatakse tellijale kord kvartalis."',
+      en: '"The provider shall maintain an up-to-date ICT risk management framework covering risk identification, assessment and mitigation. Risk analysis results and mitigation measures shall be reported to the client quarterly."'
+    },
+    '8': {
+      et: '"Teenusepakkuja tagab äritegevuse jätkuvuse plaani olemasolu ja testimise vähemalt [1] kord aastas. Plaan sisaldab taastumise ajaeesmärke (RTO ≤ [4h], RPO ≤ [1h]) ja kriisiolukorras tegutsemise protseduure."',
+      en: '"The provider shall ensure a business continuity plan is in place and tested at least [1] time per year. The plan shall include recovery time objectives (RTO ≤ [4h], RPO ≤ [1h]) and crisis procedures."'
+    }
+  };
+
+  constructor(private api: ApiService, public lang: LangService, private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if (params['sample'] === 'true') {
+        this.autoDemo = true;
+        this.loadSampleAndAnalyze();
+      }
+    });
+  }
+
+  private loadSampleAndAnalyze() {
+    this.loadingSample = true;
+    this.api.getSampleContract().subscribe({
+      next: (blob) => {
+        this.selectedFile = new File([blob], 'sample_ikt_leping.pdf', { type: 'application/pdf' });
+        this.companyName = 'OÜ DigiLahendused';
+        this.contractName = 'IKT pilveteenuse leping 2025';
+        this.loadingSample = false;
+        this.onSubmit();
+      },
+      error: () => {
+        this.error = 'Failed to load sample contract';
+        this.loadingSample = false;
+        this.autoDemo = false;
+      }
+    });
+  }
+
+  getClause(requirementId: string | number): string {
+    const clause = this.clauseMap[String(requirementId)];
+    if (!clause) return '';
+    return this.lang.currentLang === 'et' ? clause.et : clause.en;
+  }
+
+  captureEmail() {
+    if (this.email && this.email.includes('@')) {
+      const leads = JSON.parse(localStorage.getItem('dora_leads') || '[]');
+      leads.push({ email: this.email, date: new Date().toISOString(), score: this.result?.scorePercentage });
+      localStorage.setItem('dora_leads', JSON.stringify(leads));
+      this.emailCaptured = true;
+    }
+  }
 
   get riskFindings() {
     if (!this.result) return [];

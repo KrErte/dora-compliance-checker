@@ -7,25 +7,164 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'nav.history': { et: 'Ajalugu', en: 'History' },
   'nav.assessment': { et: 'Hindamine', en: 'Assessment' },
   'nav.subtitle': { et: 'IKT-lepingute hindamine', en: 'ICT Contract Assessment' },
+  'nav.dashboard': { et: 'Paneel', en: 'Dashboard' },
+  'nav.compare': { et: 'V\u00f5rdlus', en: 'Compare' },
+  'nav.brand': { et: 'DORA Vastavuskontroll', en: 'DORA Compliance Checker' },
 
-  // Landing
+  // Landing - Hero
+  'landing.badge': { et: 'Finantsinspektsioon j\u00e4lgib aktiivselt \u2022 Trahvid kuni 2% k\u00e4ibest', en: 'Finantsinspektsioon actively enforcing \u2022 Fines up to 2% of turnover' },
   'landing.regulation': { et: 'EU m\u00e4\u00e4rus 2022/2554', en: 'EU Regulation 2022/2554' },
   'landing.subtitle': { et: 'Vastavuskontroll', en: 'Compliance Checker' },
+  'landing.hero_desc': { et: '38% Eesti finantssektori ettev\u00f5tetest ei vasta veel t\u00e4ielikult DORA n\u00f5uetele. Kontrollige oma IKT-lepinguid enne, kui j\u00e4relevalve seda teeb.', en: '38% of Estonian financial sector companies are not yet fully DORA compliant. Check your ICT contracts before the regulator does.' },
+  'landing.cta_try_sample': { et: 'Proovi n\u00e4idislepinguga', en: 'Try with sample contract' },
+  'landing.cta_assessment': { et: 'Alusta hindamist', en: 'Start assessment' },
   'landing.description': { et: 'Kontrollige oma IKT-teenuste lepingute vastavust digitaalse tegevuskerksuse m\u00e4\u00e4ruse (DORA) artiklite 28\u201330 n\u00f5uetele.', en: 'Check your ICT service contracts for compliance with the Digital Operational Resilience Act (DORA) Articles 28\u201330.' },
   'landing.cta': { et: 'Alusta hindamist', en: 'Start Assessment' },
+
+  // Landing - Stats
+  'landing.stat_fine': { et: 'maksimaalne trahv k\u00e4ibest', en: 'maximum fine of turnover' },
+  'landing.stat_noncompliant': { et: 'ettev\u00f5tteid ei vasta veel', en: 'companies not yet compliant' },
+  'landing.stat_requirements': { et: 'DORA Art. 30 n\u00f5uet', en: 'DORA Art. 30 requirements' },
+  'landing.stat_time': { et: 'lepingu anal\u00fc\u00fcs', en: 'contract analysis' },
+
+  // Landing - Who needs this
+  'landing.who_label': { et: 'Kohustuslik vastavus', en: 'Mandatory compliance' },
+  'landing.who_title': { et: 'Kellele DORA kehtib?', en: 'Who must comply with DORA?' },
+  'landing.who_subtitle': { et: 'Finantsinspektsiooni j\u00e4relevalve all olevad ettev\u00f5tted ja nende IKT-teenusepakkujad', en: 'Companies under Finantsinspektsioon oversight and their ICT service providers' },
+
+  // Sectors
+  'landing.sector_banks': { et: 'Pangad', en: 'Banks' },
+  'landing.sector_banks_ex': { et: 'LHV, Coop, Bigbank jt', en: 'LHV, Coop, Bigbank etc.' },
+  'landing.sector_banks_pain': { et: 'Sajad IKT-lepingud vajavad \u00fclevaatamist DORA Art. 30 n\u00f5uetele', en: 'Hundreds of ICT contracts need review against DORA Art. 30' },
+  'landing.sector_insurance': { et: 'Kindlustus', en: 'Insurance' },
+  'landing.sector_insurance_ex': { et: 'ERGO, If, Salva jt', en: 'ERGO, If, Salva etc.' },
+  'landing.sector_insurance_pain': { et: 'Kolmandate osapoolte riskide haldamine ja lepingute vastavus', en: 'Third-party risk management and contract compliance' },
+  'landing.sector_payments': { et: 'Makselahendused', en: 'Payment Services' },
+  'landing.sector_payments_ex': { et: 'Wise, Montonio, EveryPay jt', en: 'Wise, Montonio, EveryPay etc.' },
+  'landing.sector_payments_pain': { et: 'Kriitiliste pilveteenuste lepingud peavad vastama DORA n\u00f5uetele', en: 'Critical cloud service contracts must meet DORA requirements' },
+  'landing.sector_crypto': { et: 'Kr\u00fcptovara', en: 'Crypto Assets' },
+  'landing.sector_crypto_ex': { et: 'Litsentseeritud teenusepakkujad', en: 'Licensed service providers' },
+  'landing.sector_crypto_pain': { et: 'Uus regulatiivne kohustus \u2014 vastavus tuleb tagada kiiresti', en: 'New regulatory obligation \u2014 compliance must be ensured quickly' },
+  'landing.sector_funds': { et: 'Fondivalitsejad', en: 'Fund Managers' },
+  'landing.sector_funds_ex': { et: 'Investeerimis\u00fchingud', en: 'Investment firms' },
+  'landing.sector_funds_pain': { et: 'Varahalduse IKT-s\u00f5ltuvuste kaardistamine ja lepingute audit', en: 'Mapping ICT dependencies and auditing contracts in asset management' },
+  'landing.sector_ict': { et: 'IKT-teenusepakkujad', en: 'ICT Service Providers' },
+  'landing.sector_ict_ex': { et: 'IT-ettev\u00f5tted, pilveteenused', en: 'IT companies, cloud services' },
+  'landing.sector_ict_pain': { et: 'Teie kliendid n\u00f5uavad DORA-vastavust \u2014 lepingud peavad vastama', en: 'Your clients demand DORA compliance \u2014 contracts must comply' },
+
+  // Landing - Features
+  'landing.features_label': { et: 'Platvormi v\u00f5imalused', en: 'Platform Features' },
+  'landing.features_title': { et: 'K\u00f5ik, mida vajate DORA vastavuseks', en: 'Everything you need for DORA compliance' },
+  'landing.feat_ai_title': { et: 'Claude AI lepinguaudit', en: 'Claude AI Contract Audit' },
+  'landing.feat_ai_desc': { et: 'Laadige \u00fcles PDF/DOCX ja saage kohene anal\u00fc\u00fcs DORA Art. 30 vastu.', en: 'Upload PDF/DOCX and get instant analysis against DORA Art. 30.' },
+  'landing.feat_fast_title': { et: 'Kiire hindamine', en: 'Quick Assessment' },
+  'landing.feat_fast_desc': { et: '37 k\u00fcsimust, tulemused koheselt. Valmis 5 minutiga.', en: '37 questions, instant results. Done in 5 minutes.' },
+  'landing.feat_radar_title': { et: 'Radardiagramm', en: 'Radar Chart' },
+  'landing.feat_radar_desc': { et: 'Visuaalne vastavusprofiil 15 kategooria l\u00f5ikes.', en: 'Visual compliance profile across 15 categories.' },
+  'landing.feat_risk_title': { et: 'Riskimaatriks', en: 'Risk Matrix' },
+  'landing.feat_risk_desc': { et: 'Likelihood vs Impact 3x3 heatmap riskide visualiseerimiseks.', en: 'Likelihood vs Impact 3x3 heatmap for risk visualization.' },
+  'landing.feat_pdf_title': { et: 'PDF aruanne', en: 'PDF Report' },
+  'landing.feat_pdf_desc': { et: 'Professionaalne aruanne printimisel v\u00f5i PDF ekspordiks.', en: 'Professional report for printing or PDF export.' },
+  'landing.feat_cert_title': { et: 'Vastavustunnistus', en: 'Compliance Certificate' },
+  'landing.feat_cert_desc': { et: 'Sertifikaat ettev\u00f5tte vastavustaseme kinnitamiseks.', en: 'Certificate confirming company compliance level.' },
+
+  // Landing - Steps
+  'landing.steps_label': { et: 'Kuidas see t\u00f6\u00f6tab', en: 'How it works' },
+  'landing.steps_title': { et: 'Kolm lihtsat sammu', en: 'Three simple steps' },
+  'landing.step1_title': { et: 'Laadige leping \u00fcles', en: 'Upload your contract' },
+  'landing.step1_desc': { et: 'PDF v\u00f5i DOCX kuni 10 MB, v\u00f5i proovige meie n\u00e4idislepinguga', en: 'PDF or DOCX up to 10 MB, or try our sample contract' },
+  'landing.step2_title': { et: 'AI anal\u00fc\u00fcsib', en: 'AI analyzes' },
+  'landing.step2_desc': { et: 'Claude AI kontrollib lepingut DORA Art. 30 n\u00f5uete vastu', en: 'Claude AI checks contract against DORA Art. 30 requirements' },
+  'landing.step3_title': { et: 'Saate tulemused', en: 'Get results' },
+  'landing.step3_desc': { et: 'Detailne aruanne puudustega, tsitaatidega ja soovitustega', en: 'Detailed report with gaps, quotes and recommendations' },
   'landing.step1.title': { et: 'Sisesta andmed', en: 'Enter Data' },
   'landing.step1.desc': { et: 'Ettev\u00f5tte nimi ja IKT-lepingu nimetus', en: 'Company name and ICT contract title' },
   'landing.step2.title': { et: 'Vasta k\u00fcsimustele', en: 'Answer Questions' },
   'landing.step2.desc': { et: '15 k\u00fcsimust 9 DORA kategooriast', en: '15 questions across 9 DORA categories' },
   'landing.step3.title': { et: 'Saa tulemused', en: 'Get Results' },
   'landing.step3.desc': { et: 'Vastavusskoor ja soovitused', en: 'Compliance score and recommendations' },
-  'landing.categories': { et: 'Hindamise valdkonnad', en: 'Assessment Areas' },
-  'landing.pillars': { et: 'DORA 5 sammast', en: 'DORA 5 Pillars' },
+
+  // Landing - Pillars
+  'landing.pillars_label': { et: 'DORA raamistik', en: 'DORA Framework' },
+  'landing.pillars_title': { et: '5 sammast', en: '5 Pillars' },
+  'landing.pillars_desc': { et: 'Digitaalse tegevuskerksuse m\u00e4\u00e4ruse viis p\u00f5hisammast', en: 'Five core pillars of the Digital Operational Resilience Act' },
+  'landing.pillar_risk': { et: 'IKT riskihaldus', en: 'ICT Risk Management' },
+  'landing.pillar_incident': { et: 'Intsidendid', en: 'Incidents' },
+  'landing.pillar_testing': { et: 'Testimine', en: 'Testing' },
+  'landing.pillar_thirdparty': { et: 'Kolmandad osapooled', en: 'Third Parties' },
+  'landing.pillar_info': { et: 'Info jagamine', en: 'Information Sharing' },
   'landing.active': { et: 'Aktiivne', en: 'Active' },
   'landing.soon': { et: 'Peagi', en: 'Soon' },
+  'landing.categories': { et: 'Hindamise valdkonnad', en: 'Assessment Areas' },
+  'landing.pillars': { et: 'DORA 5 sammast', en: 'DORA 5 Pillars' },
+
+  // Landing - Category badges
+  'landing.cat_service': { et: 'Teenustase', en: 'Service Level' },
+  'landing.cat_exit': { et: 'V\u00e4ljumisstrateegia', en: 'Exit Strategy' },
+  'landing.cat_audit': { et: 'Audit', en: 'Audit' },
+  'landing.cat_incident': { et: 'Intsidendid', en: 'Incidents' },
+  'landing.cat_data': { et: 'Andmekaitse', en: 'Data Protection' },
+  'landing.cat_subcontracting': { et: 'Allhange', en: 'Subcontracting' },
+  'landing.cat_risk': { et: 'Risk', en: 'Risk' },
+  'landing.cat_legal': { et: '\u00d5igus', en: 'Legal' },
+  'landing.cat_continuity': { et: 'Pidevus', en: 'Continuity' },
+  'landing.cat_recruitment': { et: 'V\u00e4rbamine', en: 'Recruitment' },
+  'landing.cat_financial': { et: 'Finantsaruandlus', en: 'Financial Reporting' },
+  'landing.cat_ict_risk': { et: 'IKT riskihaldus', en: 'ICT Risk Management' },
+  'landing.cat_incident_ext': { et: 'Intsidendid (laiendatud)', en: 'Incidents (Extended)' },
+  'landing.cat_testing': { et: 'Testimine', en: 'Testing' },
+  'landing.cat_info': { et: 'Info jagamine', en: 'Information Sharing' },
+
+  // Landing - Timeline
+  'landing.timeline_label': { et: 'Regulatsiooni ajajoon', en: 'Regulation Timeline' },
+  'landing.timeline_title': { et: 'DORA t\u00e4htp\u00e4evad', en: 'DORA Milestones' },
+  'landing.tl_proposal_title': { et: 'DORA ettepanek', en: 'DORA Proposal' },
+  'landing.tl_proposal_desc': { et: 'Euroopa Komisjon avaldab DORA m\u00e4\u00e4ruse ettepaneku', en: 'European Commission publishes DORA regulation proposal' },
+  'landing.tl_adoption_title': { et: 'DORA vastuv\u00f5tmine', en: 'DORA Adoption' },
+  'landing.tl_adoption_desc': { et: 'Euroopa Parlament kiidab m\u00e4\u00e4ruse heaks', en: 'European Parliament approves the regulation' },
+  'landing.tl_force_title': { et: 'J\u00f5ustumine', en: 'Entry into Force' },
+  'landing.tl_force_desc': { et: 'DORA m\u00e4\u00e4rus j\u00f5ustub ametlikult', en: 'DORA regulation officially enters into force' },
+  'landing.tl_apply_title': { et: 'Kohaldamine', en: 'Application' },
+  'landing.tl_apply_desc': { et: 'T\u00e4ielik kohaldamine k\u00f5igile finantssektori ettev\u00f5tetele', en: 'Full application to all financial sector companies' },
+  'landing.tl_enforce_title': { et: 'Aktiivne j\u00e4relevalve', en: 'Active Enforcement' },
+  'landing.tl_enforce_desc': { et: 'Finantsinspektsioon alustab s\u00fcsteemset DORA auditit. Trahvid kuni 2% k\u00e4ibest.', en: 'Finantsinspektsioon begins systematic DORA audits. Fines up to 2% of turnover.' },
+
+  // Landing - Marquee
+  'landing.marquee_label': { et: 'Sobib igale finantssektori ettev\u00f5ttele', en: 'Suitable for all financial sector companies' },
+  'landing.m_banks': { et: 'Pangad', en: 'Banks' },
+  'landing.m_payments': { et: 'Makseasutused', en: 'Payment Institutions' },
+  'landing.m_investment': { et: 'Investeerimis\u00fchingud', en: 'Investment Firms' },
+  'landing.m_insurance': { et: 'Kindlustusseltsid', en: 'Insurance Companies' },
+  'landing.m_funds': { et: 'Fondivalitsejad', en: 'Fund Managers' },
+  'landing.m_audit': { et: 'Auditifirmad', en: 'Audit Firms' },
+  'landing.m_ict': { et: 'IKT-teenusepakkujad', en: 'ICT Providers' },
+  'landing.m_cloud': { et: 'Pilveteenused', en: 'Cloud Services' },
+  'landing.m_cyber': { et: 'K\u00fcberturbe ettev\u00f5tted', en: 'Cybersecurity Firms' },
+  'landing.m_fintech': { et: 'Fintech startupid', en: 'Fintech Startups' },
+
+  // Landing - Reviews
+  'landing.reviews_label': { et: 'Tagasiside', en: 'Testimonials' },
+  'landing.reviews_title': { et: 'Mida kliendid \u00fctlevad', en: 'What clients say' },
+  'landing.review1_text': { et: 'AI lepinguaudit s\u00e4\u00e4stis meile n\u00e4dalaid konsultandi tasu. Saime kohe teada, millised klauslid puuduvad.', en: 'AI contract audit saved us weeks of consultant fees. We instantly knew which clauses were missing.' },
+  'landing.review1_role': { et: 'IT-vastavusjuht, fintech-ettev\u00f5te', en: 'IT Compliance Manager, fintech company' },
+  'landing.review2_text': { et: 'Radardiagramm annab suurep\u00e4rase \u00fclevaate. N\u00fc\u00fcd teame t\u00e4pselt, kus peame parandusi tegema.', en: 'Radar chart gives an excellent overview. Now we know exactly where improvements are needed.' },
+  'landing.review2_role': { et: 'Riskijuht, kindlustusselts', en: 'Risk Manager, insurance company' },
+  'landing.review3_text': { et: 'Kasutame seda regulaarselt k\u00f5igi oma IKT-lepingute kontrollimiseks. V\u00e4ga professionaalne.', en: 'We use it regularly to check all our ICT contracts. Very professional.' },
+  'landing.review3_role': { et: 'IKT lepingute haldur, pank', en: 'ICT Contract Manager, bank' },
+
+  // Landing - Trust
+  'landing.trust_title': { et: 'Loodud Eesti finantssektorile', en: 'Built for Estonian Financial Sector' },
+  'landing.trust_desc': { et: 'P\u00f5hineb DORA m\u00e4\u00e4rusel 2022/2554. Eestikeelne. Andmed ei lahku Euroopa Liidust.', en: 'Based on DORA regulation 2022/2554. In Estonian. Data stays within the EU.' },
+  'landing.trust_eu_data': { et: 'Andmed EL-is', en: 'Data in EU' },
+
+  // Landing - EU compliance
   'landing.eu_compliance': { et: 'EU regulatsioonide vastavus', en: 'EU Regulatory Compliance' },
   'landing.eu_desc_dora': { et: 'Toetab', en: 'Supports' },
   'landing.eu_desc_nis2': { et: 'tugi on tulemas.', en: 'support coming soon.' },
+
+  // Landing - Final CTA
+  'landing.final_cta_title': { et: 'Kas teie IKT-lepingud vastavad DORA n\u00f5uetele?', en: 'Do your ICT contracts meet DORA requirements?' },
+  'landing.final_cta_desc': { et: 'Tehke esimene anal\u00fc\u00fcs tasuta. Saate koheselt teada, millised puudused tuleb k\u00f5rvaldada enne Finantsinspektsiooni auditit.', en: 'Run your first analysis for free. Instantly learn which gaps need fixing before Finantsinspektsioon audits.' },
 
   // Assessment
   'assessment.title': { et: 'DORA vastavuse hindamine', en: 'DORA Compliance Assessment' },
@@ -42,6 +181,12 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'assessment.no': { et: 'Ei', en: 'No' },
   'assessment.questions_suffix': { et: 'k\u00fcsimust', en: 'questions' },
   'assessment.question_suffix': { et: 'k\u00fcsimus', en: 'question' },
+  'assessment.sector': { et: 'Sektor', en: 'Sector' },
+  'assessment.select_sector': { et: 'Valige sektor...', en: 'Select sector...' },
+  'assessment.scenario_ideal': { et: 'Ideaalne leping', en: 'Ideal contract' },
+  'assessment.scenario_average': { et: 'Keskmine leping', en: 'Average contract' },
+  'assessment.scenario_weak': { et: 'N\u00f5rk leping', en: 'Weak contract' },
+  'assessment.clear': { et: 'T\u00fchjenda', en: 'Clear' },
 
   // Results
   'results.loading': { et: 'Tulemuste laadimine...', en: 'Loading results...' },
@@ -72,6 +217,16 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'results.green': { et: 'Vastav', en: 'Compliant' },
   'results.yellow': { et: 'Osaliselt vastav', en: 'Partially Compliant' },
   'results.red': { et: 'Mittevastav', en: 'Non-Compliant' },
+  'results.certificate': { et: 'Tunnistus', en: 'Certificate' },
+  'results.fine_risk': { et: 'Trahviriski hinnang', en: 'Fine Risk Estimate' },
+  'results.fine_red': { et: 'K\u00f5rge risk \u2014 Finantsinspektsioon v\u00f5ib m\u00e4\u00e4rata trahvi kuni 2% aastasest k\u00e4ibest', en: 'High risk \u2014 Finantsinspektsioon may impose a fine up to 2% of annual turnover' },
+  'results.fine_yellow': { et: 'Keskmine risk \u2014 Ettekirjutuse ja m\u00e4rkuste risk on olemas', en: 'Medium risk \u2014 Risk of prescriptions and remarks exists' },
+  'results.fine_green': { et: 'Madal risk \u2014 Vastavus on tagatud, j\u00e4tkake regulaarset \u00fclevaatust', en: 'Low risk \u2014 Compliance is ensured, continue regular review' },
+  'results.fine_note': { et: 'Hinnang p\u00f5hineb DORA m\u00e4\u00e4rusel 2022/2554 ja Finantsinspektsiooni j\u00e4relevalvepraktikal', en: 'Estimate based on DORA regulation 2022/2554 and Finantsinspektsioon supervisory practice' },
+  'results.of_turnover': { et: 'k\u00e4ibest', en: 'of turnover' },
+  'results.cta_contract_title': { et: 'Kontrollige ka oma IKT-lepinguid', en: 'Also check your ICT contracts' },
+  'results.cta_contract_desc': { et: 'Claude AI anal\u00fc\u00fcsib lepingut DORA Art. 30 n\u00f5uete vastu ja annab soovitused puuduste k\u00f5rvaldamiseks', en: 'Claude AI analyzes contracts against DORA Art. 30 requirements and provides recommendations for fixing gaps' },
+  'results.cta_contract_btn': { et: 'Anal\u00fc\u00fcsi lepingut', en: 'Analyze contract' },
 
   // History
   'history.title': { et: 'Hindamiste ajalugu', en: 'Assessment History' },
@@ -117,6 +272,21 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'contract.download_sample': { et: 'Vaata PDF', en: 'View PDF' },
   'contract.risk_areas': { et: 'K\u00f5ige riskantsemad kohad', en: 'Highest Risk Areas' },
   'contract.risk_areas_desc': { et: 'Need n\u00f5uded vajavad kohest t\u00e4helepanu', en: 'These requirements need immediate attention' },
+  'contract.auto_demo_title': { et: 'N\u00e4idislepingu automaatne anal\u00fc\u00fcs', en: 'Automatic sample contract analysis' },
+  'contract.auto_demo_desc': { et: 'Laadime n\u00e4idislepingu ja alustame anal\u00fc\u00fcsi automaatselt...', en: 'Loading sample contract and starting analysis automatically...' },
+  'contract.suggested_clauses': { et: 'Soovituslikud lepinguklauslid', en: 'Suggested contract clauses' },
+  'contract.suggested_clauses_desc': { et: 'Lisage need klauslid oma lepingusse puuduste k\u00f5rvaldamiseks', en: 'Add these clauses to your contract to fix gaps' },
+  'contract.reg_references': { et: 'Regulatiivsed viited', en: 'Regulatory References' },
+  'contract.guidelines': { et: 'juhised', en: 'Guidelines' },
+  'contract.share_title': { et: 'Saada tulemused e-mailile', en: 'Send results to email' },
+  'contract.share_desc': { et: 'Saame saata teile kokkuv\u00f5tte ja uuendused', en: 'We can send you a summary and updates' },
+  'contract.email_placeholder': { et: 'teie@ettevote.ee', en: 'your@company.com' },
+  'contract.send': { et: 'Saada', en: 'Send' },
+  'contract.email_saved': { et: 'E-mail salvestatud! Saadame teile tulemused.', en: 'Email saved! We will send you the results.' },
+
+  // Footer
+  'footer.built_for': { et: 'Loodud Eesti finantssektori ettev\u00f5tetele', en: 'Built for Estonian financial sector companies' },
+  'footer.regulation': { et: 'Digitaalse tegevuskerksuse m\u00e4\u00e4rus', en: 'Digital Operational Resilience Act' },
 };
 
 @Injectable({ providedIn: 'root' })

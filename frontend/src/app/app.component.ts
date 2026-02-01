@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { LangService } from './lang.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
   template: `
     <nav class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50">
       <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -15,18 +16,20 @@ import { LangService } from './lang.service';
           </div>
           <div class="flex flex-col">
             <span class="text-lg font-bold gradient-text leading-tight">
-              DORA Vastavuskontroll
+              {{ lang.t('nav.brand') }}
             </span>
             <span class="text-[10px] text-slate-600 leading-tight hidden sm:block">EU 2022/2554</span>
           </div>
         </a>
-        <div class="flex items-center gap-1 hidden sm:flex">
+
+        <!-- Desktop nav -->
+        <div class="hidden sm:flex items-center gap-1">
           <a routerLink="/dashboard" routerLinkActive="nav-link-active"
              class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
             </svg>
-            Paneel
+            {{ lang.t('nav.dashboard') }}
           </a>
           <a routerLink="/assessment" routerLinkActive="nav-link-active"
              class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
@@ -40,7 +43,7 @@ import { LangService } from './lang.service';
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7"/>
             </svg>
-            V&otilde;rdlus
+            {{ lang.t('nav.compare') }}
           </a>
           <a routerLink="/contract-analysis" routerLinkActive="nav-link-active"
              class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
@@ -57,7 +60,6 @@ import { LangService } from './lang.service';
             {{ lang.t('nav.history') }}
           </a>
           <div class="w-px h-5 bg-slate-700/50 mx-1"></div>
-          <!-- Language toggle -->
           <button (click)="lang.toggle()"
                   class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
                          bg-slate-700/50 text-slate-300 border border-slate-600/30
@@ -67,6 +69,39 @@ import { LangService } from './lang.service';
             </svg>
             {{ lang.currentLang === 'et' ? 'EN' : 'ET' }}
           </button>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <div class="flex items-center gap-2 sm:hidden">
+          <button (click)="lang.toggle()"
+                  class="px-2 py-1 rounded text-xs font-medium bg-slate-700/50 text-slate-300 border border-slate-600/30">
+            {{ lang.currentLang === 'et' ? 'EN' : 'ET' }}
+          </button>
+          <button (click)="mobileMenu = !mobileMenu"
+                  class="p-2 rounded-lg text-slate-400 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
+            <svg *ngIf="!mobileMenu" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+            <svg *ngIf="mobileMenu" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile menu -->
+      <div *ngIf="mobileMenu" class="sm:hidden border-t border-slate-700/50 bg-slate-800/95 backdrop-blur-xl">
+        <div class="px-4 py-3 flex flex-col gap-1">
+          <a routerLink="/dashboard" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.dashboard') }}</a>
+          <a routerLink="/assessment" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.assessment') }}</a>
+          <a routerLink="/compare" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.compare') }}</a>
+          <a routerLink="/contract-analysis" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.contract') }}</a>
+          <a routerLink="/history" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.history') }}</a>
         </div>
       </div>
     </nav>
@@ -79,20 +114,23 @@ import { LangService } from './lang.service';
           <div class="flex items-center gap-3">
             <div class="w-7 h-7 rounded-md bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs">D</div>
             <div>
-              <p class="text-sm font-semibold text-slate-400">DORA Vastavuskontroll</p>
-              <p class="text-xs text-slate-600">EU m&auml;&auml;rus 2022/2554</p>
+              <p class="text-sm font-semibold text-slate-400">{{ lang.t('nav.brand') }}</p>
+              <p class="text-xs text-slate-600">EU 2022/2554</p>
             </div>
           </div>
           <div class="flex items-center gap-6 text-xs text-slate-600">
-            <a routerLink="/assessment" class="hover:text-emerald-400 transition-colors">Hindamine</a>
-            <a routerLink="/dashboard" class="hover:text-emerald-400 transition-colors">Juhtpaneel</a>
-            <a routerLink="/compare" class="hover:text-emerald-400 transition-colors">V&otilde;rdlus</a>
-            <a routerLink="/contract-analysis" class="hover:text-emerald-400 transition-colors">Lepingu audit</a>
-            <a routerLink="/history" class="hover:text-emerald-400 transition-colors">Ajalugu</a>
+            <a routerLink="/assessment" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.assessment') }}</a>
+            <a routerLink="/dashboard" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.dashboard') }}</a>
+            <a routerLink="/compare" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.compare') }}</a>
+            <a routerLink="/contract-analysis" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.contract') }}</a>
+            <a routerLink="/history" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.history') }}</a>
           </div>
-          <div class="flex items-center gap-3 text-xs text-slate-600">
-            <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-500/70 border border-emerald-500/10">v2.0</span>
-            <span>Digitaalse tegevuskerksuse m&auml;&auml;rus</span>
+          <div class="flex flex-col items-center md:items-end gap-1">
+            <div class="flex items-center gap-3 text-xs text-slate-600">
+              <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-500/70 border border-emerald-500/10">v2.0</span>
+              <span>{{ lang.t('footer.regulation') }}</span>
+            </div>
+            <p class="text-[10px] text-slate-700">{{ lang.t('footer.built_for') }}</p>
           </div>
         </div>
       </div>
@@ -100,5 +138,6 @@ import { LangService } from './lang.service';
   `
 })
 export class AppComponent {
+  mobileMenu = false;
   constructor(public lang: LangService) {}
 }

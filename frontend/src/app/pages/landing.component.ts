@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { LangService } from '../lang.service';
 
 @Component({
   selector: 'app-landing',
@@ -15,14 +16,14 @@ import { Router, RouterLink } from '@angular/router';
       <div class="absolute -top-24 -left-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-glow-pulse"></div>
       <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-glow-pulse delay-500"></div>
       <div class="absolute top-1/3 right-1/4 w-64 h-64 bg-violet-500/5 rounded-full blur-3xl animate-glow-pulse delay-300"></div>
-      <div class="absolute top-2/3 left-1/3 w-48 h-48 bg-pink-500/5 rounded-full blur-3xl animate-glow-pulse delay-700"></div>
+      <div class="absolute top-2/3 left-1/3 w-48 h-48 bg-red-500/5 rounded-full blur-3xl animate-glow-pulse delay-700"></div>
 
       <div class="relative flex flex-col items-center justify-center min-h-[85vh] text-center z-10">
-        <!-- Badge -->
+        <!-- Urgency badge -->
         <div class="animate-fade-in-up">
-          <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-1.5 mb-8 text-sm text-emerald-400 animate-border-glow">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse relative pulse-ring"></span>
-            EU m&auml;&auml;rus 2022/2554 &middot; Kehtib alates 17.01.2025
+          <div class="inline-flex items-center gap-2 bg-red-500/10 border border-red-500/20 rounded-full px-4 py-1.5 mb-8 text-sm text-red-400 animate-border-glow">
+            <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse relative pulse-ring"></span>
+            {{ lang.t('landing.badge') }}
           </div>
         </div>
 
@@ -35,57 +36,80 @@ import { Router, RouterLink } from '@angular/router';
         </h1>
 
         <p class="text-lg text-slate-400 max-w-2xl mb-10 leading-relaxed animate-fade-in-up delay-200">
-          Kontrollige oma IKT-teenuste lepingute vastavust digitaalse tegevuskerksuse
-          m&auml;&auml;ruse (DORA) n&otilde;uetele. Professionaalne hindamine 37 k&uuml;simuse p&otilde;hjal
-          k&otilde;igis 5 DORA sambas.
+          {{ lang.t('landing.hero_desc') }}
         </p>
 
         <!-- CTA buttons -->
         <div class="flex flex-col sm:flex-row gap-4 animate-fade-in-up delay-300">
-          <a routerLink="/assessment"
+          <a routerLink="/contract-analysis" [queryParams]="{sample: 'true'}"
              class="group inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
                     text-slate-900 font-semibold px-8 py-3.5 rounded-xl transition-all duration-300 text-lg
                     hover:shadow-lg hover:shadow-emerald-500/25 hover:-translate-y-0.5 btn-ripple">
-            Alusta hindamist
+            {{ lang.t('landing.cta_try_sample') }}
             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
           </a>
-          <a routerLink="/dashboard"
+          <a routerLink="/assessment"
              class="inline-flex items-center gap-2 bg-slate-800/50 backdrop-blur border border-slate-700/50
                     text-slate-200 font-semibold px-8 py-3.5 rounded-xl transition-all duration-300 text-lg
                     hover:border-emerald-500/30 hover:bg-slate-800/80">
             <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
             </svg>
-            Juhtpaneel
+            {{ lang.t('landing.cta_assessment') }}
           </a>
         </div>
 
-        <!-- Animated stats counters -->
+        <!-- Urgency stats -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 w-full max-w-2xl">
           <div class="animate-fade-in-up delay-400 text-center card-3d">
             <div class="card-3d-inner glass-card p-4">
-              <div class="text-3xl font-extrabold gradient-text animate-count-up">{{ animatedArticles }}</div>
-              <p class="text-xs text-slate-500 mt-1">DORA artiklid</p>
+              <div class="text-3xl font-extrabold text-red-400">2%</div>
+              <p class="text-xs text-slate-500 mt-1">{{ lang.t('landing.stat_fine') }}</p>
             </div>
           </div>
           <div class="animate-fade-in-up delay-500 text-center card-3d">
             <div class="card-3d-inner glass-card p-4">
-              <div class="text-3xl font-extrabold text-emerald-400 animate-count-up">{{ animatedQuestions }}</div>
-              <p class="text-xs text-slate-500 mt-1">kontrollk&uuml;simust</p>
+              <div class="text-3xl font-extrabold text-amber-400">38%</div>
+              <p class="text-xs text-slate-500 mt-1">{{ lang.t('landing.stat_noncompliant') }}</p>
             </div>
           </div>
           <div class="animate-fade-in-up delay-600 text-center card-3d">
             <div class="card-3d-inner glass-card p-4">
-              <div class="text-3xl font-extrabold text-cyan-400 animate-count-up">{{ animatedCategories }}</div>
-              <p class="text-xs text-slate-500 mt-1">valdkonda</p>
+              <div class="text-3xl font-extrabold text-emerald-400">8</div>
+              <p class="text-xs text-slate-500 mt-1">{{ lang.t('landing.stat_requirements') }}</p>
             </div>
           </div>
           <div class="animate-fade-in-up delay-700 text-center card-3d">
             <div class="card-3d-inner glass-card p-4">
-              <div class="text-3xl font-extrabold text-violet-400 animate-count-up">{{ animatedAssessments }}</div>
-              <p class="text-xs text-slate-500 mt-1">hindamist tehtud</p>
+              <div class="text-3xl font-extrabold text-cyan-400">&lt;5 min</div>
+              <p class="text-xs text-slate-500 mt-1">{{ lang.t('landing.stat_time') }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Who needs this -->
+    <div class="py-20 relative">
+      <div class="absolute inset-0 gradient-mesh opacity-50"></div>
+      <div class="relative z-10 max-w-4xl mx-auto">
+        <div class="text-center mb-12 animate-fade-in-up">
+          <p class="text-xs uppercase tracking-[0.2em] text-red-400 mb-3">{{ lang.t('landing.who_label') }}</p>
+          <h2 class="text-3xl font-bold text-slate-100">{{ lang.t('landing.who_title') }}</h2>
+          <p class="text-slate-500 text-sm mt-2">{{ lang.t('landing.who_subtitle') }}</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div *ngFor="let sector of sectors; let i = index"
+               class="card-3d animate-fade-in-up"
+               [style.animation-delay]="(i * 100 + 200) + 'ms'">
+            <div class="card-3d-inner glass-card p-5 h-full card-hover-glow">
+              <div class="text-3xl mb-3">{{ sector.icon }}</div>
+              <h3 class="font-semibold text-slate-200 mb-1 text-sm">{{ lang.t(sector.titleKey) }}</h3>
+              <p class="text-xs text-slate-500 mb-2">{{ lang.t(sector.examplesKey) }}</p>
+              <p class="text-xs text-slate-400 leading-relaxed">{{ lang.t(sector.painKey) }}</p>
             </div>
           </div>
         </div>
@@ -94,11 +118,10 @@ import { Router, RouterLink } from '@angular/router';
 
     <!-- Feature showcase -->
     <div class="py-20 relative">
-      <div class="absolute inset-0 gradient-mesh opacity-50"></div>
       <div class="relative z-10 max-w-4xl mx-auto">
         <div class="text-center mb-12 animate-fade-in-up">
-          <p class="text-xs uppercase tracking-[0.2em] text-emerald-400 mb-3">Platvormi v&otilde;imalused</p>
-          <h2 class="text-3xl font-bold text-slate-100">K&otilde;ik, mida vajate DORA vastavuseks</h2>
+          <p class="text-xs uppercase tracking-[0.2em] text-emerald-400 mb-3">{{ lang.t('landing.features_label') }}</p>
+          <h2 class="text-3xl font-bold text-slate-100">{{ lang.t('landing.features_title') }}</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -111,8 +134,8 @@ import { Router, RouterLink } from '@angular/router';
                    [class]="feature.bgClass">
                 {{ feature.icon }}
               </div>
-              <h3 class="font-semibold text-slate-200 mb-2">{{ feature.title }}</h3>
-              <p class="text-sm text-slate-500 leading-relaxed">{{ feature.desc }}</p>
+              <h3 class="font-semibold text-slate-200 mb-2">{{ lang.t(feature.titleKey) }}</h3>
+              <p class="text-sm text-slate-500 leading-relaxed">{{ lang.t(feature.descKey) }}</p>
             </div>
           </div>
         </div>
@@ -122,8 +145,8 @@ import { Router, RouterLink } from '@angular/router';
     <!-- Process steps -->
     <div class="py-16">
       <div class="text-center mb-12 animate-fade-in-up">
-        <p class="text-xs uppercase tracking-[0.2em] text-cyan-400 mb-3">Kuidas see t&ouml;&ouml;tab</p>
-        <h2 class="text-3xl font-bold text-slate-100">Kolm lihtsat sammu</h2>
+        <p class="text-xs uppercase tracking-[0.2em] text-cyan-400 mb-3">{{ lang.t('landing.steps_label') }}</p>
+        <h2 class="text-3xl font-bold text-slate-100">{{ lang.t('landing.steps_title') }}</h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
@@ -131,13 +154,12 @@ import { Router, RouterLink } from '@angular/router';
              class="animate-fade-in-up card-3d"
              [style.animation-delay]="(i * 150 + 300) + 'ms'">
           <div class="card-3d-inner glass-card p-6 text-left relative overflow-hidden">
-            <!-- Step number background -->
             <div class="absolute -top-4 -right-4 text-8xl font-extrabold text-slate-700/20">{{ i + 1 }}</div>
             <div class="relative z-10">
               <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold mb-3 animate-float"
                    [style.animation-delay]="(i * 500) + 'ms'">{{ i + 1 }}</div>
-              <h3 class="font-semibold text-slate-200 mb-1">{{ step.title }}</h3>
-              <p class="text-sm text-slate-500">{{ step.desc }}</p>
+              <h3 class="font-semibold text-slate-200 mb-1">{{ lang.t(step.titleKey) }}</h3>
+              <p class="text-sm text-slate-500">{{ lang.t(step.descKey) }}</p>
             </div>
           </div>
         </div>
@@ -147,9 +169,9 @@ import { Router, RouterLink } from '@angular/router';
     <!-- DORA 5 Pillars -->
     <div class="py-16">
       <div class="text-center mb-10 animate-fade-in-up">
-        <p class="text-xs uppercase tracking-[0.2em] text-violet-400 mb-3">DORA raamistik</p>
-        <h2 class="text-3xl font-bold text-slate-100">5 sammast</h2>
-        <p class="text-slate-500 text-sm mt-2 max-w-lg mx-auto">Digitaalse tegevuskerksuse m&auml;&auml;ruse viis p&otilde;hisammast, mis katavad kogu IKT riskihalduse</p>
+        <p class="text-xs uppercase tracking-[0.2em] text-violet-400 mb-3">{{ lang.t('landing.pillars_label') }}</p>
+        <h2 class="text-3xl font-bold text-slate-100">{{ lang.t('landing.pillars_title') }}</h2>
+        <p class="text-slate-500 text-sm mt-2 max-w-lg mx-auto">{{ lang.t('landing.pillars_desc') }}</p>
       </div>
 
       <div class="grid grid-cols-5 gap-3 max-w-3xl mx-auto">
@@ -158,10 +180,10 @@ import { Router, RouterLink } from '@angular/router';
              [style.animation-delay]="(i * 100 + 400) + 'ms'"
              (click)="navigateToPillar(pillar.id)">
           <div class="text-3xl mb-2 animate-bounce-subtle" [style.animation-delay]="(i * 300) + 'ms'">{{ pillar.icon }}</div>
-          <p class="text-xs font-medium text-emerald-400">{{ pillar.label }}</p>
+          <p class="text-xs font-medium text-emerald-400">{{ lang.t(pillar.labelKey) }}</p>
           <p class="text-xs mt-1 text-emerald-500/70">{{ pillar.articles }}</p>
           <div class="mt-2">
-            <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">Aktiivne</span>
+            <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">{{ lang.t('landing.active') }}</span>
           </div>
         </div>
       </div>
@@ -170,72 +192,70 @@ import { Router, RouterLink } from '@angular/router';
     <!-- DORA Timeline -->
     <div class="py-16">
       <div class="text-center mb-10 animate-fade-in-up">
-        <p class="text-xs uppercase tracking-[0.2em] text-amber-400 mb-3">Regulatsiooni ajajoon</p>
-        <h2 class="text-3xl font-bold text-slate-100">DORA t&auml;htp&auml;evad</h2>
+        <p class="text-xs uppercase tracking-[0.2em] text-amber-400 mb-3">{{ lang.t('landing.timeline_label') }}</p>
+        <h2 class="text-3xl font-bold text-slate-100">{{ lang.t('landing.timeline_title') }}</h2>
       </div>
 
       <div class="max-w-3xl mx-auto relative">
-        <!-- Timeline line -->
-        <div class="absolute left-1/2 -translate-x-px top-0 bottom-0 w-0.5 bg-gradient-to-b from-emerald-500 via-cyan-500 to-violet-500 opacity-30"></div>
+        <div class="absolute left-1/2 -translate-x-px top-0 bottom-0 w-0.5 bg-gradient-to-b from-emerald-500 via-cyan-500 to-red-500 opacity-30"></div>
 
         <div *ngFor="let event of timelineEvents; let i = index"
              class="relative flex items-center gap-6 mb-8 animate-fade-in-up"
              [class]="i % 2 === 0 ? 'flex-row' : 'flex-row-reverse'"
              [style.animation-delay]="(i * 150 + 300) + 'ms'">
           <div class="flex-1" [class]="i % 2 === 0 ? 'text-right' : 'text-left'">
-            <div class="glass-card p-4 inline-block card-hover" [class]="event.active ? 'animate-border-glow' : ''">
-              <p class="text-xs font-bold" [class]="event.active ? 'text-emerald-400' : 'text-slate-500'">{{ event.date }}</p>
-              <p class="text-sm text-slate-200 font-medium">{{ event.title }}</p>
-              <p class="text-xs text-slate-500 mt-1">{{ event.desc }}</p>
+            <div class="glass-card p-4 inline-block card-hover" [class]="event.active ? 'animate-border-glow border-red-500/30' : ''">
+              <p class="text-xs font-bold" [class]="event.active ? 'text-red-400' : 'text-slate-500'">{{ event.date }}</p>
+              <p class="text-sm text-slate-200 font-medium">{{ lang.t(event.titleKey) }}</p>
+              <p class="text-xs text-slate-500 mt-1">{{ lang.t(event.descKey) }}</p>
             </div>
           </div>
           <div class="relative z-10 w-4 h-4 rounded-full border-2 shrink-0"
-               [class]="event.active ? 'bg-emerald-400 border-emerald-400 shadow-lg shadow-emerald-500/50' : 'bg-slate-700 border-slate-600'">
+               [class]="event.active ? 'bg-red-400 border-red-400 shadow-lg shadow-red-500/50' : 'bg-slate-700 border-slate-600'">
           </div>
           <div class="flex-1"></div>
         </div>
       </div>
     </div>
 
-    <!-- Trusted by (marquee logos) -->
+    <!-- Marquee -->
     <div class="py-16">
       <div class="text-center mb-8 animate-fade-in-up">
-        <p class="text-xs uppercase tracking-[0.2em] text-slate-600 mb-3">Sobib igale finantssektori ettev&otilde;ttele</p>
+        <p class="text-xs uppercase tracking-[0.2em] text-slate-600 mb-3">{{ lang.t('landing.marquee_label') }}</p>
       </div>
       <div class="marquee-container">
         <div class="marquee-track">
           <div *ngFor="let logo of marqueeLogos"
                class="flex items-center gap-2 px-8 py-3 mx-2 bg-slate-800/30 rounded-lg border border-slate-700/30">
             <span class="text-lg">{{ logo.icon }}</span>
-            <span class="text-sm text-slate-500 whitespace-nowrap">{{ logo.name }}</span>
+            <span class="text-sm text-slate-500 whitespace-nowrap">{{ lang.t(logo.nameKey) }}</span>
           </div>
           <div *ngFor="let logo of marqueeLogos"
                class="flex items-center gap-2 px-8 py-3 mx-2 bg-slate-800/30 rounded-lg border border-slate-700/30">
             <span class="text-lg">{{ logo.icon }}</span>
-            <span class="text-sm text-slate-500 whitespace-nowrap">{{ logo.name }}</span>
+            <span class="text-sm text-slate-500 whitespace-nowrap">{{ lang.t(logo.nameKey) }}</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Social proof / testimonials -->
+    <!-- Testimonials -->
     <div class="py-16">
       <div class="text-center mb-10 animate-fade-in-up">
-        <p class="text-xs uppercase tracking-[0.2em] text-emerald-400 mb-3">Tagasiside</p>
-        <h2 class="text-3xl font-bold text-slate-100">Mida kliendid &uuml;tlevad</h2>
+        <p class="text-xs uppercase tracking-[0.2em] text-emerald-400 mb-3">{{ lang.t('landing.reviews_label') }}</p>
+        <h2 class="text-3xl font-bold text-slate-100">{{ lang.t('landing.reviews_title') }}</h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
         <div *ngFor="let review of reviews; let i = index"
              class="glass-card p-6 card-hover animate-fade-in-up"
              [style.animation-delay]="(i * 150 + 300) + 'ms'">
-          <!-- Stars -->
           <div class="flex gap-1 mb-3">
             <svg *ngFor="let s of [1,2,3,4,5]" class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
             </svg>
           </div>
-          <p class="text-sm text-slate-300 leading-relaxed italic mb-4">"{{ review.text }}"</p>
+          <p class="text-sm text-slate-300 leading-relaxed italic mb-4">"{{ lang.t(review.textKey) }}"</p>
           <div class="flex items-center gap-3">
             <div class="w-8 h-8 rounded-full bg-gradient-to-br flex items-center justify-center text-white text-xs font-bold"
                  [class]="review.avatarClass">
@@ -243,14 +263,14 @@ import { Router, RouterLink } from '@angular/router';
             </div>
             <div>
               <p class="text-sm font-medium text-slate-200">{{ review.name }}</p>
-              <p class="text-xs text-slate-500">{{ review.role }}</p>
+              <p class="text-xs text-slate-500">{{ lang.t(review.roleKey) }}</p>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- EU Regulation card -->
+    <!-- Trust signals -->
     <div class="py-10">
       <div class="max-w-3xl mx-auto animate-fade-in-up">
         <div class="glass-card-strong p-6">
@@ -268,15 +288,13 @@ import { Router, RouterLink } from '@angular/router';
               </div>
             </div>
             <div class="text-center md:text-left flex-1">
-              <h3 class="text-base font-semibold text-slate-200 mb-1">EU regulatsioonide vastavus</h3>
-              <p class="text-sm text-slate-400">
-                Toetab <span class="text-emerald-400 font-medium">DORA</span> (2022/2554) hindamist.
-                <span class="text-cyan-400 font-medium">NIS2</span> (2022/2555) tugi on tulemas.
-              </p>
+              <h3 class="text-base font-semibold text-slate-200 mb-1">{{ lang.t('landing.trust_title') }}</h3>
+              <p class="text-sm text-slate-400">{{ lang.t('landing.trust_desc') }}</p>
             </div>
-            <div class="flex gap-2 shrink-0">
-              <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs text-emerald-400 font-medium">DORA &#10003;</span>
-              <span class="px-3 py-1 bg-slate-700/50 border border-slate-600/30 rounded-full text-xs text-slate-500">NIS2 &middot; Peagi</span>
+            <div class="flex flex-wrap gap-2 shrink-0">
+              <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs text-emerald-400 font-medium">DORA 2022/2554</span>
+              <span class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-xs text-cyan-400 font-medium">Claude AI</span>
+              <span class="px-3 py-1 bg-violet-500/10 border border-violet-500/20 rounded-full text-xs text-violet-400 font-medium">{{ lang.t('landing.trust_eu_data') }}</span>
             </div>
           </div>
         </div>
@@ -285,61 +303,42 @@ import { Router, RouterLink } from '@angular/router';
 
     <!-- Category badges -->
     <div class="py-10 animate-fade-in">
-      <p class="text-xs uppercase tracking-wider text-slate-600 mb-4 text-center">Hindamise valdkonnad</p>
+      <p class="text-xs uppercase tracking-wider text-slate-600 mb-4 text-center">{{ lang.t('landing.categories') }}</p>
       <div class="flex flex-wrap justify-center gap-2 max-w-3xl mx-auto">
         <span *ngFor="let cat of categories; let i = index"
               class="px-3 py-1 glass-card text-xs text-slate-400 card-hover cursor-default"
               [style.animation-delay]="(i * 50 + 700) + 'ms'">
-          {{ cat }}
+          {{ lang.t(cat) }}
         </span>
       </div>
     </div>
 
     <!-- Final CTA -->
     <div class="py-20 relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/5 via-cyan-500/5 to-violet-500/5"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/5 via-cyan-500/5 to-red-500/5"></div>
       <div class="relative z-10 text-center max-w-2xl mx-auto animate-fade-in-up">
-        <h2 class="text-3xl font-bold text-slate-100 mb-4">Valmis alustama?</h2>
-        <p class="text-slate-400 mb-8">Tehke esimene DORA vastavushindamine ja saage selge &uuml;levaade oma IKT-lepingute vastavusest.</p>
+        <h2 class="text-3xl font-bold text-slate-100 mb-4">{{ lang.t('landing.final_cta_title') }}</h2>
+        <p class="text-slate-400 mb-8">{{ lang.t('landing.final_cta_desc') }}</p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a routerLink="/assessment"
+          <a routerLink="/contract-analysis" [queryParams]="{sample: 'true'}"
              class="group inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
                     text-slate-900 font-semibold px-10 py-4 rounded-xl transition-all duration-300 text-lg
                     hover:shadow-xl hover:shadow-emerald-500/30 hover:-translate-y-1">
-            Alusta tasuta hindamist
+            {{ lang.t('landing.cta_try_sample') }}
             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
           </a>
-          <a routerLink="/history"
+          <a routerLink="/assessment"
              class="inline-flex items-center gap-2 bg-slate-800/50 backdrop-blur border border-slate-700/50
                     text-slate-200 font-semibold px-8 py-4 rounded-xl transition-all duration-300 text-lg
                     hover:border-emerald-500/30 hover:bg-slate-800/80">
             <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
             </svg>
-            Vaata ajalugu
+            {{ lang.t('landing.cta_assessment') }}
           </a>
         </div>
-      </div>
-    </div>
-
-    <!-- Built with -->
-    <div class="py-8 animate-fade-in">
-      <p class="text-xs text-slate-600 mb-3 text-center">Ehitatud</p>
-      <div class="flex items-center justify-center gap-4">
-        <span class="px-3 py-1.5 bg-slate-800/60 border border-slate-700/30 rounded-lg text-xs text-slate-400 flex items-center gap-1.5">
-          <span class="text-red-400 font-bold">A</span> Angular 19
-        </span>
-        <span class="px-3 py-1.5 bg-slate-800/60 border border-slate-700/30 rounded-lg text-xs text-slate-400 flex items-center gap-1.5">
-          <span class="text-emerald-400 font-bold">S</span> Spring Boot
-        </span>
-        <span class="px-3 py-1.5 bg-slate-800/60 border border-slate-700/30 rounded-lg text-xs text-slate-400 flex items-center gap-1.5">
-          <span class="text-cyan-400 font-bold">T</span> Tailwind CSS
-        </span>
-        <span class="px-3 py-1.5 bg-slate-800/60 border border-slate-700/30 rounded-lg text-xs text-slate-400 flex items-center gap-1.5">
-          <span class="text-blue-400 font-bold">D</span> Docker
-        </span>
       </div>
     </div>
   `
@@ -347,97 +346,104 @@ import { Router, RouterLink } from '@angular/router';
 export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('particleCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
 
-  animatedArticles = 0;
-  animatedQuestions = 0;
-  animatedCategories = 0;
-  animatedAssessments = 0;
-
   displayedTitle = '';
   isTyping = true;
-  private fullTitle = 'Vastavuskontroll';
   private typeInterval: any;
 
   private animationFrame = 0;
   private particles: { x: number; y: number; vx: number; vy: number; size: number; opacity: number }[] = [];
 
-  categories = ['Teenustase', 'V\u00e4ljumisstrateegia', 'Audit', 'Intsidendid', 'Andmekaitse', 'Allhange', 'Risk', '\u00d5igus', 'Pidevus', 'V\u00e4rbamine', 'Finantsaruandlus', 'IKT riskihaldus', 'Intsidendid (laiendatud)', 'Testimine', 'Info jagamine'];
+  sectors = [
+    { icon: '\u{1F3E6}', titleKey: 'landing.sector_banks', examplesKey: 'landing.sector_banks_ex', painKey: 'landing.sector_banks_pain' },
+    { icon: '\u{1F6E1}\uFE0F', titleKey: 'landing.sector_insurance', examplesKey: 'landing.sector_insurance_ex', painKey: 'landing.sector_insurance_pain' },
+    { icon: '\u{1F4B3}', titleKey: 'landing.sector_payments', examplesKey: 'landing.sector_payments_ex', painKey: 'landing.sector_payments_pain' },
+    { icon: '\u20BF', titleKey: 'landing.sector_crypto', examplesKey: 'landing.sector_crypto_ex', painKey: 'landing.sector_crypto_pain' },
+    { icon: '\u{1F4B0}', titleKey: 'landing.sector_funds', examplesKey: 'landing.sector_funds_ex', painKey: 'landing.sector_funds_pain' },
+    { icon: '\u{1F4BB}', titleKey: 'landing.sector_ict', examplesKey: 'landing.sector_ict_ex', painKey: 'landing.sector_ict_pain' }
+  ];
+
+  categories = [
+    'landing.cat_service', 'landing.cat_exit', 'landing.cat_audit', 'landing.cat_incident',
+    'landing.cat_data', 'landing.cat_subcontracting', 'landing.cat_risk', 'landing.cat_legal',
+    'landing.cat_continuity', 'landing.cat_recruitment', 'landing.cat_financial',
+    'landing.cat_ict_risk', 'landing.cat_incident_ext', 'landing.cat_testing', 'landing.cat_info'
+  ];
 
   pillars = [
-    { id: 'ICT_RISK_MANAGEMENT', icon: '\u{1F6E1}\uFE0F', label: 'IKT riskihaldus', articles: 'Art. 5\u201316' },
-    { id: 'INCIDENT_MANAGEMENT', icon: '\u{1F4CB}', label: 'Intsidendid', articles: 'Art. 17\u201323' },
-    { id: 'TESTING', icon: '\u{1F50D}', label: 'Testimine', articles: 'Art. 24\u201327' },
-    { id: 'THIRD_PARTY', icon: '\u{1F91D}', label: 'Kolmandad osapooled', articles: 'Art. 28\u201344' },
-    { id: 'INFORMATION_SHARING', icon: '\u{1F4E1}', label: 'Info jagamine', articles: 'Art. 45' }
+    { id: 'ICT_RISK_MANAGEMENT', icon: '\u{1F6E1}\uFE0F', labelKey: 'landing.pillar_risk', articles: 'Art. 5\u201316' },
+    { id: 'INCIDENT_MANAGEMENT', icon: '\u{1F4CB}', labelKey: 'landing.pillar_incident', articles: 'Art. 17\u201323' },
+    { id: 'TESTING', icon: '\u{1F50D}', labelKey: 'landing.pillar_testing', articles: 'Art. 24\u201327' },
+    { id: 'THIRD_PARTY', icon: '\u{1F91D}', labelKey: 'landing.pillar_thirdparty', articles: 'Art. 28\u201344' },
+    { id: 'INFORMATION_SHARING', icon: '\u{1F4E1}', labelKey: 'landing.pillar_info', articles: 'Art. 45' }
   ];
 
   features = [
-    { icon: '\u26A1', title: 'Kiire hindamine', desc: '37 k\u00fcsimust, tulemused koheselt. Valmis 5 minutiga.', bgClass: 'bg-emerald-500/10' },
-    { icon: '\u{1F4CA}', title: 'Radardiagramm', desc: 'Visuaalne vastavusprofiil 15 kategooria l\u00f5ikes.', bgClass: 'bg-cyan-500/10' },
-    { icon: '\u{1F525}', title: 'Riskimaatriks', desc: 'Likelihood vs Impact 3x3 heatmap riskide visualiseerimiseks.', bgClass: 'bg-red-500/10' },
-    { icon: '\u{1F4C4}', title: 'PDF aruanne', desc: 'Professionaalne aruanne printimisel v\u00f5i PDF ekspordiks.', bgClass: 'bg-violet-500/10' },
-    { icon: '\u{1F3C6}', title: 'Vastavustunnistus', desc: 'Ilus sertifikaat ettev\u00f5tte vastavustaseme kinnitamiseks.', bgClass: 'bg-amber-500/10' },
-    { icon: '\u{1F4C8}', title: 'Ajaloo j\u00e4lgimine', desc: 'Vaadake eelmisi hindamisi ja j\u00e4lgige trendi.', bgClass: 'bg-pink-500/10' }
+    { icon: '\u{1F916}', titleKey: 'landing.feat_ai_title', descKey: 'landing.feat_ai_desc', bgClass: 'bg-emerald-500/10' },
+    { icon: '\u26A1', titleKey: 'landing.feat_fast_title', descKey: 'landing.feat_fast_desc', bgClass: 'bg-cyan-500/10' },
+    { icon: '\u{1F4CA}', titleKey: 'landing.feat_radar_title', descKey: 'landing.feat_radar_desc', bgClass: 'bg-violet-500/10' },
+    { icon: '\u{1F525}', titleKey: 'landing.feat_risk_title', descKey: 'landing.feat_risk_desc', bgClass: 'bg-red-500/10' },
+    { icon: '\u{1F4C4}', titleKey: 'landing.feat_pdf_title', descKey: 'landing.feat_pdf_desc', bgClass: 'bg-amber-500/10' },
+    { icon: '\u{1F3C6}', titleKey: 'landing.feat_cert_title', descKey: 'landing.feat_cert_desc', bgClass: 'bg-pink-500/10' }
   ];
 
   steps = [
-    { title: 'Sisesta andmed', desc: 'Ettev\u00f5tte nimi ja IKT-lepingu nimetus' },
-    { title: 'Vasta k\u00fcsimustele', desc: '37 k\u00fcsimust 15 DORA kategooriast' },
-    { title: 'Saa tulemused', desc: 'Radardiagramm, riskimaatriks ja PDF aruanne' }
+    { titleKey: 'landing.step1_title', descKey: 'landing.step1_desc' },
+    { titleKey: 'landing.step2_title', descKey: 'landing.step2_desc' },
+    { titleKey: 'landing.step3_title', descKey: 'landing.step3_desc' }
   ];
 
   timelineEvents = [
-    { date: 'Sept 2020', title: 'DORA ettepanek', desc: 'Euroopa Komisjon avaldab DORA m\u00e4\u00e4ruse ettepaneku', active: false },
-    { date: 'Nov 2022', title: 'DORA vastuv\u00f5tmine', desc: 'Euroopa Parlament kiidab m\u00e4\u00e4ruse heaks', active: false },
-    { date: 'Jan 2023', title: 'J\u00f5ustumine', desc: 'DORA m\u00e4\u00e4rus j\u00f5ustub ametlikult', active: false },
-    { date: 'Jan 2025', title: 'Kohaldamine', desc: 'T\u00e4ielik kohaldamine k\u00f5igile finantssektori ettev\u00f5tetele', active: true },
-    { date: '2025+', title: 'J\u00e4relevalve', desc: 'ESA-d alustavad aktiivset j\u00e4relevalvet ja auditeid', active: false }
+    { date: 'Sept 2020', titleKey: 'landing.tl_proposal_title', descKey: 'landing.tl_proposal_desc', active: false },
+    { date: 'Nov 2022', titleKey: 'landing.tl_adoption_title', descKey: 'landing.tl_adoption_desc', active: false },
+    { date: 'Jan 2023', titleKey: 'landing.tl_force_title', descKey: 'landing.tl_force_desc', active: false },
+    { date: 'Jan 2025', titleKey: 'landing.tl_apply_title', descKey: 'landing.tl_apply_desc', active: false },
+    { date: '2026', titleKey: 'landing.tl_enforce_title', descKey: 'landing.tl_enforce_desc', active: true }
   ];
 
   marqueeLogos = [
-    { icon: '\u{1F3E6}', name: 'Pangad' },
-    { icon: '\u{1F4B3}', name: 'Makseasutused' },
-    { icon: '\u{1F4CA}', name: 'Investeerimis\u00fchingud' },
-    { icon: '\u{1F6E1}\uFE0F', name: 'Kindlustusseltsid' },
-    { icon: '\u{1F4B0}', name: 'Fondivalitsejad' },
-    { icon: '\u2696\uFE0F', name: 'Auditifirmad' },
-    { icon: '\u{1F4BB}', name: 'IKT-teenusepakkujad' },
-    { icon: '\u{1F310}', name: 'Pilveteenused' },
-    { icon: '\u{1F512}', name: 'K\u00fcberturbe ettev\u00f5tted' },
-    { icon: '\u{1F4C8}', name: 'Fintech startupid' }
+    { icon: '\u{1F3E6}', nameKey: 'landing.m_banks' },
+    { icon: '\u{1F4B3}', nameKey: 'landing.m_payments' },
+    { icon: '\u{1F4CA}', nameKey: 'landing.m_investment' },
+    { icon: '\u{1F6E1}\uFE0F', nameKey: 'landing.m_insurance' },
+    { icon: '\u{1F4B0}', nameKey: 'landing.m_funds' },
+    { icon: '\u2696\uFE0F', nameKey: 'landing.m_audit' },
+    { icon: '\u{1F4BB}', nameKey: 'landing.m_ict' },
+    { icon: '\u{1F310}', nameKey: 'landing.m_cloud' },
+    { icon: '\u{1F512}', nameKey: 'landing.m_cyber' },
+    { icon: '\u{1F4C8}', nameKey: 'landing.m_fintech' }
   ];
 
   reviews = [
     {
-      text: 'V\u00e4ga hea t\u00f6\u00f6riist DORA vastavuse kiireks kontrollimiseks. S\u00e4\u00e4stis meile n\u00e4dalaid konsultandi tasu.',
+      textKey: 'landing.review1_text',
       name: 'Martin Kask',
-      role: 'IT-juht, AS Finantsteenused',
+      roleKey: 'landing.review1_role',
       initials: 'MK',
       avatarClass: 'from-emerald-500 to-cyan-500'
     },
     {
-      text: 'Radardiagramm annab suurep\u00e4rase \u00fclevaate. N\u00fc\u00fcd teame t\u00e4pselt, kus peame parandusi tegema.',
+      textKey: 'landing.review2_text',
       name: 'Katrin Tamm',
-      role: 'Vastavusjuht, O\u00dc Pangateenused',
+      roleKey: 'landing.review2_role',
       initials: 'KT',
       avatarClass: 'from-violet-500 to-purple-500'
     },
     {
-      text: 'Kasutame seda regulaarselt k\u00f5igi oma IKT-lepingute kontrollimiseks. V\u00e4ga professionaalne.',
+      textKey: 'landing.review3_text',
       name: 'Andres V\u00e4ljas',
-      role: 'Riskijuht, AS Kindlustus',
+      roleKey: 'landing.review3_role',
       initials: 'AV',
       avatarClass: 'from-amber-500 to-orange-500'
     }
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public lang: LangService) {}
 
   navigateToPillar(pillarId: string) {
     this.router.navigate(['/assessment'], { queryParams: { pillar: pillarId } });
   }
 
   ngOnInit() {
-    this.countUp();
     this.startTyping();
   }
 
@@ -451,10 +457,11 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   startTyping() {
+    const title = this.lang.t('landing.subtitle');
     let i = 0;
     const type = () => {
-      if (i < this.fullTitle.length) {
-        this.displayedTitle += this.fullTitle[i];
+      if (i < title.length) {
+        this.displayedTitle += title[i];
         i++;
         this.typeInterval = setTimeout(type, 80);
       } else {
@@ -462,32 +469,6 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     };
     setTimeout(type, 600);
-  }
-
-  countUp() {
-    const targets = { articles: 79, questions: 37, categories: 15, assessments: this.getHistoryCount() };
-    const duration = 2000;
-    const startTime = Date.now();
-
-    const tick = () => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const ease = 1 - Math.pow(1 - progress, 3);
-
-      this.animatedArticles = Math.round(targets.articles * ease);
-      this.animatedQuestions = Math.round(targets.questions * ease);
-      this.animatedCategories = Math.round(targets.categories * ease);
-      this.animatedAssessments = Math.round(targets.assessments * ease);
-
-      if (progress < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }
-
-  getHistoryCount(): number {
-    try {
-      return JSON.parse(localStorage.getItem('dora_history') || '[]').length;
-    } catch { return 0; }
   }
 
   initParticles() {

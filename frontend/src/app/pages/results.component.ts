@@ -2,6 +2,7 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ApiService } from '../api.service';
+import { LangService } from '../lang.service';
 import { AssessmentResult, CATEGORY_LABELS } from '../models';
 
 interface RadarPoint {
@@ -32,7 +33,7 @@ interface HeatmapCell {
     <div class="max-w-4xl mx-auto">
       <div *ngIf="loading" class="text-center py-16 animate-fade-in">
         <div class="inline-block w-10 h-10 border-4 border-slate-700 border-t-emerald-400 rounded-full animate-spin"></div>
-        <p class="text-slate-400 mt-4">Tulemuste laadimine...</p>
+        <p class="text-slate-400 mt-4">{{ lang.t('results.loading') }}</p>
       </div>
 
       <div *ngIf="error" class="bg-red-900/30 border border-red-700/50 rounded-xl p-4 text-red-300 animate-scale-in">
@@ -57,7 +58,7 @@ interface HeatmapCell {
               </svg>
               <div class="absolute inset-0 flex flex-col items-center justify-center animate-score-count delay-500">
                 <span class="text-4xl font-extrabold" [class]="scoreTextClass">{{ result.scorePercentage | number:'1.0-0' }}</span>
-                <span class="text-sm text-slate-500">protsenti</span>
+                <span class="text-sm text-slate-500">{{ lang.t('results.percent') }}</span>
               </div>
             </div>
 
@@ -74,15 +75,15 @@ interface HeatmapCell {
               <div class="flex gap-6 mt-4 justify-center md:justify-start animate-fade-in-up delay-500">
                 <div>
                   <span class="text-2xl font-bold text-emerald-400">{{ result.compliantCount }}</span>
-                  <p class="text-xs text-slate-500">vastav</p>
+                  <p class="text-xs text-slate-500">{{ lang.t('results.compliant') }}</p>
                 </div>
                 <div>
                   <span class="text-2xl font-bold text-red-400">{{ result.nonCompliantCount }}</span>
-                  <p class="text-xs text-slate-500">mittevastav</p>
+                  <p class="text-xs text-slate-500">{{ lang.t('results.non_compliant') }}</p>
                 </div>
                 <div>
                   <span class="text-2xl font-bold text-slate-300">{{ result.totalQuestions }}</span>
-                  <p class="text-xs text-slate-500">kokku</p>
+                  <p class="text-xs text-slate-500">{{ lang.t('results.total') }}</p>
                 </div>
               </div>
             </div>
@@ -98,7 +99,7 @@ interface HeatmapCell {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
               </svg>
-              Vastavuse profiil
+              {{ lang.t('results.profile') }}
             </h2>
             <div class="flex justify-center">
               <svg viewBox="0 0 300 300" class="w-full max-w-[280px]">
@@ -141,7 +142,7 @@ interface HeatmapCell {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"/>
               </svg>
-              Riskimaatriks
+              {{ lang.t('results.risk_matrix') }}
             </h2>
             <div class="flex justify-center">
               <div class="relative">
@@ -198,7 +199,7 @@ interface HeatmapCell {
             <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
             </svg>
-            DORA 5 sammast
+            {{ lang.t('results.pillars') }}
           </h2>
           <div class="grid grid-cols-5 gap-2">
             <div *ngFor="let pillar of doraPillars; let i = index"
@@ -250,7 +251,7 @@ interface HeatmapCell {
             <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
             </svg>
-            Prioriteetne tegevuskava ({{ nonCompliantItems.length }} puudust)
+            {{ lang.t('results.priority') }} ({{ nonCompliantItems.length }} {{ lang.t('results.gaps') }})
           </h2>
           <div class="space-y-2">
             <div *ngFor="let item of nonCompliantItems; let i = index"
@@ -267,7 +268,7 @@ interface HeatmapCell {
               <div class="shrink-0">
                 <span class="text-xs px-2 py-0.5 rounded-full"
                       [class]="i < 3 ? 'bg-red-500/15 text-red-400 border border-red-500/20' : 'bg-amber-500/15 text-amber-400 border border-amber-500/20'">
-                  {{ i < 3 ? 'Kriitiline' : 'Oluline' }}
+                  {{ i < 3 ? lang.t('results.critical') : lang.t('results.important') }}
                 </span>
               </div>
             </div>
@@ -364,6 +365,85 @@ interface HeatmapCell {
           </div>
         </div>
 
+        <!-- Fine risk estimate -->
+        <div class="glass-card p-6 mb-8 animate-fade-in-up delay-500"
+             [class]="result.complianceLevel === 'RED' ? 'border-red-500/30' : result.complianceLevel === 'YELLOW' ? 'border-amber-500/30' : 'border-emerald-500/30'">
+          <div class="flex items-center gap-3 mb-3">
+            <svg class="w-5 h-5" [class]="result.complianceLevel === 'RED' ? 'text-red-400' : result.complianceLevel === 'YELLOW' ? 'text-amber-400' : 'text-emerald-400'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <h3 class="text-sm font-semibold" [class]="result.complianceLevel === 'RED' ? 'text-red-300' : result.complianceLevel === 'YELLOW' ? 'text-amber-300' : 'text-emerald-300'">
+              {{ lang.t('results.fine_risk') }}
+            </h3>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="flex-1">
+              <p *ngIf="result.complianceLevel === 'RED'" class="text-sm text-red-300 font-medium">{{ lang.t('results.fine_red') }}</p>
+              <p *ngIf="result.complianceLevel === 'YELLOW'" class="text-sm text-amber-300 font-medium">{{ lang.t('results.fine_yellow') }}</p>
+              <p *ngIf="result.complianceLevel === 'GREEN'" class="text-sm text-emerald-300 font-medium">{{ lang.t('results.fine_green') }}</p>
+              <p class="text-xs text-slate-500 mt-1">{{ lang.t('results.fine_note') }}</p>
+            </div>
+            <div class="text-right shrink-0">
+              <span *ngIf="result.complianceLevel === 'RED'" class="text-2xl font-bold text-red-400">2%</span>
+              <span *ngIf="result.complianceLevel === 'YELLOW'" class="text-2xl font-bold text-amber-400">~1%</span>
+              <span *ngIf="result.complianceLevel === 'GREEN'" class="text-2xl font-bold text-emerald-400">0%</span>
+              <p class="text-[10px] text-slate-500">{{ lang.t('results.of_turnover') }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Regulatory references -->
+        <div class="glass-card p-5 mb-8 animate-fade-in-up delay-500">
+          <div class="flex items-center gap-2 mb-4">
+            <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+            </svg>
+            <h3 class="text-sm font-semibold text-amber-300">{{ lang.t('contract.reg_references') }}</h3>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <a href="https://www.fi.ee/et/finantsinspektsioon/finantsinnovatsioon/dora" target="_blank" rel="noopener"
+               class="flex items-center gap-2 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30 hover:border-amber-500/30 transition-colors group">
+              <span class="text-xs font-medium text-slate-300 group-hover:text-amber-300">Finantsinspektsioon</span>
+              <svg class="w-3 h-3 text-slate-600 group-hover:text-amber-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+            </a>
+            <a href="https://eur-lex.europa.eu/legal-content/ET/TXT/?uri=CELEX:32022R2554" target="_blank" rel="noopener"
+               class="flex items-center gap-2 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30 hover:border-amber-500/30 transition-colors group">
+              <span class="text-xs font-medium text-slate-300 group-hover:text-amber-300">EUR-Lex DORA</span>
+              <svg class="w-3 h-3 text-slate-600 group-hover:text-amber-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+            </a>
+            <a href="https://www.eiopa.europa.eu/browse/regulation-and-policy/digital-operational-resilience-act-dora_en" target="_blank" rel="noopener"
+               class="flex items-center gap-2 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30 hover:border-amber-500/30 transition-colors group">
+              <span class="text-xs font-medium text-slate-300 group-hover:text-amber-300">ESA {{ lang.t('contract.guidelines') }}</span>
+              <svg class="w-3 h-3 text-slate-600 group-hover:text-amber-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- CTA: Analyze your contract -->
+        <div class="glass-card p-6 mb-8 border-cyan-500/20 animate-fade-in-up delay-600">
+          <div class="flex flex-col md:flex-row items-center gap-4">
+            <div class="flex-1 text-center md:text-left">
+              <h3 class="text-sm font-semibold text-slate-200">{{ lang.t('results.cta_contract_title') }}</h3>
+              <p class="text-xs text-slate-500 mt-1">{{ lang.t('results.cta_contract_desc') }}</p>
+            </div>
+            <a routerLink="/contract-analysis"
+               class="px-6 py-2.5 rounded-lg font-medium text-sm bg-gradient-to-r from-cyan-500 to-emerald-500
+                      text-slate-900 hover:from-cyan-400 hover:to-emerald-400 hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300
+                      flex items-center gap-2 whitespace-nowrap">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              {{ lang.t('results.cta_contract_btn') }}
+            </a>
+          </div>
+        </div>
+
         <!-- Question breakdown -->
         <h2 class="text-lg font-semibold text-slate-200 mb-4 animate-fade-in-up delay-400 flex items-center gap-2">
           <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -390,7 +470,7 @@ interface HeatmapCell {
                 </span>
               </div>
               <div *ngIf="!qr.compliant" class="mt-3 bg-gradient-to-r from-amber-500/5 to-transparent rounded-lg p-3 border-l-2 border-amber-500/50">
-                <p class="text-xs font-semibold text-amber-400 mb-1">Soovitus</p>
+                <p class="text-xs font-semibold text-amber-400 mb-1">{{ lang.t('results.recommendation') }}</p>
                 <p class="text-sm text-slate-300 leading-relaxed">{{ qr.recommendation }}</p>
               </div>
             </div>
@@ -418,7 +498,7 @@ interface HeatmapCell {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
             </svg>
-            Tunnistus
+            {{ lang.t('results.certificate') }}
           </a>
           <button (click)="exportPdf()"
                   class="bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-400 hover:to-purple-400
@@ -427,7 +507,7 @@ interface HeatmapCell {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
-            Laadi PDF
+            {{ lang.t('results.download_pdf') }}
           </button>
           <a routerLink="/assessment"
              class="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
@@ -436,7 +516,7 @@ interface HeatmapCell {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
-            Uus hindamine
+            {{ lang.t('results.new_assessment') }}
           </a>
           <a routerLink="/history"
              class="bg-slate-700/50 hover:bg-slate-600/50 text-slate-200 font-semibold px-6 py-2.5 rounded-lg
@@ -444,7 +524,7 @@ interface HeatmapCell {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            Ajalugu
+            {{ lang.t('results.history') }}
           </a>
         </div>
       </div>
@@ -476,7 +556,7 @@ export class ResultsComponent implements OnInit {
     { icon: '\u{1F4E1}', label: 'Info jagamine', active: true }
   ];
 
-  constructor(private api: ApiService, private route: ActivatedRoute, private renderer: Renderer2) {}
+  constructor(private api: ApiService, private route: ActivatedRoute, private renderer: Renderer2, public lang: LangService) {}
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id')!;
@@ -693,9 +773,9 @@ export class ResultsComponent implements OnInit {
 
   get badgeLabel(): string {
     switch (this.result?.complianceLevel) {
-      case 'GREEN': return 'Vastav';
-      case 'YELLOW': return 'Osaliselt vastav';
-      case 'RED': return 'Mittevastav';
+      case 'GREEN': return this.lang.t('results.green');
+      case 'YELLOW': return this.lang.t('results.yellow');
+      case 'RED': return this.lang.t('results.red');
       default: return '';
     }
   }
