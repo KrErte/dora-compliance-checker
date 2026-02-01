@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.4.2'
-    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.springframework.boot' version '3.2.1'
+    id 'io.spring.dependency-management' version '1.1.4'
 }
 
 group = 'com.dorachecker'
@@ -21,12 +21,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
-    implementation 'com.itextpdf:itext7-core:8.0.2'
-    implementation 'org.apache.pdfbox:pdfbox:3.0.1'
-    implementation 'org.apache.poi:poi-ooxml:5.2.5'
 
     runtimeOnly 'com.h2database:h2'
+
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+    implementation 'com.itextpdf:kernel:8.0.2'
+    implementation 'com.itextpdf:layout:8.0.2'
+    implementation 'org.apache.pdfbox:pdfbox:3.0.1'
+    implementation 'org.apache.poi:poi-ooxml:5.2.5'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
