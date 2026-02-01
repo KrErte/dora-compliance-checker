@@ -32,5 +32,9 @@ export const routes: Routes = [
   {
     path: 'contract-analysis',
     loadComponent: () => import('./pages/contract-analysis.component').then(m => m.ContractAnalysisComponent)
+  },
+  {
+    path: 'code-analysis',
+    loadComponent: () => import('./pages/code-analysis.component').then(m => m.CodeAnalysisComponent)
   }
 ];

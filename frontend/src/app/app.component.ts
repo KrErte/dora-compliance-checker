@@ -52,6 +52,13 @@ import { LangService } from './lang.service';
             </svg>
             {{ lang.t('nav.contract') }}
           </a>
+          <a routerLink="/code-analysis" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-red-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+            </svg>
+            {{ lang.t('nav.code') }}
+          </a>
           <a routerLink="/history" routerLinkActive="nav-link-active"
              class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -100,6 +107,8 @@ import { LangService } from './lang.service';
              class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.compare') }}</a>
           <a routerLink="/contract-analysis" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.contract') }}</a>
+          <a routerLink="/code-analysis" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.code') }}</a>
           <a routerLink="/history" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.history') }}</a>
         </div>
@@ -123,6 +132,7 @@ import { LangService } from './lang.service';
             <a routerLink="/dashboard" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.dashboard') }}</a>
             <a routerLink="/compare" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.compare') }}</a>
             <a routerLink="/contract-analysis" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.contract') }}</a>
+            <a routerLink="/code-analysis" class="hover:text-red-400 transition-colors">{{ lang.t('nav.code') }}</a>
             <a routerLink="/history" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.history') }}</a>
           </div>
           <div class="flex flex-col items-center md:items-end gap-1">
