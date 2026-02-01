@@ -111,6 +111,11 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'contract.error': { et: 'Anal\u00fc\u00fcs eba\u00f5nnestus. Palun proovige uuesti.', en: 'Analysis failed. Please try again.' },
   'contract.summary': { et: 'Kokkuv\u00f5te', en: 'Summary' },
   'contract.download_pdf': { et: 'Laadi PDF', en: 'Download PDF' },
+  'contract.sample_title': { et: 'Pole lepingut k\u00e4ep\u00e4rast?', en: 'No contract at hand?' },
+  'contract.sample_desc': { et: 'Laadi n\u00e4idis IKT-leping testimiseks', en: 'Load a sample ICT contract for testing' },
+  'contract.load_sample': { et: 'Laadi n\u00e4idisleping', en: 'Load sample contract' },
+  'contract.risk_areas': { et: 'K\u00f5ige riskantsemad kohad', en: 'Highest Risk Areas' },
+  'contract.risk_areas_desc': { et: 'Need n\u00f5uded vajavad kohest t\u00e4helepanu', en: 'These requirements need immediate attention' },
 };
 
 @Injectable({ providedIn: 'root' })

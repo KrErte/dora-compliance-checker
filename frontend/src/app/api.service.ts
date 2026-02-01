@@ -32,4 +32,8 @@ export class ApiService {
   getContractAnalysis(id: string): Observable<ContractAnalysisResult> {
     return this.http.get<ContractAnalysisResult>(`${this.baseUrl}/contracts/${id}`);
   }
+
+  getSampleContract(): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/sample/sample-pdf`, { responseType: 'blob' });
+  }
 }

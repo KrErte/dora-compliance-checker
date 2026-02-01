@@ -16,6 +16,27 @@ import { ContractAnalysisResult } from '../models';
         <p class="text-slate-400 text-sm">{{ lang.t('contract.subtitle') }}</p>
       </div>
 
+      <!-- Load sample contract -->
+      <div class="glass-card p-5 mb-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-slate-300">{{ lang.t('contract.sample_title') }}</p>
+            <p class="text-xs text-slate-500">{{ lang.t('contract.sample_desc') }}</p>
+          </div>
+          <button (click)="loadSampleContract()" [disabled]="loadingSample"
+                  class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
+                         bg-cyan-500/10 border border-cyan-500/30 text-cyan-400
+                         hover:bg-cyan-500/20 hover:shadow-lg hover:shadow-cyan-500/10
+                         disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+            <svg *ngIf="!loadingSample" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <div *ngIf="loadingSample" class="w-4 h-4 border-2 border-cyan-400/30 border-t-cyan-400 rounded-full animate-spin"></div>
+            {{ lang.t('contract.load_sample') }}
+          </button>
+        </div>
+      </div>
+
       <div class="glass-card p-6 mb-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div>
@@ -150,6 +171,33 @@ import { ContractAnalysisResult } from '../models';
         <p class="text-sm text-slate-400 leading-relaxed">{{ result.summary }}</p>
       </div>
 
+      <!-- Riskiest Areas -->
+      <div *ngIf="riskFindings.length > 0" class="mb-6 rounded-xl border border-red-500/30 bg-red-500/5 p-5">
+        <div class="flex items-center gap-2 mb-4">
+          <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+          </svg>
+          <div>
+            <h3 class="text-sm font-semibold text-red-300">{{ lang.t('contract.risk_areas') }}</h3>
+            <p class="text-xs text-slate-500">{{ lang.t('contract.risk_areas_desc') }}</p>
+          </div>
+        </div>
+        <div *ngFor="let rf of riskFindings; let ri = index"
+             [class]="'flex items-start gap-3 py-3' + (ri > 0 ? ' border-t border-slate-700/50' : '')">
+          <span [class]="'px-2 py-0.5 rounded text-[10px] font-bold shrink-0 ' +
+                         (rf.status === 'missing' ? 'bg-red-500/20 text-red-400' : 'bg-amber-500/20 text-amber-400')">
+            {{ rf.status === 'missing' ? (lang.currentLang === 'et' ? 'PUUDU' : 'MISSING') : (lang.currentLang === 'et' ? 'OSALISELT' : 'PARTIAL') }}
+          </span>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-0.5">
+              <span class="text-sm font-medium text-slate-200">{{ lang.currentLang === 'et' ? rf.requirementEt : rf.requirementEn }}</span>
+              <span class="text-[10px] text-slate-500">{{ rf.doraReference }}</span>
+            </div>
+            <p class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? rf.recommendationEt : rf.recommendationEn }}</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Findings -->
       <div *ngFor="let finding of result.findings; let i = index"
            class="glass-card p-5 mb-3 card-hover"
@@ -220,10 +268,34 @@ export class ContractAnalysisComponent {
   selectedFile: File | null = null;
   dragOver = false;
   analyzing = false;
+  loadingSample = false;
   error = '';
   result: ContractAnalysisResult | null = null;
 
   constructor(private api: ApiService, public lang: LangService) {}
+
+  get riskFindings() {
+    if (!this.result) return [];
+    return this.result.findings
+      .filter(f => f.status === 'missing' || f.status === 'partial')
+      .sort((a, b) => a.status === 'missing' && b.status !== 'missing' ? -1 : a.status !== 'missing' && b.status === 'missing' ? 1 : 0);
+  }
+
+  loadSampleContract() {
+    this.loadingSample = true;
+    this.api.getSampleContract().subscribe({
+      next: (blob) => {
+        this.selectedFile = new File([blob], 'sample_ikt_leping.pdf', { type: 'application/pdf' });
+        this.companyName = 'OÜ DigiLahendused';
+        this.contractName = 'IKT pilveteenuse leping 2025';
+        this.loadingSample = false;
+      },
+      error: () => {
+        this.error = 'Failed to load sample contract';
+        this.loadingSample = false;
+      }
+    });
+  }
 
   get canSubmit(): boolean {
     return this.companyName.trim() !== '' &&
