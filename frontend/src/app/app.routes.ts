@@ -28,5 +28,9 @@ export const routes: Routes = [
   {
     path: 'compare',
     loadComponent: () => import('./pages/compare.component').then(m => m.CompareComponent)
+  },
+  {
+    path: 'contract-analysis',
+    loadComponent: () => import('./pages/contract-analysis.component').then(m => m.ContractAnalysisComponent)
   }
 ];

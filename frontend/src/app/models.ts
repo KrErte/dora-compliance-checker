@@ -37,6 +37,29 @@ export interface AssessmentResult {
   questionResults: QuestionResult[];
 }
 
+export interface ContractFinding {
+  requirement: string;
+  articleReference: string;
+  status: 'found' | 'missing' | 'partial';
+  quote: string;
+  recommendation: string;
+}
+
+export interface ContractAnalysisResult {
+  id: string;
+  companyName: string;
+  contractName: string;
+  fileName: string;
+  analysisDate: string;
+  totalRequirements: number;
+  foundCount: number;
+  missingCount: number;
+  partialCount: number;
+  scorePercentage: number;
+  complianceLevel: 'GREEN' | 'YELLOW' | 'RED';
+  findings: ContractFinding[];
+}
+
 export const CATEGORY_LABELS: { [key: string]: string } = {
   SERVICE_LEVEL: 'Teenustaseme nõuded',
   EXIT_STRATEGY: 'Väljumisstrateegia',

@@ -86,6 +86,29 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'history.first': { et: 'Alusta esimest hindamist', en: 'Start First Assessment' },
   'history.clear': { et: 'Kustuta ajalugu', en: 'Clear History' },
   'history.new': { et: 'Uus hindamine', en: 'New Assessment' },
+
+  // Contract Analysis
+  'nav.contract': { et: 'Lepingu audit', en: 'Contract Audit' },
+  'contract.title': { et: 'Lepingu anal\u00fc\u00fcs', en: 'Contract Analysis' },
+  'contract.subtitle': { et: 'DORA Art. 30 n\u00f5uete kontroll Claude AI abil', en: 'DORA Art. 30 compliance check with Claude AI' },
+  'contract.upload_label': { et: 'Lae \u00fcles leping (PDF v\u00f5i DOCX)', en: 'Upload contract (PDF or DOCX)' },
+  'contract.upload_hint': { et: 'Maksimaalselt 10 MB', en: 'Maximum 10 MB' },
+  'contract.company_name': { et: 'Ettev\u00f5tte nimi', en: 'Company Name' },
+  'contract.contract_name': { et: 'Lepingu nimetus', en: 'Contract Name' },
+  'contract.analyze': { et: 'Anal\u00fc\u00fcsi lepingut', en: 'Analyze Contract' },
+  'contract.analyzing': { et: 'Anal\u00fc\u00fcsin lepingut...', en: 'Analyzing contract...' },
+  'contract.ai_note': { et: 'Claude AI anal\u00fc\u00fcsib lepingut DORA Art. 30 n\u00f5uete vastu. See v\u00f5ib v\u00f5tta kuni 1 minut.', en: 'Claude AI is analyzing the contract against DORA Art. 30 requirements. This may take up to 1 minute.' },
+  'contract.results': { et: 'Anal\u00fc\u00fcsi tulemused', en: 'Analysis Results' },
+  'contract.score': { et: 'Vastavusskoor', en: 'Compliance Score' },
+  'contract.found': { et: 'Leitud', en: 'Found' },
+  'contract.missing': { et: 'Puudu', en: 'Missing' },
+  'contract.partial': { et: 'Osaliselt', en: 'Partial' },
+  'contract.quote': { et: 'Tsitaat lepingust', en: 'Quote from contract' },
+  'contract.recommendation': { et: 'Soovitus', en: 'Recommendation' },
+  'contract.new_analysis': { et: 'Uus anal\u00fc\u00fcs', en: 'New Analysis' },
+  'contract.drag_drop': { et: 'Lohista fail siia v\u00f5i kliki valimiseks', en: 'Drag file here or click to select' },
+  'contract.file_selected': { et: 'Fail valitud', en: 'File selected' },
+  'contract.error': { et: 'Anal\u00fc\u00fcs eba\u00f5nnestus. Palun proovige uuesti.', en: 'Analysis failed. Please try again.' },
 };
 
 @Injectable({ providedIn: 'root' })
