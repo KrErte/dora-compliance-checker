@@ -38,11 +38,14 @@ export interface AssessmentResult {
 }
 
 export interface ContractFinding {
-  requirement: string;
-  articleReference: string;
+  requirementId: number;
+  requirementEt: string;
+  requirementEn: string;
   status: 'found' | 'missing' | 'partial';
   quote: string;
-  recommendation: string;
+  recommendationEt: string;
+  recommendationEn: string;
+  doraReference: string;
 }
 
 export interface ContractAnalysisResult {
@@ -57,6 +60,7 @@ export interface ContractAnalysisResult {
   partialCount: number;
   scorePercentage: number;
   complianceLevel: 'GREEN' | 'YELLOW' | 'RED';
+  summary: string;
   findings: ContractFinding[];
 }
 

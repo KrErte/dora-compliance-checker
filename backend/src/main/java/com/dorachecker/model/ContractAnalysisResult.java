@@ -15,13 +15,17 @@ public record ContractAnalysisResult(
     int partialCount,
     double scorePercentage,
     String complianceLevel,
+    String summary,
     List<ContractFinding> findings
 ) {
     public record ContractFinding(
-        String requirement,
-        String articleReference,
+        int requirementId,
+        String requirementEt,
+        String requirementEn,
         String status,
         String quote,
-        String recommendation
+        String recommendationEt,
+        String recommendationEn,
+        String doraReference
     ) {}
 }

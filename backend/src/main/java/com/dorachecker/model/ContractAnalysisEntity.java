@@ -41,6 +41,9 @@ public class ContractAnalysisEntity {
     @Column(nullable = false)
     private String complianceLevel;
 
+    @Column(length = 2000)
+    private String summary;
+
     @Column(length = 20000)
     private String findingsJson;
 
@@ -49,7 +52,8 @@ public class ContractAnalysisEntity {
     public ContractAnalysisEntity(String companyName, String contractName, String fileName,
                                    LocalDateTime analysisDate, int totalRequirements,
                                    int foundCount, int missingCount, int partialCount,
-                                   double scorePercentage, String complianceLevel, String findingsJson) {
+                                   double scorePercentage, String complianceLevel,
+                                   String summary, String findingsJson) {
         this.companyName = companyName;
         this.contractName = contractName;
         this.fileName = fileName;
@@ -60,6 +64,7 @@ public class ContractAnalysisEntity {
         this.partialCount = partialCount;
         this.scorePercentage = scorePercentage;
         this.complianceLevel = complianceLevel;
+        this.summary = summary;
         this.findingsJson = findingsJson;
     }
 
@@ -85,6 +90,8 @@ public class ContractAnalysisEntity {
     public void setScorePercentage(double scorePercentage) { this.scorePercentage = scorePercentage; }
     public String getComplianceLevel() { return complianceLevel; }
     public void setComplianceLevel(String complianceLevel) { this.complianceLevel = complianceLevel; }
+    public String getSummary() { return summary; }
+    public void setSummary(String summary) { this.summary = summary; }
     public String getFindingsJson() { return findingsJson; }
     public void setFindingsJson(String findingsJson) { this.findingsJson = findingsJson; }
 }

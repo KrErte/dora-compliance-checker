@@ -18,6 +18,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +54,9 @@ public class ContractAnalysisService {
             contractText = contractText.substring(0, MAX_CONTRACT_LENGTH);
         }
 
-        List<ContractFinding> findings = callClaudeApi(contractText);
+        ClaudeResponse claudeResponse = callClaudeApi(contractText);
+        List<ContractFinding> findings = claudeResponse.findings;
+        String summary = claudeResponse.summary;
 
         int foundCount = 0;
         int missingCount = 0;
@@ -79,13 +82,13 @@ public class ContractAnalysisService {
         ContractAnalysisEntity entity = new ContractAnalysisEntity(
                 companyName, contractName, file.getOriginalFilename(),
                 LocalDateTime.now(), total, foundCount, missingCount, partialCount,
-                Math.round(score * 10.0) / 10.0, level, findingsJson);
+                Math.round(score * 10.0) / 10.0, level, summary, findingsJson);
         entity = repository.save(entity);
 
         return new ContractAnalysisResult(
                 entity.getId(), companyName, contractName, file.getOriginalFilename(),
                 entity.getAnalysisDate(), total, foundCount, missingCount, partialCount,
-                entity.getScorePercentage(), level, findings);
+                entity.getScorePercentage(), level, summary, findings);
     }
 
     public ContractAnalysisResult getById(String id) {
@@ -102,11 +105,14 @@ public class ContractAnalysisService {
                     entity.getFileName(), entity.getAnalysisDate(),
                     entity.getTotalRequirements(), entity.getFoundCount(),
                     entity.getMissingCount(), entity.getPartialCount(),
-                    entity.getScorePercentage(), entity.getComplianceLevel(), findings);
+                    entity.getScorePercentage(), entity.getComplianceLevel(),
+                    entity.getSummary(), findings);
         }).orElse(null);
     }
 
-    private List<ContractFinding> callClaudeApi(String contractText) {
+    private record ClaudeResponse(List<ContractFinding> findings, String summary) {}
+
+    private ClaudeResponse callClaudeApi(String contractText) {
         if (apiKey == null || apiKey.isBlank()) {
             throw new RuntimeException("ANTHROPIC_API_KEY is not configured");
         }
@@ -159,7 +165,28 @@ public class ContractAnalysisService {
             }
             text = text.trim();
 
-            return objectMapper.readValue(text, new TypeReference<List<ContractFinding>>() {});
+            Map<String, Object> parsed = objectMapper.readValue(text,
+                    new TypeReference<Map<String, Object>>() {});
+
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> resultsRaw = (List<Map<String, Object>>) parsed.get("results");
+            String summary = (String) parsed.getOrDefault("summary", "");
+
+            List<ContractFinding> findings = new ArrayList<>();
+            for (Map<String, Object> r : resultsRaw) {
+                findings.add(new ContractFinding(
+                        ((Number) r.get("requirementId")).intValue(),
+                        (String) r.getOrDefault("requirementEt", ""),
+                        (String) r.getOrDefault("requirementEn", ""),
+                        (String) r.get("status"),
+                        (String) r.getOrDefault("quote", ""),
+                        (String) r.getOrDefault("recommendationEt", ""),
+                        (String) r.getOrDefault("recommendationEn", ""),
+                        (String) r.getOrDefault("doraReference", "")
+                ));
+            }
+
+            return new ClaudeResponse(findings, summary);
 
         } catch (RuntimeException e) {
             throw e;
@@ -175,22 +202,33 @@ public class ContractAnalysisService {
 
                 For EACH of the following 8 requirements, determine if the contract addresses it:
 
-                1. Service scope and quality standards (SLA, KPIs) - Art. 30(2)(a)
-                2. Data location and processing (EU/EEA compliance) - Art. 30(2)(b)
-                3. Audit and inspection rights - Art. 30(2)(c)
-                4. Incident notification within 24 hours - Art. 30(2)(d)
-                5. Exit strategy and data return/deletion - Art. 30(2)(e)
-                6. Subcontracting conditions and approval - Art. 30(2)(f)
-                7. Security measures (ISO 27001, encryption, access control) - Art. 30(2)(g)
-                8. Business continuity and disaster recovery plan - Art. 30(2)(h)
+                1. Teenuse ulatus ja kvaliteet (SLA, KPI-d) / Service scope and quality (SLA, KPIs) - Art. 30(2)(a)
+                2. Andmete asukoht ja töötlemine (EU/EEA) / Data location and processing (EU/EEA) - Art. 30(2)(b)
+                3. Auditeerimis- ja inspekteerimisõigus / Audit and inspection rights - Art. 30(2)(c)
+                4. Intsidentidest teavitamine 24h jooksul / Incident notification within 24h - Art. 30(2)(d)
+                5. Väljumisstrateegia ja andmete tagastamine / Exit strategy and data return - Art. 30(2)(e)
+                6. Alltöövõtjate tingimused / Subcontracting conditions - Art. 30(2)(f)
+                7. Turvameetmed (ISO 27001, krüpteerimine) / Security measures (ISO 27001, encryption) - Art. 30(2)(g)
+                8. Ärijätkuvuse ja katastroofitaaste plaan / Business continuity and disaster recovery - Art. 30(2)(h)
 
-                Return ONLY a JSON array with exactly 8 objects. No other text.
-                Each object must have these fields:
-                - "requirement": the requirement name in Estonian
-                - "articleReference": the DORA article reference (e.g. "Art. 30(2)(a)")
-                - "status": "found" | "missing" | "partial"
-                - "quote": exact quote from the contract if found (empty string if missing)
-                - "recommendation": specific recommendation in Estonian (empty string if fully found)
+                Return ONLY a JSON object with this structure (no other text):
+                {
+                  "results": [
+                    {
+                      "requirementId": 1,
+                      "requirementEt": "requirement name in Estonian",
+                      "requirementEn": "requirement name in English",
+                      "status": "found" | "missing" | "partial",
+                      "quote": "exact quote from contract if found, empty string if missing",
+                      "recommendationEt": "specific recommendation in Estonian (empty if fully found)",
+                      "recommendationEn": "specific recommendation in English (empty if fully found)",
+                      "doraReference": "Art. 30(2)(a)"
+                    }
+                  ],
+                  "summary": "Brief 2-3 sentence summary of overall compliance in Estonian"
+                }
+
+                The results array must contain exactly 8 objects, one for each requirement above.
 
                 CONTRACT TEXT:
                 ---

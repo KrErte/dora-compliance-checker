@@ -109,6 +109,8 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'contract.drag_drop': { et: 'Lohista fail siia v\u00f5i kliki valimiseks', en: 'Drag file here or click to select' },
   'contract.file_selected': { et: 'Fail valitud', en: 'File selected' },
   'contract.error': { et: 'Anal\u00fc\u00fcs eba\u00f5nnestus. Palun proovige uuesti.', en: 'Analysis failed. Please try again.' },
+  'contract.summary': { et: 'Kokkuv\u00f5te', en: 'Summary' },
+  'contract.download_pdf': { et: 'Laadi PDF', en: 'Download PDF' },
 };
 
 @Injectable({ providedIn: 'root' })

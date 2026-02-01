@@ -144,6 +144,12 @@ import { ContractAnalysisResult } from '../models';
         </div>
       </div>
 
+      <!-- Summary -->
+      <div *ngIf="result.summary" class="glass-card p-5 mb-6">
+        <h3 class="text-sm font-semibold text-slate-300 mb-2">{{ lang.t('contract.summary') }}</h3>
+        <p class="text-sm text-slate-400 leading-relaxed">{{ result.summary }}</p>
+      </div>
+
       <!-- Findings -->
       <div *ngFor="let finding of result.findings; let i = index"
            class="glass-card p-5 mb-3 card-hover"
@@ -167,9 +173,9 @@ import { ContractAnalysisResult } from '../models';
 
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2 mb-1">
-              <h3 class="text-sm font-semibold text-slate-200">{{ finding.requirement }}</h3>
+              <h3 class="text-sm font-semibold text-slate-200">{{ lang.currentLang === 'et' ? finding.requirementEt : finding.requirementEn }}</h3>
               <span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-700/50 text-slate-400 shrink-0">
-                {{ finding.articleReference }}
+                {{ finding.doraReference }}
               </span>
             </div>
 
@@ -180,16 +186,25 @@ import { ContractAnalysisResult } from '../models';
             </div>
 
             <!-- Recommendation -->
-            <div *ngIf="finding.recommendation" class="mt-2 pl-3 border-l-2 border-amber-500/30 bg-amber-500/5 rounded-r-lg py-2 pr-3">
+            <div *ngIf="lang.currentLang === 'et' ? finding.recommendationEt : finding.recommendationEn" class="mt-2 pl-3 border-l-2 border-amber-500/30 bg-amber-500/5 rounded-r-lg py-2 pr-3">
               <p class="text-xs text-slate-500 mb-0.5">{{ lang.t('contract.recommendation') }}</p>
-              <p class="text-xs text-slate-300">{{ finding.recommendation }}</p>
+              <p class="text-xs text-slate-300">{{ lang.currentLang === 'et' ? finding.recommendationEt : finding.recommendationEn }}</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- New analysis button -->
-      <div class="text-center mt-8">
+      <!-- Action buttons -->
+      <div class="flex items-center justify-center gap-3 mt-8">
+        <button (click)="downloadPdf()"
+                class="px-6 py-2.5 rounded-lg font-medium text-sm bg-gradient-to-r from-emerald-500 to-cyan-500
+                       text-slate-900 hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-300
+                       flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          {{ lang.t('contract.download_pdf') }}
+        </button>
         <button (click)="resetForm()"
                 class="px-6 py-2.5 rounded-lg font-medium text-sm bg-slate-700/50 text-slate-300 border border-slate-600/30
                        hover:bg-slate-600/50 hover:text-emerald-400 transition-all duration-200">
@@ -283,5 +298,71 @@ export class ContractAnalysisComponent {
     this.error = '';
     this.companyName = '';
     this.contractName = '';
+  }
+
+  downloadPdf() {
+    if (!this.result) return;
+    const r = this.result;
+    const isEt = this.lang.currentLang === 'et';
+
+    const statusLabel = (s: string) => s === 'found' ? (isEt ? 'LEITUD' : 'FOUND') :
+                                        s === 'partial' ? (isEt ? 'OSALISELT' : 'PARTIAL') :
+                                                          (isEt ? 'PUUDU' : 'MISSING');
+
+    let html = `<html><head><meta charset="utf-8"><style>
+      body{font-family:Arial,sans-serif;margin:40px;color:#1e293b}
+      h1{color:#059669;font-size:22px;border-bottom:2px solid #059669;padding-bottom:8px}
+      h2{font-size:16px;margin-top:24px;color:#334155}
+      .meta{color:#64748b;font-size:13px;margin-bottom:16px}
+      .score{font-size:36px;font-weight:bold;text-align:center;padding:16px;border-radius:8px;margin:16px 0}
+      .score.green{color:#059669;background:#ecfdf5} .score.yellow{color:#d97706;background:#fffbeb} .score.red{color:#dc2626;background:#fef2f2}
+      .stats{display:flex;gap:16px;margin:12px 0}
+      .stat{flex:1;text-align:center;padding:12px;border-radius:8px;font-size:13px}
+      .stat.found{background:#ecfdf5;color:#059669} .stat.partial{background:#fffbeb;color:#d97706} .stat.missing{background:#fef2f2;color:#dc2626}
+      .stat .num{font-size:24px;font-weight:bold}
+      .finding{border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin:8px 0}
+      .finding-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+      .finding-title{font-weight:600;font-size:14px}
+      .badge{font-size:11px;padding:2px 8px;border-radius:4px;font-weight:600}
+      .badge.found{background:#dcfce7;color:#166534} .badge.partial{background:#fef3c7;color:#92400e} .badge.missing{background:#fee2e2;color:#991b1b}
+      .ref{font-size:11px;color:#94a3b8;margin-left:8px}
+      .quote{background:#f0fdf4;border-left:3px solid #34d399;padding:8px 12px;margin:6px 0;font-style:italic;font-size:12px;color:#475569}
+      .rec{background:#fffbeb;border-left:3px solid #fbbf24;padding:8px 12px;margin:6px 0;font-size:12px;color:#475569}
+      .summary{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin:12px 0;font-size:13px;color:#475569}
+      @media print{body{margin:20px}}
+    </style></head><body>`;
+    html += `<h1>DORA ${isEt ? 'Lepingu anal\u00fc\u00fcs' : 'Contract Analysis'}</h1>`;
+    html += `<div class="meta">${r.companyName} &middot; ${r.contractName} &middot; ${r.fileName}<br>${new Date(r.analysisDate).toLocaleDateString()}</div>`;
+    html += `<div class="score ${r.complianceLevel.toLowerCase()}">${r.scorePercentage.toFixed(0)}%</div>`;
+    html += `<div class="stats">
+      <div class="stat found"><div class="num">${r.foundCount}</div>${isEt ? 'Leitud' : 'Found'}</div>
+      <div class="stat partial"><div class="num">${r.partialCount}</div>${isEt ? 'Osaliselt' : 'Partial'}</div>
+      <div class="stat missing"><div class="num">${r.missingCount}</div>${isEt ? 'Puudu' : 'Missing'}</div>
+    </div>`;
+    if (r.summary) {
+      html += `<div class="summary"><strong>${isEt ? 'Kokkuv\u00f5te' : 'Summary'}:</strong> ${r.summary}</div>`;
+    }
+    html += `<h2>${isEt ? 'Detailsed tulemused' : 'Detailed Findings'}</h2>`;
+    for (const f of r.findings) {
+      const req = isEt ? f.requirementEt : f.requirementEn;
+      const rec = isEt ? f.recommendationEt : f.recommendationEn;
+      html += `<div class="finding">
+        <div class="finding-header">
+          <span class="finding-title">${f.requirementId}. ${req}<span class="ref">${f.doraReference}</span></span>
+          <span class="badge ${f.status}">${statusLabel(f.status)}</span>
+        </div>`;
+      if (f.quote) html += `<div class="quote">"${f.quote}"</div>`;
+      if (rec) html += `<div class="rec"><strong>${isEt ? 'Soovitus' : 'Recommendation'}:</strong> ${rec}</div>`;
+      html += `</div>`;
+    }
+    html += `</body></html>`;
+
+    const blob = new Blob([html], { type: 'text/html' });
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(html);
+      printWindow.document.close();
+      setTimeout(() => printWindow.print(), 500);
+    }
   }
 }
