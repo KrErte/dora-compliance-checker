@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { LangService } from './lang.service';
+import { ApiService } from './api.service';
 
 @Component({
   selector: 'app-root',
@@ -59,6 +60,25 @@ import { LangService } from './lang.service';
             </svg>
             {{ lang.t('nav.code') }}
           </a>
+          <a routerLink="/guardian" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            {{ lang.t('nav.guardian') }}
+            @if (alertCount() > 0) {
+              <span class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center">
+                {{ alertCount() > 9 ? '9+' : alertCount() }}
+              </span>
+            }
+          </a>
+          <a routerLink="/negotiations" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            {{ lang.t('nav.negotiations') }}
+          </a>
           <a routerLink="/history" routerLinkActive="nav-link-active"
              class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -109,6 +129,10 @@ import { LangService } from './lang.service';
              class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.contract') }}</a>
           <a routerLink="/code-analysis" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.code') }}</a>
+          <a routerLink="/guardian" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.guardian') }}</a>
+          <a routerLink="/negotiations" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.negotiations') }}</a>
           <a routerLink="/history" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.history') }}</a>
         </div>
@@ -147,7 +171,21 @@ import { LangService } from './lang.service';
     </footer>
   `
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   mobileMenu = false;
-  constructor(public lang: LangService) {}
+  alertCount = signal(0);
+
+  constructor(public lang: LangService, private api: ApiService) {}
+
+  ngOnInit() {
+    this.refreshAlertCount();
+    setInterval(() => this.refreshAlertCount(), 60000);
+  }
+
+  private refreshAlertCount() {
+    this.api.getAlertCount().subscribe({
+      next: (res) => this.alertCount.set(res.count),
+      error: () => {}
+    });
+  }
 }

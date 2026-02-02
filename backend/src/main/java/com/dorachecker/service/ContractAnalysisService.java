@@ -91,6 +91,58 @@ public class ContractAnalysisService {
                 entity.getScorePercentage(), level, summary, findings);
     }
 
+    /**
+     * Analyze contract from stored text (for Guardian re-analysis).
+     */
+    public ContractAnalysisResult analyzeFromText(String contractText, String companyName,
+                                                    String contractName, String fileName, String userId) {
+        if (contractText == null || contractText.isBlank()) {
+            throw new IllegalArgumentException("Lepingutekst on tühi. Uuesti analüüsimine pole võimalik.");
+        }
+
+        List<DoraQuestion> questions = questionService.getAllQuestions();
+        List<RequirementAnalysis> requirements = claudeApiService.analyzeContract(contractText, questions);
+        double score = calculateDefensibilityScore(requirements);
+        DefensibilityLevel level;
+        if (score >= 80) level = DefensibilityLevel.GREEN;
+        else if (score >= 50) level = DefensibilityLevel.YELLOW;
+        else level = DefensibilityLevel.RED;
+
+        int covered = (int) requirements.stream().filter(r -> r.status() == CoverageStatus.COVERED).count();
+        int weak = (int) requirements.stream().filter(r -> r.status() == CoverageStatus.WEAK).count();
+        int missing = (int) requirements.stream().filter(r -> r.status() == CoverageStatus.MISSING).count();
+
+        List<GapItem> gaps = buildGaps(requirements, questions);
+        String summary = generateExecutiveSummary(companyName, contractName, score, level, covered, weak, missing, gaps);
+
+        ContractAnalysisResult result = new ContractAnalysisResult(
+                null, companyName, contractName, fileName,
+                LocalDateTime.now(), score, level, covered, weak, missing,
+                requirements.size(), requirements, gaps, summary
+        );
+
+        String analysisJson;
+        try {
+            analysisJson = objectMapper.writeValueAsString(result);
+        } catch (Exception e) {
+            analysisJson = "{}";
+        }
+
+        ContractAnalysisEntity entity = new ContractAnalysisEntity(
+                companyName, contractName, fileName,
+                result.analysisDate(), score, level.name(),
+                covered, weak, missing, analysisJson
+        );
+        entity.setUserId(userId);
+        entity = repository.save(entity);
+
+        return new ContractAnalysisResult(
+                entity.getId(), companyName, contractName, fileName,
+                entity.getAnalysisDate(), score, level, covered, weak, missing,
+                requirements.size(), requirements, gaps, summary
+        );
+    }
+
     public ContractAnalysisResult getById(String id) {
         return repository.findById(id).map(entity -> {
             List<ContractFinding> findings;

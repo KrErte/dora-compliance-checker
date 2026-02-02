@@ -36,5 +36,29 @@ export const routes: Routes = [
   {
     path: 'code-analysis',
     loadComponent: () => import('./pages/code-analysis.component').then(m => m.CodeAnalysisComponent)
+  },
+  {
+    path: 'contract-results/:id',
+    loadComponent: () => import('./pages/contract-results.component').then(m => m.ContractResultsComponent)
+  },
+  {
+    path: 'negotiations',
+    loadComponent: () => import('./pages/negotiation-list.component').then(m => m.NegotiationListComponent)
+  },
+  {
+    path: 'negotiations/:id',
+    loadComponent: () => import('./pages/negotiation-detail.component').then(m => m.NegotiationDetailComponent)
+  },
+  {
+    path: 'guardian',
+    loadComponent: () => import('./pages/guardian-dashboard.component').then(m => m.GuardianDashboardComponent)
+  },
+  {
+    path: 'guardian/alerts',
+    loadComponent: () => import('./pages/guardian-alerts.component').then(m => m.GuardianAlertsComponent)
+  },
+  {
+    path: 'regulatory-updates',
+    loadComponent: () => import('./pages/regulatory-updates.component').then(m => m.RegulatoryUpdatesComponent)
   }
 ];
