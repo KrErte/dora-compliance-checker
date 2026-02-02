@@ -37,6 +37,10 @@ export class ApiService {
     return this.http.get(`${this.baseUrl}/sample/sample-pdf`, { responseType: 'blob' });
   }
 
+  downloadContractReport(id: string) {
+    window.print();
+  }
+
   // Negotiations
   createNegotiation(contractAnalysisId: string, vendorType: string): Observable<NegotiationResult> {
     return this.http.post<NegotiationResult>(`${this.baseUrl}/negotiations`, { contractAnalysisId, vendorType });
