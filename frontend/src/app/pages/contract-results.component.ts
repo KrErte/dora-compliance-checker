@@ -304,7 +304,7 @@ export class ContractResultsComponent implements OnInit {
   get filteredRequirements(): RequirementAnalysis[] {
     if (!this.result) return [];
     if (this.statusFilter === 'ALL') return this.result.requirements;
-    return this.result.requirements.filter(r => r.status === this.statusFilter);
+    return this.result.requirements.filter((r: RequirementAnalysis) => r.status === this.statusFilter);
   }
 
   tabClass(tab: string): string {
