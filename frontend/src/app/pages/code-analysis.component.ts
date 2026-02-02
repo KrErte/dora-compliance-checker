@@ -93,21 +93,7 @@ interface AnalysisResult {
             </button>
           </div>
 
-          <!-- Quality level selector -->
-          <div *ngIf="selectedMock" class="mb-4">
-            <p class="text-xs font-medium text-slate-400 mb-2">{{ lang.t('code.quality_level') }}</p>
-            <div class="grid grid-cols-3 gap-2">
-              <button *ngFor="let lvl of qualityLevels" (click)="selectedQuality = lvl.id"
-                      [class]="'p-3 rounded-lg border text-center transition-all ' +
-                               (selectedQuality === lvl.id ? lvl.activeClass : 'border-slate-700/50 bg-slate-800/30 hover:border-slate-600')">
-                <span class="text-lg block mb-1">{{ lvl.icon }}</span>
-                <span class="text-xs font-semibold block" [class]="selectedQuality === lvl.id ? lvl.textClass : 'text-slate-300'">{{ lang.currentLang === 'et' ? lvl.labelEt : lvl.label }}</span>
-                <span class="text-[10px] block mt-0.5" [class]="selectedQuality === lvl.id ? 'text-slate-300' : 'text-slate-600'">{{ lang.currentLang === 'et' ? lvl.hintEt : lvl.hint }}</span>
-              </button>
-            </div>
-          </div>
-
-          <button *ngIf="selectedMock && selectedQuality" (click)="loadMockCodebase()"
+          <button *ngIf="selectedMock" (click)="loadMockCodebase()"
                   class="w-full py-2.5 rounded-lg text-sm font-medium bg-orange-500/20 border border-orange-500/30 text-orange-300
                          hover:bg-orange-500/30 transition-all flex items-center justify-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -120,8 +106,28 @@ interface AnalysisResult {
         <!-- Divider -->
         <div class="flex items-center gap-3 mb-6">
           <div class="flex-1 border-t border-slate-700/50"></div>
-          <span class="text-xs text-slate-600 font-medium">{{ lang.currentLang === 'et' ? 'V\u00D5I' : 'OR' }}</span>
+          <span class="text-xs text-slate-600 font-medium">{{ lang.currentLang === 'et' ? 'V\u00D5I laadi oma failid' : 'OR upload your files' }}</span>
           <div class="flex-1 border-t border-slate-700/50"></div>
+        </div>
+
+        <!-- Quality level selector (shared) -->
+        <div class="glass-card p-5 mb-6 border-slate-700/30">
+          <div class="flex items-center gap-2 mb-3">
+            <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+            </svg>
+            <h3 class="text-xs font-semibold text-slate-300">{{ lang.t('code.quality_level') }}</h3>
+            <span class="text-[10px] text-slate-500">{{ lang.t('code.quality_lens_hint') }}</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <button *ngFor="let lvl of qualityLevels" (click)="selectedQuality = lvl.id"
+                    [class]="'p-3 rounded-lg border text-center transition-all ' +
+                             (selectedQuality === lvl.id ? lvl.activeClass : 'border-slate-700/50 bg-slate-800/30 hover:border-slate-600')">
+              <span class="text-lg block mb-1">{{ lvl.icon }}</span>
+              <span class="text-xs font-semibold block" [class]="selectedQuality === lvl.id ? lvl.textClass : 'text-slate-300'">{{ lang.currentLang === 'et' ? lvl.labelEt : lvl.label }}</span>
+              <span class="text-[10px] block mt-0.5" [class]="selectedQuality === lvl.id ? 'text-slate-300' : 'text-slate-600'">{{ lang.currentLang === 'et' ? lvl.hintEt : lvl.hint }}</span>
+            </button>
+          </div>
         </div>
 
         <div class="glass-card p-6 mb-6">
@@ -649,6 +655,9 @@ export class CodeAnalysisComponent {
     formData.append('companyName', this.companyName);
     formData.append('annualRevenue', String(this.annualRevenue || 0));
     formData.append('iteration', String(iteration));
+    if (this.selectedQuality) {
+      formData.append('qualityContext', this.selectedQuality);
+    }
 
     this.http.post<AnalysisResult>('/api/code-analysis/analyze', formData).subscribe({
       next: (result) => {
@@ -744,7 +753,8 @@ export class CodeAnalysisComponent {
   }
 
   loadMockCodebase() {
-    if (!this.selectedMock || !this.selectedQuality) return;
+    if (!this.selectedMock) return;
+    if (!this.selectedQuality) this.selectedQuality = 'weak';
     const code = this.getMockCode(this.selectedMock, this.selectedQuality);
     const files: File[] = [];
     for (const [name, content] of Object.entries(code)) {

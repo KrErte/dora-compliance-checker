@@ -24,13 +24,14 @@ public class CodeAnalysisController {
             @RequestParam("files") List<MultipartFile> files,
             @RequestParam(value = "companyName", defaultValue = "") String companyName,
             @RequestParam(value = "annualRevenue", defaultValue = "0") long annualRevenue,
-            @RequestParam(value = "iteration", defaultValue = "1") int iteration) {
+            @RequestParam(value = "iteration", defaultValue = "1") int iteration,
+            @RequestParam(value = "qualityContext", defaultValue = "") String qualityContext) {
 
         if (files.isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("error", "No files provided"));
         }
 
-        Map<String, Object> result = codeAnalysisService.analyze(files, companyName, annualRevenue, iteration);
+        Map<String, Object> result = codeAnalysisService.analyze(files, companyName, annualRevenue, iteration, qualityContext);
         return ResponseEntity.ok(result);
     }
 }
