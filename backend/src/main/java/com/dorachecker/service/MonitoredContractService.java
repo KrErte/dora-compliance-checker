@@ -1,9 +1,6 @@
 package com.dorachecker.service;
 
 import com.dorachecker.model.*;
-import com.dorachecker.model.ContractAnalysisResult.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,7 +13,6 @@ public class MonitoredContractService {
     private final ContractAnalysisRepository analysisRepo;
     private final ContractAnalysisService analysisService;
     private final ContractAlertService alertService;
-    private final ObjectMapper objectMapper;
 
     public MonitoredContractService(MonitoredContractRepository monitoredRepo,
                                      ContractAnalysisRepository analysisRepo,
@@ -26,8 +22,6 @@ public class MonitoredContractService {
         this.analysisRepo = analysisRepo;
         this.analysisService = analysisService;
         this.alertService = alertService;
-        this.objectMapper = new ObjectMapper();
-        this.objectMapper.registerModule(new JavaTimeModule());
     }
 
     public MonitoredContractEntity startMonitoring(String contractAnalysisId, String contractText, String userId) {
@@ -40,15 +34,11 @@ public class MonitoredContractService {
         ContractAnalysisEntity analysis = analysisRepo.findById(contractAnalysisId)
                 .orElseThrow(() -> new IllegalArgumentException("Analüüsi ei leitud: " + contractAnalysisId));
 
-        if (!analysis.getUserId().equals(userId)) {
-            throw new IllegalArgumentException("Analüüs ei kuulu kasutajale");
-        }
-
         MonitoredContractEntity monitored = new MonitoredContractEntity(
                 userId, contractAnalysisId,
                 analysis.getCompanyName(), analysis.getContractName(),
                 analysis.getFileName(), contractText,
-                analysis.getDefensibilityScore(), analysis.getDefensibilityLevel()
+                analysis.getScorePercentage(), analysis.getComplianceLevel()
         );
 
         return monitoredRepo.save(monitored);
@@ -96,8 +86,8 @@ public class MonitoredContractService {
         );
 
         // Update monitored contract with new results
-        contract.setCurrentScore(result.defensibilityScore());
-        contract.setCurrentLevel(result.defensibilityLevel().name());
+        contract.setCurrentScore(result.scorePercentage());
+        contract.setCurrentLevel(result.complianceLevel());
         contract.setLastAnalysisId(result.id());
         contract.setLastAnalysisDate(LocalDateTime.now());
         contract.setUpdatedAt(LocalDateTime.now());
@@ -105,16 +95,16 @@ public class MonitoredContractService {
 
         // Create alert if score changed significantly
         if (previousScore != null) {
-            double diff = result.defensibilityScore() - previousScore;
+            double diff = result.scorePercentage() - previousScore;
             if (Math.abs(diff) >= 2.0) {
                 String severity = diff < -10 ? "HIGH" : diff < 0 ? "MEDIUM" : "LOW";
                 String direction = diff < 0 ? "langes" : "tõusis";
                 alertService.createScoreChangeAlert(
                         userId, contract.getId(),
-                        "Kaitstavuse skoor " + direction,
-                        String.format("Lepingu \"%s\" kaitstavuse skoor %s %.1f%%-lt %.1f%%-le.",
-                                contract.getContractName(), direction, previousScore, result.defensibilityScore()),
-                        severity, previousScore, result.defensibilityScore()
+                        "Skoor " + direction,
+                        String.format("Lepingu \"%s\" skoor %s %.1f%%-lt %.1f%%-le.",
+                                contract.getContractName(), direction, previousScore, result.scorePercentage()),
+                        severity, previousScore, result.scorePercentage()
                 );
             }
         }

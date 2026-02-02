@@ -100,47 +100,43 @@ public class ContractAnalysisService {
             throw new IllegalArgumentException("Lepingutekst on tühi. Uuesti analüüsimine pole võimalik.");
         }
 
-        List<DoraQuestion> questions = questionService.getAllQuestions();
-        List<RequirementAnalysis> requirements = claudeApiService.analyzeContract(contractText, questions);
-        double score = calculateDefensibilityScore(requirements);
-        DefensibilityLevel level;
-        if (score >= 80) level = DefensibilityLevel.GREEN;
-        else if (score >= 50) level = DefensibilityLevel.YELLOW;
-        else level = DefensibilityLevel.RED;
+        if (contractText.length() > MAX_CONTRACT_LENGTH) {
+            contractText = contractText.substring(0, MAX_CONTRACT_LENGTH);
+        }
 
-        int covered = (int) requirements.stream().filter(r -> r.status() == CoverageStatus.COVERED).count();
-        int weak = (int) requirements.stream().filter(r -> r.status() == CoverageStatus.WEAK).count();
-        int missing = (int) requirements.stream().filter(r -> r.status() == CoverageStatus.MISSING).count();
+        ClaudeResponse claudeResponse = callClaudeApi(contractText);
+        List<ContractFinding> findings = claudeResponse.findings;
+        String summary = claudeResponse.summary;
 
-        List<GapItem> gaps = buildGaps(requirements, questions);
-        String summary = generateExecutiveSummary(companyName, contractName, score, level, covered, weak, missing, gaps);
+        int foundCount = 0, missingCount = 0, partialCount = 0;
+        for (ContractFinding f : findings) {
+            switch (f.status()) {
+                case "found" -> foundCount++;
+                case "missing" -> missingCount++;
+                case "partial" -> partialCount++;
+            }
+        }
+        int total = findings.size();
+        double score = total > 0 ? (foundCount + partialCount * 0.5) / total * 100.0 : 0;
+        String level = score >= 80 ? "GREEN" : score >= 50 ? "YELLOW" : "RED";
 
-        ContractAnalysisResult result = new ContractAnalysisResult(
-                null, companyName, contractName, fileName,
-                LocalDateTime.now(), score, level, covered, weak, missing,
-                requirements.size(), requirements, gaps, summary
-        );
-
-        String analysisJson;
+        String findingsJson;
         try {
-            analysisJson = objectMapper.writeValueAsString(result);
+            findingsJson = objectMapper.writeValueAsString(findings);
         } catch (Exception e) {
-            analysisJson = "{}";
+            throw new RuntimeException("Failed to serialize findings", e);
         }
 
         ContractAnalysisEntity entity = new ContractAnalysisEntity(
                 companyName, contractName, fileName,
-                result.analysisDate(), score, level.name(),
-                covered, weak, missing, analysisJson
-        );
-        entity.setUserId(userId);
+                LocalDateTime.now(), total, foundCount, missingCount, partialCount,
+                Math.round(score * 10.0) / 10.0, level, summary, findingsJson);
         entity = repository.save(entity);
 
         return new ContractAnalysisResult(
                 entity.getId(), companyName, contractName, fileName,
-                entity.getAnalysisDate(), score, level, covered, weak, missing,
-                requirements.size(), requirements, gaps, summary
-        );
+                entity.getAnalysisDate(), total, foundCount, missingCount, partialCount,
+                entity.getScorePercentage(), level, summary, findings);
     }
 
     public ContractAnalysisResult getById(String id) {

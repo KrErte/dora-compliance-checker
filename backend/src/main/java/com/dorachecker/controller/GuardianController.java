@@ -7,7 +7,6 @@ import com.dorachecker.service.ContractAlertService;
 import com.dorachecker.service.MonitoredContractService;
 import com.dorachecker.service.RegulatoryFeedService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -17,6 +16,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/guardian")
 public class GuardianController {
+
+    private static final String DEFAULT_USER = "anonymous";
 
     private final MonitoredContractService monitoredContractService;
     private final ContractAlertService alertService;
@@ -33,9 +34,7 @@ public class GuardianController {
     // --- Monitored Contracts ---
 
     @PostMapping("/monitor")
-    public ResponseEntity<MonitoredContractEntity> startMonitoring(@RequestBody Map<String, String> body,
-                                                                     Authentication authentication) {
-        String userId = (String) authentication.getPrincipal();
+    public ResponseEntity<MonitoredContractEntity> startMonitoring(@RequestBody Map<String, String> body) {
         String analysisId = body.get("contractAnalysisId");
         String contractText = body.get("contractText");
 
@@ -46,56 +45,45 @@ public class GuardianController {
             return ResponseEntity.badRequest().build();
         }
 
-        MonitoredContractEntity result = monitoredContractService.startMonitoring(analysisId, contractText, userId);
+        MonitoredContractEntity result = monitoredContractService.startMonitoring(analysisId, contractText, DEFAULT_USER);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/contracts")
-    public ResponseEntity<List<MonitoredContractEntity>> getContracts(Authentication authentication) {
-        String userId = (String) authentication.getPrincipal();
-        return ResponseEntity.ok(monitoredContractService.getContracts(userId));
+    public ResponseEntity<List<MonitoredContractEntity>> getContracts() {
+        return ResponseEntity.ok(monitoredContractService.getContracts(DEFAULT_USER));
     }
 
     @PutMapping("/contracts/{id}/pause")
-    public ResponseEntity<MonitoredContractEntity> pause(@PathVariable String id,
-                                                          Authentication authentication) {
-        String userId = (String) authentication.getPrincipal();
-        return ResponseEntity.ok(monitoredContractService.pause(id, userId));
+    public ResponseEntity<MonitoredContractEntity> pause(@PathVariable String id) {
+        return ResponseEntity.ok(monitoredContractService.pause(id, DEFAULT_USER));
     }
 
     @PutMapping("/contracts/{id}/resume")
-    public ResponseEntity<MonitoredContractEntity> resume(@PathVariable String id,
-                                                           Authentication authentication) {
-        String userId = (String) authentication.getPrincipal();
-        return ResponseEntity.ok(monitoredContractService.resume(id, userId));
+    public ResponseEntity<MonitoredContractEntity> resume(@PathVariable String id) {
+        return ResponseEntity.ok(monitoredContractService.resume(id, DEFAULT_USER));
     }
 
     @PostMapping("/contracts/{id}/reanalyze")
-    public ResponseEntity<MonitoredContractEntity> reanalyze(@PathVariable String id,
-                                                              Authentication authentication) {
-        String userId = (String) authentication.getPrincipal();
-        return ResponseEntity.ok(monitoredContractService.reanalyze(id, userId));
+    public ResponseEntity<MonitoredContractEntity> reanalyze(@PathVariable String id) {
+        return ResponseEntity.ok(monitoredContractService.reanalyze(id, DEFAULT_USER));
     }
 
     // --- Alerts ---
 
     @GetMapping("/alerts")
-    public ResponseEntity<List<ContractAlertEntity>> getAlerts(Authentication authentication) {
-        String userId = (String) authentication.getPrincipal();
-        return ResponseEntity.ok(alertService.getAlerts(userId));
+    public ResponseEntity<List<ContractAlertEntity>> getAlerts() {
+        return ResponseEntity.ok(alertService.getAlerts(DEFAULT_USER));
     }
 
     @GetMapping("/alerts/count")
-    public ResponseEntity<Map<String, Long>> getAlertCount(Authentication authentication) {
-        String userId = (String) authentication.getPrincipal();
-        return ResponseEntity.ok(Map.of("count", alertService.getUnreadCount(userId)));
+    public ResponseEntity<Map<String, Long>> getAlertCount() {
+        return ResponseEntity.ok(Map.of("count", alertService.getUnreadCount(DEFAULT_USER)));
     }
 
     @PutMapping("/alerts/{id}/read")
-    public ResponseEntity<Void> markAlertRead(@PathVariable String id,
-                                               Authentication authentication) {
-        String userId = (String) authentication.getPrincipal();
-        alertService.markAsRead(id, userId);
+    public ResponseEntity<Void> markAlertRead(@PathVariable String id) {
+        alertService.markAsRead(id, DEFAULT_USER);
         return ResponseEntity.ok().build();
     }
 

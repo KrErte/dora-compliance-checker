@@ -1,7 +1,7 @@
 package com.dorachecker.service;
 
 import com.dorachecker.model.*;
-import com.dorachecker.model.ContractAnalysisResult.GapItem;
+import com.dorachecker.model.ContractAnalysisResult.ContractFinding;
 import com.dorachecker.model.NegotiationResult.*;
 import com.dorachecker.service.ClaudeApiService.NegotiationEmailItem;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -51,17 +51,21 @@ public class NegotiationService {
                 analysis.contractName(), vendorType
         );
 
-        List<GapItem> gaps = analysis.gaps();
+        // Filter findings to only missing/partial (gaps)
+        List<ContractFinding> gaps = analysis.findings().stream()
+                .filter(f -> "missing".equals(f.status()) || "partial".equals(f.status()))
+                .toList();
+
         negotiation.setTotalItems(gaps.size());
         negotiation = negotiationRepo.save(negotiation);
 
         // Create items from gaps
         int priority = 1;
-        for (GapItem gap : gaps) {
+        for (ContractFinding gap : gaps) {
             NegotiationItemEntity item = new NegotiationItemEntity(
-                    negotiation.getId(), gap.requirementId(), gap.articleReference(),
-                    gap.requirementText(), gap.severity(), gap.status().name(),
-                    gap.suggestedClause(), priority++
+                    negotiation.getId(), gap.requirementId(), gap.doraReference(),
+                    gap.requirementEt(), gap.status().equals("missing") ? "HIGH" : "MEDIUM",
+                    gap.status(), gap.recommendationEt(), priority++
             );
             itemRepo.save(item);
         }
@@ -76,10 +80,14 @@ public class NegotiationService {
             throw new IllegalArgumentException("Lepinguanalüüsi ei leitud.");
         }
 
+        List<ContractFinding> gaps = analysis.findings().stream()
+                .filter(f -> "missing".equals(f.status()) || "partial".equals(f.status()))
+                .toList();
+
         String responseJson = claudeApiService.generateNegotiationStrategy(
                 negotiation.getCompanyName(), negotiation.getContractName(),
-                negotiation.getVendorType(), analysis.defensibilityScore(),
-                analysis.gaps()
+                negotiation.getVendorType(), analysis.scorePercentage(),
+                gaps
         );
 
         try {
@@ -193,14 +201,12 @@ public class NegotiationService {
         NegotiationItemEntity item = itemRepo.findById(itemId)
                 .orElseThrow(() -> new IllegalArgumentException("Punkti ei leitud: " + itemId));
 
-        // Verify ownership
         getNegotiationEntity(item.getNegotiationId(), userId);
 
         item.setStatus(newStatus);
         item.setUpdatedAt(LocalDateTime.now());
         itemRepo.save(item);
 
-        // Update resolved count
         NegotiationEntity negotiation = negotiationRepo.findById(item.getNegotiationId()).orElseThrow();
         List<NegotiationItemEntity> allItems = itemRepo.findByNegotiationIdOrderByPriorityAsc(negotiation.getId());
         int resolved = (int) allItems.stream().filter(i -> "AGREED".equals(i.getStatus())).count();
