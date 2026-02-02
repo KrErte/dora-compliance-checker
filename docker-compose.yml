@@ -9,6 +9,7 @@ services:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - GUARDIAN_FEED_ENABLED=${GUARDIAN_FEED_ENABLED:-false}
       - GUARDIAN_FEED_CRON=${GUARDIAN_FEED_CRON:-0 0 6 * * *}
+      - JWT_SECRET=${JWT_SECRET:-DoraComplianceCheckerDefaultSecretKeyThatIsAtLeast256BitsLong2024}
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/api-docs"]
       interval: 30s
