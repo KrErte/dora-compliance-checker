@@ -92,7 +92,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   // Landing - Features
   'landing.features_label': { et: 'Platvormi v\u00f5imalused', en: 'Platform Features' },
   'landing.features_title': { et: 'K\u00f5ik, mida vajate DORA vastavuseks', en: 'Everything you need for DORA compliance' },
-  'landing.feat_ai_title': { et: 'Claude AI lepinguaudit', en: 'Claude AI Contract Audit' },
+  'landing.feat_ai_title': { et: 'Automaatne lepinguaudit', en: 'Automated Contract Audit' },
   'landing.feat_ai_desc': { et: 'Laadige \u00fcles PDF/DOCX ja saage kohene anal\u00fc\u00fcs DORA Art. 30 vastu.', en: 'Upload PDF/DOCX and get instant analysis against DORA Art. 30.' },
   'landing.feat_fast_title': { et: 'Kiire hindamine', en: 'Quick Assessment' },
   'landing.feat_fast_desc': { et: '37 k\u00fcsimust, tulemused koheselt. Valmis 5 minutiga.', en: '37 questions, instant results. Done in 5 minutes.' },
@@ -110,8 +110,8 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.steps_title': { et: 'Kolm lihtsat sammu', en: 'Three simple steps' },
   'landing.step1_title': { et: 'Laadige leping \u00fcles', en: 'Upload your contract' },
   'landing.step1_desc': { et: 'PDF v\u00f5i DOCX kuni 10 MB, v\u00f5i proovige meie n\u00e4idislepinguga', en: 'PDF or DOCX up to 10 MB, or try our sample contract' },
-  'landing.step2_title': { et: 'AI anal\u00fc\u00fcsib', en: 'AI analyzes' },
-  'landing.step2_desc': { et: 'Claude AI kontrollib lepingut DORA Art. 30 n\u00f5uete vastu', en: 'Claude AI checks contract against DORA Art. 30 requirements' },
+  'landing.step2_title': { et: 'S\u00fcsteem anal\u00fc\u00fcsib', en: 'System analyzes' },
+  'landing.step2_desc': { et: 'Automaatne anal\u00fc\u00fcs kontrollib lepingut DORA Art. 30 n\u00f5uete vastu', en: 'Automated analysis checks contract against DORA Art. 30 requirements' },
   'landing.step3_title': { et: 'Saate tulemused', en: 'Get results' },
   'landing.step3_desc': { et: 'Detailne aruanne puudustega, tsitaatidega ja soovitustega', en: 'Detailed report with gaps, quotes and recommendations' },
   'landing.step1.title': { et: 'Sisesta andmed', en: 'Enter Data' },
@@ -193,6 +193,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.trust_title': { et: 'Loodud Eesti finantssektorile', en: 'Built for Estonian Financial Sector' },
   'landing.trust_desc': { et: 'P\u00f5hineb DORA m\u00e4\u00e4rusel 2022/2554. Eestikeelne. Andmed ei lahku Euroopa Liidust.', en: 'Based on DORA regulation 2022/2554. In Estonian. Data stays within the EU.' },
   'landing.trust_eu_data': { et: 'Andmed EL-is', en: 'Data in EU' },
+  'landing.trust_ai': { et: 'AI anal\u00fc\u00fcs', en: 'AI Analysis' },
 
   // Landing - EU compliance
   'landing.eu_compliance': { et: 'EU regulatsioonide vastavus', en: 'EU Regulatory Compliance' },
@@ -262,7 +263,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'results.fine_note': { et: 'Hinnang p\u00f5hineb DORA m\u00e4\u00e4rusel 2022/2554 ja Finantsinspektsiooni j\u00e4relevalvepraktikal', en: 'Estimate based on DORA regulation 2022/2554 and Finantsinspektsioon supervisory practice' },
   'results.of_turnover': { et: 'k\u00e4ibest', en: 'of turnover' },
   'results.cta_contract_title': { et: 'Kontrollige ka oma IKT-lepinguid', en: 'Also check your ICT contracts' },
-  'results.cta_contract_desc': { et: 'Claude AI anal\u00fc\u00fcsib lepingut DORA Art. 30 n\u00f5uete vastu ja annab soovitused puuduste k\u00f5rvaldamiseks', en: 'Claude AI analyzes contracts against DORA Art. 30 requirements and provides recommendations for fixing gaps' },
+  'results.cta_contract_desc': { et: 'Automaatne anal\u00fc\u00fcs kontrollib lepingut DORA Art. 30 n\u00f5uete vastu ja annab soovitused puuduste k\u00f5rvaldamiseks', en: 'Automated analysis checks contracts against DORA Art. 30 requirements and provides recommendations for fixing gaps' },
   'results.cta_contract_btn': { et: 'Anal\u00fc\u00fcsi lepingut', en: 'Analyze contract' },
 
   // History
@@ -282,14 +283,14 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   // Contract Analysis
   'nav.contract': { et: 'Lepingu audit', en: 'Contract Audit' },
   'contract.title': { et: 'Lepingu anal\u00fc\u00fcs', en: 'Contract Analysis' },
-  'contract.subtitle': { et: 'DORA Art. 30 n\u00f5uete kontroll Claude AI abil', en: 'DORA Art. 30 compliance check with Claude AI' },
+  'contract.subtitle': { et: 'DORA Art. 30 n\u00f5uete automaatne kontroll', en: 'Automated DORA Art. 30 compliance check' },
   'contract.upload_label': { et: 'Lae \u00fcles leping (PDF v\u00f5i DOCX)', en: 'Upload contract (PDF or DOCX)' },
   'contract.upload_hint': { et: 'Maksimaalselt 10 MB', en: 'Maximum 10 MB' },
   'contract.company_name': { et: 'Ettev\u00f5tte nimi', en: 'Company Name' },
   'contract.contract_name': { et: 'Lepingu nimetus', en: 'Contract Name' },
   'contract.analyze': { et: 'Anal\u00fc\u00fcsi lepingut', en: 'Analyze Contract' },
   'contract.analyzing': { et: 'Anal\u00fc\u00fcsin lepingut...', en: 'Analyzing contract...' },
-  'contract.ai_note': { et: 'Claude AI anal\u00fc\u00fcsib lepingut DORA Art. 30 n\u00f5uete vastu. See v\u00f5ib v\u00f5tta kuni 1 minut.', en: 'Claude AI is analyzing the contract against DORA Art. 30 requirements. This may take up to 1 minute.' },
+  'contract.ai_note': { et: 'Anal\u00fc\u00fcsime lepingut DORA Art. 30 n\u00f5uete vastu. See v\u00f5ib v\u00f5tta kuni 1 minut.', en: 'Analyzing the contract against DORA Art. 30 requirements. This may take up to 1 minute.' },
   'contract.results': { et: 'Anal\u00fc\u00fcsi tulemused', en: 'Analysis Results' },
   'contract.score': { et: 'Vastavusskoor', en: 'Compliance Score' },
   'contract.found': { et: 'Leitud', en: 'Found' },
