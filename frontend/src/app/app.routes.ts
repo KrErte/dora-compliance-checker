@@ -1,6 +1,10 @@
 import { Routes } from '@angular/router';
 import { authGuard, guestGuard } from './auth/auth.guard';
 
+// MVP: DORA Article 30 ICT Contract Compliance Engine
+// Kept: Assessment, Contract Audit, Results, Methodology, History
+// Removed: Code Audit, Compare, Dashboard, Guardian, Negotiations, Incident Simulator
+
 export const routes: Routes = [
   {
     path: '',
@@ -37,23 +41,8 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
-    path: 'dashboard',
-    loadComponent: () => import('./pages/dashboard.component').then(m => m.DashboardComponent),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'compare',
-    loadComponent: () => import('./pages/compare.component').then(m => m.CompareComponent),
-    canActivate: [authGuard]
-  },
-  {
     path: 'contract-analysis',
     loadComponent: () => import('./pages/contract-analysis.component').then(m => m.ContractAnalysisComponent),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'code-analysis',
-    loadComponent: () => import('./pages/code-analysis.component').then(m => m.CodeAnalysisComponent),
     canActivate: [authGuard]
   },
   {
@@ -62,33 +51,8 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
-    path: 'negotiations',
-    loadComponent: () => import('./pages/negotiation-list.component').then(m => m.NegotiationListComponent),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'negotiations/:id',
-    loadComponent: () => import('./pages/negotiation-detail.component').then(m => m.NegotiationDetailComponent),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'guardian',
-    loadComponent: () => import('./pages/guardian-dashboard.component').then(m => m.GuardianDashboardComponent),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'guardian/alerts',
-    loadComponent: () => import('./pages/guardian-alerts.component').then(m => m.GuardianAlertsComponent),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'regulatory-updates',
-    loadComponent: () => import('./pages/regulatory-updates.component').then(m => m.RegulatoryUpdatesComponent),
-    canActivate: [authGuard]
-  },
-  {
-    path: 'incident-simulator',
-    loadComponent: () => import('./pages/incident-simulator.component').then(m => m.IncidentSimulatorComponent),
+    path: 'methodology',
+    loadComponent: () => import('./pages/methodology.component').then(m => m.MethodologyComponent),
     canActivate: [authGuard]
   }
 ];
