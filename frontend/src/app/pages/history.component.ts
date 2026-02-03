@@ -26,14 +26,6 @@ interface HistoryEntry {
           <p class="text-slate-500 text-sm mt-1">{{ history.length }} hindamist kokku</p>
         </div>
         <div class="flex gap-2">
-          <a routerLink="/compare"
-             class="bg-slate-700/50 hover:bg-slate-600/50 text-slate-200 font-semibold px-4 py-2 rounded-lg
-                    transition-all duration-300 border border-slate-600/50 hover:border-emerald-500/30 flex items-center gap-2 text-sm">
-            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7"/>
-            </svg>
-            V&otilde;rdle
-          </a>
           <a routerLink="/assessment"
              class="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
                     text-slate-900 font-semibold px-5 py-2 rounded-lg transition-all duration-300
