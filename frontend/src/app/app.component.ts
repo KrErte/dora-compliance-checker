@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { LangService } from './lang.service';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -22,50 +23,54 @@ import { LangService } from './lang.service';
           </div>
         </a>
 
-        <!-- Desktop nav -->
+        <!-- Desktop nav - MVP: 5 items max -->
         <div class="hidden sm:flex items-center gap-1">
-          <a routerLink="/dashboard" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-            </svg>
-            {{ lang.t('nav.dashboard') }}
-          </a>
-          <a routerLink="/assessment" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-            </svg>
-            {{ lang.t('nav.assessment') }}
-          </a>
-          <a routerLink="/compare" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7"/>
-            </svg>
-            {{ lang.t('nav.compare') }}
-          </a>
-          <a routerLink="/contract-analysis" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-            </svg>
-            {{ lang.t('nav.contract') }}
-          </a>
-          <a routerLink="/code-analysis" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-red-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
-            </svg>
-            {{ lang.t('nav.code') }}
-          </a>
-          <a routerLink="/history" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            {{ lang.t('nav.history') }}
-          </a>
+          @if (auth.isLoggedIn()) {
+            <a routerLink="/assessment" routerLinkActive="nav-link-active"
+               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+              </svg>
+              {{ lang.t('nav.assessment') }}
+            </a>
+            <a routerLink="/contract-analysis" routerLinkActive="nav-link-active"
+               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              {{ lang.t('nav.contract') }}
+            </a>
+            <a routerLink="/methodology" routerLinkActive="nav-link-active"
+               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+              </svg>
+              {{ lang.t('nav.methodology') }}
+            </a>
+            <a routerLink="/history" routerLinkActive="nav-link-active"
+               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              {{ lang.t('nav.history') }}
+            </a>
+            <div class="w-px h-5 bg-slate-700/50 mx-1"></div>
+            <span class="text-xs text-slate-500 px-2 truncate max-w-[120px]">{{ auth.user()?.email }}</span>
+            <button (click)="auth.logout()"
+                    class="text-sm text-slate-400 hover:text-red-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+              {{ lang.t('auth.logout') }}
+            </button>
+          } @else {
+            <a routerLink="/login"
+               class="text-sm text-emerald-400 hover:text-emerald-300 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+              {{ lang.t('auth.login') }}
+            </a>
+            <a routerLink="/register"
+               class="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
+                      hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-200">
+              {{ lang.t('auth.register') }}
+            </a>
+          }
           <div class="w-px h-5 bg-slate-700/50 mx-1"></div>
           <button (click)="lang.toggle()"
                   class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
@@ -96,21 +101,31 @@ import { LangService } from './lang.service';
         </div>
       </div>
 
-      <!-- Mobile menu -->
+      <!-- Mobile menu - MVP: 4 items -->
       <div *ngIf="mobileMenu" class="sm:hidden border-t border-slate-700/50 bg-slate-800/95 backdrop-blur-xl">
         <div class="px-4 py-3 flex flex-col gap-1">
-          <a routerLink="/dashboard" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.dashboard') }}</a>
-          <a routerLink="/assessment" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.assessment') }}</a>
-          <a routerLink="/compare" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.compare') }}</a>
-          <a routerLink="/contract-analysis" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.contract') }}</a>
-          <a routerLink="/code-analysis" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.code') }}</a>
-          <a routerLink="/history" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.history') }}</a>
+          @if (auth.isLoggedIn()) {
+            <a routerLink="/assessment" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.assessment') }}</a>
+            <a routerLink="/contract-analysis" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.contract') }}</a>
+            <a routerLink="/methodology" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.methodology') }}</a>
+            <a routerLink="/history" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.history') }}</a>
+            <div class="border-t border-slate-700/50 mt-2 pt-2">
+              <span class="text-xs text-slate-500 px-3">{{ auth.user()?.email }}</span>
+              <button (click)="auth.logout(); mobileMenu = false"
+                      class="w-full text-left text-sm text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 mt-1">
+                {{ lang.t('auth.logout') }}
+              </button>
+            </div>
+          } @else {
+            <a routerLink="/login" (click)="mobileMenu = false"
+               class="text-sm text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('auth.login') }}</a>
+            <a routerLink="/register" (click)="mobileMenu = false"
+               class="text-sm text-white bg-emerald-500/20 px-3 py-2 rounded-lg hover:bg-emerald-500/30">{{ lang.t('auth.register') }}</a>
+          }
         </div>
       </div>
     </nav>
@@ -129,10 +144,8 @@ import { LangService } from './lang.service';
           </div>
           <div class="flex items-center gap-6 text-xs text-slate-600">
             <a routerLink="/assessment" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.assessment') }}</a>
-            <a routerLink="/dashboard" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.dashboard') }}</a>
-            <a routerLink="/compare" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.compare') }}</a>
             <a routerLink="/contract-analysis" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.contract') }}</a>
-            <a routerLink="/code-analysis" class="hover:text-red-400 transition-colors">{{ lang.t('nav.code') }}</a>
+            <a routerLink="/methodology" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.methodology') }}</a>
             <a routerLink="/history" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.history') }}</a>
           </div>
           <div class="flex flex-col items-center md:items-end gap-1">
@@ -149,5 +162,6 @@ import { LangService } from './lang.service';
 })
 export class AppComponent {
   mobileMenu = false;
-  constructor(public lang: LangService) {}
+
+  constructor(public lang: LangService, public auth: AuthService) {}
 }

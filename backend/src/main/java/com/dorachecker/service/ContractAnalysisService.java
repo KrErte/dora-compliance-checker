@@ -91,6 +91,54 @@ public class ContractAnalysisService {
                 entity.getScorePercentage(), level, summary, findings);
     }
 
+    /**
+     * Analyze contract from stored text (for Guardian re-analysis).
+     */
+    public ContractAnalysisResult analyzeFromText(String contractText, String companyName,
+                                                    String contractName, String fileName, String userId) {
+        if (contractText == null || contractText.isBlank()) {
+            throw new IllegalArgumentException("Lepingutekst on tühi. Uuesti analüüsimine pole võimalik.");
+        }
+
+        if (contractText.length() > MAX_CONTRACT_LENGTH) {
+            contractText = contractText.substring(0, MAX_CONTRACT_LENGTH);
+        }
+
+        ClaudeResponse claudeResponse = callClaudeApi(contractText);
+        List<ContractFinding> findings = claudeResponse.findings;
+        String summary = claudeResponse.summary;
+
+        int foundCount = 0, missingCount = 0, partialCount = 0;
+        for (ContractFinding f : findings) {
+            switch (f.status()) {
+                case "found" -> foundCount++;
+                case "missing" -> missingCount++;
+                case "partial" -> partialCount++;
+            }
+        }
+        int total = findings.size();
+        double score = total > 0 ? (foundCount + partialCount * 0.5) / total * 100.0 : 0;
+        String level = score >= 80 ? "GREEN" : score >= 50 ? "YELLOW" : "RED";
+
+        String findingsJson;
+        try {
+            findingsJson = objectMapper.writeValueAsString(findings);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to serialize findings", e);
+        }
+
+        ContractAnalysisEntity entity = new ContractAnalysisEntity(
+                companyName, contractName, fileName,
+                LocalDateTime.now(), total, foundCount, missingCount, partialCount,
+                Math.round(score * 10.0) / 10.0, level, summary, findingsJson);
+        entity = repository.save(entity);
+
+        return new ContractAnalysisResult(
+                entity.getId(), companyName, contractName, fileName,
+                entity.getAnalysisDate(), total, foundCount, missingCount, partialCount,
+                entity.getScorePercentage(), level, summary, findings);
+    }
+
     public ContractAnalysisResult getById(String id) {
         return repository.findById(id).map(entity -> {
             List<ContractFinding> findings;

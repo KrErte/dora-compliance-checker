@@ -293,7 +293,7 @@ import { LangService } from '../lang.service';
             </div>
             <div class="flex flex-wrap gap-2 shrink-0">
               <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs text-emerald-400 font-medium">DORA 2022/2554</span>
-              <span class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-xs text-cyan-400 font-medium">Claude AI</span>
+              <span class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded-full text-xs text-cyan-400 font-medium">{{ lang.t('landing.trust_ai') }}</span>
               <span class="px-3 py-1 bg-violet-500/10 border border-violet-500/20 rounded-full text-xs text-violet-400 font-medium">{{ lang.t('landing.trust_eu_data') }}</span>
             </div>
           </div>
@@ -353,11 +353,11 @@ export class LandingComponent implements OnInit, AfterViewInit, OnDestroy {
   private animationFrame = 0;
   private particles: { x: number; y: number; vx: number; vy: number; size: number; opacity: number }[] = [];
 
+  // MVP: Removed crypto sector - focus on core financial entities
   sectors = [
     { icon: '\u{1F3E6}', titleKey: 'landing.sector_banks', examplesKey: 'landing.sector_banks_ex', painKey: 'landing.sector_banks_pain' },
     { icon: '\u{1F6E1}\uFE0F', titleKey: 'landing.sector_insurance', examplesKey: 'landing.sector_insurance_ex', painKey: 'landing.sector_insurance_pain' },
     { icon: '\u{1F4B3}', titleKey: 'landing.sector_payments', examplesKey: 'landing.sector_payments_ex', painKey: 'landing.sector_payments_pain' },
-    { icon: '\u20BF', titleKey: 'landing.sector_crypto', examplesKey: 'landing.sector_crypto_ex', painKey: 'landing.sector_crypto_pain' },
     { icon: '\u{1F4B0}', titleKey: 'landing.sector_funds', examplesKey: 'landing.sector_funds_ex', painKey: 'landing.sector_funds_pain' },
     { icon: '\u{1F4BB}', titleKey: 'landing.sector_ict', examplesKey: 'landing.sector_ict_ex', painKey: 'landing.sector_ict_pain' }
   ];
