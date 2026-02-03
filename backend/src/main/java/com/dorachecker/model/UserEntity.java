@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 @Table(name = "users")
 public class UserEntity {
 
+    public enum Role { USER, ADMIN }
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -18,6 +20,10 @@ public class UserEntity {
     private String password;
 
     private String fullName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role = Role.USER;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -38,4 +44,7 @@ public class UserEntity {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public Role getRole() { return role; }
+    public void setRole(Role role) { this.role = role; }
 }
