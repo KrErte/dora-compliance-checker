@@ -336,7 +336,7 @@ export class ContractAnalysisComponent implements OnInit {
     this.api.getSampleContract().subscribe({
       next: (blob) => {
         this.selectedFile = new File([blob], 'sample_ikt_leping.pdf', { type: 'application/pdf' });
-        this.companyName = 'OÜ DigiLahendused';
+        this.companyName = 'OÜ Näidis Finants';
         this.contractName = 'IKT pilveteenuse leping 2025';
         this.loadingSample = false;
         this.onSubmit();
@@ -358,7 +358,7 @@ export class ContractAnalysisComponent implements OnInit {
     this.api.getSampleContract().subscribe({
       next: (blob) => {
         this.selectedFile = new File([blob], 'sample_ikt_leping.pdf', { type: 'application/pdf' });
-        this.companyName = 'OÜ DigiLahendused';
+        this.companyName = 'OÜ Näidis Finants';
         this.contractName = 'IKT pilveteenuse leping 2025';
         this.loadingSample = false;
         this.onSubmit();

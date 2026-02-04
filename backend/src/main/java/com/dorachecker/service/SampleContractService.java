@@ -28,8 +28,9 @@ public class SampleContractService {
             doc.add(new Paragraph("1. LEPINGU POOLED")
                     .setFontSize(14).setBold());
             doc.add(new Paragraph(
-                    "Käesolev leping on sõlmitud OÜ DigiLahendused (edaspidi \"Klient\") ja " +
-                    "AS CloudTech Solutions (edaspidi \"Teenusepakkuja\") vahel."));
+                    "Käesolev leping on sõlmitud OÜ Näidis Finants (edaspidi \"Klient\") ja " +
+                    "AS Demo Pilveteenused (edaspidi \"Teenusepakkuja\") vahel.\n\n" +
+                    "[NB: See on näidisleping testimise eesmärgil. Ettevõtete nimed on fiktiivsed.]"));
 
             doc.add(new Paragraph("\n2. TEENUSE KIRJELDUS JA KVALITEET")
                     .setFontSize(14).setBold());

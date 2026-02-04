@@ -95,8 +95,8 @@ interface Stat {
            (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
            [class.drag-over]="isDragging">
         <div class="text-4xl mb-4">📄</div>
-        <p class="text-slate-300 font-medium mb-2">Lohista PDF või DOCX siia</p>
-        <p class="text-slate-500 text-sm mb-4">Või kliki faili valimiseks</p>
+        <p class="text-slate-300 font-medium mb-2">{{ lang.t('landing.upload_drag') }}</p>
+        <p class="text-slate-500 text-sm mb-4">{{ lang.t('landing.upload_click') }}</p>
         <div class="flex justify-center gap-4 text-xs text-slate-600">
           <span>Max 10MB</span>
           <span>•</span>
@@ -108,18 +108,18 @@ interface Stat {
     <!-- Interactive DORA Requirements Table -->
     <div class="py-16 max-w-4xl mx-auto px-4">
       <div class="text-center mb-10">
-        <p class="text-xs font-medium text-teal-400 uppercase tracking-wider mb-2">Interaktiivne kontroll</p>
-        <h2 class="text-2xl font-bold text-slate-100">DORA Art. 30 Nõuded</h2>
-        <p class="text-slate-500 text-sm mt-2">Kliki nõudel, et näha selgitust</p>
+        <p class="text-xs font-medium text-teal-400 uppercase tracking-wider mb-2">{{ lang.t('landing.interactive_label') }}</p>
+        <h2 class="text-2xl font-bold text-slate-100">{{ lang.t('landing.interactive_title') }}</h2>
+        <p class="text-slate-500 text-sm mt-2">{{ lang.t('landing.interactive_desc') }}</p>
       </div>
 
       <div class="requirements-table rounded-xl overflow-hidden border border-slate-700/50">
         <table class="w-full">
           <thead class="bg-slate-800/80">
             <tr>
-              <th class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider w-12">✓</th>
-              <th class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">Nõue</th>
-              <th class="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider w-20">Staatus</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider w-12">{{ lang.t('landing.table_check') }}</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">{{ lang.t('landing.table_requirement') }}</th>
+              <th class="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider w-20">{{ lang.t('landing.table_status') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -135,10 +135,10 @@ interface Stat {
                 </td>
                 <td class="px-4 py-4 text-right">
                   <span *ngIf="req.checked" class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-teal-500/20 text-teal-400">
-                    OK
+                    {{ lang.t('landing.table_ok') }}
                   </span>
                   <span *ngIf="!req.checked" class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-500/20 text-amber-400">
-                    Puudu
+                    {{ lang.t('landing.table_missing') }}
                   </span>
                 </td>
               </tr>
@@ -147,7 +147,7 @@ interface Stat {
                   <div class="text-sm text-slate-400 pl-9">
                     <p class="mb-2">{{ req.description }}</p>
                     <a routerLink="/contract-analysis" class="text-teal-400 hover:text-teal-300 text-xs font-medium">
-                      → Kontrolli oma lepingut
+                      → {{ lang.t('landing.table_check_contract') }}
                     </a>
                   </div>
                 </td>
@@ -159,7 +159,7 @@ interface Stat {
 
       <div class="mt-4 text-center">
         <p class="text-slate-500 text-sm">
-          Kontrollitud: <span class="text-teal-400 font-medium">{{ checkedCount }}</span> / {{ requirements.length }}
+          {{ lang.t('landing.table_checked') }}: <span class="text-teal-400 font-medium">{{ checkedCount }}</span> / {{ requirements.length }}
         </p>
       </div>
     </div>
@@ -209,8 +209,8 @@ interface Stat {
     <div class="py-16 bg-slate-900/50">
       <div class="max-w-4xl mx-auto px-4">
         <div class="text-center mb-10">
-          <p class="text-xs font-medium text-teal-400 uppercase tracking-wider mb-2">Tagasiside</p>
-          <h2 class="text-2xl font-bold text-slate-100">Mida kasutajad ütlevad</h2>
+          <p class="text-xs font-medium text-teal-400 uppercase tracking-wider mb-2">{{ lang.t('landing.reviews_label') }}</p>
+          <h2 class="text-2xl font-bold text-slate-100">{{ lang.t('landing.reviews_title') }}</h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -263,21 +263,21 @@ interface Stat {
     <!-- Contact Form -->
     <div class="py-16 bg-slate-900/50">
       <div class="max-w-md mx-auto px-4 text-center">
-        <h2 class="text-2xl font-bold text-slate-100 mb-2">Võta meiega ühendust</h2>
-        <p class="text-slate-400 mb-6 text-sm">Saame sinuga 24h jooksul kontakti</p>
+        <h2 class="text-2xl font-bold text-slate-100 mb-2">{{ lang.t('landing.contact_title') }}</h2>
+        <p class="text-slate-400 mb-6 text-sm">{{ lang.t('landing.contact_subtitle') }}</p>
 
         <form (submit)="submitContact($event)" class="flex flex-col sm:flex-row gap-3">
-          <input type="email" [(ngModel)]="contactEmail" name="email" placeholder="sinu@email.ee"
+          <input type="email" [(ngModel)]="contactEmail" name="email" [placeholder]="lang.t('landing.contact_email_placeholder')"
                  class="flex-1 px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors"
                  required>
           <button type="submit"
                   class="cta-button px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-900 font-semibold whitespace-nowrap">
-            Hangi ülevaade
+            {{ lang.t('landing.contact_btn') }}
           </button>
         </form>
 
         <p *ngIf="contactSubmitted" class="mt-4 text-teal-400 text-sm animate-fade-in">
-          ✓ Täname! Võtame sinuga peagi ühendust.
+          ✓ {{ lang.t('landing.contact_success') }}
         </p>
       </div>
     </div>

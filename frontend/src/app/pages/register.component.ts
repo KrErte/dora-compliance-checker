@@ -105,6 +105,33 @@ export class RegisterComponent {
   onRegister() {
     this.error = '';
 
+    // Frontend validation
+    if (!this.fullName.trim()) {
+      this.error = this.lang.t('auth.error_name_required');
+      return;
+    }
+
+    if (!this.email.trim()) {
+      this.error = this.lang.t('auth.error_email_required');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(this.email)) {
+      this.error = this.lang.t('auth.error_email_invalid');
+      return;
+    }
+
+    if (!this.password) {
+      this.error = this.lang.t('auth.error_password_required');
+      return;
+    }
+
+    if (this.password.length < 6) {
+      this.error = this.lang.t('auth.error_password_short');
+      return;
+    }
+
     if (this.password !== this.confirmPassword) {
       this.error = this.lang.t('auth.error_mismatch');
       return;
@@ -118,7 +145,14 @@ export class RegisterComponent {
       },
       error: (err) => {
         this.loading = false;
-        this.error = err.error?.error || this.lang.t('auth.error_exists');
+        // Parse backend error message
+        if (err.error?.error) {
+          this.error = err.error.error;
+        } else if (err.status === 400) {
+          this.error = this.lang.t('auth.error_exists');
+        } else {
+          this.error = this.lang.t('auth.error_generic');
+        }
       }
     });
   }

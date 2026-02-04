@@ -191,6 +191,29 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   // Landing - Reviews
   'landing.reviews_label': { et: 'Tagasiside', en: 'Testimonials' },
   'landing.reviews_title': { et: 'Mida kliendid \u00fctlevad', en: 'What clients say' },
+
+  // Landing - Contact
+  'landing.contact_title': { et: 'V\u00f5ta meiega \u00fchendust', en: 'Get in touch' },
+  'landing.contact_subtitle': { et: 'Saame sinuga 24h jooksul kontakti', en: 'We\u2019ll get back to you within 24h' },
+  'landing.contact_btn': { et: 'Saada p\u00e4ring', en: 'Send inquiry' },
+  'landing.contact_email_placeholder': { et: 'teie@ettevote.ee', en: 'your@company.com' },
+  'landing.contact_success': { et: 'T\u00e4name! V\u00f5tame sinuga peagi \u00fchendust.', en: 'Thank you! We\u2019ll contact you soon.' },
+
+  // Landing - Upload preview
+  'landing.upload_drag': { et: 'Lohista PDF v\u00f5i DOCX siia', en: 'Drag PDF or DOCX here' },
+  'landing.upload_click': { et: 'V\u00f5i kliki faili valimiseks', en: 'Or click to select a file' },
+
+  // Landing - Interactive table
+  'landing.interactive_label': { et: 'Interaktiivne kontroll', en: 'Interactive check' },
+  'landing.interactive_title': { et: 'DORA Art. 30 N\u00f5uded', en: 'DORA Art. 30 Requirements' },
+  'landing.interactive_desc': { et: 'Kliki n\u00f5udel, et n\u00e4ha selgitust', en: 'Click on a requirement to see explanation' },
+  'landing.table_check': { et: '\u2713', en: '\u2713' },
+  'landing.table_requirement': { et: 'N\u00f5ue', en: 'Requirement' },
+  'landing.table_status': { et: 'Staatus', en: 'Status' },
+  'landing.table_ok': { et: 'OK', en: 'OK' },
+  'landing.table_missing': { et: 'Puudu', en: 'Missing' },
+  'landing.table_check_contract': { et: 'Kontrolli oma lepingut', en: 'Check your contract' },
+  'landing.table_checked': { et: 'Kontrollitud', en: 'Checked' },
   'landing.review1_text': { et: 'AI lepinguaudit s\u00e4\u00e4stis meile n\u00e4dalaid konsultandi tasu. Saime kohe teada, millised klauslid puuduvad.', en: 'AI contract audit saved us weeks of consultant fees. We instantly knew which clauses were missing.' },
   'landing.review1_role': { et: 'IT-vastavusjuht, fintech-ettev\u00f5te', en: 'IT Compliance Manager, fintech company' },
   'landing.review2_text': { et: 'Radardiagramm annab suurep\u00e4rase \u00fclevaate. N\u00fc\u00fcd teame t\u00e4pselt, kus peame parandusi tegema.', en: 'Radar chart gives an excellent overview. Now we know exactly where improvements are needed.' },
@@ -600,6 +623,12 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'auth.error_invalid': { et: 'Vale e-post v\u00f5i parool', en: 'Invalid email or password' },
   'auth.error_exists': { et: 'See e-post on juba registreeritud', en: 'This email is already registered' },
   'auth.error_mismatch': { et: 'Paroolid ei kattu', en: 'Passwords do not match' },
+  'auth.error_name_required': { et: 'Nimi on kohustuslik', en: 'Name is required' },
+  'auth.error_email_required': { et: 'E-post on kohustuslik', en: 'Email is required' },
+  'auth.error_email_invalid': { et: 'Sisestage kehtiv e-posti aadress', en: 'Please enter a valid email address' },
+  'auth.error_password_required': { et: 'Parool on kohustuslik', en: 'Password is required' },
+  'auth.error_password_short': { et: 'Parool peab olema v\u00e4hemalt 6 t\u00e4hem\u00e4rki', en: 'Password must be at least 6 characters' },
+  'auth.error_generic': { et: 'Midagi l\u00e4ks valesti. Palun proovige uuesti.', en: 'Something went wrong. Please try again.' },
 
   // Footer
   'footer.built_for': { et: 'Loodud Eesti finantssektori ettev\u00f5tetele', en: 'Built for Estonian financial sector companies' },
