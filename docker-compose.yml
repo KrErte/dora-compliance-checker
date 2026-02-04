@@ -20,8 +20,8 @@ services:
     build: ./backend
     container_name: dora-backend
     restart: unless-stopped
-    expose:
-      - "8080"
+    ports:
+      - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}

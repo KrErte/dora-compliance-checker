@@ -78,6 +78,27 @@ import { LangService } from '../lang.service';
       </div>
     </div>
 
+    <!-- DORA 5 Pillars -->
+    <div class="py-16">
+      <div class="text-center mb-10">
+        <p class="text-xs font-medium text-emerald-400 uppercase tracking-wider mb-2">{{ lang.t('landing.pillars_label') }}</p>
+        <h2 class="text-2xl font-bold text-slate-100">{{ lang.t('landing.pillars_title') }}</h2>
+        <p class="text-slate-500 text-sm mt-2">{{ lang.t('landing.pillars_desc') }}</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
+        <a *ngFor="let pillar of pillars" [routerLink]="'/pillar/' + pillar.id"
+           class="glass-card p-4 text-center group hover:border-emerald-500/30 transition-all duration-300 cursor-pointer">
+          <div class="text-3xl mb-2">{{ pillar.icon }}</div>
+          <h3 class="text-sm font-medium text-slate-300 group-hover:text-emerald-300 transition-colors">{{ lang.t(pillar.labelKey) }}</h3>
+          <p class="text-xs text-slate-600 mt-1">{{ pillar.articles }}</p>
+          <span *ngIf="pillar.id === 'THIRD_PARTY'" class="inline-block mt-2 px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-500/20 text-emerald-400">
+            {{ lang.t('landing.active') }}
+          </span>
+        </a>
+      </div>
+    </div>
+
     <!-- Scope clarification -->
     <div class="py-12">
       <div class="max-w-2xl mx-auto glass-card p-6">
@@ -121,6 +142,14 @@ export class LandingComponent {
     { titleKey: 'landing.step1_title', descKey: 'landing.step1_desc' },
     { titleKey: 'landing.step2_title', descKey: 'landing.step2_desc' },
     { titleKey: 'landing.step3_title', descKey: 'landing.step3_desc' }
+  ];
+
+  pillars = [
+    { id: 'ICT_RISK_MANAGEMENT', icon: '🛡️', labelKey: 'landing.pillar_risk', articles: 'Art. 5–16' },
+    { id: 'INCIDENT_MANAGEMENT', icon: '📋', labelKey: 'landing.pillar_incident', articles: 'Art. 17–23' },
+    { id: 'TESTING', icon: '🔍', labelKey: 'landing.pillar_testing', articles: 'Art. 24–27' },
+    { id: 'THIRD_PARTY', icon: '🤝', labelKey: 'landing.pillar_thirdparty', articles: 'Art. 28–44' },
+    { id: 'INFORMATION_SHARING', icon: '📡', labelKey: 'landing.pillar_info', articles: 'Art. 45' }
   ];
 
   constructor(public lang: LangService) {}

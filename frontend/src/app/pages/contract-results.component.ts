@@ -153,6 +153,15 @@ import { ContractAnalysisResult, ContractFinding } from '../models';
 
       <!-- Action buttons -->
       <div class="flex flex-wrap gap-3 justify-center">
+        <button (click)="viewComparison()"
+                class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-cyan-500/25 transition-all">
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+            {{ lang.t('comparison.compare_button') }}
+          </span>
+        </button>
         <button (click)="downloadPdf()"
                 class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
           <span class="flex items-center gap-2">
@@ -291,6 +300,12 @@ export class ContractResultsComponent implements OnInit {
       case 'found': return et ? 'LEITUD' : 'FOUND';
       case 'partial': return et ? 'OSALINE' : 'PARTIAL';
       default: return et ? 'PUUDU' : 'MISSING';
+    }
+  }
+
+  viewComparison() {
+    if (this.result) {
+      this.router.navigate(['/contract-comparison', this.result.id]);
     }
   }
 

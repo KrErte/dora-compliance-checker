@@ -42,18 +42,23 @@ export const routes: Routes = [
   },
   {
     path: 'contract-analysis',
-    loadComponent: () => import('./pages/contract-analysis.component').then(m => m.ContractAnalysisComponent),
-    canActivate: [authGuard]
+    loadComponent: () => import('./pages/contract-analysis.component').then(m => m.ContractAnalysisComponent)
+    // No authGuard - free access for demo/sample
   },
   {
     path: 'contract-results/:id',
-    loadComponent: () => import('./pages/contract-results.component').then(m => m.ContractResultsComponent),
-    canActivate: [authGuard]
+    loadComponent: () => import('./pages/contract-results.component').then(m => m.ContractResultsComponent)
+    // No authGuard - free access for demo flow
+  },
+  {
+    path: 'contract-comparison/:id',
+    loadComponent: () => import('./pages/contract-comparison.component').then(m => m.ContractComparisonComponent)
+    // No authGuard - free access for demo flow
   },
   {
     path: 'methodology',
-    loadComponent: () => import('./pages/methodology.component').then(m => m.MethodologyComponent),
-    canActivate: [authGuard]
+    loadComponent: () => import('./pages/methodology.component').then(m => m.MethodologyComponent)
+    // No authGuard - educational content is free
   },
   {
     path: 'guardian',
@@ -74,5 +79,9 @@ export const routes: Routes = [
     path: 'regulatory-updates',
     loadComponent: () => import('./pages/regulatory-updates.component').then(m => m.RegulatoryUpdatesComponent),
     canActivate: [authGuard]
+  },
+  {
+    path: 'pillar/:id',
+    loadComponent: () => import('./pages/pillar-info.component').then(m => m.PillarInfoComponent)
   }
 ];

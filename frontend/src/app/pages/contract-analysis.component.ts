@@ -17,24 +17,32 @@ import { ContractAnalysisResult } from '../models';
         <p class="text-slate-400 text-sm">{{ lang.t('contract.subtitle') }}</p>
       </div>
 
-      <!-- Auto-demo banner -->
-      <div *ngIf="autoDemo && !selectedFile" class="mb-6 rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-5 animate-fade-in">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0">
-            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+      <!-- Demo mode: Generate sample contract -->
+      <div *ngIf="autoDemo && !selectedFile" class="mb-6 rounded-xl border-2 border-dashed border-emerald-500/50 bg-emerald-500/5 p-8 animate-fade-in">
+        <div class="text-center">
+          <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
           </div>
-          <div>
-            <p class="text-sm font-semibold text-emerald-300">{{ lang.t('contract.auto_demo_title') }}</p>
-            <p class="text-xs text-slate-400">{{ lang.t('contract.auto_demo_desc') }}</p>
-          </div>
-          <div class="ml-auto w-6 h-6 border-2 border-emerald-400/30 border-t-emerald-400 rounded-full animate-spin"></div>
+          <h3 class="text-lg font-semibold text-emerald-300 mb-2">{{ lang.t('contract.demo_title') }}</h3>
+          <p class="text-sm text-slate-400 mb-6 max-w-md mx-auto">{{ lang.t('contract.demo_desc') }}</p>
+          <button (click)="loadSampleContract()" [disabled]="loadingSample"
+                  class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
+                         bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
+                         hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25
+                         disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300">
+            <svg *ngIf="!loadingSample" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <div *ngIf="loadingSample" class="w-5 h-5 border-2 border-slate-900/30 border-t-slate-900 rounded-full animate-spin"></div>
+            {{ lang.t('contract.generate_sample') }}
+          </button>
         </div>
       </div>
 
-      <!-- Load sample contract -->
-      <div class="glass-card p-5 mb-6">
+      <!-- Load sample contract (hidden in demo mode) -->
+      <div *ngIf="!autoDemo" class="glass-card p-5 mb-6">
         <div class="flex items-center justify-between">
           <div>
             <p class="text-sm font-medium text-slate-300">{{ lang.t('contract.sample_title') }}</p>
@@ -418,25 +426,6 @@ export class ContractAnalysisComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params['sample'] === 'true') {
         this.autoDemo = true;
-        this.loadSampleAndAnalyze();
-      }
-    });
-  }
-
-  private loadSampleAndAnalyze() {
-    this.loadingSample = true;
-    this.api.getSampleContract().subscribe({
-      next: (blob) => {
-        this.selectedFile = new File([blob], 'sample_ikt_leping.pdf', { type: 'application/pdf' });
-        this.companyName = 'OÜ DigiLahendused';
-        this.contractName = 'IKT pilveteenuse leping 2025';
-        this.loadingSample = false;
-        this.onSubmit();
-      },
-      error: () => {
-        this.error = 'Failed to load sample contract';
-        this.loadingSample = false;
-        this.autoDemo = false;
       }
     });
   }

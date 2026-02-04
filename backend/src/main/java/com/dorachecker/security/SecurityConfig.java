@@ -29,6 +29,11 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
+                // Free tier - contract analysis without login
+                .requestMatchers("/api/sample/**").permitAll()
+                .requestMatchers("/api/contracts/analyze").permitAll()
+                .requestMatchers("/api/contracts/*").permitAll()
+                .requestMatchers("/api/questions").permitAll()
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().permitAll()
             )
