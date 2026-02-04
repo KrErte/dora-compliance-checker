@@ -49,20 +49,43 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'methodology.start_assessment': { et: 'Alusta hindamist', en: 'Start Assessment' },
 
   // Landing - Hero
-  'landing.badge': { et: 'Finantsinspektsioon j\u00e4lgib aktiivselt \u2022 Trahvid kuni 2% k\u00e4ibest', en: 'Finantsinspektsioon actively enforcing \u2022 Fines up to 2% of turnover' },
-  'landing.regulation': { et: 'EU m\u00e4\u00e4rus 2022/2554', en: 'EU Regulation 2022/2554' },
-  'landing.subtitle': { et: 'Vastavuskontroll', en: 'Compliance Checker' },
-  'landing.hero_desc': { et: '38% Eesti finantssektori ettev\u00f5tetest ei vasta veel t\u00e4ielikult DORA n\u00f5uetele. Kontrollige oma IKT-lepinguid enne, kui j\u00e4relevalve seda teeb.', en: '38% of Estonian financial sector companies are not yet fully DORA compliant. Check your ICT contracts before the regulator does.' },
+  'landing.subtitle': { et: 'Lepingu eelkontroll', en: 'Contract Pre-Check' },
+  'landing.hero_desc': { et: 'Kontrollige oma IKT-lepingute vastavust DORA artikkel 30 n\u00f5uetele enne auditit.', en: 'Check your ICT contract compliance with DORA Article 30 requirements before audit.' },
   'landing.cta_try_sample': { et: 'Proovi n\u00e4idislepinguga', en: 'Try with sample contract' },
-  'landing.cta_assessment': { et: 'Alusta hindamist', en: 'Start assessment' },
-  'landing.description': { et: 'Kontrollige oma IKT-teenuste lepingute vastavust digitaalse tegevuskerksuse m\u00e4\u00e4ruse (DORA) artiklite 28\u201330 n\u00f5uetele.', en: 'Check your ICT service contracts for compliance with the Digital Operational Resilience Act (DORA) Articles 28\u201330.' },
-  'landing.cta': { et: 'Alusta hindamist', en: 'Start Assessment' },
+  'landing.cta_assessment': { et: 'Enesehindamine', en: 'Self-assessment' },
+  'landing.cta_check': { et: 'Kontrolli lepingut', en: 'Check contract' },
 
   // Landing - Stats
-  'landing.stat_fine': { et: 'maksimaalne trahv k\u00e4ibest', en: 'maximum fine of turnover' },
-  'landing.stat_noncompliant': { et: 'ettev\u00f5tteid ei vasta veel', en: 'companies not yet compliant' },
-  'landing.stat_requirements': { et: 'DORA Art. 30 n\u00f5uet', en: 'DORA Art. 30 requirements' },
-  'landing.stat_time': { et: 'lepingu anal\u00fc\u00fcs', en: 'contract analysis' },
+  'landing.stat_requirements': { et: 'kontrollitavat n\u00f5uet', en: 'requirements checked' },
+  'landing.stat_time': { et: 'kontrolli aeg', en: 'check time' },
+  'landing.stat_report': { et: 'aruanne', en: 'report' },
+
+  // Landing - Steps
+  'landing.steps_title': { et: 'Kuidas see t\u00f6\u00f6tab', en: 'How it works' },
+  'landing.step1_title': { et: 'Laadige leping \u00fcles', en: 'Upload contract' },
+  'landing.step1_desc': { et: 'PDF v\u00f5i DOCX, kuni 10 MB', en: 'PDF or DOCX, up to 10 MB' },
+  'landing.step2_title': { et: 'S\u00fcsteem kontrollib', en: 'System checks' },
+  'landing.step2_desc': { et: 'Kontroll DORA Art. 30 n\u00f5uete vastu', en: 'Check against DORA Art. 30 requirements' },
+  'landing.step3_title': { et: 'Saate aruande', en: 'Get report' },
+  'landing.step3_desc': { et: 'Puudused ja soovitused PDF-ina', en: 'Gaps and recommendations as PDF' },
+
+  // Landing - Scope
+  'landing.scope_title': { et: 'Mida see t\u00f6\u00f6riist teeb ja ei tee', en: 'What this tool does and does not do' },
+  'landing.scope_does': { et: 'Teeb:', en: 'Does:' },
+  'landing.scope_does_1': { et: 'Kontrollib lepingut 8 DORA Art. 30 n\u00f5ude vastu', en: 'Checks contract against 8 DORA Art. 30 requirements' },
+  'landing.scope_does_2': { et: 'N\u00e4itab puuduvad ja osaliselt kaetud klauslid', en: 'Shows missing and partially covered clauses' },
+  'landing.scope_does_3': { et: 'Pakub soovituslikke klausleid', en: 'Suggests template clauses' },
+  'landing.scope_not': { et: 'Ei tee:', en: 'Does not:' },
+  'landing.scope_not_1': { et: 'Ei asenda juriidilist n\u00f5ustamist', en: 'Does not replace legal advice' },
+  'landing.scope_not_2': { et: 'Ei garanteeri vastavust', en: 'Does not guarantee compliance' },
+  'landing.scope_not_3': { et: 'Ei muuda lepingut automaatselt', en: 'Does not auto-modify contracts' },
+
+  // Landing - Final CTA
+  'landing.final_cta_title': { et: 'Kontrollige oma lepingut', en: 'Check your contract' },
+  'landing.final_cta_desc': { et: 'Saate teada, millised DORA Art. 30 n\u00f5uded on kaetud ja millised vajavad t\u00e4iendamist.', en: 'Find out which DORA Art. 30 requirements are covered and which need attention.' },
+
+  // Footer
+  'footer.disclaimer': { et: 'Eelkontroll, mitte juriidiline n\u00f5ustamine', en: 'Pre-check, not legal advice' },
 
   // Landing - Who needs this
   'landing.who_label': { et: 'Kohustuslik vastavus', en: 'Mandatory compliance' },
@@ -105,21 +128,6 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.feat_cert_title': { et: 'Vastavustunnistus', en: 'Compliance Certificate' },
   'landing.feat_cert_desc': { et: 'Sertifikaat ettev\u00f5tte vastavustaseme kinnitamiseks.', en: 'Certificate confirming company compliance level.' },
 
-  // Landing - Steps
-  'landing.steps_label': { et: 'Kuidas see t\u00f6\u00f6tab', en: 'How it works' },
-  'landing.steps_title': { et: 'Kolm lihtsat sammu', en: 'Three simple steps' },
-  'landing.step1_title': { et: 'Laadige leping \u00fcles', en: 'Upload your contract' },
-  'landing.step1_desc': { et: 'PDF v\u00f5i DOCX kuni 10 MB, v\u00f5i proovige meie n\u00e4idislepinguga', en: 'PDF or DOCX up to 10 MB, or try our sample contract' },
-  'landing.step2_title': { et: 'S\u00fcsteem anal\u00fc\u00fcsib', en: 'System analyzes' },
-  'landing.step2_desc': { et: 'Automaatne anal\u00fc\u00fcs kontrollib lepingut DORA Art. 30 n\u00f5uete vastu', en: 'Automated analysis checks contract against DORA Art. 30 requirements' },
-  'landing.step3_title': { et: 'Saate tulemused', en: 'Get results' },
-  'landing.step3_desc': { et: 'Detailne aruanne puudustega, tsitaatidega ja soovitustega', en: 'Detailed report with gaps, quotes and recommendations' },
-  'landing.step1.title': { et: 'Sisesta andmed', en: 'Enter Data' },
-  'landing.step1.desc': { et: 'Ettev\u00f5tte nimi ja IKT-lepingu nimetus', en: 'Company name and ICT contract title' },
-  'landing.step2.title': { et: 'Vasta k\u00fcsimustele', en: 'Answer Questions' },
-  'landing.step2.desc': { et: '15 k\u00fcsimust 9 DORA kategooriast', en: '15 questions across 9 DORA categories' },
-  'landing.step3.title': { et: 'Saa tulemused', en: 'Get Results' },
-  'landing.step3.desc': { et: 'Vastavusskoor ja soovitused', en: 'Compliance score and recommendations' },
 
   // Landing - Pillars
   'landing.pillars_label': { et: 'DORA raamistik', en: 'DORA Framework' },
@@ -200,9 +208,6 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.eu_desc_dora': { et: 'Toetab', en: 'Supports' },
   'landing.eu_desc_nis2': { et: 'tugi on tulemas.', en: 'support coming soon.' },
 
-  // Landing - Final CTA
-  'landing.final_cta_title': { et: 'Kas teie IKT-lepingud vastavad DORA n\u00f5uetele?', en: 'Do your ICT contracts meet DORA requirements?' },
-  'landing.final_cta_desc': { et: 'Tehke esimene anal\u00fc\u00fcs tasuta. Saate koheselt teada, millised puudused tuleb k\u00f5rvaldada enne Finantsinspektsiooni auditit.', en: 'Run your first analysis for free. Instantly learn which gaps need fixing before Finantsinspektsioon audits.' },
 
   // Assessment
   'assessment.title': { et: 'DORA vastavuse hindamine', en: 'DORA Compliance Assessment' },
@@ -281,24 +286,24 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'history.new': { et: 'Uus hindamine', en: 'New Assessment' },
 
   // Contract Analysis
-  'nav.contract': { et: 'Lepingu audit', en: 'Contract Audit' },
-  'contract.title': { et: 'Lepingu anal\u00fc\u00fcs', en: 'Contract Analysis' },
-  'contract.subtitle': { et: 'DORA Art. 30 n\u00f5uete automaatne kontroll', en: 'Automated DORA Art. 30 compliance check' },
+  'nav.contract': { et: 'Lepingu kontroll', en: 'Contract Check' },
+  'contract.title': { et: 'Lepingu kontroll', en: 'Contract Check' },
+  'contract.subtitle': { et: 'DORA Art. 30 n\u00f5uete kontroll', en: 'DORA Art. 30 requirements check' },
   'contract.upload_label': { et: 'Lae \u00fcles leping (PDF v\u00f5i DOCX)', en: 'Upload contract (PDF or DOCX)' },
   'contract.upload_hint': { et: 'Maksimaalselt 10 MB', en: 'Maximum 10 MB' },
   'contract.company_name': { et: 'Ettev\u00f5tte nimi', en: 'Company Name' },
   'contract.contract_name': { et: 'Lepingu nimetus', en: 'Contract Name' },
-  'contract.analyze': { et: 'Anal\u00fc\u00fcsi lepingut', en: 'Analyze Contract' },
-  'contract.analyzing': { et: 'Anal\u00fc\u00fcsin lepingut...', en: 'Analyzing contract...' },
-  'contract.ai_note': { et: 'Anal\u00fc\u00fcsime lepingut DORA Art. 30 n\u00f5uete vastu. See v\u00f5ib v\u00f5tta kuni 1 minut.', en: 'Analyzing the contract against DORA Art. 30 requirements. This may take up to 1 minute.' },
-  'contract.results': { et: 'Anal\u00fc\u00fcsi tulemused', en: 'Analysis Results' },
+  'contract.analyze': { et: 'Kontrolli lepingut', en: 'Check Contract' },
+  'contract.analyzing': { et: 'Kontrollin lepingut...', en: 'Checking contract...' },
+  'contract.ai_note': { et: 'Kontrollime lepingut DORA Art. 30 n\u00f5uete vastu. See v\u00f5ib v\u00f5tta kuni 1 minut.', en: 'Checking the contract against DORA Art. 30 requirements. This may take up to 1 minute.' },
+  'contract.results': { et: 'Kontrolli tulemused', en: 'Check Results' },
   'contract.score': { et: 'Vastavusskoor', en: 'Compliance Score' },
   'contract.found': { et: 'Leitud', en: 'Found' },
   'contract.missing': { et: 'Puudu', en: 'Missing' },
   'contract.partial': { et: 'Osaliselt', en: 'Partial' },
   'contract.quote': { et: 'Tsitaat lepingust', en: 'Quote from contract' },
   'contract.recommendation': { et: 'Soovitus', en: 'Recommendation' },
-  'contract.new_analysis': { et: 'Uus anal\u00fc\u00fcs', en: 'New Analysis' },
+  'contract.new_analysis': { et: 'Uus kontroll', en: 'New Check' },
   'contract.drag_drop': { et: 'Lohista fail siia v\u00f5i kliki valimiseks', en: 'Drag file here or click to select' },
   'contract.file_selected': { et: 'Fail valitud', en: 'File selected' },
   'contract.error': { et: 'Anal\u00fc\u00fcs eba\u00f5nnestus. Palun proovige uuesti.', en: 'Analysis failed. Please try again.' },

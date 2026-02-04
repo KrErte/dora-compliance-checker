@@ -131,10 +131,6 @@ import { ContractAnalysisResult } from '../models';
       <div class="w-16 h-16 border-4 border-slate-700 border-t-emerald-400 rounded-full animate-spin mb-6"></div>
       <h2 class="text-xl font-semibold text-slate-200 mb-2">{{ lang.t('contract.analyzing') }}</h2>
       <p class="text-sm text-slate-500 text-center max-w-md">{{ lang.t('contract.ai_note') }}</p>
-      <div class="flex items-center gap-2 mt-4 px-3 py-1.5 rounded-full bg-slate-800/50 border border-slate-700/50">
-        <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
-        <span class="text-xs text-slate-400">Claude AI</span>
-      </div>
     </div>
 
     <!-- Error -->

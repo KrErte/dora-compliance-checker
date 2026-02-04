@@ -23,16 +23,9 @@ import { AuthService } from './auth/auth.service';
           </div>
         </a>
 
-        <!-- Desktop nav - MVP: 5 items max -->
+        <!-- Desktop nav - max 3 items -->
         <div class="hidden sm:flex items-center gap-1">
           @if (auth.isLoggedIn()) {
-            <a routerLink="/assessment" routerLinkActive="nav-link-active"
-               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-              </svg>
-              {{ lang.t('nav.assessment') }}
-            </a>
             <a routerLink="/contract-analysis" routerLinkActive="nav-link-active"
                class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,12 +33,12 @@ import { AuthService } from './auth/auth.service';
               </svg>
               {{ lang.t('nav.contract') }}
             </a>
-            <a routerLink="/methodology" routerLinkActive="nav-link-active"
+            <a routerLink="/assessment" routerLinkActive="nav-link-active"
                class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
               </svg>
-              {{ lang.t('nav.methodology') }}
+              {{ lang.t('nav.assessment') }}
             </a>
             <a routerLink="/history" routerLinkActive="nav-link-active"
                class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
@@ -53,20 +46,6 @@ import { AuthService } from './auth/auth.service';
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
               {{ lang.t('nav.history') }}
-            </a>
-            <a routerLink="/guardian" routerLinkActive="nav-link-active"
-               class="text-sm text-slate-400 hover:text-blue-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-              </svg>
-              {{ lang.t('nav.guardian') }}
-            </a>
-            <a routerLink="/incident-simulator" routerLinkActive="nav-link-active"
-               class="text-sm text-slate-400 hover:text-orange-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-              </svg>
-              {{ lang.t('nav.simulator') }}
             </a>
             <div class="w-px h-5 bg-slate-700/50 mx-1"></div>
             <span class="text-xs text-slate-500 px-2 truncate max-w-[120px]">{{ auth.user()?.email }}</span>
@@ -115,22 +94,16 @@ import { AuthService } from './auth/auth.service';
         </div>
       </div>
 
-      <!-- Mobile menu - MVP: 4 items -->
+      <!-- Mobile menu -->
       <div *ngIf="mobileMenu" class="sm:hidden border-t border-slate-700/50 bg-slate-800/95 backdrop-blur-xl">
         <div class="px-4 py-3 flex flex-col gap-1">
           @if (auth.isLoggedIn()) {
-            <a routerLink="/assessment" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.assessment') }}</a>
             <a routerLink="/contract-analysis" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.contract') }}</a>
-            <a routerLink="/methodology" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.methodology') }}</a>
+            <a routerLink="/assessment" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.assessment') }}</a>
             <a routerLink="/history" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.history') }}</a>
-            <a routerLink="/guardian" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-blue-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.guardian') }}</a>
-            <a routerLink="/incident-simulator" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.simulator') }}</a>
             <div class="border-t border-slate-700/50 mt-2 pt-2">
               <span class="text-xs text-slate-500 px-3">{{ auth.user()?.email }}</span>
               <button (click)="auth.logout(); mobileMenu = false"
@@ -161,18 +134,14 @@ import { AuthService } from './auth/auth.service';
             </div>
           </div>
           <div class="flex items-center gap-6 text-xs text-slate-600">
-            <a routerLink="/assessment" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.assessment') }}</a>
             <a routerLink="/contract-analysis" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.contract') }}</a>
-            <a routerLink="/guardian" class="hover:text-blue-400 transition-colors">{{ lang.t('nav.guardian') }}</a>
-            <a routerLink="/incident-simulator" class="hover:text-orange-400 transition-colors">{{ lang.t('nav.simulator') }}</a>
-            <a routerLink="/history" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.history') }}</a>
+            <a routerLink="/assessment" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.assessment') }}</a>
+            <a routerLink="/methodology" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.methodology') }}</a>
+            <a href="https://eur-lex.europa.eu/legal-content/ET/TXT/?uri=CELEX:32022R2554" target="_blank" class="hover:text-emerald-400 transition-colors">DORA tekst</a>
           </div>
           <div class="flex flex-col items-center md:items-end gap-1">
-            <div class="flex items-center gap-3 text-xs text-slate-600">
-              <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-500/70 border border-emerald-500/10">v2.0</span>
-              <span>{{ lang.t('footer.regulation') }}</span>
-            </div>
-            <p class="text-[10px] text-slate-700">{{ lang.t('footer.built_for') }}</p>
+            <p class="text-xs text-slate-600">{{ lang.t('footer.regulation') }}</p>
+            <p class="text-[10px] text-slate-700">{{ lang.t('footer.disclaimer') }}</p>
           </div>
         </div>
       </div>
