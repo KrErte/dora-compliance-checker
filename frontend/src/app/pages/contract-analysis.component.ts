@@ -427,7 +427,31 @@ export class ContractAnalysisComponent implements OnInit {
       if (params['sample'] === 'true') {
         this.autoDemo = true;
       }
+      // Handle generated contract from Contract Generator
+      if (params['generated'] === 'true') {
+        this.loadGeneratedContract();
+      }
     });
+  }
+
+  loadGeneratedContract() {
+    const contractText = sessionStorage.getItem('generatedContract');
+    const contractName = sessionStorage.getItem('generatedContractName');
+
+    if (contractText) {
+      // Create a file from the generated text
+      const blob = new Blob([contractText], { type: 'text/plain' });
+      this.selectedFile = new File([blob], 'generated-contract.txt', { type: 'text/plain' });
+      this.companyName = this.lang.currentLang === 'et' ? 'Minu ettevõte' : 'My Company';
+      this.contractName = contractName || (this.lang.currentLang === 'et' ? 'Genereeritud DORA leping' : 'Generated DORA Contract');
+
+      // Clear sessionStorage
+      sessionStorage.removeItem('generatedContract');
+      sessionStorage.removeItem('generatedContractName');
+
+      // Auto-submit for analysis
+      setTimeout(() => this.onSubmit(), 100);
+    }
   }
 
   getClause(requirementId: string | number): string {

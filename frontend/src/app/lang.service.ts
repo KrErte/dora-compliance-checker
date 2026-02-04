@@ -52,6 +52,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.subtitle': { et: 'Lepingu eelkontroll', en: 'Contract Pre-Check' },
   'landing.hero_desc': { et: 'Kontrollige oma IKT-lepingute vastavust DORA artikkel 30 n\u00f5uetele enne auditit.', en: 'Check your ICT contract compliance with DORA Article 30 requirements before audit.' },
   'landing.cta_try_sample': { et: 'Proovi n\u00e4idislepinguga', en: 'Try with sample contract' },
+  'landing.cta_generate': { et: 'Genereeri leping', en: 'Generate Contract' },
   'landing.cta_assessment': { et: 'Enesehindamine', en: 'Self-assessment' },
   'landing.cta_check': { et: 'Kontrolli lepingut', en: 'Check contract' },
 
@@ -366,6 +367,24 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'comparison.legend_found': { et: 'Täielikult kaetud', en: 'Fully covered' },
   'comparison.legend_partial': { et: 'Osaliselt kaetud', en: 'Partially covered' },
   'comparison.legend_missing': { et: 'Puudub lepingust', en: 'Missing from contract' },
+
+  // Contract Generator
+  'generator.badge': { et: 'Lepingu generaator', en: 'Contract Generator' },
+  'generator.title': { et: 'Genereeri DORA-vastav leping', en: 'Generate DORA-Compliant Contract' },
+  'generator.subtitle': { et: 'Vali klauslid ja lae alla professionaalne IKT teenuse leping, mis vastab DORA Art. 30 nõuetele.', en: 'Select clauses and download a professional ICT service contract that meets DORA Art. 30 requirements.' },
+  'generator.select_clauses': { et: 'Vali klauslid', en: 'Select Clauses' },
+  'generator.select_all': { et: 'Vali kõik', en: 'Select all' },
+  'generator.select_none': { et: 'Tühista', en: 'Clear' },
+  'generator.selected': { et: 'Valitud', en: 'Selected' },
+  'generator.clauses': { et: 'klauslit', en: 'clauses' },
+  'generator.full_compliance': { et: 'Täielik DORA Art. 30 vastavus', en: 'Full DORA Art. 30 compliance' },
+  'generator.partial_compliance': { et: 'Vali kõik 8 klauslit täieliku vastavuse jaoks', en: 'Select all 8 clauses for full compliance' },
+  'generator.preview': { et: 'Lepingu eelvaade', en: 'Contract Preview' },
+  'generator.download_pdf': { et: 'Lae PDF', en: 'Download PDF' },
+  'generator.empty_preview': { et: 'Vali vähemalt üks klausel, et näha lepingu eelvaadet', en: 'Select at least one clause to see the contract preview' },
+  'generator.analyze_contract': { et: 'Analüüsi seda lepingut', en: 'Analyze This Contract' },
+  'generator.analyzing': { et: 'Analüüsimine...', en: 'Analyzing...' },
+  'nav.generator': { et: 'Genereeri leping', en: 'Generate Contract' },
 
   // Nav - Code Analysis
   'nav.code': { et: 'Koodi audit', en: 'Code Audit' },

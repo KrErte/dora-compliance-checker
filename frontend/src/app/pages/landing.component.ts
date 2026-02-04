@@ -34,11 +34,25 @@ import { LangService } from '../lang.service';
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
           </a>
+          <a routerLink="/contract-generator"
+             class="group inline-flex items-center gap-2 bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-400 hover:to-purple-400
+                    text-white font-semibold px-8 py-3.5 rounded-xl transition-all duration-300 text-lg
+                    hover:shadow-lg hover:shadow-violet-500/25">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            {{ lang.t('landing.cta_generate') }}
+          </a>
+        </div>
+
+        <!-- Secondary CTA -->
+        <div class="mt-4">
           <a routerLink="/assessment"
-             class="inline-flex items-center gap-2 bg-slate-800/50 backdrop-blur border border-slate-700/50
-                    text-slate-200 font-semibold px-8 py-3.5 rounded-xl transition-all duration-300 text-lg
-                    hover:border-emerald-500/30 hover:bg-slate-800/80">
+             class="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-400 transition-colors text-sm">
             {{ lang.t('landing.cta_assessment') }}
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
           </a>
         </div>
 

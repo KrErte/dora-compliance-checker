@@ -41,6 +41,11 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'contract-generator',
+    loadComponent: () => import('./pages/contract-generator.component').then(m => m.ContractGeneratorComponent)
+    // No authGuard - free access
+  },
+  {
     path: 'contract-analysis',
     loadComponent: () => import('./pages/contract-analysis.component').then(m => m.ContractAnalysisComponent)
     // No authGuard - free access for demo/sample
