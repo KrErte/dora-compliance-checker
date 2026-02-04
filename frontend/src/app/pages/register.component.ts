@@ -113,7 +113,8 @@ export class RegisterComponent {
     this.loading = true;
     this.auth.register({ email: this.email, password: this.password, fullName: this.fullName }).subscribe({
       next: () => {
-        this.router.navigate(['/dashboard']);
+        this.loading = false;
+        this.router.navigate(['/assessment']);
       },
       error: (err) => {
         this.loading = false;
