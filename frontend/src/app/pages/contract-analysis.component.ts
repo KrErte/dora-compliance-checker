@@ -398,38 +398,39 @@ export class ContractAnalysisComponent implements OnInit {
   email = '';
   emailCaptured = false;
 
+  // Clause suggestions mapped to API requirement IDs
   private clauseMap: { [id: string]: { et: string; en: string } } = {
     '1': {
-      et: '"Teenusepakkuja tagab teenuse kättesaadavuse vähemalt 99,5% tasemega kvartalis, mõõdetuna [monitooringusüsteemi] abil. Teenustaseme languse korral rakendatakse [X]% lepingutasu vähendamist."',
-      en: '"The provider shall ensure service availability of at least 99.5% per quarter, measured by [monitoring system]. Service level degradation shall result in [X]% fee reduction."'
+      et: '"Teenusepakkuja tagab teenuse kättesaadavuse vähemalt 99,5% tasemega kvartalis, mõõdetuna [monitooringusüsteemi] abil. Teenustaseme languse korral rakendatakse [X]% lepingutasu vähendamist. Kõik teenustasemed peavad olema mõõdetavad KPI-dena."',
+      en: '"The provider shall ensure service availability of at least 99.5% per quarter, measured by [monitoring system]. Service level degradation shall result in [X]% fee reduction. All service levels must be measurable KPIs."'
     },
     '2': {
-      et: '"Teenusepakkuja teavitab tellijat kõigist IKT-intsidentidest viivitamatult, kuid mitte hiljem kui [4] tundi pärast intsidendi tuvastamist. Teavitus sisaldab mõjuanalüüsi, prognoosi ja parandusmeetmeid."',
-      en: '"The provider shall notify the client of all ICT incidents without delay, no later than [4] hours after detection. Notification shall include impact analysis, prognosis and remediation measures."'
+      et: '"Teenusepakkuja töötleb tellija andmeid ainult Euroopa Liidu/EMP piires. Andmete peamine töötlemise asukoht on [riik/linn] ja varukoopia asukoht on [riik/linn]. Andmete turvameetmed vastavad ISO 27001 standardile."',
+      en: '"The provider shall process client data only within the EU/EEA. Primary data processing location is [country/city] and backup location is [country/city]. Data security measures shall comply with ISO 27001 standard."'
     },
     '3': {
-      et: '"Tellijal on õigus teostada teenusepakkuja süsteemides auditit vähemalt [1] kord aastas, kaasates sõltumatuid audiitoreid. Teenusepakkuja tagab auditi läbiviimiseks vajaliku ligipääsu ja dokumentatsiooni."',
-      en: '"The client shall have the right to audit the provider systems at least [1] time per year, involving independent auditors. The provider shall ensure access and documentation necessary for the audit."'
+      et: '"Tellijal on õigus teostada teenusepakkuja süsteemides auditit vähemalt [1] kord aastas, kaasates sõltumatuid audiitoreid. Teenusepakkuja tagab auditi läbiviimiseks vajaliku ligipääsu ja dokumentatsiooni. Finantsinspektsioonil on õigus teostada kohapealseid inspektsioone."',
+      en: '"The client shall have the right to audit the provider systems at least [1] time per year, involving independent auditors. The provider shall ensure access and documentation necessary for the audit. Financial supervisory authorities have the right to conduct on-site inspections."'
     },
     '4': {
-      et: '"Lepingu lõppemisel või ülesütlemisel tagab teenusepakkuja andmete ja protsesside üleandmise [90] kalendripäeva jooksul. Üleandmise plaan sisaldab andmeformaate, migratsiooni ajakava ja vastutavaid isikuid."',
-      en: '"Upon termination, the provider shall ensure data and process handover within [90] calendar days. The transition plan shall include data formats, migration schedule and responsible persons."'
+      et: '"Teenusepakkuja teavitab tellijat kõigist IKT-intsidentidest viivitamatult, kuid mitte hiljem kui 24 tundi pärast intsidendi tuvastamist. Teavitus sisaldab: a) intsidendi kirjeldust, b) mõjuanalüüsi, c) prognoosi, d) parandusmeetmeid. Kriitiliste intsidentide puhul on teavitamise tähtaeg 4 tundi."',
+      en: '"The provider shall notify the client of all ICT incidents without delay, no later than 24 hours after detection. Notification shall include: a) incident description, b) impact analysis, c) prognosis, d) remediation measures. For critical incidents, notification deadline is 4 hours."'
     },
     '5': {
-      et: '"Teenusepakkuja töötleb tellija andmeid ainult Euroopa Liidu/EMP piires. Allhankijate kaasamiseks on vajalik tellija eelnev kirjalik nõusolek. Andmete turvameetmed vastavad ISO 27001 standardile."',
-      en: '"The provider shall process client data only within the EU/EEA. Subcontracting requires prior written consent. Data security measures shall comply with ISO 27001 standard."'
+      et: '"Lepingu lõppemisel või ülesütlemisel tagab teenusepakkuja: a) andmete ja protsesside üleandmise [90] kalendripäeva jooksul, b) üleandmise plaani andmeformaatide, migratsiooni ajakava ja vastutavate isikutega, c) koostöö uue teenusepakkujaga üleminekuperioodil, d) kõigi tellija andmete turvalise kustutamise pärast üleandmist."',
+      en: '"Upon termination, the provider shall ensure: a) data and process handover within [90] calendar days, b) transition plan with data formats, migration schedule and responsible persons, c) cooperation with new provider during transition period, d) secure deletion of all client data after handover."'
     },
     '6': {
-      et: '"Teenusepakkuja ei kaasa allhankijaid ilma tellija eelneva kirjaliku nõusolekuta. Allhankijate nimekiri ja nende IKT-riskiprofiil esitatakse tellijale enne lepingu sõlmimist ning iga muudatuse korral."',
-      en: '"The provider shall not engage subcontractors without prior written consent. The list of subcontractors and their ICT risk profiles shall be provided before contract signing and upon any changes."'
+      et: '"Teenusepakkuja ei kaasa allhankijaid ilma tellija eelneva kirjaliku nõusolekuta. Teenusepakkuja kohustub: a) esitama allhankijate nimekirja ja nende IKT-riskiprofiili enne lepingu sõlmimist, b) teavitama tellijat vähemalt [30] päeva ette igast allhankija muudatusest, c) tagama allhankijate vastavuse käesoleva lepingu tingimustele."',
+      en: '"The provider shall not engage subcontractors without prior written consent. The provider undertakes to: a) provide the list of subcontractors and their ICT risk profiles before contract signing, b) notify the client at least [30] days in advance of any subcontractor changes, c) ensure subcontractors comply with the terms of this contract."'
     },
     '7': {
-      et: '"Teenusepakkuja hoiab ajakohasena IKT riskihalduse raamistikku, mis hõlmab riskide tuvastamist, hindamist ja maandamist. Riskianalüüsi tulemused ja maandamismeetmed esitatakse tellijale kord kvartalis."',
-      en: '"The provider shall maintain an up-to-date ICT risk management framework covering risk identification, assessment and mitigation. Risk analysis results and mitigation measures shall be reported to the client quarterly."'
+      et: '"Teenusepakkuja rakendab turvameetmeid vastavalt ISO 27001 standardile või samaväärsetele. Andmed krüpteeritakse AES-256 algoritmiga puhkeolekus ja TLS 1.3 protokolliga edastamisel. Juurdepääsukontroll põhineb mitmefaktorilisel autentimisel. Teenusepakkuja esitab tellijale turvaalase auditi aruande kord aastas."',
+      en: '"The provider shall implement security measures in accordance with ISO 27001 standard or equivalent. Data shall be encrypted with AES-256 at rest and TLS 1.3 in transit. Access control shall be based on multi-factor authentication. The provider shall submit security audit report to the client annually."'
     },
     '8': {
-      et: '"Teenusepakkuja tagab äritegevuse jätkuvuse plaani olemasolu ja testimise vähemalt [1] kord aastas. Plaan sisaldab taastumise ajaeesmärke (RTO ≤ [4h], RPO ≤ [1h]) ja kriisiolukorras tegutsemise protseduure."',
-      en: '"The provider shall ensure a business continuity plan is in place and tested at least [1] time per year. The plan shall include recovery time objectives (RTO ≤ [4h], RPO ≤ [1h]) and crisis procedures."'
+      et: '"Teenusepakkuja tagab: a) ärijätkuvusplaani olemasolu ja testimise vähemalt 1 kord aastas, b) andmete varundamise iga [24] tunni tagant, c) taastamise ajaeesmärgi (RTO) kuni [4] tundi, d) taastamispunkti eesmärgi (RPO) kuni [1] tund, e) kriisiolukorras tegutsemise protseduurid ja kontaktisikud."',
+      en: '"The provider shall ensure: a) business continuity plan existence and testing at least once per year, b) data backup every [24] hours, c) recovery time objective (RTO) up to [4] hours, d) recovery point objective (RPO) up to [1] hour, e) crisis procedures and contact persons."'
     }
   };
 
