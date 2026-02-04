@@ -218,8 +218,11 @@ interface Stat {
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div *ngFor="let testimonial of testimonials" class="testimonial-card p-6 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-teal-500/20 transition-all duration-300">
             <div class="text-2xl mb-4 text-teal-400">{{ testimonial.stars }}</div>
-            <p class="text-slate-300 mb-4 italic">"{{ testimonial.text }}"</p>
-            <p class="text-slate-500 text-sm font-medium">— {{ testimonial.company }}</p>
+            <p class="text-slate-300 mb-4 italic">"{{ lang.t(testimonial.textKey) }}"</p>
+            <div>
+              <p class="text-slate-300 text-sm font-semibold">{{ lang.t(testimonial.authorKey) }}</p>
+              <p class="text-slate-500 text-xs">{{ lang.t(testimonial.roleKey) }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -263,29 +266,46 @@ interface Stat {
     </div>
 
     <!-- Contact Form -->
-    <div class="py-16 bg-slate-900/50">
-      <div class="max-w-md mx-auto px-4 text-center">
-        <h2 class="text-2xl font-bold text-slate-100 mb-2">{{ lang.t('landing.contact_title') }}</h2>
-        <p class="text-slate-400 mb-6 text-sm">{{ lang.t('landing.contact_subtitle') }}</p>
+    <div id="contact" class="py-16 bg-slate-900/50">
+      <div class="max-w-lg mx-auto px-4">
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold text-slate-100 mb-2">{{ lang.t('landing.contact_title') }}</h2>
+          <p class="text-slate-400 text-sm">{{ lang.t('landing.contact_subtitle') }}</p>
+        </div>
 
-        <form (submit)="submitContact($event)" class="flex flex-col gap-3">
-          <div class="flex flex-col sm:flex-row gap-3">
-            <input type="email" [(ngModel)]="contactEmail" name="email" [placeholder]="lang.t('landing.contact_email_placeholder')"
-                   [class]="'flex-1 px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors ' +
-                            (contactError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
-                   required>
+        <form (submit)="submitContact($event)" class="glass-card p-6">
+          <div class="flex flex-col gap-4">
+            <div>
+              <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('auth.full_name') }}</label>
+              <input type="text" [(ngModel)]="contactName" name="name"
+                     class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors"
+                     [placeholder]="lang.currentLang === 'et' ? 'Teie nimi' : 'Your name'">
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('auth.email') }}</label>
+              <input type="email" [(ngModel)]="contactEmail" name="email" [placeholder]="lang.t('landing.contact_email_placeholder')"
+                     [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors ' +
+                              (contactError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
+                     required>
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.currentLang === 'et' ? 'Sõnum' : 'Message' }}</label>
+              <textarea [(ngModel)]="contactMessage" name="message" rows="3"
+                        class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors resize-none"
+                        [placeholder]="lang.currentLang === 'et' ? 'Kirjeldage oma vajadust...' : 'Describe your needs...'"></textarea>
+            </div>
             <button type="submit"
-                    class="cta-button px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-900 font-semibold whitespace-nowrap">
+                    class="cta-button w-full px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-900 font-semibold">
               {{ lang.t('landing.contact_btn') }}
             </button>
+            <p *ngIf="contactError" class="text-red-400 text-sm text-center animate-fade-in">
+              {{ lang.t('landing.contact_error') }}
+            </p>
           </div>
-          <p *ngIf="contactError" class="text-red-400 text-sm animate-fade-in">
-            {{ lang.t('landing.contact_error') }}
-          </p>
         </form>
 
-        <p *ngIf="contactSubmitted" class="mt-4 text-teal-400 text-sm animate-fade-in">
-          ✓ {{ lang.t('landing.contact_success') }}
+        <p *ngIf="contactSubmitted" class="mt-4 text-teal-400 text-sm text-center animate-fade-in">
+          {{ lang.t('landing.contact_success') }}
         </p>
       </div>
     </div>
@@ -442,9 +462,9 @@ export class LandingComponent implements OnInit, OnDestroy {
   ];
 
   testimonials = [
-    { stars: '⭐⭐⭐⭐⭐', text: 'Säästis meile 5 tundi lepinguanalüüsil', company: 'TechCorp OÜ' },
-    { stars: '⭐⭐⭐⭐⭐', text: 'Täiuslik compliance\'i kontrollimise tööriist', company: 'FinanceEU' },
-    { stars: '⭐⭐⭐⭐⭐', text: 'Lihtsalt parim DORA dokumentatsiooni lahendus', company: 'SecurityFirst Ltd' }
+    { stars: '⭐⭐⭐⭐⭐', textKey: 'landing.testimonial1_text', authorKey: 'landing.testimonial1_author', roleKey: 'landing.testimonial1_role' },
+    { stars: '⭐⭐⭐⭐⭐', textKey: 'landing.testimonial2_text', authorKey: 'landing.testimonial2_author', roleKey: 'landing.testimonial2_role' },
+    { stars: '⭐⭐⭐⭐⭐', textKey: 'landing.testimonial3_text', authorKey: 'landing.testimonial3_author', roleKey: 'landing.testimonial3_role' }
   ];
 
   trustBadges = [
@@ -454,7 +474,9 @@ export class LandingComponent implements OnInit, OnDestroy {
   ];
 
   isDragging = false;
+  contactName = '';
   contactEmail = '';
+  contactMessage = '';
   contactSubmitted = false;
   contactError = false;
 
@@ -529,11 +551,13 @@ export class LandingComponent implements OnInit, OnDestroy {
 
     // Save to localStorage (in real app would send to backend)
     const contacts = JSON.parse(localStorage.getItem('dora_contacts') || '[]');
-    contacts.push({ email: this.contactEmail, date: new Date().toISOString() });
+    contacts.push({ name: this.contactName, email: this.contactEmail, message: this.contactMessage, date: new Date().toISOString() });
     localStorage.setItem('dora_contacts', JSON.stringify(contacts));
 
     this.contactSubmitted = true;
     this.contactEmail = '';
+    this.contactName = '';
+    this.contactMessage = '';
     setTimeout(() => this.contactSubmitted = false, 5000);
   }
 }
