@@ -25,6 +25,9 @@ NUL
 # Deploy artifacts
 deploy.tar
 
+# Environment files (contain secrets)
+.env
+
 # OS
 .DS_Store
 Thumbs.db

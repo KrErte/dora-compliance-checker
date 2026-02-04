@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { authGuard, guestGuard } from './auth/auth.guard';
 
-// MVP: DORA Article 30 ICT Contract Compliance Engine
-// Kept: Assessment, Contract Audit, Results, Methodology, History
-// Removed: Code Audit, Compare, Dashboard, Guardian, Negotiations, Incident Simulator
+// DORA Article 30 ICT Contract Compliance Engine
+// Core: Assessment, Contract Audit, Results, Methodology, History
+// Enabled: Guardian (monitoring), Incident Simulator
 
 export const routes: Routes = [
   {
@@ -53,6 +53,26 @@ export const routes: Routes = [
   {
     path: 'methodology',
     loadComponent: () => import('./pages/methodology.component').then(m => m.MethodologyComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'guardian',
+    loadComponent: () => import('./pages/guardian-dashboard.component').then(m => m.GuardianDashboardComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'guardian/alerts',
+    loadComponent: () => import('./pages/guardian-alerts.component').then(m => m.GuardianAlertsComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'incident-simulator',
+    loadComponent: () => import('./pages/incident-simulator.component').then(m => m.IncidentSimulatorComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'regulatory-updates',
+    loadComponent: () => import('./pages/regulatory-updates.component').then(m => m.RegulatoryUpdatesComponent),
     canActivate: [authGuard]
   }
 ];
