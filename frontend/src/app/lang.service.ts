@@ -605,6 +605,12 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'pillar.cta_title': { et: 'Kontrolli oma lepingut', en: 'Check your contract' },
   'pillar.cta_desc': { et: 'Vaata, kuidas sinu IKT-leping vastab DORA Art. 30 nõuetele.', en: 'See how your ICT contract complies with DORA Art. 30 requirements.' },
   'pillar.not_found': { et: 'Sammast ei leitud', en: 'Pillar not found' },
+  'pillar.context_title': { et: 'Kuidas see sammas seostub lepingu kontrolliga?', en: 'How does this pillar relate to contract checking?' },
+  'pillar.context_third_party': { et: 'See on meie tööriista põhifookus. Art. 30 sätestab kohustuslikud lepingutingimused, mida meie tööriist kontrollib.', en: 'This is the main focus of our tool. Art. 30 establishes mandatory contract provisions that our tool checks.' },
+  'pillar.context_other': { et: 'See sammas on seotud DORA üldise raamistikuga. Meie tööriist keskendub Art. 30 lepingutingimustele (kolmandate osapoolte sammas).', en: 'This pillar is part of the broader DORA framework. Our tool focuses on Art. 30 contract provisions (third-party pillar).' },
+
+  // Landing - Auth indicators
+  'landing.requires_login': { et: 'Nõuab sisselogimist', en: 'Requires login' },
 
   // Auth
   'auth.login': { et: 'Logi sisse', en: 'Log In' },
@@ -633,6 +639,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   // Footer
   'footer.built_for': { et: 'Loodud Eesti finantssektori ettev\u00f5tetele', en: 'Built for Estonian financial sector companies' },
   'footer.regulation': { et: 'Digitaalse tegevuskerksuse m\u00e4\u00e4rus', en: 'Digital Operational Resilience Act' },
+  'footer.dora_text': { et: 'DORA tekst', en: 'DORA text' },
 
   // Negotiations
   'nav.negotiations': { et: 'L\u00e4bir\u00e4\u00e4kimised', en: 'Negotiations' },

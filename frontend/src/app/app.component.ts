@@ -137,9 +137,18 @@ import { AuthService } from './auth/auth.service';
             <a routerLink="/contract-analysis" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.contract') }}</a>
             <a routerLink="/assessment" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.assessment') }}</a>
             <a routerLink="/methodology" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.methodology') }}</a>
-            <a href="https://eur-lex.europa.eu/legal-content/ET/TXT/?uri=CELEX:32022R2554" target="_blank" class="hover:text-emerald-400 transition-colors">DORA tekst</a>
+            <a href="https://eur-lex.europa.eu/legal-content/ET/TXT/?uri=CELEX:32022R2554" target="_blank" class="hover:text-emerald-400 transition-colors">{{ lang.t('footer.dora_text') }}</a>
           </div>
-          <div class="flex flex-col items-center md:items-end gap-1">
+          <div class="flex flex-col items-center md:items-end gap-2">
+            <button (click)="lang.toggle()"
+                    class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
+                           bg-slate-800/50 text-slate-400 border border-slate-700/30
+                           hover:bg-slate-700/50 hover:text-emerald-400 transition-all duration-200">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              {{ lang.currentLang === 'et' ? 'EN' : 'ET' }}
+            </button>
             <p class="text-xs text-slate-600">{{ lang.t('footer.regulation') }}</p>
             <p class="text-[10px] text-slate-700">{{ lang.t('footer.disclaimer') }}</p>
           </div>

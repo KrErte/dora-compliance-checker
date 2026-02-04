@@ -70,6 +70,19 @@ interface PillarInfo {
         </div>
       </div>
 
+      <!-- Context explanation -->
+      <div class="glass-card p-6 mb-6 border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-orange-500/5">
+        <h3 class="text-sm font-semibold text-amber-300 mb-2 flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          {{ lang.t('pillar.context_title') }}
+        </h3>
+        <p class="text-sm text-slate-400">
+          {{ pillar.id === 'THIRD_PARTY' ? lang.t('pillar.context_third_party') : lang.t('pillar.context_other') }}
+        </p>
+      </div>
+
       <!-- CTA -->
       <div class="glass-card p-6 border-emerald-500/20 bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 text-center">
         <h3 class="text-lg font-semibold text-white mb-2">{{ lang.t('pillar.cta_title') }}</h3>
