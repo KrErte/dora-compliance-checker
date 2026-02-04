@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
+import { AuthService } from '../auth/auth.service';
 import { ContractAnalysisResult } from '../models';
 
 @Component({
@@ -125,12 +126,21 @@ import { ContractAnalysisResult } from '../models';
           <input #fileInput type="file" accept=".pdf,.docx" (change)="onFileSelect($event)" class="hidden">
         </div>
 
-        <button (click)="onSubmit()" [disabled]="!canSubmit"
-                [class]="'w-full py-3 rounded-lg font-semibold transition-all duration-300 ' +
-                         (canSubmit ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-900 hover:shadow-lg hover:shadow-emerald-500/25' :
-                                      'bg-slate-700/50 text-slate-500 cursor-not-allowed')">
-          {{ lang.t('contract.analyze') }}
-        </button>
+        <div class="flex gap-3">
+          <button (click)="onSubmit()" [disabled]="!canSubmit"
+                  [class]="'flex-1 py-3 rounded-lg font-semibold transition-all duration-300 ' +
+                           (canSubmit ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-900 hover:shadow-lg hover:shadow-emerald-500/25' :
+                                        'bg-slate-700/50 text-slate-500 cursor-not-allowed')">
+            {{ lang.t('contract.analyze') }}
+          </button>
+          <!-- Demo Mock button - only for non-logged-in users -->
+          <button *ngIf="!auth.isLoggedIn()" (click)="loadMockResult()"
+                  class="px-6 py-3 rounded-lg font-semibold transition-all duration-300
+                         bg-slate-700/50 text-slate-300 border border-slate-600/50
+                         hover:bg-slate-600/50 hover:text-emerald-400 hover:border-emerald-500/30">
+            Demo
+          </button>
+        </div>
       </div>
     </div>
 
@@ -421,7 +431,7 @@ export class ContractAnalysisComponent implements OnInit {
     }
   };
 
-  constructor(private api: ApiService, public lang: LangService, private route: ActivatedRoute) {}
+  constructor(private api: ApiService, public lang: LangService, public auth: AuthService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -558,6 +568,38 @@ export class ContractAnalysisComponent implements OnInit {
           this.analyzing = false;
         }
       });
+  }
+
+  loadMockResult() {
+    this.analyzing = true;
+    setTimeout(() => {
+      this.result = {
+        id: 'demo-' + Date.now(),
+        companyName: this.companyName || 'Demo OÜ',
+        contractName: this.contractName || 'IKT teenuse leping',
+        fileName: 'demo_contract.pdf',
+        analysisDate: new Date().toISOString(),
+        scorePercentage: 62.5,
+        complianceLevel: 'YELLOW',
+        foundCount: 3,
+        partialCount: 2,
+        missingCount: 3,
+        summary: this.lang.currentLang === 'et'
+          ? 'Leping sisaldab mõningaid DORA nõudeid, kuid mitmed kriitilised klauslid on puudu või osaliselt kaetud.'
+          : 'The contract contains some DORA requirements, but several critical clauses are missing or partially covered.',
+        findings: [
+          { requirementId: 1, status: 'found', doraReference: 'Art.30(2)(a)', requirementEt: 'Teenustaseme nõuded', requirementEn: 'Service level requirements', quote: 'Teenuse kättesaadavus on vähemalt 99.5%', recommendationEt: '', recommendationEn: '' },
+          { requirementId: 2, status: 'found', doraReference: 'Art.30(2)(b)', requirementEt: 'Andmete asukoht', requirementEn: 'Data location', quote: 'Andmeid töödeldakse Euroopa Liidus', recommendationEt: '', recommendationEn: '' },
+          { requirementId: 3, status: 'partial', doraReference: 'Art.30(2)(c)', requirementEt: 'Auditeerimisõigus', requirementEn: 'Audit rights', quote: '', recommendationEt: 'Lisage konkreetne auditeerimise sagedus ja ulatus', recommendationEn: 'Add specific audit frequency and scope' },
+          { requirementId: 4, status: 'missing', doraReference: 'Art.30(2)(d)', requirementEt: 'Intsidentidest teavitamine', requirementEn: 'Incident notification', quote: '', recommendationEt: 'Lisage intsidentidest teavitamise tähtajad ja protseduurid', recommendationEn: 'Add incident notification deadlines and procedures' },
+          { requirementId: 5, status: 'missing', doraReference: 'Art.30(2)(e)', requirementEt: 'Väljumisstrateegiad', requirementEn: 'Exit strategies', quote: '', recommendationEt: 'Lisage lepingu lõpetamise ja andmete üleandmise protseduurid', recommendationEn: 'Add contract termination and data handover procedures' },
+          { requirementId: 6, status: 'partial', doraReference: 'Art.30(2)(f)', requirementEt: 'Allhankijate juhtimine', requirementEn: 'Subcontractor management', quote: 'Allhankijate kasutamine on lubatud', recommendationEt: 'Täpsustage allhankijate loetelu ja teavitamiskohustused', recommendationEn: 'Specify subcontractor list and notification obligations' },
+          { requirementId: 7, status: 'found', doraReference: 'Art.30(2)(g)', requirementEt: 'Turvanõuded', requirementEn: 'Security requirements', quote: 'ISO 27001 sertifitseeritud', recommendationEt: '', recommendationEn: '' },
+          { requirementId: 8, status: 'missing', doraReference: 'Art.30(2)(h)', requirementEt: 'Ärijärjepidevuse tagamine', requirementEn: 'Business continuity', quote: '', recommendationEt: 'Lisage ärijärjepidevuse plaanid ja taastamise ajaeesmärgid', recommendationEn: 'Add business continuity plans and recovery time objectives' }
+        ]
+      };
+      this.analyzing = false;
+    }, 1500);
   }
 
   resetForm() {
