@@ -584,6 +584,7 @@ export class ContractAnalysisComponent implements OnInit {
         foundCount: 3,
         partialCount: 2,
         missingCount: 3,
+        totalRequirements: 8,
         summary: this.lang.currentLang === 'et'
           ? 'Leping sisaldab mõningaid DORA nõudeid, kuid mitmed kriitilised klauslid on puudu või osaliselt kaetud.'
           : 'The contract contains some DORA requirements, but several critical clauses are missing or partially covered.',
