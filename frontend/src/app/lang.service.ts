@@ -197,7 +197,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.contact_subtitle': { et: 'Saame sinuga 24h jooksul kontakti', en: 'We\u2019ll get back to you within 24h' },
   'landing.contact_btn': { et: 'Saada p\u00e4ring', en: 'Send inquiry' },
   'landing.contact_email_placeholder': { et: 'teie@ettevote.ee', en: 'your@company.com' },
-  'landing.contact_success': { et: 'Täname! Võtame sinuga peagi ühendust.', en: 'Thank you! We'll contact you soon.' },
+  'landing.contact_success': { et: 'Täname! Võtame sinuga peagi ühendust.', en: 'Thank you! We will contact you soon.' },
   'landing.contact_error': { et: 'Palun sisestage kehtiv e-posti aadress', en: 'Please enter a valid email address' },
 
   // Landing - Stats (counter section)
