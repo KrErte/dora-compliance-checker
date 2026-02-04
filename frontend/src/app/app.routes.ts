@@ -88,5 +88,9 @@ export const routes: Routes = [
   {
     path: 'pillar/:id',
     loadComponent: () => import('./pages/pillar-info.component').then(m => m.PillarInfoComponent)
+  },
+  {
+    path: 'privacy',
+    loadComponent: () => import('./pages/privacy.component').then(m => m.PrivacyComponent)
   }
 ];

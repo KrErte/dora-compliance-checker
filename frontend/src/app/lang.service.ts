@@ -197,7 +197,17 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.contact_subtitle': { et: 'Saame sinuga 24h jooksul kontakti', en: 'We\u2019ll get back to you within 24h' },
   'landing.contact_btn': { et: 'Saada p\u00e4ring', en: 'Send inquiry' },
   'landing.contact_email_placeholder': { et: 'teie@ettevote.ee', en: 'your@company.com' },
-  'landing.contact_success': { et: 'T\u00e4name! V\u00f5tame sinuga peagi \u00fchendust.', en: 'Thank you! We\u2019ll contact you soon.' },
+  'landing.contact_success': { et: 'Täname! Võtame sinuga peagi ühendust.', en: 'Thank you! We'll contact you soon.' },
+  'landing.contact_error': { et: 'Palun sisestage kehtiv e-posti aadress', en: 'Please enter a valid email address' },
+
+  // Landing - Stats (counter section)
+  'landing.stat_contracts': { et: 'lepingut analüüsitud', en: 'contracts analyzed' },
+  'landing.stat_orgs': { et: 'organisatsiooni kasutab', en: 'organizations using' },
+  'landing.stat_satisfaction': { et: 'kasutaja rahul', en: 'user satisfaction' },
+
+  // Landing - Pillars hints
+  'landing.pillars_hint': { et: 'Kliki sambal, et näha detailseid nõudeid', en: 'Click on a pillar to see detailed requirements' },
+  'landing.pillar_tooltip': { et: 'Kliki detailide nägemiseks', en: 'Click to see details' },
 
   // Landing - Upload preview
   'landing.upload_drag': { et: 'Lohista PDF v\u00f5i DOCX siia', en: 'Drag PDF or DOCX here' },
@@ -640,6 +650,26 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'footer.built_for': { et: 'Loodud Eesti finantssektori ettev\u00f5tetele', en: 'Built for Estonian financial sector companies' },
   'footer.regulation': { et: 'Digitaalse tegevuskerksuse m\u00e4\u00e4rus', en: 'Digital Operational Resilience Act' },
   'footer.dora_text': { et: 'DORA tekst', en: 'DORA text' },
+  'footer.privacy': { et: 'Privaatsus', en: 'Privacy' },
+
+  // Privacy page
+  'privacy.title': { et: 'Privaatsuspoliitika', en: 'Privacy Policy' },
+  'privacy.subtitle': { et: 'Kuidas me teie andmeid kaitseme', en: 'How we protect your data' },
+  'privacy.data_collection_title': { et: 'Milliseid andmeid kogume', en: 'What data we collect' },
+  'privacy.data_collection_desc': { et: 'Kogume ainult teenuse osutamiseks vajalikke andmeid:', en: 'We only collect data necessary to provide the service:' },
+  'privacy.data_1': { et: 'E-posti aadress (registreerimisel)', en: 'Email address (upon registration)' },
+  'privacy.data_2': { et: 'Üleslaaditud lepingute sisu (analüüsi ajaks)', en: 'Uploaded contract content (during analysis)' },
+  'privacy.data_3': { et: 'Hindamiste tulemused', en: 'Assessment results' },
+  'privacy.storage_title': { et: 'Andmete säilitamine', en: 'Data storage' },
+  'privacy.storage_desc': { et: 'Üleslaaditud lepinguid ei salvestata püsivalt. Lepingu sisu töödeldakse ainult analüüsi ajal ja kustutatakse pärast tulemuste genereerimist. Teie e-posti aadressi ja hindamistulemusi säilitatakse turvaliselt EL-i serverites.', en: 'Uploaded contracts are not permanently stored. Contract content is processed only during analysis and deleted after results are generated. Your email address and assessment results are stored securely on EU servers.' },
+  'privacy.rights_title': { et: 'Teie õigused', en: 'Your rights' },
+  'privacy.rights_desc': { et: 'GDPR alusel on teil õigus:', en: 'Under GDPR, you have the right to:' },
+  'privacy.right_1': { et: 'Küsida ligipääsu oma andmetele', en: 'Request access to your data' },
+  'privacy.right_2': { et: 'Nõuda andmete parandamist või kustutamist', en: 'Request correction or deletion of your data' },
+  'privacy.right_3': { et: 'Esitada vastuväiteid andmete töötlemisele', en: 'Object to data processing' },
+  'privacy.gdpr_title': { et: 'GDPR vastavus', en: 'GDPR compliance' },
+  'privacy.gdpr_desc': { et: 'See teenus on loodud GDPR nõuetele vastavalt. Me ei jaga teie andmeid kolmandate osapooltega ilma teie nõusolekuta, välja arvatud seadusega nõutud juhtudel.', en: 'This service is built in compliance with GDPR requirements. We do not share your data with third parties without your consent, except when required by law.' },
+  'privacy.updated': { et: 'Viimati uuendatud', en: 'Last updated' },
 
   // Negotiations
   'nav.negotiations': { et: 'L\u00e4bir\u00e4\u00e4kimised', en: 'Negotiations' },

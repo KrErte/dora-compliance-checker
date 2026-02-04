@@ -137,6 +137,7 @@ import { AuthService } from './auth/auth.service';
             <a routerLink="/contract-analysis" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.contract') }}</a>
             <a routerLink="/assessment" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.assessment') }}</a>
             <a routerLink="/methodology" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.methodology') }}</a>
+            <a routerLink="/privacy" class="hover:text-emerald-400 transition-colors">{{ lang.t('footer.privacy') }}</a>
             <a href="https://eur-lex.europa.eu/legal-content/ET/TXT/?uri=CELEX:32022R2554" target="_blank" class="hover:text-emerald-400 transition-colors">{{ lang.t('footer.dora_text') }}</a>
           </div>
           <div class="flex flex-col items-center md:items-end gap-2">

@@ -84,7 +84,7 @@ interface Stat {
              [style.animation-delay]="i * 100 + 'ms'">
           <div class="text-4xl mb-2">{{ stat.icon }}</div>
           <div class="text-4xl font-bold text-teal-400 mb-1 tabular-nums">{{ stat.current }}{{ stat.suffix }}</div>
-          <div class="text-slate-400 text-sm">{{ stat.label }}</div>
+          <div class="text-slate-400 text-sm">{{ lang.t(stat.labelKey) }}</div>
         </div>
       </div>
     </div>
@@ -192,8 +192,10 @@ interface Stat {
         <p class="text-slate-500 text-sm mt-2">{{ lang.t('landing.pillars_desc') }}</p>
       </div>
 
+      <p class="text-center text-xs text-slate-500 mb-4">{{ lang.t('landing.pillars_hint') }}</p>
       <div class="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto px-4">
         <a *ngFor="let pillar of pillars" [routerLink]="'/pillar/' + pillar.id"
+           [title]="lang.t('landing.pillar_tooltip')"
            class="glass-card p-4 text-center group hover:border-emerald-500/30 transition-all duration-300 cursor-pointer">
           <div class="text-3xl mb-2">{{ pillar.icon }}</div>
           <h3 class="text-sm font-medium text-slate-300 group-hover:text-emerald-300 transition-colors">{{ lang.t(pillar.labelKey) }}</h3>
@@ -266,14 +268,20 @@ interface Stat {
         <h2 class="text-2xl font-bold text-slate-100 mb-2">{{ lang.t('landing.contact_title') }}</h2>
         <p class="text-slate-400 mb-6 text-sm">{{ lang.t('landing.contact_subtitle') }}</p>
 
-        <form (submit)="submitContact($event)" class="flex flex-col sm:flex-row gap-3">
-          <input type="email" [(ngModel)]="contactEmail" name="email" [placeholder]="lang.t('landing.contact_email_placeholder')"
-                 class="flex-1 px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors"
-                 required>
-          <button type="submit"
-                  class="cta-button px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-900 font-semibold whitespace-nowrap">
-            {{ lang.t('landing.contact_btn') }}
-          </button>
+        <form (submit)="submitContact($event)" class="flex flex-col gap-3">
+          <div class="flex flex-col sm:flex-row gap-3">
+            <input type="email" [(ngModel)]="contactEmail" name="email" [placeholder]="lang.t('landing.contact_email_placeholder')"
+                   [class]="'flex-1 px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors ' +
+                            (contactError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
+                   required>
+            <button type="submit"
+                    class="cta-button px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-900 font-semibold whitespace-nowrap">
+              {{ lang.t('landing.contact_btn') }}
+            </button>
+          </div>
+          <p *ngIf="contactError" class="text-red-400 text-sm animate-fade-in">
+            {{ lang.t('landing.contact_error') }}
+          </p>
         </form>
 
         <p *ngIf="contactSubmitted" class="mt-4 text-teal-400 text-sm animate-fade-in">
@@ -416,10 +424,10 @@ export class LandingComponent implements OnInit, OnDestroy {
     { id: 'INFORMATION_SHARING', icon: '📡', labelKey: 'landing.pillar_info', articles: 'Art. 45' }
   ];
 
-  stats: (Stat & { icon: string })[] = [
-    { value: 2500, suffix: '+', label: 'lepingut analüüsitud', current: 0, icon: '📄' },
-    { value: 500, suffix: '+', label: 'organisatsiooni kasutab', current: 0, icon: '📊' },
-    { value: 98, suffix: '%', label: 'kasutaja rahul', current: 0, icon: '⭐' }
+  stats: (Stat & { icon: string; labelKey: string })[] = [
+    { value: 2500, suffix: '+', label: '', labelKey: 'landing.stat_contracts', current: 0, icon: '📄' },
+    { value: 500, suffix: '+', label: '', labelKey: 'landing.stat_orgs', current: 0, icon: '📊' },
+    { value: 98, suffix: '%', label: '', labelKey: 'landing.stat_satisfaction', current: 0, icon: '⭐' }
   ];
 
   requirements: DoraRequirement[] = [
@@ -448,6 +456,7 @@ export class LandingComponent implements OnInit, OnDestroy {
   isDragging = false;
   contactEmail = '';
   contactSubmitted = false;
+  contactError = false;
 
   constructor(public lang: LangService) {}
 
@@ -508,10 +517,23 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   submitContact(event: Event): void {
     event.preventDefault();
-    if (this.contactEmail) {
-      this.contactSubmitted = true;
-      this.contactEmail = '';
-      setTimeout(() => this.contactSubmitted = false, 5000);
+    this.contactError = false;
+    this.contactSubmitted = false;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!this.contactEmail || !emailRegex.test(this.contactEmail)) {
+      this.contactError = true;
+      setTimeout(() => this.contactError = false, 5000);
+      return;
     }
+
+    // Save to localStorage (in real app would send to backend)
+    const contacts = JSON.parse(localStorage.getItem('dora_contacts') || '[]');
+    contacts.push({ email: this.contactEmail, date: new Date().toISOString() });
+    localStorage.setItem('dora_contacts', JSON.stringify(contacts));
+
+    this.contactSubmitted = true;
+    this.contactEmail = '';
+    setTimeout(() => this.contactSubmitted = false, 5000);
   }
 }
