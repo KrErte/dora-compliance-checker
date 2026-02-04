@@ -125,25 +125,12 @@ import { ContractAnalysisResult } from '../models';
           <input #fileInput type="file" accept=".pdf,.docx" (change)="onFileSelect($event)" class="hidden">
         </div>
 
-        <div class="flex gap-3">
-          <button (click)="loadSampleContract()" [disabled]="loadingSample"
-                  class="px-6 py-3 rounded-lg font-semibold transition-all duration-300
-                         bg-purple-500/20 border border-purple-500/40 text-purple-300
-                         hover:bg-purple-500/30 hover:border-purple-400 hover:text-purple-200
-                         disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
-            <div *ngIf="loadingSample" class="w-4 h-4 border-2 border-purple-300/30 border-t-purple-300 rounded-full animate-spin"></div>
-            <svg *ngIf="!loadingSample" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
-            </svg>
-            Mock
-          </button>
-          <button (click)="onSubmit()" [disabled]="!canSubmit"
-                  [class]="'flex-1 py-3 rounded-lg font-semibold transition-all duration-300 ' +
-                           (canSubmit ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-900 hover:shadow-lg hover:shadow-emerald-500/25' :
-                                        'bg-slate-700/50 text-slate-500 cursor-not-allowed')">
-            {{ lang.t('contract.analyze') }}
-          </button>
-        </div>
+        <button (click)="onSubmit()" [disabled]="!canSubmit"
+                [class]="'w-full py-3 rounded-lg font-semibold transition-all duration-300 ' +
+                         (canSubmit ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-900 hover:shadow-lg hover:shadow-emerald-500/25' :
+                                      'bg-slate-700/50 text-slate-500 cursor-not-allowed')">
+          {{ lang.t('contract.analyze') }}
+        </button>
       </div>
     </div>
 
