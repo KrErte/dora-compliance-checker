@@ -53,8 +53,11 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.hero_desc': { et: 'Kontrollige oma IKT-lepingute vastavust DORA artikkel 30 n\u00f5uetele enne auditit.', en: 'Check your ICT contract compliance with DORA Article 30 requirements before audit.' },
   'landing.cta_try_sample': { et: 'Proovi n\u00e4idislepinguga', en: 'Try with sample contract' },
   'landing.cta_generate': { et: 'Genereeri leping', en: 'Generate Contract' },
+  'landing.cta_generate_hint': { et: 'Loo DORA-vastav IKT lepingu mall', en: 'Create a DORA-compliant ICT contract template' },
   'landing.cta_assessment': { et: 'Enesehindamine', en: 'Self-assessment' },
+  'landing.cta_assessment_hint': { et: '37 k\u00fcsimust ilma lepingut \u00fcles laadimata', en: '37 questions without uploading a contract' },
   'landing.cta_check': { et: 'Kontrolli lepingut', en: 'Check contract' },
+  'landing.art30_explainer': { et: 'DORA Art. 30 s\u00e4testab 8 kohustuslikku n\u00f5uet, mis peavad sisalduma finantssektori ettev\u00f5tete ja IKT-teenusepakkujate vahelistes lepingutes. Mittevastavuse korral v\u00f5ib Finantsinspektsioon m\u00e4\u00e4rata trahvi kuni 2% aastasest k\u00e4ibest.', en: 'DORA Art. 30 establishes 8 mandatory requirements that must be included in contracts between financial sector companies and ICT service providers. Non-compliance may result in fines up to 2% of annual turnover by the Financial Supervisory Authority.' },
 
   // Landing - Stats
   'landing.stat_requirements': { et: 'kontrollitavat n\u00f5uet', en: 'requirements checked' },

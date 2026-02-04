@@ -37,9 +37,16 @@ interface Stat {
           <span class="text-slate-100">{{ lang.t('landing.subtitle') }}</span>
         </h1>
 
-        <p class="text-lg text-slate-400 max-w-xl mb-10 leading-relaxed animate-slide-in delay-100">
+        <p class="text-lg text-slate-400 max-w-xl mb-4 leading-relaxed animate-slide-in delay-100">
           {{ lang.t('landing.hero_desc') }}
         </p>
+
+        <!-- DORA Art. 30 brief explanation -->
+        <div class="max-w-lg mb-10 px-4 py-3 rounded-xl bg-slate-800/60 border border-slate-700/50 animate-slide-in delay-100">
+          <p class="text-xs text-slate-500 leading-relaxed text-center">
+            {{ lang.t('landing.art30_explainer') }}
+          </p>
+        </div>
 
         <!-- CTA buttons -->
         <div class="flex flex-col sm:flex-row gap-4 animate-slide-in delay-200">
@@ -52,19 +59,22 @@ interface Stat {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
           </a>
-          <a routerLink="/contract-generator"
-             class="cta-button group inline-flex items-center gap-2 bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-400 hover:to-purple-400
-                    text-white font-semibold px-8 py-3.5 rounded-xl text-lg
-                    hover:shadow-lg hover:shadow-violet-500/25">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-            </svg>
-            {{ lang.t('landing.cta_generate') }}
-          </a>
+          <div class="flex flex-col items-center">
+            <a routerLink="/contract-generator"
+               class="cta-button group inline-flex items-center gap-2 bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-400 hover:to-purple-400
+                      text-white font-semibold px-8 py-3.5 rounded-xl text-lg
+                      hover:shadow-lg hover:shadow-violet-500/25">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              {{ lang.t('landing.cta_generate') }}
+            </a>
+            <span class="text-xs text-slate-500 mt-1.5">{{ lang.t('landing.cta_generate_hint') }}</span>
+          </div>
         </div>
 
         <!-- Secondary CTA -->
-        <div class="mt-4">
+        <div class="mt-6 flex flex-col items-center gap-1">
           <a routerLink="/assessment"
              class="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-400 transition-colors text-sm hover-underline">
             {{ lang.t('landing.cta_assessment') }}
@@ -72,6 +82,7 @@ interface Stat {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
             </svg>
           </a>
+          <span class="text-xs text-slate-600">{{ lang.t('landing.cta_assessment_hint') }}</span>
         </div>
       </div>
     </div>
@@ -91,18 +102,23 @@ interface Stat {
 
     <!-- File Upload Preview -->
     <div class="py-8 max-w-2xl mx-auto px-4">
-      <div class="upload-zone border-2 border-dashed border-slate-600 hover:border-teal-500/50 rounded-2xl p-8 text-center cursor-pointer transition-all duration-300 hover:bg-slate-800/30"
-           (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
-           [class.drag-over]="isDragging">
-        <div class="text-4xl mb-4">📄</div>
-        <p class="text-slate-300 font-medium mb-2">{{ lang.t('landing.upload_drag') }}</p>
+      <a routerLink="/contract-analysis"
+         class="upload-zone block border-2 border-dashed border-emerald-500/40 hover:border-emerald-400 rounded-2xl p-8 text-center cursor-pointer transition-all duration-300 hover:bg-emerald-500/5 hover:shadow-lg hover:shadow-emerald-500/10 group"
+         (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
+         [class.drag-over]="isDragging">
+        <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-emerald-500/20 transition-colors">
+          <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+          </svg>
+        </div>
+        <p class="text-slate-200 font-semibold mb-1 group-hover:text-emerald-300 transition-colors">{{ lang.t('landing.upload_drag') }}</p>
         <p class="text-slate-500 text-sm mb-4">{{ lang.t('landing.upload_click') }}</p>
         <div class="flex justify-center gap-4 text-xs text-slate-600">
-          <span>Max 10MB</span>
-          <span>•</span>
-          <span>PDF, DOCX</span>
+          <span class="px-2 py-1 rounded bg-slate-800/50">PDF</span>
+          <span class="px-2 py-1 rounded bg-slate-800/50">DOCX</span>
+          <span class="px-2 py-1 rounded bg-slate-800/50">Max 10MB</span>
         </div>
-      </div>
+      </a>
     </div>
 
     <!-- Interactive DORA Requirements Table -->
@@ -134,10 +150,16 @@ interface Stat {
                   <span class="text-slate-200 font-medium">{{ req.name }}</span>
                 </td>
                 <td class="px-4 py-4 text-right">
-                  <span *ngIf="req.checked" class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-teal-500/20 text-teal-400">
+                  <span *ngIf="req.checked" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
                     {{ lang.t('landing.table_ok') }}
                   </span>
-                  <span *ngIf="!req.checked" class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-500/20 text-amber-400">
+                  <span *ngIf="!req.checked" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-red-500/20 text-red-400">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
                     {{ lang.t('landing.table_missing') }}
                   </span>
                 </td>
@@ -202,6 +224,9 @@ interface Stat {
           <p class="text-xs text-slate-600 mt-1">{{ pillar.articles }}</p>
           <span *ngIf="pillar.id === 'THIRD_PARTY'" class="inline-block mt-2 px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-500/20 text-emerald-400">
             {{ lang.t('landing.active') }}
+          </span>
+          <span *ngIf="pillar.id !== 'THIRD_PARTY'" class="inline-block mt-2 px-2 py-0.5 rounded text-[10px] font-medium bg-slate-700/50 text-slate-500">
+            {{ lang.t('landing.soon') }}
           </span>
         </a>
       </div>
