@@ -64,7 +64,7 @@ interface Stat {
         </div>
 
         <!-- Secondary CTA -->
-        <div class="mt-4 flex flex-col items-center gap-1">
+        <div class="mt-4">
           <a routerLink="/assessment"
              class="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-400 transition-colors text-sm hover-underline">
             {{ lang.t('landing.cta_assessment') }}
@@ -72,12 +72,6 @@ interface Stat {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
             </svg>
           </a>
-          <span class="text-xs text-slate-600 flex items-center gap-1">
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-            </svg>
-            {{ lang.t('landing.requires_login') }}
-          </span>
         </div>
       </div>
     </div>

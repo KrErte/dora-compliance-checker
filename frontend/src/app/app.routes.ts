@@ -22,8 +22,8 @@ export const routes: Routes = [
   },
   {
     path: 'assessment',
-    loadComponent: () => import('./pages/assessment.component').then(m => m.AssessmentComponent),
-    canActivate: [authGuard]
+    loadComponent: () => import('./pages/assessment.component').then(m => m.AssessmentComponent)
+    // No authGuard - free demo access for self-assessment
   },
   {
     path: 'results/:id',
