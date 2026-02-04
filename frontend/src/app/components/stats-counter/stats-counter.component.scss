@@ -1,0 +1,60 @@
+$teal: #20C997;
+$teal-light: rgba(32, 201, 151, 0.1);
+$teal-dark: #1aab80;
+
+.stats-container {
+  margin: 3rem auto;
+  max-width: 1000px;
+  padding: 0 2rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.stat-item {
+  text-align: center;
+  padding: 2rem;
+  background: $teal-light;
+  border-radius: 16px;
+  border: 1px solid rgba(32, 201, 151, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(32, 201, 151, 0.15);
+  }
+}
+
+.stat-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.stat-number {
+  font-size: 3rem;
+  font-weight: 700;
+  color: $teal;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  font-variant-numeric: tabular-nums;
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+  }
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: #64748b;
+  font-weight: 500;
+  text-transform: lowercase;
+}
