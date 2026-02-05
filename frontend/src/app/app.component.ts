@@ -7,6 +7,7 @@ import { AuthService } from './auth/auth.service';
 @Component({
   selector: 'app-root',
   imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
+  host: { '(document:click)': 'closeDropdowns($event)' },
   template: `
     <nav class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50">
       <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -47,6 +48,49 @@ import { AuthService } from './auth/auth.service';
               </svg>
               {{ lang.t('nav.history') }}
             </a>
+            <!-- Tools dropdown -->
+            <div class="relative">
+              <button (click)="toolsMenu = !toolsMenu"
+                      class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+                </svg>
+                {{ lang.t('nav.tools') }}
+                <svg class="w-3 h-3 transition-transform" [class.rotate-180]="toolsMenu" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div *ngIf="toolsMenu" class="absolute right-0 top-full mt-1 w-56 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
+                <a routerLink="/contract-generator" (click)="toolsMenu = false"
+                   class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
+                  <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                  </svg>
+                  {{ lang.t('nav.generator') }}
+                </a>
+                <a routerLink="/guardian" (click)="toolsMenu = false"
+                   class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
+                  <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                  </svg>
+                  {{ lang.t('nav.guardian') }}
+                </a>
+                <a routerLink="/incident-simulator" (click)="toolsMenu = false"
+                   class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
+                  <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                  </svg>
+                  {{ lang.t('nav.simulator') }}
+                </a>
+                <a routerLink="/regulatory-updates" (click)="toolsMenu = false"
+                   class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
+                  <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                  </svg>
+                  {{ lang.t('nav.regulatory') }}
+                </a>
+              </div>
+            </div>
             <div class="w-px h-5 bg-slate-700/50 mx-1"></div>
             <span class="text-xs text-slate-500 px-2 truncate max-w-[120px]">{{ auth.user()?.email }}</span>
             <button (click)="auth.logout()"
@@ -105,6 +149,21 @@ import { AuthService } from './auth/auth.service';
             <a routerLink="/history" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.history') }}</a>
             <div class="border-t border-slate-700/50 mt-2 pt-2">
+              <p class="text-xs text-slate-600 px-3 mb-1 uppercase tracking-wider">{{ lang.t('nav.tools') }}</p>
+              <a routerLink="/contract-generator" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
+                <span class="text-violet-400">&#9998;</span> {{ lang.t('nav.generator') }}</a>
+              <a routerLink="/guardian" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
+                <span class="text-cyan-400">&#9737;</span> {{ lang.t('nav.guardian') }}</a>
+              <a routerLink="/incident-simulator" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
+                <span class="text-amber-400">&#9888;</span> {{ lang.t('nav.simulator') }}</a>
+              <a routerLink="/regulatory-updates" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
+                <span class="text-emerald-400">&#9878;</span> {{ lang.t('nav.regulatory') }}</a>
+            </div>
+            <div class="border-t border-slate-700/50 mt-2 pt-2">
               <span class="text-xs text-slate-500 px-3">{{ auth.user()?.email }}</span>
               <button (click)="auth.logout(); mobileMenu = false"
                       class="w-full text-left text-sm text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 mt-1">
@@ -135,6 +194,9 @@ import { AuthService } from './auth/auth.service';
           </div>
           <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-slate-600">
             <a routerLink="/contract-analysis" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.contract') }}</a>
+            <a routerLink="/contract-generator" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.generator') }}</a>
+            <a routerLink="/guardian" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.guardian') }}</a>
+            <a routerLink="/incident-simulator" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.simulator') }}</a>
             <a routerLink="/pricing" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.pricing') }}</a>
             <a routerLink="/about" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.about') }}</a>
             <a routerLink="/methodology" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.methodology') }}</a>
@@ -152,6 +214,14 @@ import { AuthService } from './auth/auth.service';
 })
 export class AppComponent {
   mobileMenu = false;
+  toolsMenu = false;
 
   constructor(public lang: LangService, public auth: AuthService) {}
+
+  closeDropdowns(event: Event) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.relative')) {
+      this.toolsMenu = false;
+    }
+  }
 }

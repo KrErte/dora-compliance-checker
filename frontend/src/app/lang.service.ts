@@ -747,6 +747,9 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'guardian.view_analysis': { et: 'Vaata anal\u00fc\u00fcsi', en: 'View analysis' },
   'guardian.back': { et: 'Tagasi valvurisse', en: 'Back to Guardian' },
 
+  'nav.tools': { et: 'Tööriistad', en: 'Tools' },
+  'nav.regulatory': { et: 'Regulatiivsed uuendused', en: 'Regulatory Updates' },
+
   // Pricing page
   'nav.pricing': { et: 'Hinnad', en: 'Pricing' },
   'pricing.title': { et: 'Valige oma plaan', en: 'Choose your plan' },
