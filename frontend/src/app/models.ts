@@ -152,20 +152,20 @@ export interface RegulatoryUpdate {
   fetchedAt: string;
 }
 
-export const CATEGORY_LABELS: { [key: string]: string } = {
-  SERVICE_LEVEL: 'Teenustaseme nõuded',
-  EXIT_STRATEGY: 'Väljumisstrateegia',
-  AUDIT: 'Auditeerimine',
-  INCIDENT: 'Intsidentide haldus',
-  DATA: 'Andmekaitse',
-  SUBCONTRACTING: 'Allhankimine',
-  RISK: 'Riskihaldus',
-  LEGAL: 'Õigusnõuded',
-  CONTINUITY: 'Talitluspidevus',
-  RECRUITMENT: 'Värbamine ja personal',
-  FINANCIAL_REPORTING: 'Finantsaruandlus',
-  ICT_RISK_MANAGEMENT: 'ICT riskihaldus',
-  INCIDENT_MANAGEMENT: 'Intsidentide haldus (laiendatud)',
-  TESTING: 'Testimine',
-  INFORMATION_SHARING: 'Info jagamine'
+export const CATEGORY_LABELS: { [key: string]: { et: string; en: string } } = {
+  SERVICE_LEVEL: { et: 'Teenustaseme nõuded', en: 'Service Level Requirements' },
+  EXIT_STRATEGY: { et: 'Väljumisstrateegia', en: 'Exit Strategy' },
+  AUDIT: { et: 'Auditeerimine', en: 'Audit Rights' },
+  INCIDENT: { et: 'Intsidentide haldus', en: 'Incident Management' },
+  DATA: { et: 'Andmekaitse', en: 'Data Protection' },
+  SUBCONTRACTING: { et: 'Allhankimine', en: 'Subcontracting' },
+  RISK: { et: 'Riskihaldus', en: 'Risk Management' },
+  LEGAL: { et: 'Õigusnõuded', en: 'Legal Requirements' },
+  CONTINUITY: { et: 'Talitluspidevus', en: 'Business Continuity' },
+  RECRUITMENT: { et: 'Värbamine ja personal', en: 'Recruitment & Personnel' },
+  FINANCIAL_REPORTING: { et: 'Finantsaruandlus', en: 'Financial Reporting' },
+  ICT_RISK_MANAGEMENT: { et: 'ICT riskihaldus', en: 'ICT Risk Management' },
+  INCIDENT_MANAGEMENT: { et: 'Intsidentide haldus (laiendatud)', en: 'Incident Management (Extended)' },
+  TESTING: { et: 'Testimine', en: 'Testing' },
+  INFORMATION_SHARING: { et: 'Info jagamine', en: 'Information Sharing' }
 };

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
+import { AuthService } from '../auth/auth.service';
 import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
 
 @Component({
@@ -39,9 +40,20 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
         <span class="gradient-text">{{ lang.t('assessment.title') }}</span>
       </h1>
 
+      <!-- Login warning for guests -->
+      <div *ngIf="!auth.isLoggedIn()" class="flex items-start gap-3 mb-6 px-4 py-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-sm animate-fade-in">
+        <svg class="w-5 h-5 text-amber-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+        </svg>
+        <div>
+          <p class="text-amber-300 font-medium">{{ lang.t('assessment.login_warning') }}</p>
+          <p class="text-slate-400 text-xs mt-1">{{ lang.t('assessment.login_warning_desc') }}</p>
+        </div>
+      </div>
+
       <div *ngIf="loading" class="text-center py-16 animate-fade-in">
         <div class="inline-block w-10 h-10 border-4 border-slate-700 border-t-emerald-400 rounded-full animate-spin"></div>
-        <p class="text-slate-400 mt-4">K&uuml;simuste laadimine...</p>
+        <p class="text-slate-400 mt-4">{{ lang.t('assessment.loading') }}</p>
       </div>
 
       <div *ngIf="error" class="bg-red-900/30 border border-red-700/50 rounded-xl p-4 text-red-300 animate-scale-in">
@@ -53,7 +65,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
         </svg>
-        Eelmine mustand taastatud &middot; {{ answeredCount }} vastust salvestatud
+        {{ lang.t('assessment.draft_restored') }} &middot; {{ answeredCount }} {{ lang.t('assessment.answers_saved') }}
       </div>
 
       <!-- Scenario buttons -->
@@ -135,14 +147,14 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
             {{ getCategoryLabel(group.category) }}
             <span *ngIf="getCategoryProgress(group) === 100" class="ml-auto text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">&#10003;</span>
           </h2>
-          <p class="text-xs text-slate-500 mb-4">{{ group.questions.length }} k&uuml;simus{{ group.questions.length > 1 ? 't' : '' }}</p>
+          <p class="text-xs text-slate-500 mb-4">{{ group.questions.length }} {{ lang.t('assessment.questions_count') }}</p>
 
           <div *ngFor="let q of group.questions; let i = index"
                class="py-4 border-b border-slate-700/50 last:border-b-0">
             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
               <div class="flex-1">
                 <p class="text-slate-200 mb-1.5">
-                  <span class="text-slate-500 text-sm mr-2">{{ q.id }}.</span>
+                  <span class="text-slate-500 text-sm mr-2">{{ getGlobalIndex(gi, i) }}.</span>
                   {{ q.questionEt }}
                 </p>
                 <div class="group relative inline-block">
@@ -211,9 +223,9 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
                   <div class="flex items-center gap-2">
                     <span class="text-sm font-semibold" [style.color]="liveScoreColor">{{ liveScoreLabel }}</span>
                     <span class="text-xs text-slate-600">&middot;</span>
-                    <span class="text-xs text-emerald-400">{{ yesCount }} <span class="hidden sm:inline">jah</span><span class="sm:hidden">J</span></span>
-                    <span class="text-xs text-amber-400">{{ partialCount }} <span class="hidden sm:inline">osaliselt</span><span class="sm:hidden">O</span></span>
-                    <span class="text-xs text-red-400">{{ noCount }} <span class="hidden sm:inline">ei</span><span class="sm:hidden">E</span></span>
+                    <span class="text-xs text-emerald-400">{{ yesCount }} <span class="hidden sm:inline">{{ lang.t('assessment.yes') }}</span><span class="sm:hidden">{{ lang.t('assessment.yes').charAt(0) }}</span></span>
+                    <span class="text-xs text-amber-400">{{ partialCount }} <span class="hidden sm:inline">{{ lang.t('assessment.partial') }}</span><span class="sm:hidden">{{ lang.t('assessment.partial').charAt(0) }}</span></span>
+                    <span class="text-xs text-red-400">{{ noCount }} <span class="hidden sm:inline">{{ lang.t('assessment.no') }}</span><span class="sm:hidden">{{ lang.t('assessment.no').charAt(0) }}</span></span>
                   </div>
                 </div>
               </div>
@@ -326,7 +338,7 @@ export class AssessmentComponent implements OnInit {
     return hint ? (this.lang.currentLang === 'et' ? hint.et : hint.en) : '';
   }
 
-  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, public lang: LangService) {}
+  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, public lang: LangService, public auth: AuthService) {}
 
   get step(): number {
     if (this.submitting) return 3;
@@ -355,7 +367,7 @@ export class AssessmentComponent implements OnInit {
         }
       },
       error: () => {
-        this.error = 'K\u00fcsimuste laadimine eba\u00f5nnestus. Palun kontrollige, kas server t\u00f6\u00f6tab.';
+        this.error = this.lang.t('assessment.error_load');
         this.loading = false;
       }
     });
@@ -374,7 +386,9 @@ export class AssessmentComponent implements OnInit {
   }
 
   getCategoryLabel(category: string): string {
-    return CATEGORY_LABELS[category] || category;
+    const label = CATEGORY_LABELS[category];
+    if (!label) return category;
+    return this.lang.currentLang === 'et' ? label.et : label.en;
   }
 
   get totalQuestions(): number {
@@ -410,9 +424,9 @@ export class AssessmentComponent implements OnInit {
   }
 
   get liveScoreLabel(): string {
-    if (this.liveScorePercent >= 80) return 'Vastav';
-    if (this.liveScorePercent >= 50) return 'Osaliselt';
-    return 'Mittevastav';
+    if (this.liveScorePercent >= 80) return this.lang.t('assessment.compliant');
+    if (this.liveScorePercent >= 50) return this.lang.t('assessment.partial');
+    return this.lang.t('assessment.non_compliant');
   }
 
   get liveCategoryBars(): { label: string; percent: number; color: string }[] {
@@ -525,6 +539,14 @@ export class AssessmentComponent implements OnInit {
     return bg[category] || 'bg-slate-500/10';
   }
 
+  getGlobalIndex(groupIndex: number, questionIndex: number): number {
+    let count = 0;
+    for (let g = 0; g < groupIndex; g++) {
+      count += this.groupedQuestions[g].questions.length;
+    }
+    return count + questionIndex + 1;
+  }
+
   getCategoryProgress(group: { category: string; questions: DoraQuestion[] }): number {
     const answered = group.questions.filter(q => this.answers[q.id] !== undefined).length;
     return group.questions.length > 0 ? (answered / group.questions.length) * 100 : 0;
@@ -572,7 +594,7 @@ export class AssessmentComponent implements OnInit {
         this.router.navigate(['/results', result.id]);
       },
       error: () => {
-        this.error = 'Hindamise esitamine eba\u00f5nnestus. Palun proovige uuesti.';
+        this.error = this.lang.t('assessment.error_submit');
         this.submitting = false;
       }
     });

@@ -100,5 +100,9 @@ export const routes: Routes = [
   {
     path: 'privacy',
     loadComponent: () => import('./pages/privacy.component').then(m => m.PrivacyComponent)
+  },
+  {
+    path: '**',
+    loadComponent: () => import('./pages/not-found.component').then(m => m.NotFoundComponent)
   }
 ];

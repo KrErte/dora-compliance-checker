@@ -86,15 +86,21 @@ export class LoginComponent {
 
   onLogin() {
     this.error = '';
+    if (!this.email.trim() || !this.password.trim()) {
+      this.error = this.lang.t('auth.error_empty');
+      return;
+    }
     this.loading = true;
     this.auth.login({ email: this.email, password: this.password }).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigate(['/assessment']);
+        const returnUrl = sessionStorage.getItem('dora_returnUrl');
+        sessionStorage.removeItem('dora_returnUrl');
+        this.router.navigateByUrl(returnUrl || '/assessment');
       },
       error: (err) => {
         this.loading = false;
-        this.error = err.error?.error || this.lang.t('auth.error_invalid');
+        this.error = this.lang.t('auth.error_invalid');
       }
     });
   }

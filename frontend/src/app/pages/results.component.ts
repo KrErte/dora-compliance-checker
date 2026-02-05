@@ -624,7 +624,7 @@ export class ResultsComponent implements OnInit {
     this.categoryStats = Array.from(map.entries()).map(([cat, stat]) => {
       const score = stat.compliant + stat.partial * 0.5;
       return {
-        label: CATEGORY_LABELS[cat] || cat,
+        label: this.getCategoryLabel(cat),
         compliant: stat.compliant,
         total: stat.total,
         percentage: stat.total > 0 ? (score / stat.total) * 100 : 0
@@ -759,7 +759,9 @@ export class ResultsComponent implements OnInit {
   }
 
   getCategoryLabel(category: string): string {
-    return CATEGORY_LABELS[category] || category;
+    const label = CATEGORY_LABELS[category];
+    if (!label) return category;
+    return this.lang.currentLang === 'et' ? label.et : label.en;
   }
 
   get circleColor(): string {

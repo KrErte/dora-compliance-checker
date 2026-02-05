@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 import { ApiService } from '../api.service';
+import { LangService } from '../lang.service';
 import { AssessmentResult, QuestionResult, CATEGORY_LABELS } from '../models';
 
 interface HistoryEntry {
@@ -439,7 +440,7 @@ export class CompareComponent implements OnInit {
   private readonly companyColorClasses = ['text-emerald-400', 'text-cyan-400', 'text-violet-400', 'text-amber-400'];
   private readonly companyFillColors = ['#34d399', '#22d3ee', '#a78bfa', '#fbbf24'];
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, public lang: LangService) {}
 
   ngOnInit() {
     this.loadHistory();
@@ -673,7 +674,9 @@ export class CompareComponent implements OnInit {
   }
 
   getCategoryLabel(category: string): string {
-    return CATEGORY_LABELS[category] || category;
+    const label = CATEGORY_LABELS[category];
+    if (!label) return category;
+    return this.lang.currentLang === 'et' ? label.et : label.en;
   }
 
   // --------------------------------------------------

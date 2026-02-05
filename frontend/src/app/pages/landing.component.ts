@@ -10,7 +10,9 @@ import { takeUntil } from 'rxjs/operators';
 interface DoraRequirement {
   id: string;
   name: string;
+  nameKey?: string;
   description: string;
+  descKey?: string;
   checked: boolean;
   expanded: boolean;
 }
@@ -148,7 +150,7 @@ interface Stat {
                          class="w-5 h-5 rounded border-slate-600 bg-slate-700 text-teal-500 focus:ring-teal-500 cursor-pointer">
                 </td>
                 <td class="px-4 py-4">
-                  <span class="text-slate-200 font-medium">{{ req.name }}</span>
+                  <span class="text-slate-200 font-medium">{{ req.nameKey ? lang.t(req.nameKey) : req.name }}</span>
                 </td>
                 <td class="px-4 py-4 text-right">
                   <span *ngIf="req.checked" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400">
@@ -168,7 +170,7 @@ interface Stat {
               <tr *ngIf="req.expanded" class="bg-slate-800/30">
                 <td colspan="3" class="px-4 py-4">
                   <div class="text-sm text-slate-400 pl-9">
-                    <p class="mb-2">{{ req.description }}</p>
+                    <p class="mb-2">{{ req.descKey ? lang.t(req.descKey) : req.description }}</p>
                     <a routerLink="/contract-analysis" class="text-teal-400 hover:text-teal-300 text-xs font-medium">
                       → {{ lang.t('landing.table_check_contract') }}
                     </a>
@@ -282,7 +284,7 @@ interface Stat {
         <div class="grid grid-cols-3 gap-2 sm:gap-4 text-center">
           <div *ngFor="let badge of trustBadges" class="flex flex-col items-center gap-1 sm:gap-2 p-3 sm:p-4 rounded-lg bg-slate-800/30">
             <span class="text-2xl">{{ badge.icon }}</span>
-            <span class="text-xs text-slate-500 font-medium">{{ badge.text }}</span>
+            <span class="text-xs text-slate-500 font-medium">{{ lang.t(badge.textKey) }}</span>
           </div>
         </div>
       </div>
@@ -495,14 +497,14 @@ export class LandingComponent implements OnInit, OnDestroy {
   ];
 
   requirements: DoraRequirement[] = [
-    { id: '1', name: 'Teenuse kirjeldus ja kvaliteedinõuded', description: 'Leping peab sisaldama selget teenuse kirjeldust, sh funktsionaalsust, jõudlusnõudeid ja kvaliteedistandardeid.', checked: true, expanded: false },
-    { id: '2', name: 'SLA määratlused', description: 'Teenustaseme kokkulepped peavad sisaldama mõõdetavaid KPI-sid, reageerimisaegu ja kättesaadavuse garantiisid.', checked: true, expanded: false },
-    { id: '3', name: 'Andmete asukoht ja töötlemine', description: 'Leping peab määratlema andmete geograafilise asukoha ja töötlemise tingimused.', checked: false, expanded: false },
-    { id: '4', name: 'Auditeerimisõigused', description: 'Finantsasutusel peab olema õigus teostada auditeid ja saada juurdepääs teenuseosutaja dokumentatsioonile.', checked: false, expanded: false },
-    { id: '5', name: 'Alltöövõtjate kasutamine', description: 'Alltöövõtjate kasutamise tingimused ja piirangud peavad olema selgelt määratletud.', checked: true, expanded: false },
-    { id: '6', name: 'Intsidentidest teavitamine', description: 'Leping peab sisaldama kohustust teavitada turvaintsidentidest ja nende lahendamise protseduure.', checked: false, expanded: false },
-    { id: '7', name: 'Lepingu lõpetamise tingimused', description: 'Väljumisstrateegiad ja andmete tagastamise protseduurid peavad olema dokumenteeritud.', checked: true, expanded: false },
-    { id: '8', name: 'Talitluspidevuse tagamine', description: 'Äriprotsesside jätkusuutlikkuse ja taastekavade nõuded peavad olema kaetud.', checked: false, expanded: false }
+    { id: '1', name: '', nameKey: 'landing.req1_name', description: '', descKey: 'landing.req1_desc', checked: true, expanded: false },
+    { id: '2', name: '', nameKey: 'landing.req2_name', description: '', descKey: 'landing.req2_desc', checked: true, expanded: false },
+    { id: '3', name: '', nameKey: 'landing.req3_name', description: '', descKey: 'landing.req3_desc', checked: false, expanded: false },
+    { id: '4', name: '', nameKey: 'landing.req4_name', description: '', descKey: 'landing.req4_desc', checked: false, expanded: false },
+    { id: '5', name: '', nameKey: 'landing.req5_name', description: '', descKey: 'landing.req5_desc', checked: true, expanded: false },
+    { id: '6', name: '', nameKey: 'landing.req6_name', description: '', descKey: 'landing.req6_desc', checked: false, expanded: false },
+    { id: '7', name: '', nameKey: 'landing.req7_name', description: '', descKey: 'landing.req7_desc', checked: true, expanded: false },
+    { id: '8', name: '', nameKey: 'landing.req8_name', description: '', descKey: 'landing.req8_desc', checked: false, expanded: false }
   ];
 
   testimonials = [
@@ -512,9 +514,9 @@ export class LandingComponent implements OnInit, OnDestroy {
   ];
 
   trustBadges = [
-    { icon: '🔒', text: 'GDPR Compliant' },
-    { icon: '🏅', text: 'ISO 27001 Compatible' },
-    { icon: '✔️', text: 'EU Standardiga' }
+    { icon: '🔒', textKey: 'landing.badge_gdpr' },
+    { icon: '🏅', textKey: 'landing.badge_iso' },
+    { icon: '✔️', textKey: 'landing.badge_eu' }
   ];
 
   isDragging = false;

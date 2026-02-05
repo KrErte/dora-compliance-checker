@@ -126,11 +126,14 @@ import { ContractAnalysisResult } from '../models';
           <input #fileInput type="file" accept=".pdf,.docx" (change)="onFileSelect($event)" class="hidden">
         </div>
 
+        <div *ngIf="showValidation && !canSubmit" class="mb-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm animate-fade-in">
+          {{ lang.t('contract.validation_hint') }}
+        </div>
         <div class="flex gap-3">
-          <button (click)="onSubmit()" [disabled]="!canSubmit"
+          <button (click)="onSubmitOrValidate()"
                   [class]="'flex-1 py-3 rounded-lg font-semibold transition-all duration-300 ' +
                            (canSubmit ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-900 hover:shadow-lg hover:shadow-emerald-500/25' :
-                                        'bg-slate-700/50 text-slate-500 cursor-not-allowed')">
+                                        'bg-slate-700/50 text-slate-400 hover:text-slate-300 hover:bg-slate-600/50')">
             {{ lang.t('contract.analyze') }}
           </button>
           <!-- Demo Mock button - only for non-logged-in users -->
@@ -394,6 +397,7 @@ export class ContractAnalysisComponent implements OnInit {
   autoDemo = false;
   email = '';
   emailCaptured = false;
+  showValidation = false;
 
   // Clause suggestions mapped to API requirement IDs
   private clauseMap: { [id: string]: { et: string; en: string } } = {
@@ -553,8 +557,17 @@ export class ContractAnalysisComponent implements OnInit {
     return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
   }
 
+  onSubmitOrValidate() {
+    if (!this.canSubmit) {
+      this.showValidation = true;
+      return;
+    }
+    this.onSubmit();
+  }
+
   onSubmit() {
     if (!this.canSubmit || !this.selectedFile) return;
+    this.showValidation = false;
     this.analyzing = true;
     this.error = '';
     this.api.analyzeContract(this.selectedFile, this.companyName, this.contractName)
