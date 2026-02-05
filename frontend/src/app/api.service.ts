@@ -114,4 +114,9 @@ export class ApiService {
   addRegulatoryUpdate(body: any): Observable<RegulatoryUpdate> {
     return this.http.post<RegulatoryUpdate>(`${this.baseUrl}/guardian/regulatory-updates`, body);
   }
+
+  // Contact
+  submitContact(data: { name: string; email: string; message: string }): Observable<{ success: boolean }> {
+    return this.http.post<{ success: boolean }>(`${this.baseUrl}/contact`, data);
+  }
 }

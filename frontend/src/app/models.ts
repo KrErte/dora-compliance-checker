@@ -11,12 +11,13 @@ export interface DoraQuestion {
 export interface AssessmentRequest {
   companyName: string;
   contractName: string;
-  answers: { [questionId: number]: boolean };
+  answers: { [questionId: number]: string };
 }
 
 export interface QuestionResult {
   questionId: number;
   question: string;
+  complianceStatus: string;
   compliant: boolean;
   articleReference: string;
   explanation: string;
@@ -31,6 +32,7 @@ export interface AssessmentResult {
   assessmentDate: string;
   totalQuestions: number;
   compliantCount: number;
+  partialCount: number;
   nonCompliantCount: number;
   scorePercentage: number;
   complianceLevel: 'GREEN' | 'YELLOW' | 'RED';

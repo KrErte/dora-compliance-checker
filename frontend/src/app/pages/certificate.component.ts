@@ -16,7 +16,7 @@ import { AssessmentResult } from '../models';
       <div *ngIf="result" class="animate-scale-in">
         <!-- Certificate -->
         <div class="certificate-border p-1">
-          <div class="bg-slate-900 rounded-xl p-10 text-center relative overflow-hidden">
+          <div class="bg-slate-900 rounded-xl p-5 sm:p-10 text-center relative overflow-hidden">
             <!-- Background pattern -->
             <div class="absolute inset-0 opacity-5">
               <svg width="100%" height="100%">
@@ -92,7 +92,7 @@ import { AssessmentResult } from '../models';
               </div>
 
               <!-- Stats -->
-              <div class="grid grid-cols-3 gap-4 mb-8 max-w-sm mx-auto">
+              <div class="grid grid-cols-3 gap-2 sm:gap-4 mb-8 max-w-sm mx-auto">
                 <div>
                   <div class="text-2xl font-bold text-emerald-400">{{ result.compliantCount }}</div>
                   <p class="text-xs text-slate-500">vastav</p>
@@ -108,7 +108,7 @@ import { AssessmentResult } from '../models';
               </div>
 
               <!-- Date & ID -->
-              <div class="flex items-center justify-center gap-6 text-xs text-slate-600">
+              <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-xs text-slate-600">
                 <span>Kuup&auml;ev: {{ result.assessmentDate | date:'dd.MM.yyyy' }}</span>
                 <span>&middot;</span>
                 <span>ID: {{ result.id }}</span>
@@ -126,7 +126,7 @@ import { AssessmentResult } from '../models';
         </div>
 
         <!-- Actions -->
-        <div class="flex justify-center gap-3 mt-6 no-print">
+        <div class="flex flex-col sm:flex-row justify-center gap-3 mt-6 no-print">
           <button (click)="printCert()"
                   class="bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-400 hover:to-purple-400
                          text-white font-semibold px-6 py-2.5 rounded-lg transition-all duration-300

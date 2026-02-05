@@ -190,7 +190,7 @@ import { ContractAnalysisResult } from '../models';
           </div>
 
           <!-- Stats -->
-          <div class="flex-1 grid grid-cols-3 gap-4 w-full">
+          <div class="flex-1 grid grid-cols-3 gap-2 sm:gap-4 w-full">
             <div class="text-center p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
               <div class="text-2xl font-bold text-emerald-400">{{ result.foundCount }}</div>
               <div class="text-xs text-slate-400">{{ lang.t('contract.found') }}</div>
@@ -346,10 +346,10 @@ import { ContractAnalysisResult } from '../models';
             <h3 class="text-sm font-semibold text-slate-200 mb-1">{{ lang.t('contract.share_title') }}</h3>
             <p class="text-xs text-slate-500">{{ lang.t('contract.share_desc') }}</p>
           </div>
-          <div class="flex items-center gap-2 w-full md:w-auto">
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full md:w-auto">
             <input type="email" [(ngModel)]="email" [placeholder]="lang.t('contract.email_placeholder')"
                    class="bg-slate-900/50 border border-slate-600/50 rounded-lg px-3 py-2 text-sm text-slate-100
-                          focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all w-full md:w-56">
+                          focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all w-full sm:w-56">
             <button (click)="captureEmail()"
                     class="px-4 py-2 rounded-lg text-sm font-medium bg-emerald-500/20 border border-emerald-500/30 text-emerald-400
                            hover:bg-emerald-500/30 transition-all whitespace-nowrap">
@@ -363,7 +363,7 @@ import { ContractAnalysisResult } from '../models';
       </div>
 
       <!-- Action buttons -->
-      <div class="flex items-center justify-center gap-3 mt-8">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
         <button (click)="downloadPdf()"
                 class="px-6 py-2.5 rounded-lg font-medium text-sm bg-gradient-to-r from-emerald-500 to-cyan-500
                        text-slate-900 hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-300

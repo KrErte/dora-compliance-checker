@@ -13,6 +13,7 @@ public record AssessmentResult(
         LocalDateTime assessmentDate,
         int totalQuestions,
         int compliantCount,
+        int partialCount,
         int nonCompliantCount,
         double scorePercentage,
         ComplianceLevel complianceLevel,
@@ -30,6 +31,7 @@ public record AssessmentResult(
     public record QuestionResult(
             int questionId,
             String question,
+            String complianceStatus,
             boolean compliant,
             String articleReference,
             String explanation,

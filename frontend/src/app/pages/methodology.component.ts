@@ -15,7 +15,7 @@ import { LangService } from '../lang.service';
       </div>
 
       <!-- DORA Article 30 Overview -->
-      <div class="glass-card p-8 mb-8">
+      <div class="glass-card p-5 sm:p-8 mb-8">
         <h2 class="text-xl font-bold text-emerald-400 mb-4">{{ lang.t('methodology.art30_title') }}</h2>
         <p class="text-slate-300 mb-6 leading-relaxed">{{ lang.t('methodology.art30_desc') }}</p>
 
@@ -33,7 +33,7 @@ import { LangService } from '../lang.service';
       </div>
 
       <!-- Assessment Process -->
-      <div class="glass-card p-8 mb-8">
+      <div class="glass-card p-5 sm:p-8 mb-8">
         <h2 class="text-xl font-bold text-cyan-400 mb-4">{{ lang.t('methodology.process_title') }}</h2>
 
         <div class="space-y-6">
@@ -50,11 +50,11 @@ import { LangService } from '../lang.service';
       </div>
 
       <!-- Scoring Methodology -->
-      <div class="glass-card p-8 mb-8">
+      <div class="glass-card p-5 sm:p-8 mb-8">
         <h2 class="text-xl font-bold text-violet-400 mb-4">{{ lang.t('methodology.scoring_title') }}</h2>
         <p class="text-slate-300 mb-6">{{ lang.t('methodology.scoring_desc') }}</p>
 
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           <div class="text-center p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
             <div class="text-2xl font-bold text-emerald-400 mb-1">80-100%</div>
             <p class="text-sm text-slate-400">{{ lang.t('methodology.compliant') }}</p>
@@ -71,7 +71,7 @@ import { LangService } from '../lang.service';
       </div>
 
       <!-- Regulatory References -->
-      <div class="glass-card p-8 mb-8">
+      <div class="glass-card p-5 sm:p-8 mb-8">
         <h2 class="text-xl font-bold text-amber-400 mb-4">{{ lang.t('methodology.references_title') }}</h2>
 
         <div class="space-y-4">

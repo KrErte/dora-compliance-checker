@@ -29,6 +29,8 @@ public class AssessmentEntity {
     @Column(nullable = false)
     private int compliantCount;
 
+    private int partialCount;
+
     @Column(nullable = false)
     private double scorePercentage;
 
@@ -41,13 +43,14 @@ public class AssessmentEntity {
     public AssessmentEntity() {}
 
     public AssessmentEntity(String companyName, String contractName, LocalDateTime assessmentDate,
-                            int totalQuestions, int compliantCount, double scorePercentage,
+                            int totalQuestions, int compliantCount, int partialCount, double scorePercentage,
                             String complianceLevel, String answersJson) {
         this.companyName = companyName;
         this.contractName = contractName;
         this.assessmentDate = assessmentDate;
         this.totalQuestions = totalQuestions;
         this.compliantCount = compliantCount;
+        this.partialCount = partialCount;
         this.scorePercentage = scorePercentage;
         this.complianceLevel = complianceLevel;
         this.answersJson = answersJson;
@@ -65,6 +68,8 @@ public class AssessmentEntity {
     public void setTotalQuestions(int totalQuestions) { this.totalQuestions = totalQuestions; }
     public int getCompliantCount() { return compliantCount; }
     public void setCompliantCount(int compliantCount) { this.compliantCount = compliantCount; }
+    public int getPartialCount() { return partialCount; }
+    public void setPartialCount(int partialCount) { this.partialCount = partialCount; }
     public double getScorePercentage() { return scorePercentage; }
     public void setScorePercentage(double scorePercentage) { this.scorePercentage = scorePercentage; }
     public String getComplianceLevel() { return complianceLevel; }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { LangService } from '../lang.service';
+import { ApiService } from '../api.service';
 import { timer, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -129,8 +130,8 @@ interface Stat {
         <p class="text-slate-500 text-sm mt-2">{{ lang.t('landing.interactive_desc') }}</p>
       </div>
 
-      <div class="requirements-table rounded-xl overflow-hidden border border-slate-700/50">
-        <table class="w-full">
+      <div class="requirements-table rounded-xl overflow-x-auto border border-slate-700/50">
+        <table class="w-full min-w-[480px]">
           <thead class="bg-slate-800/80">
             <tr>
               <th class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider w-12">{{ lang.t('landing.table_check') }}</th>
@@ -215,18 +216,15 @@ interface Stat {
       </div>
 
       <p class="text-center text-xs text-slate-500 mb-4">{{ lang.t('landing.pillars_hint') }}</p>
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto px-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto px-4">
         <a *ngFor="let pillar of pillars" [routerLink]="'/pillar/' + pillar.id"
            [title]="lang.t('landing.pillar_tooltip')"
            class="glass-card p-4 text-center group hover:border-emerald-500/30 transition-all duration-300 cursor-pointer">
           <div class="text-3xl mb-2">{{ pillar.icon }}</div>
           <h3 class="text-sm font-medium text-slate-300 group-hover:text-emerald-300 transition-colors">{{ lang.t(pillar.labelKey) }}</h3>
           <p class="text-xs text-slate-600 mt-1">{{ pillar.articles }}</p>
-          <span *ngIf="pillar.id === 'THIRD_PARTY'" class="inline-block mt-2 px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-500/20 text-emerald-400">
+          <span class="inline-block mt-2 px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-500/20 text-emerald-400">
             {{ lang.t('landing.active') }}
-          </span>
-          <span *ngIf="pillar.id !== 'THIRD_PARTY'" class="inline-block mt-2 px-2 py-0.5 rounded text-[10px] font-medium bg-slate-700/50 text-slate-500">
-            {{ lang.t('landing.soon') }}
           </span>
         </a>
       </div>
@@ -240,8 +238,8 @@ interface Stat {
           <h2 class="text-2xl font-bold text-slate-100">{{ lang.t('landing.reviews_title') }}</h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div *ngFor="let testimonial of testimonials" class="testimonial-card p-6 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-teal-500/20 transition-all duration-300">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+          <div *ngFor="let testimonial of testimonials" class="testimonial-card p-5 sm:p-6 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-teal-500/20 transition-all duration-300">
             <div class="text-2xl mb-4 text-teal-400">{{ testimonial.stars }}</div>
             <p class="text-slate-300 mb-4 italic">"{{ lang.t(testimonial.textKey) }}"</p>
             <div>
@@ -281,8 +279,8 @@ interface Stat {
     <!-- Trust Badges -->
     <div class="py-8">
       <div class="max-w-2xl mx-auto px-4">
-        <div class="grid grid-cols-3 gap-4 text-center">
-          <div *ngFor="let badge of trustBadges" class="flex flex-col items-center gap-2 p-4 rounded-lg bg-slate-800/30">
+        <div class="grid grid-cols-3 gap-2 sm:gap-4 text-center">
+          <div *ngFor="let badge of trustBadges" class="flex flex-col items-center gap-1 sm:gap-2 p-3 sm:p-4 rounded-lg bg-slate-800/30">
             <span class="text-2xl">{{ badge.icon }}</span>
             <span class="text-xs text-slate-500 font-medium">{{ badge.text }}</span>
           </div>
@@ -298,40 +296,61 @@ interface Stat {
           <p class="text-slate-400 text-sm">{{ lang.t('landing.contact_subtitle') }}</p>
         </div>
 
-        <form (submit)="submitContact($event)" class="glass-card p-6">
+        <form (submit)="submitContact($event)" class="glass-card p-6" *ngIf="!contactSubmitted">
           <div class="flex flex-col gap-4">
             <div>
               <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('auth.full_name') }}</label>
               <input type="text" [(ngModel)]="contactName" name="name"
-                     class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors"
+                     [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors ' +
+                              (contactNameError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
                      [placeholder]="lang.currentLang === 'et' ? 'Teie nimi' : 'Your name'">
+              <p *ngIf="contactNameError" class="text-red-400 text-xs mt-1 animate-fade-in">
+                {{ lang.t('landing.contact_error_name') }}
+              </p>
             </div>
             <div>
               <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('auth.email') }}</label>
               <input type="email" [(ngModel)]="contactEmail" name="email" [placeholder]="lang.t('landing.contact_email_placeholder')"
                      [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors ' +
-                              (contactError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
+                              (contactEmailError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
                      required>
+              <p *ngIf="contactEmailError" class="text-red-400 text-xs mt-1 animate-fade-in">
+                {{ lang.t('landing.contact_error') }}
+              </p>
             </div>
             <div>
               <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.currentLang === 'et' ? 'Sõnum' : 'Message' }}</label>
               <textarea [(ngModel)]="contactMessage" name="message" rows="3"
-                        class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors resize-none"
+                        [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors resize-none ' +
+                                 (contactMessageError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
                         [placeholder]="lang.currentLang === 'et' ? 'Kirjeldage oma vajadust...' : 'Describe your needs...'"></textarea>
+              <p *ngIf="contactMessageError" class="text-red-400 text-xs mt-1 animate-fade-in">
+                {{ lang.t('landing.contact_error_message') }}
+              </p>
             </div>
-            <button type="submit"
-                    class="cta-button w-full px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-900 font-semibold">
-              {{ lang.t('landing.contact_btn') }}
+            <button type="submit" [disabled]="contactSending"
+                    class="cta-button w-full px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-900 font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+              <svg *ngIf="contactSending" class="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              {{ contactSending ? lang.t('landing.contact_sending') : lang.t('landing.contact_btn') }}
             </button>
-            <p *ngIf="contactError" class="text-red-400 text-sm text-center animate-fade-in">
-              {{ lang.t('landing.contact_error') }}
+            <p *ngIf="contactServerError" class="text-red-400 text-sm text-center animate-fade-in">
+              {{ lang.t('landing.contact_server_error') }}
             </p>
           </div>
         </form>
 
-        <p *ngIf="contactSubmitted" class="mt-4 text-teal-400 text-sm text-center animate-fade-in">
-          {{ lang.t('landing.contact_success') }}
-        </p>
+        <div *ngIf="contactSubmitted" class="glass-card p-8 text-center animate-fade-in">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-teal-500/20 flex items-center justify-center">
+            <svg class="w-8 h-8 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <p class="text-teal-400 text-lg font-semibold mb-2">{{ lang.t('landing.contact_success') }}</p>
+          <p class="text-slate-400 text-sm">{{ lang.t('landing.contact_subtitle') }}</p>
+        </div>
       </div>
     </div>
 
@@ -503,9 +522,13 @@ export class LandingComponent implements OnInit, OnDestroy {
   contactEmail = '';
   contactMessage = '';
   contactSubmitted = false;
-  contactError = false;
+  contactNameError = false;
+  contactEmailError = false;
+  contactMessageError = false;
+  contactServerError = false;
+  contactSending = false;
 
-  constructor(public lang: LangService) {}
+  constructor(public lang: LangService, private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.animateStats();
@@ -564,25 +587,44 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   submitContact(event: Event): void {
     event.preventDefault();
-    this.contactError = false;
-    this.contactSubmitted = false;
+    this.contactNameError = false;
+    this.contactEmailError = false;
+    this.contactMessageError = false;
+    this.contactServerError = false;
 
+    let hasError = false;
+    if (!this.contactName || !this.contactName.trim()) {
+      this.contactNameError = true;
+      hasError = true;
+    }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!this.contactEmail || !emailRegex.test(this.contactEmail)) {
-      this.contactError = true;
-      setTimeout(() => this.contactError = false, 5000);
-      return;
+      this.contactEmailError = true;
+      hasError = true;
     }
+    if (!this.contactMessage || !this.contactMessage.trim()) {
+      this.contactMessageError = true;
+      hasError = true;
+    }
+    if (hasError) return;
 
-    // Save to localStorage (in real app would send to backend)
-    const contacts = JSON.parse(localStorage.getItem('dora_contacts') || '[]');
-    contacts.push({ name: this.contactName, email: this.contactEmail, message: this.contactMessage, date: new Date().toISOString() });
-    localStorage.setItem('dora_contacts', JSON.stringify(contacts));
-
-    this.contactSubmitted = true;
-    this.contactEmail = '';
-    this.contactName = '';
-    this.contactMessage = '';
-    setTimeout(() => this.contactSubmitted = false, 5000);
+    this.contactSending = true;
+    this.apiService.submitContact({
+      name: this.contactName.trim(),
+      email: this.contactEmail.trim(),
+      message: this.contactMessage.trim()
+    }).subscribe({
+      next: () => {
+        this.contactSending = false;
+        this.contactSubmitted = true;
+        this.contactName = '';
+        this.contactEmail = '';
+        this.contactMessage = '';
+      },
+      error: () => {
+        this.contactSending = false;
+        this.contactServerError = true;
+      }
+    });
   }
 }

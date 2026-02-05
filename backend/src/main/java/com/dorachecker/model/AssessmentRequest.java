@@ -17,5 +17,5 @@ public record AssessmentRequest(
 
         @NotNull(message = "Answers are required")
         @Size(min = 1, message = "At least one answer is required")
-        Map<Integer, Boolean> answers
+        Map<Integer, String> answers
 ) {}

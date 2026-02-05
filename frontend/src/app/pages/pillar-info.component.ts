@@ -87,9 +87,16 @@ interface PillarInfo {
       <div class="glass-card p-6 border-emerald-500/20 bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 text-center">
         <h3 class="text-lg font-semibold text-white mb-2">{{ lang.t('pillar.cta_title') }}</h3>
         <p class="text-sm text-slate-400 mb-4">{{ lang.t('pillar.cta_desc') }}</p>
-        <a routerLink="/contract-analysis" [queryParams]="{sample: 'true'}"
+        <a *ngIf="pillar.id === 'THIRD_PARTY'" routerLink="/contract-analysis" [queryParams]="{sample: 'true'}"
            class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 hover:from-emerald-400 hover:to-cyan-400 transition-all">
           {{ lang.t('landing.cta_try_sample') }}
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+          </svg>
+        </a>
+        <a *ngIf="pillar.id !== 'THIRD_PARTY'" routerLink="/assessment" [queryParams]="{pillar: pillar.id}"
+           class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 hover:from-emerald-400 hover:to-cyan-400 transition-all">
+          {{ lang.t('pillar.start_assessment') }}
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
           </svg>

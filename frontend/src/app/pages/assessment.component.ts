@@ -139,7 +139,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
 
           <div *ngFor="let q of group.questions; let i = index"
                class="py-4 border-b border-slate-700/50 last:border-b-0">
-            <div class="flex items-start justify-between gap-4">
+            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
               <div class="flex-1">
                 <p class="text-slate-200 mb-1.5">
                   <span class="text-slate-500 text-sm mr-2">{{ q.id }}.</span>
@@ -160,17 +160,24 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
               </div>
               <div class="flex items-center gap-1.5 shrink-0 mt-1">
                 <button type="button"
-                        (click)="answers[q.id] = true; autoSave()"
-                        [class]="answers[q.id] === true
-                          ? 'px-4 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-emerald-400 text-slate-900 shadow-lg shadow-emerald-500/20 scale-105 transition-all duration-200'
-                          : 'px-4 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
+                        (click)="answers[q.id] = 'yes'; autoSave()"
+                        [class]="answers[q.id] === 'yes'
+                          ? 'px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-emerald-400 text-slate-900 shadow-lg shadow-emerald-500/20 scale-105 transition-all duration-200'
+                          : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
                   {{ lang.t('assessment.yes') }}
                 </button>
                 <button type="button"
-                        (click)="answers[q.id] = false; autoSave()"
-                        [class]="answers[q.id] === false
-                          ? 'px-4 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-red-500 to-red-400 text-white shadow-lg shadow-red-500/20 scale-105 transition-all duration-200'
-                          : 'px-4 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
+                        (click)="answers[q.id] = 'partial'; autoSave()"
+                        [class]="answers[q.id] === 'partial'
+                          ? 'px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-amber-500 to-amber-400 text-slate-900 shadow-lg shadow-amber-500/20 scale-105 transition-all duration-200'
+                          : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
+                  {{ lang.t('assessment.partial') }}
+                </button>
+                <button type="button"
+                        (click)="answers[q.id] = 'no'; autoSave()"
+                        [class]="answers[q.id] === 'no'
+                          ? 'px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-red-500 to-red-400 text-white shadow-lg shadow-red-500/20 scale-105 transition-all duration-200'
+                          : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
                   {{ lang.t('assessment.no') }}
                 </button>
               </div>
@@ -182,7 +189,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
         <div class="sticky bottom-4 mt-8 animate-fade-in-up delay-300">
           <div class="bg-slate-800/90 backdrop-blur-md border border-slate-700/50 rounded-xl p-4 shadow-2xl">
             <!-- Live score preview -->
-            <div *ngIf="answeredCount > 0" class="flex items-center gap-4 mb-3 pb-3 border-b border-slate-700/30">
+            <div *ngIf="answeredCount > 0" class="flex items-center gap-2 sm:gap-4 mb-3 pb-3 border-b border-slate-700/30">
               <div class="flex items-center gap-2 flex-1">
                 <div class="relative w-10 h-10 shrink-0">
                   <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
@@ -204,8 +211,9 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
                   <div class="flex items-center gap-2">
                     <span class="text-sm font-semibold" [style.color]="liveScoreColor">{{ liveScoreLabel }}</span>
                     <span class="text-xs text-slate-600">&middot;</span>
-                    <span class="text-xs text-emerald-400">{{ yesCount }} jah</span>
-                    <span class="text-xs text-red-400">{{ noCount }} ei</span>
+                    <span class="text-xs text-emerald-400">{{ yesCount }} <span class="hidden sm:inline">jah</span><span class="sm:hidden">J</span></span>
+                    <span class="text-xs text-amber-400">{{ partialCount }} <span class="hidden sm:inline">osaliselt</span><span class="sm:hidden">O</span></span>
+                    <span class="text-xs text-red-400">{{ noCount }} <span class="hidden sm:inline">ei</span><span class="sm:hidden">E</span></span>
                   </div>
                 </div>
               </div>
@@ -223,7 +231,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
             <div class="flex items-center justify-between">
             <div>
               <div class="flex items-center gap-3">
-                <div class="w-full bg-slate-700 rounded-full h-2 w-32">
+                <div class="w-full bg-slate-700 rounded-full h-2 w-20 sm:w-32">
                   <div class="h-2 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-400 transition-all duration-500"
                        [style.width.%]="(answeredCount / totalQuestions) * 100">
                   </div>
@@ -255,7 +263,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
 export class AssessmentComponent implements OnInit {
   questions: DoraQuestion[] = [];
   groupedQuestions: { category: string; questions: DoraQuestion[] }[] = [];
-  answers: { [id: number]: boolean } = {};
+  answers: { [id: number]: string } = {};
   companyName = '';
   contractName = '';
   loading = true;
@@ -378,16 +386,21 @@ export class AssessmentComponent implements OnInit {
   }
 
   get yesCount(): number {
-    return Object.values(this.answers).filter(v => v === true).length;
+    return Object.values(this.answers).filter(v => v === 'yes').length;
+  }
+
+  get partialCount(): number {
+    return Object.values(this.answers).filter(v => v === 'partial').length;
   }
 
   get noCount(): number {
-    return Object.values(this.answers).filter(v => v === false).length;
+    return Object.values(this.answers).filter(v => v === 'no').length;
   }
 
   get liveScorePercent(): number {
     if (this.answeredCount === 0) return 0;
-    return (this.yesCount / this.answeredCount) * 100;
+    const score = this.yesCount + this.partialCount * 0.5;
+    return (score / this.answeredCount) * 100;
   }
 
   get liveScoreColor(): string {
@@ -405,9 +418,11 @@ export class AssessmentComponent implements OnInit {
   get liveCategoryBars(): { label: string; percent: number; color: string }[] {
     return this.groupedQuestions.map(group => {
       const answered = group.questions.filter(q => this.answers[q.id] !== undefined);
-      const yes = group.questions.filter(q => this.answers[q.id] === true).length;
+      const yes = group.questions.filter(q => this.answers[q.id] === 'yes').length;
+      const partial = group.questions.filter(q => this.answers[q.id] === 'partial').length;
       const total = answered.length;
-      const percent = total > 0 ? (yes / total) * 100 : 0;
+      const score = yes + partial * 0.5;
+      const percent = total > 0 ? (score / total) * 100 : 0;
       return {
         label: this.getCategoryLabel(group.category),
         percent,
@@ -423,60 +438,61 @@ export class AssessmentComponent implements OnInit {
   }
 
   applyScenario(scenario: 'ideal' | 'average' | 'weak') {
-    // Kategooriad, mis on tüüpiliselt nõrgad keskmises lepingus
     const avgWeakCategories = ['DATA', 'SUBCONTRACTING', 'AUDIT', 'RISK',
       'RECRUITMENT', 'FINANCIAL_REPORTING', 'TESTING', 'INFORMATION_SHARING'];
-    // Kategooriad, mis on tüüpiliselt nõrgad nõrgas lepingus (peaaegu kõik)
     const weakOkCategories = ['SERVICE_LEVEL', 'LEGAL'];
 
     switch (scenario) {
       case 'ideal':
         this.companyName = 'AS Finantsteenused';
         this.contractName = 'Pilveteenuse SLA leping 2025';
-        for (const q of this.questions) this.answers[q.id] = true;
+        for (const q of this.questions) this.answers[q.id] = 'yes';
         break;
       case 'average':
         this.companyName = 'O\u00dc DigiLahendused';
         this.contractName = 'IT-taristu hooldusleping';
         for (const q of this.questions) {
           if (avgWeakCategories.includes(q.category)) {
-            // Need kategooriad on tüüpiliselt puudulikud
-            this.answers[q.id] = Math.random() > 0.6;
+            const r = Math.random();
+            this.answers[q.id] = r > 0.6 ? 'yes' : (r > 0.3 ? 'partial' : 'no');
           } else {
-            this.answers[q.id] = Math.random() > 0.2;
+            const r = Math.random();
+            this.answers[q.id] = r > 0.2 ? 'yes' : (r > 0.1 ? 'partial' : 'no');
           }
         }
-        // Kindlusta konkreetsed puudused realistlikkuse jaoks
-        this.setAnswerByCategory('TESTING', false, 2);         // TLPT ja jätkuvuse testid puudu
-        this.setAnswerByCategory('INFORMATION_SHARING', false, 2); // Info jagamine nõrk
-        this.setAnswerByCategory('INCIDENT_MANAGEMENT', false, 1); // Üks intsidendi puudus
-        this.setAnswerByCategory('FINANCIAL_REPORTING', false, 2); // Finantsriskid
+        this.setAnswerByCategory('TESTING', 'partial', 2);
+        this.setAnswerByCategory('INFORMATION_SHARING', 'no', 1);
+        this.setAnswerByCategory('INFORMATION_SHARING', 'partial', 1);
+        this.setAnswerByCategory('INCIDENT_MANAGEMENT', 'partial', 1);
+        this.setAnswerByCategory('FINANCIAL_REPORTING', 'no', 1);
+        this.setAnswerByCategory('FINANCIAL_REPORTING', 'partial', 1);
         break;
       case 'weak':
         this.companyName = 'O\u00dc V\u00e4ikeettev\u00f5te';
         this.contractName = 'P\u00f5hiline IT-leping';
         for (const q of this.questions) {
           if (weakOkCategories.includes(q.category)) {
-            this.answers[q.id] = Math.random() > 0.4;
+            const r = Math.random();
+            this.answers[q.id] = r > 0.4 ? 'yes' : (r > 0.2 ? 'partial' : 'no');
           } else {
-            this.answers[q.id] = Math.random() > 0.8;
+            const r = Math.random();
+            this.answers[q.id] = r > 0.8 ? 'yes' : (r > 0.5 ? 'partial' : 'no');
           }
         }
-        // Kindlusta, et kriitilised valdkonnad on mittevastav
-        this.setAnswerByCategory('ICT_RISK_MANAGEMENT', false);
-        this.setAnswerByCategory('INCIDENT_MANAGEMENT', false);
-        this.setAnswerByCategory('TESTING', false);
-        this.setAnswerByCategory('INFORMATION_SHARING', false);
-        this.setAnswerByCategory('RECRUITMENT', false);
-        this.setAnswerByCategory('FINANCIAL_REPORTING', false);
-        this.setAnswerByCategory('EXIT_STRATEGY', false);
-        this.setAnswerByCategory('CONTINUITY', false);
+        this.setAnswerByCategory('ICT_RISK_MANAGEMENT', 'no');
+        this.setAnswerByCategory('INCIDENT_MANAGEMENT', 'no');
+        this.setAnswerByCategory('TESTING', 'no');
+        this.setAnswerByCategory('INFORMATION_SHARING', 'no');
+        this.setAnswerByCategory('RECRUITMENT', 'no');
+        this.setAnswerByCategory('FINANCIAL_REPORTING', 'no');
+        this.setAnswerByCategory('EXIT_STRATEGY', 'no');
+        this.setAnswerByCategory('CONTINUITY', 'no');
         break;
     }
   }
 
   /** Määra kategooria küsimustele vastus. Kui count on antud, muuda ainult nii palju. */
-  private setAnswerByCategory(category: string, value: boolean, count?: number) {
+  private setAnswerByCategory(category: string, value: string, count?: number) {
     const qs = this.questions.filter(q => q.category === category);
     const target = count !== undefined ? Math.min(count, qs.length) : qs.length;
     for (let i = 0; i < target; i++) {

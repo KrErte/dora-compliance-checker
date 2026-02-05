@@ -72,10 +72,14 @@ interface HeatmapCell {
               <p class="text-xs text-slate-500 mt-2 animate-fade-in delay-500">{{ result.assessmentDate | date:'dd.MM.yyyy HH:mm' }}</p>
 
               <!-- Stats row -->
-              <div class="flex gap-6 mt-4 justify-center md:justify-start animate-fade-in-up delay-500">
+              <div class="flex flex-wrap gap-4 sm:gap-6 mt-4 justify-center md:justify-start animate-fade-in-up delay-500">
                 <div>
                   <span class="text-2xl font-bold text-emerald-400">{{ result.compliantCount }}</span>
                   <p class="text-xs text-slate-500">{{ lang.t('results.compliant') }}</p>
+                </div>
+                <div>
+                  <span class="text-2xl font-bold text-amber-400">{{ result.partialCount }}</span>
+                  <p class="text-xs text-slate-500">{{ lang.t('results.partial') }}</p>
                 </div>
                 <div>
                   <span class="text-2xl font-bold text-red-400">{{ result.nonCompliantCount }}</span>
@@ -102,7 +106,7 @@ interface HeatmapCell {
               {{ lang.t('results.profile') }}
             </h2>
             <div class="flex justify-center">
-              <svg viewBox="0 0 300 300" class="w-full max-w-[280px]">
+              <svg viewBox="0 0 300 300" class="w-full max-w-[220px] sm:max-w-[280px]">
                 <!-- Background rings -->
                 <polygon *ngFor="let ring of radarRings"
                          [attr.points]="ring"
@@ -144,11 +148,11 @@ interface HeatmapCell {
               </svg>
               {{ lang.t('results.risk_matrix') }}
             </h2>
-            <div class="flex justify-center">
+            <div class="flex justify-center pl-6">
               <div class="relative">
                 <!-- Y axis label -->
                 <div class="absolute -left-6 top-1/2 -translate-y-1/2 -rotate-90 text-xs text-slate-500 whitespace-nowrap">M&otilde;ju</div>
-                <svg viewBox="0 0 220 220" class="w-full max-w-[250px]">
+                <svg viewBox="0 0 220 220" class="w-full max-w-[200px] sm:max-w-[250px]">
                   <!-- Grid cells -->
                   <g *ngFor="let cell of heatmapCells">
                     <rect [attr.x]="cell.x" [attr.y]="cell.y"
@@ -201,7 +205,7 @@ interface HeatmapCell {
             </svg>
             {{ lang.t('results.pillars') }}
           </h2>
-          <div class="grid grid-cols-5 gap-2">
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
             <div *ngFor="let pillar of doraPillars; let i = index"
                  class="text-center p-3 rounded-lg border animate-fade-in-up"
                  [class]="pillar.active
@@ -225,7 +229,7 @@ interface HeatmapCell {
         </div>
 
         <!-- Category summary cards -->
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-8">
           <div *ngFor="let cat of categoryStats; let i = index"
                class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4 card-hover animate-fade-in-up"
                [style.animation-delay]="(i * 80 + 300) + 'ms'">
@@ -456,10 +460,12 @@ interface HeatmapCell {
              class="bg-slate-800/50 backdrop-blur rounded-xl p-5 mb-3 border border-slate-700/50 card-hover animate-slide-in-right"
              [style.animation-delay]="(i * 60 + 500) + 'ms'">
           <div class="flex items-start gap-3">
-            <span [class]="qr.compliant
+            <span [class]="qr.complianceStatus === 'yes'
               ? 'mt-0.5 w-7 h-7 rounded-full bg-emerald-500/15 text-emerald-400 flex items-center justify-center text-sm shrink-0 border border-emerald-500/20'
-              : 'mt-0.5 w-7 h-7 rounded-full bg-red-500/15 text-red-400 flex items-center justify-center text-sm shrink-0 border border-red-500/20'">
-              {{ qr.compliant ? '\u2713' : '\u2717' }}
+              : qr.complianceStatus === 'partial'
+                ? 'mt-0.5 w-7 h-7 rounded-full bg-amber-500/15 text-amber-400 flex items-center justify-center text-sm shrink-0 border border-amber-500/20'
+                : 'mt-0.5 w-7 h-7 rounded-full bg-red-500/15 text-red-400 flex items-center justify-center text-sm shrink-0 border border-red-500/20'">
+              {{ qr.complianceStatus === 'yes' ? '\u2713' : qr.complianceStatus === 'partial' ? '\u25CB' : '\u2717' }}
             </span>
             <div class="flex-1">
               <p class="text-slate-200 font-medium">{{ qr.question }}</p>
@@ -469,7 +475,7 @@ interface HeatmapCell {
                   {{ getCategoryLabel(qr.category) }}
                 </span>
               </div>
-              <div *ngIf="!qr.compliant" class="mt-3 bg-gradient-to-r from-amber-500/5 to-transparent rounded-lg p-3 border-l-2 border-amber-500/50">
+              <div *ngIf="qr.complianceStatus !== 'yes'" class="mt-3 bg-gradient-to-r from-amber-500/5 to-transparent rounded-lg p-3 border-l-2 border-amber-500/50">
                 <p class="text-xs font-semibold text-amber-400 mb-1">{{ lang.t('results.recommendation') }}</p>
                 <p class="text-sm text-slate-300 leading-relaxed">{{ qr.recommendation }}</p>
               </div>
@@ -607,19 +613,23 @@ export class ResultsComponent implements OnInit {
 
   buildCategoryStats() {
     if (!this.result) return;
-    const map = new Map<string, { compliant: number; total: number }>();
+    const map = new Map<string, { compliant: number; partial: number; total: number }>();
     for (const qr of this.result.questionResults) {
-      if (!map.has(qr.category)) map.set(qr.category, { compliant: 0, total: 0 });
+      if (!map.has(qr.category)) map.set(qr.category, { compliant: 0, partial: 0, total: 0 });
       const stat = map.get(qr.category)!;
       stat.total++;
-      if (qr.compliant) stat.compliant++;
+      if (qr.complianceStatus === 'yes') stat.compliant++;
+      else if (qr.complianceStatus === 'partial') stat.partial++;
     }
-    this.categoryStats = Array.from(map.entries()).map(([cat, stat]) => ({
-      label: CATEGORY_LABELS[cat] || cat,
-      compliant: stat.compliant,
-      total: stat.total,
-      percentage: stat.total > 0 ? (stat.compliant / stat.total) * 100 : 0
-    }));
+    this.categoryStats = Array.from(map.entries()).map(([cat, stat]) => {
+      const score = stat.compliant + stat.partial * 0.5;
+      return {
+        label: CATEGORY_LABELS[cat] || cat,
+        compliant: stat.compliant,
+        total: stat.total,
+        percentage: stat.total > 0 ? (score / stat.total) * 100 : 0
+      };
+    });
   }
 
   buildRadarChart() {
@@ -690,7 +700,7 @@ export class ResultsComponent implements OnInit {
     }
 
     for (const qr of this.result.questionResults) {
-      if (!qr.compliant) {
+      if (qr.complianceStatus !== 'yes') {
         const risk = categoryRisk[qr.category] || { likelihood: 1, impact: 1 };
         const key = `${2 - risk.impact},${risk.likelihood}`;
         if (grid[key] && !grid[key].includes(qr.category)) {
@@ -726,7 +736,7 @@ export class ResultsComponent implements OnInit {
   buildNonCompliantList() {
     if (!this.result) return;
     this.nonCompliantItems = this.result.questionResults
-      .filter(qr => !qr.compliant)
+      .filter(qr => qr.complianceStatus !== 'yes')
       .map(qr => ({
         question: qr.question,
         articleReference: qr.articleReference,

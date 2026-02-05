@@ -133,7 +133,7 @@ import { AuthService } from './auth/auth.service';
               <p class="text-xs text-slate-600">EU 2022/2554</p>
             </div>
           </div>
-          <div class="flex items-center gap-6 text-xs text-slate-600">
+          <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-slate-600">
             <a routerLink="/contract-analysis" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.contract') }}</a>
             <a routerLink="/pricing" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.pricing') }}</a>
             <a routerLink="/about" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.about') }}</a>

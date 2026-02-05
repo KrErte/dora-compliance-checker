@@ -202,6 +202,10 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.contact_email_placeholder': { et: 'teie@ettevote.ee', en: 'your@company.com' },
   'landing.contact_success': { et: 'Täname! Võtame sinuga peagi ühendust.', en: 'Thank you! We will contact you soon.' },
   'landing.contact_error': { et: 'Palun sisestage kehtiv e-posti aadress', en: 'Please enter a valid email address' },
+  'landing.contact_error_name': { et: 'Palun sisestage oma nimi', en: 'Please enter your name' },
+  'landing.contact_error_message': { et: 'Palun sisestage sõnum', en: 'Please enter a message' },
+  'landing.contact_sending': { et: 'Saadan...', en: 'Sending...' },
+  'landing.contact_server_error': { et: 'Midagi läks valesti. Palun proovige hiljem uuesti.', en: 'Something went wrong. Please try again later.' },
 
   // Landing - Stats (counter section)
   'landing.stat_contracts': { et: 'lepingut analüüsitud', en: 'contracts analyzed' },
@@ -258,6 +262,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'assessment.submitting': { et: 'Hindamine...', en: 'Assessing...' },
   'assessment.score_preview': { et: 'Eeldatav skoor', en: 'Expected Score' },
   'assessment.yes': { et: 'Jah', en: 'Yes' },
+  'assessment.partial': { et: 'Osaliselt', en: 'Partially' },
   'assessment.no': { et: 'Ei', en: 'No' },
   'assessment.questions_suffix': { et: 'k\u00fcsimust', en: 'questions' },
   'assessment.question_suffix': { et: 'k\u00fcsimus', en: 'question' },
@@ -272,6 +277,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'results.loading': { et: 'Tulemuste laadimine...', en: 'Loading results...' },
   'results.percent': { et: 'protsenti', en: 'percent' },
   'results.compliant': { et: 'vastav', en: 'compliant' },
+  'results.partial': { et: 'osaliselt', en: 'partial' },
   'results.non_compliant': { et: 'mittevastav', en: 'non-compliant' },
   'results.total': { et: 'kokku', en: 'total' },
   'results.profile': { et: 'Vastavuse profiil', en: 'Compliance Profile' },
@@ -617,10 +623,11 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'pillar.resources': { et: 'Regulatiivsed viited', en: 'Regulatory Resources' },
   'pillar.cta_title': { et: 'Kontrolli oma lepingut', en: 'Check your contract' },
   'pillar.cta_desc': { et: 'Vaata, kuidas sinu IKT-leping vastab DORA Art. 30 nõuetele.', en: 'See how your ICT contract complies with DORA Art. 30 requirements.' },
+  'pillar.start_assessment': { et: 'Alusta hindamist', en: 'Start assessment' },
   'pillar.not_found': { et: 'Sammast ei leitud', en: 'Pillar not found' },
   'pillar.context_title': { et: 'Kuidas see sammas seostub lepingu kontrolliga?', en: 'How does this pillar relate to contract checking?' },
   'pillar.context_third_party': { et: 'See on meie tööriista põhifookus. Art. 30 sätestab kohustuslikud lepingutingimused, mida meie tööriist kontrollib.', en: 'This is the main focus of our tool. Art. 30 establishes mandatory contract provisions that our tool checks.' },
-  'pillar.context_other': { et: 'See sammas on seotud DORA üldise raamistikuga. Meie tööriist keskendub Art. 30 lepingutingimustele (kolmandate osapoolte sammas).', en: 'This pillar is part of the broader DORA framework. Our tool focuses on Art. 30 contract provisions (third-party pillar).' },
+  'pillar.context_other': { et: 'Meie enesehindamise tööriist sisaldab selle samba küsimusi. Hindamine aitab tuvastada puudused ja luua tegevuskava vastavuse saavutamiseks.', en: 'Our self-assessment tool includes questions for this pillar. The assessment helps identify gaps and create an action plan for achieving compliance.' },
 
   // Landing - Auth indicators
   'landing.requires_login': { et: 'Nõuab sisselogimist', en: 'Requires login' },
