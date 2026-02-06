@@ -67,6 +67,9 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'nis2.lookup_error': { et: 'Päringu viga. Proovige hiljem uuesti.', en: 'Lookup error. Please try again later.' },
   'nis2.data_autofilled': { et: 'Andmed täidetud automaatselt', en: 'Data auto-filled' },
   'nis2.data_source_note': { et: 'Andmed põhinevad viimasel majandusaasta aruandel', en: 'Data based on last annual report' },
+  'nis2.try_demo': { et: 'Proovi demoga', en: 'Try with demo data' },
+  'nis2.demo_description': { et: 'Näidisandmed: fiktiivne 120-inimeseline IT-teenuste firma', en: 'Sample data: fictional 120-person IT services company' },
+  'nis2.demo_overwrite_confirm': { et: 'Vormil on juba andmed. Kas soovid need üle kirjutada demoandmetega?', en: 'Form already has data. Do you want to overwrite with demo data?' },
 
   // NIS2 Assessment
   'nis2_assess.title': { et: 'NIS2 vastavushindamine', en: 'NIS2 Compliance Assessment' },

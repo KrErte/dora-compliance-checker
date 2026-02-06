@@ -129,6 +129,23 @@ interface Sector {
             </div>
           </div>
 
+          <!-- Demo Button -->
+          <div class="flex flex-col items-center gap-2 py-4">
+            <button
+              type="button"
+              (click)="fillDemo()"
+              class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium
+                     bg-transparent border border-teal-500/30 text-teal-400
+                     hover:bg-teal-500/10 hover:border-teal-500/50
+                     transition-all duration-200">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+              </svg>
+              {{ lang.t('nis2.try_demo') }}
+            </button>
+            <p class="text-xs text-slate-500">{{ lang.t('nis2.demo_description') }}</p>
+          </div>
+
           <!-- Sector Select -->
           <div class="space-y-2">
             <label for="nis2-sector" class="text-sm font-medium text-slate-300">{{ lang.t('nis2.sector') }} *</label>
@@ -470,5 +487,31 @@ export class Nis2ScopeCheckComponent {
         }
       }
     });
+  }
+
+  fillDemo(): void {
+    // Check if form already has data
+    const hasExistingData = this.sector !== '' ||
+                            this.employees !== null ||
+                            this.revenue !== null ||
+                            this.balance !== null ||
+                            this.registryCode !== '';
+
+    if (hasExistingData) {
+      const confirmed = window.confirm(this.lang.t('nis2.demo_overwrite_confirm'));
+      if (!confirmed) return;
+    }
+
+    // Fill with demo data - fictional 120-person IT services company
+    this.registryCode = '10000001';
+    this.sector = 'ict_b2b';  // IKT-teenuste haldamine (B2B)
+    this.employees = 120;
+    this.revenue = 8500000;
+    this.balance = 4200000;
+
+    // Clear any previous lookup state
+    this.companyInfo = null;
+    this.lookupError = '';
+    this.dataAutoFilled = false;
   }
 }
