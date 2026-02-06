@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LangService } from '../lang.service';
+import { PAYMENT_CONFIG } from '../config/payment.config';
 
 @Component({
   selector: 'app-pricing',
@@ -90,13 +91,14 @@ import { LangService } from '../lang.service';
             </li>
           </ul>
 
-          <button disabled
-                  class="w-full py-3 px-4 rounded-xl text-center font-medium text-sm
-                         bg-gradient-to-r from-emerald-500/50 to-cyan-500/50 text-white/60
-                         cursor-not-allowed">
+          <a [href]="paymentConfig.lemonsqueezy.products.doraAssessment.checkoutUrl"
+             target="_blank"
+             class="w-full py-3 px-4 rounded-xl text-center font-medium text-sm
+                    bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
+                    hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25
+                    transition-all duration-200">
             {{ lang.t('pricing.single_cta') }} →
-          </button>
-          <p class="text-center text-xs text-slate-500 mt-2">{{ lang.t('pricing.coming_soon') }}</p>
+          </a>
         </div>
 
         <!-- Card 3: Compliance Package -->
@@ -172,5 +174,7 @@ import { LangService } from '../lang.service';
   `
 })
 export class PricingComponent {
+  paymentConfig = PAYMENT_CONFIG;
+
   constructor(public lang: LangService) {}
 }
