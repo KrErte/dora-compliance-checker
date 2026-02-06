@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { LangService } from '../lang.service';
+import { PAYMENT_CONFIG } from '../config/payment.config';
 
 interface CompanyInfo {
   registryCode: string;
@@ -307,17 +308,123 @@ interface Sector {
                 <p class="text-sm text-slate-400">{{ lang.t('nis2.timeline_info') }}</p>
               </div>
             </div>
+          </div>
 
-            <!-- CTA Button -->
-            <div class="pt-4 border-t border-slate-700/50">
-              <button type="button" disabled class="w-full py-3 px-4 rounded-xl font-medium text-slate-500 bg-slate-700/30 border border-slate-600/30 cursor-not-allowed flex items-center justify-center gap-2">
-                {{ lang.t('nis2.start_assessment') }}
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          <!-- What to do section -->
+          <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 space-y-4">
+            <h3 class="text-lg font-semibold text-white">{{ lang.t('nis2.what_to_do') }}</h3>
+
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-lg bg-violet-500/10 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                 </svg>
-              </button>
-              <p class="text-xs text-slate-500 text-center mt-2">{{ lang.t('nis2.coming_soon') }}</p>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-slate-300">{{ lang.t('nis2.req_risk_title') }}</p>
+                <p class="text-xs text-slate-400">{{ lang.t('nis2.req_risk_desc') }}</p>
+              </div>
             </div>
+
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-slate-300">{{ lang.t('nis2.req_policies_title') }}</p>
+                <p class="text-xs text-slate-400">{{ lang.t('nis2.req_policies_desc') }}</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-slate-300">{{ lang.t('nis2.req_incident_title') }}</p>
+                <p class="text-xs text-slate-400">{{ lang.t('nis2.req_incident_desc') }}</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-lg bg-pink-500/10 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-slate-300">{{ lang.t('nis2.req_board_title') }}</p>
+                <p class="text-xs text-slate-400">{{ lang.t('nis2.req_board_desc') }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Next steps CTA section -->
+          <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 space-y-4">
+            <h3 class="text-lg font-semibold text-white">{{ lang.t('nis2.next_steps') }}</h3>
+
+            <!-- Assessment card - primary -->
+            <div class="p-4 rounded-xl bg-teal-500/5 border border-teal-500/30 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-lg">📊</span>
+                  <span class="font-medium text-slate-200">{{ lang.t('nis2.cta_assessment_title') }}</span>
+                </div>
+                <span class="text-lg font-bold text-teal-400">{{ lang.t('nis2.cta_assessment_price') }}</span>
+              </div>
+              <p class="text-xs text-slate-400">{{ lang.t('nis2.cta_assessment_desc') }}</p>
+              <a [href]="paymentConfig.lemonsqueezy.products.nis2Assessment.checkoutUrl" target="_blank"
+                 class="block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium
+                        bg-gradient-to-r from-teal-500 to-cyan-500 text-white
+                        hover:from-teal-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-teal-500/25
+                        transition-all duration-200">
+                {{ lang.t('nis2.cta_assessment_btn') }} →
+              </a>
+            </div>
+
+            <!-- Board report card - secondary -->
+            <div class="p-4 rounded-xl bg-slate-700/30 border border-slate-600/30 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-lg">📄</span>
+                  <span class="font-medium text-slate-200">{{ lang.t('nis2.cta_report_title') }}</span>
+                </div>
+                <span class="text-lg font-bold text-slate-300">{{ lang.t('nis2.cta_report_price') }}</span>
+              </div>
+              <p class="text-xs text-slate-400">{{ lang.t('nis2.cta_report_desc') }}</p>
+              <a [href]="paymentConfig.lemonsqueezy.products.nis2Report.checkoutUrl" target="_blank"
+                 class="block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium
+                        bg-slate-600/50 text-slate-200 border border-slate-500/30
+                        hover:bg-slate-500/50 hover:text-white
+                        transition-all duration-200">
+                {{ lang.t('nis2.cta_report_btn') }} →
+              </a>
+            </div>
+
+            <!-- Combo card - highlight -->
+            <div class="p-4 rounded-xl bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-lg">🎯</span>
+                  <span class="font-medium text-slate-200">{{ lang.t('nis2.cta_combo_title') }}</span>
+                </div>
+                <span class="text-lg font-bold text-amber-400">{{ lang.t('nis2.cta_combo_price') }}</span>
+              </div>
+              <p class="text-xs text-slate-400">{{ lang.t('nis2.cta_combo_desc') }}</p>
+              <a [href]="paymentConfig.lemonsqueezy.products.comboPackage.checkoutUrl" target="_blank"
+                 class="block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium
+                        bg-gradient-to-r from-amber-500 to-orange-500 text-white
+                        hover:from-amber-400 hover:to-orange-400 hover:shadow-lg hover:shadow-amber-500/25
+                        transition-all duration-200">
+                {{ lang.t('nis2.cta_combo_btn') }} →
+              </a>
+            </div>
+
+            <p class="text-xs text-slate-500 text-center pt-2">{{ lang.t('nis2.cta_footer') }}</p>
           </div>
 
           <!-- Not applicable info -->
@@ -363,6 +470,8 @@ interface Sector {
 })
 export class Nis2ScopeCheckComponent {
   constructor(public lang: LangService, private http: HttpClient) {}
+
+  paymentConfig = PAYMENT_CONFIG;
 
   // Registry lookup
   registryCode = '';

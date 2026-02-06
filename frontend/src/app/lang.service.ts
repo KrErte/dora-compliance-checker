@@ -71,6 +71,33 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'nis2.demo_description': { et: 'Näidisandmed: fiktiivne 120-inimeseline IT-teenuste firma', en: 'Sample data: fictional 120-person IT services company' },
   'nis2.demo_overwrite_confirm': { et: 'Vormil on juba andmed. Kas soovid need üle kirjutada demoandmetega?', en: 'Form already has data. Do you want to overwrite with demo data?' },
 
+  // NIS2 Scope Check - What to do section
+  'nis2.what_to_do': { et: 'Mida peab tegema?', en: 'What needs to be done?' },
+  'nis2.req_risk_title': { et: 'Riskihindamine', en: 'Risk Assessment' },
+  'nis2.req_risk_desc': { et: 'Tuvasta ja dokumenteeri kõik küberturbe riskid. KüTS nõuab riskipõhist lähenemist.', en: 'Identify and document all cybersecurity risks. Cybersecurity Act requires a risk-based approach.' },
+  'nis2.req_policies_title': { et: 'Turvapoliitikad', en: 'Security Policies' },
+  'nis2.req_policies_desc': { et: 'Kehtesta infoturbe poliitikad: intsidentide haldamine, varundamine, krüpteerimine, ligipääsuhaldus.', en: 'Establish security policies: incident management, backups, encryption, access control.' },
+  'nis2.req_incident_title': { et: 'Intsidentidest teavitamine', en: 'Incident Reporting' },
+  'nis2.req_incident_desc': { et: 'RIA-le teavitamine 24h jooksul. Vajalik protsess ja kontaktid.', en: 'Report to RIA within 24 hours. Required process and contacts.' },
+  'nis2.req_board_title': { et: 'Juhatuse vastutus', en: 'Board Responsibility' },
+  'nis2.req_board_desc': { et: 'Juhatuse liikmed kannavad isiklikku vastutust. Vajalik koolitus ja teadlikkus.', en: 'Board members bear personal liability. Required training and awareness.' },
+
+  // NIS2 Scope Check - Next steps CTA section
+  'nis2.next_steps': { et: 'Sinu järgmised sammud', en: 'Your next steps' },
+  'nis2.cta_assessment_title': { et: 'NIS2 täishindamine', en: 'NIS2 Full Assessment' },
+  'nis2.cta_assessment_price': { et: '€49', en: '€49' },
+  'nis2.cta_assessment_desc': { et: '37 küsimust koos tegevuskavaga. Tulemus: detailne PDF raport juhatusele.', en: '37 questions with action plan. Result: detailed PDF report for the board.' },
+  'nis2.cta_assessment_btn': { et: 'Alusta hindamist', en: 'Start assessment' },
+  'nis2.cta_report_title': { et: 'Juhatuse raport', en: 'Board Report' },
+  'nis2.cta_report_price': { et: '€29', en: '€29' },
+  'nis2.cta_report_desc': { et: 'Kompaktne ülevaade juhatuse liikme kohustustest ja isiklikust vastutusest NIS2 all.', en: 'Compact overview of board member obligations and personal liability under NIS2.' },
+  'nis2.cta_report_btn': { et: 'Telli raport', en: 'Order report' },
+  'nis2.cta_combo_title': { et: 'DORA + NIS2 kombo', en: 'DORA + NIS2 combo' },
+  'nis2.cta_combo_price': { et: '€79', en: '€79' },
+  'nis2.cta_combo_desc': { et: 'Kui sinu firma teenindab ka finantssektorit. Säästad 20%.', en: 'If your company also serves the financial sector. Save 20%.' },
+  'nis2.cta_combo_btn': { et: 'Vaata paketti', en: 'View package' },
+  'nis2.cta_footer': { et: 'Ühekordne makse • Ei nõua tellimust', en: 'One-time payment • No subscription required' },
+
   // NIS2 Assessment
   'nis2_assess.title': { et: 'NIS2 vastavushindamine', en: 'NIS2 Compliance Assessment' },
   'nis2_assess.subtitle': { et: 'Hinnake oma organisatsiooni küberturvalisuse küpsust NIS2 nõuete alusel', en: 'Assess your organization\'s cybersecurity maturity against NIS2 requirements' },
