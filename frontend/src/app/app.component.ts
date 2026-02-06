@@ -82,6 +82,14 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
               </a>
             </div>
           </div>
+          <!-- Pricing -->
+          <a routerLink="/pricing" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+            <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            {{ lang.t('nav.pricing') }}
+          </a>
           <!-- Dashboard -->
           @if (auth.isLoggedIn()) {
             <a routerLink="/history" routerLinkActive="nav-link-active"
@@ -155,6 +163,11 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
             <a routerLink="/nis2/assessment" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
               <span class="text-orange-400">&#9998;</span> {{ lang.t('nav.nis2_assessment') }}</a>
+          </div>
+          <div class="border-t border-slate-700/50 mt-2 pt-2">
+            <a routerLink="/pricing" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
+              <span class="text-violet-400">&#128176;</span> {{ lang.t('nav.pricing') }}</a>
           </div>
           @if (auth.isLoggedIn()) {
             <div class="border-t border-slate-700/50 mt-2 pt-2">
