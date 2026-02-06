@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { LangService } from '../lang.service';
+import { PaywallService } from '../services/paywall.service';
+import { PAYMENT_CONFIG } from '../config/payment.config';
 
 interface Question {
   id: string;
@@ -131,28 +133,80 @@ interface AssessmentResult {
 
           <div *ngFor="let q of domains[activeDomain].questions; let qi = index"
                class="py-5 border-b border-slate-700/50 last:border-b-0">
-            <div class="mb-3">
-              <p class="text-slate-200 mb-1">
-                <span class="text-slate-500 text-sm mr-2">{{ qi + 1 }}.</span>
-                {{ lang.currentLang === 'et' ? q.questionEt : q.questionEn }}
-              </p>
-              <p *ngIf="q.guidanceEt || q.guidanceEn" class="text-xs text-slate-500 mt-1">
-                {{ lang.currentLang === 'et' ? q.guidanceEt : q.guidanceEn }}
-              </p>
-              <span *ngIf="q.articleReference" class="text-xs text-slate-600 mt-1 inline-block">{{ q.articleReference }}</span>
+            <!-- Free questions -->
+            <div *ngIf="!isQuestionLocked(activeDomain, qi)">
+              <div class="mb-3">
+                <p class="text-slate-200 mb-1">
+                  <span class="text-slate-500 text-sm mr-2">{{ qi + 1 }}.</span>
+                  {{ lang.currentLang === 'et' ? q.questionEt : q.questionEn }}
+                </p>
+                <p *ngIf="q.guidanceEt || q.guidanceEn" class="text-xs text-slate-500 mt-1">
+                  {{ lang.currentLang === 'et' ? q.guidanceEt : q.guidanceEn }}
+                </p>
+                <span *ngIf="q.articleReference" class="text-xs text-slate-600 mt-1 inline-block">{{ q.articleReference }}</span>
+              </div>
+
+              <!-- 1-5 scale -->
+              <div class="flex flex-wrap gap-2">
+                <button *ngFor="let score of [1,2,3,4,5]"
+                        type="button"
+                        (click)="setAnswer(q.id, score)"
+                        [class]="answers[q.id] === score
+                          ? getScoreButtonActiveClass(score)
+                          : 'px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 border border-slate-600/30 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
+                  {{ score }}
+                  <span class="hidden sm:inline ml-1 text-xs opacity-75">{{ getScoreLabel(score) }}</span>
+                </button>
+              </div>
             </div>
 
-            <!-- 1-5 scale -->
-            <div class="flex flex-wrap gap-2">
-              <button *ngFor="let score of [1,2,3,4,5]"
-                      type="button"
-                      (click)="setAnswer(q.id, score)"
-                      [class]="answers[q.id] === score
-                        ? getScoreButtonActiveClass(score)
-                        : 'px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 border border-slate-600/30 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
-                {{ score }}
-                <span class="hidden sm:inline ml-1 text-xs opacity-75">{{ getScoreLabel(score) }}</span>
-              </button>
+            <!-- Locked questions - blurred -->
+            <div *ngIf="isQuestionLocked(activeDomain, qi)" class="blur-sm select-none pointer-events-none opacity-50">
+              <div class="mb-3">
+                <p class="text-slate-200 mb-1">
+                  <span class="text-slate-500 text-sm mr-2">{{ qi + 1 }}.</span>
+                  {{ lang.currentLang === 'et' ? q.questionEt : q.questionEn }}
+                </p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button *ngFor="let score of [1,2,3,4,5]" type="button"
+                        class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 border border-slate-600/30">
+                  {{ score }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Paywall overlay for this domain -->
+          <div *ngIf="showPaywallInDomain(activeDomain)" class="relative -mx-6 -mb-6 mt-4 p-6 rounded-b-xl"
+               style="background: linear-gradient(to bottom, transparent, rgba(15,23,42,0.95) 20%);">
+            <div class="absolute inset-0 backdrop-blur-sm rounded-b-xl"></div>
+            <div class="relative glass-card p-6 border border-amber-500/30 text-center max-w-md mx-auto">
+              <div class="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-slate-200 mb-2">{{ lang.t('paywall.unlock_title') }}</h3>
+              <p class="text-sm text-slate-400 mb-6">{{ lang.t('paywall.nis2_desc') }}</p>
+              <div class="flex flex-col gap-3">
+                <a [href]="paymentConfig.lemonsqueezy.products.nis2Assessment.checkoutUrl"
+                   target="_blank"
+                   class="w-full py-3 px-4 rounded-xl text-center font-medium text-sm
+                          bg-gradient-to-r from-amber-500 to-orange-500 text-white
+                          hover:from-amber-400 hover:to-orange-400 hover:shadow-lg hover:shadow-amber-500/25
+                          transition-all duration-200">
+                  {{ lang.t('paywall.buy_nis2') }}
+                </a>
+                <a [href]="paymentConfig.lemonsqueezy.products.comboPackage.checkoutUrl"
+                   target="_blank"
+                   class="w-full py-2.5 px-4 rounded-xl text-center font-medium text-sm
+                          bg-slate-700/50 text-slate-300 border border-slate-600/50
+                          hover:bg-slate-600/50 hover:text-amber-400 hover:border-amber-500/30
+                          transition-all duration-200">
+                  {{ lang.t('paywall.buy_combo') }}
+                </a>
+              </div>
             </div>
           </div>
 
@@ -296,10 +350,14 @@ export class Nis2AssessmentComponent implements OnInit {
     'ACCESS_CONTROL': '🚪'
   };
 
+  paymentConfig = PAYMENT_CONFIG;
+  private freeQuestionsLimit = 5;
+
   constructor(
     private http: HttpClient,
     private router: Router,
-    public lang: LangService
+    public lang: LangService,
+    public paywall: PaywallService
   ) {}
 
   ngOnInit() {
@@ -367,6 +425,30 @@ export class Nis2AssessmentComponent implements OnInit {
 
   getDomainAnsweredCount(domain: Domain): number {
     return domain.questions.filter(q => this.answers[q.id] !== undefined).length;
+  }
+
+  getGlobalQuestionIndex(domainIndex: number, questionIndex: number): number {
+    let count = 0;
+    for (let d = 0; d < domainIndex; d++) {
+      count += this.domains[d]?.questions.length || 0;
+    }
+    return count + questionIndex + 1;
+  }
+
+  isQuestionLocked(domainIndex: number, questionIndex: number): boolean {
+    if (this.paywall.hasAccess()) return false;
+    return this.getGlobalQuestionIndex(domainIndex, questionIndex) > this.freeQuestionsLimit;
+  }
+
+  showPaywallInDomain(domainIndex: number): boolean {
+    if (this.paywall.hasAccess()) return false;
+    // Check if any question in this domain is locked
+    const domain = this.domains[domainIndex];
+    if (!domain) return false;
+    for (let qi = 0; qi < domain.questions.length; qi++) {
+      if (this.isQuestionLocked(domainIndex, qi)) return true;
+    }
+    return false;
   }
 
   setAnswer(questionId: string, score: number) {

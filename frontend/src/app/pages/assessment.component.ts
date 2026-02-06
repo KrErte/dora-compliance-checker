@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
 import { AuthService } from '../auth/auth.service';
+import { PaywallService } from '../services/paywall.service';
+import { PAYMENT_CONFIG } from '../config/payment.config';
 import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
 
 @Component({
@@ -151,7 +153,8 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
 
           <div *ngFor="let q of group.questions; let i = index"
                class="py-4 border-b border-slate-700/50 last:border-b-0">
-            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
+            <!-- Free questions (1-5) -->
+            <div *ngIf="!isQuestionLocked(getGlobalIndex(gi, i))" class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
               <div class="flex-1">
                 <p class="text-slate-200 mb-1.5">
                   <span class="text-slate-500 text-sm mr-2">{{ getGlobalIndex(gi, i) }}.</span>
@@ -192,6 +195,56 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
                           : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
                   {{ lang.t('assessment.no') }}
                 </button>
+              </div>
+            </div>
+
+            <!-- Locked questions (6+) - blurred -->
+            <div *ngIf="isQuestionLocked(getGlobalIndex(gi, i))" class="blur-sm select-none pointer-events-none opacity-50">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
+                <div class="flex-1">
+                  <p class="text-slate-200 mb-1.5">
+                    <span class="text-slate-500 text-sm mr-2">{{ getGlobalIndex(gi, i) }}.</span>
+                    {{ q.questionEt }}
+                  </p>
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0 mt-1">
+                  <button type="button" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400">{{ lang.t('assessment.yes') }}</button>
+                  <button type="button" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400">{{ lang.t('assessment.partial') }}</button>
+                  <button type="button" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400">{{ lang.t('assessment.no') }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Paywall overlay - show after first locked question in this group -->
+          <div *ngIf="showPaywallInGroup(gi)" class="relative -mx-6 -mb-6 mt-4 p-6 rounded-b-xl"
+               style="background: linear-gradient(to bottom, transparent, rgba(15,23,42,0.95) 20%);">
+            <div class="absolute inset-0 backdrop-blur-sm rounded-b-xl"></div>
+            <div class="relative glass-card p-6 border border-emerald-500/30 text-center max-w-md mx-auto">
+              <div class="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-slate-200 mb-2">{{ lang.t('paywall.unlock_title') }}</h3>
+              <p class="text-sm text-slate-400 mb-6">{{ lang.t('paywall.dora_desc') }}</p>
+              <div class="flex flex-col gap-3">
+                <a [href]="paymentConfig.lemonsqueezy.products.doraAssessment.checkoutUrl"
+                   target="_blank"
+                   class="w-full py-3 px-4 rounded-xl text-center font-medium text-sm
+                          bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
+                          hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25
+                          transition-all duration-200">
+                  {{ lang.t('paywall.buy_dora') }}
+                </a>
+                <a [href]="paymentConfig.lemonsqueezy.products.comboPackage.checkoutUrl"
+                   target="_blank"
+                   class="w-full py-2.5 px-4 rounded-xl text-center font-medium text-sm
+                          bg-slate-700/50 text-slate-300 border border-slate-600/50
+                          hover:bg-slate-600/50 hover:text-emerald-400 hover:border-emerald-500/30
+                          transition-all duration-200">
+                  {{ lang.t('paywall.buy_combo') }}
+                </a>
               </div>
             </div>
           </div>
@@ -338,7 +391,17 @@ export class AssessmentComponent implements OnInit {
     return hint ? (this.lang.currentLang === 'et' ? hint.et : hint.en) : '';
   }
 
-  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, public lang: LangService, public auth: AuthService) {}
+  paymentConfig = PAYMENT_CONFIG;
+  private freeQuestionsLimit = 5;
+
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private route: ActivatedRoute,
+    public lang: LangService,
+    public auth: AuthService,
+    public paywall: PaywallService
+  ) {}
 
   get step(): number {
     if (this.submitting) return 3;
@@ -550,6 +613,25 @@ export class AssessmentComponent implements OnInit {
   getCategoryProgress(group: { category: string; questions: DoraQuestion[] }): number {
     const answered = group.questions.filter(q => this.answers[q.id] !== undefined).length;
     return group.questions.length > 0 ? (answered / group.questions.length) * 100 : 0;
+  }
+
+  isQuestionLocked(globalIndex: number): boolean {
+    if (this.paywall.hasAccess()) return false;
+    return globalIndex > this.freeQuestionsLimit;
+  }
+
+  showPaywallInGroup(groupIndex: number): boolean {
+    if (this.paywall.hasAccess()) return false;
+    // Show paywall in the group that contains the first locked question
+    let count = 0;
+    for (let g = 0; g <= groupIndex; g++) {
+      const groupSize = this.groupedQuestions[g]?.questions.length || 0;
+      if (count + groupSize > this.freeQuestionsLimit) {
+        return g === groupIndex;
+      }
+      count += groupSize;
+    }
+    return false;
   }
 
   autoSave() {

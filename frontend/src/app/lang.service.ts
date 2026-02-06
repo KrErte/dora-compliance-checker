@@ -969,6 +969,25 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.testimonial3_text': { et: 'Kasutame seda regulaarselt kõigi oma IKT-lepingute kontrollimiseks. Professionaalne ja kiire.', en: 'We use it regularly to check all our ICT contracts. Professional and fast.' },
   'landing.testimonial3_author': { et: 'Andres T.', en: 'Andres T.' },
   'landing.testimonial3_role': { et: 'IKT lepingute haldur, pank', en: 'ICT Contract Manager, bank' },
+
+  // Payment Success
+  'payment.success_title': { et: 'Makse õnnestus!', en: 'Payment successful!' },
+  'payment.license_activated': { et: 'Sinu litsents on aktiveeritud.', en: 'Your license has been activated.' },
+  'payment.start_dora': { et: 'Alusta DORA hindamist', en: 'Start DORA assessment' },
+  'payment.start_nis2': { et: 'Alusta NIS2 hindamist', en: 'Start NIS2 assessment' },
+  'payment.analyze_contract': { et: 'Analüüsi lepingut', en: 'Analyze contract' },
+  'payment.invoice_sent': { et: 'Arve saadeti sinu e-posti aadressile.', en: 'Invoice has been sent to your email.' },
+
+  // Paywall
+  'paywall.unlock_title': { et: 'Täishindamise avamiseks on vaja litsentsi', en: 'License required to unlock full assessment' },
+  'paywall.dora_desc': { et: 'Osta DORA hindamise litsents, et pääseda ligi kõigile küsimustele ja saada täielik vastavusraport.', en: 'Purchase DORA assessment license to access all questions and get a complete compliance report.' },
+  'paywall.nis2_desc': { et: 'Osta NIS2 hindamise litsents, et pääseda ligi kõigile küsimustele ja saada täielik vastavusraport.', en: 'Purchase NIS2 assessment license to access all questions and get a complete compliance report.' },
+  'paywall.contract_desc': { et: 'Oma lepingu analüüsimiseks on vaja litsentsi', en: 'License required to analyze your own contract' },
+  'paywall.buy_dora': { et: 'Osta DORA hindamine €49', en: 'Buy DORA assessment €49' },
+  'paywall.buy_nis2': { et: 'Osta NIS2 hindamine €49', en: 'Buy NIS2 assessment €49' },
+  'paywall.buy_combo': { et: 'Või osta kombo €79', en: 'Or buy combo €79' },
+  'paywall.buy_contract': { et: 'Osta lepinguanalüüs €39', en: 'Buy contract analysis €39' },
+  'paywall.buy_pdf': { et: 'PDF raport €29', en: 'PDF report €29' },
 };
 
 @Injectable({ providedIn: 'root' })

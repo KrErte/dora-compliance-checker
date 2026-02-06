@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
 import { AuthService } from '../auth/auth.service';
+import { PaywallService } from '../services/paywall.service';
+import { PAYMENT_CONFIG } from '../config/payment.config';
 import { ContractAnalysisResult } from '../models';
 
 @Component({
@@ -93,9 +95,12 @@ import { ContractAnalysisResult } from '../models';
         </div>
 
         <!-- Drag and drop zone -->
-        <div class="mb-6">
+        <div class="mb-6 relative">
           <label id="contract-upload-label" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('contract.upload_label') }}</label>
-          <div (click)="fileInput.click()" aria-labelledby="contract-upload-label" role="button" tabindex="0"
+
+          <!-- Unlocked upload (has access or sample file selected) -->
+          <div *ngIf="paywall.hasAccess() || isSampleFile"
+               (click)="fileInput.click()" aria-labelledby="contract-upload-label" role="button" tabindex="0"
                (dragover)="onDragOver($event)"
                (dragleave)="onDragLeave($event)"
                (drop)="onDrop($event)"
@@ -123,6 +128,36 @@ import { ContractAnalysisResult } from '../models';
               </button>
             </div>
           </div>
+
+          <!-- Locked upload (no access and no sample file) - paywall overlay -->
+          <div *ngIf="!paywall.hasAccess() && !isSampleFile" class="relative">
+            <div class="border-2 border-dashed rounded-xl p-8 text-center border-slate-600/50 blur-sm opacity-50">
+              <svg class="w-10 h-10 mx-auto mb-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+              </svg>
+              <p class="text-sm text-slate-400 mb-1">{{ lang.t('contract.drag_drop') }}</p>
+            </div>
+            <!-- Paywall overlay -->
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="glass-card p-6 border border-cyan-500/30 text-center max-w-sm backdrop-blur-md">
+                <div class="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center mx-auto mb-3">
+                  <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                  </svg>
+                </div>
+                <p class="text-sm text-slate-300 mb-4">{{ lang.t('paywall.contract_desc') }}</p>
+                <a [href]="paymentConfig.lemonsqueezy.products.contractAnalysis.checkoutUrl"
+                   target="_blank"
+                   class="inline-block w-full py-2.5 px-4 rounded-xl text-center font-medium text-sm
+                          bg-gradient-to-r from-cyan-500 to-teal-500 text-white
+                          hover:from-cyan-400 hover:to-teal-400 hover:shadow-lg hover:shadow-cyan-500/25
+                          transition-all duration-200">
+                  {{ lang.t('paywall.buy_contract') }}
+                </a>
+              </div>
+            </div>
+          </div>
+
           <input #fileInput type="file" accept=".pdf,.docx" (change)="onFileSelect($event)" class="hidden">
         </div>
 
@@ -367,7 +402,8 @@ import { ContractAnalysisResult } from '../models';
 
       <!-- Action buttons -->
       <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
-        <button (click)="downloadPdf()"
+        <!-- PDF download - unlocked -->
+        <button *ngIf="paywall.hasAccess()" (click)="downloadPdf()"
                 class="px-6 py-2.5 rounded-lg font-medium text-sm bg-gradient-to-r from-emerald-500 to-cyan-500
                        text-slate-900 hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-300
                        flex items-center gap-2">
@@ -376,6 +412,18 @@ import { ContractAnalysisResult } from '../models';
           </svg>
           {{ lang.t('contract.download_pdf') }}
         </button>
+        <!-- PDF download - locked -->
+        <a *ngIf="!paywall.hasAccess()"
+           [href]="paymentConfig.lemonsqueezy.products.nis2Report.checkoutUrl"
+           target="_blank"
+           class="px-6 py-2.5 rounded-lg font-medium text-sm bg-slate-700/50 text-slate-300 border border-amber-500/30
+                  hover:bg-slate-600/50 hover:text-amber-400 hover:border-amber-500/50 transition-all duration-300
+                  flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+          {{ lang.t('paywall.buy_pdf') }}
+        </a>
         <button (click)="resetForm()"
                 class="px-6 py-2.5 rounded-lg font-medium text-sm bg-slate-700/50 text-slate-300 border border-slate-600/30
                        hover:bg-slate-600/50 hover:text-emerald-400 transition-all duration-200">
@@ -435,7 +483,16 @@ export class ContractAnalysisComponent implements OnInit {
     }
   };
 
-  constructor(private api: ApiService, public lang: LangService, public auth: AuthService, private route: ActivatedRoute) {}
+  paymentConfig = PAYMENT_CONFIG;
+  isSampleFile = false;
+
+  constructor(
+    private api: ApiService,
+    public lang: LangService,
+    public auth: AuthService,
+    private route: ActivatedRoute,
+    public paywall: PaywallService
+  ) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -498,6 +555,7 @@ export class ContractAnalysisComponent implements OnInit {
         this.selectedFile = new File([blob], 'sample_ikt_leping.pdf', { type: 'application/pdf' });
         this.companyName = 'OÜ Näidis Finants';
         this.contractName = 'IKT pilveteenuse leping 2025';
+        this.isSampleFile = true;
         this.loadingSample = false;
       },
       error: () => {
@@ -549,6 +607,7 @@ export class ContractAnalysisComponent implements OnInit {
   removeFile(event: Event) {
     event.stopPropagation();
     this.selectedFile = null;
+    this.isSampleFile = false;
   }
 
   formatSize(bytes: number): string {
@@ -619,6 +678,7 @@ export class ContractAnalysisComponent implements OnInit {
   resetForm() {
     this.result = null;
     this.selectedFile = null;
+    this.isSampleFile = false;
     this.error = '';
     this.companyName = '';
     this.contractName = '';
