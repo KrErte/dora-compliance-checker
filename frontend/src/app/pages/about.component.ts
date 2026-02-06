@@ -116,10 +116,7 @@ import { LangService } from '../lang.service';
 })
 export class AboutComponent {
   team = [
-    { name: 'Kristjan Eerik', initials: 'KE', roleKey: 'about.role_ceo', bioKey: 'about.bio_ceo', bgClass: 'bg-emerald-500/20 text-emerald-400' },
-    { name: 'Martin Tamm', initials: 'MT', roleKey: 'about.role_cto', bioKey: 'about.bio_cto', bgClass: 'bg-cyan-500/20 text-cyan-400' },
-    { name: 'Kadri Saar', initials: 'KS', roleKey: 'about.role_compliance', bioKey: 'about.bio_compliance', bgClass: 'bg-violet-500/20 text-violet-400' },
-    { name: 'Priit Valk', initials: 'PV', roleKey: 'about.role_legal', bioKey: 'about.bio_legal', bgClass: 'bg-amber-500/20 text-amber-400' }
+    { name: 'Kristo Erte', initials: 'KE', roleKey: 'about.role_cto', bioKey: 'about.bio_cto', bgClass: 'bg-cyan-500/20 text-cyan-400' }
   ];
 
   techFeatures = [
