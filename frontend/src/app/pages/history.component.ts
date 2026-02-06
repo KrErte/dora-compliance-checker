@@ -157,7 +157,7 @@ interface HistoryEntry {
 
       <!-- Clear history -->
       <div *ngIf="history.length > 0" class="text-center mt-8 animate-fade-in delay-500">
-        <button (click)="clearHistory()"
+        <button type="button" (click)="clearHistory()"
                 class="text-xs text-slate-600 hover:text-red-400 transition-colors duration-200">
           Kustuta ajalugu
         </button>

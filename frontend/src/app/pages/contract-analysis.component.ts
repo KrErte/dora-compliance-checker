@@ -30,7 +30,7 @@ import { ContractAnalysisResult } from '../models';
           </div>
           <h3 class="text-lg font-semibold text-emerald-300 mb-2">{{ lang.t('contract.demo_title') }}</h3>
           <p class="text-sm text-slate-400 mb-6 max-w-md mx-auto">{{ lang.t('contract.demo_desc') }}</p>
-          <button (click)="loadSampleContract()" [disabled]="loadingSample"
+          <button type="button" (click)="loadSampleContract()" [disabled]="loadingSample"
                   class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
                          bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
                          hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25
@@ -61,7 +61,7 @@ import { ContractAnalysisResult } from '../models';
               </svg>
               {{ lang.t('contract.download_sample') }}
             </a>
-            <button (click)="loadSampleContract()" [disabled]="loadingSample"
+            <button type="button" (click)="loadSampleContract()" [disabled]="loadingSample"
                     class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
                            bg-cyan-500/10 border border-cyan-500/30 text-cyan-400
                            hover:bg-cyan-500/20 hover:shadow-lg hover:shadow-cyan-500/10
@@ -121,7 +121,7 @@ import { ContractAnalysisResult } from '../models';
                 <p class="text-sm text-slate-200 font-medium">{{ selectedFile.name }}</p>
                 <p class="text-xs text-slate-500">{{ formatSize(selectedFile.size) }}</p>
               </div>
-              <button (click)="removeFile($event)" class="ml-2 text-slate-500 hover:text-red-400 transition-colors">
+              <button type="button" (click)="removeFile($event)" class="ml-2 text-slate-500 hover:text-red-400 transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
@@ -165,14 +165,14 @@ import { ContractAnalysisResult } from '../models';
           {{ lang.t('contract.validation_hint') }}
         </div>
         <div class="flex gap-3">
-          <button (click)="onSubmitOrValidate()"
+          <button type="button" (click)="onSubmitOrValidate()"
                   [class]="'flex-1 py-3 rounded-lg font-semibold transition-all duration-300 ' +
                            (canSubmit ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-900 hover:shadow-lg hover:shadow-emerald-500/25' :
                                         'bg-slate-700/50 text-slate-400 hover:text-slate-300 hover:bg-slate-600/50')">
             {{ lang.t('contract.analyze') }}
           </button>
           <!-- Demo Mock button - only for non-logged-in users -->
-          <button *ngIf="!auth.isLoggedIn()" (click)="loadMockResult()"
+          <button type="button" *ngIf="!auth.isLoggedIn()" (click)="loadMockResult()"
                   class="px-6 py-3 rounded-lg font-semibold transition-all duration-300
                          bg-slate-700/50 text-slate-300 border border-slate-600/50
                          hover:bg-slate-600/50 hover:text-emerald-400 hover:border-emerald-500/30">
@@ -388,7 +388,7 @@ import { ContractAnalysisResult } from '../models';
             <input type="email" [(ngModel)]="email" [placeholder]="lang.t('contract.email_placeholder')"
                    class="bg-slate-900/50 border border-slate-600/50 rounded-lg px-3 py-2 text-sm text-slate-100
                           focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all w-full sm:w-56">
-            <button (click)="captureEmail()"
+            <button type="button" (click)="captureEmail()"
                     class="px-4 py-2 rounded-lg text-sm font-medium bg-emerald-500/20 border border-emerald-500/30 text-emerald-400
                            hover:bg-emerald-500/30 transition-all whitespace-nowrap">
               {{ lang.t('contract.send') }}
@@ -403,7 +403,7 @@ import { ContractAnalysisResult } from '../models';
       <!-- Action buttons -->
       <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
         <!-- PDF download - unlocked -->
-        <button *ngIf="paywall.hasAccess()" (click)="downloadPdf()"
+        <button type="button" *ngIf="paywall.hasAccess()" (click)="downloadPdf()"
                 class="px-6 py-2.5 rounded-lg font-medium text-sm bg-gradient-to-r from-emerald-500 to-cyan-500
                        text-slate-900 hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-300
                        flex items-center gap-2">
@@ -424,7 +424,7 @@ import { ContractAnalysisResult } from '../models';
           </svg>
           {{ lang.t('paywall.buy_pdf') }}
         </a>
-        <button (click)="resetForm()"
+        <button type="button" (click)="resetForm()"
                 class="px-6 py-2.5 rounded-lg font-medium text-sm bg-slate-700/50 text-slate-300 border border-slate-600/30
                        hover:bg-slate-600/50 hover:text-emerald-400 transition-all duration-200">
           {{ lang.t('contract.new_analysis') }}

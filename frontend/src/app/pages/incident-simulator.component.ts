@@ -71,7 +71,7 @@ interface SimulationResult {
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               @for (scenario of scenarios; track scenario.id) {
-                <button (click)="runSimulation(scenario)"
+                <button type="button" (click)="runSimulation(scenario)"
                         class="group text-left p-6 rounded-2xl border transition-all duration-300 hover:scale-[1.02]"
                         [class]="getScenarioCardClass(scenario)">
                   <div class="flex items-start gap-4">
@@ -130,7 +130,7 @@ interface SimulationResult {
         @if (activeSimulation(); as sim) {
           <div class="space-y-6">
             <!-- Back button -->
-            <button (click)="clearSimulation()" class="flex items-center gap-2 text-sm text-slate-400 hover:text-emerald-400 transition-colors">
+            <button type="button" (click)="clearSimulation()" class="flex items-center gap-2 text-sm text-slate-400 hover:text-emerald-400 transition-colors">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
               </svg>
@@ -309,7 +309,7 @@ interface SimulationResult {
 
             <!-- CTA -->
             <div class="flex flex-wrap gap-3">
-              <button (click)="clearSimulation()"
+              <button type="button" (click)="clearSimulation()"
                       class="px-6 py-3 rounded-xl bg-slate-700/50 text-white font-medium text-sm hover:bg-slate-700 transition-colors">
                 {{ lang.t('sim.try_another') }}
               </button>

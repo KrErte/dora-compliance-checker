@@ -107,7 +107,7 @@ interface AssessmentResult {
       <!-- Domain tabs -->
       <div *ngIf="!loading && !error && domains.length > 0" class="animate-fade-in-up">
         <div class="flex flex-wrap gap-2 mb-6">
-          <button *ngFor="let domain of domains; let i = index"
+          <button type="button" *ngFor="let domain of domains; let i = index"
                   (click)="activeDomain = i"
                   [class]="activeDomain === i
                     ? 'px-4 py-2 rounded-lg text-sm font-medium bg-amber-500/20 text-amber-400 border border-amber-500/30'
@@ -148,7 +148,7 @@ interface AssessmentResult {
 
               <!-- 1-5 scale -->
               <div class="flex flex-wrap gap-2">
-                <button *ngFor="let score of [1,2,3,4,5]"
+                <button type="button" *ngFor="let score of [1,2,3,4,5]"
                         type="button"
                         (click)="setAnswer(q.id, score)"
                         [class]="answers[q.id] === score
@@ -169,7 +169,7 @@ interface AssessmentResult {
                 </p>
               </div>
               <div class="flex flex-wrap gap-2">
-                <button *ngFor="let score of [1,2,3,4,5]" type="button"
+                <button type="button" *ngFor="let score of [1,2,3,4,5]" type="button"
                         class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 border border-slate-600/30">
                   {{ score }}
                 </button>
@@ -212,7 +212,7 @@ interface AssessmentResult {
 
           <!-- Domain navigation -->
           <div class="flex justify-between mt-6 pt-4 border-t border-slate-700/50">
-            <button *ngIf="activeDomain > 0"
+            <button type="button" *ngIf="activeDomain > 0"
                     (click)="activeDomain = activeDomain - 1"
                     class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-300 hover:bg-slate-600/50 transition-colors flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -221,7 +221,7 @@ interface AssessmentResult {
               {{ lang.t('nis2_assess.prev') }}
             </button>
             <div *ngIf="activeDomain === 0"></div>
-            <button *ngIf="activeDomain < domains.length - 1"
+            <button type="button" *ngIf="activeDomain < domains.length - 1"
                     (click)="activeDomain = activeDomain + 1"
                     class="px-4 py-2 rounded-lg text-sm font-medium bg-amber-500/20 text-amber-400 hover:bg-amber-500/30 transition-colors flex items-center gap-2">
               {{ lang.t('nis2_assess.next') }}
@@ -317,7 +317,7 @@ interface AssessmentResult {
               </div>
             </div>
 
-            <button (click)="closeResult()"
+            <button type="button" (click)="closeResult()"
                     class="w-full py-3 rounded-lg font-medium bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-400 hover:to-orange-400 transition-all">
               {{ lang.t('nis2_assess.close') }}
             </button>

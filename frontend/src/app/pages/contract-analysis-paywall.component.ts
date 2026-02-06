@@ -50,7 +50,7 @@ import { ContractAnalysisResult } from '../models';
              class="block w-full py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 hover:from-emerald-400 hover:to-cyan-400 transition-all mb-3">
             {{ lang.t('paywall.contact') }}
           </a>
-          <button (click)="showPaywall = false" class="text-sm text-slate-500 hover:text-slate-300 transition-colors">
+          <button type="button" (click)="showPaywall = false" class="text-sm text-slate-500 hover:text-slate-300 transition-colors">
             {{ lang.t('paywall.close') }}
           </button>
         </div>
@@ -101,7 +101,7 @@ import { ContractAnalysisResult } from '../models';
               </svg>
               {{ lang.t('contract.download_sample') }}
             </a>
-            <button (click)="loadSampleContract()" [disabled]="loadingSample"
+            <button type="button" (click)="loadSampleContract()" [disabled]="loadingSample"
                     class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
                            bg-emerald-500/20 border border-emerald-500/30 text-emerald-400
                            hover:bg-emerald-500/30 hover:shadow-lg hover:shadow-emerald-500/10
@@ -160,7 +160,7 @@ import { ContractAnalysisResult } from '../models';
           </div>
         </div>
 
-        <button (click)="triggerPaywall()"
+        <button type="button" (click)="triggerPaywall()"
                 class="w-full py-3 rounded-lg font-semibold transition-all duration-300
                        bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white hover:shadow-lg hover:shadow-amber-500/25">
           {{ lang.t('paywall.get_pricing') }}
@@ -299,7 +299,7 @@ import { ContractAnalysisResult } from '../models';
 
       <!-- Action buttons -->
       <div class="flex items-center justify-center gap-3 mt-8">
-        <button (click)="resetForm()"
+        <button type="button" (click)="resetForm()"
                 class="px-6 py-2.5 rounded-lg font-medium text-sm bg-slate-700/50 text-slate-300 border border-slate-600/30
                        hover:bg-slate-600/50 hover:text-emerald-400 transition-all duration-200">
           {{ lang.t('contract.new_analysis') }}

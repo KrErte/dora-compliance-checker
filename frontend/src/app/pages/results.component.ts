@@ -506,7 +506,7 @@ interface HeatmapCell {
             </svg>
             {{ lang.t('results.certificate') }}
           </a>
-          <button (click)="exportPdf()"
+          <button type="button" (click)="exportPdf()"
                   class="bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-400 hover:to-purple-400
                          text-white font-semibold px-6 py-2.5 rounded-lg transition-all duration-300
                          hover:shadow-lg hover:shadow-violet-500/25 flex items-center gap-2">

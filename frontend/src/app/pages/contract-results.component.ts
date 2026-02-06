@@ -86,16 +86,16 @@ import { ContractAnalysisResult, ContractFinding } from '../models';
 
         <!-- Filter buttons -->
         <div class="p-4 flex gap-2 flex-wrap">
-          <button (click)="statusFilter = 'ALL'" [class]="filterClass('ALL')">
+          <button type="button" (click)="statusFilter = 'ALL'" [class]="filterClass('ALL')">
             {{ lang.t('contract.filter_all') }} ({{ result.totalRequirements }})
           </button>
-          <button (click)="statusFilter = 'found'" [class]="filterClass('found')">
+          <button type="button" (click)="statusFilter = 'found'" [class]="filterClass('found')">
             {{ lang.t('contract.covered') }} ({{ result.foundCount }})
           </button>
-          <button (click)="statusFilter = 'partial'" [class]="filterClass('partial')">
+          <button type="button" (click)="statusFilter = 'partial'" [class]="filterClass('partial')">
             {{ lang.t('contract.weak') }} ({{ result.partialCount }})
           </button>
-          <button (click)="statusFilter = 'missing'" [class]="filterClass('missing')">
+          <button type="button" (click)="statusFilter = 'missing'" [class]="filterClass('missing')">
             {{ lang.t('contract.missing') }} ({{ result.missingCount }})
           </button>
         </div>
@@ -154,7 +154,7 @@ import { ContractAnalysisResult, ContractFinding } from '../models';
 
       <!-- Action buttons -->
       <div class="flex flex-wrap gap-3 justify-center">
-        <button (click)="viewComparison()"
+        <button type="button" (click)="viewComparison()"
                 class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-cyan-500/25 transition-all">
           <span class="flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,7 +163,7 @@ import { ContractAnalysisResult, ContractFinding } from '../models';
             {{ lang.t('comparison.compare_button') }}
           </span>
         </button>
-        <button (click)="downloadPdf()"
+        <button type="button" (click)="downloadPdf()"
                 class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
           <span class="flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -172,7 +172,7 @@ import { ContractAnalysisResult, ContractFinding } from '../models';
             {{ lang.t('contract.download_pdf') }}
           </span>
         </button>
-        <button (click)="startMonitoring()"
+        <button type="button" (click)="startMonitoring()"
                 [disabled]="monitoringLoading"
                 class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-blue-500/25 transition-all disabled:opacity-50">
           <span class="flex items-center gap-2">
@@ -182,7 +182,7 @@ import { ContractAnalysisResult, ContractFinding } from '../models';
             {{ monitoringLoading ? lang.t('guardian.reanalyzing') : lang.t('guardian.start_monitoring') }}
           </span>
         </button>
-        <button *ngIf="missingFindings.length > 0" (click)="startNegotiation()"
+        <button type="button" *ngIf="missingFindings.length > 0" (click)="startNegotiation()"
                 [disabled]="negotiationLoading"
                 class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-violet-500 to-purple-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-violet-500/25 transition-all disabled:opacity-50">
           <span class="flex items-center gap-2">

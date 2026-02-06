@@ -75,10 +75,10 @@ import { MODEL_CLAUSES, ModelClause, getModelClause } from '../data/model-clause
 
       <!-- Filter Buttons -->
       <div class="flex gap-2">
-        <button (click)="statusFilter = 'ALL'" [class]="filterClass('ALL')">
+        <button type="button" (click)="statusFilter = 'ALL'" [class]="filterClass('ALL')">
           {{ lang.t('comparison.filter_all') }} ({{ result.totalRequirements }})
         </button>
-        <button (click)="statusFilter = 'gaps'" [class]="filterClass('gaps')">
+        <button type="button" (click)="statusFilter = 'gaps'" [class]="filterClass('gaps')">
           {{ lang.t('comparison.filter_gaps') }} ({{ result.missingCount + result.partialCount }})
         </button>
       </div>
@@ -207,7 +207,7 @@ import { MODEL_CLAUSES, ModelClause, getModelClause } from '../data/model-clause
 
       <!-- Action Buttons -->
       <div class="flex flex-wrap gap-3 justify-center pt-4">
-        <button (click)="exportPdf()"
+        <button type="button" (click)="exportPdf()"
                 class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-cyan-500/25 transition-all">
           <span class="flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

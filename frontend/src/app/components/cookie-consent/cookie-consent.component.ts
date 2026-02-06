@@ -17,7 +17,7 @@ import { LangService } from '../../lang.service';
              ? 'See veebileht kasutab ainult tehnilisi küpsiseid. Isikuandmeid ei koguta.'
              : 'This website uses only technical cookies. No personal data is collected.' }}
         </p>
-        <button (click)="acceptCookies()"
+        <button type="button" (click)="acceptCookies()"
                 class="px-6 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-teal-500 to-emerald-500 text-white
                        hover:from-teal-400 hover:to-emerald-400 hover:shadow-lg hover:shadow-teal-500/25
                        transition-all duration-200 whitespace-nowrap">

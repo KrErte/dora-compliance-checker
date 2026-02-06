@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { Subscription, filter } from 'rxjs';
 import { LangService } from './lang.service';
 import { AuthService } from './auth/auth.service';
 import { CookieConsentComponent } from './components/cookie-consent/cookie-consent.component';
@@ -8,7 +10,10 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
 @Component({
   selector: 'app-root',
   imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, CookieConsentComponent],
-  host: { '(document:click)': 'closeDropdowns($event)' },
+  host: {
+    '(document:click)': 'onDocumentClick($event)',
+    '(window:scroll)': 'closeAllMenus()'
+  },
   template: `
     <nav class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50" aria-label="Peamine navigatsioon">
       <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -26,7 +31,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
         <div class="hidden sm:flex items-center gap-1">
           <!-- DORA dropdown -->
           <div class="relative">
-            <button (click)="doraMenu = !doraMenu"
+            <button type="button" (click)="toggleDoraMenu($event)"
                     class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1 px-3 py-2 rounded-lg hover:bg-slate-700/30">
               <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -55,7 +60,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
           </div>
           <!-- NIS2 dropdown -->
           <div class="relative">
-            <button (click)="nis2Menu = !nis2Menu"
+            <button type="button" (click)="toggleNis2Menu($event)"
                     class="text-sm text-slate-400 hover:text-amber-400 transition-colors duration-200 flex items-center gap-1 px-3 py-2 rounded-lg hover:bg-slate-700/30">
               <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
@@ -101,7 +106,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
             </a>
             <div class="w-px h-5 bg-slate-700/50 mx-1"></div>
             <span class="text-xs text-slate-500 px-2 truncate max-w-[120px]">{{ auth.user()?.email }}</span>
-            <button (click)="auth.logout()"
+            <button type="button" (click)="auth.logout()"
                     class="text-sm text-slate-400 hover:text-red-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
               {{ lang.t('auth.logout') }}
             </button>
@@ -117,7 +122,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
             </a>
           }
           <div class="w-px h-5 bg-slate-700/50 mx-1"></div>
-          <button (click)="lang.toggle()"
+          <button type="button" (click)="lang.toggle()"
                   aria-label="Vaheta keelt"
                   class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
                          bg-slate-700/50 text-slate-300 border border-slate-600/30
@@ -131,7 +136,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
 
         <!-- Mobile hamburger -->
         <div class="flex items-center gap-2 sm:hidden">
-          <button (click)="mobileMenu = !mobileMenu"
+          <button type="button" (click)="mobileMenu = !mobileMenu"
                   [attr.aria-label]="mobileMenu ? 'Sulge menüü' : 'Ava menüü'"
                   [attr.aria-expanded]="mobileMenu"
                   class="p-2 rounded-lg text-slate-400 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
@@ -177,7 +182,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
             </div>
             <div class="border-t border-slate-700/50 mt-2 pt-2">
               <span class="text-xs text-slate-500 px-3">{{ auth.user()?.email }}</span>
-              <button (click)="auth.logout(); mobileMenu = false"
+              <button type="button" (click)="auth.logout(); mobileMenu = false"
                       class="w-full text-left text-sm text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 mt-1">
                 {{ lang.t('auth.logout') }}
               </button>
@@ -191,7 +196,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
             </div>
           }
           <div class="border-t border-slate-700/50 mt-2 pt-2">
-            <button (click)="lang.toggle(); mobileMenu = false"
+            <button type="button" (click)="lang.toggle(); mobileMenu = false"
                     aria-label="Vaheta keelt"
                     class="w-full text-left text-sm text-slate-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -231,18 +236,88 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
     <app-cookie-consent></app-cookie-consent>
   `
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   mobileMenu = false;
   doraMenu = false;
   nis2Menu = false;
+  private routerSub?: Subscription;
 
-  constructor(public lang: LangService, public auth: AuthService) {}
+  private pageTitles: { [path: string]: { et: string; en: string } } = {
+    '/': { et: 'ComplianceHub - DORA & NIS2 Vastavuskontroll', en: 'ComplianceHub - DORA & NIS2 Compliance' },
+    '/pricing': { et: 'Hinnakiri | ComplianceHub', en: 'Pricing | ComplianceHub' },
+    '/nis2/scope-check': { et: 'NIS2 Scope Checker | ComplianceHub', en: 'NIS2 Scope Checker | ComplianceHub' },
+    '/nis2/assessment': { et: 'NIS2 Hindamine | ComplianceHub', en: 'NIS2 Assessment | ComplianceHub' },
+    '/assessment': { et: 'DORA Hindamine | ComplianceHub', en: 'DORA Assessment | ComplianceHub' },
+    '/contract-analysis': { et: 'Lepingu Analüüs | ComplianceHub', en: 'Contract Analysis | ComplianceHub' },
+    '/payment/success': { et: 'Makse Õnnestus | ComplianceHub', en: 'Payment Successful | ComplianceHub' },
+    '/login': { et: 'Sisene | ComplianceHub', en: 'Login | ComplianceHub' },
+    '/register': { et: 'Registreeri | ComplianceHub', en: 'Register | ComplianceHub' },
+    '/about': { et: 'Meist | ComplianceHub', en: 'About | ComplianceHub' },
+    '/privacy': { et: 'Privaatsuspoliitika | ComplianceHub', en: 'Privacy Policy | ComplianceHub' },
+    '/methodology': { et: 'Metoodika | ComplianceHub', en: 'Methodology | ComplianceHub' }
+  };
 
-  closeDropdowns(event: Event) {
+  constructor(
+    public lang: LangService,
+    public auth: AuthService,
+    private router: Router,
+    private titleService: Title
+  ) {
+    // Update title when language changes
+    effect(() => {
+      this.lang.lang(); // Subscribe to language signal
+      this.updatePageTitle(this.router.url);
+    });
+  }
+
+  ngOnInit() {
+    this.routerSub = this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      this.updatePageTitle(event.urlAfterRedirects);
+      this.closeAllMenus();
+    });
+
+    // Set initial title
+    this.updatePageTitle(this.router.url);
+  }
+
+  ngOnDestroy() {
+    this.routerSub?.unsubscribe();
+  }
+
+  private updatePageTitle(url: string) {
+    const path = url.split('?')[0];
+    const titleEntry = this.pageTitles[path];
+    if (titleEntry) {
+      const title = this.lang.currentLang === 'et' ? titleEntry.et : titleEntry.en;
+      this.titleService.setTitle(title);
+    } else {
+      this.titleService.setTitle('ComplianceHub');
+    }
+  }
+
+  toggleDoraMenu(event: Event) {
+    event.stopPropagation();
+    this.nis2Menu = false;
+    this.doraMenu = !this.doraMenu;
+  }
+
+  toggleNis2Menu(event: Event) {
+    event.stopPropagation();
+    this.doraMenu = false;
+    this.nis2Menu = !this.nis2Menu;
+  }
+
+  closeAllMenus() {
+    this.doraMenu = false;
+    this.nis2Menu = false;
+  }
+
+  onDocumentClick(event: Event) {
     const target = event.target as HTMLElement;
     if (!target.closest('.relative')) {
-      this.doraMenu = false;
-      this.nis2Menu = false;
+      this.closeAllMenus();
     }
   }
 }

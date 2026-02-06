@@ -293,7 +293,7 @@ interface Sector {
 
             <!-- CTA Button -->
             <div class="pt-4 border-t border-slate-700/50">
-              <button disabled class="w-full py-3 px-4 rounded-xl font-medium text-slate-500 bg-slate-700/30 border border-slate-600/30 cursor-not-allowed flex items-center justify-center gap-2">
+              <button type="button" disabled class="w-full py-3 px-4 rounded-xl font-medium text-slate-500 bg-slate-700/30 border border-slate-600/30 cursor-not-allowed flex items-center justify-center gap-2">
                 {{ lang.t('nis2.start_assessment') }}
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>

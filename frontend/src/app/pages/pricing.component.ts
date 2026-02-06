@@ -135,7 +135,7 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
             </li>
           </ul>
 
-          <button disabled
+          <button type="button" disabled
                   class="w-full py-3 px-4 rounded-xl text-center font-medium text-sm
                          bg-slate-700/30 text-slate-400
                          cursor-not-allowed border border-slate-600/30">

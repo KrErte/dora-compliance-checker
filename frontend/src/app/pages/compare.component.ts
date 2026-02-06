@@ -143,7 +143,7 @@ interface GapItem {
 
         <!-- Compare button -->
         <div class="text-center animate-fade-in-up delay-300">
-          <button (click)="startComparison()"
+          <button type="button" (click)="startComparison()"
                   [disabled]="2 > selectedIds.length"
                   class="inline-flex items-center gap-2 px-8 py-3 rounded-lg font-semibold transition-all duration-300 text-sm"
                   [class]="selectedIds.length >= 2
@@ -169,7 +169,7 @@ interface GapItem {
 
         <!-- Back button -->
         <div class="mb-6 animate-fade-in-up">
-          <button (click)="resetComparison()"
+          <button type="button" (click)="resetComparison()"
                   class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
@@ -395,7 +395,7 @@ interface GapItem {
 
         <!-- Actions -->
         <div class="flex flex-wrap justify-center gap-3 mt-10 mb-8 animate-fade-in-up delay-500">
-          <button (click)="resetComparison()"
+          <button type="button" (click)="resetComparison()"
                   class="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
                          text-slate-900 font-semibold px-6 py-2.5 rounded-lg transition-all duration-300
                          hover:shadow-lg hover:shadow-emerald-500/25 flex items-center gap-2 text-sm">

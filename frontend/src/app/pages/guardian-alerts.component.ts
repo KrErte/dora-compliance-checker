@@ -25,10 +25,10 @@ import { ContractAlert } from '../models';
           </h1>
         </div>
         <div class="flex gap-2">
-          <button (click)="filter = 'unread'" [class]="filterBtn(filter === 'unread')">
+          <button type="button" (click)="filter = 'unread'" [class]="filterBtn(filter === 'unread')">
             {{ lang.t('guardian.unread') }} ({{ unreadCount }})
           </button>
-          <button (click)="filter = 'all'" [class]="filterBtn(filter === 'all')">
+          <button type="button" (click)="filter = 'all'" [class]="filterBtn(filter === 'all')">
             {{ lang.t('guardian.all_alerts') }}
           </button>
         </div>
@@ -86,7 +86,7 @@ import { ContractAlert } from '../models';
             </div>
 
             <!-- Mark read button -->
-            <button *ngIf="!alert.read" (click)="markRead(alert)"
+            <button type="button" *ngIf="!alert.read" (click)="markRead(alert)"
                     class="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-700/50 text-slate-300 border border-slate-600/30 hover:bg-slate-600/50 transition-all">
               {{ lang.t('guardian.mark_read') }}
             </button>

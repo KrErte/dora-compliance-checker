@@ -90,15 +90,15 @@ import { MonitoredContract } from '../models';
 
             <!-- Actions -->
             <div class="flex items-center gap-2 flex-shrink-0">
-              <button *ngIf="contract.monitoringStatus === 'ACTIVE'" (click)="pause(contract)"
+              <button type="button" *ngIf="contract.monitoringStatus === 'ACTIVE'" (click)="pause(contract)"
                       class="px-3 py-1.5 rounded-lg text-xs font-medium bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 hover:bg-yellow-500/20 transition-all">
                 {{ lang.t('guardian.pause') }}
               </button>
-              <button *ngIf="contract.monitoringStatus === 'PAUSED'" (click)="resume(contract)"
+              <button type="button" *ngIf="contract.monitoringStatus === 'PAUSED'" (click)="resume(contract)"
                       class="px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all">
                 {{ lang.t('guardian.resume') }}
               </button>
-              <button (click)="reanalyze(contract)"
+              <button type="button" (click)="reanalyze(contract)"
                       [disabled]="contract.id === reanalyzingId"
                       class="px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-all disabled:opacity-50">
                 {{ contract.id === reanalyzingId ? lang.t('guardian.reanalyzing') : lang.t('guardian.reanalyze') }}

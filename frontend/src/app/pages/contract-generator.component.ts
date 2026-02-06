@@ -36,9 +36,9 @@ interface ClauseSelection {
           <div class="flex items-center justify-between mb-6">
             <h2 class="text-lg font-semibold text-white">{{ lang.t('generator.select_clauses') }}</h2>
             <div class="flex gap-2">
-              <button (click)="selectAll()" class="text-xs text-emerald-400 hover:text-emerald-300">{{ lang.t('generator.select_all') }}</button>
+              <button type="button" (click)="selectAll()" class="text-xs text-emerald-400 hover:text-emerald-300">{{ lang.t('generator.select_all') }}</button>
               <span class="text-slate-600">|</span>
-              <button (click)="selectNone()" class="text-xs text-slate-400 hover:text-slate-300">{{ lang.t('generator.select_none') }}</button>
+              <button type="button" (click)="selectNone()" class="text-xs text-slate-400 hover:text-slate-300">{{ lang.t('generator.select_none') }}</button>
             </div>
           </div>
 
@@ -87,7 +87,7 @@ interface ClauseSelection {
           <div class="flex items-center justify-between mb-6">
             <h2 class="text-lg font-semibold text-white">{{ lang.t('generator.preview') }}</h2>
             <div class="flex gap-2">
-              <button (click)="downloadPdf()" [disabled]="selectedCount === 0"
+              <button type="button" (click)="downloadPdf()" [disabled]="selectedCount === 0"
                       class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all
                              bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-lg hover:shadow-cyan-500/25
                              disabled:opacity-50 disabled:cursor-not-allowed">
@@ -153,7 +153,7 @@ interface ClauseSelection {
 
           <!-- Action Buttons -->
           <div class="mt-6 flex flex-wrap gap-3">
-            <button (click)="analyzeContract()" [disabled]="selectedCount === 0 || analyzing"
+            <button type="button" (click)="analyzeContract()" [disabled]="selectedCount === 0 || analyzing"
                     class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all
                            bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 hover:shadow-lg hover:shadow-emerald-500/25
                            disabled:opacity-50 disabled:cursor-not-allowed">

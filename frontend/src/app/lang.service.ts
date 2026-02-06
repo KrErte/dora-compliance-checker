@@ -996,6 +996,11 @@ export class LangService {
 
   lang = this.langSignal.asReadonly();
 
+  constructor() {
+    // Set initial html lang attribute
+    this.updateHtmlLang(this.langSignal());
+  }
+
   get currentLang(): Lang {
     return this.langSignal();
   }
@@ -1004,6 +1009,13 @@ export class LangService {
     const next: Lang = this.langSignal() === 'et' ? 'en' : 'et';
     this.langSignal.set(next);
     localStorage.setItem('dora_lang', next);
+    this.updateHtmlLang(next);
+  }
+
+  private updateHtmlLang(lang: Lang) {
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = lang;
+    }
   }
 
   t(key: string): string {

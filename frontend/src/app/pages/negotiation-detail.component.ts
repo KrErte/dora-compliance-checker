@@ -48,12 +48,12 @@ import { NegotiationResult, NegotiationItemResult, NegotiationMessageResult } fr
 
         <!-- Action buttons -->
         <div class="flex flex-wrap gap-3">
-          <button (click)="generateStrategy()" [disabled]="strategyLoading"
+          <button type="button" (click)="generateStrategy()" [disabled]="strategyLoading"
                   class="px-4 py-2 rounded-lg bg-violet-500/20 text-violet-400 border border-violet-500/30 text-sm font-medium
                          hover:bg-violet-500/30 transition-all disabled:opacity-50">
             {{ strategyLoading ? lang.t('neg.generating') : lang.t('neg.generate_strategy') }}
           </button>
-          <button (click)="generateEmail()" [disabled]="emailLoading"
+          <button type="button" (click)="generateEmail()" [disabled]="emailLoading"
                   class="px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-sm font-medium
                          hover:bg-cyan-500/30 transition-all disabled:opacity-50">
             {{ emailLoading ? lang.t('neg.generating') : lang.t('neg.generate_email') }}
@@ -65,7 +65,7 @@ import { NegotiationResult, NegotiationItemResult, NegotiationMessageResult } fr
       <div *ngIf="emailDraft" class="bg-slate-800/50 backdrop-blur border border-cyan-500/30 rounded-2xl overflow-hidden">
         <div class="px-5 py-3 bg-cyan-500/10 flex items-center justify-between">
           <h3 class="text-sm font-semibold text-cyan-400">{{ lang.t('neg.email_draft') }}</h3>
-          <button (click)="copyEmail()" class="px-3 py-1 rounded-lg text-xs font-medium bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 transition-all">
+          <button type="button" (click)="copyEmail()" class="px-3 py-1 rounded-lg text-xs font-medium bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 transition-all">
             {{ copied ? lang.t('neg.copied') : lang.t('neg.copy') }}
           </button>
         </div>
@@ -117,7 +117,7 @@ import { NegotiationResult, NegotiationItemResult, NegotiationMessageResult } fr
 
             <!-- Status buttons -->
             <div class="flex flex-wrap gap-2">
-              <button *ngFor="let s of statuses" (click)="updateStatus(item, s)"
+              <button type="button" *ngFor="let s of statuses" (click)="updateStatus(item, s)"
                       [class]="'px-3 py-1.5 rounded-lg text-xs font-medium transition-all ' +
                         (item.status === s ? 'bg-violet-500/30 text-violet-300 border border-violet-500/40' : 'bg-slate-700/30 text-slate-500 border border-slate-600/30 hover:text-slate-300')">
                 {{ itemStatusLabel(s) }}
