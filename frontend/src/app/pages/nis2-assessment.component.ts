@@ -420,14 +420,14 @@ export class Nis2AssessmentComponent implements OnInit {
     if (!this.canSubmit || this.submitting) return;
     this.submitting = true;
 
-    this.http.post<AssessmentResult>('/api/v2/assessments', {
+    this.http.post<any>('/api/v2/assessments', {
       regulationCode: 'NIS2',
       answers: this.answers
     }).subscribe({
       next: (res) => {
-        this.result = res;
-        this.submitting = false;
         localStorage.removeItem('nis2_draft');
+        sessionStorage.setItem('nis2_result', JSON.stringify(res));
+        this.router.navigate(['/nis2/results']);
       },
       error: () => {
         this.error = this.lang.t('nis2_assess.error_submit');

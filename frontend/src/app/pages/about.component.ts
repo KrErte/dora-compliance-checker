@@ -38,20 +38,20 @@ import { LangService } from '../lang.service';
       <!-- Stats -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <div class="glass-card p-4 text-center">
-          <div class="text-2xl font-bold text-emerald-400">2500+</div>
-          <div class="text-xs text-slate-500 mt-1">{{ lang.t('about.stat_contracts') }}</div>
-        </div>
-        <div class="glass-card p-4 text-center">
-          <div class="text-2xl font-bold text-cyan-400">500+</div>
-          <div class="text-xs text-slate-500 mt-1">{{ lang.t('about.stat_orgs') }}</div>
-        </div>
-        <div class="glass-card p-4 text-center">
-          <div class="text-2xl font-bold text-violet-400">8</div>
+          <div class="text-2xl font-bold text-emerald-400">8</div>
           <div class="text-xs text-slate-500 mt-1">{{ lang.t('about.stat_requirements') }}</div>
         </div>
         <div class="glass-card p-4 text-center">
-          <div class="text-2xl font-bold text-amber-400">99.9%</div>
-          <div class="text-xs text-slate-500 mt-1">{{ lang.t('about.stat_uptime') }}</div>
+          <div class="text-2xl font-bold text-cyan-400">&lt;5 min</div>
+          <div class="text-xs text-slate-500 mt-1">{{ lang.t('about.stat_analysis') }}</div>
+        </div>
+        <div class="glass-card p-4 text-center">
+          <div class="text-2xl font-bold text-violet-400">2%</div>
+          <div class="text-xs text-slate-500 mt-1">{{ lang.t('about.stat_penalty') }}</div>
+        </div>
+        <div class="glass-card p-4 text-center">
+          <div class="text-2xl font-bold text-amber-400">2</div>
+          <div class="text-xs text-slate-500 mt-1">{{ lang.t('about.stat_regulations') }}</div>
         </div>
       </div>
 

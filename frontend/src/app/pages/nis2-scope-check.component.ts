@@ -131,8 +131,8 @@ interface Sector {
 
           <!-- Sector Select -->
           <div class="space-y-2">
-            <label class="text-sm font-medium text-slate-300">{{ lang.t('nis2.sector') }} *</label>
-            <select [(ngModel)]="sector" class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all">
+            <label for="nis2-sector" class="text-sm font-medium text-slate-300">{{ lang.t('nis2.sector') }} *</label>
+            <select [(ngModel)]="sector" id="nis2-sector" class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all">
               <option value="">{{ lang.t('nis2.select_sector') }}</option>
               <optgroup [label]="lang.t('nis2.essential_sectors')">
                 <option *ngFor="let s of essentialSectors" [value]="s.code">{{ lang.currentLang === 'et' ? s.nameEt : s.nameEn }}</option>
@@ -145,16 +145,16 @@ interface Sector {
 
           <!-- Employee Count -->
           <div class="space-y-2">
-            <label class="text-sm font-medium text-slate-300">{{ lang.t('nis2.employees') }} *</label>
-            <input type="number" [(ngModel)]="employees" min="0" placeholder="0" class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all">
+            <label for="nis2-employees" class="text-sm font-medium text-slate-300">{{ lang.t('nis2.employees') }} *</label>
+            <input type="number" [(ngModel)]="employees" id="nis2-employees" min="0" placeholder="0" class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all">
             <p class="text-xs text-slate-500">{{ lang.t('nis2.employees_hint') }}</p>
           </div>
 
           <!-- Annual Revenue -->
           <div class="space-y-2">
-            <label class="text-sm font-medium text-slate-300">{{ lang.t('nis2.revenue') }} *</label>
+            <label for="nis2-revenue" class="text-sm font-medium text-slate-300">{{ lang.t('nis2.revenue') }} *</label>
             <div class="relative">
-              <input type="number" [(ngModel)]="revenue" min="0" placeholder="0" class="w-full px-4 py-3 pr-12 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all">
+              <input type="number" [(ngModel)]="revenue" id="nis2-revenue" min="0" placeholder="0" class="w-full px-4 py-3 pr-12 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all">
               <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">EUR</span>
             </div>
             <p class="text-xs text-slate-500">{{ lang.t('nis2.revenue_hint') }}</p>
@@ -162,9 +162,9 @@ interface Sector {
 
           <!-- Balance Sheet -->
           <div class="space-y-2">
-            <label class="text-sm font-medium text-slate-300">{{ lang.t('nis2.balance') }} *</label>
+            <label for="nis2-balance" class="text-sm font-medium text-slate-300">{{ lang.t('nis2.balance') }} *</label>
             <div class="relative">
-              <input type="number" [(ngModel)]="balance" min="0" placeholder="0" class="w-full px-4 py-3 pr-12 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all">
+              <input type="number" [(ngModel)]="balance" id="nis2-balance" min="0" placeholder="0" class="w-full px-4 py-3 pr-12 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all">
               <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">EUR</span>
             </div>
             <p class="text-xs text-slate-500">{{ lang.t('nis2.balance_hint') }}</p>

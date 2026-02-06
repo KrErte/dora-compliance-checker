@@ -293,6 +293,7 @@ interface GapItem {
 
           <div class="overflow-x-auto">
             <table class="w-full text-sm">
+              <caption class="sr-only">Hindamiste võrdlus kategooriate kaupa</caption>
               <thead>
                 <tr class="border-b border-slate-700/50">
                   <th class="text-left py-3 px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Kategooria</th>

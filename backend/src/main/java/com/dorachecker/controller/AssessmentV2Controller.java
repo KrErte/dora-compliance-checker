@@ -1,10 +1,14 @@
 package com.dorachecker.controller;
 
+import com.dorachecker.service.ActionPlanService;
+import com.dorachecker.service.ActionPlanService.ActionPlan;
 import com.dorachecker.service.AssessmentEngineService;
 import com.dorachecker.service.AssessmentEngineService.AssessmentResult;
+import com.dorachecker.service.AssessmentEngineService.DomainScore;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,17 +20,20 @@ import java.util.Map;
 public class AssessmentV2Controller {
 
     private final AssessmentEngineService assessmentEngineService;
+    private final ActionPlanService actionPlanService;
 
-    public AssessmentV2Controller(AssessmentEngineService assessmentEngineService) {
+    public AssessmentV2Controller(AssessmentEngineService assessmentEngineService,
+                                  ActionPlanService actionPlanService) {
         this.assessmentEngineService = assessmentEngineService;
+        this.actionPlanService = actionPlanService;
     }
 
     /**
      * POST /api/v2/assessments
-     * Calculate assessment score for a regulation.
+     * Calculate assessment score and generate action plan.
      */
     @PostMapping
-    public ResponseEntity<AssessmentResult> calculateAssessment(@RequestBody AssessmentRequest request) {
+    public ResponseEntity<AssessmentResponse> calculateAssessment(@RequestBody AssessmentRequest request) {
         if (request.regulationCode() == null || request.regulationCode().isBlank()) {
             return ResponseEntity.badRequest().build();
         }
@@ -39,7 +46,17 @@ public class AssessmentV2Controller {
                     request.regulationCode(),
                     request.answers()
             );
-            return ResponseEntity.ok(result);
+            ActionPlan actionPlan = actionPlanService.generateActionPlan(result);
+
+            return ResponseEntity.ok(new AssessmentResponse(
+                result.regulationCode(),
+                result.overallScore(),
+                result.riskLevel(),
+                result.domainScores(),
+                result.answeredQuestions(),
+                result.totalQuestions(),
+                actionPlan
+            ));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
@@ -51,5 +68,18 @@ public class AssessmentV2Controller {
     public record AssessmentRequest(
             String regulationCode,
             Map<String, Integer> answers
+    ) {}
+
+    /**
+     * Response DTO including assessment result and action plan.
+     */
+    public record AssessmentResponse(
+            String regulationCode,
+            double overallScore,
+            String riskLevel,
+            List<DomainScore> domainScores,
+            int answeredQuestions,
+            int totalQuestions,
+            ActionPlan actionPlan
     ) {}
 }

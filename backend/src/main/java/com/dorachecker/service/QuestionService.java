@@ -193,7 +193,7 @@ public class QuestionService {
                     "Kas on kehtestatud ICT riskihalduse raamistik?",
                     "Is there an ICT risk management framework in place?",
                     "DORA Art. 6(1)",
-                    "DORA nõuab finantsasutustelt põhjalikku ICT riskihalduse raamistikku, mis hõlmab strateegiaid, poliitikaid, protseduure ja tööriistu digitaalse tegevuskerksuse tagamiseks.",
+                    "DORA nõuab finantsasutustelt põhjalikku ICT riskihalduse raamistikku, mis hõlmab strateegiaid, poliitikaid, protseduure ja tööriistu digitaalse tegevuse vastupidavuse tagamiseks.",
                     "Kehtestage dokumenteeritud ICT riskihalduse raamistik, mis sisaldab riskide tuvastamist, hindamist, maandamist ja jälgimist.",
                     QuestionCategory.ICT_RISK_MANAGEMENT),
 

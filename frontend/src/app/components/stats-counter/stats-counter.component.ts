@@ -20,9 +20,9 @@ interface Stat {
 })
 export class StatsCounterComponent implements OnInit, OnDestroy {
   stats: Stat[] = [
-    { finalValue: 2500, suffix: '+', label: 'lepingut analüüsitud', icon: '📄', currentValue: 0 },
-    { finalValue: 500, suffix: '+', label: 'organisatsiooni kasutab', icon: '📊', currentValue: 0 },
-    { finalValue: 98, suffix: '%', label: 'kasutaja rahul', icon: '⭐', currentValue: 0 }
+    { finalValue: 8, suffix: '', label: 'DORA Art. 30 nõuet', icon: '📋', currentValue: 0 },
+    { finalValue: 5, suffix: ' min', label: 'lepingu analüüs', icon: '⚡', currentValue: 0 },
+    { finalValue: 2, suffix: '%', label: 'maksimaalne trahv käibest', icon: '⚠️', currentValue: 0 }
   ];
 
   private destroy$ = new Subject<void>();

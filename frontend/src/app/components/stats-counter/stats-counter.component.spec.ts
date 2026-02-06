@@ -30,14 +30,14 @@ describe('StatsCounterComponent', () => {
   });
 
   it('should have correct final values', () => {
-    expect(component.stats[0].finalValue).toBe(2500);
-    expect(component.stats[1].finalValue).toBe(500);
-    expect(component.stats[2].finalValue).toBe(98);
+    expect(component.stats[0].finalValue).toBe(8);
+    expect(component.stats[1].finalValue).toBe(5);
+    expect(component.stats[2].finalValue).toBe(2);
   });
 
   it('should have correct suffixes', () => {
-    expect(component.stats[0].suffix).toBe('+');
-    expect(component.stats[1].suffix).toBe('+');
+    expect(component.stats[0].suffix).toBe('');
+    expect(component.stats[1].suffix).toBe(' min');
     expect(component.stats[2].suffix).toBe('%');
   });
 
@@ -45,9 +45,9 @@ describe('StatsCounterComponent', () => {
     fixture.detectChanges();
     tick(3000);
 
-    expect(component.stats[0].currentValue).toBe(2500);
-    expect(component.stats[1].currentValue).toBe(500);
-    expect(component.stats[2].currentValue).toBe(98);
+    expect(component.stats[0].currentValue).toBe(8);
+    expect(component.stats[1].currentValue).toBe(5);
+    expect(component.stats[2].currentValue).toBe(2);
   }));
 
   it('should render stat items', () => {
@@ -61,9 +61,9 @@ describe('StatsCounterComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     const icons = compiled.querySelectorAll('.stat-icon');
-    expect(icons[0].textContent?.trim()).toBe('📄');
-    expect(icons[1].textContent?.trim()).toBe('📊');
-    expect(icons[2].textContent?.trim()).toBe('⭐');
+    expect(icons[0].textContent?.trim()).toBe('📋');
+    expect(icons[1].textContent?.trim()).toBe('⚡');
+    expect(icons[2].textContent?.trim()).toBe('⚠️');
   });
 
   it('should clean up on destroy', () => {

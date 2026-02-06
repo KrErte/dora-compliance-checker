@@ -102,6 +102,7 @@ import { ContractAnalysisResult, ContractFinding } from '../models';
 
         <div class="overflow-x-auto">
           <table class="w-full">
+            <caption class="sr-only">{{ lang.currentLang === 'et' ? 'Lepingu analüüsi tulemused' : 'Contract analysis results' }}</caption>
             <thead>
               <tr class="bg-slate-700/30">
                 <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400">#</th>

@@ -104,22 +104,22 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
           </h2>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.company_name') }}</label>
-              <input type="text" [(ngModel)]="companyName" name="companyName" required
+              <label for="assess-company" class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.company_name') }}</label>
+              <input type="text" [(ngModel)]="companyName" name="companyName" id="assess-company" required
                      class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
                             focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300"
                      [placeholder]="lang.currentLang === 'et' ? 'OÜ Näidis' : 'Example Ltd'">
             </div>
             <div>
-              <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.contract_name') }}</label>
-              <input type="text" [(ngModel)]="contractName" name="contractName" required
+              <label for="assess-contract" class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.contract_name') }}</label>
+              <input type="text" [(ngModel)]="contractName" name="contractName" id="assess-contract" required
                      class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
                             focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300"
                      [placeholder]="lang.currentLang === 'et' ? 'Pilveteenus leping' : 'Cloud service agreement'">
             </div>
             <div>
-              <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.sector') }}</label>
-              <select [(ngModel)]="selectedSector" name="sector"
+              <label for="assess-sector" class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.sector') }}</label>
+              <select [(ngModel)]="selectedSector" name="sector" id="assess-sector"
                       class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
                              focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300 appearance-none">
                 <option value="">{{ lang.t('assessment.select_sector') }}</option>

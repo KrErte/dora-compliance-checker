@@ -23,32 +23,32 @@ import { AuthService } from '../auth/auth.service';
         <div class="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-8">
           <form (ngSubmit)="onRegister()">
             <div class="mb-5">
-              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.full_name') }}</label>
-              <input type="text" [(ngModel)]="fullName" name="fullName" required
+              <label for="reg-fullname" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.full_name') }}</label>
+              <input type="text" [(ngModel)]="fullName" name="fullName" id="reg-fullname" required
                      class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border border-slate-600/50 text-white placeholder-slate-500
                             focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
                      placeholder="Jaan Tamm">
             </div>
 
             <div class="mb-5">
-              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.email') }}</label>
-              <input type="email" [(ngModel)]="email" name="email" required
+              <label for="reg-email" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.email') }}</label>
+              <input type="email" [(ngModel)]="email" name="email" id="reg-email" required
                      class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border border-slate-600/50 text-white placeholder-slate-500
                             focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
                      placeholder="teie@ettevote.ee">
             </div>
 
             <div class="mb-5">
-              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.password') }}</label>
-              <input type="password" [(ngModel)]="password" name="password" required minlength="6"
+              <label for="reg-password" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.password') }}</label>
+              <input type="password" [(ngModel)]="password" name="password" id="reg-password" required minlength="6"
                      class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border border-slate-600/50 text-white placeholder-slate-500
                             focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
                      placeholder="********">
             </div>
 
             <div class="mb-6">
-              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.confirm_password') }}</label>
-              <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" required
+              <label for="reg-confirm-password" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.confirm_password') }}</label>
+              <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" id="reg-confirm-password" required
                      class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border border-slate-600/50 text-white placeholder-slate-500
                             focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
                      placeholder="********">

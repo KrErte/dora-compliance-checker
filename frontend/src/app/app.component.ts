@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { LangService } from './lang.service';
 import { AuthService } from './auth/auth.service';
+import { CookieConsentComponent } from './components/cookie-consent/cookie-consent.component';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, CookieConsentComponent],
   host: { '(document:click)': 'closeDropdowns($event)' },
   template: `
-    <nav class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50">
+    <nav class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50" aria-label="Peamine navigatsioon">
       <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
         <a routerLink="/" class="flex items-center gap-3 group">
           <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs
@@ -109,10 +110,11 @@ import { AuthService } from './auth/auth.service';
           }
           <div class="w-px h-5 bg-slate-700/50 mx-1"></div>
           <button (click)="lang.toggle()"
+                  aria-label="Vaheta keelt"
                   class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
                          bg-slate-700/50 text-slate-300 border border-slate-600/30
                          hover:bg-slate-600/50 hover:text-emerald-400 transition-all duration-200">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
             {{ lang.currentLang === 'et' ? 'EN' : 'ET' }}
@@ -121,16 +123,14 @@ import { AuthService } from './auth/auth.service';
 
         <!-- Mobile hamburger -->
         <div class="flex items-center gap-2 sm:hidden">
-          <button (click)="lang.toggle()"
-                  class="px-2 py-1 rounded text-xs font-medium bg-slate-700/50 text-slate-300 border border-slate-600/30">
-            {{ lang.currentLang === 'et' ? 'EN' : 'ET' }}
-          </button>
           <button (click)="mobileMenu = !mobileMenu"
+                  [attr.aria-label]="mobileMenu ? 'Sulge menüü' : 'Ava menüü'"
+                  [attr.aria-expanded]="mobileMenu"
                   class="p-2 rounded-lg text-slate-400 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
-            <svg *ngIf="!mobileMenu" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg *ngIf="!mobileMenu" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
-            <svg *ngIf="mobileMenu" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg *ngIf="mobileMenu" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
             </svg>
           </button>
@@ -177,6 +177,16 @@ import { AuthService } from './auth/auth.service';
                  class="text-sm text-white bg-emerald-500/20 px-3 py-2 rounded-lg hover:bg-emerald-500/30">{{ lang.t('auth.register') }}</a>
             </div>
           }
+          <div class="border-t border-slate-700/50 mt-2 pt-2">
+            <button (click)="lang.toggle(); mobileMenu = false"
+                    aria-label="Vaheta keelt"
+                    class="w-full text-left text-sm text-slate-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              {{ lang.currentLang === 'et' ? 'English' : 'Eesti' }}
+            </button>
+          </div>
         </div>
       </div>
     </nav>
@@ -205,6 +215,7 @@ import { AuthService } from './auth/auth.service';
         </div>
       </div>
     </footer>
+    <app-cookie-consent></app-cookie-consent>
   `
 })
 export class AppComponent {

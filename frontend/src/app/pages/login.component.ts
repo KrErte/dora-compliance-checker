@@ -23,16 +23,16 @@ import { AuthService } from '../auth/auth.service';
         <div class="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-8">
           <form (ngSubmit)="onLogin()">
             <div class="mb-5">
-              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.email') }}</label>
-              <input type="email" [(ngModel)]="email" name="email" required
+              <label for="login-email" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.email') }}</label>
+              <input type="email" [(ngModel)]="email" name="email" id="login-email" required
                      class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border border-slate-600/50 text-white placeholder-slate-500
                             focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
                      placeholder="teie@ettevote.ee">
             </div>
 
             <div class="mb-6">
-              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.password') }}</label>
-              <input type="password" [(ngModel)]="password" name="password" required
+              <label for="login-password" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.password') }}</label>
+              <input type="password" [(ngModel)]="password" name="password" id="login-password" required
                      class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border border-slate-600/50 text-white placeholder-slate-500
                             focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
                      placeholder="********">

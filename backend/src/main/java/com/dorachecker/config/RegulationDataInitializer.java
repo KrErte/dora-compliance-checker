@@ -51,9 +51,9 @@ public class RegulationDataInitializer implements CommandLineRunner {
         RegulationEntity dora = new RegulationEntity(
                 "DORA",
                 "Digital Operational Resilience Act",
-                "Digitaalse tegevuskerksuse määrus",
+                "Digitaalse tegevuse vastupidavuse määrus",
                 "EU regulation on digital operational resilience for the financial sector.",
-                "EL-i määrus finantssektori digitaalse tegevuskerksuse kohta.",
+                "EL-i määrus finantssektori digitaalse tegevuse vastupidavuse kohta.",
                 LocalDate.of(2025, 1, 17)
         );
         dora = regulationRepository.save(dora);

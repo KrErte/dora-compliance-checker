@@ -134,6 +134,7 @@ interface Stat {
 
       <div class="requirements-table rounded-xl overflow-x-auto border border-slate-700/50">
         <table class="w-full min-w-[480px]">
+          <caption class="sr-only">{{ lang.currentLang === 'et' ? 'DORA Art. 30 nõuete nimekiri' : 'DORA Art. 30 requirements list' }}</caption>
           <thead class="bg-slate-800/80">
             <tr>
               <th class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider w-12">{{ lang.t('landing.table_check') }}</th>
@@ -280,8 +281,8 @@ interface Stat {
         <form (submit)="submitContact($event)" class="glass-card p-6" *ngIf="!contactSubmitted">
           <div class="flex flex-col gap-4">
             <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('auth.full_name') }}</label>
-              <input type="text" [(ngModel)]="contactName" name="name"
+              <label for="contact-name" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('auth.full_name') }}</label>
+              <input type="text" [(ngModel)]="contactName" name="name" id="contact-name"
                      [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors ' +
                               (contactNameError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
                      [placeholder]="lang.currentLang === 'et' ? 'Teie nimi' : 'Your name'">
@@ -290,8 +291,8 @@ interface Stat {
               </p>
             </div>
             <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('auth.email') }}</label>
-              <input type="email" [(ngModel)]="contactEmail" name="email" [placeholder]="lang.t('landing.contact_email_placeholder')"
+              <label for="contact-email" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('auth.email') }}</label>
+              <input type="email" [(ngModel)]="contactEmail" name="email" id="contact-email" [placeholder]="lang.t('landing.contact_email_placeholder')"
                      [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors ' +
                               (contactEmailError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
                      required>
@@ -300,8 +301,8 @@ interface Stat {
               </p>
             </div>
             <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.currentLang === 'et' ? 'Sõnum' : 'Message' }}</label>
-              <textarea [(ngModel)]="contactMessage" name="message" rows="3"
+              <label for="contact-message" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.currentLang === 'et' ? 'Sõnum' : 'Message' }}</label>
+              <textarea [(ngModel)]="contactMessage" name="message" id="contact-message" rows="3"
                         [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors resize-none ' +
                                  (contactMessageError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
                         [placeholder]="lang.currentLang === 'et' ? 'Kirjeldage oma vajadust...' : 'Describe your needs...'"></textarea>
@@ -463,9 +464,9 @@ export class LandingComponent implements OnInit, OnDestroy {
   ];
 
   stats: (Stat & { icon: string; labelKey: string })[] = [
-    { value: 2500, suffix: '+', label: '', labelKey: 'landing.stat_contracts', current: 0, icon: '📄' },
-    { value: 500, suffix: '+', label: '', labelKey: 'landing.stat_orgs', current: 0, icon: '📊' },
-    { value: 98, suffix: '%', label: '', labelKey: 'landing.stat_satisfaction', current: 0, icon: '⭐' }
+    { value: 8, suffix: '', label: '', labelKey: 'landing.stat_requirements', current: 0, icon: '📋' },
+    { value: 5, suffix: ' min', label: '', labelKey: 'landing.stat_analysis', current: 0, icon: '⚡' },
+    { value: 2, suffix: '%', label: '', labelKey: 'landing.stat_penalty', current: 0, icon: '⚠️' }
   ];
 
   requirements: DoraRequirement[] = [

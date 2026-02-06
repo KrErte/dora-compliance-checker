@@ -77,15 +77,15 @@ import { ContractAnalysisResult } from '../models';
       <div class="glass-card p-6 mb-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('contract.company_name') }}</label>
-            <input type="text" [(ngModel)]="companyName"
+            <label for="contract-company" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('contract.company_name') }}</label>
+            <input type="text" [(ngModel)]="companyName" id="contract-company"
                    class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
                           focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300"
                    [placeholder]="lang.t('contract.company_name')">
           </div>
           <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('contract.contract_name') }}</label>
-            <input type="text" [(ngModel)]="contractName"
+            <label for="contract-name" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('contract.contract_name') }}</label>
+            <input type="text" [(ngModel)]="contractName" id="contract-name"
                    class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
                           focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300"
                    [placeholder]="lang.t('contract.contract_name')">
@@ -94,8 +94,8 @@ import { ContractAnalysisResult } from '../models';
 
         <!-- Drag and drop zone -->
         <div class="mb-6">
-          <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('contract.upload_label') }}</label>
-          <div (click)="fileInput.click()"
+          <label id="contract-upload-label" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('contract.upload_label') }}</label>
+          <div (click)="fileInput.click()" aria-labelledby="contract-upload-label" role="button" tabindex="0"
                (dragover)="onDragOver($event)"
                (dragleave)="onDragLeave($event)"
                (drop)="onDrop($event)"

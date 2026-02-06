@@ -189,7 +189,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.final_cta_desc': { et: 'Saate teada, millised DORA Art. 30 n\u00f5uded on kaetud ja millised vajavad t\u00e4iendamist.', en: 'Find out which DORA Art. 30 requirements are covered and which need attention.' },
 
   // Footer
-  'footer.disclaimer': { et: 'Eelkontroll, mitte juriidiline n\u00f5ustamine', en: 'Pre-check, not legal advice' },
+  'footer.disclaimer': { et: 'Eelkontroll, mitte juriidilist nõustamist', en: 'Pre-check, not legal advice' },
 
   // Landing - Who needs this
   'landing.who_label': { et: 'Kohustuslik vastavus', en: 'Mandatory compliance' },
@@ -236,7 +236,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   // Landing - Pillars
   'landing.pillars_label': { et: 'DORA raamistik', en: 'DORA Framework' },
   'landing.pillars_title': { et: '5 sammast', en: '5 Pillars' },
-  'landing.pillars_desc': { et: 'Digitaalse tegevuskerksuse m\u00e4\u00e4ruse viis p\u00f5hisammast', en: 'Five core pillars of the Digital Operational Resilience Act' },
+  'landing.pillars_desc': { et: 'Digitaalse tegevuse vastupidavuse m\u00e4\u00e4ruse viis p\u00f5hisammast', en: 'Five core pillars of the Digital Operational Resilience Act' },
   'landing.pillar_risk': { et: 'IKT riskihaldus', en: 'ICT Risk Management' },
   'landing.pillar_incident': { et: 'Intsidendid', en: 'Incidents' },
   'landing.pillar_testing': { et: 'Testimine', en: 'Testing' },
@@ -308,12 +308,12 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.contact_server_error': { et: 'Midagi läks valesti. Palun proovige hiljem uuesti.', en: 'Something went wrong. Please try again later.' },
 
   // Landing - Stats (counter section)
-  'landing.stat_contracts': { et: 'lepingut analüüsitud', en: 'contracts analyzed' },
-  'landing.stat_orgs': { et: 'organisatsiooni kasutab', en: 'organizations using' },
-  'landing.stat_satisfaction': { et: 'kasutaja rahul', en: 'user satisfaction' },
+  'landing.stat_requirements': { et: 'DORA Art. 30 nõuet', en: 'DORA Art. 30 requirements' },
+  'landing.stat_analysis': { et: 'lepingu analüüs', en: 'contract analysis' },
+  'landing.stat_penalty': { et: 'maksimaalne trahv käibest', en: 'max penalty of revenue' },
 
   // Landing - Pillars hints
-  'landing.pillars_hint': { et: 'Kliki sambal, et näha detailseid nõudeid', en: 'Click on a pillar to see detailed requirements' },
+  'landing.pillars_hint': { et: 'Kliki sambale, et näha detailseid nõudeid', en: 'Click on a pillar to see detailed requirements' },
   'landing.pillar_tooltip': { et: 'Kliki detailide nägemiseks', en: 'Click to see details' },
 
   // Landing - Upload preview
@@ -789,7 +789,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
 
   // Footer
   'footer.built_for': { et: 'Loodud Eesti finantssektori ettev\u00f5tetele', en: 'Built for Estonian financial sector companies' },
-  'footer.regulation': { et: 'Digitaalse tegevuskerksuse m\u00e4\u00e4rus', en: 'Digital Operational Resilience Act' },
+  'footer.regulation': { et: 'Digitaalse tegevuse vastupidavuse m\u00e4\u00e4rus', en: 'Digital Operational Resilience Act' },
   'footer.dora_text': { et: 'DORA tekst', en: 'DORA text' },
   'footer.privacy': { et: 'Privaatsus', en: 'Privacy' },
 
@@ -955,10 +955,10 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'about.bio_compliance': { et: 'CISA sertifikaat. 8 aastat kogemust IT-auditeerimises ja vastavuskontrollis.', en: 'CISA certified. 8 years experience in IT auditing and compliance checking.' },
   'about.bio_legal': { et: 'Finants- ja IT-õiguse advokaat. Nõustanud EL regulatsioonide rakendamisel.', en: 'Financial and IT law attorney. Advised on EU regulation implementation.' },
   'about.stats_title': { et: 'Numbrid', en: 'By the numbers' },
-  'about.stat_contracts': { et: 'lepingut analüüsitud', en: 'contracts analyzed' },
-  'about.stat_orgs': { et: 'organisatsiooni', en: 'organizations' },
-  'about.stat_requirements': { et: 'DORA nõuet kontrollitakse', en: 'DORA requirements checked' },
-  'about.stat_uptime': { et: 'uptime', en: 'uptime' },
+  'about.stat_requirements': { et: 'DORA Art. 30 nõuet', en: 'DORA Art. 30 requirements' },
+  'about.stat_analysis': { et: 'lepingu analüüs', en: 'contract analysis' },
+  'about.stat_penalty': { et: 'maksimaalne trahv käibest', en: 'max penalty of revenue' },
+  'about.stat_regulations': { et: 'regulatsiooni kaetud', en: 'regulations covered' },
   'about.tech_title': { et: 'Tehnoloogia', en: 'Technology' },
   'about.tech_desc': { et: 'Meie platvorm on ehitatud kaasaegsete tehnoloogiatega ja turvaliselt.', en: 'Our platform is built with modern technologies and securely.' },
   'about.tech_1': { et: 'Andmed ainult EL serverites', en: 'Data only on EU servers' },
