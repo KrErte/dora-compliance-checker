@@ -95,6 +95,11 @@ export const routes: Routes = [
     // No authGuard - free tool
   },
   {
+    path: 'nis2/assessment',
+    loadComponent: () => import('./pages/nis2-assessment.component').then(m => m.Nis2AssessmentComponent)
+    // No authGuard - free tool
+  },
+  {
     path: 'pricing',
     loadComponent: () => import('./pages/pricing.component').then(m => m.PricingComponent)
   },

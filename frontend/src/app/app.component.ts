@@ -72,12 +72,12 @@ import { AuthService } from './auth/auth.service';
                 </svg>
                 {{ lang.t('nav.nis2_scope') }}
               </a>
-              <a routerLink="/assessment" (click)="nis2Menu = false"
+              <a routerLink="/nis2/assessment" (click)="nis2Menu = false"
                  class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                 </svg>
-                {{ lang.t('nav.assessment') }}
+                {{ lang.t('nav.nis2_assessment') }}
               </a>
             </div>
           </div>
@@ -152,9 +152,9 @@ import { AuthService } from './auth/auth.service';
             <a routerLink="/nis2/scope-check" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
               <span class="text-amber-400">&#9745;</span> {{ lang.t('nav.nis2_scope') }}</a>
-            <a routerLink="/assessment" (click)="mobileMenu = false"
+            <a routerLink="/nis2/assessment" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
-              <span class="text-orange-400">&#9998;</span> {{ lang.t('nav.assessment') }}</a>
+              <span class="text-orange-400">&#9998;</span> {{ lang.t('nav.nis2_assessment') }}</a>
           </div>
           @if (auth.isLoggedIn()) {
             <div class="border-t border-slate-700/50 mt-2 pt-2">

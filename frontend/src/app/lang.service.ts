@@ -57,6 +57,28 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'nis2.link_directive': { et: 'NIS2 direktiiv (EUR-Lex)', en: 'NIS2 Directive (EUR-Lex)' },
   'nis2.link_kyts': { et: 'Küberturvalisuse seadus (RIA)', en: 'Cybersecurity Act (RIA)' },
 
+  // NIS2 Assessment
+  'nis2_assess.title': { et: 'NIS2 vastavushindamine', en: 'NIS2 Compliance Assessment' },
+  'nis2_assess.subtitle': { et: 'Hinnake oma organisatsiooni küberturvalisuse küpsust NIS2 nõuete alusel', en: 'Assess your organization\'s cybersecurity maturity against NIS2 requirements' },
+  'nis2_assess.progress': { et: 'Edenemise oleku', en: 'Progress' },
+  'nis2_assess.loading': { et: 'Laadin küsimusi...', en: 'Loading questions...' },
+  'nis2_assess.error_load': { et: 'Küsimuste laadimine ebaõnnestus', en: 'Failed to load questions' },
+  'nis2_assess.error_submit': { et: 'Hindamise esitamine ebaõnnestus', en: 'Failed to submit assessment' },
+  'nis2_assess.draft_restored': { et: 'Mustand taastatud', en: 'Draft restored' },
+  'nis2_assess.prev': { et: 'Eelmine', en: 'Previous' },
+  'nis2_assess.next': { et: 'Järgmine', en: 'Next' },
+  'nis2_assess.score_preview': { et: 'Eelvaade skoor', en: 'Score preview' },
+  'nis2_assess.save_draft': { et: 'Salvesta mustand', en: 'Save draft' },
+  'nis2_assess.submit': { et: 'Esita hindamine', en: 'Submit assessment' },
+  'nis2_assess.submitting': { et: 'Esitan...', en: 'Submitting...' },
+  'nis2_assess.risk_low': { et: 'Madal risk', en: 'Low Risk' },
+  'nis2_assess.risk_medium': { et: 'Keskmine risk', en: 'Medium Risk' },
+  'nis2_assess.risk_high': { et: 'Kõrge risk', en: 'High Risk' },
+  'nis2_assess.risk_critical': { et: 'Kriitiline risk', en: 'Critical Risk' },
+  'nis2_assess.result_title': { et: 'Hindamise tulemus', en: 'Assessment Result' },
+  'nis2_assess.close': { et: 'Sulge', en: 'Close' },
+  'nav.nis2_assessment': { et: 'Vastavushindamine', en: 'Assessment' },
+
   // Methodology
   'methodology.title': { et: 'Hindamise metoodika', en: 'Assessment Methodology' },
   'methodology.subtitle': { et: 'Kuidas me hindame IKT-lepingute vastavust DORA artikkel 30 n\u00f5uetele', en: 'How we assess ICT contract compliance with DORA Article 30 requirements' },
