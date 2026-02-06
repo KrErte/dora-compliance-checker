@@ -1,7 +1,22 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { LangService } from '../lang.service';
+
+interface CompanyInfo {
+  registryCode: string;
+  name: string;
+  emtakCode: string;
+  emtakNameEt: string;
+  emtakNameEn: string;
+  nis2SectorCode: string | null;
+  annexType: string;
+  employeeCount: number;
+  revenue: number;
+  balanceSheet: number;
+  dataSource: string;
+}
 
 type SectorType = 'essential' | 'important';
 type ClassificationResult = 'essential' | 'important' | 'not_applicable';
@@ -17,6 +32,7 @@ interface Sector {
   selector: 'app-nis2-scope-check',
   standalone: true,
   imports: [CommonModule, FormsModule],
+  providers: [],
   template: `
     <div class="space-y-8">
       <!-- Header -->
@@ -40,6 +56,78 @@ interface Sector {
             </svg>
             {{ lang.t('nis2.company_info') }}
           </h2>
+
+          <!-- Registry Code Lookup -->
+          <div class="space-y-3 pb-6 border-b border-slate-700/50">
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+              <span class="text-sm font-medium text-slate-300">{{ lang.t('nis2.registry_lookup') }}</span>
+              <span class="text-xs text-slate-500">({{ lang.t('nis2.optional') }})</span>
+            </div>
+
+            <div class="flex gap-2">
+              <input
+                type="text"
+                [(ngModel)]="registryCode"
+                maxlength="8"
+                placeholder="12345678"
+                (keyup.enter)="lookupCompany()"
+                class="flex-1 px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-all font-mono tracking-wider"
+              />
+              <button
+                type="button"
+                (click)="lookupCompany()"
+                [disabled]="lookupLoading || registryCode.length !== 8"
+                class="px-5 py-3 rounded-xl font-medium transition-all flex items-center gap-2"
+                [ngClass]="registryCode.length === 8 && !lookupLoading
+                  ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/30 cursor-pointer'
+                  : 'bg-slate-700/30 text-slate-500 border border-slate-600/30 cursor-not-allowed'">
+                <svg *ngIf="lookupLoading" class="w-4 h-4 animate-spin" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                </svg>
+                <svg *ngIf="!lookupLoading" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                {{ lang.t('nis2.search') }}
+              </button>
+            </div>
+
+            <p class="text-xs text-slate-500">{{ lang.t('nis2.registry_hint') }}</p>
+
+            <!-- Error message -->
+            <div *ngIf="lookupError" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-red-500/10 border border-red-500/20 text-sm text-red-400">
+              <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              {{ lookupError }}
+            </div>
+
+            <!-- Company info card -->
+            <div *ngIf="companyInfo" class="p-4 rounded-xl bg-cyan-500/5 border border-cyan-500/20 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-cyan-400">{{ companyInfo.name }}</span>
+                <span class="text-xs text-slate-500 font-mono">{{ companyInfo.registryCode }}</span>
+              </div>
+              <div class="text-xs text-slate-400">
+                EMTAK: {{ companyInfo.emtakCode }} - {{ lang.currentLang === 'et' ? companyInfo.emtakNameEt : companyInfo.emtakNameEn }}
+              </div>
+              <div *ngIf="dataAutoFilled" class="flex items-center gap-1.5 text-xs text-emerald-400 mt-2">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                {{ lang.t('nis2.data_autofilled') }}
+              </div>
+              <div class="text-xs text-slate-500 mt-2 flex items-center gap-1">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                {{ lang.t('nis2.data_source_note') }}
+              </div>
+            </div>
+          </div>
 
           <!-- Sector Select -->
           <div class="space-y-2">
@@ -257,7 +345,14 @@ interface Sector {
   `
 })
 export class Nis2ScopeCheckComponent {
-  constructor(public lang: LangService) {}
+  constructor(public lang: LangService, private http: HttpClient) {}
+
+  // Registry lookup
+  registryCode = '';
+  lookupLoading = false;
+  lookupError = '';
+  companyInfo: CompanyInfo | null = null;
+  dataAutoFilled = false;
 
   // Form inputs
   sector = '';
@@ -341,5 +436,39 @@ export class Nis2ScopeCheckComponent {
       case 'important': return 'border-amber-500/30';
       default: return 'border-slate-700/50';
     }
+  }
+
+  lookupCompany(): void {
+    if (this.registryCode.length !== 8) return;
+
+    this.lookupLoading = true;
+    this.lookupError = '';
+    this.companyInfo = null;
+    this.dataAutoFilled = false;
+
+    this.http.get<CompanyInfo>(`/api/company/${this.registryCode}`).subscribe({
+      next: (company) => {
+        this.lookupLoading = false;
+        this.companyInfo = company;
+
+        if (company.nis2SectorCode) {
+          this.sector = company.nis2SectorCode;
+        }
+        this.employees = company.employeeCount;
+        this.revenue = company.revenue;
+        this.balance = company.balanceSheet;
+        this.dataAutoFilled = true;
+      },
+      error: (err) => {
+        this.lookupLoading = false;
+        if (err.status === 404) {
+          this.lookupError = this.lang.t('nis2.company_not_found');
+        } else if (err.status === 400) {
+          this.lookupError = this.lang.t('nis2.invalid_registry_code');
+        } else {
+          this.lookupError = this.lang.t('nis2.lookup_error');
+        }
+      }
+    });
   }
 }

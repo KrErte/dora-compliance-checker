@@ -57,6 +57,17 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'nis2.link_directive': { et: 'NIS2 direktiiv (EUR-Lex)', en: 'NIS2 Directive (EUR-Lex)' },
   'nis2.link_kyts': { et: 'Küberturvalisuse seadus (RIA)', en: 'Cybersecurity Act (RIA)' },
 
+  // NIS2 Registry Lookup
+  'nis2.registry_lookup': { et: 'Otsi Äriregistrist', en: 'Search Business Registry' },
+  'nis2.optional': { et: 'valikuline', en: 'optional' },
+  'nis2.search': { et: 'Otsi', en: 'Search' },
+  'nis2.registry_hint': { et: 'Sisesta 8-kohaline registrikood (nt 10000001)', en: 'Enter 8-digit registry code (e.g., 10000001)' },
+  'nis2.company_not_found': { et: 'Ettevõtet ei leitud. Sisestage andmed käsitsi.', en: 'Company not found. Enter data manually.' },
+  'nis2.invalid_registry_code': { et: 'Vigane registrikood. Peab olema 8 numbrit.', en: 'Invalid registry code. Must be 8 digits.' },
+  'nis2.lookup_error': { et: 'Päringu viga. Proovige hiljem uuesti.', en: 'Lookup error. Please try again later.' },
+  'nis2.data_autofilled': { et: 'Andmed täidetud automaatselt', en: 'Data auto-filled' },
+  'nis2.data_source_note': { et: 'Andmed põhinevad viimasel majandusaasta aruandel', en: 'Data based on last annual report' },
+
   // NIS2 Assessment
   'nis2_assess.title': { et: 'NIS2 vastavushindamine', en: 'NIS2 Compliance Assessment' },
   'nis2_assess.subtitle': { et: 'Hinnake oma organisatsiooni küberturvalisuse küpsust NIS2 nõuete alusel', en: 'Assess your organization\'s cybersecurity maturity against NIS2 requirements' },
@@ -78,6 +89,26 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'nis2_assess.result_title': { et: 'Hindamise tulemus', en: 'Assessment Result' },
   'nis2_assess.close': { et: 'Sulge', en: 'Close' },
   'nav.nis2_assessment': { et: 'Vastavushindamine', en: 'Assessment' },
+
+  // NIS2 Results & Action Plan
+  'nis2_results.title': { et: 'NIS2 hindamise tulemused', en: 'NIS2 Assessment Results' },
+  'nis2_results.domain_scores': { et: 'Domeenide skoorid', en: 'Domain Scores' },
+  'nis2_results.action_plan': { et: 'Tegevuskava', en: 'Action Plan' },
+  'nis2_results.total_effort': { et: 'Hinnanguline koguaeg', en: 'Estimated total effort' },
+  'nis2_results.days': { et: 'päeva', en: 'days' },
+  'nis2_results.months': { et: 'kuud', en: 'months' },
+  'nis2_results.immediate': { et: 'Koheselt', en: 'Immediate' },
+  'nis2_results.short_term': { et: 'Lühiajaline', en: 'Short-term' },
+  'nis2_results.medium_term': { et: 'Keskpikk', en: 'Medium-term' },
+  'nis2_results.no_actions': { et: 'Tegevusi pole vajalik', en: 'No actions required' },
+  'nis2_results.references': { et: 'Eesti regulatiivsed viited', en: 'Estonian Regulatory References' },
+  'nis2_results.ref_kyts': { et: 'Küberturvalisuse seadus', en: 'Cybersecurity Act' },
+  'nis2_results.ref_eits': { et: 'Eesti infoturbestandard', en: 'Estonian Info Security Standard' },
+  'nis2_results.ref_cert': { et: 'Riiklik küberturvalisuse keskus', en: 'National Cybersecurity Center' },
+  'nis2_results.export_pdf': { et: 'Ekspordi PDF', en: 'Export PDF' },
+  'nis2_results.back': { et: 'Tagasi hindamisele', en: 'Back to Assessment' },
+  'nis2_results.no_result': { et: 'Tulemust ei leitud. Alustage hindamist.', en: 'No result found. Start an assessment.' },
+  'nis2_results.start_assessment': { et: 'Alusta hindamist', en: 'Start Assessment' },
 
   // Methodology
   'methodology.title': { et: 'Hindamise metoodika', en: 'Assessment Methodology' },

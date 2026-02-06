@@ -38,6 +38,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/contact").permitAll()
                 .requestMatchers("/api/regulations/**").permitAll()
                 .requestMatchers("/api/v2/**").permitAll()
+                .requestMatchers("/api/emtak/**").permitAll()
+                .requestMatchers("/api/company/**").permitAll()
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().permitAll()
             )
