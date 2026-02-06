@@ -957,7 +957,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'about.tech_4': { et: 'Automaatne skaleerumine', en: 'Auto-scaling infrastructure' },
   'about.contact_title': { et: 'Võta ühendust', en: 'Get in touch' },
   'about.contact_desc': { et: 'Küsimused, demo soov või enterprise pakkumine', en: 'Questions, demo request, or enterprise offer' },
-  'about.contact_email': { et: 'info@doracheck.eu', en: 'info@doracheck.eu' },
+  'about.contact_email': { et: 'info@doraaudit.eu', en: 'info@doraaudit.eu' },
 
   // Landing - improved testimonials
   'landing.testimonial1_text': { et: 'AI lepinguaudit säästis meile nädalaid konsultandi tasu. Saime kohe teada, millised DORA Art. 30 klauslid puuduvad.', en: 'AI contract audit saved us weeks of consultant fees. We instantly knew which DORA Art. 30 clauses were missing.' },
@@ -987,7 +987,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'paywall.buy_nis2': { et: 'Osta NIS2 hindamine €49', en: 'Buy NIS2 assessment €49' },
   'paywall.buy_combo': { et: 'Või osta kombo €79', en: 'Or buy combo €79' },
   'paywall.buy_contract': { et: 'Osta lepinguanalüüs €39', en: 'Buy contract analysis €39' },
-  'paywall.buy_pdf': { et: 'PDF raport €29', en: 'PDF report €29' },
+  'paywall.buy_pdf': { et: 'PDF raport €39', en: 'PDF report €39' },
 };
 
 @Injectable({ providedIn: 'root' })

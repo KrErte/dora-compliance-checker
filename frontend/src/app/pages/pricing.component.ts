@@ -135,13 +135,14 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
             </li>
           </ul>
 
-          <button type="button" disabled
-                  class="w-full py-3 px-4 rounded-xl text-center font-medium text-sm
-                         bg-slate-700/30 text-slate-400
-                         cursor-not-allowed border border-slate-600/30">
+          <a [href]="paymentConfig.lemonsqueezy.products.comboPackage.checkoutUrl"
+             target="_blank"
+             class="w-full py-3 px-4 rounded-xl text-center font-medium text-sm
+                    bg-gradient-to-r from-amber-500 to-orange-500 text-white
+                    hover:from-amber-400 hover:to-orange-400 hover:shadow-lg hover:shadow-amber-500/25
+                    transition-all duration-200">
             {{ lang.t('pricing.package_cta') }} →
-          </button>
-          <p class="text-center text-xs text-slate-500 mt-2">{{ lang.t('pricing.coming_soon') }}</p>
+          </a>
         </div>
       </div>
 

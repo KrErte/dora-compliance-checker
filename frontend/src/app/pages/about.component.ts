@@ -94,7 +94,7 @@ import { LangService } from '../lang.service';
         <h2 class="text-lg font-semibold text-slate-200 mb-2">{{ lang.t('about.contact_title') }}</h2>
         <p class="text-sm text-slate-500 mb-4">{{ lang.t('about.contact_desc') }}</p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a href="mailto:info@doracheck.eu"
+          <a href="mailto:info@doraaudit.eu"
              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium
                     bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
                     hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
