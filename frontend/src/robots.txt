@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /payment/
+Disallow: /api/
+Sitemap: https://doraaudit.eu/sitemap.xml

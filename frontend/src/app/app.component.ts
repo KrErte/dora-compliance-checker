@@ -15,6 +15,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
     '(window:scroll)': 'closeAllMenus()'
   },
   template: `
+    <a class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-teal-500 focus:text-white focus:px-4 focus:py-2 focus:rounded" href="#main-content">Liigu sisule</a>
     <nav class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50" aria-label="Peamine navigatsioon">
       <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
         <a routerLink="/" class="flex items-center gap-3 group">
@@ -208,7 +209,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
         </div>
       </div>
     </nav>
-    <main class="max-w-5xl mx-auto px-4 py-8">
+    <main id="main-content" class="max-w-5xl mx-auto px-4 py-8">
       <router-outlet />
     </main>
     <footer class="border-t border-slate-800 mt-16 py-8">
@@ -227,6 +228,8 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
             <a routerLink="/privacy" class="hover:text-emerald-400 transition-colors">{{ lang.t('footer.privacy') }}</a>
           </div>
           <div class="flex flex-col items-center md:items-end gap-2">
+            <p class="text-xs text-slate-500">&copy; 2026 ComplianceHub</p>
+            <p class="text-xs text-slate-500">Kontakt: info&#64;doraaudit.eu</p>
             <p class="text-xs text-slate-600">{{ lang.t('footer.regulation') }}</p>
             <p class="text-[10px] text-slate-700">{{ lang.t('footer.disclaimer') }}</p>
           </div>
