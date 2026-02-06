@@ -232,27 +232,6 @@ interface Stat {
       </div>
     </div>
 
-    <!-- Testimonials -->
-    <div class="py-16 bg-slate-900/50">
-      <div class="max-w-4xl mx-auto px-4">
-        <div class="text-center mb-10">
-          <p class="text-xs font-medium text-teal-400 uppercase tracking-wider mb-2">{{ lang.t('landing.reviews_label') }}</p>
-          <h2 class="text-2xl font-bold text-slate-100">{{ lang.t('landing.reviews_title') }}</h2>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-          <div *ngFor="let testimonial of testimonials" class="testimonial-card p-5 sm:p-6 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-teal-500/20 transition-all duration-300">
-            <div class="text-2xl mb-4 text-teal-400">{{ testimonial.stars }}</div>
-            <p class="text-slate-300 mb-4 italic">"{{ lang.t(testimonial.textKey) }}"</p>
-            <div>
-              <p class="text-slate-300 text-sm font-semibold">{{ lang.t(testimonial.authorKey) }}</p>
-              <p class="text-slate-500 text-xs">{{ lang.t(testimonial.roleKey) }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Scope clarification -->
     <div class="py-12">
       <div class="max-w-2xl mx-auto glass-card p-6">
@@ -411,13 +390,6 @@ interface Stat {
       animation: slideInUp 0.6s ease-out both;
     }
 
-    .testimonial-card {
-      transition: transform 0.3s ease;
-    }
-    .testimonial-card:hover {
-      transform: translateY(-4px);
-    }
-
     .tabular-nums {
       font-variant-numeric: tabular-nums;
     }
@@ -505,12 +477,6 @@ export class LandingComponent implements OnInit, OnDestroy {
     { id: '6', name: '', nameKey: 'landing.req6_name', description: '', descKey: 'landing.req6_desc', checked: false, expanded: false },
     { id: '7', name: '', nameKey: 'landing.req7_name', description: '', descKey: 'landing.req7_desc', checked: true, expanded: false },
     { id: '8', name: '', nameKey: 'landing.req8_name', description: '', descKey: 'landing.req8_desc', checked: false, expanded: false }
-  ];
-
-  testimonials = [
-    { stars: '⭐⭐⭐⭐⭐', textKey: 'landing.testimonial1_text', authorKey: 'landing.testimonial1_author', roleKey: 'landing.testimonial1_role' },
-    { stars: '⭐⭐⭐⭐⭐', textKey: 'landing.testimonial2_text', authorKey: 'landing.testimonial2_author', roleKey: 'landing.testimonial2_role' },
-    { stars: '⭐⭐⭐⭐⭐', textKey: 'landing.testimonial3_text', authorKey: 'landing.testimonial3_author', roleKey: 'landing.testimonial3_role' }
   ];
 
   trustBadges = [
