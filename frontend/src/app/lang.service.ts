@@ -159,8 +159,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.cta_check': { et: 'Kontrolli lepingut', en: 'Check contract' },
   'landing.art30_explainer': { et: 'DORA Art. 30 s\u00e4testab 8 kohustuslikku n\u00f5uet, mis peavad sisalduma finantssektori ettev\u00f5tete ja IKT-teenusepakkujate vahelistes lepingutes. Mittevastavuse korral v\u00f5ib Finantsinspektsioon m\u00e4\u00e4rata trahvi kuni 2% aastasest k\u00e4ibest.', en: 'DORA Art. 30 establishes 8 mandatory requirements that must be included in contracts between financial sector companies and ICT service providers. Non-compliance may result in fines up to 2% of annual turnover by the Financial Supervisory Authority.' },
 
-  // Landing - Stats
-  'landing.stat_requirements': { et: 'kontrollitavat n\u00f5uet', en: 'requirements checked' },
+  // Landing - Stats (hero section)
   'landing.stat_time': { et: 'kontrolli aeg', en: 'check time' },
   'landing.stat_report': { et: 'aruanne', en: 'report' },
 
