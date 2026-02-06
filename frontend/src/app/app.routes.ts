@@ -90,6 +90,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/pillar-info.component').then(m => m.PillarInfoComponent)
   },
   {
+    path: 'nis2/scope-check',
+    loadComponent: () => import('./pages/nis2-scope-check.component').then(m => m.Nis2ScopeCheckComponent)
+    // No authGuard - free tool
+  },
+  {
     path: 'pricing',
     loadComponent: () => import('./pages/pricing.component').then(m => m.PricingComponent)
   },
