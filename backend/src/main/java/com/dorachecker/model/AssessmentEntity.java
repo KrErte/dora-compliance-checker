@@ -37,6 +37,9 @@ public class AssessmentEntity {
     @Column(nullable = false)
     private String complianceLevel;
 
+    @Column(length = 20)
+    private String regulationCode;
+
     @Column(length = 4000)
     private String answersJson;
 
@@ -76,4 +79,7 @@ public class AssessmentEntity {
     public void setComplianceLevel(String complianceLevel) { this.complianceLevel = complianceLevel; }
     public String getAnswersJson() { return answersJson; }
     public void setAnswersJson(String answersJson) { this.answersJson = answersJson; }
+
+    public String getRegulationCode() { return regulationCode; }
+    public void setRegulationCode(String regulationCode) { this.regulationCode = regulationCode; }
 }
