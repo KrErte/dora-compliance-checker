@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, OnDestroy, effect, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
-import { Title } from '@angular/platform-browser';
+import { Title, Meta } from '@angular/platform-browser';
 import { Subscription, filter } from 'rxjs';
 import { LangService } from './lang.service';
 import { AuthService } from './auth/auth.service';
@@ -259,6 +259,7 @@ export class AppComponent implements OnInit, OnDestroy {
   doraMenu = false;
   nis2Menu = false;
   private routerSub?: Subscription;
+  private isBrowser: boolean;
 
   private pageTitles: { [path: string]: { et: string; en: string } } = {
     '/': { et: 'ComplianceHub - DORA & NIS2 Vastavuskontroll', en: 'ComplianceHub - DORA & NIS2 Compliance' },
@@ -276,12 +277,29 @@ export class AppComponent implements OnInit, OnDestroy {
     '/board-risk': { et: 'Juhatuse riskikalkulaator | ComplianceHub', en: 'Board Risk Calculator | ComplianceHub' }
   };
 
+  private pageDescriptions: { [path: string]: string } = {
+    '/': 'DORA ja NIS2 vastavuskontroll Eesti ettevõtetele. Tasuta NIS2 scope check, lepinguanalüüs ja juhatuse riskikalkulaator.',
+    '/nis2/scope-check': 'Kontrolli tasuta kas NIS2 direktiiv kohaldub sinu ettevõttele. Sisesta registrikood ja saa kohene tulemus.',
+    '/board-risk': 'NIS2 ja DORA juhatuse liikme isikliku vastutuse kalkulaator. Arvuta oma riskieksposuur 2 minutiga.',
+    '/assessment': 'DORA täishindamine 37 küsimusega. Detailne tegevuskava ja PDF raport juhatusele.',
+    '/nis2/assessment': 'NIS2 vastavushindamine Eesti ettevõtetele. E-ITS ja KüTS nõuetele vastav tegevuskava.',
+    '/contract-analysis': 'DORA Art. 30 lepinguanalüüs. Kontrolli kas sinu IKT-leping vastab regulatsiooni nõuetele.',
+    '/pricing': 'ComplianceHub hinnad. NIS2 ja DORA hindamine alates €29. Ühekordne makse, ei nõua tellimust.',
+    '/methodology': 'DORA vastavushindamise metoodika. Kuidas hindame IKT-lepinguid Art. 30 nõuete vastu.',
+    '/about': 'ComplianceHub - DORA ja NIS2 vastavuskontrolli platvorm Eesti finantsettevõtetele.',
+    '/privacy': 'ComplianceHub privaatsuspoliitika. Kuidas me kasutame ja kaitseme teie andmeid.'
+  };
+
   constructor(
     public lang: LangService,
     public auth: AuthService,
     private router: Router,
-    private titleService: Title
+    private titleService: Title,
+    private meta: Meta,
+    @Inject(DOCUMENT) private document: Document,
+    @Inject(PLATFORM_ID) platformId: Object
   ) {
+    this.isBrowser = isPlatformBrowser(platformId);
     // Update title when language changes
     effect(() => {
       this.lang.lang(); // Subscribe to language signal
@@ -308,11 +326,46 @@ export class AppComponent implements OnInit, OnDestroy {
   private updatePageTitle(url: string) {
     const path = url.split('?')[0];
     const titleEntry = this.pageTitles[path];
-    if (titleEntry) {
-      const title = this.lang.currentLang === 'et' ? titleEntry.et : titleEntry.en;
-      this.titleService.setTitle(title);
+    const title = titleEntry
+      ? (this.lang.currentLang === 'et' ? titleEntry.et : titleEntry.en)
+      : 'ComplianceHub';
+    this.titleService.setTitle(title);
+
+    // Update meta description
+    const description = this.pageDescriptions[path] || this.pageDescriptions['/'];
+    this.meta.updateTag({ name: 'description', content: description });
+
+    // Update canonical URL
+    const canonicalUrl = `https://doraaudit.eu${path === '/' ? '' : path}`;
+    this.updateCanonicalUrl(canonicalUrl);
+
+    // Update Open Graph tags
+    this.meta.updateTag({ property: 'og:type', content: 'website' });
+    this.meta.updateTag({ property: 'og:site_name', content: 'ComplianceHub' });
+    this.meta.updateTag({ property: 'og:title', content: title });
+    this.meta.updateTag({ property: 'og:description', content: description });
+    this.meta.updateTag({ property: 'og:url', content: canonicalUrl });
+    this.meta.updateTag({ property: 'og:image', content: 'https://doraaudit.eu/assets/og-image.png' });
+    this.meta.updateTag({ property: 'og:locale', content: 'et_EE' });
+
+    // Update Twitter Card tags
+    this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
+    this.meta.updateTag({ name: 'twitter:title', content: title });
+    this.meta.updateTag({ name: 'twitter:description', content: description });
+    this.meta.updateTag({ name: 'twitter:image', content: 'https://doraaudit.eu/assets/og-image.png' });
+  }
+
+  private updateCanonicalUrl(url: string) {
+    if (!this.isBrowser) return;
+
+    let link: HTMLLinkElement | null = this.document.querySelector('link[rel="canonical"]');
+    if (link) {
+      link.setAttribute('href', url);
     } else {
-      this.titleService.setTitle('ComplianceHub');
+      link = this.document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      link.setAttribute('href', url);
+      this.document.head.appendChild(link);
     }
   }
 

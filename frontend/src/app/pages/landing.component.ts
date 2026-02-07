@@ -148,10 +148,15 @@ interface Stat {
                   (click)="toggleRequirement(req)" [class.expanded]="req.expanded">
                 <td class="px-4 py-4">
                   <input type="checkbox" [(ngModel)]="req.checked" (click)="$event.stopPropagation()"
+                         [id]="'req-checkbox-' + req.id"
+                         [attr.aria-label]="(req.nameKey ? lang.t(req.nameKey) : req.name) + ' - ' + (req.checked ? lang.t('landing.table_ok') : lang.t('landing.table_missing'))"
                          class="w-5 h-5 rounded border-slate-600 bg-slate-700 text-teal-500 focus:ring-teal-500 cursor-pointer">
+                  <label [for]="'req-checkbox-' + req.id" class="sr-only">{{ req.nameKey ? lang.t(req.nameKey) : req.name }}</label>
                 </td>
                 <td class="px-4 py-4">
-                  <span class="text-slate-200 font-medium">{{ req.nameKey ? lang.t(req.nameKey) : req.name }}</span>
+                  <label [for]="'req-checkbox-' + req.id" class="text-slate-200 font-medium cursor-pointer" (click)="$event.stopPropagation()">
+                    {{ req.nameKey ? lang.t(req.nameKey) : req.name }}
+                  </label>
                 </td>
                 <td class="px-4 py-4 text-right">
                   <span *ngIf="req.checked" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400">

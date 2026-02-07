@@ -4,11 +4,23 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { LangService } from '../lang.service';
 import { AuthService } from '../auth/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { timeout, catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
+  styles: [`
+    .animate-shake {
+      animation: shake 0.5s ease-in-out;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+  `],
   template: `
     <div class="min-h-[60vh] flex items-center justify-center">
       <div class="w-full max-w-md">
@@ -20,7 +32,8 @@ import { AuthService } from '../auth/auth.service';
           <p class="text-slate-400 text-sm">{{ lang.t('nav.brand') }}</p>
         </div>
 
-        <div class="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-8">
+        <div class="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-8"
+             [class.animate-shake]="shakeForm">
           <form (ngSubmit)="onLogin()">
             <div class="mb-5">
               <label for="login-email" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.email') }}</label>
@@ -39,7 +52,10 @@ import { AuthService } from '../auth/auth.service';
             </div>
 
             @if (error) {
-              <div class="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+              <div class="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center gap-2">
+                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
                 {{ error }}
               </div>
             }
@@ -81,17 +97,32 @@ export class LoginComponent {
   password = '';
   error = '';
   loading = false;
+  shakeForm = false;
 
   constructor(public lang: LangService, private auth: AuthService, private router: Router) {}
+
+  private triggerShake() {
+    this.shakeForm = true;
+    setTimeout(() => this.shakeForm = false, 500);
+  }
 
   onLogin() {
     this.error = '';
     if (!this.email.trim() || !this.password.trim()) {
       this.error = this.lang.t('auth.error_empty');
+      this.triggerShake();
       return;
     }
     this.loading = true;
-    this.auth.login({ email: this.email, password: this.password }).subscribe({
+    this.auth.login({ email: this.email, password: this.password }).pipe(
+      timeout(15000), // 15 second timeout
+      catchError((err) => {
+        if (err.name === 'TimeoutError') {
+          return throwError(() => ({ status: 0, timeout: true }));
+        }
+        return throwError(() => err);
+      })
+    ).subscribe({
       next: () => {
         this.loading = false;
         const returnUrl = sessionStorage.getItem('dora_returnUrl');
@@ -100,7 +131,21 @@ export class LoginComponent {
       },
       error: (err) => {
         this.loading = false;
-        this.error = this.lang.t('auth.error_invalid');
+        this.triggerShake();
+
+        if (err.timeout || err.status === 0) {
+          // Timeout or network error
+          this.error = this.lang.t('auth.error_timeout');
+        } else if (err.status === 401 || err.status === 403) {
+          // Invalid credentials
+          this.error = this.lang.t('auth.error_invalid');
+        } else if (err.status >= 500) {
+          // Server error
+          this.error = this.lang.t('auth.error_server');
+        } else {
+          // Other errors (400, etc.)
+          this.error = this.lang.t('auth.error_invalid');
+        }
       }
     });
   }

@@ -894,7 +894,12 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'auth.error_email_invalid': { et: 'Sisestage kehtiv e-posti aadress', en: 'Please enter a valid email address' },
   'auth.error_password_required': { et: 'Parool on kohustuslik', en: 'Password is required' },
   'auth.error_password_short': { et: 'Parool peab olema v\u00e4hemalt 6 t\u00e4hem\u00e4rki', en: 'Password must be at least 6 characters' },
-  'auth.error_generic': { et: 'Midagi l\u00e4ks valesti. Palun proovige uuesti.', en: 'Something went wrong. Please try again.' },
+  'auth.error_generic': { et: 'Midagi läks valesti. Palun proovige uuesti.', en: 'Something went wrong. Please try again.' },
+  'auth.error_server': { et: 'Tehniline viga, proovi hiljem uuesti', en: 'Technical error, please try again later' },
+  'auth.error_timeout': { et: 'Ühendus aegus, proovi uuesti', en: 'Connection timed out, please try again' },
+
+  // Validation
+  'validation.positive_required': { et: 'Väärtus peab olema positiivne', en: 'Value must be positive' },
 
   // Footer
   'footer.built_for': { et: 'Loodud Eesti finantssektori ettev\u00f5tetele', en: 'Built for Estonian financial sector companies' },

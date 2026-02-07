@@ -164,28 +164,37 @@ interface Sector {
           <!-- Employee Count -->
           <div class="space-y-2">
             <label for="nis2-employees" class="text-sm font-medium text-slate-300">{{ lang.t('nis2.employees') }} *</label>
-            <input type="number" [(ngModel)]="employees" id="nis2-employees" min="0" placeholder="0" class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all">
-            <p class="text-xs text-slate-500">{{ lang.t('nis2.employees_hint') }}</p>
+            <input type="number" [(ngModel)]="employees" id="nis2-employees" min="0" placeholder="0"
+                   class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border text-white focus:ring-2 transition-all"
+                   [ngClass]="employees !== null && employees < 0 ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/20'">
+            <p *ngIf="employees !== null && employees < 0" class="text-xs text-red-400">{{ lang.t('validation.positive_required') }}</p>
+            <p *ngIf="employees === null || employees >= 0" class="text-xs text-slate-500">{{ lang.t('nis2.employees_hint') }}</p>
           </div>
 
           <!-- Annual Revenue -->
           <div class="space-y-2">
             <label for="nis2-revenue" class="text-sm font-medium text-slate-300">{{ lang.t('nis2.revenue') }} *</label>
             <div class="relative">
-              <input type="number" [(ngModel)]="revenue" id="nis2-revenue" min="0" placeholder="0" class="w-full px-4 py-3 pr-12 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all">
+              <input type="number" [(ngModel)]="revenue" id="nis2-revenue" min="0" placeholder="0"
+                     class="w-full px-4 py-3 pr-12 rounded-xl bg-slate-900/50 border text-white focus:ring-2 transition-all"
+                     [ngClass]="revenue !== null && revenue < 0 ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/20'">
               <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">EUR</span>
             </div>
-            <p class="text-xs text-slate-500">{{ lang.t('nis2.revenue_hint') }}</p>
+            <p *ngIf="revenue !== null && revenue < 0" class="text-xs text-red-400">{{ lang.t('validation.positive_required') }}</p>
+            <p *ngIf="revenue === null || revenue >= 0" class="text-xs text-slate-500">{{ lang.t('nis2.revenue_hint') }}</p>
           </div>
 
           <!-- Balance Sheet -->
           <div class="space-y-2">
             <label for="nis2-balance" class="text-sm font-medium text-slate-300">{{ lang.t('nis2.balance') }} *</label>
             <div class="relative">
-              <input type="number" [(ngModel)]="balance" id="nis2-balance" min="0" placeholder="0" class="w-full px-4 py-3 pr-12 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all">
+              <input type="number" [(ngModel)]="balance" id="nis2-balance" min="0" placeholder="0"
+                     class="w-full px-4 py-3 pr-12 rounded-xl bg-slate-900/50 border text-white focus:ring-2 transition-all"
+                     [ngClass]="balance !== null && balance < 0 ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/20'">
               <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">EUR</span>
             </div>
-            <p class="text-xs text-slate-500">{{ lang.t('nis2.balance_hint') }}</p>
+            <p *ngIf="balance !== null && balance < 0" class="text-xs text-red-400">{{ lang.t('validation.positive_required') }}</p>
+            <p *ngIf="balance === null || balance >= 0" class="text-xs text-slate-500">{{ lang.t('nis2.balance_hint') }}</p>
           </div>
 
           <!-- Thresholds info -->

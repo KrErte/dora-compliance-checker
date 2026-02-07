@@ -480,7 +480,24 @@ export class Nis2AssessmentComponent implements OnInit {
   }
 
   autoSave() {
-    localStorage.setItem('nis2_draft', JSON.stringify({ answers: this.answers }));
+    // Find the last answered question
+    let lastQuestionId = '';
+    let lastDomainIndex = 0;
+    for (let di = 0; di < this.domains.length; di++) {
+      for (const q of this.domains[di].questions) {
+        if (this.answers[q.id]) {
+          lastQuestionId = q.id;
+          lastDomainIndex = di;
+        }
+      }
+    }
+
+    localStorage.setItem('nis2_assessment_progress', JSON.stringify({
+      answers: this.answers,
+      lastQuestionId,
+      lastDomainIndex,
+      savedAt: new Date().toISOString()
+    }));
   }
 
   saveDraft() {
@@ -490,10 +507,22 @@ export class Nis2AssessmentComponent implements OnInit {
 
   loadDraft() {
     try {
-      const draft = JSON.parse(localStorage.getItem('nis2_draft') || 'null');
+      // Try new key first, then fallback to old key for backwards compatibility
+      let draft = JSON.parse(localStorage.getItem('nis2_assessment_progress') || 'null');
+      if (!draft) {
+        draft = JSON.parse(localStorage.getItem('nis2_draft') || 'null');
+        if (draft) {
+          // Migrate to new key
+          localStorage.removeItem('nis2_draft');
+        }
+      }
       if (draft && Object.keys(draft.answers || {}).length > 0) {
         this.answers = draft.answers;
         this.hasDraft = true;
+        // Restore domain position if available
+        if (draft.lastDomainIndex !== undefined) {
+          this.activeDomain = draft.lastDomainIndex;
+        }
       }
     } catch {}
   }
@@ -507,7 +536,8 @@ export class Nis2AssessmentComponent implements OnInit {
       answers: this.answers
     }).subscribe({
       next: (res) => {
-        localStorage.removeItem('nis2_draft');
+        localStorage.removeItem('nis2_assessment_progress');
+        localStorage.removeItem('nis2_draft'); // Clean up old key too
         sessionStorage.setItem('nis2_result', JSON.stringify(res));
         this.router.navigate(['/nis2/results']);
       },

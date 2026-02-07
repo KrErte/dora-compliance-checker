@@ -515,57 +515,73 @@ export class AssessmentComponent implements OnInit {
   }
 
   applyScenario(scenario: 'ideal' | 'average' | 'weak') {
-    const avgWeakCategories = ['DATA', 'SUBCONTRACTING', 'AUDIT', 'RISK',
-      'RECRUITMENT', 'FINANCIAL_REPORTING', 'TESTING', 'INFORMATION_SHARING'];
-    const weakOkCategories = ['SERVICE_LEVEL', 'LEGAL'];
+    // Deterministic answers based on question index for consistency
+    // Ideal: 100% yes
+    // Average: ~60% yes, ~30% partial, ~10% no
+    // Weak: ~20% yes, ~30% partial, ~50% no
 
     switch (scenario) {
       case 'ideal':
         this.companyName = 'AS Finantsteenused';
         this.contractName = 'Pilveteenuse SLA leping 2025';
-        for (const q of this.questions) this.answers[q.id] = 'yes';
-        break;
-      case 'average':
-        this.companyName = 'O\u00dc DigiLahendused';
-        this.contractName = 'IT-taristu hooldusleping';
+        this.selectedSector = 'bank';
+        // All questions get highest score
         for (const q of this.questions) {
-          if (avgWeakCategories.includes(q.category)) {
-            const r = Math.random();
-            this.answers[q.id] = r > 0.6 ? 'yes' : (r > 0.3 ? 'partial' : 'no');
-          } else {
-            const r = Math.random();
-            this.answers[q.id] = r > 0.2 ? 'yes' : (r > 0.1 ? 'partial' : 'no');
-          }
+          this.answers[q.id] = 'yes';
         }
+        break;
+
+      case 'average':
+        this.companyName = 'OÜ DigiLahendused';
+        this.contractName = 'IT-taristu hooldusleping';
+        this.selectedSector = 'ict';
+        // Deterministic: ~60% yes, ~30% partial, ~10% no
+        this.questions.forEach((q, i) => {
+          const mod = i % 10;
+          if (mod < 6) {
+            this.answers[q.id] = 'yes';      // 60% yes (0,1,2,3,4,5)
+          } else if (mod < 9) {
+            this.answers[q.id] = 'partial';  // 30% partial (6,7,8)
+          } else {
+            this.answers[q.id] = 'no';       // 10% no (9)
+          }
+        });
+        // Make some categories weaker for realism
+        this.setAnswerByCategory('AUDIT', 'partial', 2);
+        this.setAnswerByCategory('EXIT_STRATEGY', 'partial', 1);
         this.setAnswerByCategory('TESTING', 'partial', 2);
         this.setAnswerByCategory('INFORMATION_SHARING', 'no', 1);
-        this.setAnswerByCategory('INFORMATION_SHARING', 'partial', 1);
-        this.setAnswerByCategory('INCIDENT_MANAGEMENT', 'partial', 1);
-        this.setAnswerByCategory('FINANCIAL_REPORTING', 'no', 1);
-        this.setAnswerByCategory('FINANCIAL_REPORTING', 'partial', 1);
         break;
+
       case 'weak':
-        this.companyName = 'O\u00dc V\u00e4ikeettev\u00f5te';
-        this.contractName = 'P\u00f5hiline IT-leping';
-        for (const q of this.questions) {
-          if (weakOkCategories.includes(q.category)) {
-            const r = Math.random();
-            this.answers[q.id] = r > 0.4 ? 'yes' : (r > 0.2 ? 'partial' : 'no');
+        this.companyName = 'OÜ Väikeettevõte';
+        this.contractName = 'Põhiline IT-leping';
+        this.selectedSector = 'ict';
+        // Deterministic: ~20% yes, ~30% partial, ~50% no
+        this.questions.forEach((q, i) => {
+          const mod = i % 10;
+          if (mod < 2) {
+            this.answers[q.id] = 'yes';      // 20% yes (0,1)
+          } else if (mod < 5) {
+            this.answers[q.id] = 'partial';  // 30% partial (2,3,4)
           } else {
-            const r = Math.random();
-            this.answers[q.id] = r > 0.8 ? 'yes' : (r > 0.5 ? 'partial' : 'no');
+            this.answers[q.id] = 'no';       // 50% no (5,6,7,8,9)
           }
-        }
-        this.setAnswerByCategory('ICT_RISK_MANAGEMENT', 'no');
-        this.setAnswerByCategory('INCIDENT_MANAGEMENT', 'no');
-        this.setAnswerByCategory('TESTING', 'no');
-        this.setAnswerByCategory('INFORMATION_SHARING', 'no');
-        this.setAnswerByCategory('RECRUITMENT', 'no');
-        this.setAnswerByCategory('FINANCIAL_REPORTING', 'no');
+        });
+        // Critical missing items for realism
+        this.setAnswerByCategory('AUDIT', 'no');
         this.setAnswerByCategory('EXIT_STRATEGY', 'no');
+        this.setAnswerByCategory('INCIDENT', 'no');
         this.setAnswerByCategory('CONTINUITY', 'no');
+        this.setAnswerByCategory('TESTING', 'no');
+        // Some basic items present
+        this.setAnswerByCategory('SERVICE_LEVEL', 'partial', 2);
+        this.setAnswerByCategory('LEGAL', 'yes', 1);
         break;
     }
+
+    // Save progress after applying scenario
+    this.autoSave();
   }
 
   /** Määra kategooria küsimustele vastus. Kui count on antud, muuda ainult nii palju. */
@@ -635,19 +651,39 @@ export class AssessmentComponent implements OnInit {
   }
 
   autoSave() {
-    localStorage.setItem('dora_draft', JSON.stringify({
+    // Find the last answered question index
+    let lastQuestionIndex = 0;
+    this.questions.forEach((q, i) => {
+      if (this.answers[q.id]) {
+        lastQuestionIndex = i + 1;
+      }
+    });
+
+    localStorage.setItem('dora_assessment_progress', JSON.stringify({
       companyName: this.companyName,
       contractName: this.contractName,
-      answers: this.answers
+      selectedSector: this.selectedSector,
+      answers: this.answers,
+      lastQuestion: lastQuestionIndex,
+      savedAt: new Date().toISOString()
     }));
   }
 
   private loadDraft() {
     try {
-      const draft = JSON.parse(localStorage.getItem('dora_draft') || 'null');
+      // Try new key first, then fallback to old key for backwards compatibility
+      let draft = JSON.parse(localStorage.getItem('dora_assessment_progress') || 'null');
+      if (!draft) {
+        draft = JSON.parse(localStorage.getItem('dora_draft') || 'null');
+        if (draft) {
+          // Migrate to new key
+          localStorage.removeItem('dora_draft');
+        }
+      }
       if (draft && Object.keys(draft.answers || {}).length > 0) {
         this.companyName = draft.companyName || '';
         this.contractName = draft.contractName || '';
+        this.selectedSector = draft.selectedSector || '';
         this.answers = draft.answers || {};
       }
     } catch {}
@@ -656,8 +692,10 @@ export class AssessmentComponent implements OnInit {
   clearAll() {
     this.companyName = '';
     this.contractName = '';
+    this.selectedSector = '';
     this.answers = {};
-    localStorage.removeItem('dora_draft');
+    localStorage.removeItem('dora_assessment_progress');
+    localStorage.removeItem('dora_draft'); // Clean up old key too
   }
 
   onSubmit() {
@@ -672,7 +710,8 @@ export class AssessmentComponent implements OnInit {
 
     this.api.submitAssessment(request).subscribe({
       next: (result) => {
-        localStorage.removeItem('dora_draft');
+        localStorage.removeItem('dora_assessment_progress');
+        localStorage.removeItem('dora_draft'); // Clean up old key too
         this.router.navigate(['/results', result.id]);
       },
       error: () => {

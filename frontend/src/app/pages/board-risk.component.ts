@@ -210,12 +210,17 @@ interface RiskCalculationResult {
                 <input
                   type="number"
                   [formControl]="$any(company.get('employees'))"
-                  min="1"
+                  min="0"
                   placeholder="0"
-                  class="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-600/50 text-white text-sm
-                         focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20 transition-all
+                  class="w-full px-3 py-2.5 rounded-lg bg-slate-800 border text-white text-sm transition-all
                          [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  [ngClass]="company.get('employees')?.value !== null && company.get('employees')?.value < 0
+                    ? 'border-red-500/50 focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20'
+                    : 'border-slate-600/50 focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20'"
                 />
+                <p *ngIf="company.get('employees')?.value !== null && company.get('employees')?.value < 0" class="text-xs text-red-400">
+                  {{ lang.t('validation.positive_required') }}
+                </p>
               </div>
 
               <!-- Revenue -->
@@ -225,14 +230,19 @@ interface RiskCalculationResult {
                   <input
                     type="number"
                     [formControl]="$any(company.get('revenue'))"
-                    min="1"
+                    min="0"
                     placeholder="0"
-                    class="w-full px-3 py-2.5 pr-12 rounded-lg bg-slate-800 border border-slate-600/50 text-white text-sm
-                           focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20 transition-all
+                    class="w-full px-3 py-2.5 pr-12 rounded-lg bg-slate-800 border text-white text-sm transition-all
                            [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    [ngClass]="company.get('revenue')?.value !== null && company.get('revenue')?.value < 0
+                      ? 'border-red-500/50 focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20'
+                      : 'border-slate-600/50 focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20'"
                   />
                   <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 text-sm">EUR</span>
                 </div>
+                <p *ngIf="company.get('revenue')?.value !== null && company.get('revenue')?.value < 0" class="text-xs text-red-400">
+                  {{ lang.t('validation.positive_required') }}
+                </p>
               </div>
             </div>
 
@@ -658,8 +668,8 @@ export class BoardRiskComponent implements OnInit, OnDestroy {
       registryCode: [String(result.reg_code)],
       name: [result.name],
       sector: ['', Validators.required],
-      employees: [null, [Validators.required, Validators.min(1)]],
-      revenue: [null, [Validators.required, Validators.min(1)]],
+      employees: [null, [Validators.required, Validators.min(0)]],
+      revenue: [null, [Validators.required, Validators.min(0)]],
       role: ['', Validators.required]
     });
 
