@@ -41,6 +41,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/emtak/**").permitAll()
                 .requestMatchers("/api/company/**").permitAll()
                 .requestMatchers("/api/ariregister/**").permitAll()
+                .requestMatchers("/api/stats/**").permitAll()
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().permitAll()
             )
