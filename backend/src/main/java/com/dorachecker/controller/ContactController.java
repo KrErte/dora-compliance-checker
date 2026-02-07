@@ -25,6 +25,7 @@ public class ContactController {
     public record ContactRequest(
             @NotBlank String name,
             @NotBlank @Email String email,
+            String reason,
             @NotBlank @Size(max = 2000) String message
     ) {}
 
@@ -33,6 +34,7 @@ public class ContactController {
         ContactMessage msg = new ContactMessage();
         msg.setName(request.name().trim());
         msg.setEmail(request.email().trim());
+        msg.setReason(request.reason());
         msg.setMessage(request.message().trim());
         msg.setCreatedAt(LocalDateTime.now());
         repository.save(msg);

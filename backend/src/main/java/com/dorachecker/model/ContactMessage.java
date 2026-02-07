@@ -17,6 +17,9 @@ public class ContactMessage {
     @Column(nullable = false)
     private String email;
 
+    @Column
+    private String reason;
+
     @Column(nullable = false, length = 2000)
     private String message;
 
@@ -33,6 +36,9 @@ public class ContactMessage {
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
+    public String getReason() { return reason; }
+    public void setReason(String reason) { this.reason = reason; }
 
     public String getMessage() { return message; }
     public void setMessage(String message) { this.message = message; }
