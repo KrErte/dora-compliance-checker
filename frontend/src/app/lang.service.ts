@@ -421,6 +421,17 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.stat_analysis': { et: 'lepingu analüüs', en: 'contract analysis' },
   'landing.stat_penalty': { et: 'maksimaalne trahv käibest', en: 'max penalty of revenue' },
 
+  // Landing - Urgency banner
+  'landing.urgency_alert': { et: 'Tähtaeg on möödas', en: 'Deadline has passed' },
+  'landing.urgency_dora_date': { et: 'DORA kohaldub alates 17. jaanuar 2025', en: 'DORA applies from January 17, 2025' },
+  'landing.urgency_nis2_date': { et: 'NIS2 Eesti seadus (KüTS) jõustub 2026', en: 'NIS2 Estonian law (KüTS) takes effect in 2026' },
+  'landing.urgency_fine': { et: 'Finantsinspektsiooni trahv kuni 2% aastasest käibest', en: 'FI fine up to 2% of annual turnover' },
+  'landing.urgency_personal': { et: 'Juhatuse liikme isiklik vastutus kuni €500,000', en: 'Board member personal liability up to €500,000' },
+  'landing.urgency_counter_label': { et: 'DORA on jõus juba', en: 'DORA has been in force for' },
+  'landing.urgency_days': { et: 'päeva', en: 'days' },
+  'landing.urgency_question': { et: 'Kas sinu ettevõte on valmis?', en: 'Is your company ready?' },
+  'landing.urgency_cta': { et: 'Kontrolli oma vastavust', en: 'Check your compliance' },
+
   // Landing - Pillars hints
   'landing.pillars_hint': { et: 'Kliki sambale, et näha detailseid nõudeid', en: 'Click on a pillar to see detailed requirements' },
   'landing.pillar_tooltip': { et: 'Kliki detailide nägemiseks', en: 'Click to see details' },

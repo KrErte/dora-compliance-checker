@@ -90,6 +90,75 @@ interface Stat {
       </div>
     </div>
 
+    <!-- Urgency Banner -->
+    <div class="py-8 px-4 animate-fade-in">
+      <div class="max-w-4xl mx-auto">
+        <div class="urgency-card relative overflow-hidden rounded-2xl bg-slate-900/80 backdrop-blur-sm border border-red-500/30 p-6 md:p-8
+                    shadow-lg shadow-red-500/5">
+          <!-- Glow effect -->
+          <div class="absolute -top-20 -right-20 w-40 h-40 bg-red-500/20 rounded-full blur-3xl"></div>
+          <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-orange-500/20 rounded-full blur-3xl"></div>
+
+          <div class="relative z-10 flex flex-col md:flex-row items-center gap-6 md:gap-8">
+            <!-- Left: Warning info -->
+            <div class="flex-1 text-center md:text-left">
+              <div class="flex items-center justify-center md:justify-start gap-2 mb-4">
+                <span class="text-2xl">⚠️</span>
+                <span class="text-xs font-bold uppercase tracking-wider text-red-400">{{ lang.t('landing.urgency_alert') }}</span>
+              </div>
+              <ul class="space-y-2 text-sm">
+                <li class="flex items-start gap-2 justify-center md:justify-start">
+                  <svg class="w-4 h-4 text-red-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  <span class="text-slate-300">{{ lang.t('landing.urgency_dora_date') }}</span>
+                </li>
+                <li class="flex items-start gap-2 justify-center md:justify-start">
+                  <svg class="w-4 h-4 text-orange-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  <span class="text-slate-300">{{ lang.t('landing.urgency_nis2_date') }}</span>
+                </li>
+                <li class="flex items-start gap-2 justify-center md:justify-start">
+                  <svg class="w-4 h-4 text-amber-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  <span class="text-slate-300">{{ lang.t('landing.urgency_fine') }}</span>
+                </li>
+                <li class="flex items-start gap-2 justify-center md:justify-start">
+                  <svg class="w-4 h-4 text-red-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                  </svg>
+                  <span class="text-slate-300">{{ lang.t('landing.urgency_personal') }}</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Right: Counter -->
+            <div class="text-center px-6 py-4 rounded-xl bg-slate-800/50 border border-red-500/20">
+              <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">{{ lang.t('landing.urgency_counter_label') }}</p>
+              <div class="text-5xl md:text-6xl font-extrabold text-red-400 tabular-nums mb-1">{{ daysSinceDora }}</div>
+              <p class="text-sm text-red-300 font-medium">{{ lang.t('landing.urgency_days') }}</p>
+              <p class="text-xs text-slate-500 mt-2">{{ lang.t('landing.urgency_question') }}</p>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="relative z-10 mt-6 text-center">
+            <a routerLink="/nis2/scope-check"
+               class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
+                      bg-gradient-to-r from-red-500 to-orange-500 text-white
+                      hover:from-red-400 hover:to-orange-400 hover:shadow-lg hover:shadow-red-500/25 transition-all">
+              {{ lang.t('landing.urgency_cta') }}
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Stats Counter Section -->
     <div class="py-12 max-w-4xl mx-auto px-4">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -552,6 +621,12 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   get checkedCount(): number {
     return this.requirements.filter(r => r.checked).length;
+  }
+
+  get daysSinceDora(): number {
+    const doraDate = new Date('2025-01-17');
+    const now = new Date();
+    return Math.floor((now.getTime() - doraDate.getTime()) / (1000 * 60 * 60 * 24));
   }
 
   toggleRequirement(req: DoraRequirement): void {
