@@ -346,66 +346,147 @@ interface Stat {
 
     <!-- Contact Form -->
     <div id="contact" class="py-16 bg-slate-900/50">
-      <div class="max-w-lg mx-auto px-4">
-        <div class="text-center mb-6">
+      <div class="max-w-4xl mx-auto px-4">
+        <div class="text-center mb-8">
           <h2 class="text-2xl font-bold text-slate-100 mb-2">{{ lang.t('landing.contact_title') }}</h2>
           <p class="text-slate-400 text-sm">{{ lang.t('landing.contact_subtitle') }}</p>
         </div>
 
-        <form (submit)="submitContact($event)" class="glass-card p-6" *ngIf="!contactSubmitted">
-          <div class="flex flex-col gap-4">
-            <div>
-              <label for="contact-name" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('auth.full_name') }}</label>
-              <input type="text" [(ngModel)]="contactName" name="name" id="contact-name"
-                     [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors ' +
-                              (contactNameError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
-                     [placeholder]="lang.currentLang === 'et' ? 'Teie nimi' : 'Your name'">
-              <p *ngIf="contactNameError" class="text-red-400 text-xs mt-1 animate-fade-in">
-                {{ lang.t('landing.contact_error_name') }}
-              </p>
-            </div>
-            <div>
-              <label for="contact-email" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('auth.email') }}</label>
-              <input type="email" [(ngModel)]="contactEmail" name="email" id="contact-email" [placeholder]="lang.t('landing.contact_email_placeholder')"
-                     [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors ' +
-                              (contactEmailError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
-                     required>
-              <p *ngIf="contactEmailError" class="text-red-400 text-xs mt-1 animate-fade-in">
-                {{ lang.t('landing.contact_error') }}
-              </p>
-            </div>
-            <div>
-              <label for="contact-message" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.currentLang === 'et' ? 'Sõnum' : 'Message' }}</label>
-              <textarea [(ngModel)]="contactMessage" name="message" id="contact-message" rows="3"
-                        [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors resize-none ' +
-                                 (contactMessageError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
-                        [placeholder]="lang.currentLang === 'et' ? 'Kirjeldage oma vajadust...' : 'Describe your needs...'"></textarea>
-              <p *ngIf="contactMessageError" class="text-red-400 text-xs mt-1 animate-fade-in">
-                {{ lang.t('landing.contact_error_message') }}
-              </p>
-            </div>
-            <button type="submit" [disabled]="contactSending"
-                    class="cta-button w-full px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-900 font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
-              <svg *ngIf="contactSending" class="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              {{ contactSending ? lang.t('landing.contact_sending') : lang.t('landing.contact_btn') }}
-            </button>
-            <p *ngIf="contactServerError" class="text-red-400 text-sm text-center animate-fade-in">
-              {{ lang.t('landing.contact_server_error') }}
-            </p>
-          </div>
-        </form>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Contact Form -->
+          <div>
+            <form (submit)="submitContact($event)" class="glass-card p-6" *ngIf="!contactSubmitted">
+              <div class="flex flex-col gap-4">
+                <div>
+                  <label for="contact-name" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('auth.full_name') }}</label>
+                  <input type="text" [(ngModel)]="contactName" name="name" id="contact-name"
+                         [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors ' +
+                                  (contactNameError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
+                         [placeholder]="lang.currentLang === 'et' ? 'Teie nimi' : 'Your name'">
+                  <p *ngIf="contactNameError" class="text-red-400 text-xs mt-1 animate-fade-in">
+                    {{ lang.t('landing.contact_error_name') }}
+                  </p>
+                </div>
+                <div>
+                  <label for="contact-email" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('auth.email') }}</label>
+                  <input type="email" [(ngModel)]="contactEmail" name="email" id="contact-email" [placeholder]="lang.t('landing.contact_email_placeholder')"
+                         [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors ' +
+                                  (contactEmailError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
+                         required>
+                  <p *ngIf="contactEmailError" class="text-red-400 text-xs mt-1 animate-fade-in">
+                    {{ lang.t('landing.contact_error') }}
+                  </p>
+                </div>
+                <div>
+                  <label for="contact-reason" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('landing.contact_reason_label') }}</label>
+                  <select [(ngModel)]="contactReason" name="reason" id="contact-reason"
+                          [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 focus:outline-none transition-colors cursor-pointer ' +
+                                   (contactReasonError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')">
+                    <option value="" disabled>{{ lang.t('landing.contact_reason_placeholder') }}</option>
+                    <option *ngFor="let reason of contactReasons" [value]="reason.value">{{ lang.t(reason.labelKey) }}</option>
+                  </select>
+                  <p *ngIf="contactReasonError" class="text-red-400 text-xs mt-1 animate-fade-in">
+                    {{ lang.t('landing.contact_error_reason') }}
+                  </p>
+                </div>
+                <div>
+                  <label for="contact-message" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('landing.contact_message_label') }}</label>
+                  <textarea [(ngModel)]="contactMessage" name="message" id="contact-message" rows="3"
+                            [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors resize-none ' +
+                                     (contactMessageError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
+                            [placeholder]="lang.currentLang === 'et' ? 'Kirjeldage oma vajadust...' : 'Describe your needs...'"></textarea>
+                  <p *ngIf="contactMessageError" class="text-red-400 text-xs mt-1 animate-fade-in">
+                    {{ lang.t('landing.contact_error_message') }}
+                  </p>
+                </div>
+                <button type="submit" [disabled]="contactSending"
+                        class="cta-button w-full px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-900 font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                  <svg *ngIf="contactSending" class="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  {{ contactSending ? lang.t('landing.contact_sending') : lang.t('landing.contact_btn') }}
+                </button>
+                <p *ngIf="contactServerError" class="text-red-400 text-sm text-center animate-fade-in">
+                  {{ lang.t('landing.contact_server_error') }}
+                </p>
+              </div>
+            </form>
 
-        <div *ngIf="contactSubmitted" class="glass-card p-8 text-center animate-fade-in">
-          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-teal-500/20 flex items-center justify-center">
-            <svg class="w-8 h-8 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
+            <div *ngIf="contactSubmitted" class="glass-card p-8 text-center animate-fade-in">
+              <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-teal-500/20 flex items-center justify-center">
+                <svg class="w-8 h-8 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <p class="text-teal-400 text-lg font-semibold mb-2">{{ lang.t('landing.contact_success') }}</p>
+              <p class="text-slate-400 text-sm">{{ lang.t('landing.contact_subtitle') }}</p>
+            </div>
           </div>
-          <p class="text-teal-400 text-lg font-semibold mb-2">{{ lang.t('landing.contact_success') }}</p>
-          <p class="text-slate-400 text-sm">{{ lang.t('landing.contact_subtitle') }}</p>
+
+          <!-- Contact Info Card -->
+          <div class="glass-card p-6 h-fit">
+            <h3 class="text-lg font-semibold text-slate-100 mb-6">{{ lang.t('landing.contact_info_title') }}</h3>
+
+            <div class="space-y-5">
+              <!-- Email -->
+              <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-lg bg-teal-500/10 flex items-center justify-center shrink-0">
+                  <svg class="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500 mb-1">{{ lang.t('landing.contact_email_label') }}</p>
+                  <a href="mailto:info@doraaudit.eu" class="text-slate-200 hover:text-teal-400 transition-colors">info&#64;doraaudit.eu</a>
+                </div>
+              </div>
+
+              <!-- Book Demo -->
+              <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
+                  <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-xs text-slate-500 mb-1">{{ lang.t('landing.contact_demo_label') }}</p>
+                  <a href="https://calendly.com/compliancehub/demo" target="_blank" rel="noopener"
+                     class="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 transition-colors font-medium">
+                    {{ lang.t('landing.contact_demo_link') }}
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Company -->
+              <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-lg bg-violet-500/10 flex items-center justify-center shrink-0">
+                  <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-slate-200">ComplianceHub</p>
+                  <p class="text-sm text-slate-400">Tallinn, Eesti</p>
+                </div>
+              </div>
+
+              <!-- LinkedIn -->
+              <div class="pt-4 border-t border-slate-700/50">
+                <p class="text-xs text-slate-500 mb-3">{{ lang.t('landing.contact_social') }}</p>
+                <a href="https://www.linkedin.com/in/kristo-erte/" target="_blank" rel="noopener"
+                   class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50 hover:border-blue-500/30 hover:bg-slate-700/30 transition-all group">
+                  <svg class="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                  <span class="text-sm text-slate-300 group-hover:text-blue-300">Kristo Erte</span>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -563,13 +644,23 @@ export class LandingComponent implements OnInit, OnDestroy {
   isDragging = false;
   contactName = '';
   contactEmail = '';
+  contactReason = '';
   contactMessage = '';
   contactSubmitted = false;
   contactNameError = false;
   contactEmailError = false;
+  contactReasonError = false;
   contactMessageError = false;
   contactServerError = false;
   contactSending = false;
+
+  contactReasons = [
+    { value: 'demo', labelKey: 'landing.contact_reason_demo' },
+    { value: 'enterprise', labelKey: 'landing.contact_reason_enterprise' },
+    { value: 'technical', labelKey: 'landing.contact_reason_technical' },
+    { value: 'partnership', labelKey: 'landing.contact_reason_partnership' },
+    { value: 'other', labelKey: 'landing.contact_reason_other' }
+  ];
 
   constructor(public lang: LangService, private apiService: ApiService) {}
 
@@ -652,6 +743,7 @@ export class LandingComponent implements OnInit, OnDestroy {
     event.preventDefault();
     this.contactNameError = false;
     this.contactEmailError = false;
+    this.contactReasonError = false;
     this.contactMessageError = false;
     this.contactServerError = false;
 
@@ -665,6 +757,10 @@ export class LandingComponent implements OnInit, OnDestroy {
       this.contactEmailError = true;
       hasError = true;
     }
+    if (!this.contactReason) {
+      this.contactReasonError = true;
+      hasError = true;
+    }
     if (!this.contactMessage || !this.contactMessage.trim()) {
       this.contactMessageError = true;
       hasError = true;
@@ -675,6 +771,7 @@ export class LandingComponent implements OnInit, OnDestroy {
     this.apiService.submitContact({
       name: this.contactName.trim(),
       email: this.contactEmail.trim(),
+      reason: this.contactReason,
       message: this.contactMessage.trim()
     }).subscribe({
       next: () => {
@@ -682,6 +779,7 @@ export class LandingComponent implements OnInit, OnDestroy {
         this.contactSubmitted = true;
         this.contactName = '';
         this.contactEmail = '';
+        this.contactReason = '';
         this.contactMessage = '';
       },
       error: () => {
