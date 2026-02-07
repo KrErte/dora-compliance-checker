@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { LangService } from '../lang.service';
 import { ApiService } from '../api.service';
 import { timer, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, take } from 'rxjs/operators';
 
 interface DoraRequirement {
   id: string;
@@ -519,13 +519,27 @@ export class LandingComponent implements OnInit, OnDestroy {
     const stepDuration = duration / steps;
 
     this.stats.forEach((stat, index) => {
+      // Ensure final value is set immediately if user sees intermediate state
+      stat.current = stat.value;
+
+      // Then animate from 0 to final value
+      stat.current = 0;
       timer(index * 150, stepDuration)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((step) => {
-          if (step < steps) {
-            const progress = this.easeOutQuad(step / steps);
-            stat.current = Math.floor(stat.value * progress);
-          } else {
+        .pipe(
+          take(steps + 1),
+          takeUntil(this.destroy$)
+        )
+        .subscribe({
+          next: (step) => {
+            if (step < steps) {
+              const progress = this.easeOutQuad(step / steps);
+              stat.current = Math.floor(stat.value * progress);
+            } else {
+              stat.current = stat.value;
+            }
+          },
+          complete: () => {
+            // Ensure final value is always set when animation completes
             stat.current = stat.value;
           }
         });

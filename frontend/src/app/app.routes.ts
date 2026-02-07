@@ -10,6 +10,17 @@ export const routes: Routes = [
     path: '',
     loadComponent: () => import('./pages/landing.component').then(m => m.LandingComponent)
   },
+  // Redirects for broken/old links
+  {
+    path: 'self-assessment',
+    redirectTo: 'assessment',
+    pathMatch: 'full'
+  },
+  {
+    path: 'nis2',
+    redirectTo: 'nis2/scope-check',
+    pathMatch: 'full'
+  },
   {
     path: 'login',
     loadComponent: () => import('./pages/login.component').then(m => m.LoginComponent),

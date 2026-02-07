@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { timer, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, take } from 'rxjs/operators';
 
 interface Stat {
   finalValue: number;
@@ -38,12 +38,21 @@ export class StatsCounterComponent implements OnInit, OnDestroy {
 
     this.stats.forEach((stat, index) => {
       timer(index * 100, stepDuration)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((step) => {
-          if (step < steps) {
-            const progress = this.easeOutQuad(step / steps);
-            stat.currentValue = Math.floor(stat.finalValue * progress);
-          } else {
+        .pipe(
+          take(steps + 1),
+          takeUntil(this.destroy$)
+        )
+        .subscribe({
+          next: (step) => {
+            if (step < steps) {
+              const progress = this.easeOutQuad(step / steps);
+              stat.currentValue = Math.floor(stat.finalValue * progress);
+            } else {
+              stat.currentValue = stat.finalValue;
+            }
+          },
+          complete: () => {
+            // Ensure final value is always set when animation completes
             stat.currentValue = stat.finalValue;
           }
         });

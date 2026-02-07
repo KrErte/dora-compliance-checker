@@ -105,9 +105,36 @@ interface PillarInfo {
     </div>
 
     <!-- Not found -->
-    <div *ngIf="!pillar && !loading" class="text-center py-20">
-      <p class="text-slate-400">{{ lang.t('pillar.not_found') }}</p>
-      <a routerLink="/" class="text-emerald-400 hover:text-emerald-300 mt-4 inline-block">{{ lang.t('pillar.back') }}</a>
+    <div *ngIf="!pillar && !loading" class="min-h-[50vh] flex items-center justify-center">
+      <div class="glass-card p-8 md:p-12 max-w-lg mx-auto text-center border border-slate-700/50">
+        <div class="text-6xl mb-4">🔍</div>
+        <h1 class="text-2xl font-bold text-white mb-2">{{ lang.t('pillar.not_found') }}</h1>
+        <p class="text-slate-400 mb-8">{{ lang.currentLang === 'et' ? 'See DORA sammas ei eksisteeri.' : 'This DORA pillar does not exist.' }}</p>
+
+        <!-- Available pillars -->
+        <div class="mb-8">
+          <p class="text-sm text-slate-500 mb-4">{{ lang.currentLang === 'et' ? 'Saadaval olevad sambad:' : 'Available pillars:' }}</p>
+          <div class="grid grid-cols-1 gap-2">
+            <a *ngFor="let p of pillars" [routerLink]="'/pillar/' + p.id"
+               class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30 hover:border-emerald-500/30 hover:bg-slate-700/30 transition-all group">
+              <span class="text-xl">{{ p.icon }}</span>
+              <span class="text-sm text-slate-300 group-hover:text-emerald-300">{{ lang.t(p.labelKey) }}</span>
+              <span class="text-xs text-slate-600 ml-auto">{{ p.articles }}</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Back to home -->
+        <a routerLink="/"
+           class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
+                  bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
+                  hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          {{ lang.t('notfound.home') }}
+        </a>
+      </div>
     </div>
   `
 })
