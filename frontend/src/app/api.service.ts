@@ -116,7 +116,7 @@ export class ApiService {
   }
 
   // Contact
-  submitContact(data: { name: string; email: string; message: string }): Observable<{ success: boolean }> {
+  submitContact(data: { name: string; email: string; reason?: string; message: string }): Observable<{ success: boolean }> {
     return this.http.post<{ success: boolean }>(`${this.baseUrl}/contact`, data);
   }
 }
