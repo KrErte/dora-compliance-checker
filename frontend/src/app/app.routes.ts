@@ -105,6 +105,11 @@ export const routes: Routes = [
     // No authGuard - free tool
   },
   {
+    path: 'board-risk',
+    loadComponent: () => import('./pages/board-risk.component').then(m => m.BoardRiskComponent)
+    // No authGuard - free tool
+  },
+  {
     path: 'pricing',
     loadComponent: () => import('./pages/pricing.component').then(m => m.PricingComponent)
   },

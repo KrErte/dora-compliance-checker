@@ -57,6 +57,14 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
                 </svg>
                 {{ lang.t('nav.assessment') }}
               </a>
+              <a routerLink="/board-risk" (click)="doraMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-teal-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                </svg>
+                {{ lang.t('nav.board_risk') }}
+                <span class="ml-auto px-1.5 py-0.5 text-[10px] font-bold rounded bg-teal-500/20 text-teal-400">{{ lang.t('nav.new_badge') }}</span>
+              </a>
             </div>
           </div>
           <!-- NIS2 dropdown -->
@@ -161,6 +169,13 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
           <a routerLink="/assessment" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
             <span class="text-cyan-400">&#9745;</span> {{ lang.t('nav.assessment') }}</a>
+          <a routerLink="/board-risk" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-teal-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+            <span class="flex items-center gap-2">
+              <span class="text-teal-400">&#128202;</span> {{ lang.t('nav.board_risk') }}
+            </span>
+            <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-teal-500/20 text-teal-400">{{ lang.t('nav.new_badge') }}</span>
+          </a>
           <div class="border-t border-slate-700/50 mt-2 pt-2">
             <p class="text-xs text-slate-600 px-3 mb-1 uppercase tracking-wider">NIS2</p>
             <a routerLink="/nis2/scope-check" (click)="mobileMenu = false"
@@ -257,7 +272,8 @@ export class AppComponent implements OnInit, OnDestroy {
     '/register': { et: 'Registreeri | ComplianceHub', en: 'Register | ComplianceHub' },
     '/about': { et: 'Meist | ComplianceHub', en: 'About | ComplianceHub' },
     '/privacy': { et: 'Privaatsuspoliitika | ComplianceHub', en: 'Privacy Policy | ComplianceHub' },
-    '/methodology': { et: 'Metoodika | ComplianceHub', en: 'Methodology | ComplianceHub' }
+    '/methodology': { et: 'Metoodika | ComplianceHub', en: 'Methodology | ComplianceHub' },
+    '/board-risk': { et: 'Juhatuse riskikalkulaator | ComplianceHub', en: 'Board Risk Calculator | ComplianceHub' }
   };
 
   constructor(
