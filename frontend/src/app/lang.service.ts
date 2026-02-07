@@ -446,6 +446,12 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.urgency_question': { et: 'Kas sinu ettevõte on valmis?', en: 'Is your company ready?' },
   'landing.urgency_cta': { et: 'Kontrolli oma vastavust', en: 'Check your compliance' },
 
+  // Landing - Authority badges
+  'landing.authority_title': { et: 'Usaldusväärne metoodika', en: 'Trusted Methodology' },
+  'landing.authority_desc': { et: 'Metoodika põhineb Euroopa Liidu regulatsioonidel ja Eesti Riigi Infosüsteemi Ameti (RIA) juhistel.', en: 'Methodology is based on European Union regulations and Estonian Information System Authority (RIA) guidelines.' },
+  'landing.authority_checks_done': { et: 'vastavuskontrolli on juba tehtud', en: 'compliance checks completed' },
+  'landing.authority_free_tool': { et: 'Tasuta tööriist Eesti ettevõtetele', en: 'Free tool for Estonian companies' },
+
   // Landing - Pillars hints
   'landing.pillars_hint': { et: 'Kliki sambale, et näha detailseid nõudeid', en: 'Click on a pillar to see detailed requirements' },
   'landing.pillar_tooltip': { et: 'Kliki detailide nägemiseks', en: 'Click to see details' },
@@ -931,6 +937,11 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'footer.regulation': { et: 'Digitaalse tegevuse vastupidavuse m\u00e4\u00e4rus', en: 'Digital Operational Resilience Act' },
   'footer.dora_text': { et: 'DORA tekst', en: 'DORA text' },
   'footer.privacy': { et: 'Privaatsus', en: 'Privacy' },
+  'footer.tagline': { et: 'DORA ja NIS2 vastavuskontrolli platvorm Eesti ettevõtetele.', en: 'DORA and NIS2 compliance platform for Estonian companies.' },
+  'footer.tools': { et: 'Tööriistad', en: 'Tools' },
+  'footer.company': { et: 'Ettevõte', en: 'Company' },
+  'footer.contact': { et: 'Kontakt', en: 'Contact' },
+  'footer.rights': { et: 'Kõik õigused kaitstud.', en: 'All rights reserved.' },
 
   // Privacy page
   'privacy.title': { et: 'Privaatsuspoliitika', en: 'Privacy Policy' },

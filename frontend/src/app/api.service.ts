@@ -119,4 +119,9 @@ export class ApiService {
   submitContact(data: { name: string; email: string; reason?: string; message: string }): Observable<{ success: boolean }> {
     return this.http.post<{ success: boolean }>(`${this.baseUrl}/contact`, data);
   }
+
+  // Usage Stats
+  getUsageStats(): Observable<{ totalAssessments: number; totalScopeChecks: number; totalUsers: number }> {
+    return this.http.get<{ totalAssessments: number; totalScopeChecks: number; totalUsers: number }>(`${this.baseUrl}/stats/usage`);
+  }
 }

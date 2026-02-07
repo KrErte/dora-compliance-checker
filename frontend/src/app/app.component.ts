@@ -227,25 +227,62 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
     <main id="main-content" class="max-w-5xl mx-auto px-4 py-8">
       <router-outlet />
     </main>
-    <footer class="border-t border-slate-800 mt-16 py-8">
+    <footer class="border-t border-slate-800 mt-16 py-10">
       <div class="max-w-5xl mx-auto px-4">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div class="flex items-center gap-3">
-            <div class="w-7 h-7 rounded-md bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-[10px]">CH</div>
-            <p class="text-sm font-semibold text-slate-400">{{ lang.t('nav.brand') }}</p>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <!-- Brand -->
+          <div class="md:col-span-1">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs">CH</div>
+              <p class="text-sm font-bold text-slate-300">{{ lang.t('nav.brand') }}</p>
+            </div>
+            <p class="text-xs text-slate-500 leading-relaxed">{{ lang.t('footer.tagline') }}</p>
           </div>
-          <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-slate-600">
-            <a routerLink="/contract-analysis" class="hover:text-emerald-400 transition-colors">DORA</a>
-            <a routerLink="/nis2/scope-check" class="hover:text-amber-400 transition-colors">NIS2</a>
-            <a routerLink="/pricing" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.pricing') }}</a>
-            <a routerLink="/about" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.about') }}</a>
-            <a routerLink="/methodology" class="hover:text-emerald-400 transition-colors">{{ lang.t('nav.methodology') }}</a>
-            <a routerLink="/privacy" class="hover:text-emerald-400 transition-colors">{{ lang.t('footer.privacy') }}</a>
+
+          <!-- Tools -->
+          <div>
+            <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">{{ lang.t('footer.tools') }}</h4>
+            <div class="flex flex-col gap-2">
+              <a routerLink="/contract-analysis" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.contract') }}</a>
+              <a routerLink="/assessment" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.assessment') }}</a>
+              <a routerLink="/nis2/scope-check" class="text-xs text-slate-500 hover:text-amber-400 transition-colors">NIS2 Scope Check</a>
+              <a routerLink="/board-risk" class="text-xs text-slate-500 hover:text-teal-400 transition-colors">{{ lang.t('nav.board_risk') }}</a>
+            </div>
           </div>
-          <div class="flex flex-col items-center md:items-end gap-2">
-            <p class="text-xs text-slate-500">&copy; 2026 ComplianceHub</p>
-            <p class="text-xs text-slate-500">Kontakt: info&#64;doraaudit.eu</p>
-            <p class="text-xs text-slate-600">{{ lang.t('footer.regulation') }}</p>
+
+          <!-- Company -->
+          <div>
+            <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">{{ lang.t('footer.company') }}</h4>
+            <div class="flex flex-col gap-2">
+              <a routerLink="/about" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.about') }}</a>
+              <a routerLink="/methodology" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.methodology') }}</a>
+              <a routerLink="/pricing" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.pricing') }}</a>
+              <a routerLink="/privacy" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('footer.privacy') }}</a>
+            </div>
+          </div>
+
+          <!-- Contact -->
+          <div>
+            <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">{{ lang.t('footer.contact') }}</h4>
+            <div class="flex flex-col gap-2 text-xs text-slate-500">
+              <a href="mailto:info@doraaudit.eu" class="hover:text-emerald-400 transition-colors">info&#64;doraaudit.eu</a>
+              <p>ComplianceHub OÜ</p>
+              <p>Tallinn, Eesti</p>
+              <a href="https://www.linkedin.com/in/kristo-erte/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 hover:text-blue-400 transition-colors mt-1">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom bar -->
+        <div class="border-t border-slate-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p class="text-xs text-slate-600">&copy; 2026 ComplianceHub OÜ. {{ lang.t('footer.rights') }}</p>
+          <div class="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-center">
+            <p class="text-[10px] text-slate-700">{{ lang.t('footer.regulation') }}</p>
             <p class="text-[10px] text-slate-700">{{ lang.t('footer.disclaimer') }}</p>
           </div>
         </div>

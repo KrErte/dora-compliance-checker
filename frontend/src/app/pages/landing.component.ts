@@ -491,6 +491,53 @@ interface Stat {
       </div>
     </div>
 
+    <!-- Authority Badges / Social Proof -->
+    <div class="py-16 bg-slate-900/30">
+      <div class="max-w-4xl mx-auto px-4">
+        <h3 class="text-lg font-semibold text-slate-300 text-center mb-6">{{ lang.t('landing.authority_title') }}</h3>
+
+        <!-- Badges row -->
+        <div class="flex flex-wrap justify-center gap-3 mb-6">
+          <div class="glass-card px-4 py-2 rounded-lg border border-slate-700/50 flex items-center gap-2">
+            <span class="text-lg">🏛️</span>
+            <span class="text-xs text-slate-400">DORA (EU) 2022/2554</span>
+          </div>
+          <div class="glass-card px-4 py-2 rounded-lg border border-slate-700/50 flex items-center gap-2">
+            <span class="text-lg">🇪🇺</span>
+            <span class="text-xs text-slate-400">NIS2 (EU) 2022/2555</span>
+          </div>
+          <div class="glass-card px-4 py-2 rounded-lg border border-slate-700/50 flex items-center gap-2">
+            <span class="text-lg">🔒</span>
+            <span class="text-xs text-slate-400">E-ITS</span>
+          </div>
+          <div class="glass-card px-4 py-2 rounded-lg border border-slate-700/50 flex items-center gap-2">
+            <span class="text-lg">📋</span>
+            <span class="text-xs text-slate-400">EBA/ESMA</span>
+          </div>
+        </div>
+
+        <p class="text-xs text-slate-500 text-center max-w-2xl mx-auto mb-8">
+          {{ lang.t('landing.authority_desc') }}
+        </p>
+
+        <!-- Usage stats -->
+        <div class="text-center">
+          <div *ngIf="usageStats && usageStats.total >= 10" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-teal-500/10 border border-teal-500/20">
+            <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span class="text-sm text-teal-300 font-medium">{{ usageStats.total }} {{ lang.t('landing.authority_checks_done') }}</span>
+          </div>
+          <div *ngIf="!usageStats || usageStats.total < 10" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            <span class="text-sm text-emerald-300 font-medium">{{ lang.t('landing.authority_free_tool') }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Final CTA -->
     <div class="py-16 text-center">
       <h2 class="text-2xl font-bold text-slate-100 mb-4">{{ lang.t('landing.final_cta_title') }}</h2>
@@ -662,10 +709,24 @@ export class LandingComponent implements OnInit, OnDestroy {
     { value: 'other', labelKey: 'landing.contact_reason_other' }
   ];
 
+  usageStats: { total: number } | null = null;
+
   constructor(public lang: LangService, private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.animateStats();
+    this.loadUsageStats();
+  }
+
+  loadUsageStats(): void {
+    this.apiService.getUsageStats().subscribe({
+      next: (stats) => {
+        this.usageStats = { total: stats.totalAssessments + stats.totalScopeChecks };
+      },
+      error: () => {
+        this.usageStats = null;
+      }
+    });
   }
 
   ngOnDestroy(): void {
