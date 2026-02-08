@@ -270,6 +270,19 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'methodology.references_title': { et: 'Regulatiivsed viited', en: 'Regulatory References' },
   'methodology.start_assessment': { et: 'Alusta hindamist', en: 'Start Assessment' },
 
+  // Methodology - Reference links
+  'methodology.ref_dora_title': { et: 'DORA määrus (EL) 2022/2554', en: 'DORA Regulation (EU) 2022/2554' },
+  'methodology.ref_dora_source': { et: 'Euroopa Liidu Teataja', en: 'Official Journal of the European Union' },
+  'methodology.ref_eba_title': { et: 'EBA DORA juhised', en: 'EBA DORA Guidelines' },
+  'methodology.ref_eba_source': { et: 'Euroopa Pangandusasutus', en: 'European Banking Authority' },
+  'methodology.ref_fsa_title': { et: 'Finantsinspektsioon DORA', en: 'Finantsinspektsioon DORA' },
+  'methodology.ref_fsa_source': { et: 'Eesti Finantsinspektsioon', en: 'Estonian Financial Supervision Authority' },
+
+  // Cookie consent
+  'cookie.message': { et: 'See veebileht kasutab ainult tehnilisi küpsiseid. Isikuandmeid ei koguta.', en: 'This website uses only technical cookies. No personal data is collected.' },
+  'cookie.accept': { et: 'Nõustun', en: 'Accept' },
+  'cookie.decline': { et: 'Keeldu', en: 'Decline' },
+
   // Landing - Hero
   'landing.title': { et: 'Eesti ettevõtete DORA ja NIS2 vastavusplatvorm', en: 'DORA and NIS2 Compliance Platform for Estonian Companies' },
   'landing.subtitle': { et: 'Kontrolli lepingud. Hinda vastavust. Genereeri puuduvad dokumendid.', en: 'Check contracts. Assess compliance. Generate missing documents.' },
@@ -1229,6 +1242,9 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'notfound.title': { et: 'Lehte ei leitud', en: 'Page not found' },
   'notfound.desc': { et: 'Otsitavat lehte ei eksisteeri v\u00f5i see on teisaldatud.', en: 'The page you are looking for does not exist or has been moved.' },
   'notfound.home': { et: 'Tagasi avalehele', en: 'Back to home' },
+  'notfound.nis2_scope': { et: 'NIS2 kohalduvuskontroll', en: 'NIS2 Scope Check' },
+  'notfound.dora_assessment': { et: 'DORA hindamine', en: 'DORA Assessment' },
+  'notfound.board_risk': { et: 'Juhatuse riskikalkulaator', en: 'Board Risk Calculator' },
 
   // Pricing page
   'nav.pricing': { et: 'Hinnakiri', en: 'Pricing' },

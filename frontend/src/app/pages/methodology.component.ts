@@ -80,8 +80,8 @@ import { LangService } from '../lang.service';
              class="flex items-center gap-3 p-4 bg-slate-800/50 rounded-lg border border-slate-700/50 hover:border-emerald-500/30 transition-colors">
             <span class="text-2xl">📜</span>
             <div>
-              <h3 class="font-medium text-slate-200">DORA Regulation (EU) 2022/2554</h3>
-              <p class="text-sm text-slate-500">Official Journal of the European Union</p>
+              <h3 class="font-medium text-slate-200">{{ lang.t('methodology.ref_dora_title') }}</h3>
+              <p class="text-sm text-slate-500">{{ lang.t('methodology.ref_dora_source') }}</p>
             </div>
             <svg class="w-5 h-5 text-slate-500 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
@@ -92,8 +92,8 @@ import { LangService } from '../lang.service';
              class="flex items-center gap-3 p-4 bg-slate-800/50 rounded-lg border border-slate-700/50 hover:border-emerald-500/30 transition-colors">
             <span class="text-2xl">🏛️</span>
             <div>
-              <h3 class="font-medium text-slate-200">EBA DORA Guidelines</h3>
-              <p class="text-sm text-slate-500">European Banking Authority</p>
+              <h3 class="font-medium text-slate-200">{{ lang.t('methodology.ref_eba_title') }}</h3>
+              <p class="text-sm text-slate-500">{{ lang.t('methodology.ref_eba_source') }}</p>
             </div>
             <svg class="w-5 h-5 text-slate-500 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
@@ -104,8 +104,8 @@ import { LangService } from '../lang.service';
              class="flex items-center gap-3 p-4 bg-slate-800/50 rounded-lg border border-slate-700/50 hover:border-emerald-500/30 transition-colors">
             <span class="text-2xl">🇪🇪</span>
             <div>
-              <h3 class="font-medium text-slate-200">Finantsinspektsioon DORA</h3>
-              <p class="text-sm text-slate-500">Estonian Financial Supervision Authority</p>
+              <h3 class="font-medium text-slate-200">{{ lang.t('methodology.ref_fsa_title') }}</h3>
+              <p class="text-sm text-slate-500">{{ lang.t('methodology.ref_fsa_source') }}</p>
             </div>
             <svg class="w-5 h-5 text-slate-500 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
