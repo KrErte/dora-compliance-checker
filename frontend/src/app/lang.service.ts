@@ -688,6 +688,31 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'contract.tab_gaps': { et: 'Lüngad ja soovitused', en: 'Gaps and Recommendations' },
   'contract.back': { et: 'Tagasi', en: 'Back' },
 
+  // Contract Analysis - Hero Section
+  'contract.hero_badge': { et: 'AI-toega analüüs', en: 'AI-Powered Analysis' },
+  'contract.hero_title': { et: 'DORA Art. 30 lepinguanalüüs', en: 'DORA Art. 30 Contract Analysis' },
+  'contract.hero_subtitle': { et: 'Laadi üles oma IKT-teenusepakkuja leping ja saa detailne DORA vastavusraport 5 minutiga', en: 'Upload your ICT service provider contract and get a detailed DORA compliance report in 5 minutes' },
+
+  // Contract Analysis - Feature Cards
+  'contract.feature_missing_title': { et: 'Puuduvad klauslid', en: 'Missing Clauses' },
+  'contract.feature_missing_desc': { et: 'Tuvastame DORA Art. 30 nõuded mis sinu lepingust puuduvad', en: 'We identify DORA Art. 30 requirements missing from your contract' },
+  'contract.feature_risks_title': { et: 'Riskikohad', en: 'Risk Areas' },
+  'contract.feature_risks_desc': { et: 'Märgime klauslid mis vajavad tugevdamist', en: 'We flag clauses that need strengthening' },
+  'contract.feature_compliant_title': { et: 'Vastavad punktid', en: 'Compliant Items' },
+  'contract.feature_compliant_desc': { et: 'Kinnitame mis on juba korras', en: 'We confirm what is already in order' },
+  'contract.feature_action_title': { et: 'Tegevuskava', en: 'Action Plan' },
+  'contract.feature_action_desc': { et: 'Saad konkreetse nimekirja mida parandada', en: 'You get a specific list of what to fix' },
+
+  // Contract Analysis - Sample Report Preview
+  'contract.preview_title': { et: 'Näidisraport', en: 'Sample Report' },
+  'contract.preview_report': { et: 'Vastavusraport', en: 'Compliance Report' },
+  'contract.preview_score': { et: 'Vastavusskoor', en: 'Compliance Score' },
+  'contract.preview_item_1': { et: 'Teenustaseme nõuded (SLA)', en: 'Service level requirements (SLA)' },
+  'contract.preview_item_2': { et: 'Auditeerimisõigus — vajab täpsustamist', en: 'Audit rights — needs clarification' },
+  'contract.preview_item_3': { et: 'Väljumisstrateegiad — puudub', en: 'Exit strategies — missing' },
+  'contract.preview_more': { et: 'täiendavat punkti', en: 'more items' },
+  'contract.upload_title': { et: 'Lae üles oma leping', en: 'Upload Your Contract' },
+
   // Contract Comparison
   'comparison.loading': { et: 'Võrdluse laadimine...', en: 'Loading comparison...' },
   'comparison.title': { et: 'Lepingu vs mudeli võrdlus', en: 'Contract vs Model Comparison' },

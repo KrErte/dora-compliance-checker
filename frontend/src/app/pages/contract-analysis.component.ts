@@ -16,8 +16,125 @@ import { ContractAnalysisResult } from '../models';
   template: `
     <!-- Upload Form -->
     <div *ngIf="!analyzing && !result" class="animate-fade-in-up">
-      <div class="text-center mb-8">
-        <h1 class="text-2xl font-bold gradient-text mb-2">{{ lang.t('contract.title') }}</h1>
+
+      <!-- Hero Section -->
+      <div class="text-center mb-10">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 mb-4">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+          {{ lang.t('contract.hero_badge') }}
+        </span>
+        <h1 class="text-3xl font-bold gradient-text mb-3">{{ lang.t('contract.hero_title') }}</h1>
+        <p class="text-slate-400 max-w-2xl mx-auto">{{ lang.t('contract.hero_subtitle') }}</p>
+      </div>
+
+      <!-- What Analysis Detects - Feature Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+        <div class="glass-card p-5 card-hover">
+          <div class="w-10 h-10 rounded-xl bg-red-500/20 flex items-center justify-center mb-3">
+            <span class="text-xl">🔍</span>
+          </div>
+          <h3 class="text-sm font-semibold text-slate-200 mb-1">{{ lang.t('contract.feature_missing_title') }}</h3>
+          <p class="text-xs text-slate-500">{{ lang.t('contract.feature_missing_desc') }}</p>
+        </div>
+        <div class="glass-card p-5 card-hover">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center mb-3">
+            <span class="text-xl">⚠️</span>
+          </div>
+          <h3 class="text-sm font-semibold text-slate-200 mb-1">{{ lang.t('contract.feature_risks_title') }}</h3>
+          <p class="text-xs text-slate-500">{{ lang.t('contract.feature_risks_desc') }}</p>
+        </div>
+        <div class="glass-card p-5 card-hover">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center mb-3">
+            <span class="text-xl">✅</span>
+          </div>
+          <h3 class="text-sm font-semibold text-slate-200 mb-1">{{ lang.t('contract.feature_compliant_title') }}</h3>
+          <p class="text-xs text-slate-500">{{ lang.t('contract.feature_compliant_desc') }}</p>
+        </div>
+        <div class="glass-card p-5 card-hover">
+          <div class="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center mb-3">
+            <span class="text-xl">📋</span>
+          </div>
+          <h3 class="text-sm font-semibold text-slate-200 mb-1">{{ lang.t('contract.feature_action_title') }}</h3>
+          <p class="text-xs text-slate-500">{{ lang.t('contract.feature_action_desc') }}</p>
+        </div>
+      </div>
+
+      <!-- Sample Report Preview -->
+      <div class="glass-card p-6 mb-10 border-emerald-500/20">
+        <div class="flex items-center gap-2 mb-4">
+          <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          <h2 class="text-lg font-semibold text-slate-200">{{ lang.t('contract.preview_title') }}</h2>
+        </div>
+
+        <!-- Mock Report Preview -->
+        <div class="bg-slate-900/70 rounded-xl border border-slate-700/50 overflow-hidden">
+          <!-- Report Header -->
+          <div class="bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border-b border-slate-700/50 p-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-xs text-slate-500">DORA Art. 30 {{ lang.t('contract.preview_report') }}</p>
+                <p class="text-sm font-medium text-slate-300">OÜ Näidis Finants — IKT pilveteenuse leping</p>
+              </div>
+              <div class="text-right">
+                <div class="text-2xl font-bold text-amber-400">62%</div>
+                <p class="text-xs text-slate-500">{{ lang.t('contract.preview_score') }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Report Stats Row -->
+          <div class="grid grid-cols-3 gap-px bg-slate-700/30">
+            <div class="bg-slate-900/50 p-3 text-center">
+              <div class="text-lg font-bold text-emerald-400">3</div>
+              <div class="text-[10px] text-slate-500 uppercase">{{ lang.t('contract.found') }}</div>
+            </div>
+            <div class="bg-slate-900/50 p-3 text-center">
+              <div class="text-lg font-bold text-amber-400">2</div>
+              <div class="text-[10px] text-slate-500 uppercase">{{ lang.t('contract.partial') }}</div>
+            </div>
+            <div class="bg-slate-900/50 p-3 text-center">
+              <div class="text-lg font-bold text-red-400">3</div>
+              <div class="text-[10px] text-slate-500 uppercase">{{ lang.t('contract.missing') }}</div>
+            </div>
+          </div>
+
+          <!-- Sample Findings Preview -->
+          <div class="p-4 space-y-2">
+            <div class="flex items-center gap-2 p-2 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-xs text-slate-300">{{ lang.t('contract.preview_item_1') }}</span>
+              <span class="text-[10px] text-slate-600 ml-auto">Art.30(2)(a)</span>
+            </div>
+            <div class="flex items-center gap-2 p-2 rounded-lg bg-amber-500/5 border border-amber-500/20">
+              <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01"/>
+              </svg>
+              <span class="text-xs text-slate-300">{{ lang.t('contract.preview_item_2') }}</span>
+              <span class="text-[10px] text-slate-600 ml-auto">Art.30(2)(c)</span>
+            </div>
+            <div class="flex items-center gap-2 p-2 rounded-lg bg-red-500/5 border border-red-500/20">
+              <svg class="w-4 h-4 text-red-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+              <span class="text-xs text-slate-300">{{ lang.t('contract.preview_item_3') }}</span>
+              <span class="text-[10px] text-slate-600 ml-auto">Art.30(2)(e)</span>
+            </div>
+            <div class="text-center pt-2">
+              <span class="text-[10px] text-slate-600">+ 5 {{ lang.t('contract.preview_more') }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Header for Upload -->
+      <div class="text-center mb-6">
+        <h2 class="text-xl font-bold text-slate-200 mb-2">{{ lang.t('contract.upload_title') }}</h2>
         <p class="text-slate-400 text-sm">{{ lang.t('contract.subtitle') }}</p>
       </div>
 
