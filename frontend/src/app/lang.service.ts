@@ -1240,6 +1240,32 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'pricing.note_2': { et: 'Ei nõua tellimust', en: 'No subscription required' },
   'pricing.note_3': { et: 'Andmed jäävad sinu brauserisse', en: 'Data stays in your browser' },
 
+  // Pricing - What's included
+  'pricing.whats_included': { et: 'Mida iga pakett sisaldab', en: 'What each plan includes' },
+  'pricing.inc_scope': { et: 'NIS2 kohaldumise kontroll', en: 'NIS2 scope check' },
+  'pricing.inc_5q': { et: '5 DORA hindamise küsimust', en: '5 DORA assessment questions' },
+  'pricing.inc_37q': { et: '37-küsimuseline DORA hindamine', en: '37-question DORA assessment' },
+  'pricing.inc_action': { et: 'Detailne tegevuskava', en: 'Detailed action plan' },
+  'pricing.inc_pdf': { et: 'PDF raport juhatusele', en: 'PDF report for management' },
+  'pricing.inc_dora_full': { et: 'DORA täishindamine (37 küsimust)', en: 'Full DORA assessment (37 questions)' },
+  'pricing.inc_nis2_full': { et: 'NIS2 täishindamine', en: 'Full NIS2 assessment' },
+  'pricing.inc_both_pdf': { et: 'Mõlemad PDF raportid', en: 'Both PDF reports' },
+  'pricing.inc_save': { et: 'Säästad €19 vs eraldi ostmine', en: 'Save €19 vs buying separately' },
+  'pricing.exc_full': { et: 'Täishindamine (37 küsimust)', en: 'Full assessment (37 questions)' },
+  'pricing.exc_pdf': { et: 'PDF raport', en: 'PDF report' },
+  'pricing.exc_contract': { et: 'Lepinguanalüüs', en: 'Contract analysis' },
+  'pricing.exc_contract_sep': { et: 'Lepinguanalüüs (€39 eraldi)', en: 'Contract analysis (€39 separately)' },
+  'pricing.exc_nis2': { et: 'NIS2 hindamine (€49 eraldi)', en: 'NIS2 assessment (€49 separately)' },
+
+  // Pricing - Add-ons
+  'pricing.addons_title': { et: 'Lisateenused', en: 'Add-ons' },
+  'pricing.addons_subtitle': { et: 'Ühekordse maksega lisavõimalused', en: 'One-time purchase add-ons' },
+  'pricing.addon_board_title': { et: 'NIS2 juhatuse raport', en: 'NIS2 Board Report' },
+  'pricing.addon_board_desc': { et: 'Personaalne NIS2 isikliku vastutuse kalkulatsioon juhatuse liikmetele. Sisaldab riskihinnangut ja soovitusi.', en: 'Personal NIS2 liability calculation for board members. Includes risk assessment and recommendations.' },
+  'pricing.addon_contract_title': { et: 'DORA lepinguanalüüs', en: 'DORA Contract Analysis' },
+  'pricing.addon_contract_desc': { et: 'Lae üles oma IKT-teenuste leping ja saa kohene DORA Art. 30 vastavuse analüüs. Sisaldab puuduvate klauslite loetelu.', en: 'Upload your ICT service contract and get instant DORA Art. 30 compliance analysis. Includes list of missing clauses.' },
+  'pricing.addon_cta': { et: 'Osta', en: 'Buy' },
+
   // About page
   'nav.about': { et: 'Meist', en: 'About' },
   'about.title': { et: 'DORA Art. 30 meeskond', en: 'DORA Art. 30 Team' },

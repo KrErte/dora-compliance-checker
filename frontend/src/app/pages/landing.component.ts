@@ -674,9 +674,9 @@ export class LandingComponent implements OnInit, OnDestroy {
   ];
 
   stats: (Stat & { icon: string; labelKey: string })[] = [
-    { value: 8, suffix: '', label: '', labelKey: 'landing.stat_requirements', current: 0, icon: '📋' },
-    { value: 5, suffix: ' min', label: '', labelKey: 'landing.stat_analysis', current: 0, icon: '⚡' },
-    { value: 2, suffix: '%', label: '', labelKey: 'landing.stat_penalty', current: 0, icon: '⚠️' }
+    { value: 8, suffix: '', label: '', labelKey: 'landing.stat_requirements', current: 8, icon: '📋' },
+    { value: 5, suffix: ' min', label: '', labelKey: 'landing.stat_analysis', current: 5, icon: '⚡' },
+    { value: 2, suffix: '%', label: '', labelKey: 'landing.stat_penalty', current: 2, icon: '⚠️' }
   ];
 
   requirements: DoraRequirement[] = [
@@ -749,12 +749,13 @@ export class LandingComponent implements OnInit, OnDestroy {
     const stepDuration = duration / steps;
 
     this.stats.forEach((stat, index) => {
-      // Ensure final value is set immediately if user sees intermediate state
-      stat.current = stat.value;
-
-      // Then animate from 0 to final value
-      stat.current = 0;
-      timer(index * 150, stepDuration)
+      // Store original value, start animation from 0 after a brief delay
+      // This keeps the initial DOM value as the final value for SEO/accessibility
+      const originalValue = stat.current;
+      timer(50).subscribe(() => {
+        stat.current = 0;
+      });
+      timer(index * 150 + 100, stepDuration)
         .pipe(
           take(steps + 1),
           takeUntil(this.destroy$)

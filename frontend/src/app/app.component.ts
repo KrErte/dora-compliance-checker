@@ -43,7 +43,6 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
               </svg>
             </button>
             <div *ngIf="doraMenu" class="absolute left-0 top-full mt-1 w-56 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
-              <!-- Hidden: contract-analysis - uncomment when ready
               <a routerLink="/contract-analysis" (click)="doraMenu = false"
                  class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -51,7 +50,6 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
                 </svg>
                 {{ lang.t('nav.contract') }}
               </a>
-              -->
               <a routerLink="/assessment" (click)="doraMenu = false"
                  class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -89,7 +87,6 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
                 </svg>
                 {{ lang.t('nav.nis2_scope') }}
               </a>
-              <!-- Hidden: nis2/assessment - uncomment when ready
               <a routerLink="/nis2/assessment" (click)="nis2Menu = false"
                  class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -97,7 +94,6 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
                 </svg>
                 {{ lang.t('nav.nis2_assessment') }}
               </a>
-              -->
             </div>
           </div>
           <!-- Pricing -->
@@ -169,11 +165,9 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
       <div *ngIf="mobileMenu" class="sm:hidden border-t border-slate-700/50 bg-slate-800/95 backdrop-blur-xl">
         <div class="px-4 py-3 flex flex-col gap-1">
           <p class="text-xs text-slate-600 px-3 mb-1 uppercase tracking-wider">DORA</p>
-          <!-- Hidden: contract-analysis - uncomment when ready
           <a routerLink="/contract-analysis" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
             <span class="text-emerald-400">&#9998;</span> {{ lang.t('nav.contract') }}</a>
-          -->
           <a routerLink="/assessment" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
             <span class="text-cyan-400">&#9745;</span> {{ lang.t('nav.assessment') }}</a>
@@ -189,11 +183,9 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
             <a routerLink="/nis2/scope-check" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
               <span class="text-amber-400">&#9745;</span> {{ lang.t('nav.nis2_scope') }}</a>
-            <!-- Hidden: nis2/assessment - uncomment when ready
             <a routerLink="/nis2/assessment" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
               <span class="text-orange-400">&#9998;</span> {{ lang.t('nav.nis2_assessment') }}</a>
-            -->
           </div>
           <div class="border-t border-slate-700/50 mt-2 pt-2">
             <a routerLink="/pricing" (click)="mobileMenu = false"
