@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 
 @Component({
@@ -114,7 +115,7 @@ import { LangService } from '../lang.service';
     </div>
   `
 })
-export class AboutComponent {
+export class AboutComponent implements OnInit {
   team = [
     { name: 'Kristo Erte', initials: 'KE', roleKey: 'about.role_cto', bioKey: 'about.bio_cto', bgClass: 'bg-cyan-500/20 text-cyan-400' }
   ];
@@ -126,5 +127,9 @@ export class AboutComponent {
     { icon: '☁️', key: 'about.tech_4' }
   ];
 
-  constructor(public lang: LangService) {}
+  constructor(public lang: LangService, private titleService: Title) {}
+
+  ngOnInit(): void {
+    this.titleService.setTitle('Meist — ComplianceHub | DoraAudit.eu');
+  }
 }

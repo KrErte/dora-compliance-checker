@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 
 @Component({
@@ -126,7 +127,7 @@ import { LangService } from '../lang.service';
     </div>
   `
 })
-export class MethodologyComponent {
+export class MethodologyComponent implements OnInit {
   requirements = [
     { icon: '📋', titleKey: 'methodology.req_sla', descKey: 'methodology.req_sla_desc' },
     { icon: '🚪', titleKey: 'methodology.req_exit', descKey: 'methodology.req_exit_desc' },
@@ -145,5 +146,9 @@ export class MethodologyComponent {
     { titleKey: 'methodology.step4_title', descKey: 'methodology.step4_desc' }
   ];
 
-  constructor(public lang: LangService) {}
+  constructor(public lang: LangService, private titleService: Title) {}
+
+  ngOnInit(): void {
+    this.titleService.setTitle('Metoodika — DORA hindamise alused | DoraAudit.eu');
+  }
 }

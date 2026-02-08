@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
 import { AuthService } from '../auth/auth.service';
@@ -491,10 +492,12 @@ export class ContractAnalysisComponent implements OnInit {
     public lang: LangService,
     public auth: AuthService,
     private route: ActivatedRoute,
-    public paywall: PaywallService
+    public paywall: PaywallService,
+    private titleService: Title
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle('DORA lepinguanalüüs — Art. 30 vastavus | DoraAudit.eu');
     this.route.queryParams.subscribe(params => {
       if (params['sample'] === 'true') {
         this.autoDemo = true;

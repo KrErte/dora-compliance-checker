@@ -646,8 +646,8 @@ export class BoardRiskComponent implements OnInit, OnDestroy {
 
   private updateTitle(): void {
     const title = this.lang.currentLang === 'et'
-      ? 'Juhatuse riskikalkulaator | ComplianceHub'
-      : 'Board Risk Calculator | ComplianceHub';
+      ? 'Juhatuse riskikalkulaator — NIS2 isiklik vastutus | DoraAudit.eu'
+      : 'Board Risk Calculator — NIS2 Personal Liability | DoraAudit.eu';
     this.titleService.setTitle(title);
   }
 

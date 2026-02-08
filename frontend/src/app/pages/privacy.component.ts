@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 
 @Component({
@@ -231,6 +232,10 @@ import { LangService } from '../lang.service';
     </div>
   `
 })
-export class PrivacyComponent {
-  constructor(public lang: LangService) {}
+export class PrivacyComponent implements OnInit {
+  constructor(public lang: LangService, private titleService: Title) {}
+
+  ngOnInit(): void {
+    this.titleService.setTitle('Privaatsuspoliitika | DoraAudit.eu');
+  }
 }

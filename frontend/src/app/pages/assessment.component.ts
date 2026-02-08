@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
 import { AuthService } from '../auth/auth.service';
@@ -416,6 +417,7 @@ export class AssessmentComponent implements OnInit {
     private api: ApiService,
     private router: Router,
     private route: ActivatedRoute,
+    private titleService: Title,
     public lang: LangService,
     public auth: AuthService,
     public paywall: PaywallService
@@ -428,6 +430,7 @@ export class AssessmentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.titleService.setTitle('DORA vastavushindamine — 37 küsimust | DoraAudit.eu');
     const pillar = this.route.snapshot.queryParamMap.get('pillar');
     if (pillar && this.pillarCategories[pillar]) {
       this.scrollToCategory = this.pillarCategories[pillar][0];

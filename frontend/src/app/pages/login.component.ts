@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 import { AuthService } from '../auth/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -91,14 +92,18 @@ import { timeout, catchError, throwError } from 'rxjs';
     </div>
   `
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   email = '';
   password = '';
   error = '';
   loading = false;
   shakeForm = false;
 
-  constructor(public lang: LangService, private auth: AuthService, private router: Router) {}
+  constructor(public lang: LangService, private auth: AuthService, private router: Router, private titleService: Title) {}
+
+  ngOnInit(): void {
+    this.titleService.setTitle('Logi sisse | DoraAudit.eu');
+  }
 
   private triggerShake() {
     this.shakeForm = true;

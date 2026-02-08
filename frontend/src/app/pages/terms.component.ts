@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 
 @Component({
@@ -199,6 +200,10 @@ import { LangService } from '../lang.service';
     </div>
   `
 })
-export class TermsComponent {
-  constructor(public lang: LangService) {}
+export class TermsComponent implements OnInit {
+  constructor(public lang: LangService, private titleService: Title) {}
+
+  ngOnInit(): void {
+    this.titleService.setTitle('Kasutustingimused | DoraAudit.eu');
+  }
 }

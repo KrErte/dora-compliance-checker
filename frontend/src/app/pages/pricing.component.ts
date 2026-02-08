@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 import { PAYMENT_CONFIG } from '../config/payment.config';
 
@@ -186,8 +187,12 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
     </div>
   `
 })
-export class PricingComponent {
+export class PricingComponent implements OnInit {
   paymentConfig = PAYMENT_CONFIG;
 
-  constructor(public lang: LangService) {}
+  constructor(public lang: LangService, private titleService: Title) {}
+
+  ngOnInit(): void {
+    this.titleService.setTitle('Hinnakiri — DORA ja NIS2 hindamine | DoraAudit.eu');
+  }
 }

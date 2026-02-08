@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 import { ApiService } from '../api.service';
 import { timer, Subject } from 'rxjs';
@@ -718,9 +719,10 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   usageStats: { total: number } | null = null;
 
-  constructor(public lang: LangService, private apiService: ApiService) {}
+  constructor(public lang: LangService, private apiService: ApiService, private titleService: Title) {}
 
   ngOnInit(): void {
+    this.titleService.setTitle('DoraAudit.eu — DORA ja NIS2 vastavusplatvorm Eesti ettevõtetele');
     this.animateStats();
     this.loadUsageStats();
   }

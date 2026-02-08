@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 import { PAYMENT_CONFIG } from '../config/payment.config';
 
@@ -552,7 +553,8 @@ export class Nis2ScopeCheckComponent implements OnInit {
   constructor(
     public lang: LangService,
     private http: HttpClient,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private titleService: Title
   ) {}
 
   paymentConfig = PAYMENT_CONFIG;
@@ -609,6 +611,7 @@ export class Nis2ScopeCheckComponent implements OnInit {
   allSectors = [...this.essentialSectors, ...this.importantSectors];
 
   ngOnInit(): void {
+    this.titleService.setTitle('NIS2 Scope Check — Kontrolli kas NIS2 kohaldub | DoraAudit.eu');
     this.route.queryParams.subscribe(params => {
       if (params['demo'] === 'true') {
         this.isDemoMode = true;

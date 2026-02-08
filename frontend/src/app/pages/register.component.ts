@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 import { AuthService } from '../auth/auth.service';
 
@@ -92,7 +93,7 @@ import { AuthService } from '../auth/auth.service';
     </div>
   `
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   fullName = '';
   email = '';
   password = '';
@@ -100,7 +101,11 @@ export class RegisterComponent {
   error = '';
   loading = false;
 
-  constructor(public lang: LangService, private auth: AuthService, private router: Router) {}
+  constructor(public lang: LangService, private auth: AuthService, private router: Router, private titleService: Title) {}
+
+  ngOnInit(): void {
+    this.titleService.setTitle('Registreeru | DoraAudit.eu');
+  }
 
   onRegister() {
     this.error = '';
