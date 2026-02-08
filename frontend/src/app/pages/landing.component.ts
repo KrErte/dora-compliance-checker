@@ -72,7 +72,7 @@ interface Stat {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
           </a>
-          <a routerLink="/contract-analysis" [queryParams]="{sample: 'true'}"
+          <a routerLink="/nis2/scope-check" [queryParams]="{demo: 'true'}"
              class="cta-button group inline-flex items-center gap-2 bg-transparent border-2 border-slate-500 hover:border-emerald-400
                     text-slate-200 hover:text-emerald-400 font-semibold px-8 py-3.5 rounded-xl text-lg
                     transition-all">

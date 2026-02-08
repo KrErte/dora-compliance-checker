@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 import { LangService } from '../lang.service';
 import { PAYMENT_CONFIG } from '../config/payment.config';
 
@@ -36,6 +37,23 @@ interface Sector {
   providers: [],
   template: `
     <div class="space-y-8">
+      <!-- Demo Mode Banner -->
+      <div *ngIf="isDemoMode" class="bg-gradient-to-r from-teal-500/10 to-cyan-500/10 border border-teal-500/30 rounded-xl p-4 flex items-center gap-3">
+        <span class="text-2xl">⚡</span>
+        <div>
+          <p class="text-sm font-medium text-teal-400">{{ lang.t('nis2.demo_mode_title') }}</p>
+          <p class="text-xs text-slate-400">{{ lang.t('nis2.demo_mode_desc') }}</p>
+        </div>
+      </div>
+
+      <!-- Progress Restored Banner -->
+      <div *ngIf="progressRestored" class="bg-cyan-500/10 border border-cyan-500/30 rounded-xl p-4 flex items-center gap-3 animate-fade-in">
+        <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+        </svg>
+        <p class="text-sm text-cyan-400">{{ lang.t('progress.restored') }}</p>
+      </div>
+
       <!-- Header -->
       <div class="text-center space-y-3">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20">
@@ -51,12 +69,17 @@ interface Sector {
       <div class="grid lg:grid-cols-2 gap-8">
         <!-- Input Form -->
         <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 space-y-6">
-          <h2 class="text-lg font-semibold text-white flex items-center gap-2">
-            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-            </svg>
-            {{ lang.t('nis2.company_info') }}
-          </h2>
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-semibold text-white flex items-center gap-2">
+              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              {{ lang.t('nis2.company_info') }}
+            </h2>
+            <span *ngIf="!isDemoMode" class="text-xs text-slate-500 flex items-center gap-1">
+              <span>💾</span> {{ lang.t('progress.auto_save') }}
+            </span>
+          </div>
 
           <!-- Registry Code Lookup -->
           <div class="space-y-3 pb-6 border-b border-slate-700/50">
@@ -150,7 +173,7 @@ interface Sector {
           <!-- Sector Select -->
           <div class="space-y-2">
             <label for="nis2-sector" class="text-sm font-medium text-slate-300">{{ lang.t('nis2.sector') }} *</label>
-            <select [(ngModel)]="sector" id="nis2-sector" class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all">
+            <select [(ngModel)]="sector" (ngModelChange)="autoSave()" id="nis2-sector" class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all">
               <option value="">{{ lang.t('nis2.select_sector') }}</option>
               <optgroup [label]="lang.t('nis2.essential_sectors')">
                 <option *ngFor="let s of essentialSectors" [value]="s.code">{{ lang.currentLang === 'et' ? s.nameEt : s.nameEn }}</option>
@@ -164,7 +187,7 @@ interface Sector {
           <!-- Employee Count -->
           <div class="space-y-2">
             <label for="nis2-employees" class="text-sm font-medium text-slate-300">{{ lang.t('nis2.employees') }} *</label>
-            <input type="number" [(ngModel)]="employees" id="nis2-employees" min="0" placeholder="0"
+            <input type="number" [(ngModel)]="employees" (ngModelChange)="autoSave()" id="nis2-employees" min="0" placeholder="0"
                    class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border text-white focus:ring-2 transition-all"
                    [ngClass]="employees !== null && employees < 0 ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/20'">
             <p *ngIf="employees !== null && employees < 0" class="text-xs text-red-400">{{ lang.t('validation.positive_required') }}</p>
@@ -175,7 +198,7 @@ interface Sector {
           <div class="space-y-2">
             <label for="nis2-revenue" class="text-sm font-medium text-slate-300">{{ lang.t('nis2.revenue') }} *</label>
             <div class="relative">
-              <input type="number" [(ngModel)]="revenue" id="nis2-revenue" min="0" placeholder="0"
+              <input type="number" [(ngModel)]="revenue" (ngModelChange)="autoSave()" id="nis2-revenue" min="0" placeholder="0"
                      class="w-full px-4 py-3 pr-12 rounded-xl bg-slate-900/50 border text-white focus:ring-2 transition-all"
                      [ngClass]="revenue !== null && revenue < 0 ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/20'">
               <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">EUR</span>
@@ -188,7 +211,7 @@ interface Sector {
           <div class="space-y-2">
             <label for="nis2-balance" class="text-sm font-medium text-slate-300">{{ lang.t('nis2.balance') }} *</label>
             <div class="relative">
-              <input type="number" [(ngModel)]="balance" id="nis2-balance" min="0" placeholder="0"
+              <input type="number" [(ngModel)]="balance" (ngModelChange)="autoSave()" id="nis2-balance" min="0" placeholder="0"
                      class="w-full px-4 py-3 pr-12 rounded-xl bg-slate-900/50 border text-white focus:ring-2 transition-all"
                      [ngClass]="balance !== null && balance < 0 ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/20'">
               <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">EUR</span>
@@ -452,6 +475,54 @@ interface Sector {
             </ul>
             <p class="text-xs text-slate-500 pt-2 border-t border-slate-700/50">{{ lang.t('nis2.na_disclaimer') }}</p>
           </div>
+
+          <!-- Email Capture / Lead Magnet -->
+          <div *ngIf="hasInput && !emailSent" class="bg-gradient-to-r from-violet-500/10 to-purple-500/10 backdrop-blur-sm rounded-2xl border border-violet-500/30 p-6 space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-violet-500/20 flex items-center justify-center">
+                <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-white">{{ lang.t('nis2.email_cta_title') }}</h3>
+            </div>
+
+            <div class="flex gap-2">
+              <input
+                type="email"
+                [(ngModel)]="leadEmail"
+                [placeholder]="lang.t('nis2.email_placeholder')"
+                class="flex-1 px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white placeholder-slate-500 focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all"
+              />
+              <button
+                type="button"
+                (click)="sendResultEmail()"
+                [disabled]="emailSending || !isValidEmail(leadEmail)"
+                class="px-6 py-3 rounded-xl font-medium transition-all flex items-center gap-2"
+                [ngClass]="isValidEmail(leadEmail) && !emailSending
+                  ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white hover:from-violet-400 hover:to-purple-400 hover:shadow-lg hover:shadow-violet-500/25'
+                  : 'bg-slate-700/50 text-slate-500 cursor-not-allowed'">
+                <svg *ngIf="emailSending" class="w-4 h-4 animate-spin" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                </svg>
+                {{ lang.t('nis2.email_send_btn') }}
+              </button>
+            </div>
+
+            <p class="text-xs text-slate-500">{{ lang.t('nis2.email_no_spam') }}</p>
+          </div>
+
+          <!-- Email Sent Confirmation -->
+          <div *ngIf="emailSent" class="bg-emerald-500/10 backdrop-blur-sm rounded-2xl border border-emerald-500/30 p-6 text-center space-y-2">
+            <div class="w-12 h-12 mx-auto rounded-full bg-emerald-500/20 flex items-center justify-center">
+              <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <p class="text-emerald-400 font-medium">{{ lang.t('nis2.email_sent_title') }}</p>
+            <p class="text-xs text-slate-400">{{ lang.t('nis2.email_sent_desc') }}</p>
+          </div>
         </div>
       </div>
 
@@ -477,10 +548,20 @@ interface Sector {
     </div>
   `
 })
-export class Nis2ScopeCheckComponent {
-  constructor(public lang: LangService, private http: HttpClient) {}
+export class Nis2ScopeCheckComponent implements OnInit {
+  constructor(
+    public lang: LangService,
+    private http: HttpClient,
+    private route: ActivatedRoute
+  ) {}
 
   paymentConfig = PAYMENT_CONFIG;
+
+  // Demo mode
+  isDemoMode = false;
+
+  // Progress restore
+  progressRestored = false;
 
   // Registry lookup
   registryCode = '';
@@ -494,6 +575,11 @@ export class Nis2ScopeCheckComponent {
   employees: number | null = null;
   revenue: number | null = null;
   balance: number | null = null;
+
+  // Email capture
+  leadEmail = '';
+  emailSending = false;
+  emailSent = false;
 
   // Sector definitions
   essentialSectors: Sector[] = [
@@ -521,6 +607,104 @@ export class Nis2ScopeCheckComponent {
   ];
 
   allSectors = [...this.essentialSectors, ...this.importantSectors];
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['demo'] === 'true') {
+        this.isDemoMode = true;
+        this.prefillDemoData();
+      } else {
+        // Restore progress from localStorage (only if not demo mode)
+        this.loadProgress();
+      }
+    });
+  }
+
+  private loadProgress(): void {
+    try {
+      const saved = localStorage.getItem('dora_scope_progress');
+      if (saved) {
+        const progress = JSON.parse(saved);
+        if (progress.sector || progress.employees || progress.revenue || progress.balance) {
+          this.sector = progress.sector || '';
+          this.employees = progress.employees ?? null;
+          this.revenue = progress.revenue ?? null;
+          this.balance = progress.balance ?? null;
+          this.registryCode = progress.registryCode || '';
+          this.progressRestored = true;
+
+          // Auto-hide the restored banner after 5 seconds
+          setTimeout(() => {
+            this.progressRestored = false;
+          }, 5000);
+        }
+      }
+    } catch {}
+  }
+
+  autoSave(): void {
+    if (this.isDemoMode) return; // Don't save in demo mode
+
+    const progress = {
+      sector: this.sector,
+      employees: this.employees,
+      revenue: this.revenue,
+      balance: this.balance,
+      registryCode: this.registryCode,
+      savedAt: new Date().toISOString()
+    };
+    localStorage.setItem('dora_scope_progress', JSON.stringify(progress));
+  }
+
+  clearProgress(): void {
+    localStorage.removeItem('dora_scope_progress');
+  }
+
+  private prefillDemoData(): void {
+    // Fill with demo data - fictional fintech company
+    this.registryCode = '';
+    this.sector = 'banking';  // Pangandus / Banking
+    this.employees = 50;
+    this.revenue = 5000000;
+    this.balance = 2500000;
+
+    // Set a fictional company info for display
+    this.companyInfo = {
+      registryCode: '99999999',
+      name: this.lang.currentLang === 'et' ? 'Näidis Finants OÜ' : 'Sample Finance Ltd',
+      emtakCode: '64191',
+      emtakNameEt: 'Muu rahalise vahenduse tegevus',
+      emtakNameEn: 'Other monetary intermediation',
+      nis2SectorCode: 'banking',
+      annexType: 'I',
+      employeeCount: 50,
+      revenue: 5000000,
+      balanceSheet: 2500000,
+      dataSource: 'demo'
+    };
+    this.dataAutoFilled = true;
+  }
+
+  isValidEmail(email: string): boolean {
+    if (!email) return false;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  sendResultEmail(): void {
+    if (!this.isValidEmail(this.leadEmail)) return;
+
+    this.emailSending = true;
+
+    // Save email to localStorage
+    localStorage.setItem('dora_lead_email', this.leadEmail);
+
+    // Simulate API call (would be backend endpoint in production)
+    setTimeout(() => {
+      this.emailSending = false;
+      this.emailSent = true;
+    }, 1000);
+  }
 
   get hasInput(): boolean {
     return this.sector !== '' && this.employees !== null && this.revenue !== null && this.balance !== null;

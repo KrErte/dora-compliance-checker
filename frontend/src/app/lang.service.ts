@@ -71,6 +71,18 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'nis2.demo_description': { et: 'Näidisandmed: fiktiivne 120-inimeseline IT-teenuste firma', en: 'Sample data: fictional 120-person IT services company' },
   'nis2.demo_overwrite_confirm': { et: 'Vormil on juba andmed. Kas soovid need üle kirjutada demoandmetega?', en: 'Form already has data. Do you want to overwrite with demo data?' },
 
+  // NIS2 Scope Check - Demo Mode
+  'nis2.demo_mode_title': { et: 'Demo režiim — see on näidisettevõte', en: 'Demo mode — this is a sample company' },
+  'nis2.demo_mode_desc': { et: 'Andmed on eeltäidetud näidisettevõtte infoga. Saad neid muuta.', en: 'Data is prefilled with sample company info. You can modify it.' },
+
+  // NIS2 Scope Check - Email Capture
+  'nis2.email_cta_title': { et: 'Saada tulemus emailile PDF-ina', en: 'Send result to email as PDF' },
+  'nis2.email_placeholder': { et: 'sinu@email.ee', en: 'your@email.com' },
+  'nis2.email_send_btn': { et: 'Saada', en: 'Send' },
+  'nis2.email_no_spam': { et: 'Ei mingit spämmi. Ainult sinu tulemus.', en: 'No spam. Just your result.' },
+  'nis2.email_sent_title': { et: 'Email saadetud!', en: 'Email sent!' },
+  'nis2.email_sent_desc': { et: 'Kontrolli oma postkasti. PDF peaks saabuma mõne minuti jooksul.', en: 'Check your inbox. PDF should arrive within a few minutes.' },
+
   // NIS2 Scope Check - What to do section
   'nis2.what_to_do': { et: 'Mida peab tegema?', en: 'What needs to be done?' },
   'nis2.req_risk_title': { et: 'Riskihindamine', en: 'Risk Assessment' },
@@ -551,7 +563,11 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'assessment.error_load': { et: 'K\u00fcsimuste laadimine eba\u00f5nnestus. Palun kontrollige, kas server t\u00f6\u00f6tab.', en: 'Failed to load questions. Please check if the server is running.' },
   'assessment.error_submit': { et: 'Hindamise esitamine eba\u00f5nnestus. Palun proovige uuesti.', en: 'Assessment submission failed. Please try again.' },
   'assessment.login_warning': { et: 'Tulemuste salvestamiseks logige sisse', en: 'Log in to save your results' },
-  'assessment.login_warning_desc': { et: 'Saate hindamise l\u00e4bi teha ilma sisselogimiseta, kuid tulemuste vaatamiseks ja ajaloo salvestamiseks on vaja kontot.', en: 'You can complete the assessment without logging in, but viewing results and saving history requires an account.' },
+  'assessment.login_warning_desc': { et: 'Saate hindamise läbi teha ilma sisselogimiseta, kuid tulemuste vaatamiseks ja ajaloo salvestamiseks on vaja kontot.', en: 'You can complete the assessment without logging in, but viewing results and saving history requires an account.' },
+
+  // Progress saving
+  'progress.auto_save': { et: 'Sinu andmed salvestuvad automaatselt', en: 'Your data is saved automatically' },
+  'progress.restored': { et: 'Jätkad sealt kus pooleli jäid', en: 'Continuing where you left off' },
 
   // Results
   'results.loading': { et: 'Tulemuste laadimine...', en: 'Loading results...' },

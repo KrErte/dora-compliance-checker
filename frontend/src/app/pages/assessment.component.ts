@@ -98,12 +98,17 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
       <form *ngIf="!loading && !error" (ngSubmit)="onSubmit()" #assessmentForm="ngForm">
         <!-- Company info -->
         <div class="glass-card p-6 mb-6 card-hover animate-fade-in-up">
-          <h2 class="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
-            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-            </svg>
-            {{ lang.t('assessment.company') }}
-          </h2>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-semibold text-slate-200 flex items-center gap-2">
+              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+              </svg>
+              {{ lang.t('assessment.company') }}
+            </h2>
+            <span class="text-xs text-slate-500 flex items-center gap-1">
+              <span>💾</span> {{ lang.t('progress.auto_save') }}
+            </span>
+          </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label for="assess-company" class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.company_name') }}</label>
