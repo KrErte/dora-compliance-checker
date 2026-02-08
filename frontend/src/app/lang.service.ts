@@ -649,7 +649,6 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'history.new': { et: 'Uus hindamine', en: 'New Assessment' },
 
   // Contract Analysis
-  'nav.contract': { et: 'Lepingu kontroll', en: 'Contract Check' },
   'contract.title': { et: 'Lepingu kontroll', en: 'Contract Check' },
   'contract.subtitle': { et: 'DORA Art. 30 n\u00f5uete kontroll', en: 'DORA Art. 30 requirements check' },
   'contract.upload_label': { et: 'Lae \u00fcles leping (PDF v\u00f5i DOCX)', en: 'Upload contract (PDF or DOCX)' },
