@@ -22,6 +22,11 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'contract-check',
+    redirectTo: 'contract-analysis',
+    pathMatch: 'full'
+  },
+  {
     path: 'login',
     loadComponent: () => import('./pages/login.component').then(m => m.LoginComponent),
     canActivate: [guestGuard]

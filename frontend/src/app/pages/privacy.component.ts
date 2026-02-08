@@ -27,7 +27,7 @@ import { LangService } from '../lang.service';
       <div class="glass-card p-6 mb-6">
         <h2 class="text-xl font-semibold text-emerald-400 mb-4">{{ lang.t('privacy.controller_title') }}</h2>
         <div class="text-slate-300 text-sm space-y-2">
-          <p><span class="text-slate-400">{{ lang.t('privacy.controller_service') }}:</span> ComplianceHub / DoraAudit.eu</p>
+          <p><span class="text-slate-400">{{ lang.t('privacy.controller_service') }}:</span> DoraAudit.eu</p>
           <p><span class="text-slate-400">{{ lang.t('privacy.controller_operator') }}:</span> Kristo Erte</p>
           <p><span class="text-slate-400">{{ lang.t('privacy.controller_location') }}:</span> {{ lang.t('privacy.controller_location_value') }}</p>
           <p><span class="text-slate-400">{{ lang.t('privacy.controller_email') }}:</span> <a href="mailto:info@doraaudit.eu" class="text-emerald-400 hover:text-emerald-300">info&#64;doraaudit.eu</a></p>

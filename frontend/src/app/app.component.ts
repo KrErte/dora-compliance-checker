@@ -21,7 +21,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
         <a routerLink="/" class="flex items-center gap-3 group">
           <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs
                       group-hover:shadow-lg group-hover:shadow-emerald-500/25 transition-all duration-300 group-hover:scale-105">
-            CH
+            DA
           </div>
           <span class="text-lg font-bold gradient-text leading-tight">
             {{ lang.t('nav.brand') }}
@@ -237,7 +237,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
           <!-- Brand -->
           <div class="md:col-span-1">
             <div class="flex items-center gap-3 mb-3">
-              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs">CH</div>
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs">DA</div>
               <p class="text-sm font-bold text-slate-300">{{ lang.t('nav.brand') }}</p>
             </div>
             <p class="text-xs text-slate-500 leading-relaxed">{{ lang.t('footer.tagline') }}</p>
@@ -306,19 +306,19 @@ export class AppComponent implements OnInit, OnDestroy {
   private isBrowser: boolean;
 
   private pageTitles: { [path: string]: { et: string; en: string } } = {
-    '/': { et: 'ComplianceHub - DORA & NIS2 Vastavuskontroll', en: 'ComplianceHub - DORA & NIS2 Compliance' },
-    '/pricing': { et: 'Hinnakiri | ComplianceHub', en: 'Pricing | ComplianceHub' },
-    '/nis2/scope-check': { et: 'NIS2 Scope Checker | ComplianceHub', en: 'NIS2 Scope Checker | ComplianceHub' },
-    '/nis2/assessment': { et: 'NIS2 Hindamine | ComplianceHub', en: 'NIS2 Assessment | ComplianceHub' },
-    '/assessment': { et: 'DORA Hindamine | ComplianceHub', en: 'DORA Assessment | ComplianceHub' },
-    '/contract-analysis': { et: 'Lepingu Analüüs | ComplianceHub', en: 'Contract Analysis | ComplianceHub' },
-    '/payment/success': { et: 'Makse Õnnestus | ComplianceHub', en: 'Payment Successful | ComplianceHub' },
-    '/login': { et: 'Sisene | ComplianceHub', en: 'Login | ComplianceHub' },
-    '/register': { et: 'Registreeri | ComplianceHub', en: 'Register | ComplianceHub' },
-    '/about': { et: 'Meist | ComplianceHub', en: 'About | ComplianceHub' },
-    '/privacy': { et: 'Privaatsuspoliitika | ComplianceHub', en: 'Privacy Policy | ComplianceHub' },
-    '/methodology': { et: 'Metoodika | ComplianceHub', en: 'Methodology | ComplianceHub' },
-    '/board-risk': { et: 'Juhatuse riskikalkulaator | ComplianceHub', en: 'Board Risk Calculator | ComplianceHub' }
+    '/': { et: 'DoraAudit.eu - DORA & NIS2 Vastavuskontroll', en: 'DoraAudit.eu - DORA & NIS2 Compliance' },
+    '/pricing': { et: 'Hinnakiri | DoraAudit.eu', en: 'Pricing | DoraAudit.eu' },
+    '/nis2/scope-check': { et: 'NIS2 Scope Checker | DoraAudit.eu', en: 'NIS2 Scope Checker | DoraAudit.eu' },
+    '/nis2/assessment': { et: 'NIS2 Hindamine | DoraAudit.eu', en: 'NIS2 Assessment | DoraAudit.eu' },
+    '/assessment': { et: 'DORA Hindamine | DoraAudit.eu', en: 'DORA Assessment | DoraAudit.eu' },
+    '/contract-analysis': { et: 'Lepingu Analüüs | DoraAudit.eu', en: 'Contract Analysis | DoraAudit.eu' },
+    '/payment/success': { et: 'Makse Õnnestus | DoraAudit.eu', en: 'Payment Successful | DoraAudit.eu' },
+    '/login': { et: 'Sisene | DoraAudit.eu', en: 'Login | DoraAudit.eu' },
+    '/register': { et: 'Registreeri | DoraAudit.eu', en: 'Register | DoraAudit.eu' },
+    '/about': { et: 'Meist | DoraAudit.eu', en: 'About | DoraAudit.eu' },
+    '/privacy': { et: 'Privaatsuspoliitika | DoraAudit.eu', en: 'Privacy Policy | DoraAudit.eu' },
+    '/methodology': { et: 'Metoodika | DoraAudit.eu', en: 'Methodology | DoraAudit.eu' },
+    '/board-risk': { et: 'Juhatuse riskikalkulaator | DoraAudit.eu', en: 'Board Risk Calculator | DoraAudit.eu' }
   };
 
   private pageDescriptions: { [path: string]: string } = {
@@ -328,10 +328,10 @@ export class AppComponent implements OnInit, OnDestroy {
     '/assessment': 'DORA täishindamine 37 küsimusega. Detailne tegevuskava ja PDF raport juhatusele.',
     '/nis2/assessment': 'NIS2 vastavushindamine Eesti ettevõtetele. E-ITS ja KüTS nõuetele vastav tegevuskava.',
     '/contract-analysis': 'DORA Art. 30 lepinguanalüüs. Kontrolli kas sinu IKT-leping vastab regulatsiooni nõuetele.',
-    '/pricing': 'ComplianceHub hinnad. NIS2 ja DORA hindamine alates €29. Ühekordne makse, ei nõua tellimust.',
+    '/pricing': 'DoraAudit.eu hinnad. NIS2 ja DORA hindamine alates €29. Ühekordne makse, ei nõua tellimust.',
     '/methodology': 'DORA vastavushindamise metoodika. Kuidas hindame IKT-lepinguid Art. 30 nõuete vastu.',
-    '/about': 'ComplianceHub - DORA ja NIS2 vastavuskontrolli platvorm Eesti finantsettevõtetele.',
-    '/privacy': 'ComplianceHub privaatsuspoliitika. Kuidas me kasutame ja kaitseme teie andmeid.'
+    '/about': 'DoraAudit.eu - DORA ja NIS2 vastavuskontrolli platvorm Eesti finantsettevõtetele.',
+    '/privacy': 'DoraAudit.eu privaatsuspoliitika. Kuidas me kasutame ja kaitseme teie andmeid.'
   };
 
   constructor(
@@ -374,7 +374,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const titleEntry = this.pageTitles[path];
     const title = titleEntry
       ? (this.lang.currentLang === 'et' ? titleEntry.et : titleEntry.en)
-      : 'ComplianceHub';
+      : 'DoraAudit.eu';
     this.titleService.setTitle(title);
 
     // Update meta description
@@ -387,7 +387,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Update Open Graph tags
     this.meta.updateTag({ property: 'og:type', content: 'website' });
-    this.meta.updateTag({ property: 'og:site_name', content: 'ComplianceHub' });
+    this.meta.updateTag({ property: 'og:site_name', content: 'DoraAudit.eu' });
     this.meta.updateTag({ property: 'og:title', content: title });
     this.meta.updateTag({ property: 'og:description', content: description });
     this.meta.updateTag({ property: 'og:url', content: canonicalUrl });

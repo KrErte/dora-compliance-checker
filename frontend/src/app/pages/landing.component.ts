@@ -444,7 +444,7 @@ interface Stat {
                   </svg>
                 </div>
                 <div>
-                  <p class="text-sm font-medium text-slate-200">ComplianceHub</p>
+                  <p class="text-sm font-medium text-slate-200">DoraAudit.eu</p>
                   <p class="text-sm text-slate-400">Tallinn, Eesti</p>
                 </div>
               </div>
@@ -647,8 +647,8 @@ export class LandingComponent implements OnInit, OnDestroy {
   ];
 
   trustBadges = [
-    { icon: '🔒', textKey: 'landing.badge_gdpr' },
-    { icon: '🏅', textKey: 'landing.badge_iso' },
+    { icon: '🇪🇪', textKey: 'landing.badge_estonian' },
+    { icon: '🤖', textKey: 'landing.badge_ai' },
     { icon: '✔️', textKey: 'landing.badge_eu' }
   ];
 

@@ -56,22 +56,19 @@ import { LangService } from '../lang.service';
         </div>
       </div>
 
-      <!-- Team -->
+      <!-- Founder -->
       <div class="mb-8">
         <div class="text-center mb-6">
-          <h2 class="text-xl font-bold text-slate-200">{{ lang.t('about.team_title') }}</h2>
-          <p class="text-sm text-slate-500 mt-1">{{ lang.t('about.team_desc') }}</p>
+          <h2 class="text-xl font-bold text-slate-200">{{ lang.t('about.founder_title') }}</h2>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div *ngFor="let member of team"
-               class="glass-card p-5 flex items-start gap-4 card-hover">
-            <div [class]="'w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold shrink-0 ' + member.bgClass">
-              {{ member.initials }}
+        <div class="glass-card p-6 max-w-2xl mx-auto">
+          <div class="flex items-start gap-5">
+            <div class="w-14 h-14 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl font-bold shrink-0">
+              KE
             </div>
             <div>
-              <h3 class="text-sm font-semibold text-slate-200">{{ member.name }}</h3>
-              <p class="text-xs text-emerald-400 mb-1.5">{{ lang.t(member.roleKey) }}</p>
-              <p class="text-xs text-slate-500 leading-relaxed">{{ lang.t(member.bioKey) }}</p>
+              <h3 class="text-lg font-semibold text-slate-200 mb-1">Kristo Erte</h3>
+              <p class="text-sm text-slate-400 leading-relaxed">{{ lang.t('about.founder_bio') }}</p>
             </div>
           </div>
         </div>
@@ -116,10 +113,6 @@ import { LangService } from '../lang.service';
   `
 })
 export class AboutComponent implements OnInit {
-  team = [
-    { name: 'Kristo Erte', initials: 'KE', roleKey: 'about.role_cto', bioKey: 'about.bio_cto', bgClass: 'bg-cyan-500/20 text-cyan-400' }
-  ];
-
   techFeatures = [
     { icon: '🇪🇺', key: 'about.tech_1' },
     { icon: '🔐', key: 'about.tech_2' },
@@ -130,6 +123,6 @@ export class AboutComponent implements OnInit {
   constructor(public lang: LangService, private titleService: Title) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('Meist — ComplianceHub | DoraAudit.eu');
+    this.titleService.setTitle('Meist | DoraAudit.eu');
   }
 }

@@ -8,7 +8,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'nav.assessment': { et: 'Hindamine', en: 'Assessment' },
   'nav.subtitle': { et: 'IKT-lepingute hindamine', en: 'ICT Contract Assessment' },
   'nav.methodology': { et: 'Metoodika', en: 'Methodology' },
-  'nav.brand': { et: 'ComplianceHub', en: 'ComplianceHub' },
+  'nav.brand': { et: 'DoraAudit.eu', en: 'DoraAudit.eu' },
   'nav.nis2_scope': { et: 'Kohaldumise kontroll', en: 'Scope Check' },
 
   // NIS2 Scope Checker
@@ -526,8 +526,8 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.req7_desc': { et: 'Väljumisstrateegiad ja andmete tagastamise protseduurid peavad olema dokumenteeritud.', en: 'Exit strategies and data return procedures must be documented.' },
   'landing.req8_name': { et: 'Talitluspidevuse tagamine', en: 'Business continuity' },
   'landing.req8_desc': { et: 'Äriprotsesside jätkusuutlikkuse ja taastekavade nõuded peavad olema kaetud.', en: 'Business process sustainability and recovery plan requirements must be covered.' },
-  'landing.badge_gdpr': { et: 'GDPR-i nõuetele vastav', en: 'GDPR Compliant' },
-  'landing.badge_iso': { et: 'ISO 27001 põhimõtetel põhinev', en: 'Based on ISO 27001 principles' },
+  'landing.badge_estonian': { et: 'Eesti ettevõtetele kohandatud', en: 'Tailored for Estonian companies' },
+  'landing.badge_ai': { et: 'AI-toega analüüs', en: 'AI-powered analysis' },
   'landing.badge_eu': { et: 'DORA ja NIS2 regulatsioonidel põhinev', en: 'Based on DORA and NIS2 regulations' },
   'landing.table_checked': { et: 'Kontrollitud', en: 'Checked' },
   'landing.review1_text': { et: 'AI lepinguaudit s\u00e4\u00e4stis meile n\u00e4dalaid konsultandi tasu. Saime kohe teada, millised klauslid puuduvad.', en: 'AI contract audit saved us weeks of consultant fees. We instantly knew which clauses were missing.' },
@@ -1106,21 +1106,21 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
 
   // Terms of Service page
   'terms.title': { et: 'Kasutustingimused', en: 'Terms of Service' },
-  'terms.subtitle': { et: 'ComplianceHub teenuse kasutamise tingimused', en: 'Terms and conditions for using ComplianceHub' },
+  'terms.subtitle': { et: 'DoraAudit.eu teenuse kasutamise tingimused', en: 'Terms and conditions for using DoraAudit.eu' },
   'terms.updated': { et: 'Viimati uuendatud', en: 'Last updated' },
 
   // A) General
   'terms.general_title': { et: 'Üldine', en: 'General' },
   'terms.provider': { et: 'Teenuse osutaja', en: 'Service provider' },
   'terms.operator': { et: 'Opereerib', en: 'Operated by' },
-  'terms.service_desc': { et: 'ComplianceHub on DORA ja NIS2 vastavuse enesehindamise platvorm, mis aitab ettevõtetel hinnata oma vastavust regulatiivsetele nõuetele.', en: 'ComplianceHub is a DORA and NIS2 compliance self-assessment platform that helps organizations evaluate their compliance with regulatory requirements.' },
+  'terms.service_desc': { et: 'DoraAudit.eu on DORA ja NIS2 vastavuse enesehindamise platvorm, mis aitab ettevõtetel hinnata oma vastavust regulatiivsetele nõuetele.', en: 'DoraAudit.eu is a DORA and NIS2 compliance self-assessment platform that helps organizations evaluate their compliance with regulatory requirements.' },
   'terms.acceptance': { et: 'Teenuse kasutamisega nõustute käesolevate kasutustingimustega. Kui te ei nõustu tingimustega, palun ärge kasutage teenust.', en: 'By using the service, you agree to these terms of service. If you do not agree to the terms, please do not use the service.' },
 
   // B) Service Nature & Limitations (DISCLAIMER)
   'terms.disclaimer_title': { et: 'Oluline teave teenuse kohta', en: 'Important Information About the Service' },
-  'terms.disclaimer_1': { et: 'ComplianceHub on enesehindamise tööriist, MITTE juriidiline nõustamine. Platvormi kasutamine ei loo kliendi-advokaadi suhet.', en: 'ComplianceHub is a self-assessment tool, NOT legal advice. Using the platform does not create an attorney-client relationship.' },
+  'terms.disclaimer_1': { et: 'DoraAudit.eu on enesehindamise tööriist, MITTE juriidiline nõustamine. Platvormi kasutamine ei loo kliendi-advokaadi suhet.', en: 'DoraAudit.eu is a self-assessment tool, NOT legal advice. Using the platform does not create an attorney-client relationship.' },
   'terms.disclaimer_2': { et: 'Hindamiste tulemused on informatiivse iseloomuga ja ei asenda professionaalset vastavusauditit ega sertifitseerimist.', en: 'Assessment results are informational in nature and do not replace a professional compliance audit or certification.' },
-  'terms.disclaimer_3': { et: 'ComplianceHub ei garanteeri regulatiivset vastavust. Tulemused põhinevad kasutaja sisestatud andmetel ja võivad olla ebatäpsed.', en: 'ComplianceHub does not guarantee regulatory compliance. Results are based on user-provided data and may be inaccurate.' },
+  'terms.disclaimer_3': { et: 'DoraAudit.eu ei garanteeri regulatiivset vastavust. Tulemused põhinevad kasutaja sisestatud andmetel ja võivad olla ebatäpsed.', en: 'DoraAudit.eu does not guarantee regulatory compliance. Results are based on user-provided data and may be inaccurate.' },
   'terms.disclaimer_4': { et: 'Kasutaja vastutab ise oma ettevõtte vastavuse tagamise eest. Soovitame konsulteerida kvalifitseeritud spetsialistiga.', en: 'The user is solely responsible for ensuring their organization\'s compliance. We recommend consulting with a qualified specialist.' },
 
   // C) User Account
@@ -1140,15 +1140,15 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
 
   // E) Intellectual Property
   'terms.ip_title': { et: 'Intellektuaalomand', en: 'Intellectual Property' },
-  'terms.ip_platform': { et: 'Platvormi sisu, hindamisküsimused, metoodika ja disain kuuluvad ComplianceHubile ning on kaitstud autoriõigusega.', en: 'Platform content, assessment questions, methodology, and design belong to ComplianceHub and are protected by copyright.' },
+  'terms.ip_platform': { et: 'Platvormi sisu, hindamisküsimused, metoodika ja disain kuuluvad DoraAudit.eu-le ning on kaitstud autoriõigusega.', en: 'Platform content, assessment questions, methodology, and design belong to DoraAudit.eu and are protected by copyright.' },
   'terms.ip_user_data': { et: 'Kasutaja sisestatud andmed ja ettevõtte info kuuluvad kasutajale.', en: 'User-provided data and company information belong to the user.' },
   'terms.ip_reports': { et: 'Genereeritud hindamisraporteid tohib kasutada ettevõttesiseselt, kuid mitte avalikustada ega edasi müüa.', en: 'Generated assessment reports may be used internally but not published or resold.' },
 
   // F) Liability Limitation
   'terms.liability_title': { et: 'Vastutuse piiramine', en: 'Limitation of Liability' },
-  'terms.liability_no_damages': { et: 'ComplianceHub ei vastuta otseste ega kaudsete kahjude eest, mis tulenevad teenuse kasutamisest või mittekasutamisest.', en: 'ComplianceHub is not liable for direct or indirect damages arising from use or non-use of the service.' },
+  'terms.liability_no_damages': { et: 'DoraAudit.eu ei vastuta otseste ega kaudsete kahjude eest, mis tulenevad teenuse kasutamisest või mittekasutamisest.', en: 'DoraAudit.eu is not liable for direct or indirect damages arising from use or non-use of the service.' },
   'terms.liability_max': { et: 'Maksimaalne vastutus piirdub kasutaja poolt viimase 12 kuu jooksul makstud summaga.', en: 'Maximum liability is limited to the amount paid by the user in the last 12 months.' },
-  'terms.liability_force': { et: 'ComplianceHub ei vastuta viivituste või häirete eest, mis on põhjustatud vääramatust jõust (force majeure).', en: 'ComplianceHub is not liable for delays or disruptions caused by force majeure.' },
+  'terms.liability_force': { et: 'DoraAudit.eu ei vastuta viivituste või häirete eest, mis on põhjustatud vääramatust jõust (force majeure).', en: 'DoraAudit.eu is not liable for delays or disruptions caused by force majeure.' },
 
   // G) Service Availability
   'terms.availability_title': { et: 'Teenuse kättesaadavus', en: 'Service Availability' },
@@ -1158,7 +1158,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   // H) Termination
   'terms.termination_title': { et: 'Lõpetamine', en: 'Termination' },
   'terms.termination_user': { et: 'Kasutaja võib oma konto igal ajal kustutada, võttes ühendust meie klienditoega.', en: 'The user may delete their account at any time by contacting our support.' },
-  'terms.termination_provider': { et: 'ComplianceHub võib konto peatada või lõpetada kasutustingimuste rikkumise korral.', en: 'ComplianceHub may suspend or terminate an account for violation of these terms.' },
+  'terms.termination_provider': { et: 'DoraAudit.eu võib konto peatada või lõpetada kasutustingimuste rikkumise korral.', en: 'DoraAudit.eu may suspend or terminate an account for violation of these terms.' },
 
   // I) Applicable Law
   'terms.law_title': { et: 'Kohaldatav õigus', en: 'Applicable Law' },
@@ -1326,16 +1326,8 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'about.why_2': { et: 'Manuaalne lepingute kontroll on aeglane ja kallis (juristide tunnihind 200-400 EUR)', en: 'Manual contract review is slow and expensive (lawyer hourly rate 200-400 EUR)' },
   'about.why_3': { et: 'Trahvid mittevastavuse eest võivad ulatuda kuni 2% aastasest käibest', en: 'Fines for non-compliance can reach up to 2% of annual turnover' },
   'about.why_4': { et: 'Eestis puudus seni eestikeelne automatiseeritud lahendus', en: 'Estonia lacked an Estonian-language automated solution until now' },
-  'about.team_title': { et: 'Meeskond', en: 'Team' },
-  'about.team_desc': { et: 'Regulatiivse ekspertiisi ja tehnoloogia kooslus', en: 'A blend of regulatory expertise and technology' },
-  'about.role_ceo': { et: 'Asutaja ja tegevjuht', en: 'Founder & CEO' },
-  'about.role_cto': { et: 'Tehniline juht', en: 'CTO' },
-  'about.role_compliance': { et: 'Vastavusjuht', en: 'Compliance Lead' },
-  'about.role_legal': { et: 'Juriidiline nõustaja', en: 'Legal Advisor' },
-  'about.bio_ceo': { et: '10+ aastat fintech ja regulatiivses valdkonnas. Endine Finantsinspektsiooni nõunik.', en: '10+ years in fintech and regulatory domain. Former Finantsinspektsioon advisor.' },
-  'about.bio_cto': { et: 'Full-stack arendaja, AI/ML ekspert. Ehitanud lahendusi pangandusele ja kindlustusele.', en: 'Full-stack developer, AI/ML expert. Built solutions for banking and insurance.' },
-  'about.bio_compliance': { et: 'CISA sertifikaat. 8 aastat kogemust IT-auditeerimises ja vastavuskontrollis.', en: 'CISA certified. 8 years experience in IT auditing and compliance checking.' },
-  'about.bio_legal': { et: 'Finants- ja IT-õiguse advokaat. Nõustanud EL regulatsioonide rakendamisel.', en: 'Financial and IT law attorney. Advised on EU regulation implementation.' },
+  'about.founder_title': { et: 'Asutaja', en: 'Founder' },
+  'about.founder_bio': { et: 'DoraAudit.eu on loodud Kristo Erte poolt, kes on 10+ aasta kogemusega tarkvaraarendaja. Platvorm kombineerib tehnilise ekspertiisi ja Eesti regulatiivse keskkonna tundmise, et pakkuda finantssektori ettevõtetele praktilist tööriista DORA ja NIS2 vastavuse hindamiseks.', en: 'DoraAudit.eu was created by Kristo Erte, a software developer with 10+ years of experience. The platform combines technical expertise and understanding of the Estonian regulatory environment to provide financial sector companies with a practical tool for assessing DORA and NIS2 compliance.' },
   'about.stats_title': { et: 'Numbrid', en: 'By the numbers' },
   'about.stat_requirements': { et: 'DORA Art. 30 nõuet', en: 'DORA Art. 30 requirements' },
   'about.stat_analysis': { et: 'lepingu analüüs', en: 'contract analysis' },

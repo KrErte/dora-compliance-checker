@@ -27,7 +27,7 @@ import { LangService } from '../lang.service';
       <div class="glass-card p-6 mb-6">
         <h2 class="text-xl font-semibold text-emerald-400 mb-4">{{ lang.t('terms.general_title') }}</h2>
         <div class="text-slate-300 text-sm space-y-3">
-          <p><span class="text-slate-400">{{ lang.t('terms.provider') }}:</span> ComplianceHub / DoraAudit.eu</p>
+          <p><span class="text-slate-400">{{ lang.t('terms.provider') }}:</span> DoraAudit.eu</p>
           <p><span class="text-slate-400">{{ lang.t('terms.operator') }}:</span> Kristo Erte</p>
           <p class="text-slate-400">{{ lang.t('terms.service_desc') }}</p>
           <p class="text-slate-400 mt-4 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
