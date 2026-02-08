@@ -34,6 +34,14 @@ import { timeout, catchError, throwError } from 'rxjs';
 
         <div class="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-8"
              [class.animate-shake]="shakeForm">
+          @if (error) {
+            <div class="mb-6 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center gap-2">
+              <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              {{ error }}
+            </div>
+          }
           <form (ngSubmit)="onLogin()">
             <div class="mb-5">
               <label for="login-email" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.email') }}</label>
@@ -50,15 +58,6 @@ import { timeout, catchError, throwError } from 'rxjs';
                             focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
                      placeholder="********">
             </div>
-
-            @if (error) {
-              <div class="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center gap-2">
-                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                {{ error }}
-              </div>
-            }
 
             <button type="submit" [disabled]="loading"
                     class="w-full py-3 rounded-xl font-semibold text-sm transition-all duration-200

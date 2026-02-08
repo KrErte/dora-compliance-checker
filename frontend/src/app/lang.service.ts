@@ -259,15 +259,26 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'methodology.start_assessment': { et: 'Alusta hindamist', en: 'Start Assessment' },
 
   // Landing - Hero
-  'landing.subtitle': { et: 'Lepingu eelkontroll', en: 'Contract Pre-Check' },
-  'landing.hero_desc': { et: 'Kontrollige oma IKT-lepingute vastavust DORA artikkel 30 n\u00f5uetele enne auditit.', en: 'Check your ICT contract compliance with DORA Article 30 requirements before audit.' },
-  'landing.cta_try_sample': { et: 'Proovi n\u00e4idislepinguga', en: 'Try with sample contract' },
+  'landing.title': { et: 'Eesti ettevõtete DORA ja NIS2 vastavusplatvorm', en: 'DORA and NIS2 Compliance Platform for Estonian Companies' },
+  'landing.subtitle': { et: 'Kontrolli lepingud. Hinda vastavust. Genereeri puuduvad dokumendid.', en: 'Check contracts. Assess compliance. Generate missing documents.' },
+  'landing.hero_desc': { et: 'Kontrollige oma IKT-lepingute vastavust DORA artikkel 30 nõuetele enne auditit.', en: 'Check your ICT contract compliance with DORA Article 30 requirements before audit.' },
+  'landing.cta_free_check': { et: 'Kontrolli tasuta', en: 'Check for free' },
+  'landing.cta_try_demo': { et: 'Proovi demoga', en: 'Try with demo' },
+  'landing.cta_try_sample': { et: 'Proovi näidislepinguga', en: 'Try with sample contract' },
   'landing.cta_generate': { et: 'Genereeri leping', en: 'Generate Contract' },
   'landing.cta_generate_hint': { et: 'Loo DORA-vastav IKT lepingu mall', en: 'Create a DORA-compliant ICT contract template' },
   'landing.cta_assessment': { et: 'Enesehindamine', en: 'Self-assessment' },
-  'landing.cta_assessment_hint': { et: '37 k\u00fcsimust ilma lepingut \u00fcles laadimata', en: '37 questions without uploading a contract' },
+  'landing.cta_assessment_hint': { et: '37 küsimust ilma lepingut üles laadimata', en: '37 questions without uploading a contract' },
   'landing.cta_check': { et: 'Kontrolli lepingut', en: 'Check contract' },
-  'landing.art30_explainer': { et: 'DORA Art. 30 s\u00e4testab 8 kohustuslikku n\u00f5uet, mis peavad sisalduma finantssektori ettev\u00f5tete ja IKT-teenusepakkujate vahelistes lepingutes. Mittevastavuse korral v\u00f5ib Finantsinspektsioon m\u00e4\u00e4rata trahvi kuni 2% aastasest k\u00e4ibest.', en: 'DORA Art. 30 establishes 8 mandatory requirements that must be included in contracts between financial sector companies and ICT service providers. Non-compliance may result in fines up to 2% of annual turnover by the Financial Supervisory Authority.' },
+  'landing.art30_explainer': { et: 'DORA Art. 30 sätestab 8 kohustuslikku nõuet, mis peavad sisalduma finantssektori ettevõtete ja IKT-teenusepakkujate vahelistes lepingutes. Mittevastavuse korral võib Finantsinspektsioon määrata trahvi kuni 2% aastasest käibest.', en: 'DORA Art. 30 establishes 8 mandatory requirements that must be included in contracts between financial sector companies and ICT service providers. Non-compliance may result in fines up to 2% of annual turnover by the Financial Supervisory Authority.' },
+
+  // Landing - Hero Cards
+  'landing.card1_title': { et: 'Kontrolli', en: 'Check' },
+  'landing.card1_desc': { et: 'Kas NIS2/DORA kohaldub? Tasuta, 30 sekundit', en: 'Does NIS2/DORA apply? Free, 30 seconds' },
+  'landing.card2_title': { et: 'Hinda', en: 'Assess' },
+  'landing.card2_desc': { et: '37-punktiline vastavusanalüüs tegevuskavaga', en: '37-point compliance analysis with action plan' },
+  'landing.card3_title': { et: 'Paranda', en: 'Fix' },
+  'landing.card3_desc': { et: 'Genereeri puuduvad lepingud ja dokumendid', en: 'Generate missing contracts and documents' },
 
   // Landing - Stats (hero section)
   'landing.stat_time': { et: 'kontrolli aeg', en: 'check time' },
@@ -917,7 +928,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'auth.register_link': { et: 'Registreeru siin', en: 'Register here' },
   'auth.login_link': { et: 'Logi sisse siin', en: 'Log in here' },
   'auth.error_empty': { et: 'Palun sisestage e-posti aadress ja parool.', en: 'Please enter your email and password.' },
-  'auth.error_invalid': { et: 'Vale e-post v\u00f5i parool', en: 'Invalid email or password' },
+  'auth.error_invalid': { et: 'Vale email või parool. Proovi uuesti.', en: 'Invalid email or password. Please try again.' },
   'auth.error_exists': { et: 'See e-post on juba registreeritud', en: 'This email is already registered' },
   'auth.error_mismatch': { et: 'Paroolid ei kattu', en: 'Passwords do not match' },
   'auth.error_name_required': { et: 'Nimi on kohustuslik', en: 'Name is required' },
@@ -1067,6 +1078,11 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'pricing.package_f3': { et: 'Kõik PDF raportid', en: 'All PDF reports' },
   'pricing.package_f4': { et: 'Prioriteetsed tegevuspunktid', en: 'Prioritized action items' },
   'pricing.package_cta': { et: 'Osta pakett', en: 'Buy package' },
+
+  // Lawyer price comparison
+  'pricing.lawyer_free': { et: 'Juristi eelkontroll: ~€400-800', en: 'Lawyer pre-check: ~€400-800' },
+  'pricing.lawyer_single': { et: 'Juristi täishindamine: ~€1,500-3,000', en: 'Lawyer full assessment: ~€1,500-3,000' },
+  'pricing.lawyer_package': { et: 'Juristi topelt-audit: ~€2,500-5,000', en: 'Lawyer dual audit: ~€2,500-5,000' },
 
   // Common
   'pricing.coming_soon': { et: 'Tuleb varsti', en: 'Coming soon' },

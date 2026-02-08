@@ -34,46 +34,53 @@ interface Stat {
       <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
 
       <div class="relative flex flex-col items-center justify-center min-h-[70vh] text-center z-10">
-        <h1 class="text-4xl md:text-6xl font-extrabold mb-6 animate-slide-in">
-          <span class="gradient-text">DORA Art. 30</span>
-          <br/>
-          <span class="text-slate-100">{{ lang.t('landing.subtitle') }}</span>
+        <h1 class="text-3xl md:text-5xl font-extrabold mb-4 animate-slide-in">
+          <span class="gradient-text">{{ lang.t('landing.title') }}</span>
         </h1>
 
-        <p class="text-lg text-slate-400 max-w-xl mb-4 leading-relaxed animate-slide-in delay-100">
-          {{ lang.t('landing.hero_desc') }}
+        <p class="text-lg md:text-xl text-slate-300 max-w-2xl mb-8 leading-relaxed animate-slide-in delay-100">
+          {{ lang.t('landing.subtitle') }}
         </p>
 
-        <!-- DORA Art. 30 brief explanation -->
-        <div class="max-w-lg mb-10 px-4 py-3 rounded-xl bg-slate-800/60 border border-slate-700/50 animate-slide-in delay-100">
-          <p class="text-xs text-slate-500 leading-relaxed text-center">
-            {{ lang.t('landing.art30_explainer') }}
-          </p>
+        <!-- 3 Hero Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl w-full mb-10 animate-slide-in delay-100">
+          <div class="glass-card p-5 rounded-xl border border-slate-700/50 hover:border-emerald-500/30 transition-all text-center">
+            <div class="text-3xl mb-2">🔍</div>
+            <h3 class="text-lg font-semibold text-emerald-400 mb-1">{{ lang.t('landing.card1_title') }}</h3>
+            <p class="text-sm text-slate-400">{{ lang.t('landing.card1_desc') }}</p>
+          </div>
+          <div class="glass-card p-5 rounded-xl border border-slate-700/50 hover:border-cyan-500/30 transition-all text-center">
+            <div class="text-3xl mb-2">📊</div>
+            <h3 class="text-lg font-semibold text-cyan-400 mb-1">{{ lang.t('landing.card2_title') }}</h3>
+            <p class="text-sm text-slate-400">{{ lang.t('landing.card2_desc') }}</p>
+          </div>
+          <div class="glass-card p-5 rounded-xl border border-slate-700/50 hover:border-violet-500/30 transition-all text-center">
+            <div class="text-3xl mb-2">📄</div>
+            <h3 class="text-lg font-semibold text-violet-400 mb-1">{{ lang.t('landing.card3_title') }}</h3>
+            <p class="text-sm text-slate-400">{{ lang.t('landing.card3_desc') }}</p>
+          </div>
         </div>
 
         <!-- CTA buttons -->
         <div class="flex flex-col sm:flex-row gap-4 animate-slide-in delay-200">
-          <a routerLink="/contract-analysis" [queryParams]="{sample: 'true'}"
+          <a routerLink="/nis2/scope-check"
              class="cta-button group inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
                     text-slate-900 font-semibold px-8 py-3.5 rounded-xl text-lg
                     hover:shadow-lg hover:shadow-emerald-500/25">
-            {{ lang.t('landing.cta_try_sample') }}
+            {{ lang.t('landing.cta_free_check') }}
             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
           </a>
-          <div class="flex flex-col items-center">
-            <a routerLink="/contract-generator"
-               class="cta-button group inline-flex items-center gap-2 bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-400 hover:to-purple-400
-                      text-white font-semibold px-8 py-3.5 rounded-xl text-lg
-                      hover:shadow-lg hover:shadow-violet-500/25">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-              </svg>
-              {{ lang.t('landing.cta_generate') }}
-            </a>
-            <span class="text-xs text-slate-500 mt-1.5">{{ lang.t('landing.cta_generate_hint') }}</span>
-          </div>
+          <a routerLink="/contract-analysis" [queryParams]="{sample: 'true'}"
+             class="cta-button group inline-flex items-center gap-2 bg-transparent border-2 border-slate-500 hover:border-emerald-400
+                    text-slate-200 hover:text-emerald-400 font-semibold px-8 py-3.5 rounded-xl text-lg
+                    transition-all">
+            {{ lang.t('landing.cta_try_demo') }}
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </a>
         </div>
 
         <!-- Secondary CTA -->

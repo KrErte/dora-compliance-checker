@@ -54,6 +54,10 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
                     transition-all duration-200">
             {{ lang.t('pricing.free_cta') }} →
           </a>
+
+          <div class="mt-4 pt-4 border-t border-slate-700/50 text-center">
+            <p class="text-xs text-slate-500 line-through">{{ lang.t('pricing.lawyer_free') }}</p>
+          </div>
         </div>
 
         <!-- Card 2: Single Assessment - POPULAR -->
@@ -99,6 +103,10 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
                     transition-all duration-200">
             {{ lang.t('pricing.single_cta') }} →
           </a>
+
+          <div class="mt-4 pt-4 border-t border-slate-700/50 text-center">
+            <p class="text-xs text-slate-500 line-through">{{ lang.t('pricing.lawyer_single') }}</p>
+          </div>
         </div>
 
         <!-- Card 3: Compliance Package -->
@@ -143,6 +151,10 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
                     transition-all duration-200">
             {{ lang.t('pricing.package_cta') }} →
           </a>
+
+          <div class="mt-4 pt-4 border-t border-slate-700/50 text-center">
+            <p class="text-xs text-slate-500 line-through">{{ lang.t('pricing.lawyer_package') }}</p>
+          </div>
         </div>
       </div>
 
