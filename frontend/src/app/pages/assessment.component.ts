@@ -148,10 +148,15 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
              [id]="'cat-' + group.category"
              class="glass-card p-6 mb-4 card-hover animate-fade-in-up"
              [style.animation-delay]="(gi * 100 + 200) + 'ms'">
-          <h2 class="text-lg font-semibold text-emerald-400 mb-1 flex items-center gap-2">
+          <h2 class="text-lg font-semibold text-emerald-400 mb-1 flex items-center gap-2 flex-wrap">
             <span class="w-7 h-7 rounded-lg flex items-center justify-center text-base"
                   [class]="getCategoryIconBg(group.category)">{{ getCategoryIcon(group.category) }}</span>
             {{ getCategoryLabel(group.category) }}
+            <span *ngIf="isExtendedCategory(group.category)"
+                  class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/20"
+                  [title]="lang.t('assessment.extended_tooltip')">
+              {{ lang.t('assessment.extended_badge') }}
+            </span>
             <span *ngIf="getCategoryProgress(group) === 100" class="ml-auto text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">&#10003;</span>
           </h2>
           <p class="text-xs text-slate-500 mb-4">{{ group.questions.length }} {{ lang.t('assessment.questions_count') }}</p>
@@ -165,17 +170,25 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
                   <span class="text-slate-500 text-sm mr-2">{{ getGlobalIndex(gi, i) }}.</span>
                   {{ q.questionEt }}
                 </p>
-                <div class="group relative inline-block">
-                  <span class="text-xs text-slate-500 cursor-help border-b border-dashed border-slate-600 hover:text-emerald-400 transition-colors">
-                    {{ q.articleReference }}
-                  </span>
-                  <div class="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200
-                              absolute z-10 bottom-full left-0 mb-2 w-80 p-4 bg-slate-700/95 backdrop-blur
-                              text-slate-200 text-xs rounded-xl shadow-2xl border border-slate-600/50">
-                    <div class="font-semibold text-emerald-400 mb-1">{{ q.articleReference }}</div>
-                    {{ q.explanation }}
-                    <div class="absolute bottom-0 left-4 translate-y-1/2 rotate-45 w-2 h-2 bg-slate-700 border-r border-b border-slate-600/50"></div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <div class="group relative inline-block">
+                    <span class="text-xs cursor-help border-b border-dashed transition-colors"
+                          [class]="isExtendedQuestion(q.id) ? 'text-amber-500 border-amber-600 hover:text-amber-400' : 'text-slate-500 border-slate-600 hover:text-emerald-400'">
+                      {{ q.articleReference }}
+                    </span>
+                    <div class="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200
+                                absolute z-10 bottom-full left-0 mb-2 w-80 p-4 bg-slate-700/95 backdrop-blur
+                                text-slate-200 text-xs rounded-xl shadow-2xl border border-slate-600/50">
+                      <div class="font-semibold mb-1" [class]="isExtendedQuestion(q.id) ? 'text-amber-400' : 'text-emerald-400'">{{ q.articleReference }}</div>
+                      <div *ngIf="isExtendedQuestion(q.id)" class="text-amber-300/80 text-[10px] mb-2 italic">{{ lang.t('assessment.extended_tooltip') }}</div>
+                      {{ q.explanation }}
+                      <div class="absolute bottom-0 left-4 translate-y-1/2 rotate-45 w-2 h-2 bg-slate-700 border-r border-b border-slate-600/50"></div>
+                    </div>
                   </div>
+                  <span *ngIf="isExtendedQuestion(q.id)"
+                        class="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/20">
+                    {{ lang.t('assessment.extended_short') }}
+                  </span>
                 </div>
               </div>
               <div class="flex items-center gap-1.5 shrink-0 mt-1">
@@ -639,6 +652,14 @@ export class AssessmentComponent implements OnInit {
   isQuestionLocked(globalIndex: number): boolean {
     if (this.paywall.hasAccess()) return false;
     return globalIndex > this.freeQuestionsLimit;
+  }
+
+  isExtendedQuestion(questionId: number): boolean {
+    return questionId >= 16 && questionId <= 22;
+  }
+
+  isExtendedCategory(category: string): boolean {
+    return category === 'RECRUITMENT' || category === 'FINANCIAL_REPORTING';
   }
 
   showPaywallInGroup(groupIndex: number): boolean {

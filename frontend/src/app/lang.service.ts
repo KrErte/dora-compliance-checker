@@ -565,6 +565,11 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'assessment.login_warning': { et: 'Tulemuste salvestamiseks logige sisse', en: 'Log in to save your results' },
   'assessment.login_warning_desc': { et: 'Saate hindamise läbi teha ilma sisselogimiseta, kuid tulemuste vaatamiseks ja ajaloo salvestamiseks on vaja kontot.', en: 'You can complete the assessment without logging in, but viewing results and saving history requires an account.' },
 
+  // Extended analysis badges
+  'assessment.extended_badge': { et: 'Laiendatud analüüs', en: 'Extended analysis' },
+  'assessment.extended_short': { et: 'Laiendatud', en: 'Extended' },
+  'assessment.extended_tooltip': { et: 'See küsimus ei tulene otseselt DORA-st, kuid aitab hinnata teenusepakkuja üldist usaldusväärsust ja finantsstabiilsust.', en: 'This question is not directly derived from DORA, but helps assess the provider\'s overall reliability and financial stability.' },
+
   // Progress saving
   'progress.auto_save': { et: 'Sinu andmed salvestuvad automaatselt', en: 'Your data is saved automatically' },
   'progress.restored': { et: 'Jätkad sealt kus pooleli jäid', en: 'Continuing where you left off' },
@@ -964,6 +969,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'footer.regulation': { et: 'Digitaalse tegevuse vastupidavuse m\u00e4\u00e4rus', en: 'Digital Operational Resilience Act' },
   'footer.dora_text': { et: 'DORA tekst', en: 'DORA text' },
   'footer.privacy': { et: 'Privaatsus', en: 'Privacy' },
+  'footer.terms': { et: 'Kasutustingimused', en: 'Terms of Service' },
   'footer.tagline': { et: 'DORA ja NIS2 vastavuskontrolli platvorm Eesti ettevõtetele.', en: 'DORA and NIS2 compliance platform for Estonian companies.' },
   'footer.tools': { et: 'Tööriistad', en: 'Tools' },
   'footer.company': { et: 'Ettevõte', en: 'Company' },
@@ -1051,6 +1057,71 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'privacy.changes_title': { et: 'Poliitika muudatused', en: 'Policy Changes' },
   'privacy.changes_desc': { et: 'Teavitame olulistest muudatustest e-posti teel. Soovitame seda lehte regulaarselt üle vaadata.', en: 'We will notify you of significant changes via email. We recommend reviewing this page regularly.' },
   'privacy.updated': { et: 'Viimati uuendatud', en: 'Last updated' },
+
+  // Terms of Service page
+  'terms.title': { et: 'Kasutustingimused', en: 'Terms of Service' },
+  'terms.subtitle': { et: 'ComplianceHub teenuse kasutamise tingimused', en: 'Terms and conditions for using ComplianceHub' },
+  'terms.updated': { et: 'Viimati uuendatud', en: 'Last updated' },
+
+  // A) General
+  'terms.general_title': { et: 'Üldine', en: 'General' },
+  'terms.provider': { et: 'Teenuse osutaja', en: 'Service provider' },
+  'terms.operator': { et: 'Opereerib', en: 'Operated by' },
+  'terms.service_desc': { et: 'ComplianceHub on DORA ja NIS2 vastavuse enesehindamise platvorm, mis aitab ettevõtetel hinnata oma vastavust regulatiivsetele nõuetele.', en: 'ComplianceHub is a DORA and NIS2 compliance self-assessment platform that helps organizations evaluate their compliance with regulatory requirements.' },
+  'terms.acceptance': { et: 'Teenuse kasutamisega nõustute käesolevate kasutustingimustega. Kui te ei nõustu tingimustega, palun ärge kasutage teenust.', en: 'By using the service, you agree to these terms of service. If you do not agree to the terms, please do not use the service.' },
+
+  // B) Service Nature & Limitations (DISCLAIMER)
+  'terms.disclaimer_title': { et: 'Oluline teave teenuse kohta', en: 'Important Information About the Service' },
+  'terms.disclaimer_1': { et: 'ComplianceHub on enesehindamise tööriist, MITTE juriidiline nõustamine. Platvormi kasutamine ei loo kliendi-advokaadi suhet.', en: 'ComplianceHub is a self-assessment tool, NOT legal advice. Using the platform does not create an attorney-client relationship.' },
+  'terms.disclaimer_2': { et: 'Hindamiste tulemused on informatiivse iseloomuga ja ei asenda professionaalset vastavusauditit ega sertifitseerimist.', en: 'Assessment results are informational in nature and do not replace a professional compliance audit or certification.' },
+  'terms.disclaimer_3': { et: 'ComplianceHub ei garanteeri regulatiivset vastavust. Tulemused põhinevad kasutaja sisestatud andmetel ja võivad olla ebatäpsed.', en: 'ComplianceHub does not guarantee regulatory compliance. Results are based on user-provided data and may be inaccurate.' },
+  'terms.disclaimer_4': { et: 'Kasutaja vastutab ise oma ettevõtte vastavuse tagamise eest. Soovitame konsulteerida kvalifitseeritud spetsialistiga.', en: 'The user is solely responsible for ensuring their organization\'s compliance. We recommend consulting with a qualified specialist.' },
+
+  // C) User Account
+  'terms.account_title': { et: 'Kasutajakonto', en: 'User Account' },
+  'terms.account_security': { et: 'Kasutaja vastutab oma konto ja parooli turvalisuse eest ning kohustub mitte jagama juurdepääsu kolmandatele isikutele.', en: 'The user is responsible for account and password security and must not share access with third parties.' },
+  'terms.account_one': { et: 'Üks konto on mõeldud ühe ettevõtte kasutamiseks. Mitme ettevõtte hindamiseks on vajalikud eraldi kontod.', en: 'One account is intended for one organization. Separate accounts are required for assessing multiple organizations.' },
+  'terms.account_prohibited': { et: 'Keelatud on automatiseeritud andmete kogumine (scraping), teenuse edasimüük ja muu pahatahtlik tegevus.', en: 'Automated data collection (scraping), resale of the service, and other malicious activities are prohibited.' },
+
+  // D) Payments & Refunds
+  'terms.payment_title': { et: 'Maksed ja tagastused', en: 'Payments and Refunds' },
+  'terms.payment_processor': { et: 'Maksete töötleja', en: 'Payment processor' },
+  'terms.payment_vat': { et: 'Käibemaks', en: 'VAT' },
+  'terms.payment_vat_included': { et: 'Hinnad sisaldavad käibemaksu', en: 'Prices include VAT' },
+  'terms.refund_title': { et: '14-päevane tagastusõigus', en: '14-day refund policy' },
+  'terms.refund_desc': { et: 'Euroopa Liidu tarbijana on teil õigus taganeda ostust 14 päeva jooksul ilma põhjust esitamata.', en: 'As an EU consumer, you have the right to withdraw from a purchase within 14 days without giving a reason.' },
+  'terms.refund_contact': { et: 'Tagastuse taotlemiseks võtke ühendust', en: 'To request a refund, contact' },
+
+  // E) Intellectual Property
+  'terms.ip_title': { et: 'Intellektuaalomand', en: 'Intellectual Property' },
+  'terms.ip_platform': { et: 'Platvormi sisu, hindamisküsimused, metoodika ja disain kuuluvad ComplianceHubile ning on kaitstud autoriõigusega.', en: 'Platform content, assessment questions, methodology, and design belong to ComplianceHub and are protected by copyright.' },
+  'terms.ip_user_data': { et: 'Kasutaja sisestatud andmed ja ettevõtte info kuuluvad kasutajale.', en: 'User-provided data and company information belong to the user.' },
+  'terms.ip_reports': { et: 'Genereeritud hindamisraporteid tohib kasutada ettevõttesiseselt, kuid mitte avalikustada ega edasi müüa.', en: 'Generated assessment reports may be used internally but not published or resold.' },
+
+  // F) Liability Limitation
+  'terms.liability_title': { et: 'Vastutuse piiramine', en: 'Limitation of Liability' },
+  'terms.liability_no_damages': { et: 'ComplianceHub ei vastuta otseste ega kaudsete kahjude eest, mis tulenevad teenuse kasutamisest või mittekasutamisest.', en: 'ComplianceHub is not liable for direct or indirect damages arising from use or non-use of the service.' },
+  'terms.liability_max': { et: 'Maksimaalne vastutus piirdub kasutaja poolt viimase 12 kuu jooksul makstud summaga.', en: 'Maximum liability is limited to the amount paid by the user in the last 12 months.' },
+  'terms.liability_force': { et: 'ComplianceHub ei vastuta viivituste või häirete eest, mis on põhjustatud vääramatust jõust (force majeure).', en: 'ComplianceHub is not liable for delays or disruptions caused by force majeure.' },
+
+  // G) Service Availability
+  'terms.availability_title': { et: 'Teenuse kättesaadavus', en: 'Service Availability' },
+  'terms.availability_uptime': { et: 'Püüdleme 99% teenuse kättesaadavuse poole, kuid ei garanteeri katkematut juurdepääsu.', en: 'We aim for 99% uptime but do not guarantee uninterrupted access.' },
+  'terms.availability_changes': { et: 'Jätame endale õiguse teenust muuta, peatada või lõpetada mõistliku etteteatamisega.', en: 'We reserve the right to modify, suspend, or discontinue the service with reasonable notice.' },
+
+  // H) Termination
+  'terms.termination_title': { et: 'Lõpetamine', en: 'Termination' },
+  'terms.termination_user': { et: 'Kasutaja võib oma konto igal ajal kustutada, võttes ühendust meie klienditoega.', en: 'The user may delete their account at any time by contacting our support.' },
+  'terms.termination_provider': { et: 'ComplianceHub võib konto peatada või lõpetada kasutustingimuste rikkumise korral.', en: 'ComplianceHub may suspend or terminate an account for violation of these terms.' },
+
+  // I) Applicable Law
+  'terms.law_title': { et: 'Kohaldatav õigus', en: 'Applicable Law' },
+  'terms.law_jurisdiction': { et: 'Käesolevate tingimuste suhtes kohaldatakse Eesti Vabariigi seadusi.', en: 'These terms are governed by the laws of the Republic of Estonia.' },
+  'terms.law_court': { et: 'Vaidlused lahendatakse Harju Maakohtus, Tallinnas.', en: 'Disputes shall be resolved in Harju County Court, Tallinn.' },
+
+  // J) Contact
+  'terms.contact_title': { et: 'Kontakt', en: 'Contact' },
+  'terms.contact_desc': { et: 'Küsimuste või ettepanekute korral võtke meiega ühendust:', en: 'For questions or suggestions, please contact us:' },
 
   // Negotiations
   'nav.negotiations': { et: 'L\u00e4bir\u00e4\u00e4kimised', en: 'Negotiations' },

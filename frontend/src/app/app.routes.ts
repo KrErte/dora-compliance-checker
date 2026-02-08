@@ -137,6 +137,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/privacy.component').then(m => m.PrivacyComponent)
   },
   {
+    path: 'terms',
+    loadComponent: () => import('./pages/terms.component').then(m => m.TermsComponent)
+  },
+  {
     path: '**',
     loadComponent: () => import('./pages/not-found.component').then(m => m.NotFoundComponent)
   }
