@@ -474,6 +474,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.authority_desc': { et: 'Metoodika põhineb Euroopa Liidu regulatsioonidel ja Eesti Riigi Infosüsteemi Ameti (RIA) juhistel.', en: 'Methodology is based on European Union regulations and Estonian Information System Authority (RIA) guidelines.' },
   'landing.authority_checks_done': { et: 'vastavuskontrolli on juba tehtud', en: 'compliance checks completed' },
   'landing.authority_free_tool': { et: 'Tasuta tööriist Eesti ettevõtetele', en: 'Free tool for Estonian companies' },
+  'landing.mission_statement': { et: 'Aitame Eesti ettevõtetel DORA ja NIS2 vastavust saavutada', en: 'Helping Estonian companies achieve DORA and NIS2 compliance' },
 
   // Landing - Pillars hints
   'landing.pillars_hint': { et: 'Kliki sambale, et näha detailseid nõudeid', en: 'Click on a pillar to see detailed requirements' },
@@ -510,8 +511,8 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.req8_name': { et: 'Talitluspidevuse tagamine', en: 'Business continuity' },
   'landing.req8_desc': { et: 'Äriprotsesside jätkusuutlikkuse ja taastekavade nõuded peavad olema kaetud.', en: 'Business process sustainability and recovery plan requirements must be covered.' },
   'landing.badge_gdpr': { et: 'GDPR-i nõuetele vastav', en: 'GDPR Compliant' },
-  'landing.badge_iso': { et: 'ISO 27001 ühilduv', en: 'ISO 27001 Compatible' },
-  'landing.badge_eu': { et: 'EL standardile vastav', en: 'EU Standard Compliant' },
+  'landing.badge_iso': { et: 'ISO 27001 põhimõtetel põhinev', en: 'Based on ISO 27001 principles' },
+  'landing.badge_eu': { et: 'DORA ja NIS2 regulatsioonidel põhinev', en: 'Based on DORA and NIS2 regulations' },
   'landing.table_checked': { et: 'Kontrollitud', en: 'Checked' },
   'landing.review1_text': { et: 'AI lepinguaudit s\u00e4\u00e4stis meile n\u00e4dalaid konsultandi tasu. Saime kohe teada, millised klauslid puuduvad.', en: 'AI contract audit saved us weeks of consultant fees. We instantly knew which clauses were missing.' },
   'landing.review1_role': { et: 'IT-vastavusjuht, fintech-ettev\u00f5te', en: 'IT Compliance Manager, fintech company' },

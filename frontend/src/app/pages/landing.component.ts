@@ -528,19 +528,13 @@ interface Stat {
           {{ lang.t('landing.authority_desc') }}
         </p>
 
-        <!-- Usage stats -->
+        <!-- Mission statement -->
         <div class="text-center">
-          <div *ngIf="usageStats && usageStats.total >= 10" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-teal-500/10 border border-teal-500/20">
-            <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <span class="text-sm text-teal-300 font-medium">{{ usageStats.total }} {{ lang.t('landing.authority_checks_done') }}</span>
-          </div>
-          <div *ngIf="!usageStats || usageStats.total < 10" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+          <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
             <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
-            <span class="text-sm text-emerald-300 font-medium">{{ lang.t('landing.authority_free_tool') }}</span>
+            <span class="text-sm text-emerald-300 font-medium">{{ lang.t('landing.mission_statement') }}</span>
           </div>
         </div>
       </div>
@@ -717,25 +711,11 @@ export class LandingComponent implements OnInit, OnDestroy {
     { value: 'other', labelKey: 'landing.contact_reason_other' }
   ];
 
-  usageStats: { total: number } | null = null;
-
   constructor(public lang: LangService, private apiService: ApiService, private titleService: Title) {}
 
   ngOnInit(): void {
     this.titleService.setTitle('DoraAudit.eu — DORA ja NIS2 vastavusplatvorm Eesti ettevõtetele');
     this.animateStats();
-    this.loadUsageStats();
-  }
-
-  loadUsageStats(): void {
-    this.apiService.getUsageStats().subscribe({
-      next: (stats) => {
-        this.usageStats = { total: stats.totalAssessments + stats.totalScopeChecks };
-      },
-      error: () => {
-        this.usageStats = null;
-      }
-    });
   }
 
   ngOnDestroy(): void {
