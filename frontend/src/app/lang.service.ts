@@ -276,6 +276,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.hero_desc': { et: 'Kontrollige oma IKT-lepingute vastavust DORA artikkel 30 nõuetele enne auditit.', en: 'Check your ICT contract compliance with DORA Article 30 requirements before audit.' },
   'landing.cta_free_check': { et: 'Kontrolli tasuta', en: 'Check for free' },
   'landing.cta_try_demo': { et: 'Proovi demoga', en: 'Try with demo' },
+  'landing.cta_view_demo': { et: 'Vaata demo tulemust', en: 'View demo result' },
   'landing.cta_try_sample': { et: 'Proovi näidislepinguga', en: 'Try with sample contract' },
   'landing.cta_generate': { et: 'Genereeri leping', en: 'Generate Contract' },
   'landing.cta_generate_hint': { et: 'Loo DORA-vastav IKT lepingu mall', en: 'Create a DORA-compliant ICT contract template' },
@@ -483,6 +484,8 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   // Landing - Upload preview
   'landing.upload_drag': { et: 'Lohista PDF v\u00f5i DOCX siia', en: 'Drag PDF or DOCX here' },
   'landing.upload_click': { et: 'V\u00f5i kliki faili valimiseks', en: 'Or click to select a file' },
+  'landing.contract_cta_title': { et: 'Lepinguanalüüs', en: 'Contract Analysis' },
+  'landing.contract_cta_desc': { et: 'Lae üles oma IKT-leping ja saa DORA Art. 30 vastavusraport', en: 'Upload your ICT contract and get a DORA Art. 30 compliance report' },
 
   // Landing - Interactive table
   'landing.interactive_label': { et: 'Interaktiivne kontroll', en: 'Interactive check' },

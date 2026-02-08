@@ -34,39 +34,20 @@ interface Stat {
       <div class="absolute -top-24 -left-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
       <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
 
-      <div class="relative flex flex-col items-center justify-center min-h-[70vh] text-center z-10">
+      <div class="relative flex flex-col items-center justify-center min-h-[60vh] text-center z-10">
         <h1 class="text-3xl md:text-5xl font-extrabold mb-4 animate-slide-in">
           <span class="gradient-text">{{ lang.t('landing.title') }}</span>
         </h1>
 
-        <p class="text-lg md:text-xl text-slate-300 max-w-2xl mb-8 leading-relaxed animate-slide-in delay-100">
+        <p class="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 leading-relaxed animate-slide-in delay-100">
           {{ lang.t('landing.subtitle') }}
         </p>
 
-        <!-- 3 Hero Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl w-full mb-10 animate-slide-in delay-100">
-          <div class="glass-card p-5 rounded-xl border border-slate-700/50 hover:border-emerald-500/30 transition-all text-center">
-            <div class="text-3xl mb-2">🔍</div>
-            <h3 class="text-lg font-semibold text-emerald-400 mb-1">{{ lang.t('landing.card1_title') }}</h3>
-            <p class="text-sm text-slate-400">{{ lang.t('landing.card1_desc') }}</p>
-          </div>
-          <div class="glass-card p-5 rounded-xl border border-slate-700/50 hover:border-cyan-500/30 transition-all text-center">
-            <div class="text-3xl mb-2">📊</div>
-            <h3 class="text-lg font-semibold text-cyan-400 mb-1">{{ lang.t('landing.card2_title') }}</h3>
-            <p class="text-sm text-slate-400">{{ lang.t('landing.card2_desc') }}</p>
-          </div>
-          <div class="glass-card p-5 rounded-xl border border-slate-700/50 hover:border-violet-500/30 transition-all text-center">
-            <div class="text-3xl mb-2">📄</div>
-            <h3 class="text-lg font-semibold text-violet-400 mb-1">{{ lang.t('landing.card3_title') }}</h3>
-            <p class="text-sm text-slate-400">{{ lang.t('landing.card3_desc') }}</p>
-          </div>
-        </div>
-
-        <!-- CTA buttons -->
+        <!-- CTA buttons - only 2 clear options -->
         <div class="flex flex-col sm:flex-row gap-4 animate-slide-in delay-200">
           <a routerLink="/nis2/scope-check"
              class="cta-button group inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
-                    text-slate-900 font-semibold px-8 py-3.5 rounded-xl text-lg
+                    text-slate-900 font-semibold px-10 py-4 rounded-xl text-lg
                     hover:shadow-lg hover:shadow-emerald-500/25">
             {{ lang.t('landing.cta_free_check') }}
             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,25 +56,13 @@ interface Stat {
           </a>
           <a routerLink="/nis2/scope-check" [queryParams]="{demo: 'true'}"
              class="cta-button group inline-flex items-center gap-2 bg-transparent border-2 border-slate-500 hover:border-emerald-400
-                    text-slate-200 hover:text-emerald-400 font-semibold px-8 py-3.5 rounded-xl text-lg
+                    text-slate-200 hover:text-emerald-400 font-semibold px-10 py-4 rounded-xl text-lg
                     transition-all">
-            {{ lang.t('landing.cta_try_demo') }}
+            {{ lang.t('landing.cta_view_demo') }}
             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
           </a>
-        </div>
-
-        <!-- Secondary CTA -->
-        <div class="mt-6 flex flex-col items-center gap-1">
-          <a routerLink="/assessment"
-             class="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-400 transition-colors text-sm hover-underline">
-            {{ lang.t('landing.cta_assessment') }}
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </a>
-          <span class="text-xs text-slate-600">{{ lang.t('landing.cta_assessment_hint') }}</span>
         </div>
       </div>
     </div>
@@ -180,23 +149,21 @@ interface Stat {
       </div>
     </div>
 
-    <!-- File Upload Preview -->
+    <!-- Contract Analysis CTA Card -->
     <div class="py-8 max-w-2xl mx-auto px-4">
       <a routerLink="/contract-analysis"
-         class="upload-zone block border-2 border-dashed border-emerald-500/40 hover:border-emerald-400 rounded-2xl p-8 text-center cursor-pointer transition-all duration-300 hover:bg-emerald-500/5 hover:shadow-lg hover:shadow-emerald-500/10 group"
-         (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
-         [class.drag-over]="isDragging">
-        <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-emerald-500/20 transition-colors">
-          <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+         class="glass-card block p-6 rounded-2xl border border-cyan-500/30 hover:border-cyan-400 cursor-pointer transition-all duration-300 hover:bg-cyan-500/5 hover:shadow-lg hover:shadow-cyan-500/10 group">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-xl bg-cyan-500/10 flex items-center justify-center shrink-0 group-hover:bg-cyan-500/20 transition-colors">
+            <span class="text-3xl">📄</span>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-lg font-semibold text-slate-200 group-hover:text-cyan-300 transition-colors mb-1">{{ lang.t('landing.contract_cta_title') }}</h3>
+            <p class="text-sm text-slate-400">{{ lang.t('landing.contract_cta_desc') }}</p>
+          </div>
+          <svg class="w-6 h-6 text-cyan-400 group-hover:translate-x-1 transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
           </svg>
-        </div>
-        <p class="text-slate-200 font-semibold mb-1 group-hover:text-emerald-300 transition-colors">{{ lang.t('landing.upload_drag') }}</p>
-        <p class="text-slate-500 text-sm mb-4">{{ lang.t('landing.upload_click') }}</p>
-        <div class="flex justify-center gap-4 text-xs text-slate-600">
-          <span class="px-2 py-1 rounded bg-slate-800/50">PDF</span>
-          <span class="px-2 py-1 rounded bg-slate-800/50">DOCX</span>
-          <span class="px-2 py-1 rounded bg-slate-800/50">Max 10MB</span>
         </div>
       </a>
     </div>
@@ -578,11 +545,6 @@ interface Stat {
       animation: fadeInUp 0.6s ease-out both;
     }
 
-    .upload-zone.drag-over {
-      border-color: #14b8a6;
-      background: rgba(20, 184, 166, 0.1);
-    }
-
     .requirements-table {
       background: rgba(30, 41, 59, 0.5);
     }
@@ -690,7 +652,6 @@ export class LandingComponent implements OnInit, OnDestroy {
     { icon: '✔️', textKey: 'landing.badge_eu' }
   ];
 
-  isDragging = false;
   contactName = '';
   contactEmail = '';
   contactReason = '';
@@ -773,21 +734,6 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   toggleRequirement(req: DoraRequirement): void {
     req.expanded = !req.expanded;
-  }
-
-  onDragOver(event: DragEvent): void {
-    event.preventDefault();
-    this.isDragging = true;
-  }
-
-  onDragLeave(event: DragEvent): void {
-    event.preventDefault();
-    this.isDragging = false;
-  }
-
-  onDrop(event: DragEvent): void {
-    event.preventDefault();
-    this.isDragging = false;
   }
 
   submitContact(event: Event): void {
