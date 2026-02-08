@@ -344,10 +344,12 @@ export class AppComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
-    // Update title when language changes
+    // Update title and html lang attribute when language changes
     effect(() => {
-      this.lang.lang(); // Subscribe to language signal
+      const currentLang = this.lang.lang(); // Subscribe to language signal
       this.updatePageTitle(this.router.url);
+      // Update html lang attribute for accessibility and SEO
+      this.document.documentElement.lang = currentLang;
     });
   }
 

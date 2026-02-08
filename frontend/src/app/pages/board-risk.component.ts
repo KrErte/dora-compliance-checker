@@ -277,6 +277,17 @@ interface RiskCalculationResult {
       <!-- RESULTS SECTION -->
       <div #resultsSection *ngIf="results" class="space-y-8 animate-fade-in">
 
+        <!-- Disclaimer banner -->
+        <div class="p-4 rounded-xl border border-amber-500/30 bg-amber-500/5">
+          <div class="flex items-start gap-3">
+            <span class="text-xl shrink-0">⚠️</span>
+            <div>
+              <p class="text-sm font-medium text-amber-400 mb-1">{{ lang.t('disclaimer.title') }}</p>
+              <p class="text-xs text-slate-400">{{ lang.t('disclaimer.text') }}</p>
+            </div>
+          </div>
+        </div>
+
         <!-- Hero Number -->
         <div class="text-center py-8 px-6 rounded-2xl border-2 transition-all"
              [ngClass]="getResultBorderClass()">

@@ -41,6 +41,17 @@ interface HeatmapCell {
       </div>
 
       <div *ngIf="result">
+        <!-- Disclaimer banner -->
+        <div class="mb-6 p-4 rounded-xl border border-amber-500/30 bg-amber-500/5 animate-fade-in">
+          <div class="flex items-start gap-3">
+            <span class="text-xl shrink-0">⚠️</span>
+            <div>
+              <p class="text-sm font-medium text-amber-400 mb-1">{{ lang.t('disclaimer.title') }}</p>
+              <p class="text-xs text-slate-400">{{ lang.t('disclaimer.text') }}</p>
+            </div>
+          </div>
+        </div>
+
         <!-- Score hero section -->
         <div class="bg-gradient-to-br from-slate-800/80 to-slate-800/40 backdrop-blur rounded-2xl p-8 mb-8 border border-slate-700/50 animate-scale-in">
           <div class="flex flex-col md:flex-row items-center gap-8">

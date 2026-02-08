@@ -295,6 +295,17 @@ interface Sector {
                   </div>
                 </div>
               </div>
+
+              <!-- Disclaimer banner -->
+              <div class="mt-6 p-4 rounded-xl border border-amber-500/30 bg-amber-500/5 text-left">
+                <div class="flex items-start gap-3">
+                  <span class="text-xl shrink-0">⚠️</span>
+                  <div>
+                    <p class="text-sm font-medium text-amber-400 mb-1">{{ lang.t('disclaimer.title') }}</p>
+                    <p class="text-xs text-slate-400">{{ lang.t('disclaimer.text') }}</p>
+                  </div>
+                </div>
+              </div>
             </ng-container>
           </div>
 

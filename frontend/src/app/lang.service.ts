@@ -1005,6 +1005,10 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'footer.contact': { et: 'Kontakt', en: 'Contact' },
   'footer.rights': { et: 'Kõik õigused kaitstud.', en: 'All rights reserved.' },
 
+  // Results disclaimer banner
+  'disclaimer.title': { et: 'Oluline', en: 'Important' },
+  'disclaimer.text': { et: 'See on automatiseeritud enesehindamine, mitte professionaalne juriidiline nõustamine. Tulemused on informatiivse iseloomuga. Soovitame konsulteerida vastava valdkonna spetsialistiga.', en: 'This is an automated self-assessment, not professional legal advice. Results are informational in nature. We recommend consulting with a qualified specialist.' },
+
   // Privacy page
   'privacy.title': { et: 'Privaatsuspoliitika', en: 'Privacy Policy' },
   'privacy.subtitle': { et: 'Kuidas me teie andmeid töötleme ja kaitseme', en: 'How we process and protect your data' },

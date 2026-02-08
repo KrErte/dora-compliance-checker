@@ -300,6 +300,14 @@ interface AssessmentResult {
               </p>
             </div>
 
+            <!-- Disclaimer banner -->
+            <div class="mb-4 p-3 rounded-lg border border-amber-500/30 bg-amber-500/5">
+              <div class="flex items-start gap-2">
+                <span class="text-base shrink-0">⚠️</span>
+                <p class="text-xs text-slate-400">{{ lang.t('disclaimer.text') }}</p>
+              </div>
+            </div>
+
             <div class="space-y-2 mb-6">
               <div *ngFor="let ds of result.domainScores" class="flex items-center justify-between text-sm">
                 <span class="text-slate-400">{{ lang.currentLang === 'et' ? ds.nameEt : ds.nameEn }}</span>

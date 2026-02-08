@@ -324,6 +324,17 @@ import { ContractAnalysisResult } from '../models';
         <p class="text-slate-500 text-sm">{{ result.companyName }} &middot; {{ result.contractName }}</p>
       </div>
 
+      <!-- Disclaimer banner -->
+      <div class="mb-6 p-4 rounded-xl border border-amber-500/30 bg-amber-500/5">
+        <div class="flex items-start gap-3">
+          <span class="text-xl shrink-0">⚠️</span>
+          <div>
+            <p class="text-sm font-medium text-amber-400 mb-1">{{ lang.t('disclaimer.title') }}</p>
+            <p class="text-xs text-slate-400">{{ lang.t('disclaimer.text') }}</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Score overview -->
       <div class="glass-card p-6 mb-6">
         <div class="flex flex-col md:flex-row items-center gap-6">

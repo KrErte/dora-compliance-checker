@@ -77,6 +77,17 @@ interface AssessmentResult {
         </button>
       </div>
 
+      <!-- Disclaimer banner -->
+      <div class="mb-6 p-4 rounded-xl border border-amber-500/30 bg-amber-500/5 animate-fade-in">
+        <div class="flex items-start gap-3">
+          <span class="text-xl shrink-0">⚠️</span>
+          <div>
+            <p class="text-sm font-medium text-amber-400 mb-1">{{ lang.t('disclaimer.title') }}</p>
+            <p class="text-xs text-slate-400">{{ lang.t('disclaimer.text') }}</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Domain scores (radar-like visualization) -->
       <div class="glass-card p-6 mb-8 animate-fade-in-up">
         <h2 class="text-lg font-semibold text-slate-200 mb-4">{{ lang.t('nis2_results.domain_scores') }}</h2>
