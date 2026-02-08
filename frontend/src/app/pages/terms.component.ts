@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 
 @Component({
@@ -20,16 +19,16 @@ import { LangService } from '../lang.service';
 
       <div class="text-center mb-10">
         <h1 class="text-3xl font-bold text-white mb-2">{{ lang.t('terms.title') }}</h1>
-        <p class="text-slate-400">{{ lang.t('terms.subtitle') }}</p>
+        <p class="text-slate-300">{{ lang.t('terms.subtitle') }}</p>
       </div>
 
       <!-- A) General -->
       <div class="glass-card p-6 mb-6">
         <h2 class="text-xl font-semibold text-emerald-400 mb-4">{{ lang.t('terms.general_title') }}</h2>
         <div class="text-slate-300 text-sm space-y-3">
-          <p><span class="text-slate-400">{{ lang.t('terms.provider') }}:</span> DoraAudit.eu</p>
-          <p><span class="text-slate-400">{{ lang.t('terms.operator') }}:</span> Kristo Erte</p>
-          <p class="text-slate-400">{{ lang.t('terms.service_desc') }}</p>
+          <p><span class="text-slate-300">{{ lang.t('terms.provider') }}:</span> DoraAudit.eu</p>
+          <p><span class="text-slate-300">{{ lang.t('terms.operator') }}:</span> Kristo Erte</p>
+          <p class="text-slate-300">{{ lang.t('terms.service_desc') }}</p>
           <p class="text-slate-400 mt-4 p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
             {{ lang.t('terms.acceptance') }}
           </p>
@@ -200,10 +199,6 @@ import { LangService } from '../lang.service';
     </div>
   `
 })
-export class TermsComponent implements OnInit {
-  constructor(public lang: LangService, private titleService: Title) {}
-
-  ngOnInit(): void {
-    this.titleService.setTitle('Kasutustingimused | DoraAudit.eu');
-  }
+export class TermsComponent {
+  constructor(public lang: LangService) {}
 }

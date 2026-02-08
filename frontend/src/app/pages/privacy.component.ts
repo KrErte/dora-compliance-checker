@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 
 @Component({
@@ -30,7 +29,7 @@ import { LangService } from '../lang.service';
           <p><span class="text-slate-400">{{ lang.t('privacy.controller_service') }}:</span> DoraAudit.eu</p>
           <p><span class="text-slate-400">{{ lang.t('privacy.controller_operator') }}:</span> Kristo Erte</p>
           <p><span class="text-slate-400">{{ lang.t('privacy.controller_location') }}:</span> {{ lang.t('privacy.controller_location_value') }}</p>
-          <p><span class="text-slate-400">{{ lang.t('privacy.controller_email') }}:</span> <a href="mailto:info@doraaudit.eu" class="text-emerald-400 hover:text-emerald-300">info&#64;doraaudit.eu</a></p>
+          <p><span class="text-slate-300">{{ lang.t('privacy.controller_email') }}:</span>&nbsp;<a href="mailto:info@doraaudit.eu" class="text-emerald-400 hover:text-emerald-300">info&#64;doraaudit.eu</a></p>
         </div>
       </div>
 
@@ -232,10 +231,6 @@ import { LangService } from '../lang.service';
     </div>
   `
 })
-export class PrivacyComponent implements OnInit {
-  constructor(public lang: LangService, private titleService: Title) {}
-
-  ngOnInit(): void {
-    this.titleService.setTitle('Privaatsuspoliitika | DoraAudit.eu');
-  }
+export class PrivacyComponent {
+  constructor(public lang: LangService) {}
 }

@@ -445,7 +445,7 @@ interface Stat {
                 </div>
                 <div>
                   <p class="text-sm font-medium text-slate-200">DoraAudit.eu</p>
-                  <p class="text-sm text-slate-400">Tallinn, Eesti</p>
+                  <p class="text-sm text-slate-400">{{ lang.t('footer.location') }}</p>
                 </div>
               </div>
 
@@ -690,29 +690,23 @@ export class LandingComponent implements OnInit, OnDestroy {
     const stepDuration = duration / steps;
 
     this.stats.forEach((stat, index) => {
-      // Store original value, start animation from 0 after a brief delay
-      // This keeps the initial DOM value as the final value for SEO/accessibility
-      const originalValue = stat.current;
+      const targetValue = stat.value;
       timer(50).subscribe(() => {
         stat.current = 0;
       });
       timer(index * 150 + 100, stepDuration)
         .pipe(
-          take(steps + 1),
+          take(steps),
           takeUntil(this.destroy$)
         )
         .subscribe({
           next: (step) => {
-            if (step < steps) {
-              const progress = this.easeOutQuad(step / steps);
-              stat.current = Math.floor(stat.value * progress);
-            } else {
-              stat.current = stat.value;
-            }
+            const progress = this.easeOutQuad((step + 1) / steps);
+            stat.current = Math.round(targetValue * progress);
           },
           complete: () => {
-            // Ensure final value is always set when animation completes
-            stat.current = stat.value;
+            // Always force exact final value
+            stat.current = targetValue;
           }
         });
     });

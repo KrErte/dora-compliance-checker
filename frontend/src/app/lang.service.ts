@@ -10,6 +10,8 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'nav.methodology': { et: 'Metoodika', en: 'Methodology' },
   'nav.brand': { et: 'DoraAudit.eu', en: 'DoraAudit.eu' },
   'nav.nis2_scope': { et: 'Kohaldumise kontroll', en: 'Scope Check' },
+  'nav.contract': { et: 'Lepinguanalüüs', en: 'Contract Analysis' },
+  'footer.location': { et: 'Tallinn, Eesti', en: 'Tallinn, Estonia' },
 
   // NIS2 Scope Checker
   'nis2.free_tool': { et: 'Tasuta tööriist', en: 'Free Tool' },

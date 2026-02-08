@@ -247,11 +247,9 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
           <div>
             <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">{{ lang.t('footer.tools') }}</h4>
             <div class="flex flex-col gap-2">
-              <!-- Hidden: contract-analysis - uncomment when ready
               <a routerLink="/contract-analysis" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.contract') }}</a>
-              -->
               <a routerLink="/assessment" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.assessment') }}</a>
-              <a routerLink="/nis2/scope-check" class="text-xs text-slate-500 hover:text-amber-400 transition-colors">NIS2 Scope Check</a>
+              <a routerLink="/nis2/scope-check" class="text-xs text-slate-500 hover:text-amber-400 transition-colors">{{ lang.t('nav.nis2_scope') }}</a>
               <a routerLink="/board-risk" class="text-xs text-slate-500 hover:text-teal-400 transition-colors">{{ lang.t('nav.board_risk') }}</a>
             </div>
           </div>
@@ -274,7 +272,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
             <div class="flex flex-col gap-2 text-xs text-slate-500">
               <a href="mailto:info@doraaudit.eu" class="hover:text-emerald-400 transition-colors">info&#64;doraaudit.eu</a>
               <p>ComplianceHub OÜ</p>
-              <p>Tallinn, Eesti</p>
+              <p>{{ lang.t('footer.location') }}</p>
               <a href="https://www.linkedin.com/in/kristo-erte/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 hover:text-blue-400 transition-colors mt-1">
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
@@ -318,7 +316,8 @@ export class AppComponent implements OnInit, OnDestroy {
     '/about': { et: 'Meist | DoraAudit.eu', en: 'About | DoraAudit.eu' },
     '/privacy': { et: 'Privaatsuspoliitika | DoraAudit.eu', en: 'Privacy Policy | DoraAudit.eu' },
     '/methodology': { et: 'Metoodika | DoraAudit.eu', en: 'Methodology | DoraAudit.eu' },
-    '/board-risk': { et: 'Juhatuse riskikalkulaator | DoraAudit.eu', en: 'Board Risk Calculator | DoraAudit.eu' }
+    '/board-risk': { et: 'Juhatuse riskikalkulaator | DoraAudit.eu', en: 'Board Risk Calculator | DoraAudit.eu' },
+    '/terms': { et: 'Kasutustingimused | DoraAudit.eu', en: 'Terms of Service | DoraAudit.eu' }
   };
 
   private pageDescriptions: { [path: string]: string } = {
@@ -331,7 +330,8 @@ export class AppComponent implements OnInit, OnDestroy {
     '/pricing': 'DoraAudit.eu hinnad. NIS2 ja DORA hindamine alates €29. Ühekordne makse, ei nõua tellimust.',
     '/methodology': 'DORA vastavushindamise metoodika. Kuidas hindame IKT-lepinguid Art. 30 nõuete vastu.',
     '/about': 'DoraAudit.eu - DORA ja NIS2 vastavuskontrolli platvorm Eesti finantsettevõtetele.',
-    '/privacy': 'DoraAudit.eu privaatsuspoliitika. Kuidas me kasutame ja kaitseme teie andmeid.'
+    '/privacy': 'DoraAudit.eu privaatsuspoliitika. Kuidas me kasutame ja kaitseme teie andmeid.',
+    '/terms': 'DoraAudit.eu kasutustingimused. Teenuse kasutamise õigused ja kohustused.'
   };
 
   constructor(

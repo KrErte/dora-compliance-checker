@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 
 interface PillarInfo {
@@ -239,13 +240,36 @@ export class PillarInfoComponent implements OnInit {
     }
   ];
 
-  constructor(private route: ActivatedRoute, public lang: LangService) {}
+  private pillarTitles: { [key: string]: { et: string; en: string } } = {
+    'ICT_RISK_MANAGEMENT': { et: 'IKT riskihaldus — DORA Art. 5-16 | DoraAudit.eu', en: 'ICT Risk Management — DORA Art. 5-16 | DoraAudit.eu' },
+    'INCIDENT_MANAGEMENT': { et: 'Intsidentide haldus — DORA Art. 17-23 | DoraAudit.eu', en: 'Incident Management — DORA Art. 17-23 | DoraAudit.eu' },
+    'TESTING': { et: 'Testimine — DORA Art. 24-27 | DoraAudit.eu', en: 'Testing — DORA Art. 24-27 | DoraAudit.eu' },
+    'THIRD_PARTY': { et: 'Kolmandad osapooled — DORA Art. 28-44 | DoraAudit.eu', en: 'Third-Party Risk — DORA Art. 28-44 | DoraAudit.eu' },
+    'INFORMATION_SHARING': { et: 'Teabe jagamine — DORA Art. 45 | DoraAudit.eu', en: 'Information Sharing — DORA Art. 45 | DoraAudit.eu' }
+  };
+
+  constructor(private route: ActivatedRoute, public lang: LangService, private titleService: Title) {
+    effect(() => {
+      this.lang.lang(); // Subscribe to lang changes
+      this.updateTitle();
+    });
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       const id = params['id'];
       this.pillar = this.pillars.find(p => p.id === id) || null;
       this.loading = false;
+      this.updateTitle();
     });
+  }
+
+  private updateTitle() {
+    if (this.pillar) {
+      const titleEntry = this.pillarTitles[this.pillar.id];
+      if (titleEntry) {
+        this.titleService.setTitle(this.lang.currentLang === 'et' ? titleEntry.et : titleEntry.en);
+      }
+    }
   }
 }

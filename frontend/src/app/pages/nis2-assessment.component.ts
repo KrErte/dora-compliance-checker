@@ -111,7 +111,7 @@ interface AssessmentResult {
                   (click)="activeDomain = i"
                   [class]="activeDomain === i
                     ? 'px-4 py-2 rounded-lg text-sm font-medium bg-amber-500/20 text-amber-400 border border-amber-500/30'
-                    : 'px-4 py-2 rounded-lg text-sm font-medium bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:bg-slate-700/50 hover:text-slate-300 transition-colors'">
+                    : 'px-4 py-2 rounded-lg text-sm font-medium bg-slate-800/50 text-slate-300 border border-slate-700/50 hover:bg-slate-700/50 hover:text-slate-200 transition-colors'">
             <span class="mr-1.5">{{ getDomainIcon(domain.code) }}</span>
             {{ lang.currentLang === 'et' ? domain.nameEt : domain.nameEn }}
             <span *ngIf="getDomainProgress(domain) === 100" class="ml-1.5 text-emerald-400">&#10003;</span>
@@ -136,11 +136,11 @@ interface AssessmentResult {
             <!-- Free questions -->
             <div *ngIf="!isQuestionLocked(activeDomain, qi)">
               <div class="mb-3">
-                <p class="text-slate-200 mb-1">
-                  <span class="text-slate-500 text-sm mr-2">{{ qi + 1 }}.</span>
+                <p class="text-slate-100 mb-1">
+                  <span class="text-slate-400 text-sm mr-2">{{ qi + 1 }}.</span>
                   {{ lang.currentLang === 'et' ? q.questionEt : q.questionEn }}
                 </p>
-                <p *ngIf="q.guidanceEt || q.guidanceEn" class="text-xs text-slate-500 mt-1">
+                <p *ngIf="q.guidanceEt || q.guidanceEn" class="text-xs text-slate-400 mt-1">
                   {{ lang.currentLang === 'et' ? q.guidanceEt : q.guidanceEn }}
                 </p>
                 <span *ngIf="q.articleReference" class="text-xs text-slate-600 mt-1 inline-block">{{ q.articleReference }}</span>
@@ -153,7 +153,7 @@ interface AssessmentResult {
                         (click)="setAnswer(q.id, score)"
                         [class]="answers[q.id] === score
                           ? getScoreButtonActiveClass(score)
-                          : 'px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 border border-slate-600/30 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
+                          : 'px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-200 border border-slate-600/50 hover:bg-slate-600/50 hover:text-white transition-all duration-200'">
                   {{ score }}
                   <span class="hidden sm:inline ml-1 text-xs opacity-75">{{ getScoreLabel(score) }}</span>
                 </button>
@@ -163,8 +163,8 @@ interface AssessmentResult {
             <!-- Locked questions - blurred -->
             <div *ngIf="isQuestionLocked(activeDomain, qi)" class="blur-sm select-none pointer-events-none opacity-50">
               <div class="mb-3">
-                <p class="text-slate-200 mb-1">
-                  <span class="text-slate-500 text-sm mr-2">{{ qi + 1 }}.</span>
+                <p class="text-slate-100 mb-1">
+                  <span class="text-slate-400 text-sm mr-2">{{ qi + 1 }}.</span>
                   {{ lang.currentLang === 'et' ? q.questionEt : q.questionEn }}
                 </p>
               </div>

@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 
 @Component({
@@ -13,13 +12,13 @@ import { LangService } from '../lang.service';
       <!-- Header -->
       <div class="text-center mb-12">
         <h1 class="text-3xl font-bold gradient-text mb-2">{{ lang.t('about.title') }}</h1>
-        <p class="text-slate-400">{{ lang.t('about.subtitle') }}</p>
+        <p class="text-slate-300">{{ lang.t('about.subtitle') }}</p>
       </div>
 
       <!-- Mission -->
       <div class="glass-card p-6 mb-6 border-emerald-500/20 bg-gradient-to-br from-emerald-500/5 to-cyan-500/5">
         <h2 class="text-lg font-semibold text-emerald-400 mb-3">{{ lang.t('about.mission_title') }}</h2>
-        <p class="text-slate-400 text-sm leading-relaxed">{{ lang.t('about.mission_desc') }}</p>
+        <p class="text-slate-300 text-sm leading-relaxed">{{ lang.t('about.mission_desc') }}</p>
       </div>
 
       <!-- Why -->
@@ -31,7 +30,7 @@ import { LangService } from '../lang.service';
             <svg class="w-5 h-5 text-emerald-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
-            <p class="text-sm text-slate-400">{{ lang.t('about.why_' + i) }}</p>
+            <p class="text-sm text-slate-300">{{ lang.t('about.why_' + i) }}</p>
           </div>
         </div>
       </div>
@@ -40,19 +39,19 @@ import { LangService } from '../lang.service';
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <div class="glass-card p-4 text-center">
           <div class="text-2xl font-bold text-emerald-400">8</div>
-          <div class="text-xs text-slate-500 mt-1">{{ lang.t('about.stat_requirements') }}</div>
+          <div class="text-xs text-slate-400 mt-1">{{ lang.t('about.stat_requirements') }}</div>
         </div>
         <div class="glass-card p-4 text-center">
           <div class="text-2xl font-bold text-cyan-400">&lt;5 min</div>
-          <div class="text-xs text-slate-500 mt-1">{{ lang.t('about.stat_analysis') }}</div>
+          <div class="text-xs text-slate-400 mt-1">{{ lang.t('about.stat_analysis') }}</div>
         </div>
         <div class="glass-card p-4 text-center">
           <div class="text-2xl font-bold text-violet-400">2%</div>
-          <div class="text-xs text-slate-500 mt-1">{{ lang.t('about.stat_penalty') }}</div>
+          <div class="text-xs text-slate-400 mt-1">{{ lang.t('about.stat_penalty') }}</div>
         </div>
         <div class="glass-card p-4 text-center">
           <div class="text-2xl font-bold text-amber-400">2</div>
-          <div class="text-xs text-slate-500 mt-1">{{ lang.t('about.stat_regulations') }}</div>
+          <div class="text-xs text-slate-400 mt-1">{{ lang.t('about.stat_regulations') }}</div>
         </div>
       </div>
 
@@ -68,7 +67,7 @@ import { LangService } from '../lang.service';
             </div>
             <div>
               <h3 class="text-lg font-semibold text-slate-200 mb-1">Kristo Erte</h3>
-              <p class="text-sm text-slate-400 leading-relaxed">{{ lang.t('about.founder_bio') }}</p>
+              <p class="text-sm text-slate-300 leading-relaxed">{{ lang.t('about.founder_bio') }}</p>
             </div>
           </div>
         </div>
@@ -77,12 +76,12 @@ import { LangService } from '../lang.service';
       <!-- Technology -->
       <div class="glass-card p-6 mb-8">
         <h2 class="text-lg font-semibold text-slate-200 mb-2">{{ lang.t('about.tech_title') }}</h2>
-        <p class="text-sm text-slate-500 mb-4">{{ lang.t('about.tech_desc') }}</p>
+        <p class="text-sm text-slate-300 mb-4">{{ lang.t('about.tech_desc') }}</p>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
           <div *ngFor="let t of techFeatures"
                class="flex items-center gap-2 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30">
             <span class="text-lg">{{ t.icon }}</span>
-            <span class="text-xs text-slate-400">{{ lang.t(t.key) }}</span>
+            <span class="text-xs text-slate-300">{{ lang.t(t.key) }}</span>
           </div>
         </div>
       </div>
@@ -90,7 +89,7 @@ import { LangService } from '../lang.service';
       <!-- Contact CTA -->
       <div class="glass-card p-6 mb-6 text-center border-emerald-500/20">
         <h2 class="text-lg font-semibold text-slate-200 mb-2">{{ lang.t('about.contact_title') }}</h2>
-        <p class="text-sm text-slate-500 mb-4">{{ lang.t('about.contact_desc') }}</p>
+        <p class="text-sm text-slate-300 mb-4">{{ lang.t('about.contact_desc') }}</p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a href="mailto:info@doraaudit.eu"
              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium
@@ -112,7 +111,7 @@ import { LangService } from '../lang.service';
     </div>
   `
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent {
   techFeatures = [
     { icon: '🇪🇺', key: 'about.tech_1' },
     { icon: '🔐', key: 'about.tech_2' },
@@ -120,9 +119,5 @@ export class AboutComponent implements OnInit {
     { icon: '☁️', key: 'about.tech_4' }
   ];
 
-  constructor(public lang: LangService, private titleService: Title) {}
-
-  ngOnInit(): void {
-    this.titleService.setTitle('Meist | DoraAudit.eu');
-  }
+  constructor(public lang: LangService) {}
 }
