@@ -972,21 +972,84 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
 
   // Privacy page
   'privacy.title': { et: 'Privaatsuspoliitika', en: 'Privacy Policy' },
-  'privacy.subtitle': { et: 'Kuidas me teie andmeid kaitseme', en: 'How we protect your data' },
-  'privacy.data_collection_title': { et: 'Milliseid andmeid kogume', en: 'What data we collect' },
-  'privacy.data_collection_desc': { et: 'Kogume ainult teenuse osutamiseks vajalikke andmeid:', en: 'We only collect data necessary to provide the service:' },
-  'privacy.data_1': { et: 'E-posti aadress (registreerimisel)', en: 'Email address (upon registration)' },
-  'privacy.data_2': { et: 'Üleslaaditud lepingute sisu (analüüsi ajaks)', en: 'Uploaded contract content (during analysis)' },
-  'privacy.data_3': { et: 'Hindamiste tulemused', en: 'Assessment results' },
-  'privacy.storage_title': { et: 'Andmete säilitamine', en: 'Data storage' },
-  'privacy.storage_desc': { et: 'Üleslaaditud lepinguid ei salvestata püsivalt. Lepingu sisu töödeldakse ainult analüüsi ajal ja kustutatakse pärast tulemuste genereerimist. Teie e-posti aadressi ja hindamistulemusi säilitatakse turvaliselt EL-i serverites.', en: 'Uploaded contracts are not permanently stored. Contract content is processed only during analysis and deleted after results are generated. Your email address and assessment results are stored securely on EU servers.' },
-  'privacy.rights_title': { et: 'Teie õigused', en: 'Your rights' },
-  'privacy.rights_desc': { et: 'GDPR alusel on teil õigus:', en: 'Under GDPR, you have the right to:' },
-  'privacy.right_1': { et: 'Küsida ligipääsu oma andmetele', en: 'Request access to your data' },
-  'privacy.right_2': { et: 'Nõuda andmete parandamist või kustutamist', en: 'Request correction or deletion of your data' },
-  'privacy.right_3': { et: 'Esitada vastuväiteid andmete töötlemisele', en: 'Object to data processing' },
-  'privacy.gdpr_title': { et: 'GDPR vastavus', en: 'GDPR compliance' },
-  'privacy.gdpr_desc': { et: 'See teenus on loodud GDPR nõuetele vastavalt. Me ei jaga teie andmeid kolmandate osapooltega ilma teie nõusolekuta, välja arvatud seadusega nõutud juhtudel.', en: 'This service is built in compliance with GDPR requirements. We do not share your data with third parties without your consent, except when required by law.' },
+  'privacy.subtitle': { et: 'Kuidas me teie andmeid töötleme ja kaitseme', en: 'How we process and protect your data' },
+
+  // 1. Controller
+  'privacy.controller_title': { et: 'Vastutav töötleja', en: 'Data Controller' },
+  'privacy.controller_service': { et: 'Teenus', en: 'Service' },
+  'privacy.controller_operator': { et: 'Opereerib', en: 'Operated by' },
+  'privacy.controller_location': { et: 'Asukoht', en: 'Location' },
+  'privacy.controller_location_value': { et: 'Eesti', en: 'Estonia' },
+  'privacy.controller_email': { et: 'E-post', en: 'Email' },
+
+  // 2. Data collected
+  'privacy.data_title': { et: 'Kogutavad andmed', en: 'Data We Collect' },
+  'privacy.data_contact': { et: 'Kontaktandmed', en: 'Contact Information' },
+  'privacy.data_contact_desc': { et: 'Nimi ja e-posti aadress — registreerimisel ja lead magnet\'i kasutamisel.', en: 'Name and email address — upon registration and lead magnet use.' },
+  'privacy.data_company': { et: 'Ettevõtte andmed', en: 'Company Information' },
+  'privacy.data_company_desc': { et: 'Ettevõtte nimi, tegevussektor ja suurus — kohaldumiskontrollis ja hindamistes.', en: 'Company name, sector, and size — in scope checks and assessments.' },
+  'privacy.data_payment': { et: 'Makseandmed', en: 'Payment Information' },
+  'privacy.data_payment_desc': { et: 'Makseid töödeldakse LemonSqueezy kaudu. Me ei salvesta ega töötle kaardianmeid ise.', en: 'Payments are processed via LemonSqueezy. We do not store or process card data ourselves.' },
+  'privacy.data_technical': { et: 'Tehniline info', en: 'Technical Information' },
+  'privacy.data_technical_desc': { et: 'IP-aadress ja brauseri tüüp — serveri logides turvalisuse tagamiseks.', en: 'IP address and browser type — in server logs for security purposes.' },
+  'privacy.data_cookies': { et: 'Küpsised', en: 'Cookies' },
+  'privacy.data_cookies_desc': { et: 'Funktsionaalsed küpsised sessiooni haldamiseks ja analüütilised küpsised teenuse parendamiseks (ainult nõusolekul).', en: 'Functional cookies for session management and analytics cookies for service improvement (with consent only).' },
+
+  // 3. Legal basis
+  'privacy.legal_title': { et: 'Töötlemise õiguslik alus', en: 'Legal Basis for Processing' },
+  'privacy.legal_intro': { et: 'Töötleme teie andmeid järgmistel GDPR artikkel 6 alustel:', en: 'We process your data based on the following GDPR Article 6 grounds:' },
+  'privacy.legal_contract': { et: 'Lepingu täitmine — teenuse osutamiseks vajalik', en: 'Contract performance — necessary to provide the service' },
+  'privacy.legal_interest': { et: 'Õigustatud huvi — teenuse turvalisuse ja kvaliteedi tagamiseks', en: 'Legitimate interest — to ensure service security and quality' },
+  'privacy.legal_consent': { et: 'Nõusolek — turunduskommunikatsiooniks (e-posti teel)', en: 'Consent — for marketing communications (via email)' },
+
+  // 4. Data retention
+  'privacy.retention_title': { et: 'Andmete säilitamine', en: 'Data Retention' },
+  'privacy.retention_account': { et: 'Konto andmed', en: 'Account data' },
+  'privacy.retention_account_period': { et: 'Kuni konto kustutamiseni', en: 'Until account deletion' },
+  'privacy.retention_assessment': { et: 'Hindamistulemused', en: 'Assessment results' },
+  'privacy.retention_assessment_period': { et: '2 aastat', en: '2 years' },
+  'privacy.retention_payment': { et: 'Makseandmed (arved)', en: 'Payment records (invoices)' },
+  'privacy.retention_payment_period': { et: '7 aastat (raamatupidamisseadus)', en: '7 years (accounting law)' },
+  'privacy.retention_logs': { et: 'Serveri logid', en: 'Server logs' },
+  'privacy.retention_logs_period': { et: '12 kuud', en: '12 months' },
+
+  // 5. Third parties
+  'privacy.third_title': { et: 'Andmete edastamine kolmandatele', en: 'Data Sharing with Third Parties' },
+  'privacy.third_intro': { et: 'Jagame teie andmeid ainult järgmiste teenusepakkujatega:', en: 'We only share your data with the following service providers:' },
+  'privacy.third_lemonsqueezy': { et: 'Maksete töötlemine (USA — Standard Contractual Clauses)', en: 'Payment processing (USA — Standard Contractual Clauses)' },
+  'privacy.third_hetzner': { et: 'Serverite majutus (Saksamaa)', en: 'Server hosting (Germany)' },
+  'privacy.third_no_ads': { et: 'Me ei müü ega jaga teie andmeid reklaamijate ega muude kolmandate osapooltega.', en: 'We do not sell or share your data with advertisers or other third parties.' },
+
+  // 6. Rights
+  'privacy.rights_title': { et: 'Andmesubjekti õigused', en: 'Your Rights' },
+  'privacy.rights_intro': { et: 'GDPR alusel on teil järgmised õigused:', en: 'Under GDPR, you have the following rights:' },
+  'privacy.right_access': { et: 'Juurdepääsuõigus', en: 'Right of access' },
+  'privacy.right_rectification': { et: 'Parandamisõigus', en: 'Right to rectification' },
+  'privacy.right_erasure': { et: 'Kustutamisõigus', en: 'Right to erasure' },
+  'privacy.right_restriction': { et: 'Töötlemise piiramise õigus', en: 'Right to restriction of processing' },
+  'privacy.right_portability': { et: 'Andmete ülekandmise õigus', en: 'Right to data portability' },
+  'privacy.right_objection': { et: 'Vastuväite esitamise õigus', en: 'Right to object' },
+  'privacy.rights_contact': { et: 'Oma õiguste kasutamiseks võtke ühendust:', en: 'To exercise your rights, contact:' },
+  'privacy.rights_complaint': { et: 'Teil on õigus esitada kaebus Andmekaitse Inspektsioonile (AKI) aadressil www.aki.ee', en: 'You have the right to lodge a complaint with the Estonian Data Protection Inspectorate (AKI) at www.aki.ee' },
+
+  // 7. Cookies
+  'privacy.cookies_title': { et: 'Küpsised', en: 'Cookies' },
+  'privacy.cookies_required': { et: 'Vajalik', en: 'Required' },
+  'privacy.cookies_optional': { et: 'Valikuline', en: 'Optional' },
+  'privacy.cookies_none': { et: 'Ei kasuta', en: 'Not used' },
+  'privacy.cookies_functional': { et: 'Funktsionaalsed küpsised — sessiooni haldamine', en: 'Functional cookies — session management' },
+  'privacy.cookies_analytics': { et: 'Analüütilised küpsised — ainult nõusolekul', en: 'Analytics cookies — with consent only' },
+  'privacy.cookies_marketing': { et: 'Turunduslikud küpsised', en: 'Marketing cookies' },
+
+  // 8. Security
+  'privacy.security_title': { et: 'Turvameetmed', en: 'Security Measures' },
+  'privacy.security_https': { et: 'HTTPS krüpteering kogu andmevahetuseks', en: 'HTTPS encryption for all data transfers' },
+  'privacy.security_access': { et: 'Juurdepääsu piiramine volitatud töötajatele', en: 'Access restricted to authorized personnel' },
+  'privacy.security_backups': { et: 'Regulaarsed varundused andmete kaitseks', en: 'Regular backups for data protection' },
+
+  // 9. Changes
+  'privacy.changes_title': { et: 'Poliitika muudatused', en: 'Policy Changes' },
+  'privacy.changes_desc': { et: 'Teavitame olulistest muudatustest e-posti teel. Soovitame seda lehte regulaarselt üle vaadata.', en: 'We will notify you of significant changes via email. We recommend reviewing this page regularly.' },
   'privacy.updated': { et: 'Viimati uuendatud', en: 'Last updated' },
 
   // Negotiations
