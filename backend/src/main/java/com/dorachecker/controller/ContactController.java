@@ -2,6 +2,7 @@ package com.dorachecker.controller;
 
 import com.dorachecker.model.ContactMessage;
 import com.dorachecker.model.ContactMessageRepository;
+import com.dorachecker.service.ResendEmailService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -17,9 +18,11 @@ import java.util.Map;
 public class ContactController {
 
     private final ContactMessageRepository repository;
+    private final ResendEmailService emailService;
 
-    public ContactController(ContactMessageRepository repository) {
+    public ContactController(ContactMessageRepository repository, ResendEmailService emailService) {
         this.repository = repository;
+        this.emailService = emailService;
     }
 
     public record ContactRequest(
@@ -38,6 +41,8 @@ public class ContactController {
         msg.setMessage(request.message().trim());
         msg.setCreatedAt(LocalDateTime.now());
         repository.save(msg);
+
+        emailService.sendContactNotification(msg);
 
         return ResponseEntity.ok(Map.of("success", true));
     }
