@@ -32,6 +32,7 @@ services:
       - GUARDIAN_FEED_ENABLED=${GUARDIAN_FEED_ENABLED:-false}
       - GUARDIAN_FEED_CRON=${GUARDIAN_FEED_CRON:-0 0 6 * * *}
       - RESEND_API_KEY=${RESEND_API_KEY}
+      - RESEND_TO_EMAIL=${RESEND_TO_EMAIL:-info@doraaudit.eu}
     depends_on:
       postgres:
         condition: service_healthy
