@@ -58,7 +58,13 @@
   </script>
 
   <!-- LemonSqueezy Checkout -->
-  <script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
+  <script>
+    window.lemonSqueezyLoadFailed = false;
+    window.lemonSqueezyLoaded = false;
+  </script>
+  <script src="https://app.lemonsqueezy.com/js/lemon.js" defer
+          onload="window.lemonSqueezyLoaded = true;"
+          onerror="window.lemonSqueezyLoadFailed = true;"></script>
 </head>
 <body>
   <app-root></app-root>

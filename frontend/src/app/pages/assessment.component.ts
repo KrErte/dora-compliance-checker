@@ -39,9 +39,10 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
         </div>
       </div>
 
-      <h1 class="text-2xl font-bold mb-6 animate-fade-in-up">
+      <h1 class="text-2xl font-bold mb-2 animate-fade-in-up">
         <span class="gradient-text">{{ lang.t('assessment.title') }}</span>
       </h1>
+      <p class="text-slate-400 text-sm mb-6 animate-fade-in-up">{{ lang.t('assessment.subtitle') }}</p>
 
       <!-- Login warning for guests -->
       <div *ngIf="!auth.isLoggedIn()" class="flex items-start gap-3 mb-6 px-4 py-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-sm animate-fade-in">

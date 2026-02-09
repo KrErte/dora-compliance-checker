@@ -14,10 +14,18 @@ export interface AuthResponse {
   userId: string;
   email: string;
   fullName: string;
+  earlyAdopter?: boolean;
+  earlyAdopterNumber?: number;
+  accountTier?: 'FREE' | 'PREMIUM';
+  trialEndDate?: string;
 }
 
 export interface AuthUser {
   userId: string;
   email: string;
   fullName: string;
+  earlyAdopter?: boolean;
+  earlyAdopterNumber?: number;
+  accountTier?: 'FREE' | 'PREMIUM';
+  trialEndDate?: string;
 }

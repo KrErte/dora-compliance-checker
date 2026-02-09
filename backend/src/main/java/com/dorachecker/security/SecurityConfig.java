@@ -42,6 +42,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/company/**").permitAll()
                 .requestMatchers("/api/ariregister/**").permitAll()
                 .requestMatchers("/api/stats/**").permitAll()
+                .requestMatchers("/api/early-adopter/**").permitAll()
+                .requestMatchers("/api/subscribe/**").permitAll()
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().permitAll()
             )

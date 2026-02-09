@@ -298,6 +298,43 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.cta_assessment': { et: 'Enesehindamine', en: 'Self-assessment' },
   'landing.cta_assessment_hint': { et: '37 küsimust ilma lepingut üles laadimata', en: '37 questions without uploading a contract' },
   'landing.cta_check': { et: 'Kontrolli lepingut', en: 'Check contract' },
+  'landing.cta_start_free': { et: 'Alusta tasuta', en: 'Start for free' },
+  'landing.cta_check_nis2': { et: 'Kontrolli NIS2 kohaldumist →', en: 'Check NIS2 applicability →' },
+
+  // Landing - Email capture
+  'landing.email_title': { et: 'Saa DORA vastavuse kontrollnimekiri emailile', en: 'Get DORA compliance checklist to your email' },
+  'landing.email_desc': { et: 'Tasuta PDF kontrollnimekiri kõigi DORA Art. 30 nõuetega', en: 'Free PDF checklist with all DORA Art. 30 requirements' },
+  'landing.email_placeholder': { et: 'sinu@email.ee', en: 'your@email.com' },
+  'landing.email_btn': { et: 'Saada mulle', en: 'Send me' },
+  'landing.email_success': { et: 'Aitäh! Saadame kontrollnimekirja peagi.', en: 'Thank you! We will send the checklist soon.' },
+  'landing.email_error': { et: 'Palun sisesta korrektne email', en: 'Please enter a valid email' },
+
+  // Landing - Social proof
+  'landing.social_checks_done': { et: 'kontrolli teostatud', en: 'checks completed' },
+  'landing.social_companies': { et: 'ettevõtet registreerunud', en: 'companies registered' },
+  'landing.social_requirements': { et: 'nõuet', en: 'requirements' },
+  'landing.social_base_requirements': { et: 'põhinõuet', en: 'core requirements' },
+  'landing.social_analysis': { et: 'analüüs', en: 'analysis' },
+  'landing.social_report': { et: 'raport juhatusele', en: 'report for board' },
+  'landing.social_trust': { et: 'Põhineb DORA regulatsiooni ametlikul tekstil • Kooskõlas Finantsinspektsiooni juhistega', en: 'Based on official DORA regulation text • Aligned with Financial Supervisory Authority guidelines' },
+
+  // Landing - Early Adopter
+  'landing.early_adopter_title': { et: 'Esimesed 10 registreerijat saavad 30 päeva PREMIUM TASUTA', en: 'First 10 users get 30 days PREMIUM FREE' },
+  'landing.early_adopter_desc': { et: 'Piiratud pakkumine — täielik ligipääs kõigile funktsioonidele 30 päevaks.', en: 'Limited offer — full access to all features for 30 days.' },
+  'landing.early_adopter_slots': { et: 'kohta võetud', en: 'slots taken' },
+  'landing.early_adopter_hurry': { et: 'Kiirusta! Ainult', en: 'Hurry! Only' },
+  'landing.early_adopter_left': { et: 'kohta jäänud!', en: 'slots left!' },
+  'landing.early_adopter_cta': { et: 'Registreeru tasuta', en: 'Register for free' },
+  'landing.early_adopter_full': { et: 'Kõik early adopter kohad on täidetud', en: 'All early adopter slots are taken' },
+  'landing.early_adopter_register_anyway': { et: 'Registreeru tavakontoga', en: 'Register with regular account' },
+
+  // Early adopter trial
+  'trial.premium_until': { et: 'Early Adopter — Premium kuni', en: 'Early Adopter — Premium until' },
+  'trial.expires_in': { et: 'Trial lõppeb', en: 'Trial expires in' },
+  'trial.days_left': { et: 'päeva pärast', en: 'days' },
+  'trial.upgrade_prompt': { et: 'Uuenda, et jätkata pärast trial perioodi', en: 'Upgrade to continue after trial period' },
+  'trial.expired': { et: 'Trial on lõppenud', en: 'Trial has expired' },
+
   'landing.art30_explainer': { et: 'DORA Art. 30 sätestab 8 kohustuslikku nõuet, mis peavad sisalduma finantssektori ettevõtete ja IKT-teenusepakkujate vahelistes lepingutes. Mittevastavuse korral võib Finantsinspektsioon määrata trahvi kuni 2% aastasest käibest.', en: 'DORA Art. 30 establishes 8 mandatory requirements that must be included in contracts between financial sector companies and ICT service providers. Non-compliance may result in fines up to 2% of annual turnover by the Financial Supervisory Authority.' },
 
   // Landing - Hero Cards
@@ -370,7 +407,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.feat_ai_title': { et: 'Automaatne lepinguaudit', en: 'Automated Contract Audit' },
   'landing.feat_ai_desc': { et: 'Laadige \u00fcles PDF/DOCX ja saage kohene anal\u00fc\u00fcs DORA Art. 30 vastu.', en: 'Upload PDF/DOCX and get instant analysis against DORA Art. 30.' },
   'landing.feat_fast_title': { et: 'Kiire hindamine', en: 'Quick Assessment' },
-  'landing.feat_fast_desc': { et: '37 k\u00fcsimust, tulemused koheselt. Valmis 5 minutiga.', en: '37 questions, instant results. Done in 5 minutes.' },
+  'landing.feat_fast_desc': { et: '37 küsimust katavad 8 DORA Art. 30 põhinõuet. Valmis 5 minutiga.', en: '37 questions cover 8 DORA Art. 30 core requirements. Done in 5 minutes.' },
   'landing.feat_radar_title': { et: 'Radardiagramm', en: 'Radar Chart' },
   'landing.feat_radar_desc': { et: 'Visuaalne vastavusprofiil 15 kategooria l\u00f5ikes.', en: 'Visual compliance profile across 15 categories.' },
   'landing.feat_risk_title': { et: 'Riskimaatriks', en: 'Risk Matrix' },
@@ -513,21 +550,21 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.table_missing': { et: 'Puudu', en: 'Missing' },
   'landing.table_check_contract': { et: 'Kontrolli oma lepingut', en: 'Check your contract' },
   'landing.req1_name': { et: 'Teenuse kirjeldus ja kvaliteedinõuded', en: 'Service description and quality requirements' },
-  'landing.req1_desc': { et: 'Leping peab sisaldama selget teenuse kirjeldust, sh funktsionaalsust, jõudlusnõudeid ja kvaliteedistandardeid.', en: 'The contract must include a clear service description, including functionality, performance requirements and quality standards.' },
-  'landing.req2_name': { et: 'SLA määratlused', en: 'SLA definitions' },
-  'landing.req2_desc': { et: 'Teenustaseme kokkulepped peavad sisaldama mõõdetavaid KPI-sid, reageerimisaegu ja kättesaadavuse garantiisid.', en: 'Service level agreements must include measurable KPIs, response times and availability guarantees.' },
-  'landing.req3_name': { et: 'Andmete asukoht ja töötlemine', en: 'Data location and processing' },
-  'landing.req3_desc': { et: 'Leping peab määratlema andmete geograafilise asukoha ja töötlemise tingimused.', en: 'The contract must define the geographical location of data and processing conditions.' },
-  'landing.req4_name': { et: 'Auditeerimisõigused', en: 'Audit rights' },
-  'landing.req4_desc': { et: 'Finantsasutusel peab olema õigus teostada auditeid ja saada juurdepääs teenuseosutaja dokumentatsioonile.', en: 'The financial institution must have the right to conduct audits and access the service provider documentation.' },
-  'landing.req5_name': { et: 'Alltöövõtjate kasutamine', en: 'Subcontractor management' },
-  'landing.req5_desc': { et: 'Alltöövõtjate kasutamise tingimused ja piirangud peavad olema selgelt määratletud.', en: 'Subcontracting conditions and restrictions must be clearly defined.' },
-  'landing.req6_name': { et: 'Intsidentidest teavitamine', en: 'Incident notification' },
-  'landing.req6_desc': { et: 'Leping peab sisaldama kohustust teavitada turvaintsidentidest ja nende lahendamise protseduure.', en: 'The contract must include the obligation to report security incidents and their resolution procedures.' },
-  'landing.req7_name': { et: 'Lepingu lõpetamise tingimused', en: 'Contract termination conditions' },
-  'landing.req7_desc': { et: 'Väljumisstrateegiad ja andmete tagastamise protseduurid peavad olema dokumenteeritud.', en: 'Exit strategies and data return procedures must be documented.' },
-  'landing.req8_name': { et: 'Talitluspidevuse tagamine', en: 'Business continuity' },
-  'landing.req8_desc': { et: 'Äriprotsesside jätkusuutlikkuse ja taastekavade nõuded peavad olema kaetud.', en: 'Business process sustainability and recovery plan requirements must be covered.' },
+  'landing.req1_desc': { et: 'IKT-teenuste ulatus, kvaliteet ja turvalisuse tase peavad olema lepingus üheselt kirjeldatud, sh jõudlusnäitajad ja teenustasemed.', en: 'ICT service scope, quality, and security levels must be clearly described in the contract, including performance indicators and service levels.' },
+  'landing.req2_name': { et: 'Andmete asukoht ja töötlemine', en: 'Data location and processing' },
+  'landing.req2_desc': { et: 'Leping peab määratlema, kus andmeid töödeldakse ja hoiustatakse, sh subprotsessorite asukohad. GDPR ja DORA nõuded peavad olema kaetud.', en: 'Contract must define where data is processed and stored, including subprocessor locations. GDPR and DORA requirements must be covered.' },
+  'landing.req3_name': { et: 'Kättesaadavuse ja jõudluse nõuded (SLA)', en: 'Availability and performance requirements (SLA)' },
+  'landing.req3_desc': { et: 'Lepingus peavad olema mõõdetavad SLA-d: uptime, vastamisaeg, RTO/RPO ja sanktsioonid nende rikkumisel.', en: 'Contract must include measurable SLAs: uptime, response time, RTO/RPO and penalties for breaches.' },
+  'landing.req4_name': { et: 'Intsidentidest teavitamine', en: 'Incident notification' },
+  'landing.req4_desc': { et: 'Teenusepakkuja peab teavitama IKT-intsidentidest viivitamatult. Teavitamise protsess, tähtajad ja eskalatsiooniprotseduur peavad olema kirjas.', en: 'Service provider must notify of ICT incidents without delay. Notification process, deadlines and escalation procedures must be documented.' },
+  'landing.req5_name': { et: 'Alltöövõtjate kasutamise tingimused', en: 'Subcontracting conditions' },
+  'landing.req5_desc': { et: 'Alltöövõtjate kasutamise tingimused peavad olema reguleeritud, sh heakskiidu protsess ja alltöövõtjate vastavusnõuded.', en: 'Subcontracting conditions must be regulated, including approval process and subcontractor compliance requirements.' },
+  'landing.req6_name': { et: 'Auditi ja monitooringu õigused', en: 'Audit and monitoring rights' },
+  'landing.req6_desc': { et: 'Finantsettevõttel peab olema õigus teostada auditeid teenusepakkuja juures ja jälgida teenuse kvaliteeti pidevalt.', en: 'Financial entity must have the right to conduct audits at the service provider and continuously monitor service quality.' },
+  'landing.req7_name': { et: 'Exit-strateegia ja andmete tagastamine', en: 'Exit strategy and data return' },
+  'landing.req7_desc': { et: 'Lepingu lõppemisel peab olema selge plaan teenuse üleminekuks, andmete tagastamiseks ja kustutamiseks kindlaks tähtajaks.', en: 'Upon contract termination, there must be a clear plan for service transition, data return and deletion by a specified deadline.' },
+  'landing.req8_name': { et: 'Talitluspidevuse nõuded', en: 'Business continuity requirements' },
+  'landing.req8_desc': { et: 'Teenusepakkujal peab olema dokumenteeritud talitluspidevuse plaan ja taastamiskava, mida regulaarselt testitakse.', en: 'Service provider must have a documented business continuity plan and recovery plan that is regularly tested.' },
   'landing.badge_estonian': { et: 'Eesti ettevõtetele kohandatud', en: 'Tailored for Estonian companies' },
   'landing.badge_ai': { et: 'AI-toega analüüs', en: 'AI-powered analysis' },
   'landing.badge_eu': { et: 'DORA ja NIS2 regulatsioonidel põhinev', en: 'Based on DORA and NIS2 regulations' },
@@ -553,6 +590,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
 
   // Assessment
   'assessment.title': { et: 'DORA vastavuse hindamine', en: 'DORA Compliance Assessment' },
+  'assessment.subtitle': { et: '37 küsimust katavad 8 DORA Art. 30 põhinõuet', en: '37 questions cover 8 DORA Art. 30 core requirements' },
   'assessment.step_data': { et: 'Andmed', en: 'Data' },
   'assessment.step_questions': { et: 'K\u00fcsimused', en: 'Questions' },
   'assessment.step_results': { et: 'Tulemused', en: 'Results' },
@@ -1004,6 +1042,16 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'auth.error_server': { et: 'Tehniline viga, proovi hiljem uuesti', en: 'Technical error, please try again later' },
   'auth.error_timeout': { et: 'Ühendus aegus, proovi uuesti', en: 'Connection timed out, please try again' },
 
+  // Register - Early Adopter
+  'register.early_adopter_banner': { et: 'Sa oled registreerija', en: 'You are registrant' },
+  'register.early_adopter_benefit': { et: 'Saad 30 päeva PREMIUM paketi tasuta!', en: 'You get 30 days PREMIUM for free!' },
+  'register.success_early_title': { et: 'Palju õnne!', en: 'Congratulations!' },
+  'register.success_early_number': { et: 'Oled early adopter', en: 'You are early adopter' },
+  'register.success_early_desc': { et: 'Sul on 30 päeva täielik ligipääs kõigile PREMIUM funktsioonidele tasuta.', en: 'You have 30 days full access to all PREMIUM features for free.' },
+  'register.success_title': { et: 'Registreerimine õnnestus!', en: 'Registration successful!' },
+  'register.success_desc': { et: 'Sinu konto on loodud. Alusta kohe vastavuse hindamisega.', en: 'Your account has been created. Start your compliance assessment now.' },
+  'register.start_now': { et: 'Alusta kohe', en: 'Start now' },
+
   // Validation
   'validation.positive_required': { et: 'Väärtus peab olema positiivne', en: 'Value must be positive' },
 
@@ -1373,6 +1421,11 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'paywall.buy_combo': { et: 'Või osta kombo €79', en: 'Or buy combo €79' },
   'paywall.buy_contract': { et: 'Osta lepinguanalüüs €39', en: 'Buy contract analysis €39' },
   'paywall.buy_pdf': { et: 'PDF raport €39', en: 'PDF report €39' },
+
+  // Payment
+  'payment.unavailable': { et: 'Maksesüsteem on ajutiselt kättesaamatu. Palun proovi hiljem uuesti.', en: 'Payment system is temporarily unavailable. Please try again later.' },
+  'payment.retry': { et: 'Proovi uuesti', en: 'Try again' },
+  'payment.loading': { et: 'Laadin maksesüsteemi...', en: 'Loading payment system...' },
 };
 
 @Injectable({ providedIn: 'root' })

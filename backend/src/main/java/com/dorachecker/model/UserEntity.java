@@ -1,6 +1,7 @@
 package com.dorachecker.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 public class UserEntity {
 
     public enum Role { USER, ADMIN }
+    public enum AccountTier { FREE, PREMIUM }
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -25,8 +27,19 @@ public class UserEntity {
     @Column(nullable = false)
     private Role role = Role.USER;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AccountTier accountTier = AccountTier.FREE;
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private boolean earlyAdopter = false;
+
+    private Integer earlyAdopterNumber;
+
+    private LocalDate trialEndDate;
 
     public UserEntity() {}
 
@@ -47,4 +60,16 @@ public class UserEntity {
 
     public Role getRole() { return role; }
     public void setRole(Role role) { this.role = role; }
+
+    public AccountTier getAccountTier() { return accountTier; }
+    public void setAccountTier(AccountTier accountTier) { this.accountTier = accountTier; }
+
+    public boolean isEarlyAdopter() { return earlyAdopter; }
+    public void setEarlyAdopter(boolean earlyAdopter) { this.earlyAdopter = earlyAdopter; }
+
+    public Integer getEarlyAdopterNumber() { return earlyAdopterNumber; }
+    public void setEarlyAdopterNumber(Integer earlyAdopterNumber) { this.earlyAdopterNumber = earlyAdopterNumber; }
+
+    public LocalDate getTrialEndDate() { return trialEndDate; }
+    public void setTrialEndDate(LocalDate trialEndDate) { this.trialEndDate = trialEndDate; }
 }

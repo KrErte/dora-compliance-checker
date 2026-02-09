@@ -43,7 +43,7 @@ interface Stat {
           {{ lang.t('landing.subtitle') }}
         </p>
 
-        <!-- CTA buttons - only 2 clear options -->
+        <!-- CTA button - single clear action -->
         <div class="flex flex-col sm:flex-row gap-4 animate-slide-in delay-200">
           <a routerLink="/nis2/scope-check"
              class="cta-button group inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
@@ -54,15 +54,75 @@ interface Stat {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
           </a>
-          <a routerLink="/nis2/scope-check" [queryParams]="{demo: 'true'}"
-             class="cta-button group inline-flex items-center gap-2 bg-transparent border-2 border-slate-500 hover:border-emerald-400
-                    text-slate-200 hover:text-emerald-400 font-semibold px-10 py-4 rounded-xl text-lg
-                    transition-all">
-            {{ lang.t('landing.cta_view_demo') }}
-            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-            </svg>
-          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Early Adopter Section -->
+    <div class="py-8 px-4 animate-fade-in" *ngIf="earlyAdopterStatus">
+      <div class="max-w-2xl mx-auto">
+        <div class="relative overflow-hidden rounded-2xl p-6 md:p-8"
+             [class]="earlyAdopterStatus.isAvailable ? 'bg-gradient-to-br from-amber-500/10 via-orange-500/10 to-yellow-500/10 border border-amber-500/30' : 'bg-slate-800/50 border border-slate-700/50'">
+          <!-- Glow effect -->
+          <div *ngIf="earlyAdopterStatus.isAvailable" class="absolute -top-20 -right-20 w-40 h-40 bg-amber-500/20 rounded-full blur-3xl"></div>
+          <div *ngIf="earlyAdopterStatus.isAvailable" class="absolute -bottom-20 -left-20 w-40 h-40 bg-orange-500/20 rounded-full blur-3xl"></div>
+
+          <div class="relative z-10 text-center">
+            <!-- Header -->
+            <div class="text-4xl mb-3">🚀</div>
+            <h3 class="text-xl md:text-2xl font-bold mb-2" [class]="earlyAdopterStatus.isAvailable ? 'text-amber-300' : 'text-slate-400'">
+              {{ lang.t('landing.early_adopter_title') }}
+            </h3>
+            <p class="text-sm text-slate-400 mb-6 max-w-lg mx-auto">
+              {{ lang.t('landing.early_adopter_desc') }}
+            </p>
+
+            <!-- Counter and Progress -->
+            <div class="mb-6">
+              <div class="text-5xl font-bold mb-2" [class]="earlyAdopterStatus.isAvailable ? 'text-amber-400' : 'text-slate-500'">
+                {{ earlyAdopterStatus.usedSlots }} / {{ earlyAdopterStatus.totalSlots }}
+              </div>
+              <p class="text-sm text-slate-400 mb-3">{{ lang.t('landing.early_adopter_slots') }}</p>
+
+              <!-- Progress bar -->
+              <div class="w-full max-w-xs mx-auto h-3 bg-slate-700 rounded-full overflow-hidden">
+                <div class="h-full rounded-full transition-all duration-500"
+                     [class]="earlyAdopterStatus.isAvailable ? 'bg-gradient-to-r from-amber-500 to-orange-500' : 'bg-slate-500'"
+                     [style.width.%]="(earlyAdopterStatus.usedSlots / earlyAdopterStatus.totalSlots) * 100">
+                </div>
+              </div>
+            </div>
+
+            <!-- Urgency message -->
+            <div *ngIf="earlyAdopterStatus.isAvailable && earlyAdopterStatus.remainingSlots <= 3" class="mb-4">
+              <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/20 text-red-400 text-sm font-semibold animate-pulse">
+                ⚡ {{ lang.t('landing.early_adopter_hurry') }} {{ earlyAdopterStatus.remainingSlots }} {{ lang.t('landing.early_adopter_left') }}
+              </span>
+            </div>
+
+            <!-- CTA -->
+            <div *ngIf="earlyAdopterStatus.isAvailable">
+              <a routerLink="/register"
+                 class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-lg
+                        bg-gradient-to-r from-amber-500 to-orange-500 text-slate-900
+                        hover:from-amber-400 hover:to-orange-400 hover:shadow-lg hover:shadow-amber-500/25 transition-all">
+                {{ lang.t('landing.early_adopter_cta') }}
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                </svg>
+              </a>
+            </div>
+
+            <!-- All slots taken -->
+            <div *ngIf="!earlyAdopterStatus.isAvailable" class="space-y-4">
+              <p class="text-slate-400 font-medium">{{ lang.t('landing.early_adopter_full') }}</p>
+              <a routerLink="/register"
+                 class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
+                        bg-slate-700 text-slate-300 hover:bg-slate-600 transition-all">
+                {{ lang.t('landing.early_adopter_register_anyway') }}
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -126,7 +186,7 @@ interface Stat {
                class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
                       bg-gradient-to-r from-red-500 to-orange-500 text-white
                       hover:from-red-400 hover:to-orange-400 hover:shadow-lg hover:shadow-red-500/25 transition-all">
-              {{ lang.t('landing.urgency_cta') }}
+              {{ lang.t('landing.cta_check_nis2') }}
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
               </svg>
@@ -147,6 +207,37 @@ interface Stat {
           <div class="text-slate-400 text-sm">{{ lang.t(stat.labelKey) }}</div>
         </div>
       </div>
+    </div>
+
+    <!-- Social Proof / Platform Stats -->
+    <div class="py-8 max-w-4xl mx-auto px-4">
+      <!-- If we have enough users, show real stats -->
+      <div *ngIf="publicStats && publicStats.userCount >= 10" class="text-center">
+        <div class="flex flex-wrap justify-center gap-6 mb-4">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl font-bold text-emerald-400">{{ publicStats.totalChecks }}</span>
+            <span class="text-slate-400 text-sm">{{ lang.t('landing.social_checks_done') }}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-2xl font-bold text-cyan-400">{{ publicStats.userCount }}</span>
+            <span class="text-slate-400 text-sm">{{ lang.t('landing.social_companies') }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- If not enough users, show platform capabilities -->
+      <div *ngIf="!publicStats || publicStats.userCount < 10" class="text-center">
+        <div class="flex flex-wrap justify-center gap-4 text-sm text-slate-400">
+          <span class="px-3 py-1.5 rounded-lg bg-slate-800/50 border border-slate-700/50">8 DORA Art. 30 {{ lang.t('landing.social_base_requirements') }}</span>
+          <span class="px-3 py-1.5 rounded-lg bg-slate-800/50 border border-slate-700/50">5 min {{ lang.t('landing.social_analysis') }}</span>
+          <span class="px-3 py-1.5 rounded-lg bg-slate-800/50 border border-slate-700/50">PDF {{ lang.t('landing.social_report') }}</span>
+        </div>
+      </div>
+
+      <!-- Trust statement -->
+      <p class="text-center text-xs text-slate-500 mt-4">
+        {{ lang.t('landing.social_trust') }}
+      </p>
     </div>
 
     <!-- Contract Analysis CTA Card -->
@@ -198,9 +289,12 @@ interface Stat {
                   <label [for]="'req-checkbox-' + req.id" class="sr-only">{{ req.nameKey ? lang.t(req.nameKey) : req.name }}</label>
                 </td>
                 <td class="px-4 py-4">
-                  <label [for]="'req-checkbox-' + req.id" class="text-slate-200 font-medium cursor-pointer" (click)="$event.stopPropagation()">
-                    {{ req.nameKey ? lang.t(req.nameKey) : req.name }}
-                  </label>
+                  <div class="flex items-center gap-2">
+                    <span class="text-slate-500 transition-transform duration-200" [class.rotate-90]="req.expanded">▸</span>
+                    <span class="text-slate-200 font-medium">
+                      {{ req.nameKey ? lang.t(req.nameKey) : req.name }}
+                    </span>
+                  </div>
                 </td>
                 <td class="px-4 py-4 text-right">
                   <span *ngIf="req.checked" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400">
@@ -217,12 +311,15 @@ interface Stat {
                   </span>
                 </td>
               </tr>
-              <tr *ngIf="req.expanded" class="bg-slate-800/30">
+              <tr *ngIf="req.expanded" class="bg-slate-800/30 animate-slide-down">
                 <td colspan="3" class="px-4 py-4">
                   <div class="text-sm text-slate-400 pl-9">
-                    <p class="mb-2">{{ req.descKey ? lang.t(req.descKey) : req.description }}</p>
-                    <a routerLink="/contract-analysis" class="text-teal-400 hover:text-teal-300 text-xs font-medium">
-                      → {{ lang.t('landing.table_check_contract') }}
+                    <p class="mb-3 leading-relaxed">{{ req.descKey ? lang.t(req.descKey) : req.description }}</p>
+                    <a routerLink="/contract-analysis" class="inline-flex items-center gap-1 text-teal-400 hover:text-teal-300 text-xs font-medium">
+                      {{ lang.t('landing.table_check_contract') }}
+                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                      </svg>
                     </a>
                   </div>
                 </td>
@@ -236,6 +333,34 @@ interface Stat {
         <p class="text-slate-500 text-sm">
           {{ lang.t('landing.table_checked') }}: <span class="text-teal-400 font-medium">{{ checkedCount }}</span> / {{ requirements.length }}
         </p>
+      </div>
+    </div>
+
+    <!-- Email Capture Section -->
+    <div class="py-12 max-w-xl mx-auto px-4">
+      <div class="glass-card p-6 rounded-2xl border border-emerald-500/20 text-center">
+        <div class="text-3xl mb-3">📋</div>
+        <h3 class="text-lg font-semibold text-slate-200 mb-2">{{ lang.t('landing.email_title') }}</h3>
+        <p class="text-sm text-slate-400 mb-4">{{ lang.t('landing.email_desc') }}</p>
+
+        <form *ngIf="!emailSubscribed" (submit)="submitEmailSubscription($event)" class="flex flex-col sm:flex-row gap-3">
+          <input type="email" [(ngModel)]="subscribeEmail" name="email" required
+                 [placeholder]="lang.t('landing.email_placeholder')"
+                 class="flex-1 px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors">
+          <button type="submit" [disabled]="emailSending"
+                  class="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-900 font-semibold whitespace-nowrap disabled:opacity-50">
+            {{ emailSending ? '...' : lang.t('landing.email_btn') }}
+          </button>
+        </form>
+
+        <div *ngIf="emailSubscribed" class="flex items-center justify-center gap-2 text-emerald-400 animate-fade-in">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+          <span>{{ lang.t('landing.email_success') }}</span>
+        </div>
+
+        <p *ngIf="emailError" class="text-red-400 text-sm mt-2 animate-fade-in">{{ lang.t('landing.email_error') }}</p>
       </div>
     </div>
 
@@ -452,7 +577,7 @@ interface Stat {
               <!-- LinkedIn -->
               <div class="pt-4 border-t border-slate-700/50">
                 <p class="text-xs text-slate-500 mb-3">{{ lang.t('landing.contact_social') }}</p>
-                <a href="https://www.linkedin.com/in/kristo-erte/" target="_blank" rel="noopener"
+                <a href="https://www.linkedin.com/in/kristo-erte-52b73918a/" target="_blank" rel="noopener"
                    class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50 hover:border-blue-500/30 hover:bg-slate-700/30 transition-all group">
                   <svg class="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
@@ -511,11 +636,14 @@ interface Stat {
     <div class="py-16 text-center">
       <h2 class="text-2xl font-bold text-slate-100 mb-4">{{ lang.t('landing.final_cta_title') }}</h2>
       <p class="text-slate-400 mb-8 max-w-lg mx-auto">{{ lang.t('landing.final_cta_desc') }}</p>
-      <a routerLink="/contract-analysis"
+      <a routerLink="/register"
          class="cta-button inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
                 text-slate-900 font-semibold px-10 py-4 rounded-xl text-lg
                 hover:shadow-xl hover:shadow-emerald-500/30">
-        {{ lang.t('landing.cta_check') }}
+        {{ lang.t('landing.cta_start_free') }}
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+        </svg>
       </a>
     </div>
   `,
@@ -551,6 +679,25 @@ interface Stat {
 
     .requirement-row.expanded {
       background: rgba(30, 41, 59, 0.8);
+    }
+
+    .animate-slide-down {
+      animation: slideDown 0.2s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .rotate-90 {
+      transform: rotate(90deg);
     }
 
     .step-card {
@@ -664,6 +811,18 @@ export class LandingComponent implements OnInit, OnDestroy {
   contactServerError = false;
   contactSending = false;
 
+  // Email subscription
+  subscribeEmail = '';
+  emailSubscribed = false;
+  emailSending = false;
+  emailError = false;
+
+  // Public stats
+  publicStats: { userCount: number; assessmentCount: number; contractAnalysisCount: number; totalChecks: number } | null = null;
+
+  // Early adopter status
+  earlyAdopterStatus: { totalSlots: number; usedSlots: number; remainingSlots: number; isAvailable: boolean } | null = null;
+
   contactReasons = [
     { value: 'demo', labelKey: 'landing.contact_reason_demo' },
     { value: 'enterprise', labelKey: 'landing.contact_reason_enterprise' },
@@ -677,6 +836,30 @@ export class LandingComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.titleService.setTitle('DoraAudit.eu — DORA ja NIS2 vastavusplatvorm Eesti ettevõtetele');
     this.animateStats();
+    this.loadPublicStats();
+    this.loadEarlyAdopterStatus();
+  }
+
+  loadEarlyAdopterStatus(): void {
+    this.apiService.getEarlyAdopterStatus().subscribe({
+      next: (status) => {
+        this.earlyAdopterStatus = status;
+      },
+      error: () => {
+        // Silently fail
+      }
+    });
+  }
+
+  loadPublicStats(): void {
+    this.apiService.getPublicStats().subscribe({
+      next: (stats) => {
+        this.publicStats = stats;
+      },
+      error: () => {
+        // Silently fail - will show platform capabilities instead
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -776,6 +959,30 @@ export class LandingComponent implements OnInit, OnDestroy {
       error: () => {
         this.contactSending = false;
         this.contactServerError = true;
+      }
+    });
+  }
+
+  submitEmailSubscription(event: Event): void {
+    event.preventDefault();
+    this.emailError = false;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!this.subscribeEmail || !emailRegex.test(this.subscribeEmail)) {
+      this.emailError = true;
+      return;
+    }
+
+    this.emailSending = true;
+    this.apiService.subscribeForChecklist(this.subscribeEmail.trim()).subscribe({
+      next: () => {
+        this.emailSending = false;
+        this.emailSubscribed = true;
+        this.subscribeEmail = '';
+      },
+      error: () => {
+        this.emailSending = false;
+        this.emailError = true;
       }
     });
   }

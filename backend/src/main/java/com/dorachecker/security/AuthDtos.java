@@ -3,6 +3,7 @@ package com.dorachecker.security;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.time.LocalDate;
 
 public class AuthDtos {
 
@@ -21,6 +22,15 @@ public class AuthDtos {
             String token,
             String userId,
             String email,
-            String fullName
-    ) {}
+            String fullName,
+            boolean earlyAdopter,
+            Integer earlyAdopterNumber,
+            String accountTier,
+            LocalDate trialEndDate
+    ) {
+        // Backward compatible constructor
+        public AuthResponse(String token, String userId, String email, String fullName) {
+            this(token, userId, email, fullName, false, null, "FREE", null);
+        }
+    }
 }

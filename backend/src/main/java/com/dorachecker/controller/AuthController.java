@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
@@ -19,6 +20,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+    private static final int EARLY_ADOPTER_TOTAL_SLOTS = 10;
+    private static final int TRIAL_DAYS = 30;
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -39,15 +43,39 @@ public class AuthController {
                     .body(Map.of("error", "Email already registered"));
         }
 
+        // Check if early adopter slots are available
+        long earlyAdopterCount = userRepository.countByEarlyAdopterTrue();
+        boolean isEarlyAdopter = earlyAdopterCount < EARLY_ADOPTER_TOTAL_SLOTS;
+        int earlyAdopterNumber = isEarlyAdopter ? (int) earlyAdopterCount + 1 : 0;
+
         UserEntity user = new UserEntity();
         user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setFullName(request.fullName());
         user.setCreatedAt(LocalDateTime.now());
+
+        if (isEarlyAdopter) {
+            user.setEarlyAdopter(true);
+            user.setEarlyAdopterNumber(earlyAdopterNumber);
+            user.setAccountTier(UserEntity.AccountTier.PREMIUM);
+            user.setTrialEndDate(LocalDate.now().plusDays(TRIAL_DAYS));
+        } else {
+            user.setAccountTier(UserEntity.AccountTier.FREE);
+        }
+
         userRepository.save(user);
 
         String token = jwtService.generateToken(user.getId(), user.getEmail());
-        return ResponseEntity.ok(new AuthResponse(token, user.getId(), user.getEmail(), user.getFullName()));
+        return ResponseEntity.ok(new AuthResponse(
+            token,
+            user.getId(),
+            user.getEmail(),
+            user.getFullName(),
+            user.isEarlyAdopter(),
+            user.getEarlyAdopterNumber(),
+            user.getAccountTier().name(),
+            user.getTrialEndDate()
+        ));
     }
 
     @PostMapping("/login")
@@ -60,8 +88,28 @@ public class AuthController {
         }
 
         UserEntity user = userOpt.get();
+
+        // Check if trial has expired for early adopters
+        if (user.isEarlyAdopter() && user.getTrialEndDate() != null) {
+            if (LocalDate.now().isAfter(user.getTrialEndDate()) &&
+                user.getAccountTier() == UserEntity.AccountTier.PREMIUM) {
+                // Trial expired, downgrade to FREE
+                user.setAccountTier(UserEntity.AccountTier.FREE);
+                userRepository.save(user);
+            }
+        }
+
         String token = jwtService.generateToken(user.getId(), user.getEmail());
-        return ResponseEntity.ok(new AuthResponse(token, user.getId(), user.getEmail(), user.getFullName()));
+        return ResponseEntity.ok(new AuthResponse(
+            token,
+            user.getId(),
+            user.getEmail(),
+            user.getFullName(),
+            user.isEarlyAdopter(),
+            user.getEarlyAdopterNumber(),
+            user.getAccountTier().name(),
+            user.getTrialEndDate()
+        ));
     }
 
     @GetMapping("/me")
@@ -71,8 +119,27 @@ public class AuthController {
         }
         String userId = (String) authentication.getPrincipal();
         return userRepository.findById(userId)
-                .map(user -> ResponseEntity.ok(
-                        new AuthResponse(null, user.getId(), user.getEmail(), user.getFullName())))
+                .map(user -> {
+                    // Check if trial has expired for early adopters
+                    if (user.isEarlyAdopter() && user.getTrialEndDate() != null) {
+                        if (LocalDate.now().isAfter(user.getTrialEndDate()) &&
+                            user.getAccountTier() == UserEntity.AccountTier.PREMIUM) {
+                            // Trial expired, downgrade to FREE
+                            user.setAccountTier(UserEntity.AccountTier.FREE);
+                            userRepository.save(user);
+                        }
+                    }
+                    return ResponseEntity.ok(new AuthResponse(
+                        null,
+                        user.getId(),
+                        user.getEmail(),
+                        user.getFullName(),
+                        user.isEarlyAdopter(),
+                        user.getEarlyAdopterNumber(),
+                        user.getAccountTier().name(),
+                        user.getTrialEndDate()
+                    ));
+                })
                 .orElse(ResponseEntity.status(401).body(null));
     }
 }
