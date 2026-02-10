@@ -318,15 +318,9 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.social_report': { et: 'raport juhatusele', en: 'report for board' },
   'landing.social_trust': { et: 'Põhineb DORA regulatsiooni ametlikul tekstil • Kooskõlas Finantsinspektsiooni juhistega', en: 'Based on official DORA regulation text • Aligned with Financial Supervisory Authority guidelines' },
 
-  // Landing - Early Adopter
-  'landing.early_adopter_title': { et: 'Esimesed 10 registreerijat saavad 30 päeva PREMIUM TASUTA', en: 'First 10 users get 30 days PREMIUM FREE' },
-  'landing.early_adopter_desc': { et: 'Piiratud pakkumine — täielik ligipääs kõigile funktsioonidele 30 päevaks.', en: 'Limited offer — full access to all features for 30 days.' },
-  'landing.early_adopter_slots': { et: 'kohta võetud', en: 'slots taken' },
-  'landing.early_adopter_hurry': { et: 'Kiirusta! Ainult', en: 'Hurry! Only' },
-  'landing.early_adopter_left': { et: 'kohta jäänud!', en: 'slots left!' },
-  'landing.early_adopter_cta': { et: 'Registreeru tasuta', en: 'Register for free' },
-  'landing.early_adopter_full': { et: 'Kõik early adopter kohad on täidetud', en: 'All early adopter slots are taken' },
-  'landing.early_adopter_register_anyway': { et: 'Registreeru tavakontoga', en: 'Register with regular account' },
+  // Landing - Free Trial
+  'landing.trial_desc': { et: 'Registreeru ja proovi 30 päeva tasuta — täisfunktsionaalsus, ilma kohustuseta', en: 'Register and try 30 days free — full functionality, no obligation' },
+  'landing.cta_register': { et: 'Registreeru', en: 'Start Free Trial' },
 
   // Early adopter trial
   'trial.premium_until': { et: 'Early Adopter — Premium kuni', en: 'Early Adopter — Premium until' },

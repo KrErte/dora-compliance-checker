@@ -131,30 +131,18 @@ export class ApiService {
     assessmentCount: number;
     contractAnalysisCount: number;
     totalChecks: number;
-    earlyAdopter: { totalSlots: number; usedSlots: number; remainingSlots: number; isAvailable: boolean };
   }> {
     return this.http.get<{
       userCount: number;
       assessmentCount: number;
       contractAnalysisCount: number;
       totalChecks: number;
-      earlyAdopter: { totalSlots: number; usedSlots: number; remainingSlots: number; isAvailable: boolean };
     }>(`${this.baseUrl}/stats/public`);
   }
 
   // Email Subscription
   subscribeForChecklist(email: string): Observable<{ message: string; status: string }> {
     return this.http.post<{ message: string; status: string }>(`${this.baseUrl}/subscribe/checklist`, { email });
-  }
-
-  // Early Adopter
-  getEarlyAdopterStatus(): Observable<{ totalSlots: number; usedSlots: number; remainingSlots: number; isAvailable: boolean }> {
-    return this.http.get<{ totalSlots: number; usedSlots: number; remainingSlots: number; isAvailable: boolean }>(`${this.baseUrl}/early-adopter/status`);
-  }
-
-  // Promo Slots
-  getPromoSlots(): Observable<{ taken: number; total: number }> {
-    return this.http.get<{ taken: number; total: number }>(`${this.baseUrl}/public/promo/slots`);
   }
 
   // Tracking

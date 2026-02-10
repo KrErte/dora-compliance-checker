@@ -72,4 +72,8 @@ public class UserEntity {
 
     public LocalDate getTrialEndDate() { return trialEndDate; }
     public void setTrialEndDate(LocalDate trialEndDate) { this.trialEndDate = trialEndDate; }
+
+    public boolean isTrialActive() {
+        return trialEndDate != null && !LocalDate.now().isAfter(trialEndDate);
+    }
 }

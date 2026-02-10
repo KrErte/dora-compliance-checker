@@ -59,72 +59,30 @@ interface Stat {
       </div>
     </div>
 
-    <!-- Early Adopter Section -->
-    <div id="promo-section" class="py-8 px-4 animate-fade-in" *ngIf="earlyAdopterStatus">
+    <!-- Free Trial Section -->
+    <div id="promo-section" class="py-8 px-4 animate-fade-in">
       <div class="max-w-2xl mx-auto">
-        <div class="relative overflow-hidden rounded-2xl p-6 md:p-8"
-             [class]="earlyAdopterStatus.isAvailable ? 'bg-gradient-to-br from-amber-500/10 via-orange-500/10 to-yellow-500/10 border border-amber-500/30' : 'bg-slate-800/50 border border-slate-700/50'">
+        <div class="relative overflow-hidden rounded-2xl p-6 md:p-8 bg-gradient-to-br from-emerald-500/10 via-teal-500/10 to-cyan-500/10 border border-emerald-500/30">
           <!-- Glow effect -->
-          <div *ngIf="earlyAdopterStatus.isAvailable" class="absolute -top-20 -right-20 w-40 h-40 bg-amber-500/20 rounded-full blur-3xl"></div>
-          <div *ngIf="earlyAdopterStatus.isAvailable" class="absolute -bottom-20 -left-20 w-40 h-40 bg-orange-500/20 rounded-full blur-3xl"></div>
+          <div class="absolute -top-20 -right-20 w-40 h-40 bg-emerald-500/20 rounded-full blur-3xl"></div>
+          <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl"></div>
 
           <div class="relative z-10 text-center">
-            <!-- Header -->
             <div class="text-4xl mb-3">🚀</div>
-            <h3 class="text-xl md:text-2xl font-bold mb-2" [class]="earlyAdopterStatus.isAvailable ? 'text-amber-300' : 'text-slate-400'">
-              {{ lang.t('landing.early_adopter_title') }}
-            </h3>
-            <p class="text-sm text-slate-400 mb-6 max-w-lg mx-auto">
-              {{ lang.t('landing.early_adopter_desc') }}
+            <p class="text-lg text-slate-300 mb-6 max-w-lg mx-auto">
+              {{ lang.t('landing.trial_desc') }}
             </p>
 
-            <!-- Counter and Progress -->
-            <div class="mb-6">
-              <div class="text-5xl font-bold mb-2" [class]="earlyAdopterStatus.isAvailable ? 'text-amber-400' : 'text-slate-500'">
-                {{ promoSlots ? promoSlots.taken : earlyAdopterStatus.usedSlots }} / {{ promoSlots ? promoSlots.total : earlyAdopterStatus.totalSlots }}
-              </div>
-              <p class="text-sm text-slate-400 mb-3">{{ lang.t('landing.early_adopter_slots') }}</p>
-
-              <!-- Progress bar -->
-              <div class="w-full max-w-xs mx-auto h-3 bg-slate-700 rounded-full overflow-hidden">
-                <div class="h-full rounded-full transition-all duration-500"
-                     [class]="earlyAdopterStatus.isAvailable ? 'bg-gradient-to-r from-amber-500 to-orange-500' : 'bg-slate-500'"
-                     [style.width.%]="((promoSlots ? promoSlots.taken : earlyAdopterStatus.usedSlots) / (promoSlots ? promoSlots.total : earlyAdopterStatus.totalSlots)) * 100">
-                </div>
-              </div>
-            </div>
-
-            <!-- Urgency message -->
-            <div *ngIf="earlyAdopterStatus.isAvailable && earlyAdopterStatus.remainingSlots <= 3" class="mb-4">
-              <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/20 text-red-400 text-sm font-semibold animate-pulse">
-                ⚡ {{ lang.t('landing.early_adopter_hurry') }} {{ earlyAdopterStatus.remainingSlots }} {{ lang.t('landing.early_adopter_left') }}
-              </span>
-            </div>
-
-            <!-- CTA -->
-            <div *ngIf="earlyAdopterStatus.isAvailable">
-              <a routerLink="/register"
-                 (click)="onRegisterCtaClick('early_adopter')"
-                 class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-lg
-                        bg-gradient-to-r from-amber-500 to-orange-500 text-slate-900
-                        hover:from-amber-400 hover:to-orange-400 hover:shadow-lg hover:shadow-amber-500/25 transition-all">
-                {{ lang.t('landing.early_adopter_cta') }}
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                </svg>
-              </a>
-            </div>
-
-            <!-- All slots taken -->
-            <div *ngIf="!earlyAdopterStatus.isAvailable" class="space-y-4">
-              <p class="text-slate-400 font-medium">{{ lang.t('landing.early_adopter_full') }}</p>
-              <a routerLink="/register"
-                 (click)="onRegisterCtaClick('early_adopter_full')"
-                 class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
-                        bg-slate-700 text-slate-300 hover:bg-slate-600 transition-all">
-                {{ lang.t('landing.early_adopter_register_anyway') }}
-              </a>
-            </div>
+            <a routerLink="/register"
+               (click)="onRegisterCtaClick('trial_cta')"
+               class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-lg
+                      bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
+                      hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
+              {{ lang.t('landing.cta_register') }}
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+              </svg>
+            </a>
           </div>
         </div>
       </div>
@@ -767,9 +725,6 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroy$ = new Subject<void>();
   private promoViewTracked = false;
 
-  // Promo slots from backend
-  promoSlots: { taken: number; total: number } | null = null;
-
   steps = [
     { titleKey: 'landing.step1_title', descKey: 'landing.step1_desc' },
     { titleKey: 'landing.step2_title', descKey: 'landing.step2_desc' },
@@ -828,9 +783,6 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   // Public stats
   publicStats: { userCount: number; assessmentCount: number; contractAnalysisCount: number; totalChecks: number } | null = null;
 
-  // Early adopter status
-  earlyAdopterStatus: { totalSlots: number; usedSlots: number; remainingSlots: number; isAvailable: boolean } | null = null;
-
   contactReasons = [
     { value: 'demo', labelKey: 'landing.contact_reason_demo' },
     { value: 'enterprise', labelKey: 'landing.contact_reason_enterprise' },
@@ -850,8 +802,6 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
     this.titleService.setTitle('DoraAudit.eu — DORA ja NIS2 vastavusplatvorm Eesti ettevõtetele');
     this.animateStats();
     this.loadPublicStats();
-    this.loadEarlyAdopterStatus();
-    this.loadPromoSlots();
 
     // Track page view
     this.trackingService.trackPageView('/');
@@ -880,29 +830,6 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
         observer.observe(promoSection);
       }
     }, 100);
-  }
-
-  loadPromoSlots(): void {
-    this.apiService.getPromoSlots().subscribe({
-      next: (slots) => {
-        this.promoSlots = slots;
-      },
-      error: () => {
-        // Fallback to default values
-        this.promoSlots = { taken: 5, total: 10 };
-      }
-    });
-  }
-
-  loadEarlyAdopterStatus(): void {
-    this.apiService.getEarlyAdopterStatus().subscribe({
-      next: (status) => {
-        this.earlyAdopterStatus = status;
-      },
-      error: () => {
-        // Silently fail
-      }
-    });
   }
 
   loadPublicStats(): void {
