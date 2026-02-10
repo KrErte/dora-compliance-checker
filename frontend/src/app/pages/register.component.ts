@@ -13,6 +13,16 @@ import { AuthService } from '../auth/auth.service';
   template: `
     <div class="min-h-[60vh] flex items-center justify-center">
       <div class="w-full max-w-md">
+        <!-- Trial Banner -->
+        <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 border border-emerald-500/30">
+          <div class="flex items-center gap-3">
+            <span class="text-3xl">🚀</span>
+            <div>
+              <p class="text-sm text-emerald-300">{{ lang.t('landing.trial_desc') }}</p>
+            </div>
+          </div>
+        </div>
+
         <div class="text-center mb-8">
           <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-2xl mx-auto mb-4">
             D
@@ -21,7 +31,24 @@ import { AuthService } from '../auth/auth.service';
           <p class="text-slate-400 text-sm">{{ lang.t('nav.brand') }}</p>
         </div>
 
-        <div class="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-8">
+        <!-- Success state -->
+        <div *ngIf="registrationSuccess" class="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-emerald-500/30 p-8 text-center">
+          <div class="text-6xl mb-4">✅</div>
+          <h2 class="text-2xl font-bold text-emerald-300 mb-2">{{ lang.t('register.success_title') }}</h2>
+          <p class="text-slate-300 mb-6">{{ lang.t('register.success_desc') }}</p>
+          <a routerLink="/assessment"
+             class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold
+                    bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
+                    hover:from-emerald-400 hover:to-cyan-400 transition-all">
+            {{ lang.t('register.start_now') }}
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Registration form -->
+        <div *ngIf="!registrationSuccess" class="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-8">
           <form (ngSubmit)="onRegister()">
             <div class="mb-5">
               <label for="reg-fullname" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.full_name') }}</label>
@@ -100,8 +127,14 @@ export class RegisterComponent implements OnInit {
   confirmPassword = '';
   error = '';
   loading = false;
+  registrationSuccess = false;
 
-  constructor(public lang: LangService, private auth: AuthService, private router: Router, private titleService: Title) {}
+  constructor(
+    public lang: LangService,
+    private auth: AuthService,
+    private router: Router,
+    private titleService: Title
+  ) {}
 
   ngOnInit(): void {
     this.titleService.setTitle('Registreeru | DoraAudit.eu');
@@ -146,7 +179,7 @@ export class RegisterComponent implements OnInit {
     this.auth.register({ email: this.email, password: this.password, fullName: this.fullName }).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigate(['/assessment']);
+        this.registrationSuccess = true;
       },
       error: (err) => {
         this.loading = false;
