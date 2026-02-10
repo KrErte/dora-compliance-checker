@@ -10,6 +10,8 @@ frontend/.angular/
 .idea/
 *.iml
 .vscode/
+*.swp
+*.swo
 
 # Logs and temp files
 *.log
@@ -27,7 +29,36 @@ deploy.tar
 
 # Environment files (contain secrets)
 .env
+.env.*
+!.env.example
 
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
+
+# Backend - Spring Boot
+target/
+*.jar
+*.war
+*.class
+.mvn/wrapper/maven-wrapper.jar
+application-local.properties
+application-prod.properties
+
+# Frontend - Angular
+.sass-cache/
+
+# Secrets & certificates
+*.pem
+*.key
+
+# Docker
+docker-compose.override.yml
+.docker/
+
+# Build
+build/
+out/
+*.bak
+*.tmp
