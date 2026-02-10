@@ -35,6 +35,7 @@ public class TrackingController {
         event.setUtmCampaign(truncate(request.utmCampaign(), 100));
         event.setSessionId(truncate(request.sessionId(), 100));
         event.setUserAgent(truncate(httpRequest.getHeader("User-Agent"), 500));
+        event.setEventData(truncate(request.eventData(), 4000));
 
         // Hash IP for privacy
         String ip = getClientIp(httpRequest);
@@ -81,6 +82,7 @@ public class TrackingController {
             String utmSource,
             String utmMedium,
             String utmCampaign,
-            String sessionId
+            String sessionId,
+            String eventData
     ) {}
 }

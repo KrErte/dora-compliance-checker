@@ -35,6 +35,9 @@ public class TrackingEventEntity {
     @Column(name = "user_agent", length = 500)
     private String userAgent;
 
+    @Column(name = "event_data", length = 4000)
+    private String eventData;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -112,6 +115,14 @@ public class TrackingEventEntity {
 
     public void setUserAgent(String userAgent) {
         this.userAgent = userAgent;
+    }
+
+    public String getEventData() {
+        return eventData;
+    }
+
+    public void setEventData(String eventData) {
+        this.eventData = eventData;
     }
 
     public LocalDateTime getCreatedAt() {

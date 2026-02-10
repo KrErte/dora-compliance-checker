@@ -5,6 +5,7 @@ import { Title, Meta } from '@angular/platform-browser';
 import { Subscription, filter } from 'rxjs';
 import { LangService } from './lang.service';
 import { AuthService } from './auth/auth.service';
+import { TrackingService } from './tracking.service';
 import { CookieConsentComponent } from './components/cookie-consent/cookie-consent.component';
 
 @Component({
@@ -273,7 +274,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
               <a href="mailto:info@doraaudit.eu" class="hover:text-emerald-400 transition-colors">info&#64;doraaudit.eu</a>
               <p>ComplianceHub OÜ</p>
               <p>{{ lang.t('footer.location') }}</p>
-              <a href="https://www.linkedin.com/in/kristo-erte/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 hover:text-blue-400 transition-colors mt-1">
+              <a href="https://www.linkedin.com/in/kristo-erte-52b73918a/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 hover:text-blue-400 transition-colors mt-1">
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                 </svg>
@@ -340,6 +341,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     private titleService: Title,
     private meta: Meta,
+    private trackingService: TrackingService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) platformId: Object
   ) {
@@ -359,10 +361,21 @@ export class AppComponent implements OnInit, OnDestroy {
     ).subscribe((event: NavigationEnd) => {
       this.updatePageTitle(event.urlAfterRedirects);
       this.closeAllMenus();
+      // Track page view on navigation
+      if (this.isBrowser) {
+        this.trackingService.trackPageView(event.urlAfterRedirects);
+      }
     });
 
     // Set initial title
     this.updatePageTitle(this.router.url);
+
+    // Initialize all tracking (scroll, clicks, time, forms)
+    if (this.isBrowser) {
+      this.trackingService.initAllTracking();
+      // Track initial page view
+      this.trackingService.trackPageView(this.router.url);
+    }
   }
 
   ngOnDestroy() {

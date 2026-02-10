@@ -165,6 +165,7 @@ export class ApiService {
     utmMedium?: string;
     utmCampaign?: string;
     sessionId?: string;
+    eventData?: string; // JSON string with additional event data
   }): Observable<{ success: boolean }> {
     return this.http.post<{ success: boolean }>(`${this.baseUrl}/public/track`, event);
   }
