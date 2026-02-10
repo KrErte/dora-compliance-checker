@@ -1424,13 +1424,33 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
 
 @Injectable({ providedIn: 'root' })
 export class LangService {
-  private langSignal = signal<Lang>((localStorage.getItem('dora_lang') as Lang) || 'et');
+  private langSignal = signal<Lang>(this.detectInitialLang());
 
   lang = this.langSignal.asReadonly();
 
   constructor() {
     // Set initial html lang attribute
     this.updateHtmlLang(this.langSignal());
+  }
+
+  private detectInitialLang(): Lang {
+    // 1. localStorage (user's explicit choice) - highest priority
+    if (typeof localStorage !== 'undefined') {
+      const stored = localStorage.getItem('preferred-lang') as Lang;
+      if (stored === 'et' || stored === 'en') {
+        return stored;
+      }
+    }
+
+    // 2. Browser language - if Estonian, show ET
+    if (typeof navigator !== 'undefined' && navigator.language) {
+      if (navigator.language.startsWith('et')) {
+        return 'et';
+      }
+    }
+
+    // 3. Fallback: English for all others
+    return 'en';
   }
 
   get currentLang(): Lang {
@@ -1440,7 +1460,7 @@ export class LangService {
   toggle() {
     const next: Lang = this.langSignal() === 'et' ? 'en' : 'et';
     this.langSignal.set(next);
-    localStorage.setItem('dora_lang', next);
+    localStorage.setItem('preferred-lang', next);
     this.updateHtmlLang(next);
   }
 
