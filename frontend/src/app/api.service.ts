@@ -151,4 +151,21 @@ export class ApiService {
   getEarlyAdopterStatus(): Observable<{ totalSlots: number; usedSlots: number; remainingSlots: number; isAvailable: boolean }> {
     return this.http.get<{ totalSlots: number; usedSlots: number; remainingSlots: number; isAvailable: boolean }>(`${this.baseUrl}/early-adopter/status`);
   }
+
+  // Promo Slots
+  getPromoSlots(): Observable<{ taken: number; total: number }> {
+    return this.http.get<{ taken: number; total: number }>(`${this.baseUrl}/public/promo/slots`);
+  }
+
+  // Tracking
+  trackEvent(event: {
+    eventType: string;
+    pageUrl?: string;
+    utmSource?: string;
+    utmMedium?: string;
+    utmCampaign?: string;
+    sessionId?: string;
+  }): Observable<{ success: boolean }> {
+    return this.http.post<{ success: boolean }>(`${this.baseUrl}/public/track`, event);
+  }
 }

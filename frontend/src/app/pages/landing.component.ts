@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 import { ApiService } from '../api.service';
+import { TrackingService } from '../tracking.service';
 import { timer, Subject } from 'rxjs';
 import { takeUntil, take } from 'rxjs/operators';
 
@@ -59,7 +60,7 @@ interface Stat {
     </div>
 
     <!-- Early Adopter Section -->
-    <div class="py-8 px-4 animate-fade-in" *ngIf="earlyAdopterStatus">
+    <div id="promo-section" class="py-8 px-4 animate-fade-in" *ngIf="earlyAdopterStatus">
       <div class="max-w-2xl mx-auto">
         <div class="relative overflow-hidden rounded-2xl p-6 md:p-8"
              [class]="earlyAdopterStatus.isAvailable ? 'bg-gradient-to-br from-amber-500/10 via-orange-500/10 to-yellow-500/10 border border-amber-500/30' : 'bg-slate-800/50 border border-slate-700/50'">
@@ -80,7 +81,7 @@ interface Stat {
             <!-- Counter and Progress -->
             <div class="mb-6">
               <div class="text-5xl font-bold mb-2" [class]="earlyAdopterStatus.isAvailable ? 'text-amber-400' : 'text-slate-500'">
-                {{ earlyAdopterStatus.usedSlots }} / {{ earlyAdopterStatus.totalSlots }}
+                {{ promoSlots ? promoSlots.taken : earlyAdopterStatus.usedSlots }} / {{ promoSlots ? promoSlots.total : earlyAdopterStatus.totalSlots }}
               </div>
               <p class="text-sm text-slate-400 mb-3">{{ lang.t('landing.early_adopter_slots') }}</p>
 
@@ -88,7 +89,7 @@ interface Stat {
               <div class="w-full max-w-xs mx-auto h-3 bg-slate-700 rounded-full overflow-hidden">
                 <div class="h-full rounded-full transition-all duration-500"
                      [class]="earlyAdopterStatus.isAvailable ? 'bg-gradient-to-r from-amber-500 to-orange-500' : 'bg-slate-500'"
-                     [style.width.%]="(earlyAdopterStatus.usedSlots / earlyAdopterStatus.totalSlots) * 100">
+                     [style.width.%]="((promoSlots ? promoSlots.taken : earlyAdopterStatus.usedSlots) / (promoSlots ? promoSlots.total : earlyAdopterStatus.totalSlots)) * 100">
                 </div>
               </div>
             </div>
@@ -103,6 +104,7 @@ interface Stat {
             <!-- CTA -->
             <div *ngIf="earlyAdopterStatus.isAvailable">
               <a routerLink="/register"
+                 (click)="onRegisterCtaClick('early_adopter')"
                  class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-lg
                         bg-gradient-to-r from-amber-500 to-orange-500 text-slate-900
                         hover:from-amber-400 hover:to-orange-400 hover:shadow-lg hover:shadow-amber-500/25 transition-all">
@@ -117,6 +119,7 @@ interface Stat {
             <div *ngIf="!earlyAdopterStatus.isAvailable" class="space-y-4">
               <p class="text-slate-400 font-medium">{{ lang.t('landing.early_adopter_full') }}</p>
               <a routerLink="/register"
+                 (click)="onRegisterCtaClick('early_adopter_full')"
                  class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
                         bg-slate-700 text-slate-300 hover:bg-slate-600 transition-all">
                 {{ lang.t('landing.early_adopter_register_anyway') }}
@@ -637,6 +640,7 @@ interface Stat {
       <h2 class="text-2xl font-bold text-slate-100 mb-4">{{ lang.t('landing.final_cta_title') }}</h2>
       <p class="text-slate-400 mb-8 max-w-lg mx-auto">{{ lang.t('landing.final_cta_desc') }}</p>
       <a routerLink="/register"
+         (click)="onRegisterCtaClick('final_cta')"
          class="cta-button inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
                 text-slate-900 font-semibold px-10 py-4 rounded-xl text-lg
                 hover:shadow-xl hover:shadow-emerald-500/30">
@@ -759,8 +763,12 @@ interface Stat {
     }
   `]
 })
-export class LandingComponent implements OnInit, OnDestroy {
+export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroy$ = new Subject<void>();
+  private promoViewTracked = false;
+
+  // Promo slots from backend
+  promoSlots: { taken: number; total: number } | null = null;
 
   steps = [
     { titleKey: 'landing.step1_title', descKey: 'landing.step1_desc' },
@@ -831,13 +839,59 @@ export class LandingComponent implements OnInit, OnDestroy {
     { value: 'other', labelKey: 'landing.contact_reason_other' }
   ];
 
-  constructor(public lang: LangService, private apiService: ApiService, private titleService: Title) {}
+  constructor(
+    public lang: LangService,
+    private apiService: ApiService,
+    private titleService: Title,
+    private trackingService: TrackingService
+  ) {}
 
   ngOnInit(): void {
     this.titleService.setTitle('DoraAudit.eu — DORA ja NIS2 vastavusplatvorm Eesti ettevõtetele');
     this.animateStats();
     this.loadPublicStats();
     this.loadEarlyAdopterStatus();
+    this.loadPromoSlots();
+
+    // Track page view
+    this.trackingService.trackPageView('/');
+  }
+
+  ngAfterViewInit(): void {
+    this.setupPromoSectionObserver();
+  }
+
+  private setupPromoSectionObserver(): void {
+    // Delay to ensure the element is rendered
+    setTimeout(() => {
+      const promoSection = document.getElementById('promo-section');
+
+      if (promoSection && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !this.promoViewTracked) {
+              this.promoViewTracked = true;
+              this.trackingService.trackPromoView();
+              observer.disconnect();
+            }
+          });
+        }, { threshold: 0.5 });
+
+        observer.observe(promoSection);
+      }
+    }, 100);
+  }
+
+  loadPromoSlots(): void {
+    this.apiService.getPromoSlots().subscribe({
+      next: (slots) => {
+        this.promoSlots = slots;
+      },
+      error: () => {
+        // Fallback to default values
+        this.promoSlots = { taken: 5, total: 10 };
+      }
+    });
   }
 
   loadEarlyAdopterStatus(): void {
@@ -985,5 +1039,9 @@ export class LandingComponent implements OnInit, OnDestroy {
         this.emailError = true;
       }
     });
+  }
+
+  onRegisterCtaClick(ctaLocation: string): void {
+    this.trackingService.trackCtaClick(`/register_from_${ctaLocation}`);
   }
 }

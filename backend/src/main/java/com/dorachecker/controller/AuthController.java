@@ -1,5 +1,6 @@
 package com.dorachecker.controller;
 
+import com.dorachecker.model.PromoSlotRepository;
 import com.dorachecker.model.UserEntity;
 import com.dorachecker.model.UserRepository;
 import com.dorachecker.security.AuthDtos.AuthResponse;
@@ -27,13 +28,16 @@ public class AuthController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final PromoSlotRepository promoSlotRepository;
 
     public AuthController(UserRepository userRepository,
                           PasswordEncoder passwordEncoder,
-                          JwtService jwtService) {
+                          JwtService jwtService,
+                          PromoSlotRepository promoSlotRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.promoSlotRepository = promoSlotRepository;
     }
 
     @PostMapping("/register")
@@ -64,6 +68,9 @@ public class AuthController {
         }
 
         userRepository.save(user);
+
+        // Increment promo slot counter
+        promoSlotRepository.incrementTaken("early_adopter");
 
         String token = jwtService.generateToken(user.getId(), user.getEmail());
         return ResponseEntity.ok(new AuthResponse(

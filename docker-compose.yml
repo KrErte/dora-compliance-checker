@@ -16,6 +16,44 @@ services:
       retries: 5
       start_period: 10s
 
+  # Umami Analytics Database
+  umami-db:
+    image: postgres:16-alpine
+    container_name: dora-umami-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${UMAMI_DB_USER:-umami}
+      - POSTGRES_PASSWORD=${UMAMI_DB_PASSWORD:-umami_secret}
+      - POSTGRES_DB=${UMAMI_DB_NAME:-umami}
+    volumes:
+      - umami_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${UMAMI_DB_USER:-umami} -d ${UMAMI_DB_NAME:-umami}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Umami Analytics
+  umami:
+    image: ghcr.io/umami-software/umami:postgresql-latest
+    container_name: dora-umami
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=postgresql://${UMAMI_DB_USER:-umami}:${UMAMI_DB_PASSWORD:-umami_secret}@umami-db:5432/${UMAMI_DB_NAME:-umami}
+      - DATABASE_TYPE=postgresql
+      - APP_SECRET=${UMAMI_APP_SECRET:-replace-me-with-a-random-string}
+      - TRACKER_SCRIPT_NAME=${UMAMI_TRACKER_SCRIPT_NAME:-script.js}
+    depends_on:
+      umami-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/heartbeat"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
   backend:
     build: ./backend
     container_name: dora-backend
@@ -47,11 +85,29 @@ services:
     build: ./frontend
     container_name: dora-frontend
     restart: unless-stopped
-    ports:
-      - "3000:80"
     depends_on:
       backend:
         condition: service_healthy
 
+  # Caddy Reverse Proxy (HTTPS + subdomain routing)
+  caddy:
+    image: caddy:2-alpine
+    container_name: dora-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - frontend
+      - umami
+
 volumes:
   postgres_data:
+  umami_postgres_data:
+  caddy_data:
+  caddy_config:
