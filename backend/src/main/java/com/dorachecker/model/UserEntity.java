@@ -10,6 +10,7 @@ public class UserEntity {
 
     public enum Role { USER, ADMIN }
     public enum AccountTier { FREE, PREMIUM }
+    public enum AuthProvider { LOCAL, GOOGLE, MICROSOFT }
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -18,8 +19,12 @@ public class UserEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private AuthProvider authProvider = AuthProvider.LOCAL;
+
+    private String oauthProviderId;
 
     private String fullName;
 
@@ -76,4 +81,10 @@ public class UserEntity {
     public boolean isTrialActive() {
         return trialEndDate != null && !LocalDate.now().isAfter(trialEndDate);
     }
+
+    public AuthProvider getAuthProvider() { return authProvider; }
+    public void setAuthProvider(AuthProvider authProvider) { this.authProvider = authProvider; }
+
+    public String getOauthProviderId() { return oauthProviderId; }
+    public void setOauthProviderId(String oauthProviderId) { this.oauthProviderId = oauthProviderId; }
 }

@@ -40,6 +40,25 @@ export class AuthService {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
+  handleOAuthCallback(token: string): Observable<AuthResponse> {
+    // Store token first
+    localStorage.setItem(this.TOKEN_KEY, token);
+    // Fetch user info using /me endpoint
+    return this.http.get<AuthResponse>('/api/auth/me').pipe(
+      tap(res => {
+        const user: AuthUser = {
+          userId: res.userId,
+          email: res.email,
+          fullName: res.fullName,
+          accountTier: res.accountTier,
+          trialEndDate: res.trialEndDate
+        };
+        localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+        this.currentUser.set(user);
+      })
+    );
+  }
+
   private handleAuth(res: AuthResponse): void {
     localStorage.setItem(this.TOKEN_KEY, res.token);
     const user: AuthUser = { userId: res.userId, email: res.email, fullName: res.fullName };

@@ -1055,6 +1055,13 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'auth.error_generic': { et: 'Midagi läks valesti. Palun proovige uuesti.', en: 'Something went wrong. Please try again.' },
   'auth.error_server': { et: 'Tehniline viga, proovi hiljem uuesti', en: 'Technical error, please try again later' },
   'auth.error_timeout': { et: 'Ühendus aegus, proovi uuesti', en: 'Connection timed out, please try again' },
+  'auth.or': { et: 'või', en: 'or' },
+  'auth.login_google': { et: 'Logi sisse Google\'iga', en: 'Sign in with Google' },
+  'auth.login_microsoft': { et: 'Logi sisse Microsoftiga', en: 'Sign in with Microsoft' },
+  'auth.register_google': { et: 'Registreeru Google\'iga', en: 'Sign up with Google' },
+  'auth.register_microsoft': { et: 'Registreeru Microsoftiga', en: 'Sign up with Microsoft' },
+  'auth.oauth_loading': { et: 'Sisselogimine...', en: 'Signing in...' },
+  'auth.oauth_error': { et: 'Sisselogimine ebaõnnestus. Proovi uuesti.', en: 'Sign in failed. Please try again.' },
 
   // Register - Early Adopter
   'register.early_adopter_banner': { et: 'Sa oled registreerija', en: 'You are registrant' },

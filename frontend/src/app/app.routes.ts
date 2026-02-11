@@ -37,6 +37,10 @@ export const routes: Routes = [
     canActivate: [guestGuard]
   },
   {
+    path: 'oauth/callback',
+    loadComponent: () => import('./pages/oauth-callback.component').then(m => m.OAuthCallbackComponent)
+  },
+  {
     path: 'assessment',
     loadComponent: () => import('./pages/assessment.component').then(m => m.AssessmentComponent)
     // No authGuard - free demo access for self-assessment
