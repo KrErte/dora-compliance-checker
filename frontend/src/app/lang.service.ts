@@ -319,7 +319,9 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.social_report': { et: 'raport juhatusele', en: 'report for board' },
   'landing.social_trust': { et: 'Põhineb DORA regulatsiooni ametlikul tekstil • Kooskõlas Finantsinspektsiooni juhistega', en: 'Based on official DORA regulation text • Aligned with Financial Supervisory Authority guidelines' },
 
-  // Landing - Free Trial
+  // Landing - Free Analysis CTA
+  'landing.free_analysis_desc': { et: 'Kontrolli oma IKT-lepingut tasuta. Detailne raport koos soovituslike klauslitega — otse emailile.', en: 'Check your ICT contract for free. Detailed report with suggested clauses — straight to your email.' },
+  'landing.free_analysis_cta': { et: 'Alusta analüüsi', en: 'Start analysis' },
   'landing.trial_desc': { et: 'Registreeru ja proovi 30 päeva tasuta — täisfunktsionaalsus, ilma kohustuseta', en: 'Register and try 30 days free — full functionality, no obligation' },
   'landing.cta_register': { et: 'Registreeru', en: 'Start Free Trial' },
 

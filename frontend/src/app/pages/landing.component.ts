@@ -92,7 +92,7 @@ interface Stat {
       </div>
     </div>
 
-    <!-- Free Trial Section -->
+    <!-- Free Analysis CTA Section -->
     <div id="promo-section" class="py-8 px-4 animate-fade-in">
       <div class="max-w-2xl mx-auto">
         <div class="relative overflow-hidden rounded-2xl p-6 md:p-8 bg-gradient-to-br from-emerald-500/10 via-teal-500/10 to-cyan-500/10 border border-emerald-500/30">
@@ -101,17 +101,16 @@ interface Stat {
           <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl"></div>
 
           <div class="relative z-10 text-center">
-            <div class="text-4xl mb-3">🚀</div>
+            <div class="text-4xl mb-3">📄</div>
             <p class="text-lg text-slate-300 mb-6 max-w-lg mx-auto">
-              {{ lang.t('landing.trial_desc') }}
+              {{ lang.t('landing.free_analysis_desc') }}
             </p>
 
-            <a routerLink="/register"
-               (click)="onRegisterCtaClick('trial_cta')"
+            <a routerLink="/contract-analysis"
                class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-lg
                       bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
                       hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
-              {{ lang.t('landing.cta_register') }}
+              {{ lang.t('landing.free_analysis_cta') }}
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
               </svg>
