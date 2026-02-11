@@ -72,14 +72,6 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
                 </svg>
                 {{ lang.t('nav.fine_calculator') }}
               </a>
-              <a routerLink="/workspace" (click)="doraMenu = false"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
-                </svg>
-                {{ lang.t('nav.workspace') }}
-                <span class="ml-auto px-1.5 py-0.5 text-[10px] font-bold rounded bg-violet-500/20 text-violet-400">{{ lang.t('nav.new_badge') }}</span>
-              </a>
             </div>
           </div>
           <!-- NIS2 dropdown -->
@@ -111,6 +103,15 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
               </a>
             </div>
           </div>
+          <!-- Workspace -->
+          <a routerLink="/workspace" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-violet-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
+            <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+            </svg>
+            {{ lang.t('nav.workspace') }}
+            <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-violet-500/20 text-violet-400">{{ lang.t('nav.new_badge') }}</span>
+          </a>
           <!-- Pricing -->
           <a routerLink="/pricing" routerLinkActive="nav-link-active"
              class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
@@ -340,7 +341,9 @@ export class AppComponent implements OnInit, OnDestroy {
     '/privacy': { et: 'Privaatsuspoliitika | DoraAudit.eu', en: 'Privacy Policy | DoraAudit.eu' },
     '/methodology': { et: 'Metoodika | DoraAudit.eu', en: 'Methodology | DoraAudit.eu' },
     '/board-risk': { et: 'Juhatuse riskikalkulaator | DoraAudit.eu', en: 'Board Risk Calculator | DoraAudit.eu' },
-    '/terms': { et: 'Kasutustingimused | DoraAudit.eu', en: 'Terms of Service | DoraAudit.eu' }
+    '/terms': { et: 'Kasutustingimused | DoraAudit.eu', en: 'Terms of Service | DoraAudit.eu' },
+    '/workspace': { et: 'Lepingute Töölaud | DoraAudit.eu', en: 'Contract Workspace | DoraAudit.eu' },
+    '/fine-calculator': { et: 'Trahvikalkulaator | DoraAudit.eu', en: 'Fine Calculator | DoraAudit.eu' }
   };
 
   private pageDescriptions: { [path: string]: string } = {
@@ -354,7 +357,9 @@ export class AppComponent implements OnInit, OnDestroy {
     '/methodology': 'DORA vastavushindamise metoodika. Kuidas hindame IKT-lepinguid Art. 30 nõuete vastu.',
     '/about': 'DoraAudit.eu - DORA ja NIS2 vastavuskontrolli platvorm Eesti finantsettevõtetele.',
     '/privacy': 'DoraAudit.eu privaatsuspoliitika. Kuidas me kasutame ja kaitseme teie andmeid.',
-    '/terms': 'DoraAudit.eu kasutustingimused. Teenuse kasutamise õigused ja kohustused.'
+    '/terms': 'DoraAudit.eu kasutustingimused. Teenuse kasutamise õigused ja kohustused.',
+    '/workspace': 'IKT lepingute töölaud DORA, GDPR, NIS2 ja SLA vastavuskontrolliks. Multiregulatiivne analüüs ja meeskonnatöö.',
+    '/fine-calculator': 'DORA trahvikalkulaator. Arvuta võimalik trahvisumma mittevastavuse korral Art. 50-51 alusel.'
   };
 
   constructor(
