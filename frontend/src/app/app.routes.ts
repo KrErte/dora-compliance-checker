@@ -47,8 +47,8 @@ export const routes: Routes = [
   },
   {
     path: 'results/:id',
-    loadComponent: () => import('./pages/results.component').then(m => m.ResultsComponent),
-    canActivate: [authGuard]
+    loadComponent: () => import('./pages/results.component').then(m => m.ResultsComponent)
+    // No authGuard - results available immediately, details require email
   },
   {
     path: 'history',

@@ -1,5 +1,6 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
@@ -28,7 +29,7 @@ interface HeatmapCell {
 
 @Component({
   selector: 'app-results',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink],
   template: `
     <div class="max-w-4xl mx-auto">
       <div *ngIf="loading" class="text-center py-16 animate-fade-in">
@@ -290,8 +291,42 @@ interface HeatmapCell {
           </div>
         </div>
 
-        <!-- Compliance Roadmap -->
-        <div *ngIf="nonCompliantItems.length > 0" class="glass-card p-6 mb-8 animate-fade-in-up delay-600">
+        <!-- Email Gate for Detailed Report -->
+        <div *ngIf="!emailCaptured" class="glass-card p-8 mb-8 border-cyan-500/30 bg-gradient-to-br from-cyan-500/5 to-emerald-500/5 animate-fade-in-up delay-600">
+          <div class="text-center max-w-md mx-auto">
+            <div class="w-16 h-16 rounded-full bg-cyan-500/20 flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-slate-200 mb-2">{{ lang.t('results.email_gate_title') }}</h3>
+            <p class="text-sm text-slate-400 mb-6">{{ lang.t('results.email_gate_desc') }}</p>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <input type="email" [(ngModel)]="email" name="email"
+                     class="flex-1 px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-600/50 text-white placeholder-slate-500
+                            focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25 transition-all"
+                     [placeholder]="lang.currentLang === 'et' ? 'teie@ettevote.ee' : 'you@company.com'">
+              <button type="button" (click)="captureEmail()"
+                      [disabled]="!email || emailLoading"
+                      class="px-6 py-3 rounded-xl font-semibold text-sm whitespace-nowrap
+                             bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-900
+                             hover:from-cyan-400 hover:to-emerald-400 hover:shadow-lg hover:shadow-cyan-500/25
+                             disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+                <span *ngIf="!emailLoading">{{ lang.t('results.send_report') }}</span>
+                <span *ngIf="emailLoading" class="flex items-center gap-2">
+                  <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                  </svg>
+                </span>
+              </button>
+            </div>
+            <p class="text-xs text-slate-500 mt-4">{{ lang.t('results.email_gate_note') }}</p>
+          </div>
+        </div>
+
+        <!-- Compliance Roadmap (email gated) -->
+        <div *ngIf="emailCaptured && nonCompliantItems.length > 0" class="glass-card p-6 mb-8 animate-fade-in-up delay-600">
           <h2 class="text-sm font-semibold text-slate-300 mb-6 flex items-center gap-2">
             <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
@@ -459,7 +494,8 @@ interface HeatmapCell {
           </div>
         </div>
 
-        <!-- Question breakdown -->
+        <!-- Question breakdown (email gated) -->
+        <div *ngIf="emailCaptured">
         <h2 class="text-lg font-semibold text-slate-200 mb-4 animate-fade-in-up delay-400 flex items-center gap-2">
           <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
@@ -493,6 +529,7 @@ interface HeatmapCell {
             </div>
           </div>
         </div>
+        </div>
 
         <!-- Print header (only visible in PDF) -->
         <div class="print-only mb-6">
@@ -508,7 +545,7 @@ interface HeatmapCell {
 
         <!-- Actions -->
         <div class="flex flex-wrap justify-center gap-3 mt-10 mb-8 animate-fade-in-up delay-800 no-print">
-          <a [routerLink]="['/certificate', result.id]"
+          <a *ngIf="emailCaptured" [routerLink]="['/certificate', result.id]"
                   class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400
                          text-slate-900 font-semibold px-6 py-2.5 rounded-lg transition-all duration-300
                          hover:shadow-lg hover:shadow-amber-500/25 flex items-center gap-2">
@@ -517,7 +554,7 @@ interface HeatmapCell {
             </svg>
             {{ lang.t('results.certificate') }}
           </a>
-          <button type="button" (click)="exportPdf()"
+          <button *ngIf="emailCaptured" type="button" (click)="exportPdf()"
                   class="bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-400 hover:to-purple-400
                          text-white font-semibold px-6 py-2.5 rounded-lg transition-all duration-300
                          hover:shadow-lg hover:shadow-violet-500/25 flex items-center gap-2">
@@ -535,13 +572,13 @@ interface HeatmapCell {
             </svg>
             {{ lang.t('results.new_assessment') }}
           </a>
-          <a routerLink="/history"
+          <a routerLink="/contract-analysis"
              class="bg-slate-700/50 hover:bg-slate-600/50 text-slate-200 font-semibold px-6 py-2.5 rounded-lg
                     transition-all duration-300 border border-slate-600/50 hover:border-slate-500/50 flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
-            {{ lang.t('results.history') }}
+            {{ lang.t('results.analyze_contract') }}
           </a>
         </div>
       </div>
@@ -565,6 +602,11 @@ export class ResultsComponent implements OnInit {
   roadmapPhase2Progress = 0;
   roadmapPhase3Progress = 0;
 
+  // Email gate
+  email = '';
+  emailCaptured = false;
+  emailLoading = false;
+
   doraPillars = [
     { icon: '\u{1F6E1}\uFE0F', label: 'IKT risk', active: true },
     { icon: '\u{1F4CB}', label: 'Intsidendid', active: true },
@@ -577,6 +619,14 @@ export class ResultsComponent implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id')!;
+
+    // Check if email was already captured for this assessment
+    const savedEmail = localStorage.getItem('dora_results_email_' + id);
+    if (savedEmail) {
+      this.email = savedEmail;
+      this.emailCaptured = true;
+    }
+
     this.api.getAssessment(id).subscribe({
       next: (result) => {
         this.result = result;
@@ -620,6 +670,21 @@ export class ResultsComponent implements OnInit {
 
   exportPdf() {
     window.print();
+  }
+
+  captureEmail() {
+    if (!this.email || !this.result) return;
+    this.emailLoading = true;
+
+    // Save email to localStorage for this assessment
+    localStorage.setItem('dora_results_email_' + this.result.id, this.email);
+
+    // TODO: Send email to backend for lead capture
+    // For now, just unlock the content
+    setTimeout(() => {
+      this.emailCaptured = true;
+      this.emailLoading = false;
+    }, 500);
   }
 
   buildCategoryStats() {

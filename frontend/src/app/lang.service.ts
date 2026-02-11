@@ -685,6 +685,11 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'results.cta_contract_title': { et: 'Kontrollige ka oma IKT-lepinguid', en: 'Also check your ICT contracts' },
   'results.cta_contract_desc': { et: 'Automaatne anal\u00fc\u00fcs kontrollib lepingut DORA Art. 30 n\u00f5uete vastu ja annab soovitused puuduste k\u00f5rvaldamiseks', en: 'Automated analysis checks contracts against DORA Art. 30 requirements and provides recommendations for fixing gaps' },
   'results.cta_contract_btn': { et: 'Anal\u00fc\u00fcsi lepingut', en: 'Analyze contract' },
+  'results.email_gate_title': { et: 'Detailne raport emailile', en: 'Detailed report to your email' },
+  'results.email_gate_desc': { et: 'Sisesta email, et saada tegevuskava, soovitused ja PDF raport', en: 'Enter your email to get the action plan, recommendations, and PDF report' },
+  'results.send_report': { et: 'Saada mulle detailne raport', en: 'Send me the detailed report' },
+  'results.email_gate_note': { et: 'Saadame raporti sinu emailile. Ei mingit sp\u00e4mmi.', en: 'We\'ll send the report to your email. No spam.' },
+  'results.analyze_contract': { et: 'Anal\u00fc\u00fcsi lepingut', en: 'Analyze contract' },
 
   // History
   'history.title': { et: 'Hindamiste ajalugu', en: 'Assessment History' },
