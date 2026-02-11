@@ -44,14 +44,21 @@ interface Stat {
           {{ lang.t('landing.subtitle') }}
         </p>
 
-        <!-- CTA button - single clear action -->
-        <div class="flex flex-col sm:flex-row gap-4 animate-slide-in delay-200">
-          <a routerLink="/nis2/scope-check"
+        <!-- CTA buttons -->
+        <div class="flex flex-col items-center gap-4 animate-slide-in delay-200">
+          <a routerLink="/contract-analysis"
              class="cta-button group inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
                     text-slate-900 font-semibold px-10 py-4 rounded-xl text-lg
                     hover:shadow-lg hover:shadow-emerald-500/25">
             {{ lang.t('landing.cta_free_check') }}
             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </a>
+          <a routerLink="/nis2/scope-check"
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors inline-flex items-center gap-1">
+            {{ lang.t('landing.cta_nis2_secondary') }}
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
           </a>

@@ -300,6 +300,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.cta_check': { et: 'Kontrolli lepingut', en: 'Check contract' },
   'landing.cta_start_free': { et: 'Alusta tasuta', en: 'Start for free' },
   'landing.cta_check_nis2': { et: 'Kontrolli NIS2 kohaldumist →', en: 'Check NIS2 applicability →' },
+  'landing.cta_nis2_secondary': { et: 'Või kontrolli esmalt NIS2 kohaldumist', en: 'Or check NIS2 applicability first' },
 
   // Landing - Email capture
   'landing.email_title': { et: 'Saa DORA vastavuse kontrollnimekiri emailile', en: 'Get DORA compliance checklist to your email' },
