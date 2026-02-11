@@ -86,6 +86,21 @@ import { LangService } from '../lang.service';
         </div>
       </div>
 
+      <!-- Methodology -->
+      <div class="glass-card p-6 mb-8 border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-orange-500/5">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center shrink-0">
+            <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-lg font-semibold text-amber-400 mb-2">{{ lang.t('about.methodology_title') }}</h2>
+            <p class="text-sm text-slate-300 leading-relaxed">{{ lang.t('about.methodology_desc') }}</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Contact CTA -->
       <div class="glass-card p-6 mb-6 text-center border-emerald-500/20">
         <h2 class="text-lg font-semibold text-slate-200 mb-2">{{ lang.t('about.contact_title') }}</h2>
