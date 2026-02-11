@@ -29,16 +29,16 @@ public class OAuth2Controller {
     private final JwtService jwtService;
     private final RestTemplate restTemplate;
 
-    @Value("${spring.security.oauth2.client.registration.google.client-id:}")
+    @Value("${oauth2.google.client-id:}")
     private String googleClientId;
 
-    @Value("${spring.security.oauth2.client.registration.google.client-secret:}")
+    @Value("${oauth2.google.client-secret:}")
     private String googleClientSecret;
 
-    @Value("${spring.security.oauth2.client.registration.microsoft.client-id:}")
+    @Value("${oauth2.microsoft.client-id:}")
     private String microsoftClientId;
 
-    @Value("${spring.security.oauth2.client.registration.microsoft.client-secret:}")
+    @Value("${oauth2.microsoft.client-secret:}")
     private String microsoftClientSecret;
 
     @Value("${app.frontend-url:http://localhost:4200}")

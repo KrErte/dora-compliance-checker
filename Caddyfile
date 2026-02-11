@@ -1,0 +1,36 @@
+# DoraAudit.eu - Caddy Configuration
+# Automatic HTTPS for all domains
+
+# Main site
+doraaudit.eu, www.doraaudit.eu {
+    # API requests -> Backend
+    handle /api/* {
+        reverse_proxy backend:8080
+    }
+
+    # All other requests -> Frontend
+    handle {
+        reverse_proxy frontend:80
+    }
+
+    # Security headers
+    header {
+        X-Frame-Options "DENY"
+        X-Content-Type-Options "nosniff"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        -Server
+    }
+}
+
+# Umami Analytics subdomain
+umami.doraaudit.eu {
+    reverse_proxy umami:3000
+
+    # Security headers
+    header {
+        X-Frame-Options "SAMEORIGIN"
+        X-Content-Type-Options "nosniff"
+        -Server
+    }
+}
