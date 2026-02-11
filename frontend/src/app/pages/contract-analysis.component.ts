@@ -216,9 +216,8 @@ import { ContractAnalysisResult } from '../models';
         <div class="mb-6 relative">
           <label id="contract-upload-label" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('contract.upload_label') }}</label>
 
-          <!-- Unlocked upload (has access or sample file selected) -->
-          <div *ngIf="paywall.hasAccess() || isSampleFile"
-               (click)="fileInput.click()" aria-labelledby="contract-upload-label" role="button" tabindex="0"
+          <!-- Upload area - available to everyone -->
+          <div (click)="fileInput.click()" aria-labelledby="contract-upload-label" role="button" tabindex="0"
                (dragover)="onDragOver($event)"
                (dragleave)="onDragLeave($event)"
                (drop)="onDrop($event)"
@@ -244,35 +243,6 @@ import { ContractAnalysisResult } from '../models';
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
               </button>
-            </div>
-          </div>
-
-          <!-- Locked upload (no access and no sample file) - paywall overlay -->
-          <div *ngIf="!paywall.hasAccess() && !isSampleFile" class="relative">
-            <div class="border-2 border-dashed rounded-xl p-8 text-center border-slate-600/50 blur-sm opacity-50">
-              <svg class="w-10 h-10 mx-auto mb-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-              </svg>
-              <p class="text-sm text-slate-400 mb-1">{{ lang.t('contract.drag_drop') }}</p>
-            </div>
-            <!-- Paywall overlay -->
-            <div class="absolute inset-0 flex items-center justify-center">
-              <div class="glass-card p-6 border border-cyan-500/30 text-center max-w-sm backdrop-blur-md">
-                <div class="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center mx-auto mb-3">
-                  <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                  </svg>
-                </div>
-                <p class="text-sm text-slate-300 mb-4">{{ lang.t('paywall.contract_desc') }}</p>
-                <a [href]="paymentConfig.lemonsqueezy.products.contractAnalysis.checkoutUrl"
-                   target="_blank"
-                   class="inline-block w-full py-2.5 px-4 rounded-xl text-center font-medium text-sm
-                          bg-gradient-to-r from-cyan-500 to-teal-500 text-white
-                          hover:from-cyan-400 hover:to-teal-400 hover:shadow-lg hover:shadow-cyan-500/25
-                          transition-all duration-200">
-                  {{ lang.t('paywall.buy_contract') }}
-                </a>
-              </div>
             </div>
           </div>
 
@@ -451,7 +421,7 @@ import { ContractAnalysisResult } from '../models';
         </div>
       </div>
 
-      <!-- Suggested contract clauses for missing/partial -->
+      <!-- Suggested contract clauses for missing/partial - requires email -->
       <div *ngIf="riskFindings.length > 0" class="glass-card p-5 mb-6">
         <div class="flex items-center gap-2 mb-4">
           <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -462,13 +432,38 @@ import { ContractAnalysisResult } from '../models';
             <p class="text-xs text-slate-500">{{ lang.t('contract.suggested_clauses_desc') }}</p>
           </div>
         </div>
-        <div *ngFor="let rf of riskFindings; let ci = index"
-             [class]="'py-3' + (ci > 0 ? ' border-t border-slate-700/50' : '')">
-          <p class="text-xs font-medium text-slate-300 mb-1">{{ lang.currentLang === 'et' ? rf.requirementEt : rf.requirementEn }}
-            <span class="text-slate-600 ml-1">{{ rf.doraReference }}</span>
-          </p>
-          <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-3 mt-1">
-            <p class="text-xs text-cyan-300/80 font-mono leading-relaxed">{{ getClause(rf.requirementId) }}</p>
+
+        <!-- Show clauses if email captured -->
+        <div *ngIf="emailCaptured">
+          <div *ngFor="let rf of riskFindings; let ci = index"
+               [class]="'py-3' + (ci > 0 ? ' border-t border-slate-700/50' : '')">
+            <p class="text-xs font-medium text-slate-300 mb-1">{{ lang.currentLang === 'et' ? rf.requirementEt : rf.requirementEn }}
+              <span class="text-slate-600 ml-1">{{ rf.doraReference }}</span>
+            </p>
+            <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-3 mt-1">
+              <p class="text-xs text-cyan-300/80 font-mono leading-relaxed">{{ getClause(rf.requirementId) }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email gate for clauses -->
+        <div *ngIf="!emailCaptured" class="text-center py-6">
+          <div class="w-12 h-12 rounded-full bg-cyan-500/20 flex items-center justify-center mx-auto mb-3">
+            <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <p class="text-sm text-slate-300 mb-1">{{ lang.t('contract.clauses_locked_title') }}</p>
+          <p class="text-xs text-slate-500 mb-4">{{ lang.t('contract.clauses_locked_desc') }}</p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-2 max-w-md mx-auto">
+            <input type="email" [(ngModel)]="email" [placeholder]="lang.t('contract.email_placeholder')"
+                   class="flex-1 bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-sm text-slate-100
+                          focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/20 focus:outline-none transition-all w-full">
+            <button type="button" (click)="captureEmail()"
+                    class="px-6 py-2.5 rounded-lg text-sm font-medium bg-gradient-to-r from-cyan-500 to-teal-500 text-white
+                           hover:from-cyan-400 hover:to-teal-400 hover:shadow-lg hover:shadow-cyan-500/25 transition-all whitespace-nowrap">
+              {{ lang.t('contract.unlock_clauses') }}
+            </button>
           </div>
         </div>
       </div>
@@ -506,33 +501,10 @@ import { ContractAnalysisResult } from '../models';
         </div>
       </div>
 
-      <!-- Lead capture -->
-      <div *ngIf="!emailCaptured" class="glass-card p-5 mb-6 border-emerald-500/20">
-        <div class="flex flex-col md:flex-row items-center gap-4">
-          <div class="flex-1">
-            <h3 class="text-sm font-semibold text-slate-200 mb-1">{{ lang.t('contract.share_title') }}</h3>
-            <p class="text-xs text-slate-500">{{ lang.t('contract.share_desc') }}</p>
-          </div>
-          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full md:w-auto">
-            <input type="email" [(ngModel)]="email" [placeholder]="lang.t('contract.email_placeholder')"
-                   class="bg-slate-900/50 border border-slate-600/50 rounded-lg px-3 py-2 text-sm text-slate-100
-                          focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all w-full sm:w-56">
-            <button type="button" (click)="captureEmail()"
-                    class="px-4 py-2 rounded-lg text-sm font-medium bg-emerald-500/20 border border-emerald-500/30 text-emerald-400
-                           hover:bg-emerald-500/30 transition-all whitespace-nowrap">
-              {{ lang.t('contract.send') }}
-            </button>
-          </div>
-        </div>
-      </div>
-      <div *ngIf="emailCaptured" class="glass-card p-4 mb-6 border-emerald-500/20 text-center">
-        <p class="text-sm text-emerald-400">{{ lang.t('contract.email_saved') }}</p>
-      </div>
-
       <!-- Action buttons -->
       <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
-        <!-- PDF download - unlocked -->
-        <button type="button" *ngIf="paywall.hasAccess()" (click)="downloadPdf()"
+        <!-- PDF download - requires email -->
+        <button type="button" *ngIf="emailCaptured" (click)="downloadPdf()"
                 class="px-6 py-2.5 rounded-lg font-medium text-sm bg-gradient-to-r from-emerald-500 to-cyan-500
                        text-slate-900 hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-300
                        flex items-center gap-2">
@@ -541,18 +513,22 @@ import { ContractAnalysisResult } from '../models';
           </svg>
           {{ lang.t('contract.download_pdf') }}
         </button>
-        <!-- PDF download - locked -->
-        <a *ngIf="!paywall.hasAccess()"
-           [href]="paymentConfig.lemonsqueezy.products.nis2Report.checkoutUrl"
-           target="_blank"
-           class="px-6 py-2.5 rounded-lg font-medium text-sm bg-slate-700/50 text-slate-300 border border-amber-500/30
-                  hover:bg-slate-600/50 hover:text-amber-400 hover:border-amber-500/50 transition-all duration-300
-                  flex items-center gap-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-          </svg>
-          {{ lang.t('paywall.buy_pdf') }}
-        </a>
+        <!-- PDF download - locked until email -->
+        <div *ngIf="!emailCaptured" class="flex items-center gap-2">
+          <div class="glass-card px-4 py-2.5 rounded-lg border border-slate-600/50 flex items-center gap-3">
+            <input type="email" [(ngModel)]="email" [placeholder]="lang.t('contract.email_placeholder')"
+                   class="bg-transparent border-none text-sm text-slate-100 focus:outline-none w-48"
+                   (keyup.enter)="captureEmail()">
+            <button type="button" (click)="captureEmail()"
+                    class="px-4 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
+                           hover:from-emerald-400 hover:to-cyan-400 transition-all flex items-center gap-1.5 whitespace-nowrap">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              {{ lang.t('contract.get_pdf') }}
+            </button>
+          </div>
+        </div>
         <button type="button" (click)="resetForm()"
                 class="px-6 py-2.5 rounded-lg font-medium text-sm bg-slate-700/50 text-slate-300 border border-slate-600/30
                        hover:bg-slate-600/50 hover:text-emerald-400 transition-all duration-200">

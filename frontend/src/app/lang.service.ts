@@ -1445,6 +1445,12 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'payment.unavailable': { et: 'Maksesüsteem on ajutiselt kättesaamatu. Palun proovi hiljem uuesti.', en: 'Payment system is temporarily unavailable. Please try again later.' },
   'payment.retry': { et: 'Proovi uuesti', en: 'Try again' },
   'payment.loading': { et: 'Laadin maksesüsteemi...', en: 'Loading payment system...' },
+
+  // Contract Analysis Email Gate
+  'contract.clauses_locked_title': { et: 'Soovituslikud klauslid', en: 'Suggested clauses' },
+  'contract.clauses_locked_desc': { et: 'Sisesta email, et näha soovituslikke lepinguklausleid ja laadida PDF raport', en: 'Enter email to see suggested contract clauses and download PDF report' },
+  'contract.unlock_clauses': { et: 'Ava klauslid', en: 'Unlock clauses' },
+  'contract.get_pdf': { et: 'Saada raport', en: 'Get report' },
 };
 
 @Injectable({ providedIn: 'root' })
