@@ -86,7 +86,7 @@ public class WorkspaceController {
                 .orElseThrow(() -> new RuntimeException("Project not found"));
 
             // Extract text from document
-            String text = documentService.extractText(file.getInputStream(), file.getOriginalFilename());
+            String text = documentService.extractText(file);
             if (text == null || text.isBlank()) {
                 return ResponseEntity.badRequest().body(Map.of("error", "Could not extract text from document"));
             }

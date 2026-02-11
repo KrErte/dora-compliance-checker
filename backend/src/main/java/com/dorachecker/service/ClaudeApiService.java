@@ -121,6 +121,17 @@ public class ClaudeApiService {
     }
 
     /**
+     * Simple analyze method for generic prompts.
+     * Returns the AI response text (expects JSON format from prompt).
+     */
+    public String analyze(String prompt) {
+        if (apiKey == null || apiKey.isBlank()) {
+            throw new IllegalStateException("Anthropic API võti on seadistamata.");
+        }
+        return callApi(prompt, 4096);
+    }
+
+    /**
      * Assess whether a regulatory update is relevant to DORA Art. 30 requirements.
      * Returns JSON with relevanceScore (0-1), affectedArticles, and status.
      */
