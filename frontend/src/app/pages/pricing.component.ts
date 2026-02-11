@@ -21,6 +21,44 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
         </p>
       </div>
 
+      <!-- Why DoraAudit Comparison -->
+      <div class="mb-16">
+        <h2 class="text-2xl font-bold text-center text-slate-100 mb-8">{{ lang.t('pricing.why_title') }}</h2>
+        <div class="max-w-3xl mx-auto overflow-hidden rounded-2xl border border-slate-700/50">
+          <table class="w-full">
+            <thead>
+              <tr class="bg-slate-800/80">
+                <th class="px-4 py-3 text-left text-sm font-medium text-slate-400 w-1/3"></th>
+                <th class="px-4 py-3 text-center text-sm font-medium text-slate-400 w-1/3 bg-slate-700/30">{{ lang.t('pricing.compare_header_lawyer') }}</th>
+                <th class="px-4 py-3 text-center text-sm font-medium text-emerald-400 w-1/3 bg-emerald-500/10 border-l border-emerald-500/20">{{ lang.t('pricing.compare_header_doraaudit') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-t border-slate-700/50">
+                <td class="px-4 py-4 text-sm font-medium text-slate-300">{{ lang.t('pricing.compare_price') }}</td>
+                <td class="px-4 py-4 text-center text-sm text-slate-400 bg-slate-700/10">{{ lang.t('pricing.compare_price_lawyer') }}</td>
+                <td class="px-4 py-4 text-center text-sm font-semibold text-emerald-400 bg-emerald-500/5 border-l border-emerald-500/20">{{ lang.t('pricing.compare_price_doraaudit') }}</td>
+              </tr>
+              <tr class="border-t border-slate-700/50">
+                <td class="px-4 py-4 text-sm font-medium text-slate-300">{{ lang.t('pricing.compare_time') }}</td>
+                <td class="px-4 py-4 text-center text-sm text-slate-400 bg-slate-700/10">{{ lang.t('pricing.compare_time_lawyer') }}</td>
+                <td class="px-4 py-4 text-center text-sm font-semibold text-emerald-400 bg-emerald-500/5 border-l border-emerald-500/20">{{ lang.t('pricing.compare_time_doraaudit') }}</td>
+              </tr>
+              <tr class="border-t border-slate-700/50">
+                <td class="px-4 py-4 text-sm font-medium text-slate-300">{{ lang.t('pricing.compare_result') }}</td>
+                <td class="px-4 py-4 text-center text-sm text-slate-400 bg-slate-700/10">{{ lang.t('pricing.compare_result_lawyer') }}</td>
+                <td class="px-4 py-4 text-center text-sm font-semibold text-emerald-400 bg-emerald-500/5 border-l border-emerald-500/20">{{ lang.t('pricing.compare_result_doraaudit') }}</td>
+              </tr>
+              <tr class="border-t border-slate-700/50">
+                <td class="px-4 py-4 text-sm font-medium text-slate-300">{{ lang.t('pricing.compare_update') }}</td>
+                <td class="px-4 py-4 text-center text-sm text-slate-400 bg-slate-700/10">{{ lang.t('pricing.compare_update_lawyer') }}</td>
+                <td class="px-4 py-4 text-center text-sm font-semibold text-emerald-400 bg-emerald-500/5 border-l border-emerald-500/20">{{ lang.t('pricing.compare_update_doraaudit') }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <!-- Pricing Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
 

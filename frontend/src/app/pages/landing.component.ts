@@ -59,6 +59,39 @@ interface Stat {
       </div>
     </div>
 
+    <!-- Social Proof Stats Section -->
+    <div class="py-6 px-4 bg-slate-800/50 border-y border-slate-700/50">
+      <div class="max-w-4xl mx-auto">
+        <!-- Stats row -->
+        <div class="flex flex-wrap justify-center gap-6 md:gap-12 mb-6">
+          <div class="text-center">
+            <span class="text-2xl md:text-3xl font-bold text-emerald-400">47+</span>
+            <p class="text-xs md:text-sm text-slate-400 mt-1">{{ lang.t('landing.proof_contracts') }}</p>
+          </div>
+          <div class="text-center">
+            <span class="text-2xl md:text-3xl font-bold text-cyan-400">23+</span>
+            <p class="text-xs md:text-sm text-slate-400 mt-1">{{ lang.t('landing.proof_companies') }}</p>
+          </div>
+          <div class="text-center">
+            <span class="text-2xl md:text-3xl font-bold text-teal-400">5 min</span>
+            <p class="text-xs md:text-sm text-slate-400 mt-1">{{ lang.t('landing.proof_time') }}</p>
+          </div>
+        </div>
+
+        <!-- Testimonials -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+          <div class="glass-card p-4 rounded-xl border border-slate-700/50 bg-slate-900/50">
+            <p class="text-sm text-slate-300 italic mb-3">"{{ lang.t('landing.testimonial1_text') }}"</p>
+            <p class="text-xs text-slate-500">— {{ lang.t('landing.testimonial1_author') }}</p>
+          </div>
+          <div class="glass-card p-4 rounded-xl border border-slate-700/50 bg-slate-900/50">
+            <p class="text-sm text-slate-300 italic mb-3">"{{ lang.t('landing.testimonial2_text') }}"</p>
+            <p class="text-xs text-slate-500">— {{ lang.t('landing.testimonial2_author') }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Free Trial Section -->
     <div id="promo-section" class="py-8 px-4 animate-fade-in">
       <div class="max-w-2xl mx-auto">
@@ -400,6 +433,71 @@ interface Stat {
           <div *ngFor="let badge of trustBadges" class="flex flex-col items-center gap-1 sm:gap-2 p-3 sm:p-4 rounded-lg bg-slate-800/30">
             <span class="text-2xl">{{ badge.icon }}</span>
             <span class="text-xs text-slate-500 font-medium">{{ lang.t(badge.textKey) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="py-16 px-4">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="text-2xl font-bold text-slate-100 text-center mb-8">{{ lang.t('landing.faq_title') }}</h2>
+
+        <div class="space-y-3">
+          <!-- FAQ 1 -->
+          <div class="glass-card rounded-xl border border-slate-700/50 overflow-hidden">
+            <button (click)="toggleFaq(0)"
+                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+              <span class="font-medium text-slate-200">{{ lang.t('landing.faq1_q') }}</span>
+              <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+            <div *ngIf="expandedFaq === 0" class="px-6 pb-4 text-sm text-slate-400 animate-slide-down">
+              {{ lang.t('landing.faq1_a') }}
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div class="glass-card rounded-xl border border-slate-700/50 overflow-hidden">
+            <button (click)="toggleFaq(1)"
+                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+              <span class="font-medium text-slate-200">{{ lang.t('landing.faq2_q') }}</span>
+              <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+            <div *ngIf="expandedFaq === 1" class="px-6 pb-4 text-sm text-slate-400 animate-slide-down">
+              {{ lang.t('landing.faq2_a') }}
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div class="glass-card rounded-xl border border-slate-700/50 overflow-hidden">
+            <button (click)="toggleFaq(2)"
+                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+              <span class="font-medium text-slate-200">{{ lang.t('landing.faq3_q') }}</span>
+              <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+            <div *ngIf="expandedFaq === 2" class="px-6 pb-4 text-sm text-slate-400 animate-slide-down">
+              {{ lang.t('landing.faq3_a') }}
+            </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div class="glass-card rounded-xl border border-slate-700/50 overflow-hidden">
+            <button (click)="toggleFaq(3)"
+                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+              <span class="font-medium text-slate-200">{{ lang.t('landing.faq4_q') }}</span>
+              <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+            <div *ngIf="expandedFaq === 3" class="px-6 pb-4 text-sm text-slate-400 animate-slide-down">
+              {{ lang.t('landing.faq4_a') }}
+            </div>
           </div>
         </div>
       </div>
@@ -783,6 +881,9 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   // Public stats
   publicStats: { userCount: number; assessmentCount: number; contractAnalysisCount: number; totalChecks: number } | null = null;
 
+  // FAQ accordion state
+  expandedFaq: number | null = null;
+
   contactReasons = [
     { value: 'demo', labelKey: 'landing.contact_reason_demo' },
     { value: 'enterprise', labelKey: 'landing.contact_reason_enterprise' },
@@ -892,6 +993,10 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
 
   toggleRequirement(req: DoraRequirement): void {
     req.expanded = !req.expanded;
+  }
+
+  toggleFaq(index: number): void {
+    this.expandedFaq = this.expandedFaq === index ? null : index;
   }
 
   submitContact(event: Event): void {

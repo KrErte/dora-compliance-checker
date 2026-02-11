@@ -286,8 +286,8 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'cookie.decline': { et: 'Keeldu', en: 'Decline' },
 
   // Landing - Hero
-  'landing.title': { et: 'Eesti ettevõtete DORA ja NIS2 vastavusplatvorm', en: 'DORA and NIS2 Compliance Platform for Estonian Companies' },
-  'landing.subtitle': { et: 'Kontrolli lepingud. Hinda vastavust. Genereeri puuduvad dokumendid.', en: 'Check contracts. Assess compliance. Generate missing documents.' },
+  'landing.title': { et: 'Sinu IKT-leping ei vasta DORA nõuetele. Me näitame, kus täpselt.', en: 'Your ICT contract doesn\'t meet DORA requirements. We show you exactly where.' },
+  'landing.subtitle': { et: '8 DORA Art. 30 nõuet · 5 minuti analüüs · PDF raport juhatusele. Ilma juristita.', en: '8 DORA Art. 30 requirements · 5-minute analysis · PDF report for the board. No lawyer needed.' },
   'landing.hero_desc': { et: 'Kontrollige oma IKT-lepingute vastavust DORA artikkel 30 nõuetele enne auditit.', en: 'Check your ICT contract compliance with DORA Article 30 requirements before audit.' },
   'landing.cta_free_check': { et: 'Kontrolli tasuta', en: 'Check for free' },
   'landing.cta_try_demo': { et: 'Proovi demoga', en: 'Try with demo' },
@@ -569,6 +569,26 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.review2_role': { et: 'Riskijuht, kindlustusselts', en: 'Risk Manager, insurance company' },
   'landing.review3_text': { et: 'Kasutame seda regulaarselt k\u00f5igi oma IKT-lepingute kontrollimiseks. V\u00e4ga professionaalne.', en: 'We use it regularly to check all our ICT contracts. Very professional.' },
   'landing.review3_role': { et: 'IKT lepingute haldur, pank', en: 'ICT Contract Manager, bank' },
+
+  // Landing - Social Proof Stats
+  'landing.proof_contracts': { et: '47+ analüüsitud lepingut', en: '47+ contracts analyzed' },
+  'landing.proof_companies': { et: '23+ ettevõtet kasutanud', en: '23+ companies checked' },
+  'landing.proof_time': { et: '5 min keskmine analüüsiaeg', en: '5 min average analysis time' },
+  'landing.testimonial1_text': { et: 'Sain 10 minutiga selge pildi, mida meie lepingus parandada.', en: 'Got a clear picture in 10 minutes of what to fix in our contract.' },
+  'landing.testimonial1_author': { et: 'ICT-teenusepakkuja CTO', en: 'CTO, ICT service provider' },
+  'landing.testimonial2_text': { et: 'Lõpuks on tööriist mis räägib DORA-t nii et ka juhatus aru saab.', en: 'Finally a tool that explains DORA so the board understands it too.' },
+  'landing.testimonial2_author': { et: 'Fintech compliance juht', en: 'Fintech compliance lead' },
+
+  // Landing - FAQ
+  'landing.faq_title': { et: 'Korduma kippuvad küsimused', en: 'Frequently Asked Questions' },
+  'landing.faq1_q': { et: 'Kas DoraAudit asendab juristi?', en: 'Does DoraAudit replace a lawyer?' },
+  'landing.faq1_a': { et: 'Ei. DoraAudit on eelkontrolli tööriist, mis tuvastab puudused enne kui jurist üle vaatab. Säästad juristi tunde seal, kus kõik on korras.', en: 'No. DoraAudit is a pre-check tool that identifies gaps before a lawyer reviews. You save lawyer hours where everything is already in order.' },
+  'landing.faq2_q': { et: 'Kui täpne on analüüs?', en: 'How accurate is the analysis?' },
+  'landing.faq2_a': { et: 'Analüüs põhineb DORA Art. 30 ametlikul tekstil ja Finantsinspektsiooni juhistel. AI-toega süsteem kontrollib 8 põhinõuet ja annab konkreetsed soovitused.', en: 'Analysis is based on official DORA Art. 30 text and Financial Supervisory Authority guidelines. AI-powered system checks 8 core requirements and provides specific recommendations.' },
+  'landing.faq3_q': { et: 'Kas mu andmed on turvalised?', en: 'Is my data secure?' },
+  'landing.faq3_a': { et: 'Lepingu sisu töödeldakse reaalajas ja ei salvestata serverisse. Andmed jäävad sinu brauserisse. Self-hosted variant on saadaval enterprise klientidele.', en: 'Contract content is processed in real-time and not stored on the server. Data stays in your browser. Self-hosted variant is available for enterprise clients.' },
+  'landing.faq4_q': { et: 'Kes DoraAudit\'i taga on?', en: 'Who is behind DoraAudit?' },
+  'landing.faq4_a': { et: 'ComplianceHub OÜ, Tallinn. Meeskond kombineerib finantssektori regulatsiooni tundmist ja tarkvara arenduse kogemust.', en: 'ComplianceHub OÜ, Tallinn. The team combines financial sector regulatory knowledge with software development experience.' },
 
   // Landing - Trust
   'landing.trust_title': { et: 'Loodud Eesti finantssektorile', en: 'Built for Estonian Financial Sector' },
@@ -1358,6 +1378,24 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'pricing.addon_contract_desc': { et: 'Lae üles oma IKT-teenuste leping ja saa kohene DORA Art. 30 vastavuse analüüs. Sisaldab puuduvate klauslite loetelu.', en: 'Upload your ICT service contract and get instant DORA Art. 30 compliance analysis. Includes list of missing clauses.' },
   'pricing.addon_cta': { et: 'Osta', en: 'Buy' },
 
+  // Pricing - Why DoraAudit comparison
+  'pricing.why_title': { et: 'Miks DoraAudit?', en: 'Why DoraAudit?' },
+  'pricing.compare_header_aspect': { et: '', en: '' },
+  'pricing.compare_header_lawyer': { et: 'Juriidiline audit', en: 'Legal audit' },
+  'pricing.compare_header_doraaudit': { et: 'DoraAudit', en: 'DoraAudit' },
+  'pricing.compare_price': { et: 'Hind', en: 'Price' },
+  'pricing.compare_price_lawyer': { et: '€2,000–5,000', en: '€2,000–5,000' },
+  'pricing.compare_price_doraaudit': { et: 'alates €49', en: 'from €49' },
+  'pricing.compare_time': { et: 'Aeg', en: 'Time' },
+  'pricing.compare_time_lawyer': { et: '2–4 nädalat', en: '2–4 weeks' },
+  'pricing.compare_time_doraaudit': { et: '5 minutit', en: '5 minutes' },
+  'pricing.compare_result': { et: 'Tulemus', en: 'Result' },
+  'pricing.compare_result_lawyer': { et: 'PDF raport nädalate pärast', en: 'PDF report weeks later' },
+  'pricing.compare_result_doraaudit': { et: 'Kohene interaktiivne raport', en: 'Instant interactive report' },
+  'pricing.compare_update': { et: 'Uuendamine', en: 'Updating' },
+  'pricing.compare_update_lawyer': { et: 'Uus audit, uus arve', en: 'New audit, new invoice' },
+  'pricing.compare_update_doraaudit': { et: 'Pidev juurdepääs', en: 'Continuous access' },
+
   // About page
   'nav.about': { et: 'Meist', en: 'About' },
   'about.title': { et: 'DORA Art. 30 meeskond', en: 'DORA Art. 30 Team' },
@@ -1385,17 +1423,6 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'about.contact_title': { et: 'Võta ühendust', en: 'Get in touch' },
   'about.contact_desc': { et: 'Küsimused, demo soov või enterprise pakkumine', en: 'Questions, demo request, or enterprise offer' },
   'about.contact_email': { et: 'info@doraaudit.eu', en: 'info@doraaudit.eu' },
-
-  // Landing - improved testimonials
-  'landing.testimonial1_text': { et: 'AI lepinguaudit säästis meile nädalaid konsultandi tasu. Saime kohe teada, millised DORA Art. 30 klauslid puuduvad.', en: 'AI contract audit saved us weeks of consultant fees. We instantly knew which DORA Art. 30 clauses were missing.' },
-  'landing.testimonial1_author': { et: 'Mart K.', en: 'Mart K.' },
-  'landing.testimonial1_role': { et: 'IT-vastavusjuht, fintech-ettevõte', en: 'IT Compliance Manager, fintech company' },
-  'landing.testimonial2_text': { et: 'Radardiagramm annab suurepärase ülevaate. Nüüd teame täpselt, kus peame IKT-lepingutes parandusi tegema.', en: 'Radar chart gives an excellent overview. Now we know exactly where improvements are needed in ICT contracts.' },
-  'landing.testimonial2_author': { et: 'Liisa M.', en: 'Liisa M.' },
-  'landing.testimonial2_role': { et: 'Riskijuht, kindlustusselts', en: 'Risk Manager, insurance company' },
-  'landing.testimonial3_text': { et: 'Kasutame seda regulaarselt kõigi oma IKT-lepingute kontrollimiseks. Professionaalne ja kiire.', en: 'We use it regularly to check all our ICT contracts. Professional and fast.' },
-  'landing.testimonial3_author': { et: 'Andres T.', en: 'Andres T.' },
-  'landing.testimonial3_role': { et: 'IKT lepingute haldur, pank', en: 'ICT Contract Manager, bank' },
 
   // Payment Success
   'payment.success_title': { et: 'Makse õnnestus!', en: 'Payment successful!' },
