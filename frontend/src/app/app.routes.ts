@@ -135,6 +135,15 @@ export const routes: Routes = [
     // No authGuard - free tool
   },
   {
+    path: 'workspace',
+    loadComponent: () => import('./pages/workspace.component').then(m => m.WorkspaceComponent)
+    // No authGuard - free tier available
+  },
+  {
+    path: 'workspace/:id',
+    loadComponent: () => import('./pages/workspace.component').then(m => m.WorkspaceComponent)
+  },
+  {
     path: 'pricing',
     loadComponent: () => import('./pages/pricing.component').then(m => m.PricingComponent)
   },

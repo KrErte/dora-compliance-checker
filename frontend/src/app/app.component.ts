@@ -71,7 +71,14 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
                 {{ lang.t('nav.fine_calculator') }}
-                <span class="ml-auto px-1.5 py-0.5 text-[10px] font-bold rounded bg-red-500/20 text-red-400">{{ lang.t('nav.new_badge') }}</span>
+              </a>
+              <a routerLink="/workspace" (click)="doraMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                </svg>
+                {{ lang.t('nav.workspace') }}
+                <span class="ml-auto px-1.5 py-0.5 text-[10px] font-bold rounded bg-violet-500/20 text-violet-400">{{ lang.t('nav.new_badge') }}</span>
               </a>
             </div>
           </div>
@@ -184,11 +191,15 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
             <span class="text-teal-400">&#128202;</span> {{ lang.t('nav.board_risk') }}
           </a>
           <a routerLink="/fine-calculator" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+             class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
+            <span class="text-red-400">&#128176;</span> {{ lang.t('nav.fine_calculator') }}
+          </a>
+          <a routerLink="/workspace" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
             <span class="flex items-center gap-2">
-              <span class="text-red-400">&#128176;</span> {{ lang.t('nav.fine_calculator') }}
+              <span class="text-violet-400">&#128203;</span> {{ lang.t('nav.workspace') }}
             </span>
-            <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-red-500/20 text-red-400">{{ lang.t('nav.new_badge') }}</span>
+            <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-violet-500/20 text-violet-400">{{ lang.t('nav.new_badge') }}</span>
           </a>
           <div class="border-t border-slate-700/50 mt-2 pt-2">
             <p class="text-xs text-slate-600 px-3 mb-1 uppercase tracking-wider">NIS2</p>
