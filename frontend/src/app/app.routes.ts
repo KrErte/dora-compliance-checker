@@ -130,6 +130,11 @@ export const routes: Routes = [
     // No authGuard - free tool
   },
   {
+    path: 'fine-calculator',
+    loadComponent: () => import('./pages/fine-calculator.component').then(m => m.FineCalculatorComponent)
+    // No authGuard - free tool
+  },
+  {
     path: 'pricing',
     loadComponent: () => import('./pages/pricing.component').then(m => m.PricingComponent)
   },

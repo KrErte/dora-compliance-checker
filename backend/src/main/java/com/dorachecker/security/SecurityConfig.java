@@ -45,6 +45,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/early-adopter/**").permitAll()
                 .requestMatchers("/api/subscribe/**").permitAll()
                 .requestMatchers("/api/public/**").permitAll()
+                .requestMatchers("/api/fine-calculator/**").permitAll()
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().permitAll()
             )

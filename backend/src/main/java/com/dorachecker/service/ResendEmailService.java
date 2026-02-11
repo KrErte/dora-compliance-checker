@@ -68,6 +68,30 @@ public class ResendEmailService {
                 );
     }
 
+    public void sendEmail(String recipientEmail, String subject, String htmlContent) {
+        if (!enabled) {
+            log.debug("Email sending skipped - Resend API key not configured");
+            return;
+        }
+
+        Map<String, Object> payload = Map.of(
+                "from", fromEmail,
+                "to", recipientEmail,
+                "subject", subject,
+                "html", htmlContent
+        );
+
+        webClient.post()
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(payload)
+                .retrieve()
+                .bodyToMono(String.class)
+                .subscribe(
+                        response -> log.info("Email sent successfully to: {}", recipientEmail),
+                        error -> log.error("Failed to send email to {}: {}", recipientEmail, error.getMessage())
+                );
+    }
+
     private String buildEmailHtml(ContactMessage msg) {
         String timestamp = msg.getCreatedAt() != null
                 ? msg.getCreatedAt().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"))
