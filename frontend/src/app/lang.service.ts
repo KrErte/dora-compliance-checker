@@ -1,6 +1,8 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 export type Lang = 'et' | 'en';
+
+const GEOLOCATION_API = 'https://ipapi.co/json/';
 
 const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   // Nav
@@ -510,7 +512,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
 
   // Landing - Urgency banner
   'landing.urgency_alert': { et: 'Tähtaeg on möödas', en: 'Deadline has passed' },
-  'landing.urgency_dora_date': { et: 'DORA kohaldub alates 17. jaanuar 2025', en: 'DORA applies from January 17, 2025' },
+  'landing.urgency_dora_date': { et: 'DORA kohaldus alates 17. jaanuar 2025', en: 'DORA has been in effect since January 17, 2025' },
   'landing.urgency_nis2_date': { et: 'NIS2 Eesti seadus (KüTS) jõustub 2026', en: 'NIS2 Estonian law (KüTS) takes effect in 2026' },
   'landing.urgency_fine': { et: 'Finantsinspektsiooni trahv kuni 2% aastasest käibest', en: 'FI fine up to 2% of annual turnover' },
   'landing.urgency_personal': { et: 'Juhatuse liikme isiklik vastutus kuni €500,000', en: 'Board member personal liability up to €500,000' },
@@ -1471,33 +1473,49 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
 
 @Injectable({ providedIn: 'root' })
 export class LangService {
-  private langSignal = signal<Lang>(this.detectInitialLang());
+  private langSignal = signal<Lang>(this.getStoredLang() || 'en');
+  private geoDetectionDone = false;
 
   lang = this.langSignal.asReadonly();
 
   constructor() {
-    // Set initial html lang attribute
     this.updateHtmlLang(this.langSignal());
+    // If no explicit user preference, detect by IP geolocation
+    if (!this.getStoredLang()) {
+      this.detectByGeolocation();
+    }
   }
 
-  private detectInitialLang(): Lang {
-    // 1. localStorage (user's explicit choice) - highest priority
+  private getStoredLang(): Lang | null {
     if (typeof localStorage !== 'undefined') {
-      const stored = localStorage.getItem('preferred-lang') as Lang;
+      // v2 key - ignores old auto-detected preferences
+      const stored = localStorage.getItem('user-lang-choice') as Lang;
       if (stored === 'et' || stored === 'en') {
         return stored;
       }
     }
+    return null;
+  }
 
-    // 2. Browser language - if Estonian, show ET
-    if (typeof navigator !== 'undefined' && navigator.language) {
-      if (navigator.language.startsWith('et')) {
-        return 'et';
+  private async detectByGeolocation(): Promise<void> {
+    if (this.geoDetectionDone || typeof fetch === 'undefined') return;
+    this.geoDetectionDone = true;
+
+    try {
+      const response = await fetch(GEOLOCATION_API, {
+        signal: AbortSignal.timeout(3000) // 3 second timeout
+      });
+      if (!response.ok) return;
+
+      const data = await response.json();
+      // If user is in Estonia (country_code: 'EE'), switch to Estonian
+      if (data.country_code === 'EE' && !this.getStoredLang()) {
+        this.langSignal.set('et');
+        this.updateHtmlLang('et');
       }
+    } catch {
+      // Silently fail - keep default English
     }
-
-    // 3. Fallback: English for all others
-    return 'en';
   }
 
   get currentLang(): Lang {
@@ -1507,7 +1525,7 @@ export class LangService {
   toggle() {
     const next: Lang = this.langSignal() === 'et' ? 'en' : 'et';
     this.langSignal.set(next);
-    localStorage.setItem('preferred-lang', next);
+    localStorage.setItem('user-lang-choice', next);
     this.updateHtmlLang(next);
   }
 
