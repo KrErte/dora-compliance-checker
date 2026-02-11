@@ -571,13 +571,10 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.review3_role': { et: 'IKT lepingute haldur, pank', en: 'ICT Contract Manager, bank' },
 
   // Landing - Social Proof Stats
-  'landing.proof_contracts': { et: '47+ analüüsitud lepingut', en: '47+ contracts analyzed' },
-  'landing.proof_companies': { et: '23+ ettevõtet kasutanud', en: '23+ companies checked' },
-  'landing.proof_time': { et: '5 min keskmine analüüsiaeg', en: '5 min average analysis time' },
-  'landing.testimonial1_text': { et: 'Sain 10 minutiga selge pildi, mida meie lepingus parandada.', en: 'Got a clear picture in 10 minutes of what to fix in our contract.' },
-  'landing.testimonial1_author': { et: 'ICT-teenusepakkuja CTO', en: 'CTO, ICT service provider' },
-  'landing.testimonial2_text': { et: 'Lõpuks on tööriist mis räägib DORA-t nii et ka juhatus aru saab.', en: 'Finally a tool that explains DORA so the board understands it too.' },
-  'landing.testimonial2_author': { et: 'Fintech compliance juht', en: 'Fintech compliance lead' },
+  'landing.proof_requirements': { et: 'DORA Art. 30 nõuet', en: 'DORA Art. 30 requirements' },
+  'landing.proof_time_label': { et: 'analüüsiaeg', en: 'analysis time' },
+  'landing.proof_report': { et: 'raport juhatusele', en: 'report for board' },
+  'landing.trust_methodology': { et: 'Metoodika põhineb: DORA (EU) 2022/2554 · Finantsinspektsiooni juhised · E-ITS raamistik · EBA/ESMA standardid', en: 'Based on: DORA (EU) 2022/2554 · Estonian FSA guidelines · E-ITS framework · EBA/ESMA standards' },
 
   // Landing - FAQ
   'landing.faq_title': { et: 'Korduma kippuvad küsimused', en: 'Frequently Asked Questions' },

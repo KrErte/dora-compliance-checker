@@ -63,32 +63,25 @@ interface Stat {
     <div class="py-6 px-4 bg-slate-800/50 border-y border-slate-700/50">
       <div class="max-w-4xl mx-auto">
         <!-- Stats row -->
-        <div class="flex flex-wrap justify-center gap-6 md:gap-12 mb-6">
+        <div class="flex flex-wrap justify-center gap-8 md:gap-12 mb-4">
           <div class="text-center">
-            <span class="text-2xl md:text-3xl font-bold text-emerald-400">47+</span>
-            <p class="text-xs md:text-sm text-slate-400 mt-1">{{ lang.t('landing.proof_contracts') }}</p>
+            <span class="text-xl md:text-2xl font-bold text-emerald-400">8</span>
+            <p class="text-xs text-slate-400 mt-1">{{ lang.t('landing.proof_requirements') }}</p>
           </div>
           <div class="text-center">
-            <span class="text-2xl md:text-3xl font-bold text-cyan-400">23+</span>
-            <p class="text-xs md:text-sm text-slate-400 mt-1">{{ lang.t('landing.proof_companies') }}</p>
+            <span class="text-xl md:text-2xl font-bold text-cyan-400">5 min</span>
+            <p class="text-xs text-slate-400 mt-1">{{ lang.t('landing.proof_time_label') }}</p>
           </div>
           <div class="text-center">
-            <span class="text-2xl md:text-3xl font-bold text-teal-400">5 min</span>
-            <p class="text-xs md:text-sm text-slate-400 mt-1">{{ lang.t('landing.proof_time') }}</p>
+            <span class="text-xl md:text-2xl font-bold text-teal-400">PDF</span>
+            <p class="text-xs text-slate-400 mt-1">{{ lang.t('landing.proof_report') }}</p>
           </div>
         </div>
 
-        <!-- Testimonials -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
-          <div class="glass-card p-4 rounded-xl border border-slate-700/50 bg-slate-900/50">
-            <p class="text-sm text-slate-300 italic mb-3">"{{ lang.t('landing.testimonial1_text') }}"</p>
-            <p class="text-xs text-slate-500">— {{ lang.t('landing.testimonial1_author') }}</p>
-          </div>
-          <div class="glass-card p-4 rounded-xl border border-slate-700/50 bg-slate-900/50">
-            <p class="text-sm text-slate-300 italic mb-3">"{{ lang.t('landing.testimonial2_text') }}"</p>
-            <p class="text-xs text-slate-500">— {{ lang.t('landing.testimonial2_author') }}</p>
-          </div>
-        </div>
+        <!-- Trust bar -->
+        <p class="text-center text-xs text-slate-500">
+          {{ lang.t('landing.trust_methodology') }}
+        </p>
       </div>
     </div>
 
