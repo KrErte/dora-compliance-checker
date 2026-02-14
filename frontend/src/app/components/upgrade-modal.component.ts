@@ -96,7 +96,7 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
 
         <!-- CTA Buttons -->
         <div class="space-y-3">
-          <a [href]="paymentConfig.lemonsqueezy.products.standard?.checkoutUrl || paymentConfig.lemonsqueezy.products.doraAssessment.checkoutUrl"
+          <a [href]="paymentConfig.lemonsqueezy.subscriptions?.standard?.checkoutUrl || paymentConfig.lemonsqueezy.products.doraAssessment.checkoutUrl"
              target="_blank"
              (click)="onUpgrade()"
              class="w-full py-3.5 px-4 rounded-xl text-center font-bold text-sm block
@@ -138,8 +138,8 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
 export class UpgradeModalComponent {
   paymentConfig = PAYMENT_CONFIG;
 
-  isVisible = this.subscriptionService.showUpgradeModal;
-  feature = this.subscriptionService.upgradeFeature;
+  get isVisible() { return this.subscriptionService.showUpgradeModal; }
+  get feature() { return this.subscriptionService.upgradeFeature; }
 
   featureMessage = computed(() => {
     const feat = this.feature();
