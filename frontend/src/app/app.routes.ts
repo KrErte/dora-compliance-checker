@@ -106,6 +106,21 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'timeline',
+    loadComponent: () => import('./pages/regulatory-timeline.component').then(m => m.RegulatoryTimelineComponent)
+    // No authGuard - educational content is free
+  },
+  {
+    path: 'vendors',
+    loadComponent: () => import('./pages/vendor-database.component').then(m => m.VendorDatabaseComponent)
+    // No authGuard - public database
+  },
+  {
+    path: 'playbook',
+    loadComponent: () => import('./pages/playbook-generator.component').then(m => m.PlaybookGeneratorComponent)
+    // No authGuard - free tool
+  },
+  {
     path: 'pillar/:id',
     loadComponent: () => import('./pages/pillar-info.component').then(m => m.PillarInfoComponent)
   },

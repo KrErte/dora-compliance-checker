@@ -72,6 +72,20 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
                 </svg>
                 {{ lang.t('nav.fine_calculator') }}
               </a>
+              <a routerLink="/timeline" (click)="doraMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                {{ lang.t('nav.timeline') }}
+              </a>
+              <a routerLink="/vendors" (click)="doraMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+                {{ lang.t('nav.vendors') }}
+              </a>
             </div>
           </div>
           <!-- NIS2 dropdown -->
@@ -194,6 +208,14 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
           <a routerLink="/fine-calculator" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
             <span class="text-red-400">&#128176;</span> {{ lang.t('nav.fine_calculator') }}
+          </a>
+          <a routerLink="/timeline" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
+            <span class="text-cyan-400">&#128197;</span> {{ lang.t('nav.timeline') }}
+          </a>
+          <a routerLink="/vendors" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
+            <span class="text-violet-400">&#128101;</span> {{ lang.t('nav.vendors') }}
           </a>
           <a routerLink="/workspace" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
@@ -343,7 +365,9 @@ export class AppComponent implements OnInit, OnDestroy {
     '/board-risk': { et: 'Juhatuse riskikalkulaator | DoraAudit.eu', en: 'Board Risk Calculator | DoraAudit.eu' },
     '/terms': { et: 'Kasutustingimused | DoraAudit.eu', en: 'Terms of Service | DoraAudit.eu' },
     '/workspace': { et: 'Lepingute Töölaud | DoraAudit.eu', en: 'Contract Workspace | DoraAudit.eu' },
-    '/fine-calculator': { et: 'Trahvikalkulaator | DoraAudit.eu', en: 'Fine Calculator | DoraAudit.eu' }
+    '/fine-calculator': { et: 'Trahvikalkulaator | DoraAudit.eu', en: 'Fine Calculator | DoraAudit.eu' },
+    '/timeline': { et: 'Regulatiivne Ajakava | DoraAudit.eu', en: 'Regulatory Timeline | DoraAudit.eu' },
+    '/vendors': { et: 'ICT Teenusepakkujate Andmebaas | DoraAudit.eu', en: 'ICT Vendor Database | DoraAudit.eu' }
   };
 
   private pageDescriptions: { [path: string]: string } = {
@@ -359,7 +383,9 @@ export class AppComponent implements OnInit, OnDestroy {
     '/privacy': 'DoraAudit.eu privaatsuspoliitika. Kuidas me kasutame ja kaitseme teie andmeid.',
     '/terms': 'DoraAudit.eu kasutustingimused. Teenuse kasutamise õigused ja kohustused.',
     '/workspace': 'IKT lepingute töölaud DORA, GDPR, NIS2 ja SLA vastavuskontrolliks. Multiregulatiivne analüüs ja meeskonnatöö.',
-    '/fine-calculator': 'DORA trahvikalkulaator. Arvuta võimalik trahvisumma mittevastavuse korral Art. 50-51 alusel.'
+    '/fine-calculator': 'DORA trahvikalkulaator. Arvuta võimalik trahvisumma mittevastavuse korral Art. 50-51 alusel.',
+    '/timeline': 'DORA ja NIS2 regulatiivne ajakava. Kõik olulised tähtajad, verstapostid ja RTS/ITS standardid ühes kohas.',
+    '/vendors': 'ICT teenusepakkujate DORA vastavuse andmebaas. Anonümiseeritud andmed lepinguanalüüsidest ja crowdsourced riskihinnangud.'
   };
 
   constructor(

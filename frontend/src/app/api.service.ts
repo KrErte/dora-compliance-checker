@@ -157,4 +157,27 @@ export class ApiService {
   }): Observable<{ success: boolean }> {
     return this.http.post<{ success: boolean }>(`${this.baseUrl}/public/track`, event);
   }
+
+  // Benchmarks
+  getAssessmentBenchmark(score: number): Observable<BenchmarkData> {
+    return this.http.get<BenchmarkData>(`${this.baseUrl}/benchmarks/assessment/${score}`);
+  }
+
+  getContractBenchmark(score: number): Observable<BenchmarkData> {
+    return this.http.get<BenchmarkData>(`${this.baseUrl}/benchmarks/contract/${score}`);
+  }
+}
+
+export interface BenchmarkData {
+  industryAverage: number;
+  median: number;
+  percentile25?: number;
+  percentile75?: number;
+  minScore?: number;
+  maxScore?: number;
+  totalAssessments?: number;
+  totalAnalyses?: number;
+  percentileRank: number;
+  complianceLevelDistribution?: { [key: string]: number };
+  industryBenchmarks?: { [key: string]: { average: number; label: string } };
 }
