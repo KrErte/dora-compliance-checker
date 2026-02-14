@@ -30,51 +30,130 @@ interface Stat {
   selector: 'app-landing',
   imports: [CommonModule, RouterLink, FormsModule],
   template: `
-    <!-- Hero section -->
-    <div class="relative overflow-hidden animate-fade-in">
-      <div class="absolute -top-24 -left-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
-      <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
+    <!-- Hero section with Aurora Background -->
+    <div class="relative overflow-hidden min-h-[70vh]">
+      <!-- Aurora animated background -->
+      <div class="aurora-bg"></div>
 
-      <div class="relative flex flex-col items-center justify-center min-h-[60vh] text-center z-10">
-        <h1 class="text-3xl md:text-5xl font-extrabold mb-4 animate-slide-in">
+      <!-- Floating particles -->
+      <div class="particles-container">
+        <div class="particle" style="left: 10%; top: 20%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; top: 60%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 35%; top: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 50%; top: 70%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 65%; top: 25%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 80%; top: 55%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 90%; top: 40%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 15%; top: 80%; animation-delay: 3.5s;"></div>
+        <div class="particle" style="left: 75%; top: 15%; animation-delay: 4.5s;"></div>
+        <div class="particle" style="left: 45%; top: 45%; animation-delay: 1.5s;"></div>
+      </div>
+
+      <!-- Cyber grid overlay -->
+      <div class="absolute inset-0 cyber-grid opacity-30"></div>
+
+      <!-- Gradient blobs -->
+      <div class="absolute -top-24 -left-24 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl animate-float"></div>
+      <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl animate-float" style="animation-delay: -1.5s;"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-500/5 rounded-full blur-3xl"></div>
+
+      <div class="relative flex flex-col items-center justify-center min-h-[70vh] text-center z-10 py-12">
+        <!-- Live badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 mb-6 animate-fade-in badge-shine">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <span class="text-xs font-medium text-emerald-400">{{ lang.t('landing.live_badge') || 'DORA & NIS2 Active' }}</span>
+        </div>
+
+        <h1 class="text-4xl md:text-6xl font-extrabold mb-6 animate-slide-in leading-tight">
           <span class="gradient-text">{{ lang.t('landing.title') }}</span>
         </h1>
 
-        <p class="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 leading-relaxed animate-slide-in delay-100">
+        <p class="text-lg md:text-xl text-slate-300 max-w-2xl mb-8 leading-relaxed animate-slide-in delay-100">
           {{ lang.t('landing.subtitle') }}
         </p>
 
+        <!-- Compliance Score Preview -->
+        <div class="flex items-center gap-6 mb-10 animate-scale-in delay-200">
+          <div class="compliance-ring">
+            <div class="compliance-ring-glow"></div>
+            <svg viewBox="0 0 120 120" class="w-full h-full">
+              <defs>
+                <linearGradient id="compliance-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#34d399"/>
+                  <stop offset="100%" style="stop-color:#22d3ee"/>
+                </linearGradient>
+              </defs>
+              <circle cx="60" cy="60" r="50" class="compliance-ring-bg"/>
+              <circle cx="60" cy="60" r="50" class="compliance-ring-progress"
+                      stroke-dasharray="314.16"
+                      [attr.stroke-dashoffset]="314.16 - (314.16 * compliancePreview / 100)"/>
+            </svg>
+            <div class="absolute inset-0 flex items-center justify-center flex-col">
+              <span class="text-3xl font-bold score-counter">{{ compliancePreview }}%</span>
+              <span class="text-xs text-slate-500">{{ lang.t('landing.score_label') || 'Sample Score' }}</span>
+            </div>
+          </div>
+          <div class="text-left hidden sm:block">
+            <p class="text-sm text-slate-400 mb-1">{{ lang.t('landing.score_cta') || 'See your real score' }}</p>
+            <p class="text-xs text-slate-500">{{ lang.t('landing.score_time') || 'Free • 5 min analysis' }}</p>
+          </div>
+        </div>
+
         <!-- CTA buttons -->
-        <div class="flex flex-col items-center gap-4 animate-slide-in delay-200">
+        <div class="flex flex-col items-center gap-4 animate-slide-in delay-300">
           <a routerLink="/contract-analysis"
-             class="cta-button group inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
-                    text-slate-900 font-semibold px-10 py-4 rounded-xl text-lg
-                    hover:shadow-lg hover:shadow-emerald-500/25">
+             class="magnetic-btn glow-border group inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
+                    text-slate-900 font-bold px-12 py-5 rounded-2xl text-lg
+                    hover:shadow-2xl hover:shadow-emerald-500/30 transition-all duration-300">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
             {{ lang.t('landing.cta_free_check') }}
             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
           </a>
-          <div class="flex flex-wrap justify-center gap-4">
+          <div class="flex flex-wrap justify-center gap-4 mt-2">
             <a routerLink="/nis2/scope-check"
-               class="text-sm text-slate-400 hover:text-amber-400 transition-colors inline-flex items-center gap-1">
+               class="interactive-highlight text-sm text-slate-400 hover:text-amber-400 transition-colors inline-flex items-center gap-1.5 py-1">
+              <svg class="w-4 h-4 icon-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+              </svg>
               {{ lang.t('landing.cta_nis2_secondary') }}
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-              </svg>
             </a>
-            <span class="text-slate-600">|</span>
+            <span class="text-slate-700">•</span>
             <a routerLink="/fine-calculator"
-               class="text-sm text-slate-400 hover:text-red-400 transition-colors inline-flex items-center gap-1">
-              {{ lang.t('landing.cta_fine_calc') }}
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+               class="interactive-highlight text-sm text-slate-400 hover:text-red-400 transition-colors inline-flex items-center gap-1.5 py-1">
+              <svg class="w-4 h-4 icon-bounce" style="animation-delay: 0.5s;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
+              {{ lang.t('landing.cta_fine_calc') }}
+            </a>
+            <span class="text-slate-700">•</span>
+            <a routerLink="/timeline"
+               class="interactive-highlight text-sm text-slate-400 hover:text-cyan-400 transition-colors inline-flex items-center gap-1.5 py-1">
+              <svg class="w-4 h-4 icon-bounce" style="animation-delay: 1s;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              {{ lang.t('landing.cta_timeline') || 'Timeline' }}
             </a>
           </div>
         </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce-subtle">
+          <svg class="w-6 h-6 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+          </svg>
+        </div>
       </div>
     </div>
+
+    <!-- Gradient separator -->
+    <div class="gradient-line"></div>
 
     <!-- Social Proof Stats Section -->
     <div class="py-6 px-4 bg-slate-800/50 border-y border-slate-700/50">
@@ -130,84 +209,122 @@ interface Stat {
       </div>
     </div>
 
-    <!-- Urgency Banner -->
-    <div class="py-8 px-4 animate-fade-in">
+    <!-- Urgency Banner - Enhanced -->
+    <div class="py-8 px-4">
       <div class="max-w-4xl mx-auto">
-        <div class="urgency-card relative overflow-hidden rounded-2xl bg-slate-900/80 backdrop-blur-sm border border-red-500/30 p-6 md:p-8
-                    shadow-lg shadow-red-500/5">
-          <!-- Glow effect -->
-          <div class="absolute -top-20 -right-20 w-40 h-40 bg-red-500/20 rounded-full blur-3xl"></div>
-          <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-orange-500/20 rounded-full blur-3xl"></div>
+        <div class="urgency-card urgency-pulse relative overflow-hidden rounded-2xl glass-ultra border border-red-500/40 p-6 md:p-8">
+          <!-- Animated glow effects -->
+          <div class="absolute -top-20 -right-20 w-60 h-60 bg-red-500/20 rounded-full blur-3xl animate-float"></div>
+          <div class="absolute -bottom-20 -left-20 w-60 h-60 bg-orange-500/15 rounded-full blur-3xl animate-float" style="animation-delay: -2s;"></div>
 
-          <div class="relative z-10 flex flex-col md:flex-row items-center gap-6 md:gap-8">
+          <!-- Warning stripes decoration -->
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 via-orange-500 to-red-500 animate-shimmer"></div>
+
+          <div class="relative z-10 flex flex-col md:flex-row items-center gap-6 md:gap-10">
             <!-- Left: Warning info -->
             <div class="flex-1 text-center md:text-left">
-              <div class="flex items-center justify-center md:justify-start gap-2 mb-4">
-                <span class="text-2xl">⚠️</span>
+              <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 mb-4">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                </span>
                 <span class="text-xs font-bold uppercase tracking-wider text-red-400">{{ lang.t('landing.urgency_alert') }}</span>
               </div>
-              <ul class="space-y-2 text-sm">
-                <li class="flex items-start gap-2 justify-center md:justify-start">
-                  <svg class="w-4 h-4 text-red-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
+
+              <ul class="space-y-3 text-sm stagger-children">
+                <li class="flex items-start gap-3 justify-center md:justify-start reveal-left revealed">
+                  <div class="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-3.5 h-3.5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                  </div>
                   <span class="text-slate-300">{{ lang.t('landing.urgency_dora_date') }}</span>
                 </li>
-                <li class="flex items-start gap-2 justify-center md:justify-start">
-                  <svg class="w-4 h-4 text-orange-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
+                <li class="flex items-start gap-3 justify-center md:justify-start reveal-left revealed" style="animation-delay: 0.1s;">
+                  <div class="w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-3.5 h-3.5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                  </div>
                   <span class="text-slate-300">{{ lang.t('landing.urgency_nis2_date') }}</span>
                 </li>
-                <li class="flex items-start gap-2 justify-center md:justify-start">
-                  <svg class="w-4 h-4 text-amber-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
+                <li class="flex items-start gap-3 justify-center md:justify-start reveal-left revealed" style="animation-delay: 0.2s;">
+                  <div class="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                  </div>
                   <span class="text-slate-300">{{ lang.t('landing.urgency_fine') }}</span>
                 </li>
-                <li class="flex items-start gap-2 justify-center md:justify-start">
-                  <svg class="w-4 h-4 text-red-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                  </svg>
+                <li class="flex items-start gap-3 justify-center md:justify-start reveal-left revealed" style="animation-delay: 0.3s;">
+                  <div class="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                    <svg class="w-3.5 h-3.5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                  </div>
                   <span class="text-slate-300">{{ lang.t('landing.urgency_personal') }}</span>
                 </li>
               </ul>
             </div>
 
-            <!-- Right: Counter -->
-            <div class="text-center px-6 py-4 rounded-xl bg-slate-800/50 border border-red-500/20">
-              <p class="text-xs text-slate-400 uppercase tracking-wider mb-1">{{ lang.t('landing.urgency_counter_label') }}</p>
-              <div class="text-5xl md:text-6xl font-extrabold text-red-400 tabular-nums mb-1">{{ daysSinceDora }}</div>
-              <p class="text-sm text-red-300 font-medium">{{ lang.t('landing.urgency_days') }}</p>
-              <p class="text-xs text-slate-500 mt-2">{{ lang.t('landing.urgency_question') }}</p>
+            <!-- Right: Animated Counter -->
+            <div class="text-center px-8 py-6 rounded-2xl bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30 relative overflow-hidden">
+              <!-- Animated ring -->
+              <div class="absolute inset-0 rounded-2xl border-2 border-red-500/20 animate-border-glow"></div>
+
+              <p class="text-xs text-slate-400 uppercase tracking-wider mb-2 font-medium">{{ lang.t('landing.urgency_counter_label') }}</p>
+              <div class="text-6xl md:text-7xl font-extrabold tabular-nums mb-2 urgency-number neon-text" style="color: #f87171;">
+                {{ daysSinceDora }}
+              </div>
+              <p class="text-sm text-red-300 font-semibold">{{ lang.t('landing.urgency_days') }}</p>
+              <p class="text-xs text-slate-500 mt-3 max-w-[180px]">{{ lang.t('landing.urgency_question') }}</p>
             </div>
           </div>
 
           <!-- CTA -->
-          <div class="relative z-10 mt-6 text-center">
-            <a routerLink="/nis2/scope-check"
-               class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
+          <div class="relative z-10 mt-8 flex flex-wrap justify-center gap-4">
+            <a routerLink="/assessment"
+               class="magnetic-btn inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-sm
                       bg-gradient-to-r from-red-500 to-orange-500 text-white
-                      hover:from-red-400 hover:to-orange-400 hover:shadow-lg hover:shadow-red-500/25 transition-all">
+                      hover:from-red-400 hover:to-orange-400 hover:shadow-xl hover:shadow-red-500/30 transition-all">
               {{ lang.t('landing.cta_check_nis2') }}
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
               </svg>
+            </a>
+            <a routerLink="/board-risk"
+               class="inline-flex items-center gap-2 px-6 py-4 rounded-xl font-semibold text-sm
+                      bg-slate-800/50 border border-teal-500/30 text-teal-400
+                      hover:bg-teal-500/10 hover:border-teal-400 transition-all">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+              </svg>
+              {{ lang.t('landing.cta_board_risk') || 'Personal Risk Check' }}
             </a>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Stats Counter Section -->
-    <div class="py-12 max-w-4xl mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Stats Counter Section - Enhanced -->
+    <div class="py-16 max-w-4xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 stagger-children">
         <div *ngFor="let stat of stats; let i = index"
-             class="stat-card text-center p-6 rounded-2xl bg-slate-800/50 border border-slate-700/50 hover:border-teal-500/30 transition-all duration-300"
-             [style.animation-delay]="i * 100 + 'ms'">
-          <div class="text-4xl mb-2">{{ stat.icon }}</div>
-          <div class="text-4xl font-bold text-teal-400 mb-1 tabular-nums">{{ stat.current }}{{ stat.suffix }}</div>
-          <div class="text-slate-400 text-sm">{{ lang.t(stat.labelKey) }}</div>
+             class="stat-card group text-center p-8 rounded-2xl glass-ultra border border-slate-700/30 hover:border-teal-500/40 transition-all duration-300 relative overflow-hidden feature-card"
+             [style.animation-delay]="i * 150 + 'ms'">
+          <!-- Animated gradient border on hover -->
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <div class="absolute inset-0 rounded-2xl animated-border"></div>
+          </div>
+
+          <div class="relative z-10">
+            <div class="text-5xl mb-4 feature-card-icon">{{ stat.icon }}</div>
+            <div class="text-5xl font-extrabold mb-2 tabular-nums score-counter">{{ stat.current }}{{ stat.suffix }}</div>
+            <div class="text-slate-400 text-sm font-medium">{{ lang.t(stat.labelKey) }}</div>
+          </div>
+
+          <!-- Bottom glow -->
+          <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-teal-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         </div>
       </div>
     </div>
@@ -367,46 +484,96 @@ interface Stat {
       </div>
     </div>
 
-    <!-- Process steps -->
-    <div class="py-16">
-      <div class="text-center mb-10">
-        <h2 class="text-2xl font-bold text-slate-100">{{ lang.t('landing.steps_title') }}</h2>
-      </div>
+    <!-- Process steps - Enhanced -->
+    <div class="py-20 relative">
+      <!-- Background -->
+      <div class="absolute inset-0 cyber-grid opacity-20"></div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto px-4">
-        <div *ngFor="let step of steps; let i = index"
-             class="glass-card p-6 text-left relative step-card"
-             [style.animation-delay]="i * 150 + 'ms'">
-          <div class="absolute -top-3 -right-3 text-6xl font-extrabold text-slate-700/20">{{ i + 1 }}</div>
-          <div class="relative z-10">
-            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-bold mb-3">{{ i + 1 }}</div>
-            <h3 class="font-semibold text-slate-200 mb-1">{{ lang.t(step.titleKey) }}</h3>
-            <p class="text-sm text-slate-500">{{ lang.t(step.descKey) }}</p>
+      <div class="relative z-10">
+        <div class="text-center mb-12">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-4">
+            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            <span class="text-xs font-medium text-cyan-400 uppercase tracking-wider">{{ lang.t('landing.steps_badge') || 'How It Works' }}</span>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-bold text-slate-100">{{ lang.t('landing.steps_title') }}</h2>
+        </div>
+
+        <!-- Steps with connecting line -->
+        <div class="max-w-4xl mx-auto px-4 relative">
+          <!-- Connecting line (desktop) -->
+          <div class="hidden md:block absolute top-20 left-[16%] right-[16%] h-0.5 bg-gradient-to-r from-emerald-500/50 via-cyan-500/50 to-violet-500/50"></div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div *ngFor="let step of steps; let i = index"
+                 class="group relative step-card"
+                 [style.animation-delay]="i * 150 + 'ms'">
+              <!-- Step number with glow -->
+              <div class="flex justify-center mb-6">
+                <div class="relative">
+                  <div class="absolute inset-0 rounded-full bg-gradient-to-r"
+                       [class.from-emerald-500]="i === 0" [class.to-cyan-500]="i === 0"
+                       [class.from-cyan-500]="i === 1" [class.to-violet-500]="i === 1"
+                       [class.from-violet-500]="i === 2" [class.to-pink-500]="i === 2"
+                       style="filter: blur(8px); opacity: 0.5;"></div>
+                  <div class="relative w-14 h-14 rounded-full bg-gradient-to-r flex items-center justify-center text-white text-xl font-bold shadow-lg"
+                       [class.from-emerald-500]="i === 0" [class.to-cyan-500]="i === 0"
+                       [class.from-cyan-500]="i === 1" [class.to-violet-500]="i === 1"
+                       [class.from-violet-500]="i === 2" [class.to-pink-500]="i === 2">
+                    {{ i + 1 }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card -->
+              <div class="glass-card p-6 text-center rounded-xl border border-slate-700/50 group-hover:border-emerald-500/30 transition-all duration-300 h-full feature-card">
+                <h3 class="font-bold text-lg text-slate-100 mb-3 group-hover:text-emerald-300 transition-colors">{{ lang.t(step.titleKey) }}</h3>
+                <p class="text-sm text-slate-400 leading-relaxed">{{ lang.t(step.descKey) }}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- DORA 5 Pillars -->
-    <div class="py-16">
-      <div class="text-center mb-10">
-        <p class="text-xs font-medium text-emerald-400 uppercase tracking-wider mb-2">{{ lang.t('landing.pillars_label') }}</p>
-        <h2 class="text-2xl font-bold text-slate-100">{{ lang.t('landing.pillars_title') }}</h2>
-        <p class="text-slate-500 text-sm mt-2">{{ lang.t('landing.pillars_desc') }}</p>
+    <!-- DORA 5 Pillars - Enhanced with 3D Effect -->
+    <div class="py-16 relative">
+      <!-- Background decoration -->
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-emerald-500/5 rounded-full blur-3xl"></div>
       </div>
 
-      <p class="text-center text-xs text-slate-500 mb-4">{{ lang.t('landing.pillars_hint') }}</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto px-4">
-        <a *ngFor="let pillar of pillars" [routerLink]="'/pillar/' + pillar.id"
-           [title]="lang.t('landing.pillar_tooltip')"
-           class="glass-card p-4 text-center group hover:border-emerald-500/30 transition-all duration-300 cursor-pointer">
-          <div class="text-3xl mb-2">{{ pillar.icon }}</div>
-          <h3 class="text-sm font-medium text-slate-300 group-hover:text-emerald-300 transition-colors">{{ lang.t(pillar.labelKey) }}</h3>
-          <p class="text-xs text-slate-600 mt-1">{{ pillar.articles }}</p>
-          <span class="inline-block mt-2 px-2 py-0.5 rounded text-[10px] font-medium bg-emerald-500/20 text-emerald-400">
-            {{ lang.t('landing.active') }}
-          </span>
-        </a>
+      <div class="relative z-10">
+        <div class="text-center mb-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-4">
+            <span class="text-emerald-400 text-sm">&#9881;</span>
+            <span class="text-xs font-medium text-emerald-400 uppercase tracking-wider">{{ lang.t('landing.pillars_label') }}</span>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-bold text-slate-100 mb-3">{{ lang.t('landing.pillars_title') }}</h2>
+          <p class="text-slate-400 text-sm max-w-lg mx-auto">{{ lang.t('landing.pillars_desc') }}</p>
+        </div>
+
+        <p class="text-center text-xs text-slate-500 mb-6">{{ lang.t('landing.pillars_hint') }}</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 max-w-4xl mx-auto px-4 stagger-children">
+          <a *ngFor="let pillar of pillars; let i = index" [routerLink]="'/pillar/' + pillar.id"
+             [title]="lang.t('landing.pillar_tooltip')"
+             class="tilt-card group"
+             (mouseenter)="onPillarHover($event, i)"
+             (mouseleave)="onPillarLeave($event, i)"
+             (mousemove)="onPillarMove($event, i)">
+            <div class="tilt-card-inner feature-card glass-card p-5 text-center rounded-xl border border-slate-700/50 group-hover:border-emerald-500/40 transition-all duration-300 relative overflow-hidden">
+              <div class="tilt-card-shine"></div>
+              <div class="feature-card-icon text-4xl mb-3 floating-label">{{ pillar.icon }}</div>
+              <h3 class="text-sm font-semibold text-slate-200 group-hover:text-emerald-300 transition-colors mb-1">{{ lang.t(pillar.labelKey) }}</h3>
+              <p class="text-xs text-slate-500 mb-2">{{ pillar.articles }}</p>
+              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 badge-shine">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                {{ lang.t('landing.active') }}
+              </span>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
 
@@ -435,13 +602,39 @@ interface Stat {
       </div>
     </div>
 
-    <!-- Trust Badges -->
-    <div class="py-8">
-      <div class="max-w-2xl mx-auto px-4">
-        <div class="grid grid-cols-3 gap-2 sm:gap-4 text-center">
-          <div *ngFor="let badge of trustBadges" class="flex flex-col items-center gap-1 sm:gap-2 p-3 sm:p-4 rounded-lg bg-slate-800/30">
-            <span class="text-2xl">{{ badge.icon }}</span>
-            <span class="text-xs text-slate-500 font-medium">{{ lang.t(badge.textKey) }}</span>
+    <!-- Trust Badges - Enhanced -->
+    <div class="py-12">
+      <div class="max-w-3xl mx-auto px-4">
+        <div class="grid grid-cols-3 gap-4 sm:gap-6 text-center">
+          <div *ngFor="let badge of trustBadges; let i = index"
+               class="group flex flex-col items-center gap-3 p-4 sm:p-6 rounded-xl glass-card border border-slate-700/30 hover:border-emerald-500/30 transition-all duration-300 cursor-default"
+               [style.animation-delay]="i * 100 + 'ms'">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-slate-800 to-slate-700 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-black/20">
+              <span class="text-3xl">{{ badge.icon }}</span>
+            </div>
+            <span class="text-xs sm:text-sm text-slate-400 font-medium group-hover:text-slate-300 transition-colors">{{ lang.t(badge.textKey) }}</span>
+          </div>
+        </div>
+
+        <!-- Additional trust indicators -->
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/30 border border-slate-700/30 text-xs text-slate-500">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+            {{ lang.t('landing.trust_gdpr') || 'GDPR Compliant' }}
+          </div>
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/30 border border-slate-700/30 text-xs text-slate-500">
+            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            {{ lang.t('landing.trust_secure') || 'Bank-Level Security' }}
+          </div>
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/30 border border-slate-700/30 text-xs text-slate-500">
+            <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            {{ lang.t('landing.trust_eu') || 'EU Data Centers' }}
           </div>
         </div>
       </div>
@@ -700,20 +893,68 @@ interface Stat {
       </div>
     </div>
 
-    <!-- Final CTA -->
-    <div class="py-16 text-center">
-      <h2 class="text-2xl font-bold text-slate-100 mb-4">{{ lang.t('landing.final_cta_title') }}</h2>
-      <p class="text-slate-400 mb-8 max-w-lg mx-auto">{{ lang.t('landing.final_cta_desc') }}</p>
-      <a routerLink="/register"
-         (click)="onRegisterCtaClick('final_cta')"
-         class="cta-button inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
-                text-slate-900 font-semibold px-10 py-4 rounded-xl text-lg
-                hover:shadow-xl hover:shadow-emerald-500/30">
-        {{ lang.t('landing.cta_start_free') }}
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-        </svg>
-      </a>
+    <!-- Final CTA - Enhanced -->
+    <div class="py-20 relative overflow-hidden">
+      <!-- Background effects -->
+      <div class="absolute inset-0">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-emerald-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/2 left-1/3 -translate-y-1/2 w-[400px] h-[200px] bg-cyan-500/10 rounded-full blur-3xl"></div>
+      </div>
+
+      <div class="relative z-10 text-center px-4">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-6 badge-shine">
+          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+          <span class="text-xs font-medium text-emerald-400">{{ lang.t('landing.final_cta_badge') || 'Start in 30 seconds' }}</span>
+        </div>
+
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          <span class="gradient-text">{{ lang.t('landing.final_cta_title') }}</span>
+        </h2>
+        <p class="text-slate-400 mb-10 max-w-lg mx-auto text-lg">{{ lang.t('landing.final_cta_desc') }}</p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a routerLink="/contract-analysis"
+             class="magnetic-btn group inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
+                    text-slate-900 font-bold px-12 py-5 rounded-2xl text-lg
+                    hover:shadow-2xl hover:shadow-emerald-500/30 transition-all duration-300">
+            {{ lang.t('landing.cta_start_free') }}
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </a>
+          <a routerLink="/pricing"
+             class="inline-flex items-center gap-2 px-8 py-5 rounded-2xl text-slate-300 hover:text-white font-medium transition-colors">
+            {{ lang.t('landing.view_pricing') || 'View Pricing' }}
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Trust micro-copy -->
+        <div class="mt-8 flex flex-wrap justify-center gap-6 text-xs text-slate-500">
+          <span class="inline-flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            {{ lang.t('landing.trust_no_cc') || 'No credit card required' }}
+          </span>
+          <span class="inline-flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            {{ lang.t('landing.trust_instant') || 'Instant results' }}
+          </span>
+          <span class="inline-flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            {{ lang.t('landing.trust_pdf') || 'PDF report included' }}
+          </span>
+        </div>
+      </div>
     </div>
   `,
   styles: [`
@@ -893,6 +1134,10 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   // FAQ accordion state
   expandedFaq: number | null = null;
 
+  // Compliance preview animation
+  compliancePreview = 0;
+  targetCompliancePreview = 73;
+
   contactReasons = [
     { value: 'demo', labelKey: 'landing.contact_reason_demo' },
     { value: 'enterprise', labelKey: 'landing.contact_reason_enterprise' },
@@ -911,10 +1156,32 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.titleService.setTitle('DoraAudit.eu — DORA ja NIS2 vastavusplatvorm Eesti ettevõtetele');
     this.animateStats();
+    this.animateCompliancePreview();
     this.loadPublicStats();
 
     // Track page view
     this.trackingService.trackPageView('/');
+  }
+
+  private animateCompliancePreview(): void {
+    const duration = 2000;
+    const steps = 60;
+    const stepDuration = duration / steps;
+
+    timer(500, stepDuration)
+      .pipe(
+        take(steps),
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: (step) => {
+          const progress = this.easeOutQuad((step + 1) / steps);
+          this.compliancePreview = Math.round(this.targetCompliancePreview * progress);
+        },
+        complete: () => {
+          this.compliancePreview = this.targetCompliancePreview;
+        }
+      });
   }
 
   ngAfterViewInit(): void {
@@ -1084,5 +1351,37 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onRegisterCtaClick(ctaLocation: string): void {
     this.trackingService.trackCtaClick(`/register_from_${ctaLocation}`);
+  }
+
+  // 3D Tilt effect for pillar cards
+  onPillarHover(event: MouseEvent, index: number): void {
+    const card = (event.currentTarget as HTMLElement).querySelector('.tilt-card-inner') as HTMLElement;
+    if (card) {
+      card.style.transition = 'transform 0.1s ease-out';
+    }
+  }
+
+  onPillarLeave(event: MouseEvent, index: number): void {
+    const card = (event.currentTarget as HTMLElement).querySelector('.tilt-card-inner') as HTMLElement;
+    if (card) {
+      card.style.transition = 'transform 0.3s ease-out';
+      card.style.transform = 'rotateY(0deg) rotateX(0deg) scale(1)';
+    }
+  }
+
+  onPillarMove(event: MouseEvent, index: number): void {
+    const card = (event.currentTarget as HTMLElement).querySelector('.tilt-card-inner') as HTMLElement;
+    if (!card) return;
+
+    const rect = card.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = (y - centerY) / 10;
+    const rotateY = (centerX - x) / 10;
+
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
   }
 }

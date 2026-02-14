@@ -10,11 +10,21 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <div class="max-w-5xl mx-auto">
+    <div class="max-w-5xl mx-auto relative">
+      <!-- Background effects -->
+      <div class="absolute -top-20 -left-20 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl animate-float"></div>
+      <div class="absolute -top-10 -right-20 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl animate-float" style="animation-delay: -2s;"></div>
+
       <!-- Header -->
-      <div class="text-center mb-12">
-        <h1 class="text-3xl md:text-4xl font-bold gradient-text mb-4">
-          {{ lang.t('pricing.title') }}
+      <div class="text-center mb-12 relative z-10">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-4 badge-shine">
+          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span class="text-xs font-medium text-emerald-400">{{ lang.t('pricing.badge') || 'Simple Pricing' }}</span>
+        </div>
+        <h1 class="text-3xl md:text-5xl font-bold mb-4">
+          <span class="gradient-text">{{ lang.t('pricing.title') }}</span>
         </h1>
         <p class="text-slate-400 text-lg max-w-2xl mx-auto">
           {{ lang.t('pricing.subtitle') }}
@@ -60,38 +70,56 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
       </div>
 
       <!-- Pricing Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 relative z-10">
 
         <!-- Card 1: Free -->
-        <div class="glass-card p-6 rounded-2xl border border-slate-700/50 flex flex-col">
+        <div class="group glass-card p-6 rounded-2xl border border-slate-700/50 flex flex-col feature-card hover:border-slate-600/70 transition-all duration-300">
           <div class="mb-6">
+            <div class="w-12 h-12 rounded-xl bg-slate-700/50 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <span class="text-2xl">🆓</span>
+            </div>
             <h3 class="text-xl font-bold text-slate-200 mb-2">{{ lang.t('pricing.free_title') }}</h3>
             <div class="flex items-baseline gap-1">
-              <span class="text-3xl font-bold text-emerald-400">{{ lang.t('pricing.free_price') }}</span>
+              <span class="text-4xl font-extrabold text-slate-300">{{ lang.t('pricing.free_price') }}</span>
             </div>
           </div>
 
           <ul class="space-y-3 mb-8 flex-1">
             <li class="flex items-start gap-3">
-              <span class="text-emerald-400 mt-0.5">✓</span>
+              <div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
               <span class="text-slate-300 text-sm">{{ lang.t('pricing.free_f1') }}</span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="text-emerald-400 mt-0.5">✓</span>
+              <div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
               <span class="text-slate-300 text-sm">{{ lang.t('pricing.free_f2') }}</span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="text-emerald-400 mt-0.5">✓</span>
+              <div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
               <span class="text-slate-300 text-sm">{{ lang.t('pricing.free_f3') }}</span>
             </li>
           </ul>
 
           <a routerLink="/nis2/scope-check"
-             class="w-full py-3 px-4 rounded-xl text-center font-medium text-sm
+             class="w-full py-3.5 px-4 rounded-xl text-center font-semibold text-sm
                     bg-slate-700/50 text-slate-200 border border-slate-600/50
                     hover:bg-slate-600/50 hover:border-emerald-500/30 hover:text-emerald-400
-                    transition-all duration-200">
-            {{ lang.t('pricing.free_cta') }} →
+                    transition-all duration-300 group-hover:-translate-y-0.5">
+            {{ lang.t('pricing.free_cta') }}
+            <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
           </a>
 
           <div class="mt-4 pt-4 border-t border-slate-700/50 text-center">
@@ -100,47 +128,72 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
         </div>
 
         <!-- Card 2: Single Assessment - POPULAR -->
-        <div class="glass-card p-6 rounded-2xl border-2 border-emerald-500/50 flex flex-col relative
-                    shadow-lg shadow-emerald-500/10">
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold
-                      bg-gradient-to-r from-emerald-500 to-cyan-500 text-white uppercase tracking-wider">
+        <div class="group glass-card p-6 rounded-2xl border-2 border-emerald-500/50 flex flex-col relative
+                    shadow-xl shadow-emerald-500/10 hover:shadow-emerald-500/20 transition-all duration-300 hover:-translate-y-1 feature-card">
+          <!-- Animated border glow -->
+          <div class="absolute inset-0 rounded-2xl animate-border-glow pointer-events-none"></div>
+
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full text-xs font-bold
+                      bg-gradient-to-r from-emerald-500 to-cyan-500 text-white uppercase tracking-wider shadow-lg shadow-emerald-500/30 badge-shine">
             {{ lang.t('pricing.popular') }}
           </div>
 
-          <div class="mb-6 mt-2">
+          <div class="mb-6 mt-3">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <span class="text-2xl">⭐</span>
+            </div>
             <h3 class="text-xl font-bold text-slate-200 mb-2">{{ lang.t('pricing.single_title') }}</h3>
             <div class="flex items-baseline gap-1">
-              <span class="text-3xl font-bold text-emerald-400">€49</span>
+              <span class="text-4xl font-extrabold score-counter">€49</span>
               <span class="text-slate-500 text-sm">/ {{ lang.t('pricing.one_time') }}</span>
             </div>
           </div>
 
           <ul class="space-y-3 mb-8 flex-1">
             <li class="flex items-start gap-3">
-              <span class="text-emerald-400 mt-0.5">✓</span>
+              <div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
               <span class="text-slate-300 text-sm">{{ lang.t('pricing.single_f1') }}</span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="text-emerald-400 mt-0.5">✓</span>
+              <div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
               <span class="text-slate-300 text-sm">{{ lang.t('pricing.single_f2') }}</span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="text-emerald-400 mt-0.5">✓</span>
+              <div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
               <span class="text-slate-300 text-sm">{{ lang.t('pricing.single_f3') }}</span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="text-emerald-400 mt-0.5">✓</span>
+              <div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
               <span class="text-slate-300 text-sm">{{ lang.t('pricing.single_f4') }}</span>
             </li>
           </ul>
 
           <a [href]="paymentConfig.lemonsqueezy.products.doraAssessment.checkoutUrl"
              target="_blank"
-             class="w-full py-3 px-4 rounded-xl text-center font-medium text-sm
+             class="magnetic-btn w-full py-3.5 px-4 rounded-xl text-center font-bold text-sm
                     bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
-                    hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25
-                    transition-all duration-200">
-            {{ lang.t('pricing.single_cta') }} →
+                    hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/30
+                    transition-all duration-300">
+            {{ lang.t('pricing.single_cta') }}
+            <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
           </a>
 
           <div class="mt-4 pt-4 border-t border-slate-700/50 text-center">
@@ -149,46 +202,68 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
         </div>
 
         <!-- Card 3: Compliance Package -->
-        <div class="glass-card p-6 rounded-2xl border border-slate-700/50 flex flex-col relative">
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold
-                      bg-gradient-to-r from-amber-500 to-orange-500 text-white uppercase tracking-wider">
+        <div class="group glass-card p-6 rounded-2xl border border-amber-500/30 flex flex-col relative hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-1 feature-card">
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full text-xs font-bold
+                      bg-gradient-to-r from-amber-500 to-orange-500 text-white uppercase tracking-wider shadow-lg shadow-amber-500/30 badge-shine">
             {{ lang.t('pricing.save_20') }}
           </div>
 
-          <div class="mb-6 mt-2">
+          <div class="mb-6 mt-3">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <span class="text-2xl">🎯</span>
+            </div>
             <h3 class="text-xl font-bold text-slate-200 mb-2">{{ lang.t('pricing.package_title') }}</h3>
-            <div class="flex items-baseline gap-1">
-              <span class="text-3xl font-bold text-emerald-400">€79</span>
-              <span class="text-slate-500 text-sm line-through ml-2">€98</span>
+            <div class="flex items-baseline gap-2">
+              <span class="text-4xl font-extrabold gradient-text-warm">€79</span>
+              <span class="text-slate-500 text-sm line-through">€98</span>
             </div>
           </div>
 
           <ul class="space-y-3 mb-8 flex-1">
             <li class="flex items-start gap-3">
-              <span class="text-emerald-400 mt-0.5">✓</span>
+              <div class="w-5 h-5 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-3 h-3 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
               <span class="text-slate-300 text-sm">{{ lang.t('pricing.package_f1') }}</span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="text-emerald-400 mt-0.5">✓</span>
+              <div class="w-5 h-5 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-3 h-3 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
               <span class="text-slate-300 text-sm">{{ lang.t('pricing.package_f2') }}</span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="text-emerald-400 mt-0.5">✓</span>
+              <div class="w-5 h-5 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-3 h-3 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
               <span class="text-slate-300 text-sm">{{ lang.t('pricing.package_f3') }}</span>
             </li>
             <li class="flex items-start gap-3">
-              <span class="text-emerald-400 mt-0.5">✓</span>
+              <div class="w-5 h-5 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-3 h-3 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
               <span class="text-slate-300 text-sm">{{ lang.t('pricing.package_f4') }}</span>
             </li>
           </ul>
 
           <a [href]="paymentConfig.lemonsqueezy.products.comboPackage.checkoutUrl"
              target="_blank"
-             class="w-full py-3 px-4 rounded-xl text-center font-medium text-sm
+             class="magnetic-btn w-full py-3.5 px-4 rounded-xl text-center font-bold text-sm
                     bg-gradient-to-r from-amber-500 to-orange-500 text-white
-                    hover:from-amber-400 hover:to-orange-400 hover:shadow-lg hover:shadow-amber-500/25
-                    transition-all duration-200">
-            {{ lang.t('pricing.package_cta') }} →
+                    hover:from-amber-400 hover:to-orange-400 hover:shadow-lg hover:shadow-amber-500/30
+                    transition-all duration-300">
+            {{ lang.t('pricing.package_cta') }}
+            <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
           </a>
 
           <div class="mt-4 pt-4 border-t border-slate-700/50 text-center">

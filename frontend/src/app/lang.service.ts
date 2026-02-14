@@ -303,6 +303,22 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.cta_start_free': { et: 'Alusta tasuta', en: 'Start for free' },
   'landing.cta_check_nis2': { et: 'Kontrolli NIS2 kohaldumist →', en: 'Check NIS2 applicability →' },
   'landing.cta_nis2_secondary': { et: 'Või kontrolli esmalt NIS2 kohaldumist', en: 'Or check NIS2 applicability first' },
+  'landing.cta_fine_calc': { et: 'Arvuta trahvisumma', en: 'Calculate fine' },
+  'landing.cta_timeline': { et: 'Ajakava', en: 'Timeline' },
+  'landing.cta_board_risk': { et: 'Isikliku riski kontroll', en: 'Personal Risk Check' },
+  'landing.live_badge': { et: 'DORA & NIS2 jõus', en: 'DORA & NIS2 Active' },
+  'landing.score_label': { et: 'Näidis skoor', en: 'Sample Score' },
+  'landing.score_cta': { et: 'Vaata oma tegelikku skoori', en: 'See your real score' },
+  'landing.score_time': { et: 'Tasuta • 5 min analüüs', en: 'Free • 5 min analysis' },
+  'landing.steps_badge': { et: 'Kuidas see töötab', en: 'How It Works' },
+  'landing.trust_gdpr': { et: 'GDPR-vastav', en: 'GDPR Compliant' },
+  'landing.trust_secure': { et: 'Pangataseme turvalisus', en: 'Bank-Level Security' },
+  'landing.trust_eu': { et: 'EL andmekeskused', en: 'EU Data Centers' },
+  'landing.final_cta_badge': { et: 'Alusta 30 sekundiga', en: 'Start in 30 seconds' },
+  'landing.view_pricing': { et: 'Vaata hindu', en: 'View Pricing' },
+  'landing.trust_no_cc': { et: 'Krediitkaart pole vajalik', en: 'No credit card required' },
+  'landing.trust_instant': { et: 'Kohesed tulemused', en: 'Instant results' },
+  'landing.trust_pdf': { et: 'PDF raport kaasas', en: 'PDF report included' },
 
   // Landing - Email capture
   'landing.email_title': { et: 'Saa DORA vastavuse kontrollnimekiri emailile', en: 'Get DORA compliance checklist to your email' },
@@ -1470,6 +1486,10 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'contract.clauses_locked_desc': { et: 'Sisesta email, et näha soovituslikke lepinguklausleid ja laadida PDF raport', en: 'Enter email to see suggested contract clauses and download PDF report' },
   'contract.unlock_clauses': { et: 'Ava klauslid', en: 'Unlock clauses' },
   'contract.get_pdf': { et: 'Saada raport', en: 'Get report' },
+
+  // Timeline
+  'nav.timeline': { et: 'Ajakava', en: 'Timeline' },
+  'nav.vendors': { et: 'Teenusepakkujad', en: 'Vendors' },
 
   // Fine Calculator
   'nav.fine_calculator': { et: 'Trahvikalkulaator', en: 'Fine Calculator' },
