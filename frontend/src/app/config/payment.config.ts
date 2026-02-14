@@ -31,6 +31,34 @@ export const PAYMENT_CONFIG = {
         price: 29,
         name: 'DORA Lepingu Template'
       }
+    },
+    // Subscription plans for freemium model
+    subscriptions: {
+      standard: {
+        checkoutUrl: 'https://compliancehub.lemonsqueezy.com/checkout/buy/2945d26f-0614-4d67-ab4f-b762870a32f4',
+        price: 29,
+        priceMonthly: '€29/kuu',
+        name: 'Standard',
+        features: ['PDF raportid', 'Excel eksport', 'Vastavustunnistus', 'Lepingute teavitused']
+      },
+      enterprise: {
+        checkoutUrl: 'https://compliancehub.lemonsqueezy.com/checkout/buy/e8674874-f4bc-43cd-bb36-3f48591c8358',
+        price: 79,
+        priceMonthly: '€79/kuu',
+        name: 'Enterprise',
+        features: ['xBRL-CSV regulaatorile', 'API ligipääs', 'Mitme ettevõtte tugi', 'Audit log', 'AI klauslite ümbersõnastaja']
+      }
     }
+  },
+  // Free tier features description
+  freeTier: {
+    name: 'Tasuta',
+    features: [
+      'DORA hindamine (37 küsimust)',
+      'NIS2 kohaldumise kontroll',
+      'Tulemuste vaade',
+      'Radar- ja riskikaart',
+      'Registri andmete sisestus'
+    ]
   }
 };

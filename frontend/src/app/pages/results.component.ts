@@ -2,9 +2,12 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ApiService } from '../api.service';
+import { ApiService, BenchmarkData } from '../api.service';
 import { LangService } from '../lang.service';
 import { AssessmentResult, CATEGORY_LABELS } from '../models';
+import { SubscriptionService } from '../services/subscription.service';
+import { UpgradeModalComponent } from '../components/upgrade-modal.component';
+import { PremiumBadgeComponent } from '../components/premium-badge.component';
 
 interface RadarPoint {
   x: number;
@@ -29,7 +32,7 @@ interface HeatmapCell {
 
 @Component({
   selector: 'app-results',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, UpgradeModalComponent, PremiumBadgeComponent],
   template: `
     <div class="max-w-4xl mx-auto">
       <div *ngIf="loading" class="text-center py-16 animate-fade-in">
@@ -237,6 +240,119 @@ interface HeatmapCell {
                 </span>
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- Industry Benchmark Comparison -->
+        <div *ngIf="benchmark" class="bg-gradient-to-br from-indigo-900/20 to-slate-800/50 backdrop-blur border border-indigo-500/20 rounded-xl p-6 mb-8 animate-fade-in-up delay-450">
+          <h2 class="text-sm font-semibold text-indigo-300 mb-4 flex items-center gap-2">
+            <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+            {{ lang.currentLang === 'et' ? 'T&ouml;&ouml;stuse v&otilde;rdlus' : 'Industry Benchmark' }}
+          </h2>
+
+          <!-- Main comparison -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <!-- Your Score -->
+            <div class="bg-slate-800/50 rounded-lg p-4 text-center border border-slate-700/30">
+              <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Teie tulemus' : 'Your Score' }}</p>
+              <p class="text-3xl font-bold" [class]="scoreTextClass">{{ result.scorePercentage | number:'1.0-0' }}%</p>
+              <p class="text-xs mt-1" [class]="result.scorePercentage >= benchmark.industryAverage ? 'text-emerald-400' : 'text-amber-400'">
+                {{ getBenchmarkComparison() }}
+              </p>
+            </div>
+
+            <!-- Industry Average -->
+            <div class="bg-slate-800/50 rounded-lg p-4 text-center border border-slate-700/30">
+              <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'T&ouml;&ouml;stuse keskmine' : 'Industry Average' }}</p>
+              <p class="text-3xl font-bold text-slate-300">{{ benchmark.industryAverage | number:'1.0-0' }}%</p>
+              <p class="text-xs text-slate-500 mt-1">{{ benchmark.totalAssessments }} {{ lang.currentLang === 'et' ? 'hindamist' : 'assessments' }}</p>
+            </div>
+
+            <!-- Percentile Rank -->
+            <div class="bg-slate-800/50 rounded-lg p-4 text-center border border-slate-700/30">
+              <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Teie positsioon' : 'Your Ranking' }}</p>
+              <p class="text-3xl font-bold text-indigo-400">{{ benchmark.percentileRank | number:'1.0-0' }}%</p>
+              <p class="text-xs text-indigo-300 mt-1">{{ getPercentileLabel() }}</p>
+            </div>
+          </div>
+
+          <!-- Score distribution bar -->
+          <div class="mb-6">
+            <p class="text-xs text-slate-500 mb-2">{{ lang.currentLang === 'et' ? 'Tulemuste jaotus' : 'Score Distribution' }}</p>
+            <div class="relative h-8 bg-slate-700/50 rounded-full overflow-hidden">
+              <!-- Distribution gradient -->
+              <div class="absolute inset-0 flex">
+                <div class="h-full bg-red-500/40" [style.width.%]="benchmark.complianceLevelDistribution?.['RED'] || 30"></div>
+                <div class="h-full bg-amber-500/40" [style.width.%]="benchmark.complianceLevelDistribution?.['YELLOW'] || 52"></div>
+                <div class="h-full bg-emerald-500/40" [style.width.%]="benchmark.complianceLevelDistribution?.['GREEN'] || 18"></div>
+              </div>
+              <!-- Your position marker -->
+              <div class="absolute top-0 bottom-0 w-1 bg-white shadow-lg shadow-white/50 transition-all duration-700"
+                   [style.left.%]="result.scorePercentage">
+                <div class="absolute -top-1 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rounded-full"></div>
+              </div>
+              <!-- Scale labels -->
+              <div class="absolute bottom-0 left-0 right-0 flex justify-between px-2 text-[10px] text-slate-400">
+                <span>0%</span>
+                <span>50%</span>
+                <span>100%</span>
+              </div>
+            </div>
+            <div class="flex justify-center gap-4 mt-2">
+              <div class="flex items-center gap-1">
+                <div class="w-2 h-2 rounded-full bg-red-500/60"></div>
+                <span class="text-[10px] text-slate-500">{{ lang.currentLang === 'et' ? 'Punane' : 'Red' }} &lt;50%</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <div class="w-2 h-2 rounded-full bg-amber-500/60"></div>
+                <span class="text-[10px] text-slate-500">{{ lang.currentLang === 'et' ? 'Kollane' : 'Yellow' }} 50-79%</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <div class="w-2 h-2 rounded-full bg-emerald-500/60"></div>
+                <span class="text-[10px] text-slate-500">{{ lang.currentLang === 'et' ? 'Roheline' : 'Green' }} 80%+</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Industry comparison bars -->
+          <div *ngIf="benchmark.industryBenchmarks">
+            <p class="text-xs text-slate-500 mb-3">{{ lang.currentLang === 'et' ? 'V&otilde;rdlus sektoritega' : 'Sector Comparison' }}</p>
+            <div class="space-y-2">
+              <div *ngFor="let industry of benchmark.industryBenchmarks | keyvalue" class="flex items-center gap-3">
+                <span class="text-xs text-slate-400 w-28 truncate">{{ industry.value.label }}</span>
+                <div class="flex-1 h-2 bg-slate-700/50 rounded-full overflow-hidden">
+                  <div class="h-full rounded-full transition-all duration-700"
+                       [class]="industry.value.average < result.scorePercentage ? 'bg-slate-500' : 'bg-indigo-500'"
+                       [style.width.%]="industry.value.average">
+                  </div>
+                </div>
+                <span class="text-xs w-12 text-right"
+                      [class]="industry.value.average < result.scorePercentage ? 'text-slate-500' : 'text-indigo-400'">
+                  {{ industry.value.average }}%
+                </span>
+              </div>
+              <!-- Your score line -->
+              <div class="flex items-center gap-3 pt-2 border-t border-slate-700/50">
+                <span class="text-xs font-semibold w-28 truncate" [class]="scoreTextClass">{{ lang.currentLang === 'et' ? 'Teie tulemus' : 'Your Score' }}</span>
+                <div class="flex-1 h-2 bg-slate-700/50 rounded-full overflow-hidden">
+                  <div class="h-full rounded-full transition-all duration-700"
+                       [class]="result.complianceLevel === 'GREEN' ? 'bg-emerald-500' : result.complianceLevel === 'YELLOW' ? 'bg-amber-500' : 'bg-red-500'"
+                       [style.width.%]="result.scorePercentage">
+                  </div>
+                </div>
+                <span class="text-xs font-bold w-12 text-right" [class]="scoreTextClass">{{ result.scorePercentage | number:'1.0-0' }}%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Benchmark loading state -->
+        <div *ngIf="benchmarkLoading" class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6 mb-8 animate-pulse">
+          <div class="flex items-center gap-3">
+            <div class="w-4 h-4 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
+            <span class="text-sm text-slate-400">{{ lang.currentLang === 'et' ? 'V&otilde;rdlusandmete laadimine...' : 'Loading benchmark data...' }}</span>
           </div>
         </div>
 
@@ -545,24 +661,54 @@ interface HeatmapCell {
 
         <!-- Actions -->
         <div class="flex flex-wrap justify-center gap-3 mt-10 mb-8 animate-fade-in-up delay-800 no-print">
-          <a *ngIf="emailCaptured" [routerLink]="['/certificate', result.id]"
+          <!-- Certificate - Paywalled -->
+          <button *ngIf="emailCaptured" type="button" (click)="handleCertificateClick()"
                   class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400
                          text-slate-900 font-semibold px-6 py-2.5 rounded-lg transition-all duration-300
-                         hover:shadow-lg hover:shadow-amber-500/25 flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         hover:shadow-lg hover:shadow-amber-500/25 flex items-center gap-2 relative"
+                  [class.opacity-80]="!subscriptionService.canAccess('CERTIFICATE')">
+            <svg *ngIf="!subscriptionService.canAccess('CERTIFICATE')" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            <svg *ngIf="subscriptionService.canAccess('CERTIFICATE')" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
             </svg>
             {{ lang.t('results.certificate') }}
-          </a>
-          <button *ngIf="emailCaptured" type="button" (click)="exportPdf()"
+            <app-premium-badge feature="CERTIFICATE"></app-premium-badge>
+          </button>
+
+          <!-- PDF Export - Paywalled -->
+          <button *ngIf="emailCaptured" type="button" (click)="handlePdfClick()"
                   class="bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-400 hover:to-purple-400
                          text-white font-semibold px-6 py-2.5 rounded-lg transition-all duration-300
-                         hover:shadow-lg hover:shadow-violet-500/25 flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         hover:shadow-lg hover:shadow-violet-500/25 flex items-center gap-2"
+                  [class.opacity-80]="!subscriptionService.canAccess('PDF_EXPORT')">
+            <svg *ngIf="!subscriptionService.canAccess('PDF_EXPORT')" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            <svg *ngIf="subscriptionService.canAccess('PDF_EXPORT')" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
             {{ lang.t('results.download_pdf') }}
+            <app-premium-badge feature="PDF_EXPORT"></app-premium-badge>
           </button>
+
+          <!-- Excel Export - Paywalled -->
+          <button *ngIf="emailCaptured" type="button" (click)="handleExcelClick()"
+                  class="bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400
+                         text-slate-900 font-semibold px-6 py-2.5 rounded-lg transition-all duration-300
+                         hover:shadow-lg hover:shadow-teal-500/25 flex items-center gap-2"
+                  [class.opacity-80]="!subscriptionService.canAccess('EXCEL_EXPORT')">
+            <svg *ngIf="!subscriptionService.canAccess('EXCEL_EXPORT')" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            <svg *ngIf="subscriptionService.canAccess('EXCEL_EXPORT')" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            Excel
+            <app-premium-badge feature="EXCEL_EXPORT"></app-premium-badge>
+          </button>
+
           <a routerLink="/assessment"
              class="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
                     text-slate-900 font-semibold px-6 py-2.5 rounded-lg transition-all duration-300
@@ -582,6 +728,9 @@ interface HeatmapCell {
           </a>
         </div>
       </div>
+
+      <!-- Upgrade Modal -->
+      <app-upgrade-modal></app-upgrade-modal>
     </div>
   `
 })
@@ -602,6 +751,10 @@ export class ResultsComponent implements OnInit {
   roadmapPhase2Progress = 0;
   roadmapPhase3Progress = 0;
 
+  // Benchmark data
+  benchmark: BenchmarkData | null = null;
+  benchmarkLoading = false;
+
   // Email gate
   email = '';
   emailCaptured = false;
@@ -615,7 +768,13 @@ export class ResultsComponent implements OnInit {
     { icon: '\u{1F4E1}', label: 'Info jagamine', active: true }
   ];
 
-  constructor(private api: ApiService, private route: ActivatedRoute, private renderer: Renderer2, public lang: LangService) {}
+  constructor(
+    private api: ApiService,
+    private route: ActivatedRoute,
+    private renderer: Renderer2,
+    public lang: LangService,
+    public subscriptionService: SubscriptionService
+  ) {}
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id')!;
@@ -635,6 +794,7 @@ export class ResultsComponent implements OnInit {
         this.buildHeatmap();
         this.buildNonCompliantList();
         this.buildRoadmap();
+        this.loadBenchmark();
         this.saveToHistory();
         this.loading = false;
         if (result.complianceLevel === 'GREEN') {
@@ -670,6 +830,32 @@ export class ResultsComponent implements OnInit {
 
   exportPdf() {
     window.print();
+  }
+
+  handlePdfClick() {
+    if (this.subscriptionService.canAccess('PDF_EXPORT')) {
+      this.exportPdf();
+    } else {
+      this.subscriptionService.showUpgrade('PDF_EXPORT');
+    }
+  }
+
+  handleExcelClick() {
+    if (this.subscriptionService.canAccess('EXCEL_EXPORT')) {
+      // TODO: Implement Excel export
+      console.log('Excel export - implement');
+    } else {
+      this.subscriptionService.showUpgrade('EXCEL_EXPORT');
+    }
+  }
+
+  handleCertificateClick() {
+    if (this.subscriptionService.canAccess('CERTIFICATE')) {
+      // Navigate to certificate page
+      window.location.href = `/certificate/${this.result?.id}`;
+    } else {
+      this.subscriptionService.showUpgrade('CERTIFICATE');
+    }
   }
 
   captureEmail() {
@@ -832,6 +1018,45 @@ export class ResultsComponent implements OnInit {
     this.roadmapPhase1Progress = items.length > 0 ? Math.round((done / total) * 100) : 100;
     this.roadmapPhase2Progress = items.length > 3 ? Math.round(((done + this.roadmapPhase1.length) / total) * 100) : this.roadmapPhase1Progress;
     this.roadmapPhase3Progress = 100;
+  }
+
+  loadBenchmark() {
+    if (!this.result) return;
+    this.benchmarkLoading = true;
+    this.api.getAssessmentBenchmark(this.result.scorePercentage).subscribe({
+      next: (data) => {
+        this.benchmark = data;
+        this.benchmarkLoading = false;
+      },
+      error: () => {
+        this.benchmarkLoading = false;
+      }
+    });
+  }
+
+  getBenchmarkComparison(): string {
+    if (!this.benchmark || !this.result) return '';
+    const diff = this.result.scorePercentage - this.benchmark.industryAverage;
+    if (diff > 0) {
+      return this.lang.currentLang === 'et'
+        ? `+${diff.toFixed(1)}% \u00fcle keskmise`
+        : `+${diff.toFixed(1)}% above average`;
+    } else if (diff < 0) {
+      return this.lang.currentLang === 'et'
+        ? `${diff.toFixed(1)}% alla keskmise`
+        : `${diff.toFixed(1)}% below average`;
+    }
+    return this.lang.currentLang === 'et' ? 'T\u00e4pselt keskmine' : 'Exactly average';
+  }
+
+  getPercentileLabel(): string {
+    if (!this.benchmark) return '';
+    const rank = this.benchmark.percentileRank;
+    if (rank >= 90) return this.lang.currentLang === 'et' ? 'Top 10%' : 'Top 10%';
+    if (rank >= 75) return this.lang.currentLang === 'et' ? 'Top 25%' : 'Top 25%';
+    if (rank >= 50) return this.lang.currentLang === 'et' ? '\u00dcle keskmise' : 'Above median';
+    if (rank >= 25) return this.lang.currentLang === 'et' ? 'Alla keskmise' : 'Below median';
+    return this.lang.currentLang === 'et' ? 'Alumine 25%' : 'Bottom 25%';
   }
 
   getCategoryLabel(category: string): string {

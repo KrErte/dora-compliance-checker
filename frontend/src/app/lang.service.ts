@@ -15,6 +15,29 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'nav.contract': { et: 'Lepinguanalüüs', en: 'Contract Analysis' },
   'footer.location': { et: 'Tallinn, Eesti', en: 'Tallinn, Estonia' },
 
+  // Paywall & Subscription
+  'paywall.data_saved_title': { et: 'Sinu andmed on salvestatud', en: 'Your data is saved' },
+  'paywall.data_saved_desc': { et: 'Sinu hindamise tulemused on turvaliselt salvestatud. Uuenda plaani, et laadida alla professionaalne raport.', en: 'Your assessment results are securely saved. Upgrade your plan to download a professional report.' },
+  'paywall.feature_pdf': { et: 'PDF raportid juhatusele', en: 'PDF reports for the board' },
+  'paywall.feature_excel': { et: 'Excel eksport analüüsiks', en: 'Excel export for analysis' },
+  'paywall.feature_certificate': { et: 'Vastavustunnistus partneritele', en: 'Compliance certificate for partners' },
+  'paywall.feature_action_plan': { et: 'Detailne tegevuskava PDF', en: 'Detailed action plan PDF' },
+  'paywall.upgrade_cta': { et: 'Uuenda plaani', en: 'Upgrade plan' },
+  'paywall.view_plans': { et: 'Vaata kõiki plaane', en: 'View all plans' },
+  'paywall.footer_note': { et: 'Sinu andmed on turvaliselt salvestatud. Uuendamine võtab alla 1 minuti.', en: 'Your data is securely saved. Upgrading takes less than 1 minute.' },
+  'paywall.pro_badge': { et: 'PRO', en: 'PRO' },
+  'paywall.pro_tooltip': { et: 'Saadaval Standard plaaniga', en: 'Available with Standard plan' },
+
+  // Pricing page - Subscription tiers
+  'pricing.free_tier_title': { et: 'Tasuta', en: 'Free' },
+  'pricing.free_tier_desc': { et: 'Kõik hindamised ja analüüsid tasuta. Andmed salvestatakse sinu brauseris.', en: 'All assessments and analyses free. Data stored in your browser.' },
+  'pricing.standard_title': { et: 'Standard', en: 'Standard' },
+  'pricing.standard_price': { et: '€29/kuu', en: '€29/month' },
+  'pricing.standard_desc': { et: 'PDF raportid, Excel eksport, vastavustunnistus, lepingute teavitused', en: 'PDF reports, Excel export, compliance certificate, contract notifications' },
+  'pricing.enterprise_title': { et: 'Enterprise', en: 'Enterprise' },
+  'pricing.enterprise_price': { et: '€79/kuu', en: '€79/month' },
+  'pricing.enterprise_desc': { et: 'xBRL-CSV regulaatorile, API ligipääs, mitme ettevõtte tugi, audit log', en: 'xBRL-CSV for regulator, API access, multi-company support, audit log' },
+
   // NIS2 Scope Checker
   'nis2.free_tool': { et: 'Tasuta tööriist', en: 'Free Tool' },
   'nis2.title': { et: 'NIS2 kohaldumise kontroll', en: 'NIS2 Scope Checker' },

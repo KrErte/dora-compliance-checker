@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { ApiService } from '../api.service';
+import { HttpClient } from '@angular/common/http';
+import { ApiService, BenchmarkData } from '../api.service';
 import { LangService } from '../lang.service';
 import { ContractAnalysisResult, ContractFinding } from '../models';
+import { SubscriptionService } from '../services/subscription.service';
+import { UpgradeModalComponent } from '../components/upgrade-modal.component';
+import { PremiumBadgeComponent } from '../components/premium-badge.component';
 
 @Component({
   selector: 'app-contract-results',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, UpgradeModalComponent, PremiumBadgeComponent],
   template: `
     <!-- Loading -->
     <div *ngIf="loading" class="text-center py-20">
@@ -75,6 +79,39 @@ import { ContractAnalysisResult, ContractFinding } from '../models';
             <p class="text-xs text-slate-500">{{ lang.t('contract.missing') }}</p>
           </div>
         </div>
+
+        <!-- Benchmark comparison -->
+        <div *ngIf="benchmark" class="mt-6 pt-6 border-t border-slate-700/50">
+          <div class="flex items-center gap-2 mb-4">
+            <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+            <span class="text-sm font-semibold text-indigo-300">{{ lang.currentLang === 'et' ? 'T&ouml;&ouml;stuse v&otilde;rdlus' : 'Industry Benchmark' }}</span>
+          </div>
+          <div class="grid grid-cols-3 gap-4">
+            <div class="text-center">
+              <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Teie tulemus' : 'Your Score' }}</p>
+              <p class="text-lg font-bold" [style.color]="scoreColor">{{ result.scorePercentage | number:'1.0-0' }}%</p>
+              <p class="text-[10px]" [class]="result.scorePercentage >= benchmark.industryAverage ? 'text-emerald-400' : 'text-amber-400'">
+                {{ getBenchmarkComparison() }}
+              </p>
+            </div>
+            <div class="text-center">
+              <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Keskmine' : 'Average' }}</p>
+              <p class="text-lg font-bold text-slate-300">{{ benchmark.industryAverage | number:'1.0-0' }}%</p>
+              <p class="text-[10px] text-slate-500">{{ benchmark.totalAnalyses }} {{ lang.currentLang === 'et' ? 'anal\u00fc\u00fcsi' : 'analyses' }}</p>
+            </div>
+            <div class="text-center">
+              <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Positsioon' : 'Ranking' }}</p>
+              <p class="text-lg font-bold text-indigo-400">{{ getPercentileLabel() }}</p>
+              <p class="text-[10px] text-slate-500">{{ benchmark.percentileRank | number:'1.0-0' }}. protsentiil</p>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="benchmarkLoading" class="mt-6 pt-6 border-t border-slate-700/50 flex items-center gap-2">
+          <div class="w-4 h-4 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
+          <span class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? 'Laadin v&otilde;rdlusandmeid...' : 'Loading benchmark...' }}</span>
+        </div>
       </div>
 
       <!-- Findings Table -->
@@ -132,9 +169,14 @@ import { ContractAnalysisResult, ContractFinding } from '../models';
         </div>
       </div>
 
-      <!-- Missing/Partial findings with recommendations -->
+      <!-- Missing/Partial findings with recommendations and clause rewriter -->
       <div *ngIf="missingFindings.length > 0" class="space-y-4">
-        <h2 class="text-lg font-semibold text-white">{{ lang.t('contract.tab_gaps') }} ({{ missingFindings.length }})</h2>
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold text-white">{{ lang.t('contract.tab_gaps') }} ({{ missingFindings.length }})</h2>
+          <span class="text-xs px-2 py-1 rounded-full bg-violet-500/20 text-violet-400 border border-violet-500/30">
+            {{ lang.currentLang === 'et' ? 'AI klauslite generaator' : 'AI Clause Generator' }}
+          </span>
+        </div>
         <div *ngFor="let f of missingFindings; let i = index"
              class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl overflow-hidden">
           <div [class]="'px-5 py-3 flex items-center justify-between ' + (f.status === 'missing' ? 'bg-red-500/10' : 'bg-yellow-500/10')">
@@ -147,7 +189,78 @@ import { ContractAnalysisResult, ContractFinding } from '../models';
           </div>
           <div class="px-5 py-4">
             <p class="text-xs font-semibold text-slate-500 uppercase mb-1">{{ lang.t('contract.recommendation') }}</p>
-            <p class="text-sm text-slate-300">{{ lang.currentLang === 'et' ? f.recommendationEt : f.recommendationEn }}</p>
+            <p class="text-sm text-slate-300 mb-4">{{ lang.currentLang === 'et' ? f.recommendationEt : f.recommendationEn }}</p>
+
+            <!-- Generate clause button -->
+            <button type="button" (click)="generateCompliantClause(f)"
+                    [disabled]="clauseLoading[f.requirementId]"
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium
+                           bg-gradient-to-r from-violet-500 to-purple-500 text-white
+                           hover:from-violet-400 hover:to-purple-400 hover:shadow-lg hover:shadow-violet-500/25
+                           disabled:opacity-50 transition-all">
+              <svg *ngIf="!clauseLoading[f.requirementId]" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+              <svg *ngIf="clauseLoading[f.requirementId]" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+              </svg>
+              {{ clauseLoading[f.requirementId]
+                ? (lang.currentLang === 'et' ? 'Genereerin...' : 'Generating...')
+                : (lang.currentLang === 'et' ? 'Genereeri DORA-vastavusega klausel' : 'Generate DORA-Compliant Clause') }}
+            </button>
+
+            <!-- Generated clause -->
+            <div *ngIf="generatedClauses[f.requirementId]" class="mt-4 p-4 bg-violet-500/5 border border-violet-500/20 rounded-lg animate-fade-in">
+              <div class="flex items-start justify-between gap-4 mb-3">
+                <h4 class="text-sm font-semibold text-violet-300 flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  {{ lang.currentLang === 'et' ? 'Soovitatud klausel' : 'Suggested Clause' }}
+                </h4>
+                <button type="button" (click)="copyClause(f.requirementId)"
+                        class="text-xs px-2 py-1 rounded bg-slate-700/50 text-slate-300 hover:bg-slate-600/50 transition-colors flex items-center gap-1">
+                  <svg *ngIf="copiedClause !== f.requirementId" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                  </svg>
+                  <svg *ngIf="copiedClause === f.requirementId" class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  {{ copiedClause === f.requirementId
+                    ? (lang.currentLang === 'et' ? 'Kopeeritud!' : 'Copied!')
+                    : (lang.currentLang === 'et' ? 'Kopeeri' : 'Copy') }}
+                </button>
+              </div>
+              <pre class="text-sm text-slate-200 whitespace-pre-wrap font-sans bg-slate-900/50 rounded-lg p-4 mb-3 leading-relaxed">{{ generatedClauses[f.requirementId].suggestedClause }}</pre>
+
+              <!-- Key elements -->
+              <div *ngIf="generatedClauses[f.requirementId].keyElements" class="mb-3">
+                <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'P\u00f5hielemendid:' : 'Key Elements:' }}</p>
+                <div class="flex flex-wrap gap-2">
+                  <span *ngFor="let el of generatedClauses[f.requirementId].keyElements"
+                        class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    {{ el }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Legal references -->
+              <div *ngIf="generatedClauses[f.requirementId].legalReferences" class="mb-3">
+                <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? '\u00d5iguslikud viited:' : 'Legal References:' }}</p>
+                <div class="flex flex-wrap gap-2">
+                  <span *ngFor="let ref of generatedClauses[f.requirementId].legalReferences"
+                        class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                    {{ ref }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Implementation notes -->
+              <div *ngIf="generatedClauses[f.requirementId].implementationNotes" class="text-xs text-slate-400 italic">
+                {{ generatedClauses[f.requirementId].implementationNotes }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -163,15 +276,39 @@ import { ContractAnalysisResult, ContractFinding } from '../models';
             {{ lang.t('comparison.compare_button') }}
           </span>
         </button>
-        <button type="button" (click)="downloadPdf()"
-                class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
+
+        <!-- PDF Export - Paywalled -->
+        <button type="button" (click)="handlePdfClick()"
+                class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
+                [class.opacity-80]="!subscriptionService.canAccess('PDF_EXPORT')">
           <span class="flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg *ngIf="!subscriptionService.canAccess('PDF_EXPORT')" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            <svg *ngIf="subscriptionService.canAccess('PDF_EXPORT')" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
             {{ lang.t('contract.download_pdf') }}
+            <app-premium-badge feature="PDF_EXPORT"></app-premium-badge>
           </span>
         </button>
+
+        <!-- Excel Export - Paywalled -->
+        <button type="button" (click)="handleExcelClick()"
+                class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 text-slate-900 font-semibold text-sm hover:shadow-lg hover:shadow-teal-500/25 transition-all"
+                [class.opacity-80]="!subscriptionService.canAccess('EXCEL_EXPORT')">
+          <span class="flex items-center gap-2">
+            <svg *ngIf="!subscriptionService.canAccess('EXCEL_EXPORT')" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            <svg *ngIf="subscriptionService.canAccess('EXCEL_EXPORT')" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            Excel
+            <app-premium-badge feature="EXCEL_EXPORT"></app-premium-badge>
+          </span>
+        </button>
+
         <button type="button" (click)="startMonitoring()"
                 [disabled]="monitoringLoading"
                 class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-blue-500/25 transition-all disabled:opacity-50">
@@ -197,6 +334,9 @@ import { ContractAnalysisResult, ContractFinding } from '../models';
           {{ lang.t('contract.new_analysis') }}
         </a>
       </div>
+
+      <!-- Upgrade Modal -->
+      <app-upgrade-modal></app-upgrade-modal>
     </div>
   `
 })
@@ -211,11 +351,23 @@ export class ContractResultsComponent implements OnInit {
   negotiationLoading = false;
   monitoringLoading = false;
 
+  // Benchmark
+  benchmark: BenchmarkData | null = null;
+  benchmarkLoading = false;
+
+  // Clause rewriter
+  expandedClause: number | null = null;
+  clauseLoading: { [key: number]: boolean } = {};
+  generatedClauses: { [key: number]: any } = {};
+  copiedClause: number | null = null;
+
   constructor(
     public lang: LangService,
     private api: ApiService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private http: HttpClient,
+    public subscriptionService: SubscriptionService
   ) {}
 
   ngOnInit() {
@@ -230,12 +382,100 @@ export class ContractResultsComponent implements OnInit {
       next: (result: ContractAnalysisResult) => {
         this.result = result;
         this.loading = false;
+        this.loadBenchmark();
       },
       error: () => {
         this.error = this.lang.t('contract.error_loading');
         this.loading = false;
       }
     });
+  }
+
+  loadBenchmark() {
+    if (!this.result) return;
+    this.benchmarkLoading = true;
+    this.api.getContractBenchmark(this.result.scorePercentage).subscribe({
+      next: (data) => {
+        this.benchmark = data;
+        this.benchmarkLoading = false;
+      },
+      error: () => {
+        this.benchmarkLoading = false;
+      }
+    });
+  }
+
+  getBenchmarkComparison(): string {
+    if (!this.benchmark || !this.result) return '';
+    const diff = this.result.scorePercentage - this.benchmark.industryAverage;
+    if (diff > 0) {
+      return this.lang.currentLang === 'et'
+        ? `+${diff.toFixed(1)}% \u00fcle keskmise`
+        : `+${diff.toFixed(1)}% above average`;
+    } else if (diff < 0) {
+      return this.lang.currentLang === 'et'
+        ? `${diff.toFixed(1)}% alla keskmise`
+        : `${diff.toFixed(1)}% below average`;
+    }
+    return this.lang.currentLang === 'et' ? 'T\u00e4pselt keskmine' : 'Exactly average';
+  }
+
+  getPercentileLabel(): string {
+    if (!this.benchmark) return '';
+    const rank = this.benchmark.percentileRank;
+    if (rank >= 90) return 'Top 10%';
+    if (rank >= 75) return 'Top 25%';
+    if (rank >= 50) return this.lang.currentLang === 'et' ? '\u00dcle keskmise' : 'Above median';
+    if (rank >= 25) return this.lang.currentLang === 'et' ? 'Alla keskmise' : 'Below median';
+    return this.lang.currentLang === 'et' ? 'Alumine 25%' : 'Bottom 25%';
+  }
+
+  toggleClauseExpand(requirementId: number) {
+    this.expandedClause = this.expandedClause === requirementId ? null : requirementId;
+  }
+
+  generateCompliantClause(finding: ContractFinding) {
+    const id = finding.requirementId;
+    this.clauseLoading[id] = true;
+
+    const requirementType = this.getRequirementType(finding);
+
+    this.http.post<any>('/api/clause-rewriter/suggest', {
+      requirementType,
+      doraArticle: finding.doraReference,
+      language: this.lang.currentLang,
+      context: finding.quote || ''
+    }).subscribe({
+      next: (response) => {
+        this.generatedClauses[id] = response;
+        this.clauseLoading[id] = false;
+        this.expandedClause = id;
+      },
+      error: () => {
+        this.clauseLoading[id] = false;
+      }
+    });
+  }
+
+  getRequirementType(finding: ContractFinding): string {
+    const ref = finding.doraReference?.toLowerCase() || '';
+    if (ref.includes('(c)') || ref.includes('audit')) return 'AUDIT';
+    if (ref.includes('(e)') || ref.includes('exit')) return 'EXIT_STRATEGY';
+    if (ref.includes('(d)') || ref.includes('incident')) return 'INCIDENT';
+    if (ref.includes('(b)') || ref.includes('data')) return 'DATA_LOCATION';
+    if (ref.includes('(f)') || ref.includes('subcontract')) return 'SUBCONTRACTING';
+    if (ref.includes('(g)') || ref.includes('security')) return 'SECURITY';
+    if (ref.includes('(h)') || ref.includes('continuity')) return 'CONTINUITY';
+    return 'GENERAL';
+  }
+
+  copyClause(requirementId: number) {
+    const clause = this.generatedClauses[requirementId];
+    if (clause?.suggestedClause) {
+      navigator.clipboard.writeText(clause.suggestedClause);
+      this.copiedClause = requirementId;
+      setTimeout(() => this.copiedClause = null, 2000);
+    }
   }
 
   get scoreColor(): string {
@@ -313,6 +553,23 @@ export class ContractResultsComponent implements OnInit {
   downloadPdf() {
     if (this.result) {
       this.api.downloadContractReport(this.result.id);
+    }
+  }
+
+  handlePdfClick() {
+    if (this.subscriptionService.canAccess('PDF_EXPORT')) {
+      this.downloadPdf();
+    } else {
+      this.subscriptionService.showUpgrade('PDF_EXPORT');
+    }
+  }
+
+  handleExcelClick() {
+    if (this.subscriptionService.canAccess('EXCEL_EXPORT')) {
+      // TODO: Implement Excel export for contracts
+      console.log('Excel export - implement');
+    } else {
+      this.subscriptionService.showUpgrade('EXCEL_EXPORT');
     }
   }
 

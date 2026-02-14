@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 import { PAYMENT_CONFIG } from '../config/payment.config';
+import { SubscriptionService } from '../services/subscription.service';
 
 @Component({
   selector: 'app-pricing',
@@ -429,9 +430,21 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
 export class PricingComponent implements OnInit {
   paymentConfig = PAYMENT_CONFIG;
 
-  constructor(public lang: LangService, private titleService: Title) {}
+  constructor(
+    public lang: LangService,
+    private titleService: Title,
+    public subscriptionService: SubscriptionService
+  ) {}
 
   ngOnInit(): void {
     this.titleService.setTitle('Hinnakiri — DORA ja NIS2 hindamine | DoraAudit.eu');
+  }
+
+  get currentPlan(): string {
+    return this.subscriptionService.currentPlan();
+  }
+
+  get isPremium(): boolean {
+    return this.subscriptionService.isPremium();
   }
 }
