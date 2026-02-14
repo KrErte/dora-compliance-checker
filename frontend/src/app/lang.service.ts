@@ -531,7 +531,6 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.urgency_dora_date': { et: 'DORA kohaldus alates 17. jaanuar 2025', en: 'DORA has been in effect since January 17, 2025' },
   'landing.urgency_nis2_date': { et: 'NIS2 Eesti seadus (KüTS) jõustub 2026', en: 'NIS2 Estonian law (KüTS) takes effect in 2026' },
   'landing.urgency_fine': { et: 'Finantsinspektsiooni trahv kuni 2% aastasest käibest', en: 'FI fine up to 2% of annual turnover' },
-  'landing.cta_fine_calc': { et: 'Arvuta oma trahvirisk', en: 'Calculate your fine risk' },
   'landing.urgency_personal': { et: 'Juhatuse liikme isiklik vastutus kuni €500,000', en: 'Board member personal liability up to €500,000' },
   'landing.urgency_counter_label': { et: 'DORA on jõus juba', en: 'DORA has been in force for' },
   'landing.urgency_days': { et: 'päeva', en: 'days' },
