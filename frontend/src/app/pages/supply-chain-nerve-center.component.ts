@@ -2348,8 +2348,8 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     this.closeAddVendorPanel();
   }
 
-  private findCountry(code: string): { code: string; name: string; flag: string } | undefined {
-    return this.countries.find(c => c.code === code);
+  private findCountry(code: string): { code: string; name: string } | undefined {
+    return this.countryOptions.find(c => c.code === code);
   }
 
   // ============ CSV Import ============
