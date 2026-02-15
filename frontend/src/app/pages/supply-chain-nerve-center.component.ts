@@ -398,26 +398,72 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                   />
                 </div>
 
-                <!-- Country -->
+                <!-- Country (Searchable) -->
                 <div class="form-group">
                   <label class="form-label">Riik *</label>
-                  <select class="form-select" [(ngModel)]="newVendorForm.country">
-                    <option value="" disabled>Vali riik...</option>
-                    @for (c of countryOptions; track c.code) {
-                      <option [value]="c.code">{{ c.code }} {{ c.name }}</option>
+                  <div class="searchable-dropdown" [class.open]="showCountryDropdown">
+                    <input
+                      type="text"
+                      class="form-input search-input"
+                      [(ngModel)]="countrySearch"
+                      (focus)="showCountryDropdown = true"
+                      (input)="showCountryDropdown = true"
+                      [placeholder]="newVendorForm.country ? selectedCountryDisplay : 'Kirjuta otsinguks...'"
+                    />
+                    @if (newVendorForm.country && !showCountryDropdown) {
+                      <span class="selected-value">{{ selectedCountryDisplay }}</span>
                     }
-                  </select>
+                    @if (showCountryDropdown) {
+                      <div class="dropdown-list" (mouseleave)="showCountryDropdown = false">
+                        @for (c of filteredCountries; track c.code) {
+                          <div
+                            class="dropdown-item"
+                            [class.selected]="newVendorForm.country === c.code"
+                            (click)="selectCountry(c.code)"
+                          >
+                            {{ c.code }} {{ c.name }}
+                          </div>
+                        }
+                        @if (filteredCountries.length === 0) {
+                          <div class="dropdown-empty">Ei leitud</div>
+                        }
+                      </div>
+                    }
+                  </div>
                 </div>
 
-                <!-- Service Type -->
+                <!-- Service Type (Searchable) -->
                 <div class="form-group">
                   <label class="form-label">Teenuse tüüp *</label>
-                  <select class="form-select" [(ngModel)]="newVendorForm.type">
-                    <option value="" disabled>Vali teenuse tüüp...</option>
-                    @for (t of serviceTypeOptions; track t) {
-                      <option [value]="t">{{ t }}</option>
+                  <div class="searchable-dropdown" [class.open]="showTypeDropdown">
+                    <input
+                      type="text"
+                      class="form-input search-input"
+                      [(ngModel)]="typeSearch"
+                      (focus)="showTypeDropdown = true"
+                      (input)="showTypeDropdown = true"
+                      [placeholder]="newVendorForm.type || 'Kirjuta otsinguks...'"
+                    />
+                    @if (newVendorForm.type && !showTypeDropdown) {
+                      <span class="selected-value">{{ newVendorForm.type }}</span>
                     }
-                  </select>
+                    @if (showTypeDropdown) {
+                      <div class="dropdown-list" (mouseleave)="showTypeDropdown = false">
+                        @for (t of filteredServiceTypes; track t) {
+                          <div
+                            class="dropdown-item"
+                            [class.selected]="newVendorForm.type === t"
+                            (click)="selectServiceType(t)"
+                          >
+                            {{ t }}
+                          </div>
+                        }
+                        @if (filteredServiceTypes.length === 0) {
+                          <div class="dropdown-empty">Ei leitud</div>
+                        }
+                      </div>
+                    }
+                  </div>
                 </div>
 
                 <!-- Criticality -->
@@ -1563,6 +1609,71 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
       color: #e6edf3;
     }
 
+    /* Searchable Dropdown */
+    .searchable-dropdown {
+      position: relative;
+    }
+
+    .searchable-dropdown .search-input {
+      width: 100%;
+    }
+
+    .searchable-dropdown .selected-value {
+      position: absolute;
+      top: 50%;
+      left: 14px;
+      transform: translateY(-50%);
+      color: #e6edf3;
+      pointer-events: none;
+    }
+
+    .searchable-dropdown.open .selected-value {
+      display: none;
+    }
+
+    .dropdown-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      max-height: 200px;
+      overflow-y: auto;
+      background: #1a1f2e;
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      z-index: 100;
+      animation: dropdownSlide 0.15s ease;
+    }
+
+    @keyframes dropdownSlide {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .dropdown-item {
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: background 0.15s;
+      font-size: 14px;
+    }
+
+    .dropdown-item:hover {
+      background: rgba(0, 229, 255, 0.1);
+    }
+
+    .dropdown-item.selected {
+      background: rgba(0, 229, 255, 0.15);
+      color: #00E5FF;
+    }
+
+    .dropdown-empty {
+      padding: 12px 14px;
+      color: #7d8590;
+      font-size: 13px;
+      text-align: center;
+    }
+
     .form-textarea {
       resize: vertical;
       min-height: 80px;
@@ -1999,6 +2110,12 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   readonly csvPreviewData = signal<CSVRow[]>([]);
   readonly csvErrors = signal<string[]>([]);
 
+  // Searchable dropdown states
+  countrySearch = '';
+  typeSearch = '';
+  showCountryDropdown = false;
+  showTypeDropdown = false;
+
   // New Vendor Form
   newVendorForm: NewVendorForm = this.getEmptyVendorForm();
 
@@ -2032,6 +2149,30 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     'Data Analytics',
     'Muu',
   ];
+
+  // Filtered options for searchable dropdowns
+  get filteredCountries() {
+    if (!this.countrySearch) return this.countryOptions;
+    const search = this.countrySearch.toLowerCase();
+    return this.countryOptions.filter(c =>
+      c.name.toLowerCase().includes(search) ||
+      c.code.toLowerCase().includes(search)
+    );
+  }
+
+  get filteredServiceTypes() {
+    if (!this.typeSearch) return this.serviceTypeOptions;
+    const search = this.typeSearch.toLowerCase();
+    return this.serviceTypeOptions.filter(t =>
+      t.toLowerCase().includes(search)
+    );
+  }
+
+  get selectedCountryDisplay(): string {
+    if (!this.newVendorForm.country) return '';
+    const c = this.countryOptions.find(c => c.code === this.newVendorForm.country);
+    return c ? `${c.code} ${c.name}` : '';
+  }
 
   // Countries with EU flag for risk calculation
   readonly countries = this.countryOptions.map(c => ({
@@ -2288,7 +2429,23 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
 
   openAddVendorPanel(): void {
     this.newVendorForm = this.getEmptyVendorForm();
+    this.countrySearch = '';
+    this.typeSearch = '';
+    this.showCountryDropdown = false;
+    this.showTypeDropdown = false;
     this.showAddVendorPanel.set(true);
+  }
+
+  selectCountry(code: string): void {
+    this.newVendorForm.country = code;
+    this.countrySearch = '';
+    this.showCountryDropdown = false;
+  }
+
+  selectServiceType(type: string): void {
+    this.newVendorForm.type = type;
+    this.typeSearch = '';
+    this.showTypeDropdown = false;
   }
 
   closeAddVendorPanel(): void {
