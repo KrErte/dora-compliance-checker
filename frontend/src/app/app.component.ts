@@ -151,6 +151,16 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
             {{ lang.t('nav.workspace') }}
             <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-violet-500/20 text-violet-400">{{ lang.t('nav.new_badge') }}</span>
           </a>
+          <!-- Supply Chain -->
+          <a routerLink="/supply-chain" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-cyan-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
+            <!-- Lucide: network -->
+            <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>
+            </svg>
+            {{ lang.t('nav.supply_chain') }}
+            <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30">PRO</span>
+          </a>
           <!-- Pricing -->
           <a routerLink="/pricing" routerLinkActive="nav-link-active"
              class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">

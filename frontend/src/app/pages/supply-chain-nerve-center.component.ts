@@ -5,6 +5,7 @@
 import { Component, signal, computed, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 interface Vendor {
   id: string;
@@ -14,6 +15,12 @@ interface Vendor {
   type: string;
   riskScore: number;
   subcontractors: SubVendor[];
+  contractNumber?: string;
+  contractStart?: string;
+  contractEnd?: string;
+  criticality?: 'critical' | 'important' | 'normal';
+  hasExitStrategy?: boolean;
+  exitStrategyDescription?: string;
 }
 
 interface SubVendor {
@@ -21,6 +28,31 @@ interface SubVendor {
   country: string;
   type: string;
   riskScore: number;
+}
+
+interface NewVendorForm {
+  name: string;
+  country: string;
+  type: string;
+  criticality: 'critical' | 'important' | 'normal';
+  contractNumber: string;
+  contractStart: string;
+  contractEnd: string;
+  subcontractors: { name: string }[];
+  hasExitStrategy: boolean;
+  exitStrategyDescription: string;
+}
+
+interface CSVRow {
+  name: string;
+  country: string;
+  type: string;
+  criticality: string;
+  contractNumber: string;
+  contractStart: string;
+  contractEnd: string;
+  valid: boolean;
+  errors: string[];
 }
 
 interface ROICategory {
@@ -44,7 +76,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
 @Component({
   selector: 'app-supply-chain-nerve-center',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FormsModule],
   template: `
     <div class="nerve-center">
       <!-- Header -->
@@ -67,7 +99,18 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
       <!-- Main Content -->
       <main class="content">
         @if (currentView() === 'main') {
-          <!-- MAIN VIEW: 3 Summary Cards -->
+          <!-- MAIN VIEW: Action Buttons + 3 Summary Cards -->
+          <div class="main-actions">
+            <button class="action-btn primary" (click)="openAddVendorPanel()">
+              <span class="btn-icon">+</span>
+              Lisa pakkuja
+            </button>
+            <button class="action-btn secondary" (click)="openCsvImport()">
+              <span class="btn-icon">↑</span>
+              Impordi CSV
+            </button>
+          </div>
+
           <div class="summary-cards">
             <!-- Vendors Card -->
             <div class="summary-card" [class.has-risk]="highRiskCount() > 0" (click)="openView('vendors')">
@@ -139,16 +182,28 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
           <!-- VENDORS DETAIL VIEW -->
           <div class="detail-view">
             <div class="detail-header">
-              <button class="back-to-main" (click)="openView('main')">← Back to overview</button>
-              <h2>ICT Service Providers</h2>
-              <span class="detail-count">{{ vendors().length }} providers</span>
+              <button class="back-to-main" (click)="openView('main')">← Tagasi ülevaatesse</button>
+              <h2>IKT teenusepakkujad</h2>
+              <span class="detail-count">{{ vendors().length }} pakkujat</span>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="table-actions">
+              <button class="action-btn primary" (click)="openAddVendorPanel()">
+                <span class="btn-icon">+</span>
+                Lisa pakkuja
+              </button>
+              <button class="action-btn secondary" (click)="openCsvImport()">
+                <span class="btn-icon">↑</span>
+                Impordi CSV
+              </button>
             </div>
 
             <div class="vendor-table">
               <div class="table-header">
-                <span class="col-name">Name</span>
-                <span class="col-country">Country</span>
-                <span class="col-type">Type</span>
+                <span class="col-name">Nimi</span>
+                <span class="col-country">Riik</span>
+                <span class="col-type">Tüüp</span>
                 <span class="col-risk">Risk</span>
               </div>
               @for (vendor of sortedVendors(); track vendor.id) {
@@ -181,24 +236,24 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                 </div>
                 <div class="panel-body">
                   <div class="vendor-detail">
-                    <span class="detail-label">Country:</span>
+                    <span class="detail-label">Riik:</span>
                     <span>{{ getFlag(selectedVendor()!.countryCode) }} {{ selectedVendor()!.country }}</span>
                   </div>
                   <div class="vendor-detail">
-                    <span class="detail-label">Type:</span>
+                    <span class="detail-label">Tüüp:</span>
                     <span>{{ selectedVendor()!.type }}</span>
                   </div>
                   <div class="vendor-detail">
-                    <span class="detail-label">Risk score:</span>
+                    <span class="detail-label">Riskiskoor:</span>
                     <span class="risk-badge large" [class]="getRiskClass(selectedVendor()!.riskScore)">
                       {{ selectedVendor()!.riskScore }}
                     </span>
                   </div>
 
                   <div class="subcontractors-section">
-                    <h4>Subcontractor chain ({{ selectedVendor()!.subcontractors.length }})</h4>
+                    <h4>Allhankijate ahel ({{ selectedVendor()!.subcontractors.length }})</h4>
                     @if (selectedVendor()!.subcontractors.length === 0) {
-                      <p class="no-subs">No subcontractors registered.</p>
+                      <p class="no-subs">Allhankijaid pole registreeritud.</p>
                     } @else {
                       <div class="sub-chain">
                         @for (sub of selectedVendor()!.subcontractors; track sub.name; let i = $index) {
@@ -223,7 +278,6 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
               </div>
             </div>
           }
-        }
 
         @if (currentView() === 'roi') {
           <!-- ROI DETAIL VIEW -->
@@ -319,6 +373,286 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                   <span class="history-time">{{ incident.timeAgo }}</span>
                 </div>
               }
+            </div>
+          </div>
+        }
+
+        <!-- Add Vendor Slide-out Panel (Global) -->
+        @if (showAddVendorPanel()) {
+          <div class="slide-panel" (click)="closeAddVendorPanel()">
+            <div class="panel-content add-vendor-panel" (click)="$event.stopPropagation()">
+              <div class="panel-header">
+                <h3>Lisa uus pakkuja</h3>
+                <button class="close-btn" (click)="closeAddVendorPanel()">✕</button>
+              </div>
+              <div class="panel-body form-body">
+                <!-- Name -->
+                <div class="form-group">
+                  <label class="form-label">Nimi *</label>
+                  <input
+                    type="text"
+                    class="form-input"
+                    [(ngModel)]="newVendorForm.name"
+                    placeholder="Ettevõtte nimi"
+                  />
+                </div>
+
+                <!-- Country -->
+                <div class="form-group">
+                  <label class="form-label">Riik *</label>
+                  <select class="form-select" [(ngModel)]="newVendorForm.country">
+                    <option value="">Vali riik...</option>
+                    <optgroup label="Euroopa Liit">
+                      @for (c of euCountries; track c.code) {
+                        <option [value]="c.code">{{ c.flag }} {{ c.name }}</option>
+                      }
+                    </optgroup>
+                    <optgroup label="Muud">
+                      @for (c of otherCountries; track c.code) {
+                        <option [value]="c.code">{{ c.flag }} {{ c.name }}</option>
+                      }
+                    </optgroup>
+                  </select>
+                </div>
+
+                <!-- Service Type -->
+                <div class="form-group">
+                  <label class="form-label">Teenuse tüüp *</label>
+                  <select class="form-select" [(ngModel)]="newVendorForm.type">
+                    <option value="">Vali teenuse tüüp...</option>
+                    @for (t of serviceTypes; track t) {
+                      <option [value]="t">{{ t }}</option>
+                    }
+                  </select>
+                </div>
+
+                <!-- Criticality -->
+                <div class="form-group">
+                  <label class="form-label">Kriitilisus *</label>
+                  <div class="radio-group">
+                    <label class="radio-item" [class.selected]="newVendorForm.criticality === 'critical'">
+                      <input type="radio" name="criticality" value="critical" [(ngModel)]="newVendorForm.criticality" />
+                      <span class="radio-label critical">Kriitiline</span>
+                    </label>
+                    <label class="radio-item" [class.selected]="newVendorForm.criticality === 'important'">
+                      <input type="radio" name="criticality" value="important" [(ngModel)]="newVendorForm.criticality" />
+                      <span class="radio-label important">Oluline</span>
+                    </label>
+                    <label class="radio-item" [class.selected]="newVendorForm.criticality === 'normal'">
+                      <input type="radio" name="criticality" value="normal" [(ngModel)]="newVendorForm.criticality" />
+                      <span class="radio-label normal">Tavaline</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Contract Number -->
+                <div class="form-group">
+                  <label class="form-label">Lepingu nr</label>
+                  <input
+                    type="text"
+                    class="form-input"
+                    [(ngModel)]="newVendorForm.contractNumber"
+                    placeholder="nt. LEP-2024-001"
+                  />
+                </div>
+
+                <!-- Contract Validity -->
+                <div class="form-group">
+                  <label class="form-label">Lepingu kehtivus</label>
+                  <div class="date-range">
+                    <input
+                      type="date"
+                      class="form-input date-input"
+                      [(ngModel)]="newVendorForm.contractStart"
+                    />
+                    <span class="date-separator">—</span>
+                    <input
+                      type="date"
+                      class="form-input date-input"
+                      [(ngModel)]="newVendorForm.contractEnd"
+                    />
+                  </div>
+                </div>
+
+                <!-- Subcontractors -->
+                <div class="form-group">
+                  <label class="form-label">Allhankijad</label>
+                  <div class="subcontractors-input">
+                    @for (sub of newVendorForm.subcontractors; track $index; let i = $index) {
+                      <div class="sub-input-row">
+                        <input
+                          type="text"
+                          class="form-input"
+                          [(ngModel)]="newVendorForm.subcontractors[i].name"
+                          placeholder="Allhankija nimi"
+                        />
+                        <button class="remove-sub-btn" (click)="removeSubcontractor(i)">✕</button>
+                      </div>
+                    }
+                    <button class="add-sub-btn" (click)="addSubcontractor()">
+                      + Lisa allhankija
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Exit Strategy -->
+                <div class="form-group">
+                  <label class="form-label">Exit strateegia</label>
+                  <div class="toggle-group">
+                    <label class="toggle-item">
+                      <input
+                        type="checkbox"
+                        [(ngModel)]="newVendorForm.hasExitStrategy"
+                      />
+                      <span class="toggle-switch"></span>
+                      <span class="toggle-label">Exit strateegia olemas</span>
+                    </label>
+                  </div>
+                  @if (newVendorForm.hasExitStrategy) {
+                    <textarea
+                      class="form-textarea"
+                      [(ngModel)]="newVendorForm.exitStrategyDescription"
+                      placeholder="Kirjelda exit strateegiat..."
+                      rows="3"
+                    ></textarea>
+                  }
+                </div>
+
+                <!-- Calculated Risk Score -->
+                <div class="form-group">
+                  <label class="form-label">Arvutatud riskiskoor</label>
+                  <div class="calculated-risk">
+                    <span class="risk-badge large" [class]="getRiskClass(calculatedRiskScore())">
+                      {{ calculatedRiskScore() }}
+                    </span>
+                    <span class="risk-explanation">
+                      Arvutatakse: riik + kriitilisus + exit strateegia
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="form-actions">
+                  <button class="cancel-btn" (click)="closeAddVendorPanel()">Tühista</button>
+                  <button
+                    class="submit-btn"
+                    [disabled]="!isFormValid()"
+                    (click)="submitNewVendor()"
+                  >
+                    Lisa pakkuja
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- CSV Import Modal (Global) -->
+        @if (showCsvImport()) {
+          <div class="slide-panel csv-modal" (click)="closeCsvImport()">
+            <div class="panel-content csv-panel" (click)="$event.stopPropagation()">
+              <div class="panel-header">
+                <h3>Impordi pakkujad CSV-st</h3>
+                <button class="close-btn" (click)="closeCsvImport()">✕</button>
+              </div>
+              <div class="panel-body">
+                @if (!csvPreviewData().length) {
+                  <!-- Upload Area -->
+                  <div
+                    class="csv-dropzone"
+                    [class.drag-over]="isDragOver()"
+                    (dragover)="onDragOver($event)"
+                    (dragleave)="onDragLeave($event)"
+                    (drop)="onDrop($event)"
+                  >
+                    <div class="dropzone-icon">📄</div>
+                    <div class="dropzone-text">
+                      Lohista CSV fail siia
+                    </div>
+                    <div class="dropzone-or">või</div>
+                    <label class="file-select-btn">
+                      Vali fail
+                      <input
+                        type="file"
+                        accept=".csv"
+                        (change)="onFileSelect($event)"
+                        hidden
+                      />
+                    </label>
+                  </div>
+
+                  <div class="csv-template">
+                    <a href="javascript:void(0)" (click)="downloadTemplate()">
+                      ↓ Lae alla CSV mall
+                    </a>
+                  </div>
+                } @else {
+                  <!-- Preview Table -->
+                  <div class="csv-preview">
+                    <div class="preview-header">
+                      <h4>Eelvaade ({{ csvPreviewData().length }} rida)</h4>
+                      <button class="reset-btn" (click)="resetCsvImport()">Vali uus fail</button>
+                    </div>
+
+                    <div class="preview-table-wrapper">
+                      <table class="preview-table">
+                        <thead>
+                          <tr>
+                            <th>Nimi</th>
+                            <th>Riik</th>
+                            <th>Tüüp</th>
+                            <th>Kriitilisus</th>
+                            <th>Leping</th>
+                            <th>Staatus</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @for (row of csvPreviewData(); track $index) {
+                            <tr [class.error-row]="!row.valid">
+                              <td>{{ row.name }}</td>
+                              <td>{{ row.country }}</td>
+                              <td>{{ row.type }}</td>
+                              <td>{{ row.criticality }}</td>
+                              <td>{{ row.contractNumber }}</td>
+                              <td>
+                                @if (row.valid) {
+                                  <span class="status-ok">✓</span>
+                                } @else {
+                                  <span class="status-error" [title]="row.errors.join(', ')">
+                                    ✕ {{ row.errors.length }} viga
+                                  </span>
+                                }
+                              </td>
+                            </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+
+                    @if (csvErrors().length > 0) {
+                      <div class="csv-errors">
+                        <div class="errors-header">Vead ({{ csvErrors().length }}):</div>
+                        <ul class="errors-list">
+                          @for (error of csvErrors(); track $index) {
+                            <li>{{ error }}</li>
+                          }
+                        </ul>
+                      </div>
+                    }
+
+                    <div class="form-actions">
+                      <button class="cancel-btn" (click)="closeCsvImport()">Tühista</button>
+                      <button
+                        class="submit-btn"
+                        [disabled]="!canImportCsv()"
+                        (click)="importCsv()"
+                      >
+                        Impordi {{ validCsvRows() }} pakkujat
+                      </button>
+                    </div>
+                  </div>
+                }
+              </div>
             </div>
           </div>
         }
@@ -572,6 +906,13 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
       margin-top: 32px;
       color: #7d8590;
       font-size: 14px;
+    }
+
+    /* Main Actions */
+    .main-actions {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
     }
 
     /* Detail Views */
@@ -1128,6 +1469,529 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
         width: 100%;
       }
     }
+
+    /* Table Actions */
+    .table-actions {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .action-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .action-btn.primary {
+      background: transparent;
+      border: 1.5px solid #00E5FF;
+      color: #00E5FF;
+    }
+
+    .action-btn.primary:hover {
+      background: rgba(0, 229, 255, 0.1);
+    }
+
+    .action-btn.secondary {
+      background: transparent;
+      border: 1.5px solid #7d8590;
+      color: #7d8590;
+    }
+
+    .action-btn.secondary:hover {
+      border-color: #a0a0a0;
+      color: #a0a0a0;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .btn-icon {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    /* Add Vendor Panel */
+    .add-vendor-panel {
+      width: 480px;
+    }
+
+    .form-body {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #a0a0a0;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      color: #e6edf3;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: #00E5FF;
+    }
+
+    .form-input::placeholder, .form-textarea::placeholder {
+      color: #5a6270;
+    }
+
+    .form-select {
+      cursor: pointer;
+    }
+
+    .form-select option {
+      background: #12161f;
+      color: #e6edf3;
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* Radio Group */
+    .radio-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .radio-item {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .radio-item input {
+      display: none;
+    }
+
+    .radio-item.selected {
+      border-color: #00E5FF;
+      background: rgba(0, 229, 255, 0.08);
+    }
+
+    .radio-label {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .radio-label.critical { color: #ef4444; }
+    .radio-label.important { color: #f59e0b; }
+    .radio-label.normal { color: #22C55E; }
+
+    /* Date Range */
+    .date-range {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .date-input {
+      flex: 1;
+    }
+
+    .date-separator {
+      color: #7d8590;
+    }
+
+    /* Subcontractors Input */
+    .subcontractors-input {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sub-input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .sub-input-row .form-input {
+      flex: 1;
+    }
+
+    .remove-sub-btn {
+      width: 40px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 8px;
+      color: #ef4444;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .remove-sub-btn:hover {
+      background: rgba(239, 68, 68, 0.2);
+    }
+
+    .add-sub-btn {
+      background: transparent;
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 10px;
+      color: #7d8590;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .add-sub-btn:hover {
+      border-color: #00E5FF;
+      color: #00E5FF;
+    }
+
+    /* Toggle Group */
+    .toggle-group {
+      margin-bottom: 12px;
+    }
+
+    .toggle-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .toggle-item input {
+      display: none;
+    }
+
+    .toggle-switch {
+      width: 44px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      position: relative;
+      transition: background 0.2s;
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      background: #7d8590;
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+
+    .toggle-item input:checked + .toggle-switch {
+      background: rgba(0, 229, 255, 0.3);
+    }
+
+    .toggle-item input:checked + .toggle-switch::after {
+      left: 23px;
+      background: #00E5FF;
+    }
+
+    .toggle-label {
+      font-size: 14px;
+      color: #a0a0a0;
+    }
+
+    /* Calculated Risk */
+    .calculated-risk {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 8px;
+    }
+
+    .risk-explanation {
+      font-size: 12px;
+      color: #7d8590;
+    }
+
+    /* Form Actions */
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .cancel-btn {
+      flex: 1;
+      padding: 14px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      color: #a0a0a0;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cancel-btn:hover {
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+
+    .submit-btn {
+      flex: 1;
+      padding: 14px;
+      background: linear-gradient(135deg, #00E5FF, #00b8cc);
+      border: none;
+      border-radius: 8px;
+      color: #0a0e1a;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(0, 229, 255, 0.3);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* CSV Import */
+    .csv-panel {
+      width: 700px;
+    }
+
+    .csv-dropzone {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 2px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      transition: all 0.2s;
+    }
+
+    .csv-dropzone.drag-over {
+      border-color: #00E5FF;
+      background: rgba(0, 229, 255, 0.05);
+    }
+
+    .dropzone-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .dropzone-text {
+      font-size: 16px;
+      color: #a0a0a0;
+      margin-bottom: 8px;
+    }
+
+    .dropzone-or {
+      font-size: 13px;
+      color: #7d8590;
+      margin-bottom: 16px;
+    }
+
+    .file-select-btn {
+      padding: 12px 24px;
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid #00E5FF;
+      border-radius: 8px;
+      color: #00E5FF;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .file-select-btn:hover {
+      background: rgba(0, 229, 255, 0.2);
+    }
+
+    .csv-template {
+      text-align: center;
+      margin-top: 24px;
+    }
+
+    .csv-template a {
+      color: #00E5FF;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .csv-template a:hover {
+      color: #4de8ff;
+    }
+
+    /* CSV Preview */
+    .csv-preview {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .preview-header h4 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .reset-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      padding: 8px 14px;
+      color: #7d8590;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .reset-btn:hover {
+      border-color: #a0a0a0;
+      color: #a0a0a0;
+    }
+
+    .preview-table-wrapper {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+    }
+
+    .preview-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .preview-table th {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 12px 14px;
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #7d8590;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: sticky;
+      top: 0;
+    }
+
+    .preview-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .preview-table tr.error-row {
+      background: rgba(239, 68, 68, 0.05);
+    }
+
+    .status-ok {
+      color: #22C55E;
+      font-size: 14px;
+    }
+
+    .status-error {
+      color: #ef4444;
+      font-size: 12px;
+      cursor: help;
+    }
+
+    /* CSV Errors */
+    .csv-errors {
+      background: rgba(239, 68, 68, 0.05);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .errors-header {
+      font-size: 13px;
+      font-weight: 500;
+      color: #ef4444;
+      margin-bottom: 10px;
+    }
+
+    .errors-list {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 13px;
+      color: #ef4444;
+    }
+
+    .errors-list li {
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .table-actions {
+        flex-direction: column;
+      }
+
+      .add-vendor-panel, .csv-panel {
+        width: 100%;
+      }
+
+      .radio-group {
+        flex-direction: column;
+      }
+
+      .date-range {
+        flex-direction: column;
+      }
+
+      .date-separator {
+        display: none;
+      }
+    }
   `]
 })
 export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
@@ -1135,6 +1999,101 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   readonly currentView = signal<ViewType>('main');
   readonly selectedVendor = signal<Vendor | null>(null);
   readonly expandedCategory = signal<string | null>(null);
+  readonly showAddVendorPanel = signal(false);
+  readonly showCsvImport = signal(false);
+  readonly isDragOver = signal(false);
+  readonly csvPreviewData = signal<CSVRow[]>([]);
+  readonly csvErrors = signal<string[]>([]);
+
+  // New Vendor Form
+  newVendorForm: NewVendorForm = this.getEmptyVendorForm();
+
+  // Countries
+  readonly euCountries = [
+    { code: 'AT', name: 'Austria', flag: '🇦🇹' },
+    { code: 'BE', name: 'Belgia', flag: '🇧🇪' },
+    { code: 'BG', name: 'Bulgaaria', flag: '🇧🇬' },
+    { code: 'HR', name: 'Horvaatia', flag: '🇭🇷' },
+    { code: 'CY', name: 'Küpros', flag: '🇨🇾' },
+    { code: 'CZ', name: 'Tšehhi', flag: '🇨🇿' },
+    { code: 'DK', name: 'Taani', flag: '🇩🇰' },
+    { code: 'EE', name: 'Eesti', flag: '🇪🇪' },
+    { code: 'FI', name: 'Soome', flag: '🇫🇮' },
+    { code: 'FR', name: 'Prantsusmaa', flag: '🇫🇷' },
+    { code: 'DE', name: 'Saksamaa', flag: '🇩🇪' },
+    { code: 'GR', name: 'Kreeka', flag: '🇬🇷' },
+    { code: 'HU', name: 'Ungari', flag: '🇭🇺' },
+    { code: 'IE', name: 'Iirimaa', flag: '🇮🇪' },
+    { code: 'IT', name: 'Itaalia', flag: '🇮🇹' },
+    { code: 'LV', name: 'Läti', flag: '🇱🇻' },
+    { code: 'LT', name: 'Leedu', flag: '🇱🇹' },
+    { code: 'LU', name: 'Luksemburg', flag: '🇱🇺' },
+    { code: 'MT', name: 'Malta', flag: '🇲🇹' },
+    { code: 'NL', name: 'Holland', flag: '🇳🇱' },
+    { code: 'PL', name: 'Poola', flag: '🇵🇱' },
+    { code: 'PT', name: 'Portugal', flag: '🇵🇹' },
+    { code: 'RO', name: 'Rumeenia', flag: '🇷🇴' },
+    { code: 'SK', name: 'Slovakkia', flag: '🇸🇰' },
+    { code: 'SI', name: 'Sloveenia', flag: '🇸🇮' },
+    { code: 'ES', name: 'Hispaania', flag: '🇪🇸' },
+    { code: 'SE', name: 'Rootsi', flag: '🇸🇪' },
+  ];
+
+  readonly otherCountries = [
+    { code: 'US', name: 'USA', flag: '🇺🇸' },
+    { code: 'GB', name: 'Suurbritannia', flag: '🇬🇧' },
+    { code: 'CN', name: 'Hiina', flag: '🇨🇳' },
+  ];
+
+  readonly serviceTypes = [
+    'Cloud Hosting',
+    'Network',
+    'KYC',
+    'SIEM',
+    'CDN',
+    'SSL',
+    'Identity',
+    'Transit'
+  ];
+
+  // Risk score calculation based on country + criticality + exit strategy
+  readonly calculatedRiskScore = computed(() => {
+    let score = 0;
+
+    // Country risk
+    const countryCode = this.newVendorForm.country;
+    if (countryCode === 'CN') {
+      score += 50; // China = high risk
+    } else if (countryCode === 'US' || countryCode === 'GB') {
+      score += 20; // Non-EU but trusted
+    } else if (this.euCountries.some(c => c.code === countryCode)) {
+      score += 5; // EU = low risk
+    } else {
+      score += 30; // Unknown
+    }
+
+    // Criticality risk
+    switch (this.newVendorForm.criticality) {
+      case 'critical': score += 30; break;
+      case 'important': score += 15; break;
+      case 'normal': score += 5; break;
+    }
+
+    // Exit strategy (no exit = higher risk)
+    if (!this.newVendorForm.hasExitStrategy) {
+      score += 20;
+    }
+
+    return Math.min(score, 100);
+  });
+
+  readonly validCsvRows = computed(() =>
+    this.csvPreviewData().filter(r => r.valid).length
+  );
+
+  readonly canImportCsv = computed(() =>
+    this.validCsvRows() > 0
+  );
 
   // Mock Data - European companies
   readonly vendors = signal<Vendor[]>([
@@ -1325,5 +2284,278 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     return `${hours}h ${mins}m`;
+  }
+
+  // ============ Add Vendor Panel ============
+
+  private getEmptyVendorForm(): NewVendorForm {
+    return {
+      name: '',
+      country: '',
+      type: '',
+      criticality: 'normal',
+      contractNumber: '',
+      contractStart: '',
+      contractEnd: '',
+      subcontractors: [],
+      hasExitStrategy: false,
+      exitStrategyDescription: ''
+    };
+  }
+
+  openAddVendorPanel(): void {
+    this.newVendorForm = this.getEmptyVendorForm();
+    this.showAddVendorPanel.set(true);
+  }
+
+  closeAddVendorPanel(): void {
+    this.showAddVendorPanel.set(false);
+  }
+
+  addSubcontractor(): void {
+    this.newVendorForm.subcontractors = [
+      ...this.newVendorForm.subcontractors,
+      { name: '' }
+    ];
+  }
+
+  removeSubcontractor(index: number): void {
+    this.newVendorForm.subcontractors = this.newVendorForm.subcontractors.filter(
+      (_, i) => i !== index
+    );
+  }
+
+  isFormValid(): boolean {
+    return !!(
+      this.newVendorForm.name.trim() &&
+      this.newVendorForm.country &&
+      this.newVendorForm.type &&
+      this.newVendorForm.criticality
+    );
+  }
+
+  submitNewVendor(): void {
+    if (!this.isFormValid()) return;
+
+    const country = this.findCountry(this.newVendorForm.country);
+    const newVendor: Vendor = {
+      id: `v${Date.now()}`,
+      name: this.newVendorForm.name.trim(),
+      country: country?.name || this.newVendorForm.country,
+      countryCode: this.newVendorForm.country,
+      type: this.newVendorForm.type,
+      riskScore: this.calculatedRiskScore(),
+      subcontractors: this.newVendorForm.subcontractors
+        .filter(s => s.name.trim())
+        .map(s => ({
+          name: s.name.trim(),
+          country: 'Unknown',
+          type: 'Unknown',
+          riskScore: 30
+        })),
+      contractNumber: this.newVendorForm.contractNumber,
+      contractStart: this.newVendorForm.contractStart,
+      contractEnd: this.newVendorForm.contractEnd,
+      criticality: this.newVendorForm.criticality,
+      hasExitStrategy: this.newVendorForm.hasExitStrategy,
+      exitStrategyDescription: this.newVendorForm.exitStrategyDescription
+    };
+
+    this.vendors.update(vendors => [...vendors, newVendor]);
+    this.closeAddVendorPanel();
+  }
+
+  private findCountry(code: string): { code: string; name: string; flag: string } | undefined {
+    return [...this.euCountries, ...this.otherCountries].find(c => c.code === code);
+  }
+
+  // ============ CSV Import ============
+
+  openCsvImport(): void {
+    this.csvPreviewData.set([]);
+    this.csvErrors.set([]);
+    this.showCsvImport.set(true);
+  }
+
+  closeCsvImport(): void {
+    this.showCsvImport.set(false);
+    this.csvPreviewData.set([]);
+    this.csvErrors.set([]);
+  }
+
+  resetCsvImport(): void {
+    this.csvPreviewData.set([]);
+    this.csvErrors.set([]);
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragOver.set(true);
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragOver.set(false);
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragOver.set(false);
+
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      this.processFile(files[0]);
+    }
+  }
+
+  onFileSelect(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.processFile(input.files[0]);
+    }
+  }
+
+  private processFile(file: File): void {
+    if (!file.name.endsWith('.csv')) {
+      this.csvErrors.set(['Fail peab olema CSV formaadis']);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target?.result as string;
+      this.parseCSV(content);
+    };
+    reader.readAsText(file);
+  }
+
+  private parseCSV(content: string): void {
+    const lines = content.split('\n').filter(l => l.trim());
+    if (lines.length < 2) {
+      this.csvErrors.set(['CSV fail peab sisaldama päist ja vähemalt ühte andmerida']);
+      return;
+    }
+
+    const headers = lines[0].split(';').map(h => h.trim().toLowerCase());
+    const requiredHeaders = ['nimi', 'riik', 'tüüp', 'kriitilisus'];
+    const missingHeaders = requiredHeaders.filter(h => !headers.includes(h));
+
+    if (missingHeaders.length > 0) {
+      this.csvErrors.set([`Puuduvad kohustuslikud veerud: ${missingHeaders.join(', ')}`]);
+      return;
+    }
+
+    const errors: string[] = [];
+    const rows: CSVRow[] = [];
+
+    for (let i = 1; i < lines.length; i++) {
+      const values = lines[i].split(';').map(v => v.trim());
+      const row: CSVRow = {
+        name: values[headers.indexOf('nimi')] || '',
+        country: values[headers.indexOf('riik')] || '',
+        type: values[headers.indexOf('tüüp')] || '',
+        criticality: values[headers.indexOf('kriitilisus')] || '',
+        contractNumber: values[headers.indexOf('leping')] || '',
+        contractStart: values[headers.indexOf('algus')] || '',
+        contractEnd: values[headers.indexOf('lõpp')] || '',
+        valid: true,
+        errors: []
+      };
+
+      // Validate row
+      if (!row.name) {
+        row.errors.push('Nimi puudub');
+      }
+      if (!row.country) {
+        row.errors.push('Riik puudub');
+      } else if (!this.isValidCountry(row.country)) {
+        row.errors.push('Tundmatu riigikood');
+      }
+      if (!row.type) {
+        row.errors.push('Teenuse tüüp puudub');
+      } else if (!this.serviceTypes.includes(row.type)) {
+        row.errors.push('Tundmatu teenuse tüüp');
+      }
+      if (!row.criticality) {
+        row.errors.push('Kriitilisus puudub');
+      } else if (!['Kriitiline', 'Oluline', 'Tavaline'].includes(row.criticality)) {
+        row.errors.push('Kriitilisus peab olema: Kriitiline, Oluline või Tavaline');
+      }
+
+      row.valid = row.errors.length === 0;
+      if (!row.valid) {
+        errors.push(`Rida ${i + 1}: ${row.errors.join(', ')}`);
+      }
+
+      rows.push(row);
+    }
+
+    this.csvPreviewData.set(rows);
+    this.csvErrors.set(errors);
+  }
+
+  private isValidCountry(code: string): boolean {
+    return [...this.euCountries, ...this.otherCountries].some(c => c.code === code);
+  }
+
+  downloadTemplate(): void {
+    const template = `Nimi;Riik;Tüüp;Kriitilisus;Leping;Algus;Lõpp
+Näidis OÜ;EE;Cloud Hosting;Kriitiline;LEP-001;2024-01-01;2025-12-31
+Teine AS;DE;Network;Oluline;LEP-002;2024-06-01;2026-05-31`;
+
+    const blob = new Blob([template], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'pakkujate_mall.csv';
+    link.click();
+    URL.revokeObjectURL(link.href);
+  }
+
+  importCsv(): void {
+    const validRows = this.csvPreviewData().filter(r => r.valid);
+
+    const newVendors: Vendor[] = validRows.map((row, index) => {
+      const country = this.findCountry(row.country);
+      const criticality = this.mapCriticality(row.criticality);
+
+      // Calculate risk score
+      let score = 0;
+      if (row.country === 'CN') score += 50;
+      else if (row.country === 'US' || row.country === 'GB') score += 20;
+      else if (this.euCountries.some(c => c.code === row.country)) score += 5;
+      else score += 30;
+
+      if (criticality === 'critical') score += 30;
+      else if (criticality === 'important') score += 15;
+      else score += 5;
+
+      score += 20; // No exit strategy in CSV import
+
+      return {
+        id: `v${Date.now()}-${index}`,
+        name: row.name,
+        country: country?.name || row.country,
+        countryCode: row.country,
+        type: row.type,
+        riskScore: Math.min(score, 100),
+        subcontractors: [],
+        contractNumber: row.contractNumber,
+        contractStart: row.contractStart,
+        contractEnd: row.contractEnd,
+        criticality,
+        hasExitStrategy: false
+      };
+    });
+
+    this.vendors.update(vendors => [...vendors, ...newVendors]);
+    this.closeCsvImport();
+  }
+
+  private mapCriticality(value: string): 'critical' | 'important' | 'normal' {
+    switch (value) {
+      case 'Kriitiline': return 'critical';
+      case 'Oluline': return 'important';
+      default: return 'normal';
+    }
   }
 }
