@@ -417,7 +417,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
 
                 <!-- Country (Searchable) -->
                 <div class="form-group">
-                  <label class="form-label">Riik *</label>
+                  <label class="form-label">Riik</label>
                   <div class="searchable-dropdown" [class.open]="showCountryDropdown">
                     <div class="search-input-wrapper">
                       <input
@@ -456,7 +456,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
 
                 <!-- Service Type (Searchable) -->
                 <div class="form-group">
-                  <label class="form-label">Teenuse tüüp *</label>
+                  <label class="form-label">Teenuse tüüp</label>
                   <div class="searchable-dropdown" [class.open]="showTypeDropdown">
                     <div class="search-input-wrapper">
                       <input
@@ -495,7 +495,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
 
                 <!-- Criticality -->
                 <div class="form-group">
-                  <label class="form-label">Kriitilisus *</label>
+                  <label class="form-label">Kriitilisus</label>
                   <div class="radio-group">
                     <label class="radio-item" [class.selected]="newVendorForm.criticality === 'critical'">
                       <input type="radio" name="criticality" value="critical" [(ngModel)]="newVendorForm.criticality" />
@@ -2640,24 +2640,20 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   }
 
   isFormValid(): boolean {
-    return !!(
-      this.newVendorForm.name.trim() &&
-      this.newVendorForm.country &&
-      this.newVendorForm.type &&
-      this.newVendorForm.criticality
-    );
+    // Only name is required
+    return !!(this.newVendorForm.name.trim());
   }
 
   submitNewVendor(): void {
     if (!this.isFormValid()) return;
 
-    const country = this.findCountry(this.newVendorForm.country);
+    const country = this.newVendorForm.country ? this.findCountry(this.newVendorForm.country) : null;
     const newVendor: Vendor = {
       id: `v${Date.now()}`,
       name: this.newVendorForm.name.trim(),
-      country: country?.name || this.newVendorForm.country,
-      countryCode: this.newVendorForm.country,
-      type: this.newVendorForm.type,
+      country: country?.name || 'Määramata',
+      countryCode: this.newVendorForm.country || 'XX',
+      type: this.newVendorForm.type || 'Muu',
       riskScore: this.calculatedRiskScore(),
       subcontractors: this.newVendorForm.subcontractors
         .filter(s => s.name.trim())
