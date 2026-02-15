@@ -387,45 +387,67 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                 <button class="close-btn" (click)="closeAddVendorPanel()">✕</button>
               </div>
               <div class="panel-body form-body">
-                <!-- Name -->
+                <!-- Name (with suggestions) -->
                 <div class="form-group">
                   <label class="form-label">Nimi *</label>
-                  <input
-                    type="text"
-                    class="form-input"
-                    [(ngModel)]="newVendorForm.name"
-                    placeholder="Ettevõtte nimi"
-                  />
+                  <div class="searchable-dropdown" [class.open]="showNameDropdown">
+                    <input
+                      type="text"
+                      class="form-input"
+                      [(ngModel)]="newVendorForm.name"
+                      (input)="onNameInput()"
+                      (focus)="onNameFocus()"
+                      (blur)="onNameBlur()"
+                      placeholder="Ettevõtte nimi (nt. Helmes, AWS...)"
+                    />
+                    @if (showNameDropdown && filteredProviders.length > 0) {
+                      <div class="dropdown-list">
+                        @for (p of filteredProviders; track p) {
+                          <div
+                            class="dropdown-item"
+                            (mousedown)="selectProvider(p)"
+                          >
+                            {{ p }}
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
                 </div>
 
                 <!-- Country (Searchable) -->
                 <div class="form-group">
                   <label class="form-label">Riik *</label>
                   <div class="searchable-dropdown" [class.open]="showCountryDropdown">
-                    <input
-                      type="text"
-                      class="form-input search-input"
-                      [(ngModel)]="countrySearch"
-                      (focus)="showCountryDropdown = true"
-                      (input)="showCountryDropdown = true"
-                      [placeholder]="newVendorForm.country ? selectedCountryDisplay : 'Kirjuta otsinguks...'"
-                    />
-                    @if (newVendorForm.country && !showCountryDropdown) {
-                      <span class="selected-value">{{ selectedCountryDisplay }}</span>
-                    }
+                    <div class="search-input-wrapper">
+                      <input
+                        type="text"
+                        class="form-input search-input"
+                        [(ngModel)]="countrySearch"
+                        (focus)="showCountryDropdown = true"
+                        (blur)="onCountryBlur()"
+                        placeholder="Otsi riiki..."
+                      />
+                      @if (newVendorForm.country) {
+                        <span class="selected-tag">
+                          {{ selectedCountryDisplay }}
+                          <button type="button" class="clear-btn" (mousedown)="clearCountry($event)">×</button>
+                        </span>
+                      }
+                    </div>
                     @if (showCountryDropdown) {
-                      <div class="dropdown-list" (mouseleave)="showCountryDropdown = false">
+                      <div class="dropdown-list">
                         @for (c of filteredCountries; track c.code) {
                           <div
                             class="dropdown-item"
                             [class.selected]="newVendorForm.country === c.code"
-                            (click)="selectCountry(c.code)"
+                            (mousedown)="selectCountry(c.code)"
                           >
                             {{ c.code }} {{ c.name }}
                           </div>
                         }
                         @if (filteredCountries.length === 0) {
-                          <div class="dropdown-empty">Ei leitud</div>
+                          <div class="dropdown-empty">Ei leitud "{{ countrySearch }}"</div>
                         }
                       </div>
                     }
@@ -436,30 +458,35 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                 <div class="form-group">
                   <label class="form-label">Teenuse tüüp *</label>
                   <div class="searchable-dropdown" [class.open]="showTypeDropdown">
-                    <input
-                      type="text"
-                      class="form-input search-input"
-                      [(ngModel)]="typeSearch"
-                      (focus)="showTypeDropdown = true"
-                      (input)="showTypeDropdown = true"
-                      [placeholder]="newVendorForm.type || 'Kirjuta otsinguks...'"
-                    />
-                    @if (newVendorForm.type && !showTypeDropdown) {
-                      <span class="selected-value">{{ newVendorForm.type }}</span>
-                    }
+                    <div class="search-input-wrapper">
+                      <input
+                        type="text"
+                        class="form-input search-input"
+                        [(ngModel)]="typeSearch"
+                        (focus)="showTypeDropdown = true"
+                        (blur)="onTypeBlur()"
+                        placeholder="Otsi teenuse tüüpi..."
+                      />
+                      @if (newVendorForm.type) {
+                        <span class="selected-tag">
+                          {{ newVendorForm.type }}
+                          <button type="button" class="clear-btn" (mousedown)="clearType($event)">×</button>
+                        </span>
+                      }
+                    </div>
                     @if (showTypeDropdown) {
-                      <div class="dropdown-list" (mouseleave)="showTypeDropdown = false">
+                      <div class="dropdown-list">
                         @for (t of filteredServiceTypes; track t) {
                           <div
                             class="dropdown-item"
                             [class.selected]="newVendorForm.type === t"
-                            (click)="selectServiceType(t)"
+                            (mousedown)="selectServiceType(t)"
                           >
                             {{ t }}
                           </div>
                         }
                         @if (filteredServiceTypes.length === 0) {
-                          <div class="dropdown-empty">Ei leitud</div>
+                          <div class="dropdown-empty">Ei leitud "{{ typeSearch }}"</div>
                         }
                       </div>
                     }
@@ -1614,21 +1641,46 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
       position: relative;
     }
 
+    .search-input-wrapper {
+      position: relative;
+    }
+
     .searchable-dropdown .search-input {
       width: 100%;
     }
 
-    .searchable-dropdown .selected-value {
+    .selected-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       position: absolute;
       top: 50%;
-      left: 14px;
+      right: 10px;
       transform: translateY(-50%);
-      color: #e6edf3;
-      pointer-events: none;
+      background: rgba(0, 229, 255, 0.15);
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      color: #00E5FF;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
     }
 
-    .searchable-dropdown.open .selected-value {
-      display: none;
+    .clear-btn {
+      background: none;
+      border: none;
+      color: #00E5FF;
+      font-size: 16px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+      margin-left: 2px;
+      opacity: 0.7;
+      transition: opacity 0.15s;
+    }
+
+    .clear-btn:hover {
+      opacity: 1;
     }
 
     .dropdown-list {
@@ -1642,8 +1694,9 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
       border: 1px solid rgba(0, 229, 255, 0.3);
       border-top: none;
       border-radius: 0 0 8px 8px;
-      z-index: 100;
+      z-index: 1000;
       animation: dropdownSlide 0.15s ease;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     }
 
     @keyframes dropdownSlide {
@@ -1659,16 +1712,16 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
     }
 
     .dropdown-item:hover {
-      background: rgba(0, 229, 255, 0.1);
+      background: rgba(0, 229, 255, 0.15);
     }
 
     .dropdown-item.selected {
-      background: rgba(0, 229, 255, 0.15);
+      background: rgba(0, 229, 255, 0.2);
       color: #00E5FF;
     }
 
     .dropdown-empty {
-      padding: 12px 14px;
+      padding: 16px 14px;
       color: #7d8590;
       font-size: 13px;
       text-align: center;
@@ -2150,6 +2203,65 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     'Muu',
   ];
 
+  // Well-known ICT providers for autocomplete
+  knownProviders = [
+    'Amazon Web Services (AWS)',
+    'Microsoft Azure',
+    'Google Cloud Platform',
+    'Cloudflare',
+    'Akamai',
+    'Salesforce',
+    'SAP',
+    'Oracle',
+    'IBM',
+    'Cisco',
+    'Palo Alto Networks',
+    'CrowdStrike',
+    'Okta',
+    'Auth0',
+    'Twilio',
+    'Stripe',
+    'Adyen',
+    'Veriff',
+    'Onfido',
+    'Jumio',
+    'Helmes',
+    'Nortal',
+    'Cybernetica',
+    'Telia',
+    'Elisa',
+    'Deutsche Telekom',
+    'Vodafone',
+    'Equinix',
+    'DataDog',
+    'Splunk',
+    'Elastic',
+    'MongoDB',
+    'Snowflake',
+    'Databricks',
+    'HashiCorp',
+    'GitLab',
+    'GitHub',
+    'Atlassian',
+    'Slack',
+    'Zoom',
+    'DocuSign',
+    'Adobe',
+    'Zendesk',
+    'ServiceNow',
+    'Workday',
+    'Nets',
+    'Worldline',
+    'Finastra',
+    'Temenos',
+    'FIS',
+    'Fiserv',
+  ];
+
+  // Searchable name state
+  nameSearch = '';
+  showNameDropdown = false;
+
   // Filtered options for searchable dropdowns
   get filteredCountries() {
     if (!this.countrySearch) return this.countryOptions;
@@ -2172,6 +2284,14 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     if (!this.newVendorForm.country) return '';
     const c = this.countryOptions.find(c => c.code === this.newVendorForm.country);
     return c ? `${c.code} ${c.name}` : '';
+  }
+
+  get filteredProviders() {
+    if (!this.nameSearch || this.nameSearch.length < 2) return [];
+    const search = this.nameSearch.toLowerCase();
+    return this.knownProviders.filter(p =>
+      p.toLowerCase().includes(search)
+    ).slice(0, 8); // Limit to 8 suggestions
   }
 
   // Countries with EU flag for risk calculation
@@ -2431,8 +2551,10 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     this.newVendorForm = this.getEmptyVendorForm();
     this.countrySearch = '';
     this.typeSearch = '';
+    this.nameSearch = '';
     this.showCountryDropdown = false;
     this.showTypeDropdown = false;
+    this.showNameDropdown = false;
     this.showAddVendorPanel.set(true);
   }
 
@@ -2446,6 +2568,58 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     this.newVendorForm.type = type;
     this.typeSearch = '';
     this.showTypeDropdown = false;
+  }
+
+  onCountryBlur(): void {
+    // Small delay to allow click events on dropdown items
+    setTimeout(() => {
+      this.showCountryDropdown = false;
+    }, 150);
+  }
+
+  onTypeBlur(): void {
+    setTimeout(() => {
+      this.showTypeDropdown = false;
+    }, 150);
+  }
+
+  clearCountry(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.newVendorForm.country = '';
+    this.countrySearch = '';
+  }
+
+  clearType(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.newVendorForm.type = '';
+    this.typeSearch = '';
+  }
+
+  // Name autocomplete
+  onNameInput(): void {
+    this.nameSearch = this.newVendorForm.name;
+    this.showNameDropdown = this.nameSearch.length >= 2;
+  }
+
+  onNameFocus(): void {
+    if (this.newVendorForm.name.length >= 2) {
+      this.nameSearch = this.newVendorForm.name;
+      this.showNameDropdown = true;
+    }
+  }
+
+  onNameBlur(): void {
+    setTimeout(() => {
+      this.showNameDropdown = false;
+    }, 150);
+  }
+
+  selectProvider(name: string): void {
+    this.newVendorForm.name = name;
+    this.nameSearch = '';
+    this.showNameDropdown = false;
   }
 
   closeAddVendorPanel(): void {
