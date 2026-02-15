@@ -1512,6 +1512,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   // Timeline
   'nav.timeline': { et: 'Ajakava', en: 'Timeline' },
   'nav.vendors': { et: 'Teenusepakkujad', en: 'Vendors' },
+  'nav.supply_chain': { et: 'Supply Chain', en: 'Supply Chain' },
 
   // Fine Calculator
   'nav.fine_calculator': { et: 'Trahvikalkulaator', en: 'Fine Calculator' },
