@@ -402,20 +402,10 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                 <div class="form-group">
                   <label class="form-label">Riik *</label>
                   <select class="form-select" [(ngModel)]="newVendorForm.country">
-                    <option value="" disabled selected>Vali riik...</option>
-                    <option value="EE">🇪🇪 Eesti</option>
-                    <option value="LV">🇱🇻 Läti</option>
-                    <option value="LT">🇱🇹 Leedu</option>
-                    <option value="FI">🇫🇮 Soome</option>
-                    <option value="SE">🇸🇪 Rootsi</option>
-                    <option value="DE">🇩🇪 Saksamaa</option>
-                    <option value="NL">🇳🇱 Holland</option>
-                    <option value="IE">🇮🇪 Iirimaa</option>
-                    <option value="BE">🇧🇪 Belgia</option>
-                    <option value="FR">🇫🇷 Prantsusmaa</option>
-                    <option value="US">🇺🇸 USA</option>
-                    <option value="GB">🇬🇧 Suurbritannia</option>
-                    <option value="CN">🇨🇳 Hiina</option>
+                    <option value="" disabled>Vali riik...</option>
+                    @for (c of countryOptions; track c.code) {
+                      <option [value]="c.code">{{ c.code }} {{ c.name }}</option>
+                    }
                   </select>
                 </div>
 
@@ -423,18 +413,10 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                 <div class="form-group">
                   <label class="form-label">Teenuse tüüp *</label>
                   <select class="form-select" [(ngModel)]="newVendorForm.type">
-                    <option value="" disabled selected>Vali teenuse tüüp...</option>
-                    <option value="Cloud Hosting">Cloud Hosting</option>
-                    <option value="Network / Transit">Network / Transit</option>
-                    <option value="KYC / Identity Verification">KYC / Identity Verification</option>
-                    <option value="SIEM / Monitoring">SIEM / Monitoring</option>
-                    <option value="CDN / WAF">CDN / WAF</option>
-                    <option value="SSL / PKI">SSL / PKI</option>
-                    <option value="Identity & Auth">Identity & Auth</option>
-                    <option value="Core Banking">Core Banking</option>
-                    <option value="Payment Processing">Payment Processing</option>
-                    <option value="Data Analytics">Data Analytics</option>
-                    <option value="Muu">Muu</option>
+                    <option value="" disabled>Vali teenuse tüüp...</option>
+                    @for (t of serviceTypeOptions; track t) {
+                      <option [value]="t">{{ t }}</option>
+                    }
                   </select>
                 </div>
 
@@ -2020,27 +2002,27 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   // New Vendor Form
   newVendorForm: NewVendorForm = this.getEmptyVendorForm();
 
-  // Countries (used for risk calculation and validation)
-  readonly countries = [
-    { code: 'EE', name: 'Eesti', flag: '🇪🇪', isEU: true },
-    { code: 'LV', name: 'Läti', flag: '🇱🇻', isEU: true },
-    { code: 'LT', name: 'Leedu', flag: '🇱🇹', isEU: true },
-    { code: 'FI', name: 'Soome', flag: '🇫🇮', isEU: true },
-    { code: 'SE', name: 'Rootsi', flag: '🇸🇪', isEU: true },
-    { code: 'DE', name: 'Saksamaa', flag: '🇩🇪', isEU: true },
-    { code: 'NL', name: 'Holland', flag: '🇳🇱', isEU: true },
-    { code: 'IE', name: 'Iirimaa', flag: '🇮🇪', isEU: true },
-    { code: 'BE', name: 'Belgia', flag: '🇧🇪', isEU: true },
-    { code: 'FR', name: 'Prantsusmaa', flag: '🇫🇷', isEU: true },
-    { code: 'US', name: 'USA', flag: '🇺🇸', isEU: false },
-    { code: 'GB', name: 'Suurbritannia', flag: '🇬🇧', isEU: false },
-    { code: 'CN', name: 'Hiina', flag: '🇨🇳', isEU: false },
+  // Dropdown options for form
+  countryOptions = [
+    { code: 'EE', name: 'Eesti' },
+    { code: 'LV', name: 'Läti' },
+    { code: 'LT', name: 'Leedu' },
+    { code: 'FI', name: 'Soome' },
+    { code: 'SE', name: 'Rootsi' },
+    { code: 'DE', name: 'Saksamaa' },
+    { code: 'NL', name: 'Holland' },
+    { code: 'IE', name: 'Iirimaa' },
+    { code: 'BE', name: 'Belgia' },
+    { code: 'FR', name: 'Prantsusmaa' },
+    { code: 'US', name: 'USA' },
+    { code: 'GB', name: 'Suurbritannia' },
+    { code: 'CN', name: 'Hiina' },
   ];
 
-  readonly serviceTypes = [
+  serviceTypeOptions = [
     'Cloud Hosting',
     'Network / Transit',
-    'KYC / Identity Verification',
+    'KYC / Identity',
     'SIEM / Monitoring',
     'CDN / WAF',
     'SSL / PKI',
@@ -2048,8 +2030,14 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     'Core Banking',
     'Payment Processing',
     'Data Analytics',
-    'Muu'
+    'Muu',
   ];
+
+  // Countries with EU flag for risk calculation
+  readonly countries = this.countryOptions.map(c => ({
+    ...c,
+    isEU: !['US', 'GB', 'CN'].includes(c.code)
+  }));
 
   // Risk score calculation based on country + criticality + exit strategy
   readonly calculatedRiskScore = computed(() => {
@@ -2468,7 +2456,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
       }
       if (!row.type) {
         row.errors.push('Teenuse tüüp puudub');
-      } else if (!this.serviceTypes.includes(row.type)) {
+      } else if (!this.serviceTypeOptions.includes(row.type)) {
         row.errors.push('Tundmatu teenuse tüüp');
       }
       if (!row.criticality) {
