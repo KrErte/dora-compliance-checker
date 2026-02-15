@@ -50,7 +50,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
       <!-- Header -->
       <header class="header">
         <div class="header-left">
-          <a routerLink="/" class="back-btn">← Tagasi</a>
+          <a routerLink="/" class="back-btn">← Back</a>
           <div class="title-section">
             <h1 class="title">Supply Chain Nerve Center</h1>
             <span class="premium-badge">PREMIUM</span>
@@ -59,7 +59,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
         <div class="header-right">
           <div class="live-indicator">
             <span class="pulse"></span>
-            <span>Reaalajas</span>
+            <span>Live</span>
           </div>
         </div>
       </header>
@@ -74,12 +74,12 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
               <div class="card-icon">🏢</div>
               <div class="card-main">
                 <span class="big-number">{{ vendors().length }}</span>
-                <span class="card-label">ICT pakkujat</span>
+                <span class="card-label">ICT providers</span>
               </div>
               <div class="card-divider">│</div>
               <div class="card-secondary" [class.danger]="highRiskCount() > 0">
                 <span class="secondary-number">{{ highRiskCount() }}</span>
-                <span class="secondary-label">kõrge riskiga</span>
+                <span class="secondary-label">high risk</span>
               </div>
               <div class="card-arrow">→</div>
             </div>
@@ -101,12 +101,12 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
               </div>
               <div class="card-main">
                 <span class="big-number">{{ overallROI() }}%</span>
-                <span class="card-label">RoI täidetud</span>
+                <span class="card-label">RoI complete</span>
               </div>
               <div class="card-divider">│</div>
               <div class="card-secondary warning">
                 <span class="secondary-label">{{ worstCategory().name }}</span>
-                <span class="secondary-note">puudu</span>
+                <span class="secondary-note">missing</span>
               </div>
               <div class="card-arrow">→</div>
             </div>
@@ -118,11 +118,11 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
               </div>
               <div class="card-main">
                 <span class="big-number">{{ activeIncidentCount() }}</span>
-                <span class="card-label">aktiivset intsidenti</span>
+                <span class="card-label">active incidents</span>
               </div>
               <div class="card-divider">│</div>
               <div class="card-secondary ok">
-                <span class="secondary-label">Viimane</span>
+                <span class="secondary-label">Last resolved</span>
                 <span class="secondary-note">{{ lastIncidentTime() }}</span>
               </div>
               <div class="card-arrow">→</div>
@@ -131,7 +131,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
 
           <!-- Quick Info -->
           <div class="quick-info">
-            <p>Kliki kaardil, et näha detaile.</p>
+            <p>Click a card to see details.</p>
           </div>
         }
 
@@ -139,16 +139,16 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
           <!-- VENDORS DETAIL VIEW -->
           <div class="detail-view">
             <div class="detail-header">
-              <button class="back-to-main" (click)="openView('main')">← Tagasi ülevaatesse</button>
-              <h2>ICT teenusepakkujad</h2>
-              <span class="detail-count">{{ vendors().length }} pakkujat</span>
+              <button class="back-to-main" (click)="openView('main')">← Back to overview</button>
+              <h2>ICT Service Providers</h2>
+              <span class="detail-count">{{ vendors().length }} providers</span>
             </div>
 
             <div class="vendor-table">
               <div class="table-header">
-                <span class="col-name">Nimi</span>
-                <span class="col-country">Riik</span>
-                <span class="col-type">Tüüp</span>
+                <span class="col-name">Name</span>
+                <span class="col-country">Country</span>
+                <span class="col-type">Type</span>
                 <span class="col-risk">Risk</span>
               </div>
               @for (vendor of sortedVendors(); track vendor.id) {
@@ -181,11 +181,11 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                 </div>
                 <div class="panel-body">
                   <div class="vendor-detail">
-                    <span class="detail-label">Riik:</span>
+                    <span class="detail-label">Country:</span>
                     <span>{{ getFlag(selectedVendor()!.countryCode) }} {{ selectedVendor()!.country }}</span>
                   </div>
                   <div class="vendor-detail">
-                    <span class="detail-label">Tüüp:</span>
+                    <span class="detail-label">Type:</span>
                     <span>{{ selectedVendor()!.type }}</span>
                   </div>
                   <div class="vendor-detail">
@@ -196,9 +196,9 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                   </div>
 
                   <div class="subcontractors-section">
-                    <h4>Allhankijate ahel ({{ selectedVendor()!.subcontractors.length }})</h4>
+                    <h4>Subcontractor chain ({{ selectedVendor()!.subcontractors.length }})</h4>
                     @if (selectedVendor()!.subcontractors.length === 0) {
-                      <p class="no-subs">Allhankijaid ei ole registreeritud.</p>
+                      <p class="no-subs">No subcontractors registered.</p>
                     } @else {
                       <div class="sub-chain">
                         @for (sub of selectedVendor()!.subcontractors; track sub.name; let i = $index) {
@@ -229,9 +229,9 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
           <!-- ROI DETAIL VIEW -->
           <div class="detail-view">
             <div class="detail-header">
-              <button class="back-to-main" (click)="openView('main')">← Tagasi ülevaatesse</button>
+              <button class="back-to-main" (click)="openView('main')">← Back to overview</button>
               <h2>Register of Information (RoI)</h2>
-              <span class="detail-count">{{ overallROI() }}% täidetud</span>
+              <span class="detail-count">{{ overallROI() }}% complete</span>
             </div>
 
             <div class="roi-list">
@@ -261,7 +261,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
 
                   @if (expandedCategory() === category.name) {
                     <div class="roi-gaps">
-                      <div class="gaps-header">Puuduvad elemendid ({{ category.gaps.length }}):</div>
+                      <div class="gaps-header">Missing elements ({{ category.gaps.length }}):</div>
                       <ul class="gaps-list">
                         @for (gap of category.gaps; track gap) {
                           <li>{{ gap }}</li>
@@ -279,16 +279,16 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
           <!-- INCIDENTS DETAIL VIEW -->
           <div class="detail-view">
             <div class="detail-header">
-              <button class="back-to-main" (click)="openView('main')">← Tagasi ülevaatesse</button>
-              <h2>Intsidendid</h2>
-              <span class="detail-count">{{ activeIncidentCount() }} aktiivset</span>
+              <button class="back-to-main" (click)="openView('main')">← Back to overview</button>
+              <h2>Incidents</h2>
+              <span class="detail-count">{{ activeIncidentCount() }} active</span>
             </div>
 
             @if (activeIncidentCount() === 0) {
               <div class="no-incidents">
                 <div class="no-incidents-icon">✓</div>
-                <h3>Aktiivseid intsidente pole</h3>
-                <p>Kõik süsteemid töötavad normaalselt.</p>
+                <h3>No active incidents</h3>
+                <p>All systems operating normally.</p>
               </div>
             } @else {
               <div class="incidents-list">
@@ -303,7 +303,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                       <div class="countdown" [class]="getCountdownClass(incident.timeRemaining)">
                         {{ formatCountdown(incident.timeRemaining) }}
                       </div>
-                      <div class="time-label">klassifitseerimiseni</div>
+                      <div class="time-label">to classify</div>
                     </div>
                   </div>
                 }
@@ -311,7 +311,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
             }
 
             <div class="incidents-history">
-              <h3>Viimased lahendatud</h3>
+              <h3>Recently resolved</h3>
               @for (incident of resolvedIncidents(); track incident.id) {
                 <div class="history-item">
                   <span class="history-severity" [class]="incident.severity.toLowerCase()">{{ incident.severity }}</span>
@@ -1136,30 +1136,30 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   readonly selectedVendor = signal<Vendor | null>(null);
   readonly expandedCategory = signal<string | null>(null);
 
-  // Mock Data
+  // Mock Data - European companies
   readonly vendors = signal<Vendor[]>([
     {
-      id: 'v1', name: 'AWS Europe (Frankfurt)', country: 'Saksamaa', countryCode: 'DE',
+      id: 'v1', name: 'AWS Europe (Frankfurt)', country: 'Germany', countryCode: 'DE',
       type: 'Cloud Hosting', riskScore: 23,
       subcontractors: [
-        { name: 'Equinix Frankfurt', country: 'Saksamaa', type: 'Colocation', riskScore: 15 },
+        { name: 'Equinix Frankfurt', country: 'Germany', type: 'Colocation', riskScore: 15 },
         { name: 'Level 3 Communications', country: 'USA', type: 'Network', riskScore: 28 }
       ]
     },
     {
-      id: 'v2', name: 'Microsoft Azure', country: 'Iirimaa', countryCode: 'IE',
+      id: 'v2', name: 'Microsoft Azure (Dublin)', country: 'Ireland', countryCode: 'IE',
       type: 'Identity & Auth', riskScore: 21,
       subcontractors: [
         { name: 'Akamai Technologies', country: 'USA', type: 'CDN', riskScore: 19 }
       ]
     },
     {
-      id: 'v3', name: 'Telia Eesti AS', country: 'Eesti', countryCode: 'EE',
+      id: 'v3', name: 'Deutsche Telekom AG', country: 'Germany', countryCode: 'DE',
       type: 'Network', riskScore: 18,
       subcontractors: []
     },
     {
-      id: 'v4', name: 'Veriff OÜ', country: 'Eesti', countryCode: 'EE',
+      id: 'v4', name: 'Onfido Ltd', country: 'UK', countryCode: 'GB',
       type: 'KYC', riskScore: 31,
       subcontractors: [
         { name: 'Jumio Corp', country: 'USA', type: 'AI/ML', riskScore: 42 }
@@ -1170,11 +1170,11 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
       type: 'CDN / WAF', riskScore: 28,
       subcontractors: [
         { name: 'Zayo Group', country: 'USA', type: 'Fiber', riskScore: 24 },
-        { name: 'China Telecom', country: 'Hiina', type: 'Transit', riskScore: 78 }
+        { name: 'China Telecom', country: 'China', type: 'Transit', riskScore: 78 }
       ]
     },
     {
-      id: 'v6', name: 'GlobalSign NV', country: 'Belgia', countryCode: 'BE',
+      id: 'v6', name: 'GlobalSign NV', country: 'Belgium', countryCode: 'BE',
       type: 'SSL Certificates', riskScore: 22,
       subcontractors: [
         { name: 'DigiCert Inc', country: 'USA', type: 'Root CA', riskScore: 19 }
@@ -1186,28 +1186,28 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
       subcontractors: []
     },
     {
-      id: 'v8', name: 'China Telecom Europe', country: 'Hiina', countryCode: 'CN',
+      id: 'v8', name: 'China Telecom Europe', country: 'China', countryCode: 'CN',
       type: 'Transit', riskScore: 78,
       subcontractors: [
-        { name: 'Huawei Marine', country: 'Hiina', type: 'Subsea Cable', riskScore: 82 }
+        { name: 'Huawei Marine', country: 'China', type: 'Subsea Cable', riskScore: 82 }
       ]
     },
   ]);
 
   readonly roiCategories = signal<ROICategory[]>([
-    { name: 'Exit strateegiad', completeness: 45, gaps: ['AWS exit plaan puudub', 'Azure alternatiivid määratlemata', 'Andmete migreerimise protseduur puudub'] },
-    { name: 'Subkontraktorid', completeness: 67, gaps: ['Tier 3+ vendorid kaardistamata', '4 vendori allhankijad teadmata'] },
-    { name: 'Riskihinnangud', completeness: 78, gaps: ['3 vendori risk assessment aegunud', 'Geopoliitiline risk hindamata'] },
-    { name: 'Lepingud', completeness: 89, gaps: ['2 lepingut audit clause puudub'] },
-    { name: 'ICT teenusepakkujad', completeness: 94, gaps: ['1 vendor andmed puudulikud'] },
-    { name: 'Intsidendid', completeness: 96, gaps: ['Automaatne klassifitseerimine seadistamata'] },
+    { name: 'Exit strategies', completeness: 45, gaps: ['AWS exit plan missing', 'Azure alternatives not defined', 'Data migration procedure missing'] },
+    { name: 'Subcontractors', completeness: 67, gaps: ['Tier 3+ vendors not mapped', '4 vendor subcontractors unknown'] },
+    { name: 'Risk assessments', completeness: 78, gaps: ['3 vendor risk assessments outdated', 'Geopolitical risk not assessed'] },
+    { name: 'Contracts', completeness: 89, gaps: ['2 contracts missing audit clause'] },
+    { name: 'ICT providers', completeness: 94, gaps: ['1 vendor data incomplete'] },
+    { name: 'Incidents', completeness: 96, gaps: ['Auto-classification not configured'] },
   ]);
 
   readonly incidents = signal<Incident[]>([
-    { id: 'INC-001', severity: 'P1', title: 'Azure AD latentsus tõus', vendor: 'Microsoft Azure', timeAgo: '', timeRemaining: 47, status: 'active' },
-    { id: 'INC-002', severity: 'P2', title: 'CloudFlare WAF reeglite konflikt', vendor: 'CloudFlare Inc', timeAgo: '', timeRemaining: 156, status: 'active' },
-    { id: 'INC-003', severity: 'P2', title: 'SSL sertifikaat aegumas', vendor: 'GlobalSign NV', timeAgo: '12h tagasi', timeRemaining: 0, status: 'resolved' },
-    { id: 'INC-004', severity: 'P3', title: 'API rate limit ületatud', vendor: 'Veriff OÜ', timeAgo: '2p tagasi', timeRemaining: 0, status: 'resolved' },
+    { id: 'INC-001', severity: 'P1', title: 'Azure AD latency spike', vendor: 'Microsoft Azure', timeAgo: '', timeRemaining: 47, status: 'active' },
+    { id: 'INC-002', severity: 'P2', title: 'CloudFlare WAF rule conflict', vendor: 'CloudFlare Inc', timeAgo: '', timeRemaining: 156, status: 'active' },
+    { id: 'INC-003', severity: 'P2', title: 'SSL certificate expiring', vendor: 'GlobalSign NV', timeAgo: '12h ago', timeRemaining: 0, status: 'resolved' },
+    { id: 'INC-004', severity: 'P3', title: 'API rate limit exceeded', vendor: 'Onfido Ltd', timeAgo: '2d ago', timeRemaining: 0, status: 'resolved' },
   ]);
 
   // Computed
@@ -1245,7 +1245,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
 
   readonly lastIncidentTime = computed(() => {
     const resolved = this.resolvedIncidents();
-    return resolved.length > 0 ? resolved[0].timeAgo : 'puudub';
+    return resolved.length > 0 ? resolved[0].timeAgo : 'none';
   });
 
   readonly sortedVendors = computed(() =>
@@ -1297,7 +1297,8 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   getFlag(countryCode: string): string {
     const flags: Record<string, string> = {
       'DE': '🇩🇪', 'EE': '🇪🇪', 'IE': '🇮🇪', 'BE': '🇧🇪', 'SE': '🇸🇪',
-      'US': '🇺🇸', 'GB': '🇬🇧', 'CN': '🇨🇳'
+      'US': '🇺🇸', 'GB': '🇬🇧', 'CN': '🇨🇳', 'FR': '🇫🇷', 'NL': '🇳🇱',
+      'ES': '🇪🇸', 'IT': '🇮🇹', 'AT': '🇦🇹', 'CH': '🇨🇭', 'PL': '🇵🇱'
     };
     return flags[countryCode] || '🏳️';
   }
