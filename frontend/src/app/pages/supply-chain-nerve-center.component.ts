@@ -2677,6 +2677,12 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
 
     this.vendors.update(vendors => [...vendors, newVendor]);
     this.closeAddVendorPanel();
+    // Navigate to vendors view to show the new vendor
+    this.currentView.set('vendors');
+    // Highlight the new vendor by selecting it
+    setTimeout(() => {
+      this.selectedVendor.set(newVendor);
+    }, 100);
   }
 
   private findCountry(code: string): { code: string; name: string } | undefined {
