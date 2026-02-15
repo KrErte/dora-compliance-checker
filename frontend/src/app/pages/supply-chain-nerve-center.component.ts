@@ -278,6 +278,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
               </div>
             </div>
           }
+        }
 
         @if (currentView() === 'roi') {
           <!-- ROI DETAIL VIEW -->
