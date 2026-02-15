@@ -86,6 +86,11 @@ export const routes: Routes = [
     // No authGuard - educational content is free
   },
   {
+    path: 'supply-chain',
+    loadComponent: () => import('./pages/supply-chain-nerve-center.component').then(m => m.SupplyChainNerveCenterComponent),
+    canActivate: [authGuard]
+  },
+  {
     path: 'guardian',
     loadComponent: () => import('./pages/guardian-dashboard.component').then(m => m.GuardianDashboardComponent),
     canActivate: [authGuard]
