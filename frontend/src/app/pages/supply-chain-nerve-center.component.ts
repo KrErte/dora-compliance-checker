@@ -402,17 +402,20 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                 <div class="form-group">
                   <label class="form-label">Riik *</label>
                   <select class="form-select" [(ngModel)]="newVendorForm.country">
-                    <option value="">Vali riik...</option>
-                    <optgroup label="Euroopa Liit">
-                      @for (c of euCountries; track c.code) {
-                        <option [value]="c.code">{{ c.flag }} {{ c.name }}</option>
-                      }
-                    </optgroup>
-                    <optgroup label="Muud">
-                      @for (c of otherCountries; track c.code) {
-                        <option [value]="c.code">{{ c.flag }} {{ c.name }}</option>
-                      }
-                    </optgroup>
+                    <option value="" disabled selected>Vali riik...</option>
+                    <option value="EE">🇪🇪 Eesti</option>
+                    <option value="LV">🇱🇻 Läti</option>
+                    <option value="LT">🇱🇹 Leedu</option>
+                    <option value="FI">🇫🇮 Soome</option>
+                    <option value="SE">🇸🇪 Rootsi</option>
+                    <option value="DE">🇩🇪 Saksamaa</option>
+                    <option value="NL">🇳🇱 Holland</option>
+                    <option value="IE">🇮🇪 Iirimaa</option>
+                    <option value="BE">🇧🇪 Belgia</option>
+                    <option value="FR">🇫🇷 Prantsusmaa</option>
+                    <option value="US">🇺🇸 USA</option>
+                    <option value="GB">🇬🇧 Suurbritannia</option>
+                    <option value="CN">🇨🇳 Hiina</option>
                   </select>
                 </div>
 
@@ -420,10 +423,18 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                 <div class="form-group">
                   <label class="form-label">Teenuse tüüp *</label>
                   <select class="form-select" [(ngModel)]="newVendorForm.type">
-                    <option value="">Vali teenuse tüüp...</option>
-                    @for (t of serviceTypes; track t) {
-                      <option [value]="t">{{ t }}</option>
-                    }
+                    <option value="" disabled selected>Vali teenuse tüüp...</option>
+                    <option value="Cloud Hosting">Cloud Hosting</option>
+                    <option value="Network / Transit">Network / Transit</option>
+                    <option value="KYC / Identity Verification">KYC / Identity Verification</option>
+                    <option value="SIEM / Monitoring">SIEM / Monitoring</option>
+                    <option value="CDN / WAF">CDN / WAF</option>
+                    <option value="SSL / PKI">SSL / PKI</option>
+                    <option value="Identity & Auth">Identity & Auth</option>
+                    <option value="Core Banking">Core Banking</option>
+                    <option value="Payment Processing">Payment Processing</option>
+                    <option value="Data Analytics">Data Analytics</option>
+                    <option value="Muu">Muu</option>
                   </select>
                 </div>
 
@@ -2009,52 +2020,35 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   // New Vendor Form
   newVendorForm: NewVendorForm = this.getEmptyVendorForm();
 
-  // Countries
-  readonly euCountries = [
-    { code: 'AT', name: 'Austria', flag: '🇦🇹' },
-    { code: 'BE', name: 'Belgia', flag: '🇧🇪' },
-    { code: 'BG', name: 'Bulgaaria', flag: '🇧🇬' },
-    { code: 'HR', name: 'Horvaatia', flag: '🇭🇷' },
-    { code: 'CY', name: 'Küpros', flag: '🇨🇾' },
-    { code: 'CZ', name: 'Tšehhi', flag: '🇨🇿' },
-    { code: 'DK', name: 'Taani', flag: '🇩🇰' },
-    { code: 'EE', name: 'Eesti', flag: '🇪🇪' },
-    { code: 'FI', name: 'Soome', flag: '🇫🇮' },
-    { code: 'FR', name: 'Prantsusmaa', flag: '🇫🇷' },
-    { code: 'DE', name: 'Saksamaa', flag: '🇩🇪' },
-    { code: 'GR', name: 'Kreeka', flag: '🇬🇷' },
-    { code: 'HU', name: 'Ungari', flag: '🇭🇺' },
-    { code: 'IE', name: 'Iirimaa', flag: '🇮🇪' },
-    { code: 'IT', name: 'Itaalia', flag: '🇮🇹' },
-    { code: 'LV', name: 'Läti', flag: '🇱🇻' },
-    { code: 'LT', name: 'Leedu', flag: '🇱🇹' },
-    { code: 'LU', name: 'Luksemburg', flag: '🇱🇺' },
-    { code: 'MT', name: 'Malta', flag: '🇲🇹' },
-    { code: 'NL', name: 'Holland', flag: '🇳🇱' },
-    { code: 'PL', name: 'Poola', flag: '🇵🇱' },
-    { code: 'PT', name: 'Portugal', flag: '🇵🇹' },
-    { code: 'RO', name: 'Rumeenia', flag: '🇷🇴' },
-    { code: 'SK', name: 'Slovakkia', flag: '🇸🇰' },
-    { code: 'SI', name: 'Sloveenia', flag: '🇸🇮' },
-    { code: 'ES', name: 'Hispaania', flag: '🇪🇸' },
-    { code: 'SE', name: 'Rootsi', flag: '🇸🇪' },
-  ];
-
-  readonly otherCountries = [
-    { code: 'US', name: 'USA', flag: '🇺🇸' },
-    { code: 'GB', name: 'Suurbritannia', flag: '🇬🇧' },
-    { code: 'CN', name: 'Hiina', flag: '🇨🇳' },
+  // Countries (used for risk calculation and validation)
+  readonly countries = [
+    { code: 'EE', name: 'Eesti', flag: '🇪🇪', isEU: true },
+    { code: 'LV', name: 'Läti', flag: '🇱🇻', isEU: true },
+    { code: 'LT', name: 'Leedu', flag: '🇱🇹', isEU: true },
+    { code: 'FI', name: 'Soome', flag: '🇫🇮', isEU: true },
+    { code: 'SE', name: 'Rootsi', flag: '🇸🇪', isEU: true },
+    { code: 'DE', name: 'Saksamaa', flag: '🇩🇪', isEU: true },
+    { code: 'NL', name: 'Holland', flag: '🇳🇱', isEU: true },
+    { code: 'IE', name: 'Iirimaa', flag: '🇮🇪', isEU: true },
+    { code: 'BE', name: 'Belgia', flag: '🇧🇪', isEU: true },
+    { code: 'FR', name: 'Prantsusmaa', flag: '🇫🇷', isEU: true },
+    { code: 'US', name: 'USA', flag: '🇺🇸', isEU: false },
+    { code: 'GB', name: 'Suurbritannia', flag: '🇬🇧', isEU: false },
+    { code: 'CN', name: 'Hiina', flag: '🇨🇳', isEU: false },
   ];
 
   readonly serviceTypes = [
     'Cloud Hosting',
-    'Network',
-    'KYC',
-    'SIEM',
-    'CDN',
-    'SSL',
-    'Identity',
-    'Transit'
+    'Network / Transit',
+    'KYC / Identity Verification',
+    'SIEM / Monitoring',
+    'CDN / WAF',
+    'SSL / PKI',
+    'Identity & Auth',
+    'Core Banking',
+    'Payment Processing',
+    'Data Analytics',
+    'Muu'
   ];
 
   // Risk score calculation based on country + criticality + exit strategy
@@ -2067,7 +2061,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
       score += 50; // China = high risk
     } else if (countryCode === 'US' || countryCode === 'GB') {
       score += 20; // Non-EU but trusted
-    } else if (this.euCountries.some(c => c.code === countryCode)) {
+    } else if (this.countries.some(c => c.code === countryCode && c.isEU)) {
       score += 5; // EU = low risk
     } else {
       score += 30; // Unknown
@@ -2367,7 +2361,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   }
 
   private findCountry(code: string): { code: string; name: string; flag: string } | undefined {
-    return [...this.euCountries, ...this.otherCountries].find(c => c.code === code);
+    return this.countries.find(c => c.code === code);
   }
 
   // ============ CSV Import ============
@@ -2496,7 +2490,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   }
 
   private isValidCountry(code: string): boolean {
-    return [...this.euCountries, ...this.otherCountries].some(c => c.code === code);
+    return this.countries.some(c => c.code === code);
   }
 
   downloadTemplate(): void {
@@ -2523,7 +2517,7 @@ Teine AS;DE;Network;Oluline;LEP-002;2024-06-01;2026-05-31`;
       let score = 0;
       if (row.country === 'CN') score += 50;
       else if (row.country === 'US' || row.country === 'GB') score += 20;
-      else if (this.euCountries.some(c => c.code === row.country)) score += 5;
+      else if (this.countries.some(c => c.code === row.country && c.isEU)) score += 5;
       else score += 30;
 
       if (criticality === 'critical') score += 30;
