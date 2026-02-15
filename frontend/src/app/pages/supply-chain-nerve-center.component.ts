@@ -350,8 +350,7 @@ interface ImpactMetrics {
     </div>
   `,
   styles: [`
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
-
+    /* Fonts loaded via index.html */
     :host { display: block; }
 
     .nerve-center {
