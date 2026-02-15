@@ -1651,10 +1651,7 @@ export class LangService {
 
   constructor() {
     this.updateHtmlLang(this.langSignal());
-    // If no explicit user preference, detect by IP geolocation
-    if (!this.getStoredLang()) {
-      this.detectByGeolocation();
-    }
+    // Default is English for European companies - no auto-detection
   }
 
   private getStoredLang(): Lang | null {
