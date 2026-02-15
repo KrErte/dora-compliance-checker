@@ -1,61 +1,45 @@
 // Supply Chain Nerve Center - Premium Feature
-// Real-time Nth-Party Intelligence & CTPP Impact Simulation
-// Style: NASA Mission Control + Bloomberg Terminal
+// Simplified for non-technical compliance managers
+// Rule: One screen = one clear answer
 
 import { Component, signal, computed, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
-// Interfaces
 interface Vendor {
   id: string;
   name: string;
-  tier: number;
   country: string;
   countryCode: string;
+  type: string;
   riskScore: number;
-  isCTPP: boolean;
-  status: 'operational' | 'degraded' | 'critical' | 'offline';
-  services: string[];
-  subcontractors: string[];
-  lastAssessment: string;
-  geopoliticalRisk: 'low' | 'medium' | 'high' | 'critical';
-  concentration: number;
+  subcontractors: SubVendor[];
+}
+
+interface SubVendor {
+  name: string;
+  country: string;
+  type: string;
+  riskScore: number;
+}
+
+interface ROICategory {
+  name: string;
+  completeness: number;
+  gaps: string[];
 }
 
 interface Incident {
   id: string;
-  severity: 'P1' | 'P2' | 'P3' | 'P4';
+  severity: 'P1' | 'P2' | 'P3';
   title: string;
   vendor: string;
-  detectedAt: Date;
-  classifiedAt: Date | null;
-  reportedAt: Date | null;
-  status: 'detected' | 'classifying' | 'classified' | 'reported';
-  aiConfidence: number;
+  timeAgo: string;
   timeRemaining: number;
+  status: 'active' | 'resolved';
 }
 
-interface ROIMetric {
-  category: string;
-  completeness: number;
-  gaps: number;
-  trend: 'up' | 'down' | 'stable';
-}
-
-interface GeoRiskData {
-  country: string;
-  vendors: number;
-  risk: string;
-  flag: string;
-}
-
-interface ImpactMetrics {
-  affectedServices: number;
-  downstreamVendors: number;
-  financialImpact: string;
-  rto: string;
-}
+type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
 
 @Component({
   selector: 'app-supply-chain-nerve-center',
@@ -66,874 +50,1265 @@ interface ImpactMetrics {
       <!-- Header -->
       <header class="header">
         <div class="header-left">
-          <a routerLink="/" class="back-link">← Tagasi</a>
-          <div>
-            <div class="logo">DoraAudit.eu</div>
-            <div class="logo-sub">Supply Chain Nerve Center</div>
-          </div>
-          <div class="status-badge">
-            <div class="status-dot"></div>
-            <span>LIVE MONITORING</span>
+          <a routerLink="/" class="back-btn">← Tagasi</a>
+          <div class="title-section">
+            <h1 class="title">Supply Chain Nerve Center</h1>
+            <span class="premium-badge">PREMIUM</span>
           </div>
         </div>
         <div class="header-right">
-          <div class="premium-badge">PREMIUM</div>
-          <div class="time-display">{{ formattedTime() }}</div>
+          <div class="live-indicator">
+            <span class="pulse"></span>
+            <span>Reaalajas</span>
+          </div>
         </div>
       </header>
 
-      <!-- Main Grid -->
-      <main class="main-grid">
-        <!-- Supply Chain Visualization -->
-        <div class="panel chain-viz glass">
-          <div class="panel-header">
-            <span class="panel-title">Nth-Party Chain</span>
-            <span class="panel-badge">{{ vendors().length }} vendors</span>
+      <!-- Main Content -->
+      <main class="content">
+        @if (currentView() === 'main') {
+          <!-- MAIN VIEW: 3 Summary Cards -->
+          <div class="summary-cards">
+            <!-- Vendors Card -->
+            <div class="summary-card" [class.has-risk]="highRiskCount() > 0" (click)="openView('vendors')">
+              <div class="card-icon">🏢</div>
+              <div class="card-main">
+                <span class="big-number">{{ vendors().length }}</span>
+                <span class="card-label">ICT pakkujat</span>
+              </div>
+              <div class="card-divider">│</div>
+              <div class="card-secondary" [class.danger]="highRiskCount() > 0">
+                <span class="secondary-number">{{ highRiskCount() }}</span>
+                <span class="secondary-label">kõrge riskiga</span>
+              </div>
+              <div class="card-arrow">→</div>
+            </div>
+
+            <!-- ROI Card -->
+            <div class="summary-card" [class.has-warning]="worstCategory().completeness < 50" (click)="openView('roi')">
+              <div class="card-icon">
+                <svg class="progress-ring" viewBox="0 0 36 36">
+                  <circle class="ring-bg" cx="18" cy="18" r="15.9"/>
+                  <circle
+                    class="ring-fill"
+                    cx="18" cy="18" r="15.9"
+                    [attr.stroke-dasharray]="roiDashArray()"
+                    [class.good]="overallROI() >= 80"
+                    [class.warning]="overallROI() >= 50 && overallROI() < 80"
+                    [class.danger]="overallROI() < 50"
+                  />
+                </svg>
+              </div>
+              <div class="card-main">
+                <span class="big-number">{{ overallROI() }}%</span>
+                <span class="card-label">RoI täidetud</span>
+              </div>
+              <div class="card-divider">│</div>
+              <div class="card-secondary warning">
+                <span class="secondary-label">{{ worstCategory().name }}</span>
+                <span class="secondary-note">puudu</span>
+              </div>
+              <div class="card-arrow">→</div>
+            </div>
+
+            <!-- Incidents Card -->
+            <div class="summary-card" [class.has-incident]="activeIncidentCount() > 0" (click)="openView('incidents')">
+              <div class="card-icon" [class.ok]="activeIncidentCount() === 0">
+                {{ activeIncidentCount() === 0 ? '✓' : '⚠' }}
+              </div>
+              <div class="card-main">
+                <span class="big-number">{{ activeIncidentCount() }}</span>
+                <span class="card-label">aktiivset intsidenti</span>
+              </div>
+              <div class="card-divider">│</div>
+              <div class="card-secondary ok">
+                <span class="secondary-label">Viimane</span>
+                <span class="secondary-note">{{ lastIncidentTime() }}</span>
+              </div>
+              <div class="card-arrow">→</div>
+            </div>
           </div>
-          <div class="panel-content scrollable">
-            @for (tier of [1, 2, 3, 4]; track tier) {
-              <div class="tier-section animate-in" [style.animation-delay]="tier * 0.1 + 's'">
-                <div class="tier-label">
-                  TIER {{ tier }}
-                  @if (tier === 1) { (Direct) }
-                  @else if (tier === 4) { (Deep Chain) }
+
+          <!-- Quick Info -->
+          <div class="quick-info">
+            <p>Kliki kaardil, et näha detaile.</p>
+          </div>
+        }
+
+        @if (currentView() === 'vendors') {
+          <!-- VENDORS DETAIL VIEW -->
+          <div class="detail-view">
+            <div class="detail-header">
+              <button class="back-to-main" (click)="openView('main')">← Tagasi ülevaatesse</button>
+              <h2>ICT teenusepakkujad</h2>
+              <span class="detail-count">{{ vendors().length }} pakkujat</span>
+            </div>
+
+            <div class="vendor-table">
+              <div class="table-header">
+                <span class="col-name">Nimi</span>
+                <span class="col-country">Riik</span>
+                <span class="col-type">Tüüp</span>
+                <span class="col-risk">Risk</span>
+              </div>
+              @for (vendor of sortedVendors(); track vendor.id) {
+                <div
+                  class="table-row"
+                  [class.selected]="selectedVendor()?.id === vendor.id"
+                  [class.high-risk]="vendor.riskScore >= 60"
+                  (click)="selectVendor(vendor)"
+                >
+                  <span class="col-name">{{ vendor.name }}</span>
+                  <span class="col-country">{{ getFlag(vendor.countryCode) }} {{ vendor.country }}</span>
+                  <span class="col-type">{{ vendor.type }}</span>
+                  <span class="col-risk">
+                    <span class="risk-badge" [class]="getRiskClass(vendor.riskScore)">
+                      {{ vendor.riskScore }}
+                    </span>
+                  </span>
                 </div>
-                @for (vendor of getVendorsByTier(tier); track vendor.id) {
-                  <div
-                    class="vendor-node"
-                    [class.ctpp]="vendor.isCTPP"
-                    [class.critical]="vendor.status === 'critical'"
-                    [class.selected]="selectedVendor() === vendor.id"
-                    (click)="selectVendor(vendor.id)"
-                  >
-                    <div class="vendor-status-indicator" [class]="vendor.status"></div>
-                    <div class="vendor-info">
-                      <div class="vendor-name">{{ vendor.name }}</div>
-                      <div class="vendor-meta">
-                        <span>{{ getFlag(vendor.countryCode) }}</span>
-                        <span>{{ vendor.services[0] }}</span>
-                        @if (vendor.isCTPP) {
-                          <span class="ctpp-label">CTPP</span>
+              }
+            </div>
+          </div>
+
+          <!-- Vendor Slide-out Panel -->
+          @if (selectedVendor()) {
+            <div class="slide-panel" (click)="closeVendorPanel($event)">
+              <div class="panel-content" (click)="$event.stopPropagation()">
+                <div class="panel-header">
+                  <h3>{{ selectedVendor()!.name }}</h3>
+                  <button class="close-btn" (click)="selectedVendor.set(null)">✕</button>
+                </div>
+                <div class="panel-body">
+                  <div class="vendor-detail">
+                    <span class="detail-label">Riik:</span>
+                    <span>{{ getFlag(selectedVendor()!.countryCode) }} {{ selectedVendor()!.country }}</span>
+                  </div>
+                  <div class="vendor-detail">
+                    <span class="detail-label">Tüüp:</span>
+                    <span>{{ selectedVendor()!.type }}</span>
+                  </div>
+                  <div class="vendor-detail">
+                    <span class="detail-label">Risk score:</span>
+                    <span class="risk-badge large" [class]="getRiskClass(selectedVendor()!.riskScore)">
+                      {{ selectedVendor()!.riskScore }}
+                    </span>
+                  </div>
+
+                  <div class="subcontractors-section">
+                    <h4>Allhankijate ahel ({{ selectedVendor()!.subcontractors.length }})</h4>
+                    @if (selectedVendor()!.subcontractors.length === 0) {
+                      <p class="no-subs">Allhankijaid ei ole registreeritud.</p>
+                    } @else {
+                      <div class="sub-chain">
+                        @for (sub of selectedVendor()!.subcontractors; track sub.name; let i = $index) {
+                          <div class="sub-item">
+                            <div class="chain-line"></div>
+                            <div class="sub-card" [class.high-risk]="sub.riskScore >= 60">
+                              <div class="sub-name">{{ sub.name }}</div>
+                              <div class="sub-meta">
+                                <span>{{ sub.country }}</span>
+                                <span>{{ sub.type }}</span>
+                              </div>
+                              <span class="risk-badge small" [class]="getRiskClass(sub.riskScore)">
+                                {{ sub.riskScore }}
+                              </span>
+                            </div>
+                          </div>
                         }
                       </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        }
+
+        @if (currentView() === 'roi') {
+          <!-- ROI DETAIL VIEW -->
+          <div class="detail-view">
+            <div class="detail-header">
+              <button class="back-to-main" (click)="openView('main')">← Tagasi ülevaatesse</button>
+              <h2>Register of Information (RoI)</h2>
+              <span class="detail-count">{{ overallROI() }}% täidetud</span>
+            </div>
+
+            <div class="roi-list">
+              @for (category of sortedROICategories(); track category.name) {
+                <div
+                  class="roi-item"
+                  [class.expanded]="expandedCategory() === category.name"
+                  [class.danger]="category.completeness < 50"
+                  (click)="toggleCategory(category.name)"
+                >
+                  <div class="roi-main">
+                    <span class="roi-name">{{ category.name }}</span>
+                    <div class="roi-bar-container">
+                      <div class="roi-bar">
+                        <div
+                          class="roi-fill"
+                          [style.width.%]="category.completeness"
+                          [class]="getROIClass(category.completeness)"
+                        ></div>
+                      </div>
+                      <span class="roi-percent" [class]="getROIClass(category.completeness)">
+                        {{ category.completeness }}%
+                      </span>
                     </div>
-                    <div class="vendor-risk" [class]="getRiskClass(vendor.riskScore)">
-                      {{ vendor.riskScore }}
+                    <span class="expand-icon">{{ expandedCategory() === category.name ? '▼' : '▶' }}</span>
+                  </div>
+
+                  @if (expandedCategory() === category.name) {
+                    <div class="roi-gaps">
+                      <div class="gaps-header">Puuduvad elemendid ({{ category.gaps.length }}):</div>
+                      <ul class="gaps-list">
+                        @for (gap of category.gaps; track gap) {
+                          <li>{{ gap }}</li>
+                        }
+                      </ul>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+        @if (currentView() === 'incidents') {
+          <!-- INCIDENTS DETAIL VIEW -->
+          <div class="detail-view">
+            <div class="detail-header">
+              <button class="back-to-main" (click)="openView('main')">← Tagasi ülevaatesse</button>
+              <h2>Intsidendid</h2>
+              <span class="detail-count">{{ activeIncidentCount() }} aktiivset</span>
+            </div>
+
+            @if (activeIncidentCount() === 0) {
+              <div class="no-incidents">
+                <div class="no-incidents-icon">✓</div>
+                <h3>Aktiivseid intsidente pole</h3>
+                <p>Kõik süsteemid töötavad normaalselt.</p>
+              </div>
+            } @else {
+              <div class="incidents-list">
+                @for (incident of activeIncidents(); track incident.id) {
+                  <div class="incident-card" [class]="incident.severity.toLowerCase()">
+                    <div class="incident-severity">{{ incident.severity }}</div>
+                    <div class="incident-info">
+                      <div class="incident-title">{{ incident.title }}</div>
+                      <div class="incident-vendor">{{ incident.vendor }}</div>
+                    </div>
+                    <div class="incident-time">
+                      <div class="countdown" [class]="getCountdownClass(incident.timeRemaining)">
+                        {{ formatCountdown(incident.timeRemaining) }}
+                      </div>
+                      <div class="time-label">klassifitseerimiseni</div>
                     </div>
                   </div>
                 }
               </div>
             }
-          </div>
-        </div>
 
-        <!-- CTPP Impact Simulation -->
-        <div class="panel ctpp-simulation glass">
-          <div class="panel-header">
-            <span class="panel-title">CTPP Failure Simulation</span>
-            <span class="panel-badge">ESA Oversight</span>
-          </div>
-          <div class="panel-content">
-            <div class="simulation-controls">
-              @for (ctpp of ctpps(); track ctpp.id) {
-                <button
-                  class="sim-btn"
-                  [class.active]="simulatingCTPP() === ctpp.id"
-                  (click)="handleSimulation(ctpp.id)"
-                >
-                  <span class="sim-btn-icon">⚡</span>
-                  <span>{{ ctpp.name.split(' ')[0] }}</span>
-                  <span class="sim-btn-label">Simulate Failure</span>
-                </button>
-              }
-            </div>
-            <div class="impact-metrics">
-              <div class="impact-card" [class.simulating]="simulatingCTPP()">
-                <div class="impact-value" [class.critical]="simulatingCTPP()">
-                  {{ impactMetrics().affectedServices }}
-                </div>
-                <div class="impact-label">Affected Services</div>
-                @if (simulatingCTPP()) {
-                  <div class="impact-change negative">+{{ impactMetrics().affectedServices }} at risk</div>
-                }
-              </div>
-              <div class="impact-card" [class.simulating]="simulatingCTPP()">
-                <div class="impact-value" [class.critical]="simulatingCTPP()">
-                  {{ impactMetrics().downstreamVendors }}
-                </div>
-                <div class="impact-label">Downstream Vendors</div>
-                @if (simulatingCTPP()) {
-                  <div class="impact-change negative">Chain reaction</div>
-                }
-              </div>
-              <div class="impact-card" [class.simulating]="simulatingCTPP()">
-                <div class="impact-value" [class.critical]="simulatingCTPP()">
-                  €{{ impactMetrics().financialImpact }}
-                </div>
-                <div class="impact-label">Est. Daily Impact</div>
-                @if (simulatingCTPP()) {
-                  <div class="impact-change negative">EUR / day</div>
-                }
-              </div>
-              <div class="impact-card" [class.simulating]="simulatingCTPP()">
-                <div class="impact-value" [class.critical]="simulatingCTPP()">
-                  {{ impactMetrics().rto }}
-                </div>
-                <div class="impact-label">Recovery Time</div>
-                @if (simulatingCTPP()) {
-                  <div class="impact-change negative">Best case</div>
-                }
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Incident Command Center -->
-        <div class="panel incident-center glass">
-          <div class="panel-header">
-            <span class="panel-title">4H Incident Command</span>
-            <span class="panel-badge">{{ activeIncidents() }} active</span>
-          </div>
-          <div class="panel-content scrollable-short">
-            <div class="incident-timeline">
-              @for (incident of incidents(); track incident.id; let idx = $index) {
-                <div
-                  class="incident-item animate-in"
-                  [class.classifying]="incident.status === 'classifying'"
-                  [style.animation-delay]="idx * 0.1 + 's'"
-                >
-                  <span class="incident-severity" [class]="incident.severity">{{ incident.severity }}</span>
-                  <div class="incident-details">
-                    <div class="incident-title">{{ incident.title }}</div>
-                    <div class="incident-vendor">{{ incident.vendor }}</div>
-                    <div class="ai-confidence">
-                      <span class="ai-label">AI Classification:</span>
-                      <div class="ai-confidence-bar">
-                        <div class="ai-confidence-fill" [style.width.%]="incident.aiConfidence"></div>
-                      </div>
-                      <span class="ai-confidence-value">{{ incident.aiConfidence }}%</span>
-                    </div>
-                  </div>
-                  <div class="incident-timing">
-                    @if (incident.status !== 'reported') {
-                      <div class="incident-countdown" [class]="getCountdownClass(incident.timeRemaining)">
-                        {{ formatCountdown(incident.timeRemaining) }}
-                      </div>
-                      <div class="incident-countdown-label">
-                        {{ incident.status === 'classifying' ? 'to classify' : 'to report' }}
-                      </div>
-                    } @else {
-                      <div class="incident-countdown ok">✓</div>
-                      <div class="incident-countdown-label">Reported</div>
-                    }
-                  </div>
+            <div class="incidents-history">
+              <h3>Viimased lahendatud</h3>
+              @for (incident of resolvedIncidents(); track incident.id) {
+                <div class="history-item">
+                  <span class="history-severity" [class]="incident.severity.toLowerCase()">{{ incident.severity }}</span>
+                  <span class="history-title">{{ incident.title }}</span>
+                  <span class="history-time">{{ incident.timeAgo }}</span>
                 </div>
               }
-            </div>
-          </div>
-        </div>
-
-        <!-- ROI Intelligence -->
-        <div class="panel roi-intel glass">
-          <div class="panel-header">
-            <span class="panel-title">ROI Intelligence</span>
-            <span class="panel-badge">Predictive</span>
-          </div>
-          <div class="panel-content">
-            <div class="roi-score">
-              <div class="roi-score-value">{{ overallROI() }}%</div>
-              <div class="roi-score-label">Overall Completeness</div>
-            </div>
-            <div class="roi-categories">
-              @for (metric of roiMetrics(); track metric.category; let idx = $index) {
-                <div class="roi-category animate-in" [style.animation-delay]="idx * 0.05 + 's'">
-                  <div class="roi-category-header">
-                    <span class="roi-category-name">{{ metric.category }}</span>
-                    <span
-                      class="roi-category-value"
-                      [style.color]="metric.completeness >= 80 ? '#3fb950' : metric.completeness >= 60 ? '#f0883e' : '#f85149'"
-                    >
-                      {{ metric.completeness }}%
-                    </span>
-                  </div>
-                  <div class="roi-bar">
-                    <div
-                      class="roi-bar-fill"
-                      [class]="getROIFillClass(metric.completeness)"
-                      [style.width.%]="metric.completeness"
-                    ></div>
-                  </div>
-                  <div class="roi-gaps">
-                    <span>{{ metric.gaps }} gaps detected</span>
-                    <span class="roi-trend" [class]="metric.trend">
-                      {{ metric.trend === 'up' ? '↑' : metric.trend === 'down' ? '↓' : '→' }} {{ metric.trend }}
-                    </span>
-                  </div>
-                </div>
-              }
-            </div>
-          </div>
-        </div>
-
-        <!-- Geopolitical Risk -->
-        <div class="panel geo-risk glass">
-          <div class="panel-header">
-            <span class="panel-title">Geopolitical Risk Map</span>
-            <span class="panel-badge">2025/532</span>
-          </div>
-          <div class="panel-content scrollable-short">
-            <div class="geo-list">
-              @for (geo of geoRiskData(); track geo.country; let idx = $index) {
-                <div
-                  class="geo-item animate-in"
-                  [class.critical]="geo.risk === 'critical'"
-                  [style.animation-delay]="idx * 0.05 + 's'"
-                >
-                  <span class="geo-flag">{{ geo.flag }}</span>
-                  <div class="geo-info">
-                    <div class="geo-country">{{ geo.country }}</div>
-                    <div class="geo-vendors">{{ geo.vendors }} vendor{{ geo.vendors > 1 ? 's' : '' }}</div>
-                  </div>
-                  <span class="geo-risk-badge" [class]="geo.risk">{{ geo.risk.toUpperCase() }}</span>
-                </div>
-              }
-            </div>
-          </div>
-        </div>
-      </main>
-
-      <!-- Resilience Testing Panel -->
-      <div class="resilience-panel" [class.expanded]="resilienceExpanded()">
-        <div class="resilience-toggle" (click)="toggleResilience()">
-          <span class="resilience-title">
-            <span>⚡</span>
-            Resilience Testing Orchestration
-            <span class="resilience-date">— Last TLPT: 2025-12-01</span>
-          </span>
-          <span class="resilience-arrow">▲</span>
-        </div>
-        @if (resilienceExpanded()) {
-          <div class="resilience-content">
-            <div class="resilience-metric">
-              <div class="resilience-value">99.7%</div>
-              <div class="resilience-label">Availability SLA</div>
-              <span class="resilience-status pass">PASS</span>
-            </div>
-            <div class="resilience-metric">
-              <div class="resilience-value">4h 12m</div>
-              <div class="resilience-label">Mean RTO</div>
-              <span class="resilience-status pass">PASS</span>
-            </div>
-            <div class="resilience-metric">
-              <div class="resilience-value warning">23m</div>
-              <div class="resilience-label">Mean RPO</div>
-              <span class="resilience-status pass">PASS</span>
-            </div>
-            <div class="resilience-metric">
-              <div class="resilience-value">8/8</div>
-              <div class="resilience-label">Scenario Tests</div>
-              <span class="resilience-status pass">PASS</span>
-            </div>
-            <div class="resilience-metric">
-              <div class="resilience-value critical">2/5</div>
-              <div class="resilience-label">Exit Strategies</div>
-              <span class="resilience-status fail">FAIL</span>
-            </div>
-            <div class="resilience-metric">
-              <div class="resilience-value">12</div>
-              <div class="resilience-label">TLPT Findings</div>
-              <span class="resilience-status pass">REMEDIATED</span>
             </div>
           </div>
         }
-      </div>
+      </main>
     </div>
   `,
   styles: [`
-    /* Fonts loaded via index.html */
     :host { display: block; }
 
     .nerve-center {
       font-family: 'Outfit', sans-serif;
-      background: linear-gradient(135deg, #0a0a0f 0%, #0d1117 50%, #0a0a0f 100%);
+      background: #0a0e1a;
       min-height: 100vh;
       color: #e6edf3;
-      position: relative;
-      overflow-x: hidden;
     }
 
-    .nerve-center::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 136, 0.03) 2px, rgba(0, 255, 136, 0.03) 4px);
-      pointer-events: none;
-      z-index: 1000;
-      animation: scanlines 8s linear infinite;
-    }
-
-    @keyframes scanlines { 0% { transform: translateY(0); } 100% { transform: translateY(4px); } }
-
+    /* Header */
     .header {
-      background: rgba(13, 17, 23, 0.95);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(0, 255, 136, 0.2);
-      padding: 16px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      padding: 20px 32px;
+      background: rgba(10, 14, 26, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .header-left { display: flex; align-items: center; gap: 16px; }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
 
-    .back-link {
+    .back-btn {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
+      font-size: 13px;
       color: #7d8590;
       text-decoration: none;
-      padding: 6px 12px;
-      border: 1px solid rgba(48, 54, 61, 0.8);
-      border-radius: 4px;
-      transition: all 0.2s ease;
+      padding: 10px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      transition: all 0.2s;
     }
 
-    .back-link:hover { border-color: #00ff88; color: #00ff88; }
+    .back-btn:hover {
+      border-color: #00E5FF;
+      color: #00E5FF;
+    }
 
-    .logo {
+    .title-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .premium-badge {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 14px; font-weight: 600;
-      color: #00ff88;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    .logo-sub { font-size: 10px; color: #7d8590; letter-spacing: 3px; }
-
-    .status-badge {
-      display: flex; align-items: center; gap: 8px;
+      font-size: 10px;
+      font-weight: 700;
       padding: 6px 12px;
-      background: rgba(0, 255, 136, 0.1);
-      border: 1px solid rgba(0, 255, 136, 0.3);
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #0a0e1a;
       border-radius: 4px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
+      letter-spacing: 1px;
     }
 
-    .status-dot {
-      width: 8px; height: 8px;
+    .live-indicator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #22C55E;
+    }
+
+    .pulse {
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background: #00ff88;
+      background: #22C55E;
       animation: pulse 2s infinite;
     }
 
     @keyframes pulse {
-      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
-      50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(0, 255, 136, 0); }
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+      50% { opacity: 0.7; box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
     }
 
-    .header-right { display: flex; align-items: center; gap: 16px; }
-
-    .premium-badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px; font-weight: 700;
-      padding: 4px 10px;
-      background: linear-gradient(135deg, #f0883e 0%, #d2a841 100%);
-      color: #0d1117;
-      border-radius: 4px;
-      letter-spacing: 1px;
+    /* Content */
+    .content {
+      padding: 40px 32px;
+      max-width: 1400px;
+      margin: 0 auto;
     }
 
-    .time-display {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px; color: #00ff88; letter-spacing: 1px;
-    }
-
-    .main-grid {
+    /* Summary Cards */
+    .summary-cards {
       display: grid;
-      grid-template-columns: 300px 1fr 320px;
-      grid-template-rows: auto 1fr;
-      gap: 16px;
-      padding: 16px 24px;
-      min-height: calc(100vh - 72px);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
     }
 
-    .panel {
-      background: rgba(22, 27, 34, 0.8);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(48, 54, 61, 0.8);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .panel-header {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 12px 16px;
-      background: rgba(0, 0, 0, 0.3);
-      border-bottom: 1px solid rgba(48, 54, 61, 0.8);
-    }
-
-    .panel-title {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px; font-weight: 600;
-      color: #7d8590;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-    }
-
-    .panel-badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      padding: 3px 8px;
-      background: rgba(0, 255, 136, 0.15);
-      color: #00ff88;
-      border-radius: 3px;
-    }
-
-    .panel-content { padding: 16px; }
-    .scrollable { max-height: calc(100vh - 180px); overflow-y: auto; }
-    .scrollable-short { max-height: calc(100vh - 420px); overflow-y: auto; }
-
-    .chain-viz { grid-column: 1 / 2; grid-row: 1 / 3; }
-    .tier-section { margin-bottom: 16px; }
-
-    .tier-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px; color: #7d8590;
-      margin-bottom: 8px; padding-left: 4px;
-      letter-spacing: 1px;
-    }
-
-    .vendor-node {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 12px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(48, 54, 61, 0.8);
-      border-radius: 6px;
-      margin-bottom: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .vendor-node:hover { border-color: rgba(0, 255, 136, 0.5); background: rgba(0, 255, 136, 0.05); }
-    .vendor-node.selected { border-color: #00ff88; background: rgba(0, 255, 136, 0.1); }
-    .vendor-node.ctpp { border-left: 3px solid #f0883e; }
-    .vendor-node.critical { border-left: 3px solid #f85149; animation: critical-pulse 1.5s infinite; }
-
-    @keyframes critical-pulse {
-      0%, 100% { background: rgba(248, 81, 73, 0.05); }
-      50% { background: rgba(248, 81, 73, 0.15); }
-    }
-
-    .vendor-status-indicator { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-    .vendor-status-indicator.operational { background: #3fb950; }
-    .vendor-status-indicator.degraded { background: #f0883e; }
-    .vendor-status-indicator.critical { background: #f85149; }
-    .vendor-status-indicator.offline { background: #8b949e; }
-
-    .vendor-info { flex: 1; min-width: 0; }
-    .vendor-name { font-size: 12px; font-weight: 500; color: #e6edf3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .vendor-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #7d8590; display: flex; gap: 8px; margin-top: 2px; }
-    .ctpp-label { color: #f0883e; }
-
-    .vendor-risk { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 3px; }
-    .vendor-risk.low { background: rgba(63, 185, 80, 0.2); color: #3fb950; }
-    .vendor-risk.medium { background: rgba(240, 136, 62, 0.2); color: #f0883e; }
-    .vendor-risk.high { background: rgba(248, 81, 73, 0.2); color: #f85149; }
-
-    .ctpp-simulation { grid-column: 2 / 3; grid-row: 1 / 2; }
-    .simulation-controls { display: flex; gap: 12px; margin-bottom: 16px; }
-
-    .sim-btn {
-      flex: 1;
-      padding: 12px 16px;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(48, 54, 61, 0.8);
-      border-radius: 6px;
-      color: #e6edf3;
-      font-family: 'Outfit', sans-serif;
-      font-size: 12px;
-      cursor: pointer;
-      transition: all 0.2s ease;
+    .summary-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 32px;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 4px;
-    }
-
-    .sim-btn:hover { border-color: rgba(0, 255, 136, 0.5); background: rgba(0, 255, 136, 0.05); }
-    .sim-btn.active { border-color: #f85149; background: rgba(248, 81, 73, 0.1); }
-    .sim-btn-icon { font-size: 20px; }
-    .sim-btn-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #7d8590; }
-
-    .impact-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-
-    .impact-card {
-      padding: 16px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(48, 54, 61, 0.8);
-      border-radius: 6px;
-      text-align: center;
+      gap: 20px;
+      cursor: pointer;
       transition: all 0.3s ease;
     }
 
-    .impact-card.simulating { border-color: rgba(248, 81, 73, 0.5); background: rgba(248, 81, 73, 0.05); }
+    .summary-card:hover {
+      border-color: rgba(0, 229, 255, 0.4);
+      background: rgba(0, 229, 255, 0.03);
+      transform: translateY(-2px);
+    }
 
-    .impact-value {
+    .summary-card.has-risk {
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+
+    .summary-card.has-warning {
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    .summary-card.has-incident {
+      border-color: rgba(239, 68, 68, 0.4);
+      animation: incident-pulse 2s infinite;
+    }
+
+    @keyframes incident-pulse {
+      0%, 100% { background: rgba(239, 68, 68, 0.03); }
+      50% { background: rgba(239, 68, 68, 0.08); }
+    }
+
+    .card-icon {
+      font-size: 32px;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-icon.ok {
+      color: #22C55E;
+      font-size: 28px;
+    }
+
+    .progress-ring {
+      width: 48px;
+      height: 48px;
+      transform: rotate(-90deg);
+    }
+
+    .ring-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.1);
+      stroke-width: 3;
+    }
+
+    .ring-fill {
+      fill: none;
+      stroke-width: 3;
+      stroke-linecap: round;
+      transition: stroke-dasharray 0.5s;
+    }
+
+    .ring-fill.good { stroke: #22C55E; }
+    .ring-fill.warning { stroke: #f59e0b; }
+    .ring-fill.danger { stroke: #ef4444; }
+
+    .card-main {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .big-number {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 28px; font-weight: 700;
-      color: #00ff88;
+      font-size: 36px;
+      font-weight: 700;
+      color: #00E5FF;
       line-height: 1;
-      transition: color 0.3s ease;
     }
 
-    .impact-value.critical { color: #f85149; }
-    .impact-label { font-size: 11px; color: #7d8590; margin-top: 6px; }
-    .impact-change { font-family: 'JetBrains Mono', monospace; font-size: 10px; margin-top: 4px; }
-    .impact-change.negative { color: #f85149; }
-
-    .incident-center { grid-column: 2 / 3; grid-row: 2 / 3; }
-
-    .incident-item {
-      display: flex; gap: 16px;
-      padding: 14px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(48, 54, 61, 0.8);
-      border-radius: 6px;
-      margin-bottom: 10px;
-      transition: all 0.2s ease;
-      cursor: pointer;
+    .card-label {
+      font-size: 14px;
+      color: #7d8590;
+      margin-top: 4px;
     }
 
-    .incident-item:hover { border-color: rgba(0, 255, 136, 0.4); }
-    .incident-item.classifying { border-left: 3px solid #f0883e; animation: classifying-pulse 2s infinite; }
-
-    @keyframes classifying-pulse {
-      0%, 100% { background: rgba(240, 136, 62, 0.05); }
-      50% { background: rgba(240, 136, 62, 0.12); }
+    .card-divider {
+      color: rgba(255, 255, 255, 0.15);
+      font-size: 24px;
     }
 
-    .incident-severity { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; padding: 4px 8px; border-radius: 4px; flex-shrink: 0; height: fit-content; }
-    .incident-severity.P1 { background: rgba(248, 81, 73, 0.2); color: #f85149; }
-    .incident-severity.P2 { background: rgba(240, 136, 62, 0.2); color: #f0883e; }
-    .incident-severity.P3 { background: rgba(210, 168, 65, 0.2); color: #d2a841; }
-    .incident-severity.P4 { background: rgba(139, 148, 158, 0.2); color: #8b949e; }
+    .card-secondary {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
 
-    .incident-details { flex: 1; }
-    .incident-title { font-size: 13px; font-weight: 500; color: #e6edf3; margin-bottom: 4px; }
-    .incident-vendor { font-size: 11px; color: #7d8590; }
-    .incident-timing { text-align: right; }
-
-    .incident-countdown { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 600; }
-    .incident-countdown.urgent { color: #f85149; }
-    .incident-countdown.warning { color: #f0883e; }
-    .incident-countdown.ok { color: #3fb950; }
-    .incident-countdown-label { font-size: 10px; color: #7d8590; margin-top: 2px; }
-
-    .ai-confidence { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
-    .ai-label { font-size: 10px; color: #7d8590; }
-    .ai-confidence-bar { flex: 1; height: 4px; background: rgba(48, 54, 61, 0.8); border-radius: 2px; overflow: hidden; }
-    .ai-confidence-fill { height: 100%; background: linear-gradient(90deg, #00ff88, #00d4ff); border-radius: 2px; transition: width 0.3s ease; }
-    .ai-confidence-value { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #00ff88; }
-
-    .roi-intel { grid-column: 3 / 4; grid-row: 1 / 2; }
-
-    .roi-score { text-align: center; padding: 20px; background: rgba(0, 0, 0, 0.3); border-radius: 8px; margin-bottom: 16px; }
-    .roi-score-value {
+    .secondary-number {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 48px; font-weight: 700;
-      background: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .roi-score-label { font-size: 12px; color: #7d8590; margin-top: 4px; }
-
-    .roi-categories { display: flex; flex-direction: column; gap: 10px; }
-
-    .roi-category {
-      padding: 10px 12px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(48, 54, 61, 0.8);
-      border-radius: 6px;
+      font-size: 20px;
+      font-weight: 600;
     }
 
-    .roi-category-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-    .roi-category-name { font-size: 12px; color: #e6edf3; }
-    .roi-category-value { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; }
-
-    .roi-bar { height: 4px; background: rgba(48, 54, 61, 0.8); border-radius: 2px; overflow: hidden; }
-    .roi-bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }
-    .roi-bar-fill.high { background: linear-gradient(90deg, #3fb950, #00ff88); }
-    .roi-bar-fill.medium { background: linear-gradient(90deg, #f0883e, #d2a841); }
-    .roi-bar-fill.low { background: linear-gradient(90deg, #f85149, #f0883e); }
-
-    .roi-gaps { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #7d8590; margin-top: 4px; display: flex; justify-content: space-between; }
-    .roi-trend { display: flex; align-items: center; gap: 4px; }
-    .roi-trend.up { color: #3fb950; }
-    .roi-trend.down { color: #f85149; }
-    .roi-trend.stable { color: #7d8590; }
-
-    .geo-risk { grid-column: 3 / 4; grid-row: 2 / 3; }
-    .geo-list { display: flex; flex-direction: column; gap: 8px; }
-
-    .geo-item {
-      display: flex; align-items: center; gap: 12px;
-      padding: 10px 12px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(48, 54, 61, 0.8);
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease;
+    .card-secondary.danger .secondary-number {
+      color: #ef4444;
     }
 
-    .geo-item:hover { border-color: rgba(0, 255, 136, 0.4); }
-    .geo-item.critical { border-color: rgba(248, 81, 73, 0.5); background: rgba(248, 81, 73, 0.05); }
-
-    .geo-flag { font-size: 20px; }
-    .geo-info { flex: 1; }
-    .geo-country { font-size: 12px; font-weight: 500; color: #e6edf3; }
-    .geo-vendors { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #7d8590; }
-
-    .geo-risk-badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 3px; }
-    .geo-risk-badge.low { background: rgba(63, 185, 80, 0.2); color: #3fb950; }
-    .geo-risk-badge.medium { background: rgba(240, 136, 62, 0.2); color: #f0883e; }
-    .geo-risk-badge.high { background: rgba(248, 81, 73, 0.2); color: #f85149; }
-    .geo-risk-badge.critical { background: rgba(248, 81, 73, 0.3); color: #f85149; }
-
-    .resilience-panel {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      background: rgba(13, 17, 23, 0.98);
-      backdrop-filter: blur(20px);
-      border-top: 1px solid rgba(0, 255, 136, 0.2);
-      padding: 16px 24px;
-      transform: translateY(calc(100% - 48px));
-      transition: transform 0.3s ease;
-      z-index: 50;
+    .card-secondary.warning .secondary-label {
+      color: #f59e0b;
     }
 
-    .resilience-panel.expanded { transform: translateY(0); }
-
-    .resilience-toggle { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-
-    .resilience-title {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px; font-weight: 600;
-      color: #00ff88;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      display: flex; align-items: center; gap: 8px;
+    .card-secondary.ok .secondary-note {
+      color: #22C55E;
     }
 
-    .resilience-date { font-size: 10px; color: #7d8590; font-weight: 400; }
-    .resilience-arrow { transition: transform 0.3s ease; color: #7d8590; }
-    .resilience-panel.expanded .resilience-arrow { transform: rotate(180deg); }
+    .secondary-label {
+      font-size: 13px;
+      color: #a0a0a0;
+    }
 
-    .resilience-content { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-top: 16px; }
+    .secondary-note {
+      font-size: 12px;
+      color: #7d8590;
+    }
 
-    .resilience-metric {
-      padding: 16px;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(48, 54, 61, 0.8);
-      border-radius: 6px;
+    .card-arrow {
+      font-size: 20px;
+      color: #7d8590;
+      transition: transform 0.2s;
+    }
+
+    .summary-card:hover .card-arrow {
+      transform: translateX(4px);
+      color: #00E5FF;
+    }
+
+    .quick-info {
       text-align: center;
+      margin-top: 32px;
+      color: #7d8590;
+      font-size: 14px;
     }
 
-    .resilience-value { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; color: #00ff88; }
-    .resilience-value.warning { color: #f0883e; }
-    .resilience-value.critical { color: #f85149; }
-    .resilience-label { font-size: 10px; color: #7d8590; margin-top: 4px; }
+    /* Detail Views */
+    .detail-view {
+      animation: fadeIn 0.3s ease;
+    }
 
-    .resilience-status {
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .detail-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .back-to-main {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 9px; margin-top: 8px;
-      padding: 3px 6px; border-radius: 3px;
-      display: inline-block;
+      font-size: 12px;
+      color: #00E5FF;
+      background: none;
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
     }
 
-    .resilience-status.pass { background: rgba(63, 185, 80, 0.2); color: #3fb950; }
-    .resilience-status.fail { background: rgba(248, 81, 73, 0.2); color: #f85149; }
-
-    .glass { background: rgba(22, 27, 34, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-in { animation: fadeIn 0.4s ease forwards; }
-
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
-    ::-webkit-scrollbar-thumb { background: rgba(0, 255, 136, 0.3); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(0, 255, 136, 0.5); }
-
-    @media (max-width: 1400px) {
-      .main-grid { grid-template-columns: 280px 1fr 300px; }
+    .back-to-main:hover {
+      background: rgba(0, 229, 255, 0.1);
     }
 
-    @media (max-width: 1200px) {
-      .main-grid {
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto auto auto;
+    .detail-header h2 {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0;
+      flex: 1;
+    }
+
+    .detail-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: #7d8590;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+    }
+
+    /* Vendor Table */
+    .vendor-table {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .table-header {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 80px;
+      padding: 16px 24px;
+      background: rgba(0, 0, 0, 0.3);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #7d8590;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .table-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 80px;
+      padding: 16px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .table-row:hover {
+      background: rgba(0, 229, 255, 0.03);
+    }
+
+    .table-row.selected {
+      background: rgba(0, 229, 255, 0.08);
+      border-left: 3px solid #00E5FF;
+    }
+
+    .table-row.high-risk {
+      background: rgba(239, 68, 68, 0.03);
+    }
+
+    .table-row.high-risk.selected {
+      background: rgba(239, 68, 68, 0.08);
+      border-left-color: #ef4444;
+    }
+
+    .col-name { font-weight: 500; }
+    .col-country { color: #a0a0a0; }
+    .col-type { color: #7d8590; font-size: 13px; }
+    .col-risk { text-align: right; }
+
+    .risk-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+
+    .risk-badge.large {
+      font-size: 16px;
+      padding: 8px 16px;
+    }
+
+    .risk-badge.small {
+      font-size: 10px;
+      padding: 3px 8px;
+    }
+
+    .risk-badge.low { background: rgba(34, 197, 94, 0.15); color: #22C55E; }
+    .risk-badge.medium { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+    .risk-badge.high { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+
+    /* Slide Panel */
+    .slide-panel {
+      position: fixed;
+      top: 0; right: 0; bottom: 0; left: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: flex-end;
+      z-index: 1000;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .panel-content {
+      width: 400px;
+      background: #12161f;
+      border-left: 1px solid rgba(255, 255, 255, 0.08);
+      animation: slideIn 0.3s ease;
+      overflow-y: auto;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .panel-header h3 {
+      font-size: 18px;
+      margin: 0;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: #7d8590;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 8px;
+      transition: color 0.2s;
+    }
+
+    .close-btn:hover { color: #e6edf3; }
+
+    .panel-body { padding: 24px; }
+
+    .vendor-detail {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .detail-label { color: #7d8590; }
+
+    .subcontractors-section {
+      margin-top: 32px;
+    }
+
+    .subcontractors-section h4 {
+      font-size: 14px;
+      color: #7d8590;
+      margin: 0 0 16px 0;
+      font-weight: 500;
+    }
+
+    .no-subs {
+      color: #7d8590;
+      font-size: 13px;
+      padding: 24px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 8px;
+    }
+
+    .sub-chain {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .sub-item {
+      position: relative;
+      padding-left: 24px;
+    }
+
+    .chain-line {
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: rgba(0, 229, 255, 0.3);
+    }
+
+    .sub-item:last-child .chain-line {
+      height: 50%;
+    }
+
+    .sub-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sub-card.high-risk {
+      border-color: rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.03);
+    }
+
+    .sub-name { font-size: 14px; font-weight: 500; flex: 1; }
+
+    .sub-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      color: #7d8590;
+    }
+
+    /* ROI List */
+    .roi-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .roi-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .roi-item:hover {
+      border-color: rgba(0, 229, 255, 0.3);
+    }
+
+    .roi-item.danger {
+      border-color: rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.02);
+    }
+
+    .roi-item.expanded {
+      border-color: rgba(0, 229, 255, 0.5);
+    }
+
+    .roi-main {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 24px;
+    }
+
+    .roi-name {
+      font-size: 15px;
+      font-weight: 500;
+      min-width: 180px;
+    }
+
+    .roi-bar-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .roi-bar {
+      flex: 1;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .roi-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .roi-fill.high { background: linear-gradient(90deg, #22C55E, #10b981); }
+    .roi-fill.medium { background: linear-gradient(90deg, #f59e0b, #d97706); }
+    .roi-fill.low { background: linear-gradient(90deg, #ef4444, #dc2626); }
+
+    .roi-percent {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 600;
+      min-width: 50px;
+      text-align: right;
+    }
+
+    .roi-percent.high { color: #22C55E; }
+    .roi-percent.medium { color: #f59e0b; }
+    .roi-percent.low { color: #ef4444; }
+
+    .expand-icon {
+      color: #7d8590;
+      font-size: 12px;
+      transition: transform 0.2s;
+    }
+
+    .roi-gaps {
+      padding: 0 24px 24px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .gaps-header {
+      font-size: 13px;
+      color: #7d8590;
+      margin-bottom: 12px;
+    }
+
+    .gaps-list {
+      margin: 0;
+      padding-left: 20px;
+      color: #a0a0a0;
+      font-size: 14px;
+    }
+
+    .gaps-list li {
+      margin-bottom: 8px;
+    }
+
+    /* Incidents */
+    .no-incidents {
+      text-align: center;
+      padding: 80px 40px;
+      background: rgba(34, 197, 94, 0.03);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      border-radius: 16px;
+    }
+
+    .no-incidents-icon {
+      font-size: 48px;
+      color: #22C55E;
+      margin-bottom: 16px;
+    }
+
+    .no-incidents h3 {
+      font-size: 20px;
+      margin: 0 0 8px 0;
+      color: #22C55E;
+    }
+
+    .no-incidents p {
+      color: #7d8590;
+      margin: 0;
+    }
+
+    .incidents-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .incident-card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 24px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+    }
+
+    .incident-card.p1 {
+      border-color: rgba(239, 68, 68, 0.4);
+      background: rgba(239, 68, 68, 0.03);
+    }
+
+    .incident-card.p2 {
+      border-color: rgba(245, 158, 11, 0.3);
+      background: rgba(245, 158, 11, 0.02);
+    }
+
+    .incident-severity {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 6px;
+    }
+
+    .incident-card.p1 .incident-severity {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+    }
+
+    .incident-card.p2 .incident-severity {
+      background: rgba(245, 158, 11, 0.2);
+      color: #f59e0b;
+    }
+
+    .incident-info { flex: 1; }
+
+    .incident-title {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .incident-vendor {
+      font-size: 13px;
+      color: #7d8590;
+    }
+
+    .incident-time { text-align: right; }
+
+    .countdown {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .countdown.ok { color: #22C55E; }
+    .countdown.warning { color: #f59e0b; }
+    .countdown.urgent { color: #ef4444; }
+
+    .time-label {
+      font-size: 11px;
+      color: #7d8590;
+      margin-top: 4px;
+    }
+
+    .incidents-history {
+      margin-top: 40px;
+    }
+
+    .incidents-history h3 {
+      font-size: 16px;
+      font-weight: 500;
+      color: #7d8590;
+      margin: 0 0 16px 0;
+    }
+
+    .history-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .history-severity {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .history-severity.p1 { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+    .history-severity.p2 { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+    .history-severity.p3 { background: rgba(139, 148, 158, 0.15); color: #8b949e; }
+
+    .history-title {
+      flex: 1;
+      font-size: 14px;
+      color: #a0a0a0;
+    }
+
+    .history-time {
+      font-size: 13px;
+      color: #7d8590;
+    }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+      .summary-cards {
+        grid-template-columns: 1fr;
       }
-      .chain-viz { grid-column: 1 / 2; grid-row: 1 / 3; }
-      .ctpp-simulation { grid-column: 2 / 3; grid-row: 1 / 2; }
-      .incident-center { grid-column: 2 / 3; grid-row: 2 / 3; }
-      .roi-intel { grid-column: 1 / 2; grid-row: 3 / 4; }
-      .geo-risk { grid-column: 2 / 3; grid-row: 3 / 4; }
-      .resilience-content { grid-template-columns: repeat(3, 1fr); }
+
+      .summary-card {
+        padding: 24px;
+      }
     }
 
     @media (max-width: 768px) {
-      .main-grid {
-        grid-template-columns: 1fr;
-        padding: 12px;
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 16px 20px;
       }
-      .chain-viz, .ctpp-simulation, .incident-center, .roi-intel, .geo-risk {
-        grid-column: 1 / 2;
-        grid-row: auto;
+
+      .content {
+        padding: 24px 20px;
       }
-      .impact-metrics { grid-template-columns: repeat(2, 1fr); }
-      .resilience-content { grid-template-columns: repeat(2, 1fr); }
-      .header { flex-direction: column; gap: 12px; align-items: flex-start; }
-      .header-right { width: 100%; justify-content: space-between; }
+
+      .detail-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .table-header, .table-row {
+        grid-template-columns: 1fr 80px;
+      }
+
+      .col-country, .col-type {
+        display: none;
+      }
+
+      .panel-content {
+        width: 100%;
+      }
+
+      .roi-main {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .roi-bar-container {
+        width: 100%;
+      }
     }
   `]
 })
 export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
-  // Signals
+  // State
+  readonly currentView = signal<ViewType>('main');
+  readonly selectedVendor = signal<Vendor | null>(null);
+  readonly expandedCategory = signal<string | null>(null);
+
+  // Mock Data
   readonly vendors = signal<Vendor[]>([
-    { id: 'v1', name: 'AWS Europe (Frankfurt)', tier: 1, country: 'Saksamaa', countryCode: 'DE', riskScore: 23, isCTPP: true, status: 'operational', services: ['Cloud Hosting', 'S3 Storage', 'Lambda'], subcontractors: ['v5', 'v6'], lastAssessment: '2025-12-15', geopoliticalRisk: 'low', concentration: 34 },
-    { id: 'v2', name: 'Telia Eesti AS', tier: 1, country: 'Eesti', countryCode: 'EE', riskScore: 18, isCTPP: false, status: 'operational', services: ['Network', 'Data Center', 'DDoS Protection'], subcontractors: ['v7'], lastAssessment: '2025-11-28', geopoliticalRisk: 'low', concentration: 12 },
-    { id: 'v3', name: 'Microsoft Azure', tier: 1, country: 'Iirimaa', countryCode: 'IE', riskScore: 21, isCTPP: true, status: 'degraded', services: ['Azure AD', 'Key Vault', 'SQL'], subcontractors: ['v8', 'v9'], lastAssessment: '2025-12-01', geopoliticalRisk: 'low', concentration: 28 },
-    { id: 'v4', name: 'Veriff OÜ', tier: 1, country: 'Eesti', countryCode: 'EE', riskScore: 31, isCTPP: false, status: 'operational', services: ['KYC', 'Identity Verification'], subcontractors: ['v10'], lastAssessment: '2025-10-20', geopoliticalRisk: 'low', concentration: 8 },
-    { id: 'v5', name: 'Equinix Frankfurt', tier: 2, country: 'Saksamaa', countryCode: 'DE', riskScore: 15, isCTPP: false, status: 'operational', services: ['Colocation'], subcontractors: [], lastAssessment: '2025-09-15', geopoliticalRisk: 'low', concentration: 5 },
-    { id: 'v6', name: 'GlobalSign NV', tier: 2, country: 'Belgia', countryCode: 'BE', riskScore: 22, isCTPP: false, status: 'operational', services: ['SSL/TLS Certificates'], subcontractors: ['v11'], lastAssessment: '2025-08-30', geopoliticalRisk: 'low', concentration: 3 },
-    { id: 'v7', name: 'Netnod AB', tier: 2, country: 'Rootsi', countryCode: 'SE', riskScore: 12, isCTPP: false, status: 'operational', services: ['DNS', 'IX Peering'], subcontractors: [], lastAssessment: '2025-11-10', geopoliticalRisk: 'low', concentration: 2 },
-    { id: 'v8', name: 'CloudFlare Inc', tier: 2, country: 'USA', countryCode: 'US', riskScore: 28, isCTPP: false, status: 'operational', services: ['CDN', 'WAF'], subcontractors: ['v12'], lastAssessment: '2025-10-05', geopoliticalRisk: 'medium', concentration: 15 },
-    { id: 'v9', name: 'Splunk Inc', tier: 2, country: 'USA', countryCode: 'US', riskScore: 25, isCTPP: false, status: 'operational', services: ['SIEM', 'Log Analytics'], subcontractors: [], lastAssessment: '2025-09-22', geopoliticalRisk: 'medium', concentration: 4 },
-    { id: 'v10', name: 'Onfido Ltd', tier: 2, country: 'UK', countryCode: 'GB', riskScore: 35, isCTPP: false, status: 'operational', services: ['Document Verification'], subcontractors: ['v13'], lastAssessment: '2025-07-18', geopoliticalRisk: 'medium', concentration: 2 },
-    { id: 'v11', name: 'DigiCert Inc', tier: 3, country: 'USA', countryCode: 'US', riskScore: 19, isCTPP: false, status: 'operational', services: ['Root CA'], subcontractors: [], lastAssessment: '2025-06-30', geopoliticalRisk: 'medium', concentration: 1 },
-    { id: 'v12', name: 'Zayo Group', tier: 3, country: 'USA', countryCode: 'US', riskScore: 24, isCTPP: false, status: 'operational', services: ['Fiber Backbone'], subcontractors: ['v14'], lastAssessment: '2025-05-15', geopoliticalRisk: 'medium', concentration: 1 },
-    { id: 'v13', name: 'Jumio Corp', tier: 3, country: 'USA', countryCode: 'US', riskScore: 42, isCTPP: false, status: 'critical', services: ['AI/ML Processing'], subcontractors: [], lastAssessment: '2025-04-20', geopoliticalRisk: 'high', concentration: 1 },
-    { id: 'v14', name: 'China Telecom', tier: 4, country: 'Hiina', countryCode: 'CN', riskScore: 78, isCTPP: false, status: 'operational', services: ['Transit'], subcontractors: [], lastAssessment: '2025-03-10', geopoliticalRisk: 'critical', concentration: 0.5 },
+    {
+      id: 'v1', name: 'AWS Europe (Frankfurt)', country: 'Saksamaa', countryCode: 'DE',
+      type: 'Cloud Hosting', riskScore: 23,
+      subcontractors: [
+        { name: 'Equinix Frankfurt', country: 'Saksamaa', type: 'Colocation', riskScore: 15 },
+        { name: 'Level 3 Communications', country: 'USA', type: 'Network', riskScore: 28 }
+      ]
+    },
+    {
+      id: 'v2', name: 'Microsoft Azure', country: 'Iirimaa', countryCode: 'IE',
+      type: 'Identity & Auth', riskScore: 21,
+      subcontractors: [
+        { name: 'Akamai Technologies', country: 'USA', type: 'CDN', riskScore: 19 }
+      ]
+    },
+    {
+      id: 'v3', name: 'Telia Eesti AS', country: 'Eesti', countryCode: 'EE',
+      type: 'Network', riskScore: 18,
+      subcontractors: []
+    },
+    {
+      id: 'v4', name: 'Veriff OÜ', country: 'Eesti', countryCode: 'EE',
+      type: 'KYC', riskScore: 31,
+      subcontractors: [
+        { name: 'Jumio Corp', country: 'USA', type: 'AI/ML', riskScore: 42 }
+      ]
+    },
+    {
+      id: 'v5', name: 'CloudFlare Inc', country: 'USA', countryCode: 'US',
+      type: 'CDN / WAF', riskScore: 28,
+      subcontractors: [
+        { name: 'Zayo Group', country: 'USA', type: 'Fiber', riskScore: 24 },
+        { name: 'China Telecom', country: 'Hiina', type: 'Transit', riskScore: 78 }
+      ]
+    },
+    {
+      id: 'v6', name: 'GlobalSign NV', country: 'Belgia', countryCode: 'BE',
+      type: 'SSL Certificates', riskScore: 22,
+      subcontractors: [
+        { name: 'DigiCert Inc', country: 'USA', type: 'Root CA', riskScore: 19 }
+      ]
+    },
+    {
+      id: 'v7', name: 'Splunk Inc', country: 'USA', countryCode: 'US',
+      type: 'SIEM', riskScore: 25,
+      subcontractors: []
+    },
+    {
+      id: 'v8', name: 'China Telecom Europe', country: 'Hiina', countryCode: 'CN',
+      type: 'Transit', riskScore: 78,
+      subcontractors: [
+        { name: 'Huawei Marine', country: 'Hiina', type: 'Subsea Cable', riskScore: 82 }
+      ]
+    },
+  ]);
+
+  readonly roiCategories = signal<ROICategory[]>([
+    { name: 'Exit strateegiad', completeness: 45, gaps: ['AWS exit plaan puudub', 'Azure alternatiivid määratlemata', 'Andmete migreerimise protseduur puudub'] },
+    { name: 'Subkontraktorid', completeness: 67, gaps: ['Tier 3+ vendorid kaardistamata', '4 vendori allhankijad teadmata'] },
+    { name: 'Riskihinnangud', completeness: 78, gaps: ['3 vendori risk assessment aegunud', 'Geopoliitiline risk hindamata'] },
+    { name: 'Lepingud', completeness: 89, gaps: ['2 lepingut audit clause puudub'] },
+    { name: 'ICT teenusepakkujad', completeness: 94, gaps: ['1 vendor andmed puudulikud'] },
+    { name: 'Intsidendid', completeness: 96, gaps: ['Automaatne klassifitseerimine seadistamata'] },
   ]);
 
   readonly incidents = signal<Incident[]>([
-    { id: 'INC-2026-0215-001', severity: 'P2', title: 'Azure AD latentsus tõus', vendor: 'Microsoft Azure', detectedAt: new Date(Date.now() - 45 * 60000), classifiedAt: null, reportedAt: null, status: 'classifying', aiConfidence: 87, timeRemaining: 195 },
-    { id: 'INC-2026-0215-002', severity: 'P3', title: 'Veriff API timeout', vendor: 'Veriff OÜ', detectedAt: new Date(Date.now() - 120 * 60000), classifiedAt: new Date(Date.now() - 90 * 60000), reportedAt: null, status: 'classified', aiConfidence: 94, timeRemaining: 1350 },
-    { id: 'INC-2026-0214-003', severity: 'P1', title: 'Jumio ML mudeli drift', vendor: 'Jumio Corp', detectedAt: new Date(Date.now() - 180 * 60000), classifiedAt: new Date(Date.now() - 150 * 60000), reportedAt: new Date(Date.now() - 140 * 60000), status: 'reported', aiConfidence: 92, timeRemaining: 0 },
+    { id: 'INC-001', severity: 'P1', title: 'Azure AD latentsus tõus', vendor: 'Microsoft Azure', timeAgo: '', timeRemaining: 47, status: 'active' },
+    { id: 'INC-002', severity: 'P2', title: 'CloudFlare WAF reeglite konflikt', vendor: 'CloudFlare Inc', timeAgo: '', timeRemaining: 156, status: 'active' },
+    { id: 'INC-003', severity: 'P2', title: 'SSL sertifikaat aegumas', vendor: 'GlobalSign NV', timeAgo: '12h tagasi', timeRemaining: 0, status: 'resolved' },
+    { id: 'INC-004', severity: 'P3', title: 'API rate limit ületatud', vendor: 'Veriff OÜ', timeAgo: '2p tagasi', timeRemaining: 0, status: 'resolved' },
   ]);
-
-  readonly roiMetrics = signal<ROIMetric[]>([
-    { category: 'ICT teenusepakkujad', completeness: 94, gaps: 3, trend: 'up' },
-    { category: 'Subkontraktorid', completeness: 67, gaps: 12, trend: 'down' },
-    { category: 'Lepingud', completeness: 89, gaps: 5, trend: 'stable' },
-    { category: 'Riskihinnangud', completeness: 78, gaps: 8, trend: 'up' },
-    { category: 'Intsidendid', completeness: 96, gaps: 1, trend: 'up' },
-    { category: 'Exit strateegiad', completeness: 45, gaps: 18, trend: 'down' },
-  ]);
-
-  readonly selectedVendor = signal<string | null>(null);
-  readonly simulatingCTPP = signal<string | null>(null);
-  readonly currentTime = signal(new Date());
-  readonly resilienceExpanded = signal(false);
 
   // Computed
-  readonly ctpps = computed(() => this.vendors().filter(v => v.isCTPP));
-  readonly activeIncidents = computed(() => this.incidents().filter(i => i.status !== 'reported').length);
+  readonly highRiskCount = computed(() =>
+    this.vendors().filter(v => v.riskScore >= 60).length
+  );
+
   readonly overallROI = computed(() => {
-    const metrics = this.roiMetrics();
-    const total = metrics.reduce((acc, m) => acc + m.completeness, 0);
-    return Math.round(total / metrics.length);
+    const cats = this.roiCategories();
+    return Math.round(cats.reduce((acc, c) => acc + c.completeness, 0) / cats.length);
   });
 
-  readonly formattedTime = computed(() => {
-    return this.currentTime().toLocaleTimeString('et-EE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  readonly roiDashArray = computed(() => {
+    const pct = this.overallROI();
+    const circumference = 2 * Math.PI * 15.9;
+    return `${(pct / 100) * circumference} ${circumference}`;
   });
 
-  readonly impactMetrics = computed<ImpactMetrics>(() => {
-    const ctpp = this.simulatingCTPP();
-    if (!ctpp) {
-      return { affectedServices: 0, downstreamVendors: 0, financialImpact: '0', rto: '0h' };
-    }
-    const impacts: Record<string, ImpactMetrics> = {
-      'v1': { affectedServices: 12, downstreamVendors: 4, financialImpact: '2.4M', rto: '4h' },
-      'v3': { affectedServices: 8, downstreamVendors: 3, financialImpact: '1.8M', rto: '6h' }
-    };
-    return impacts[ctpp] || { affectedServices: 0, downstreamVendors: 0, financialImpact: '0', rto: '0h' };
+  readonly worstCategory = computed(() => {
+    const sorted = [...this.roiCategories()].sort((a, b) => a.completeness - b.completeness);
+    return sorted[0];
   });
 
-  readonly geoRiskData = computed<GeoRiskData[]>(() => {
-    const countries: Record<string, { vendors: number; risk: string }> = {};
-    const flagMap: Record<string, string> = {
-      'DE': '🇩🇪', 'EE': '🇪🇪', 'IE': '🇮🇪', 'BE': '🇧🇪', 'SE': '🇸🇪',
-      'US': '🇺🇸', 'GB': '🇬🇧', 'CN': '🇨🇳', 'LV': '🇱🇻', 'LT': '🇱🇹'
-    };
+  readonly activeIncidentCount = computed(() =>
+    this.incidents().filter(i => i.status === 'active').length
+  );
 
-    this.vendors().forEach(v => {
-      if (!countries[v.country]) {
-        countries[v.country] = { vendors: 0, risk: v.geopoliticalRisk };
-      }
-      countries[v.country].vendors++;
-      if (v.geopoliticalRisk === 'critical' ||
-          (v.geopoliticalRisk === 'high' && countries[v.country].risk !== 'critical')) {
-        countries[v.country].risk = v.geopoliticalRisk;
-      }
-    });
+  readonly activeIncidents = computed(() =>
+    this.incidents().filter(i => i.status === 'active')
+  );
 
-    return Object.entries(countries).map(([country, data]) => ({
-      country,
-      ...data,
-      flag: flagMap[this.vendors().find(v => v.country === country)?.countryCode || ''] || '🏳️'
-    })).sort((a, b) => {
-      const riskOrder: Record<string, number> = { critical: 0, high: 1, medium: 2, low: 3 };
-      return (riskOrder[a.risk] || 3) - (riskOrder[b.risk] || 3);
-    });
+  readonly resolvedIncidents = computed(() =>
+    this.incidents().filter(i => i.status === 'resolved')
+  );
+
+  readonly lastIncidentTime = computed(() => {
+    const resolved = this.resolvedIncidents();
+    return resolved.length > 0 ? resolved[0].timeAgo : 'puudub';
   });
+
+  readonly sortedVendors = computed(() =>
+    [...this.vendors()].sort((a, b) => b.riskScore - a.riskScore)
+  );
+
+  readonly sortedROICategories = computed(() =>
+    [...this.roiCategories()].sort((a, b) => a.completeness - b.completeness)
+  );
 
   private timeInterval: ReturnType<typeof setInterval> | null = null;
-  private incidentInterval: ReturnType<typeof setInterval> | null = null;
 
   ngOnInit(): void {
     this.timeInterval = setInterval(() => {
-      this.currentTime.set(new Date());
-    }, 1000);
-
-    this.incidentInterval = setInterval(() => {
       this.incidents.update(incidents =>
-        incidents.map(inc => ({
-          ...inc,
-          timeRemaining: Math.max(0, inc.timeRemaining - 1)
-        }))
+        incidents.map(inc =>
+          inc.status === 'active'
+            ? { ...inc, timeRemaining: Math.max(0, inc.timeRemaining - 1) }
+            : inc
+        )
       );
     }, 60000);
   }
 
   ngOnDestroy(): void {
     if (this.timeInterval) clearInterval(this.timeInterval);
-    if (this.incidentInterval) clearInterval(this.incidentInterval);
   }
 
-  getVendorsByTier(tier: number): Vendor[] {
-    return this.vendors().filter(v => v.tier === tier);
+  openView(view: ViewType): void {
+    this.currentView.set(view);
+    this.selectedVendor.set(null);
+    this.expandedCategory.set(null);
+  }
+
+  selectVendor(vendor: Vendor): void {
+    this.selectedVendor.set(vendor);
+  }
+
+  closeVendorPanel(event: MouseEvent): void {
+    this.selectedVendor.set(null);
+  }
+
+  toggleCategory(name: string): void {
+    this.expandedCategory.update(current =>
+      current === name ? null : name
+    );
   }
 
   getFlag(countryCode: string): string {
     const flags: Record<string, string> = {
       'DE': '🇩🇪', 'EE': '🇪🇪', 'IE': '🇮🇪', 'BE': '🇧🇪', 'SE': '🇸🇪',
-      'US': '🇺🇸', 'GB': '🇬🇧', 'CN': '🇨🇳', 'LV': '🇱🇻', 'LT': '🇱🇹'
+      'US': '🇺🇸', 'GB': '🇬🇧', 'CN': '🇨🇳'
     };
     return flags[countryCode] || '🏳️';
   }
 
   getRiskClass(score: number): string {
-    if (score < 25) return 'low';
-    if (score < 50) return 'medium';
+    if (score < 30) return 'low';
+    if (score < 60) return 'medium';
     return 'high';
   }
 
-  getROIFillClass(completeness: number): string {
+  getROIClass(completeness: number): string {
     if (completeness >= 80) return 'high';
     if (completeness >= 60) return 'medium';
     return 'low';
@@ -949,17 +1324,5 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
     return `${hours}h ${mins}m`;
-  }
-
-  selectVendor(id: string): void {
-    this.selectedVendor.update(current => current === id ? null : id);
-  }
-
-  handleSimulation(ctppId: string): void {
-    this.simulatingCTPP.update(current => current === ctppId ? null : ctppId);
-  }
-
-  toggleResilience(): void {
-    this.resilienceExpanded.update(expanded => !expanded);
   }
 }
