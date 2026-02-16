@@ -2543,7 +2543,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   private readonly vendorFilterSubject = new Subject<string>();
 
   // State
-  readonly currentView = signal<ViewType>('main');
+  readonly currentView = signal<ViewType>('vendors');
   readonly selectedVendor = signal<Vendor | null>(null);
   readonly expandedCategory = signal<string | null>(null);
   readonly showAddVendorPanel = signal(false);
