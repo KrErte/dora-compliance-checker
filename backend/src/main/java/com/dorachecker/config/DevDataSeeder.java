@@ -50,6 +50,7 @@ public class DevDataSeeder implements CommandLineRunner {
 
         seedUser("Test Admin", "admin@test.local", "Admin123!", Role.ADMIN);
         seedUser("Test User", "user@test.local", "User123!", Role.USER);
+        seedUser("Bondora Demo", "demo@bondora.com", "Demo123!", Role.USER);
 
         log.info("DevDataSeeder: Seeding complete");
     }

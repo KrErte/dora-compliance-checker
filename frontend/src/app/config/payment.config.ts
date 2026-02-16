@@ -1,6 +1,7 @@
 export const PAYMENT_CONFIG = {
   lemonsqueezy: {
     products: {
+      // Legacy one-time products (kept for reference)
       doraAssessment: {
         checkoutUrl: 'https://compliancehub.lemonsqueezy.com/checkout/buy/2945d26f-0614-4d67-ab4f-b762870a32f4',
         price: 49,
@@ -30,23 +31,49 @@ export const PAYMENT_CONFIG = {
         checkoutUrl: 'https://compliancehub.lemonsqueezy.com/checkout/buy/287600f5-680e-45f7-949b-47124b1cf026',
         price: 29,
         name: 'DORA Lepingu Template'
+      },
+      // New subscription products
+      professional: {
+        checkoutUrl: '#', // TODO: Create in LemonSqueezy
+        price: 149,
+        priceMonthly: '€149/kuu',
+        name: 'Professional'
+      },
+      business: {
+        checkoutUrl: '#', // TODO: Create in LemonSqueezy
+        price: 299,
+        priceMonthly: '€299/kuu',
+        name: 'Business'
+      },
+      enterprise: {
+        checkoutUrl: '#', // TODO: Create in LemonSqueezy
+        price: 499,
+        priceMonthly: '€499/kuu',
+        name: 'Enterprise'
       }
     },
     // Subscription plans for freemium model
     subscriptions: {
-      standard: {
-        checkoutUrl: 'https://compliancehub.lemonsqueezy.com/checkout/buy/2945d26f-0614-4d67-ab4f-b762870a32f4',
-        price: 29,
-        priceMonthly: '€29/kuu',
-        name: 'Standard',
-        features: ['PDF raportid', 'Excel eksport', 'Vastavustunnistus', 'Lepingute teavitused']
+      professional: {
+        checkoutUrl: '#', // TODO: Create in LemonSqueezy
+        price: 149,
+        priceMonthly: '€149/kuu',
+        name: 'Professional',
+        features: ['DORA või NIS2 täishindamine', 'Detailne tegevuskava', 'PDF raport juhatusele', 'Eesti-spetsiifiline (E-ITS, CERT-EE)']
+      },
+      business: {
+        checkoutUrl: '#', // TODO: Create in LemonSqueezy
+        price: 299,
+        priceMonthly: '€299/kuu',
+        name: 'Business',
+        features: ['Kõik Professional features', 'DORA + NIS2 hindamine', 'Supply Chain Nerve Center', 'ICT pakkujate register (kuni 20)', 'Cross-compliance kaart']
       },
       enterprise: {
-        checkoutUrl: 'https://compliancehub.lemonsqueezy.com/checkout/buy/e8674874-f4bc-43cd-bb36-3f48591c8358',
-        price: 79,
-        priceMonthly: '€79/kuu',
+        checkoutUrl: '#', // TODO: Create in LemonSqueezy
+        price: 499,
+        priceMonthly: '€499/kuu',
         name: 'Enterprise',
-        features: ['xBRL-CSV regulaatorile', 'API ligipääs', 'Mitme ettevõtte tugi', 'Audit log', 'AI klauslite ümbersõnastaja']
+        features: ['Kõik Business features', 'Piiramatult ICT pakkujaid', 'Allhankijate ahela kaardistamine', 'Real-time monitoring', 'RoI generator', 'Ettevõtte brändinguga raportid']
       }
     }
   },

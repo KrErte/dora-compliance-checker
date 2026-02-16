@@ -71,331 +71,325 @@ import { SubscriptionService } from '../services/subscription.service';
       </div>
 
       <!-- Pricing Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 relative z-10">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-12 relative z-10">
 
         <!-- Card 1: Free -->
-        <div class="group glass-card p-6 rounded-2xl border border-slate-700/50 flex flex-col feature-card hover:border-slate-600/70 transition-all duration-300">
-          <div class="mb-6">
-            <div class="w-12 h-12 rounded-xl bg-slate-700/50 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-              <span class="text-2xl">🆓</span>
+        <div class="group glass-card p-5 rounded-2xl border border-slate-700/50 flex flex-col feature-card hover:border-slate-600/70 transition-all duration-300">
+          <div class="mb-5">
+            <div class="w-10 h-10 rounded-xl bg-slate-700/50 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
             </div>
-            <h3 class="text-xl font-bold text-slate-200 mb-2">{{ lang.t('pricing.free_title') }}</h3>
+            <h3 class="text-lg font-bold text-slate-200 mb-1">{{ lang.t('pricing.free_title') }}</h3>
             <div class="flex items-baseline gap-1">
-              <span class="text-4xl font-extrabold text-slate-300">{{ lang.t('pricing.free_price') }}</span>
+              <span class="text-3xl font-extrabold text-slate-300">{{ lang.t('pricing.free_price') }}</span>
             </div>
           </div>
 
-          <ul class="space-y-3 mb-8 flex-1">
-            <li class="flex items-start gap-3">
-              <div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
-                </svg>
-              </div>
-              <span class="text-slate-300 text-sm">{{ lang.t('pricing.free_f1') }}</span>
+          <ul class="space-y-2.5 mb-6 flex-1 text-sm">
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.free_f1') }}</span>
             </li>
-            <li class="flex items-start gap-3">
-              <div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
-                </svg>
-              </div>
-              <span class="text-slate-300 text-sm">{{ lang.t('pricing.free_f2') }}</span>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.free_f2') }}</span>
             </li>
-            <li class="flex items-start gap-3">
-              <div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
-                </svg>
-              </div>
-              <span class="text-slate-300 text-sm">{{ lang.t('pricing.free_f3') }}</span>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.free_f3') }}</span>
             </li>
           </ul>
 
           <a routerLink="/nis2/scope-check"
-             class="w-full py-3.5 px-4 rounded-xl text-center font-semibold text-sm
+             class="w-full py-3 px-4 rounded-xl text-center font-semibold text-sm
                     bg-slate-700/50 text-slate-200 border border-slate-600/50
                     hover:bg-slate-600/50 hover:border-emerald-500/30 hover:text-emerald-400
-                    transition-all duration-300 group-hover:-translate-y-0.5">
+                    transition-all duration-300">
             {{ lang.t('pricing.free_cta') }}
-            <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-            </svg>
+          </a>
+        </div>
+
+        <!-- Card 2: Professional -->
+        <div class="group glass-card p-5 rounded-2xl border border-slate-700/50 flex flex-col feature-card hover:border-cyan-500/50 transition-all duration-300">
+          <div class="mb-5">
+            <div class="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+              <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-200 mb-1">Professional</h3>
+            <div class="flex items-baseline gap-1">
+              <span class="text-3xl font-extrabold text-cyan-400">€149</span>
+              <span class="text-slate-500 text-sm">/ {{ lang.t('pricing.month') }}</span>
+            </div>
+          </div>
+
+          <ul class="space-y-2.5 mb-6 flex-1 text-sm">
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.pro_f1') }}</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.pro_f2') }}</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.pro_f3') }}</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.pro_f4') }}</span>
+            </li>
+          </ul>
+
+          <a [href]="paymentConfig.lemonsqueezy.products.professional?.checkoutUrl || '#'"
+             target="_blank"
+             class="w-full py-3 px-4 rounded-xl text-center font-semibold text-sm
+                    bg-cyan-500/20 text-cyan-400 border border-cyan-500/30
+                    hover:bg-cyan-500/30 hover:border-cyan-500/50
+                    transition-all duration-300">
+            {{ lang.t('pricing.pro_cta') }}
           </a>
 
-          <div class="mt-4 pt-4 border-t border-slate-700/50 text-center">
-            <p class="text-xs text-slate-500 line-through">{{ lang.t('pricing.lawyer_free') }}</p>
+          <div class="mt-3 pt-3 border-t border-slate-700/50 text-center">
+            <p class="text-xs text-slate-500">{{ lang.t('pricing.lawyer_pro') }}</p>
           </div>
         </div>
 
-        <!-- Card 2: Single Assessment - POPULAR -->
-        <div class="group glass-card p-6 rounded-2xl border-2 border-emerald-500/50 flex flex-col relative
+        <!-- Card 3: Business - POPULAR -->
+        <div class="group glass-card p-5 rounded-2xl border-2 border-emerald-500/50 flex flex-col relative
                     shadow-xl shadow-emerald-500/10 hover:shadow-emerald-500/20 transition-all duration-300 hover:-translate-y-1 feature-card">
-          <!-- Animated border glow -->
           <div class="absolute inset-0 rounded-2xl animate-border-glow pointer-events-none"></div>
 
-          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full text-xs font-bold
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold
                       bg-gradient-to-r from-emerald-500 to-cyan-500 text-white uppercase tracking-wider shadow-lg shadow-emerald-500/30 badge-shine">
             {{ lang.t('pricing.popular') }}
           </div>
 
-          <div class="mb-6 mt-3">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-              <span class="text-2xl">⭐</span>
+          <div class="mb-5 mt-2">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+              </svg>
             </div>
-            <h3 class="text-xl font-bold text-slate-200 mb-2">{{ lang.t('pricing.single_title') }}</h3>
+            <h3 class="text-lg font-bold text-slate-200 mb-1">Business</h3>
             <div class="flex items-baseline gap-1">
-              <span class="text-4xl font-extrabold score-counter">€49</span>
-              <span class="text-slate-500 text-sm">/ {{ lang.t('pricing.one_time') }}</span>
+              <span class="text-3xl font-extrabold score-counter">€299</span>
+              <span class="text-slate-500 text-sm">/ {{ lang.t('pricing.month') }}</span>
             </div>
           </div>
 
-          <ul class="space-y-3 mb-8 flex-1">
-            <li class="flex items-start gap-3">
-              <div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
-                </svg>
-              </div>
-              <span class="text-slate-300 text-sm">{{ lang.t('pricing.single_f1') }}</span>
+          <ul class="space-y-2.5 mb-6 flex-1 text-sm">
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.biz_f1') }}</span>
             </li>
-            <li class="flex items-start gap-3">
-              <div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
-                </svg>
-              </div>
-              <span class="text-slate-300 text-sm">{{ lang.t('pricing.single_f2') }}</span>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.biz_f2') }}</span>
             </li>
-            <li class="flex items-start gap-3">
-              <div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
-                </svg>
-              </div>
-              <span class="text-slate-300 text-sm">{{ lang.t('pricing.single_f3') }}</span>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.biz_f3') }}</span>
             </li>
-            <li class="flex items-start gap-3">
-              <div class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
-                </svg>
-              </div>
-              <span class="text-slate-300 text-sm">{{ lang.t('pricing.single_f4') }}</span>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.biz_f4') }}</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.biz_f5') }}</span>
             </li>
           </ul>
 
-          <a [href]="paymentConfig.lemonsqueezy.products.doraAssessment.checkoutUrl"
+          <a [href]="paymentConfig.lemonsqueezy.products.business?.checkoutUrl || '#'"
              target="_blank"
-             class="magnetic-btn w-full py-3.5 px-4 rounded-xl text-center font-bold text-sm
+             class="magnetic-btn w-full py-3 px-4 rounded-xl text-center font-bold text-sm
                     bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
                     hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/30
                     transition-all duration-300">
-            {{ lang.t('pricing.single_cta') }}
-            <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-            </svg>
+            {{ lang.t('pricing.biz_cta') }}
           </a>
 
-          <div class="mt-4 pt-4 border-t border-slate-700/50 text-center">
-            <p class="text-xs text-slate-500 line-through">{{ lang.t('pricing.lawyer_single') }}</p>
+          <div class="mt-3 pt-3 border-t border-slate-700/50 text-center">
+            <p class="text-xs text-slate-500">{{ lang.t('pricing.lawyer_biz') }}</p>
           </div>
         </div>
 
-        <!-- Card 3: Compliance Package -->
-        <div class="group glass-card p-6 rounded-2xl border border-amber-500/30 flex flex-col relative hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-1 feature-card">
-          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full text-xs font-bold
-                      bg-gradient-to-r from-amber-500 to-orange-500 text-white uppercase tracking-wider shadow-lg shadow-amber-500/30 badge-shine">
-            {{ lang.t('pricing.save_20') }}
+        <!-- Card 4: Enterprise - BEST VALUE -->
+        <div class="group glass-card p-5 rounded-2xl border border-purple-500/30 flex flex-col relative hover:border-purple-500/50 transition-all duration-300 hover:-translate-y-1 feature-card">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold
+                      bg-gradient-to-r from-purple-500 to-pink-500 text-white uppercase tracking-wider shadow-lg shadow-purple-500/30 badge-shine">
+            {{ lang.t('pricing.best_value') }}
           </div>
 
-          <div class="mb-6 mt-3">
-            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-              <span class="text-2xl">🎯</span>
+          <div class="mb-5 mt-2">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+              <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
             </div>
-            <h3 class="text-xl font-bold text-slate-200 mb-2">{{ lang.t('pricing.package_title') }}</h3>
-            <div class="flex items-baseline gap-2">
-              <span class="text-4xl font-extrabold gradient-text-warm">€79</span>
-              <span class="text-slate-500 text-sm line-through">€98</span>
+            <h3 class="text-lg font-bold text-slate-200 mb-1">Enterprise</h3>
+            <div class="flex items-baseline gap-1">
+              <span class="text-3xl font-extrabold text-purple-400">€499</span>
+              <span class="text-slate-500 text-sm">/ {{ lang.t('pricing.month') }}</span>
             </div>
           </div>
 
-          <ul class="space-y-3 mb-8 flex-1">
-            <li class="flex items-start gap-3">
-              <div class="w-5 h-5 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                <svg class="w-3 h-3 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
-                </svg>
-              </div>
-              <span class="text-slate-300 text-sm">{{ lang.t('pricing.package_f1') }}</span>
+          <ul class="space-y-2.5 mb-6 flex-1 text-sm">
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.ent_f1') }}</span>
             </li>
-            <li class="flex items-start gap-3">
-              <div class="w-5 h-5 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                <svg class="w-3 h-3 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
-                </svg>
-              </div>
-              <span class="text-slate-300 text-sm">{{ lang.t('pricing.package_f2') }}</span>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.ent_f2') }}</span>
             </li>
-            <li class="flex items-start gap-3">
-              <div class="w-5 h-5 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                <svg class="w-3 h-3 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
-                </svg>
-              </div>
-              <span class="text-slate-300 text-sm">{{ lang.t('pricing.package_f3') }}</span>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.ent_f3') }}</span>
             </li>
-            <li class="flex items-start gap-3">
-              <div class="w-5 h-5 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                <svg class="w-3 h-3 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
-                </svg>
-              </div>
-              <span class="text-slate-300 text-sm">{{ lang.t('pricing.package_f4') }}</span>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.ent_f4') }}</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.ent_f5') }}</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.ent_f6') }}</span>
             </li>
           </ul>
 
-          <a [href]="paymentConfig.lemonsqueezy.products.comboPackage.checkoutUrl"
+          <a [href]="paymentConfig.lemonsqueezy.products.enterprise?.checkoutUrl || '#'"
              target="_blank"
-             class="magnetic-btn w-full py-3.5 px-4 rounded-xl text-center font-bold text-sm
-                    bg-gradient-to-r from-amber-500 to-orange-500 text-white
-                    hover:from-amber-400 hover:to-orange-400 hover:shadow-lg hover:shadow-amber-500/30
+             class="magnetic-btn w-full py-3 px-4 rounded-xl text-center font-bold text-sm
+                    bg-gradient-to-r from-purple-500 to-pink-500 text-white
+                    hover:from-purple-400 hover:to-pink-400 hover:shadow-lg hover:shadow-purple-500/30
                     transition-all duration-300">
-            {{ lang.t('pricing.package_cta') }}
-            <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-            </svg>
+            {{ lang.t('pricing.ent_cta') }}
           </a>
 
-          <div class="mt-4 pt-4 border-t border-slate-700/50 text-center">
-            <p class="text-xs text-slate-500 line-through">{{ lang.t('pricing.lawyer_package') }}</p>
+          <div class="mt-3 pt-3 border-t border-slate-700/50 text-center">
+            <p class="text-xs text-slate-500">{{ lang.t('pricing.lawyer_ent') }}</p>
           </div>
         </div>
       </div>
 
-      <!-- What's included section -->
-      <div class="mt-12 mb-12">
-        <h2 class="text-xl font-bold text-center text-slate-200 mb-6">{{ lang.t('pricing.whats_included') }}</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <!-- Free tier details -->
-          <div class="glass-card p-5 rounded-xl border border-slate-700/50">
-            <h4 class="text-sm font-semibold text-emerald-400 mb-3">{{ lang.t('pricing.free_title') }}</h4>
-            <ul class="space-y-2 text-xs">
-              <li class="flex items-start gap-2 text-slate-300">
-                <span class="text-emerald-400">✓</span> {{ lang.t('pricing.inc_scope') }}
-              </li>
-              <li class="flex items-start gap-2 text-slate-300">
-                <span class="text-emerald-400">✓</span> {{ lang.t('pricing.inc_5q') }}
-              </li>
-              <li class="flex items-start gap-2 text-slate-500">
-                <span class="text-slate-600">✗</span> {{ lang.t('pricing.exc_full') }}
-              </li>
-              <li class="flex items-start gap-2 text-slate-500">
-                <span class="text-slate-600">✗</span> {{ lang.t('pricing.exc_pdf') }}
-              </li>
-              <li class="flex items-start gap-2 text-slate-500">
-                <span class="text-slate-600">✗</span> {{ lang.t('pricing.exc_contract') }}
-              </li>
-            </ul>
-          </div>
-          <!-- Single tier details -->
-          <div class="glass-card p-5 rounded-xl border border-emerald-500/30">
-            <h4 class="text-sm font-semibold text-emerald-400 mb-3">{{ lang.t('pricing.single_title') }} — €49</h4>
-            <ul class="space-y-2 text-xs">
-              <li class="flex items-start gap-2 text-slate-300">
-                <span class="text-emerald-400">✓</span> {{ lang.t('pricing.inc_37q') }}
-              </li>
-              <li class="flex items-start gap-2 text-slate-300">
-                <span class="text-emerald-400">✓</span> {{ lang.t('pricing.inc_action') }}
-              </li>
-              <li class="flex items-start gap-2 text-slate-300">
-                <span class="text-emerald-400">✓</span> {{ lang.t('pricing.inc_pdf') }}
-              </li>
-              <li class="flex items-start gap-2 text-slate-500">
-                <span class="text-slate-600">✗</span> {{ lang.t('pricing.exc_contract_sep') }}
-              </li>
-              <li class="flex items-start gap-2 text-slate-500">
-                <span class="text-slate-600">✗</span> {{ lang.t('pricing.exc_nis2') }}
-              </li>
-            </ul>
-          </div>
-          <!-- Package tier details -->
-          <div class="glass-card p-5 rounded-xl border border-amber-500/30">
-            <h4 class="text-sm font-semibold text-amber-400 mb-3">{{ lang.t('pricing.package_title') }} — €79</h4>
-            <ul class="space-y-2 text-xs">
-              <li class="flex items-start gap-2 text-slate-300">
-                <span class="text-emerald-400">✓</span> {{ lang.t('pricing.inc_dora_full') }}
-              </li>
-              <li class="flex items-start gap-2 text-slate-300">
-                <span class="text-emerald-400">✓</span> {{ lang.t('pricing.inc_nis2_full') }}
-              </li>
-              <li class="flex items-start gap-2 text-slate-300">
-                <span class="text-emerald-400">✓</span> {{ lang.t('pricing.inc_both_pdf') }}
-              </li>
-              <li class="flex items-start gap-2 text-slate-300">
-                <span class="text-emerald-400">✓</span> {{ lang.t('pricing.inc_save') }}
-              </li>
-              <li class="flex items-start gap-2 text-slate-500">
-                <span class="text-slate-600">✗</span> {{ lang.t('pricing.exc_contract_sep') }}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Add-ons section -->
+      <!-- Feature comparison table -->
       <div class="mb-12">
-        <h2 class="text-xl font-bold text-center text-slate-200 mb-2">{{ lang.t('pricing.addons_title') }}</h2>
-        <p class="text-center text-slate-500 text-sm mb-6">{{ lang.t('pricing.addons_subtitle') }}</p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-          <!-- Board Report -->
-          <div class="glass-card p-6 rounded-xl border border-teal-500/30 flex flex-col">
-            <div class="flex items-start justify-between mb-4">
-              <div>
-                <h3 class="text-lg font-bold text-slate-200">{{ lang.t('pricing.addon_board_title') }}</h3>
-                <p class="text-teal-400 text-2xl font-bold">€29 <span class="text-sm text-slate-500 font-normal">/ {{ lang.t('pricing.one_time') }}</span></p>
-              </div>
-              <div class="w-10 h-10 rounded-lg bg-teal-500/20 flex items-center justify-center">
-                <svg class="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-                </svg>
-              </div>
-            </div>
-            <p class="text-slate-400 text-sm mb-4 flex-1">{{ lang.t('pricing.addon_board_desc') }}</p>
-            <a [href]="paymentConfig.lemonsqueezy.products.nis2Report.checkoutUrl"
-               target="_blank"
-               class="w-full py-2.5 px-4 rounded-lg text-center font-medium text-sm
-                      bg-teal-500/20 text-teal-400 border border-teal-500/30
-                      hover:bg-teal-500/30 hover:border-teal-500/50
-                      transition-all duration-200">
-              {{ lang.t('pricing.addon_cta') }} →
-            </a>
-          </div>
-
-          <!-- Contract Analysis -->
-          <div class="glass-card p-6 rounded-xl border border-emerald-500/30 flex flex-col">
-            <div class="flex items-start justify-between mb-4">
-              <div>
-                <h3 class="text-lg font-bold text-slate-200">{{ lang.t('pricing.addon_contract_title') }}</h3>
-                <p class="text-emerald-400 text-2xl font-bold">€39 <span class="text-sm text-slate-500 font-normal">/ {{ lang.t('pricing.one_time') }}</span></p>
-              </div>
-              <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center">
-                <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                </svg>
-              </div>
-            </div>
-            <p class="text-slate-400 text-sm mb-4 flex-1">{{ lang.t('pricing.addon_contract_desc') }}</p>
-            <a [href]="paymentConfig.lemonsqueezy.products.contractAnalysis.checkoutUrl"
-               target="_blank"
-               class="w-full py-2.5 px-4 rounded-lg text-center font-medium text-sm
-                      bg-emerald-500/20 text-emerald-400 border border-emerald-500/30
-                      hover:bg-emerald-500/30 hover:border-emerald-500/50
-                      transition-all duration-200">
-              {{ lang.t('pricing.addon_cta') }} →
-            </a>
-          </div>
+        <h2 class="text-xl font-bold text-center text-slate-200 mb-6">{{ lang.t('pricing.compare_features') }}</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-slate-700/50">
+                <th class="text-left py-3 px-4 text-slate-400 font-medium">{{ lang.t('pricing.feature') }}</th>
+                <th class="text-center py-3 px-2 text-slate-400 font-medium">Free</th>
+                <th class="text-center py-3 px-2 text-cyan-400 font-medium">Pro</th>
+                <th class="text-center py-3 px-2 text-emerald-400 font-medium">Business</th>
+                <th class="text-center py-3 px-2 text-purple-400 font-medium">Enterprise</th>
+              </tr>
+            </thead>
+            <tbody class="text-slate-300">
+              <tr class="border-b border-slate-800/50">
+                <td class="py-3 px-4">{{ lang.t('pricing.feat_scope') }}</td>
+                <td class="text-center py-3 px-2 text-emerald-400">✓</td>
+                <td class="text-center py-3 px-2 text-emerald-400">✓</td>
+                <td class="text-center py-3 px-2 text-emerald-400">✓</td>
+                <td class="text-center py-3 px-2 text-emerald-400">✓</td>
+              </tr>
+              <tr class="border-b border-slate-800/50">
+                <td class="py-3 px-4">{{ lang.t('pricing.feat_full_assess') }}</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-cyan-400">DORA / NIS2</td>
+                <td class="text-center py-3 px-2 text-emerald-400">DORA + NIS2</td>
+                <td class="text-center py-3 px-2 text-emerald-400">DORA + NIS2</td>
+              </tr>
+              <tr class="border-b border-slate-800/50">
+                <td class="py-3 px-4">{{ lang.t('pricing.feat_supply_chain') }}</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-emerald-400">✓</td>
+                <td class="text-center py-3 px-2 text-emerald-400">✓</td>
+              </tr>
+              <tr class="border-b border-slate-800/50">
+                <td class="py-3 px-4">{{ lang.t('pricing.feat_ict_providers') }}</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-emerald-400">20</td>
+                <td class="text-center py-3 px-2 text-purple-400">{{ lang.t('pricing.unlimited') }}</td>
+              </tr>
+              <tr class="border-b border-slate-800/50">
+                <td class="py-3 px-4">{{ lang.t('pricing.feat_subcontractor') }}</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-emerald-400">✓</td>
+              </tr>
+              <tr class="border-b border-slate-800/50">
+                <td class="py-3 px-4">{{ lang.t('pricing.feat_realtime') }}</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-emerald-400">✓</td>
+              </tr>
+              <tr class="border-b border-slate-800/50">
+                <td class="py-3 px-4">{{ lang.t('pricing.feat_roi') }}</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-emerald-400">✓</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4">{{ lang.t('pricing.feat_branding') }}</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-emerald-400">✓</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
