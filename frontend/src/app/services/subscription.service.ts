@@ -10,7 +10,8 @@ export type PremiumFeature =
   | 'XBRL_EXPORT'
   | 'CERTIFICATE'
   | 'AI_REWRITER'
-  | 'ACTION_PLAN_PDF';
+  | 'ACTION_PLAN_PDF'
+  | 'ROI_EXPORT';
 
 export interface SubscriptionStatus {
   plan: SubscriptionPlan;
@@ -40,7 +41,8 @@ export class SubscriptionService {
       XBRL_EXPORT: false,
       CERTIFICATE: false,
       AI_REWRITER: false,
-      ACTION_PLAN_PDF: false
+      ACTION_PLAN_PDF: false,
+      ROI_EXPORT: false
     }
   });
 
@@ -125,7 +127,8 @@ export class SubscriptionService {
           XBRL_EXPORT: false,
           CERTIFICATE: false,
           AI_REWRITER: false,
-          ACTION_PLAN_PDF: false
+          ACTION_PLAN_PDF: false,
+          ROI_EXPORT: false
         }
       }))
     ).subscribe(status => {
@@ -175,6 +178,11 @@ export class SubscriptionService {
         title: 'Tegevuskava PDF',
         description: 'Lae alla detailne FAAS tegevuskava PDF-formaadis',
         price: 'Alates €29/kuu'
+      },
+      ROI_EXPORT: {
+        title: 'Register of Information eksport',
+        description: 'Ekspordi ICT pakkujate register EBA nõutud formaadis (CSV/PDF)',
+        price: '€499/kuu (Enterprise)'
       }
     };
     return messages[feature];

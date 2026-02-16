@@ -8,6 +8,8 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ApiService, IctProvider, CreateIctProviderRequest } from '../api.service';
 import { AuthService } from '../auth/auth.service';
+import { RoiExportService, RoiVendor } from '../services/roi-export.service';
+import { SubscriptionService } from '../services/subscription.service';
 
 interface Vendor {
   id: string;
@@ -199,6 +201,24 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                 <span class="btn-icon">↑</span>
                 Impordi CSV
               </button>
+              <div class="export-dropdown">
+                <button class="action-btn export" (click)="toggleExportMenu()">
+                  <span class="btn-icon">↓</span>
+                  Ekspordi RoI
+                </button>
+                @if (showExportMenu()) {
+                  <div class="export-menu">
+                    <button class="export-option" (click)="exportRoiCsv()">
+                      <span class="option-icon">📊</span>
+                      CSV (EBA formaat)
+                    </button>
+                    <button class="export-option" (click)="exportRoiPdf()">
+                      <span class="option-icon">📄</span>
+                      PDF kokkuvote
+                    </button>
+                  </div>
+                }
+              </div>
             </div>
 
             <div class="vendor-table">
@@ -1597,6 +1617,64 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
       font-weight: 600;
     }
 
+    .action-btn.export {
+      background: transparent;
+      border: 1.5px solid #22C55E;
+      color: #22C55E;
+    }
+
+    .action-btn.export:hover {
+      background: rgba(34, 197, 94, 0.1);
+    }
+
+    /* Export Dropdown */
+    .export-dropdown {
+      position: relative;
+    }
+
+    .export-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 8px;
+      background: #1e2128;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      border-radius: 8px;
+      min-width: 180px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      z-index: 100;
+      overflow: hidden;
+    }
+
+    .export-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 12px 16px;
+      background: transparent;
+      border: none;
+      color: #e0e0e0;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: left;
+    }
+
+    .export-option:hover {
+      background: rgba(34, 197, 94, 0.15);
+      color: #22C55E;
+    }
+
+    .export-option:first-child {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .option-icon {
+      font-size: 14px;
+    }
+
     /* Add Vendor Panel */
     .add-vendor-panel {
       width: 480px;
@@ -2178,6 +2256,8 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
 export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   private readonly api = inject(ApiService);
   private readonly auth = inject(AuthService);
+  private readonly roiExport = inject(RoiExportService);
+  private readonly subscription = inject(SubscriptionService);
 
   // State
   readonly currentView = signal<ViewType>('main');
@@ -2185,6 +2265,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   readonly expandedCategory = signal<string | null>(null);
   readonly showAddVendorPanel = signal(false);
   readonly showCsvImport = signal(false);
+  readonly showExportMenu = signal(false);
   readonly isDragOver = signal(false);
   readonly csvPreviewData = signal<CSVRow[]>([]);
   readonly csvErrors = signal<string[]>([]);
@@ -3060,5 +3141,52 @@ Teine AS;DE;Network;Oluline;LEP-002;2024-06-01;2026-05-31`;
       case 'Oluline': return 'important';
       default: return 'normal';
     }
+  }
+
+  // RoI Export Methods
+  toggleExportMenu(): void {
+    this.showExportMenu.update(v => !v);
+  }
+
+  exportRoiCsv(): void {
+    this.showExportMenu.set(false);
+
+    if (!this.subscription.canAccess('ROI_EXPORT')) {
+      this.subscription.showUpgrade('ROI_EXPORT');
+      return;
+    }
+
+    const roiVendors = this.vendorsToRoiFormat();
+    this.roiExport.exportToCsv(roiVendors, 'MyCompany');
+  }
+
+  exportRoiPdf(): void {
+    this.showExportMenu.set(false);
+
+    if (!this.subscription.canAccess('ROI_EXPORT')) {
+      this.subscription.showUpgrade('ROI_EXPORT');
+      return;
+    }
+
+    const roiVendors = this.vendorsToRoiFormat();
+    this.roiExport.exportToPdf(roiVendors, 'MyCompany');
+  }
+
+  private vendorsToRoiFormat(): RoiVendor[] {
+    return this.vendors().map(v => ({
+      id: v.id,
+      name: v.name,
+      country: v.country,
+      countryCode: v.countryCode,
+      type: v.type,
+      criticality: v.criticality || 'normal',
+      contractStart: v.contractStart,
+      contractEnd: v.contractEnd,
+      contractNumber: v.contractNumber,
+      hasExitStrategy: v.hasExitStrategy,
+      exitStrategyDescription: v.exitStrategyDescription,
+      subcontractors: v.subcontractors.map(s => ({ name: s.name, country: s.country })),
+      riskScore: v.riskScore
+    }));
   }
 }
