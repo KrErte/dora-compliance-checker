@@ -69,6 +69,20 @@ interface CSVRow {
   errors: string[];
 }
 
+interface GlobalProvider {
+  id: string;
+  name: string;
+  country: string;
+  countryCode: string;
+  serviceType: string;
+  riskScore: number;
+  isCtpp: boolean;
+  description: string;
+  website: string;
+  usageCount: number;
+  isVerified: boolean;
+}
+
 interface ROICategory {
   name: string;
   completeness: number;
@@ -303,7 +317,64 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
               @if (vendorSearchQuery()) {
                 <button class="clear-search-btn-large" (click)="clearVendorSearch()">✕</button>
               }
+              @if (isSearchingGlobal()) {
+                <span class="search-loading">⟳</span>
+              }
             </div>
+
+            <!-- Search Results Sections -->
+            @if (vendorSearchQuery() && (sortedVendors().length > 0 || showGlobalResults())) {
+              <div class="search-results-container">
+                <!-- User's Vendors Section -->
+                @if (sortedVendors().length > 0) {
+                  <div class="search-section">
+                    <div class="search-section-header">
+                      <span class="section-icon">👤</span>
+                      <span class="section-title">Sinu pakkujad</span>
+                      <span class="section-count">{{ sortedVendors().length }}</span>
+                    </div>
+                  </div>
+                }
+
+                <!-- Global Registry Section -->
+                @if (showGlobalResults() && globalSearchResults().length > 0) {
+                  <div class="search-section global-section">
+                    <div class="search-section-header">
+                      <span class="section-icon">🌍</span>
+                      <span class="section-title">Globaalne register</span>
+                      <span class="section-count">{{ globalSearchResults().length }}</span>
+                    </div>
+                    <div class="global-results">
+                      @for (provider of globalSearchResults(); track provider.id) {
+                        <div class="global-result-item">
+                          <div class="global-provider-info">
+                            <span class="provider-name">
+                              {{ provider.name }}
+                              @if (provider.isCtpp) {
+                                <span class="ctpp-badge" title="Critical Third-Party Provider">CTPP</span>
+                              }
+                              @if (provider.isVerified) {
+                                <span class="verified-badge" title="Kinnitatud">✓</span>
+                              }
+                            </span>
+                            <span class="provider-details">
+                              {{ provider.countryCode ? getFlag(provider.countryCode) : '' }}
+                              {{ provider.country || 'N/A' }} • {{ provider.serviceType || 'N/A' }}
+                              @if (provider.usageCount > 0) {
+                                • <span class="usage-count">{{ provider.usageCount }} kasutajat</span>
+                              }
+                            </span>
+                          </div>
+                          <button class="add-global-btn" (click)="addGlobalProviderToSupplyChain(provider)">
+                            + Lisa
+                          </button>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            }
 
             <div class="vendor-table">
               <div class="table-header">
@@ -1957,6 +2028,136 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
       color: #6d7580;
     }
 
+    /* Global Search Results */
+    .search-loading {
+      position: absolute;
+      right: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      animation: spin 1s linear infinite;
+      color: #00E5FF;
+    }
+
+    .search-results-container {
+      margin-bottom: 20px;
+    }
+
+    .search-section {
+      margin-bottom: 16px;
+    }
+
+    .search-section-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0;
+      font-size: 13px;
+      color: #6d7580;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 8px;
+    }
+
+    .section-icon {
+      font-size: 14px;
+    }
+
+    .section-title {
+      font-weight: 500;
+      color: #a0a0a0;
+    }
+
+    .section-count {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+    }
+
+    .global-section {
+      background: rgba(0, 229, 255, 0.03);
+      border: 1px solid rgba(0, 229, 255, 0.15);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .global-results {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .global-result-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .global-result-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .global-provider-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .provider-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ctpp-badge {
+      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+      color: #fff;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .verified-badge {
+      color: #22C55E;
+      font-size: 12px;
+    }
+
+    .provider-details {
+      font-size: 12px;
+      color: #6d7580;
+    }
+
+    .usage-count {
+      color: #00E5FF;
+    }
+
+    .add-global-btn {
+      background: linear-gradient(135deg, #00E5FF, #00B4D8);
+      color: #0a0f1a;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .add-global-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 229, 255, 0.3);
+    }
+
     /* Company Autocomplete */
     .name-input-wrapper {
       position: relative;
@@ -2630,6 +2831,12 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   readonly companySearchResults = signal<CompanySearchResult[]>([]);
   readonly isSearchingCompany = signal(false);
 
+  // Global provider search
+  readonly globalSearchResults = signal<GlobalProvider[]>([]);
+  readonly isSearchingGlobal = signal(false);
+  readonly showGlobalResults = signal(false);
+  private readonly globalSearchSubject = new Subject<string>();
+
   // Searchable dropdown states
   countrySearch = '';
   typeSearch = '';
@@ -2966,6 +3173,31 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
       distinctUntilChanged()
     ).subscribe(query => {
       this.vendorSearchQuery.set(query);
+      // Also trigger global search if query is long enough and no local results
+      if (query.length >= 2) {
+        this.globalSearchSubject.next(query);
+      } else {
+        this.globalSearchResults.set([]);
+        this.showGlobalResults.set(false);
+      }
+    });
+
+    // Set up global provider search with debounce
+    this.globalSearchSubject.pipe(
+      debounceTime(400),
+      distinctUntilChanged(),
+      tap(() => this.isSearchingGlobal.set(true)),
+      switchMap(query => {
+        if (!query || query.length < 2) {
+          return of([]);
+        }
+        return this.searchGlobalProviders(query);
+      })
+    ).subscribe(results => {
+      this.globalSearchResults.set(results);
+      this.isSearchingGlobal.set(false);
+      // Show global results section if we have results and local search has few/no results
+      this.showGlobalResults.set(results.length > 0);
     });
 
     this.timeInterval = setInterval(() => {
@@ -3054,6 +3286,52 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
 
   clearVendorSearch(): void {
     this.vendorSearchQuery.set('');
+    this.globalSearchResults.set([]);
+    this.showGlobalResults.set(false);
+  }
+
+  // Global provider search
+  private searchGlobalProviders(query: string) {
+    return this.http.get<GlobalProvider[]>(`/api/global-providers/search?q=${encodeURIComponent(query)}&limit=8`).pipe(
+      catchError(() => of([]))
+    );
+  }
+
+  // Add global provider to user's supply chain
+  addGlobalProviderToSupplyChain(provider: GlobalProvider): void {
+    // Pre-fill the add vendor form with global provider data
+    this.newVendorForm = {
+      name: provider.name,
+      country: provider.country || '',
+      type: provider.serviceType || 'Muu',
+      criticality: provider.isCtpp ? 'critical' : 'normal',
+      contractNumber: '',
+      contractStart: '',
+      contractEnd: '',
+      subcontractors: [],
+      hasExitStrategy: false,
+      exitStrategyDescription: ''
+    };
+
+    // Find and set the country in the dropdown
+    const countryMatch = this.countries.find(c =>
+      c.code === provider.countryCode ||
+      c.name.toLowerCase() === provider.country?.toLowerCase()
+    );
+    if (countryMatch) {
+      this.newVendorForm.country = countryMatch.name;
+    }
+
+    // Mark usage in global registry
+    this.http.post(`/api/global-providers/${provider.id}/use`, {}).subscribe();
+
+    // Open the add vendor panel
+    this.showAddVendorPanel.set(true);
+
+    // Clear search
+    this.vendorSearchQuery.set('');
+    this.globalSearchResults.set([]);
+    this.showGlobalResults.set(false);
   }
 
   // Company API search

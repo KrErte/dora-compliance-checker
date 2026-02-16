@@ -2,6 +2,8 @@ package com.dorachecker.controller;
 
 import com.dorachecker.model.IctProviderEntity;
 import com.dorachecker.model.IctProviderRepository;
+import com.dorachecker.model.GlobalIctProviderEntity;
+import com.dorachecker.model.GlobalIctProviderRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -16,9 +19,13 @@ import java.util.UUID;
 public class IctProviderController {
 
     private final IctProviderRepository providerRepository;
+    private final GlobalIctProviderRepository globalProviderRepository;
 
-    public IctProviderController(IctProviderRepository providerRepository) {
+    public IctProviderController(
+            IctProviderRepository providerRepository,
+            GlobalIctProviderRepository globalProviderRepository) {
         this.providerRepository = providerRepository;
+        this.globalProviderRepository = globalProviderRepository;
     }
 
     @GetMapping
@@ -80,7 +87,44 @@ public class IctProviderController {
 
         providerRepository.save(provider);
 
+        // Community contribution: Add to global registry if not exists
+        contributeToGlobalRegistry(request);
+
         return ResponseEntity.ok(provider);
+    }
+
+    /**
+     * Contribute provider to global registry (without user-specific data)
+     */
+    private void contributeToGlobalRegistry(CreateProviderRequest request) {
+        try {
+            if (request.name() == null || request.name().trim().isEmpty()) {
+                return;
+            }
+
+            Optional<GlobalIctProviderEntity> existing =
+                globalProviderRepository.findByNameIgnoreCase(request.name().trim());
+
+            if (existing.isPresent()) {
+                // Already exists, increment usage count
+                globalProviderRepository.incrementUsageCount(existing.get().getId());
+            } else {
+                // Add new provider to global registry
+                GlobalIctProviderEntity globalProvider = new GlobalIctProviderEntity();
+                globalProvider.setName(request.name().trim());
+                globalProvider.setCountry(request.country());
+                globalProvider.setCountryCode(request.countryCode());
+                globalProvider.setServiceType(request.type());
+                globalProvider.setRiskScore(30); // Default risk score
+                globalProvider.setIsCtpp(false);
+                globalProvider.setIsVerified(false);
+                globalProvider.setUsageCount(1);
+                globalProviderRepository.save(globalProvider);
+            }
+        } catch (Exception e) {
+            // Don't fail the main operation if global contribution fails
+            // Just log and continue
+        }
     }
 
     @PostMapping("/batch")
