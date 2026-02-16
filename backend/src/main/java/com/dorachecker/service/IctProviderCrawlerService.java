@@ -62,15 +62,20 @@ public class IctProviderCrawlerService {
     // Country risk scores (EU = lower risk, third countries = higher risk)
     private static final Map<String, Integer> COUNTRY_RISK_SCORES = Map.ofEntries(
             Map.entry("EE", 20), // Estonia
+            Map.entry("LV", 21), // Latvia
+            Map.entry("LT", 21), // Lithuania
             Map.entry("DE", 22), // Germany
             Map.entry("NL", 22), // Netherlands
             Map.entry("FI", 20), // Finland
             Map.entry("SE", 22), // Sweden
+            Map.entry("PL", 23), // Poland
             Map.entry("FR", 23), // France
             Map.entry("BE", 23), // Belgium
             Map.entry("LU", 22), // Luxembourg
             Map.entry("IE", 23), // Ireland
             Map.entry("AT", 22), // Austria
+            Map.entry("CZ", 23), // Czech Republic
+            Map.entry("SK", 23), // Slovakia
             Map.entry("GB", 28), // UK (post-Brexit)
             Map.entry("US", 30), // USA
             Map.entry("CH", 25), // Switzerland
@@ -473,37 +478,53 @@ public class IctProviderCrawlerService {
     }
 
     // ========================================================================
-    // GOOGLE CUSTOM SEARCH
+    // GOOGLE PLACES API - Baltic IT Companies
     // ========================================================================
 
     private void crawlGoogleSearch() {
-        log.info("Crawling via Google Custom Search...");
+        log.info("Crawling via Google Places API (Baltic IT companies)...");
 
-        // Search queries for Estonian IT companies
-        String[] queries = {
-                "site:ee IT teenused tarkvara arendus",
-                "site:ee software development company Tallinn",
-                "site:ee küberturvalisus cybersecurity",
-                "site:ee hosting andmekeskus data center",
-                "site:ee fintech Estonia"
+        // Baltic capitals and major cities with IT keywords
+        String[][] searchLocations = {
+                // Estonia
+                {"59.437", "24.7536", "Tallinn", "EE", "Estonia"},
+                {"58.378", "26.729", "Tartu", "EE", "Estonia"},
+                // Latvia
+                {"56.9496", "24.1052", "Riga", "LV", "Latvia"},
+                // Lithuania
+                {"54.6872", "25.2797", "Vilnius", "LT", "Lithuania"},
+                {"54.8985", "23.9036", "Kaunas", "LT", "Lithuania"}
         };
 
-        for (String query : queries) {
-            try {
-                searchGoogleForProviders(query);
-                rateLimitPause();
-            } catch (Exception e) {
-                log.warn("Google search failed for query '{}': {}", query, e.getMessage());
+        String[] searchKeywords = {
+                "IT company",
+                "software development",
+                "IT services",
+                "web development",
+                "cybersecurity",
+                "cloud services",
+                "fintech"
+        };
+
+        for (String[] location : searchLocations) {
+            for (String keyword : searchKeywords) {
+                try {
+                    searchGooglePlaces(keyword, location[0], location[1], location[2], location[3], location[4]);
+                    rateLimitPause();
+                } catch (Exception e) {
+                    log.debug("Google Places search failed for {} in {}: {}", keyword, location[2], e.getMessage());
+                }
             }
         }
     }
 
-    private void searchGoogleForProviders(String query) {
+    private void searchGooglePlaces(String keyword, String lat, String lng, String city, String countryCode, String country) {
+        // Google Places Text Search API
         String url = String.format(
-                "https://www.googleapis.com/customsearch/v1?key=%s&cx=%s&q=%s&num=10",
-                googleApiKey,
-                googleSearchEngineId != null ? googleSearchEngineId : "017576662512468239146:omuauf_lfve",
-                java.net.URLEncoder.encode(query, java.nio.charset.StandardCharsets.UTF_8)
+                "https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&location=%s,%s&radius=50000&type=establishment&key=%s",
+                java.net.URLEncoder.encode(keyword + " " + city, java.nio.charset.StandardCharsets.UTF_8),
+                lat, lng,
+                googleApiKey
         );
 
         try {
@@ -515,57 +536,93 @@ public class IctProviderCrawlerService {
 
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 JsonNode root = objectMapper.readTree(response.getBody());
-                JsonNode items = root.path("items");
+                String status = root.path("status").asText();
 
-                for (JsonNode item : items) {
-                    String title = item.path("title").asText();
-                    String link = item.path("link").asText();
-                    String snippet = item.path("snippet").asText();
+                if (!"OK".equals(status) && !"ZERO_RESULTS".equals(status)) {
+                    log.warn("Google Places API status: {}", status);
+                    return;
+                }
 
-                    // Filter: only process if it looks like a company
-                    if (title.contains("OÜ") || title.contains("AS") || title.contains("Company") ||
-                            snippet.contains("IT") || snippet.contains("tarkvara") || snippet.contains("software")) {
+                JsonNode results = root.path("results");
+                log.info("Google Places found {} results for '{}' in {}", results.size(), keyword, city);
 
-                        processGoogleResult(title, link, snippet);
+                for (JsonNode place : results) {
+                    try {
+                        processGooglePlaceResult(place, countryCode, country, city);
+                    } catch (Exception e) {
+                        log.debug("Failed to process place: {}", e.getMessage());
                     }
                 }
             }
         } catch (Exception e) {
-            log.debug("Google search error: {}", e.getMessage());
+            log.debug("Google Places API error: {}", e.getMessage());
         }
     }
 
-    private void processGoogleResult(String title, String website, String description) {
-        // Clean up company name
-        String name = title.replaceAll(" - .*$", "")
-                .replaceAll(" \\| .*$", "")
-                .replaceAll(" – .*$", "")
-                .trim();
+    private void processGooglePlaceResult(JsonNode place, String countryCode, String country, String city) {
+        String name = place.path("name").asText();
+        String address = place.path("formatted_address").asText();
+        String placeId = place.path("place_id").asText();
+        double rating = place.path("rating").asDouble(0);
 
-        if (name.length() < 3) return;
+        if (name == null || name.isBlank() || name.length() < 3) {
+            return;
+        }
+
+        // Skip generic or non-company results
+        if (name.toLowerCase().contains("university") ||
+                name.toLowerCase().contains("school") ||
+                name.toLowerCase().contains("library") ||
+                name.toLowerCase().contains("museum")) {
+            return;
+        }
 
         // Check if already exists
         Optional<GlobalIctProviderEntity> existing = providerRepository.findByNameIgnoreCase(name);
         if (existing.isPresent()) {
-            return; // Already have this company
+            // Update address if missing
+            GlobalIctProviderEntity provider = existing.get();
+            if (provider.getAddress() == null && address != null) {
+                provider.setAddress(address);
+                provider.setLastCrawledAt(LocalDateTime.now());
+                providerRepository.save(provider);
+                updatedCount.incrementAndGet();
+            }
+            return;
+        }
+
+        // Determine service type based on business types
+        String serviceType = "IT Services";
+        JsonNode types = place.path("types");
+        for (JsonNode type : types) {
+            String t = type.asText();
+            if (t.contains("software") || t.contains("electronics")) {
+                serviceType = "Software Development";
+                break;
+            }
+            if (t.contains("finance") || t.contains("bank")) {
+                serviceType = "Fintech";
+                break;
+            }
         }
 
         GlobalIctProviderEntity provider = new GlobalIctProviderEntity();
         provider.setName(name);
-        provider.setCountry("Estonia");
-        provider.setCountryCode("EE");
-        provider.setWebsite(website);
-        provider.setDescription(description.length() > 500 ? description.substring(0, 500) : description);
-        provider.setServiceType("IT Services");
-        provider.setRiskScore(calculateRiskScore("EE", "IT Services"));
-        provider.setSource("GOOGLE");
+        provider.setCountry(country);
+        provider.setCountryCode(countryCode);
+        provider.setAddress(address);
+        provider.setServiceType(serviceType);
+        provider.setRiskScore(calculateRiskScore(countryCode, serviceType));
+        provider.setSource("GOOGLE_PLACES");
         provider.setIsCtpp(false);
         provider.setIsVerified(false);
         provider.setIsUserModified(false);
         provider.setLastCrawledAt(LocalDateTime.now());
+        provider.setRawData(String.format("{placeId=%s, rating=%.1f, city=%s}", placeId, rating, city));
 
         providerRepository.save(provider);
         googleCount.incrementAndGet();
+        log.debug("Added from Google Places: {} ({}, {})", name, city, countryCode);
     }
 
     // ========================================================================
