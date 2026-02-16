@@ -231,23 +231,17 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
               </div>
             </div>
 
-            <!-- Search/Filter -->
-            <div class="vendor-search">
-              <div class="search-input-container">
-                <span class="search-icon">🔍</span>
-                <input
-                  type="text"
-                  class="vendor-search-input"
-                  [ngModel]="vendorSearchQuery()"
-                  (ngModelChange)="onVendorSearchChange($event)"
-                  placeholder="Otsi nime, riigi või tüübi järgi..."
-                />
-                @if (vendorSearchQuery()) {
-                  <button class="clear-search-btn" (click)="clearVendorSearch()">✕</button>
-                }
-              </div>
+            <!-- Big Search Input -->
+            <div class="vendor-search-large">
+              <input
+                type="text"
+                class="vendor-search-input-large"
+                [ngModel]="vendorSearchQuery()"
+                (ngModelChange)="onVendorSearchChange($event)"
+                placeholder="Otsi pakkujat nime, riigi või tüübi järgi..."
+              />
               @if (vendorSearchQuery()) {
-                <span class="search-results-count">{{ sortedVendors().length }} tulemust</span>
+                <button class="clear-search-btn-large" (click)="clearVendorSearch()">✕</button>
               }
             </div>
 
@@ -258,22 +252,30 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                 <span class="col-type">Tüüp</span>
                 <span class="col-risk">Risk</span>
               </div>
-              @for (vendor of sortedVendors(); track vendor.id) {
-                <div
-                  class="table-row"
-                  [class.selected]="selectedVendor()?.id === vendor.id"
-                  [class.high-risk]="vendor.riskScore >= 60"
-                  (click)="selectVendor(vendor)"
-                >
-                  <span class="col-name">{{ vendor.name }}</span>
-                  <span class="col-country">{{ getFlag(vendor.countryCode) }} {{ vendor.country }}</span>
-                  <span class="col-type">{{ vendor.type }}</span>
-                  <span class="col-risk">
-                    <span class="risk-badge" [class]="getRiskClass(vendor.riskScore)">
-                      {{ vendor.riskScore }}
-                    </span>
-                  </span>
+              @if (sortedVendors().length === 0 && vendorSearchQuery()) {
+                <div class="no-results">
+                  <span class="no-results-icon">🔍</span>
+                  <p>Pakkujat ei leitud</p>
+                  <span class="no-results-hint">Proovi teist otsingusõna</span>
                 </div>
+              } @else {
+                @for (vendor of sortedVendors(); track vendor.id) {
+                  <div
+                    class="table-row"
+                    [class.selected]="selectedVendor()?.id === vendor.id"
+                    [class.high-risk]="vendor.riskScore >= 60"
+                    (click)="selectVendor(vendor)"
+                  >
+                    <span class="col-name">{{ vendor.name }}</span>
+                    <span class="col-country">{{ getFlag(vendor.countryCode) }} {{ vendor.country }}</span>
+                    <span class="col-type">{{ vendor.type }}</span>
+                    <span class="col-risk">
+                      <span class="risk-badge" [class]="getRiskClass(vendor.riskScore)">
+                        {{ vendor.riskScore }}
+                      </span>
+                    </span>
+                  </div>
+                }
               }
             </div>
           </div>
@@ -1799,6 +1801,90 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
       font-size: 13px;
       color: #6d7580;
       white-space: nowrap;
+    }
+
+    /* Large Vendor Search */
+    .vendor-search-large {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .vendor-search-input-large {
+      width: 100%;
+      padding: 18px 50px 18px 24px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      color: #fff;
+      transition: all 0.2s;
+    }
+
+    .vendor-search-input-large:focus {
+      outline: none;
+      border-color: #00E5FF;
+      background: rgba(0, 229, 255, 0.08);
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.15);
+    }
+
+    .vendor-search-input-large::placeholder {
+      color: #6d7580;
+      font-size: 17px;
+    }
+
+    .clear-search-btn-large {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: #a0a0a0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .clear-search-btn-large:hover {
+      background: rgba(255, 255, 255, 0.25);
+      color: #fff;
+    }
+
+    /* No Results State */
+    .no-results {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 12px;
+      border: 1px dashed rgba(255, 255, 255, 0.1);
+    }
+
+    .no-results-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.6;
+    }
+
+    .no-results p {
+      font-size: 18px;
+      color: #a0a0a0;
+      margin: 0 0 8px 0;
+    }
+
+    .no-results-hint {
+      font-size: 14px;
+      color: #6d7580;
     }
 
     /* Company Autocomplete */
