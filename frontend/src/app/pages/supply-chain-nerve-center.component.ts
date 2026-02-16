@@ -6,10 +6,20 @@ import { Component, signal, computed, OnInit, OnDestroy, inject } from '@angular
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Subject, debounceTime, distinctUntilChanged, switchMap, of, catchError, tap } from 'rxjs';
 import { ApiService, IctProvider, CreateIctProviderRequest } from '../api.service';
 import { AuthService } from '../auth/auth.service';
 import { RoiExportService, RoiVendor } from '../services/roi-export.service';
 import { SubscriptionService } from '../services/subscription.service';
+
+interface CompanySearchResult {
+  name: string;
+  registryCode: string;
+  country: string;
+  countryCode: string;
+  source: 'ariregister' | 'opencorporates' | 'local';
+}
 
 interface Vendor {
   id: string;
@@ -221,6 +231,26 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
               </div>
             </div>
 
+            <!-- Search/Filter -->
+            <div class="vendor-search">
+              <div class="search-input-container">
+                <span class="search-icon">🔍</span>
+                <input
+                  type="text"
+                  class="vendor-search-input"
+                  [ngModel]="vendorSearchQuery()"
+                  (ngModelChange)="onVendorSearchChange($event)"
+                  placeholder="Otsi nime, riigi või tüübi järgi..."
+                />
+                @if (vendorSearchQuery()) {
+                  <button class="clear-search-btn" (click)="clearVendorSearch()">✕</button>
+                }
+              </div>
+              @if (vendorSearchQuery()) {
+                <span class="search-results-count">{{ sortedVendors().length }} tulemust</span>
+              }
+            </div>
+
             <div class="vendor-table">
               <div class="table-header">
                 <span class="col-name">Nimi</span>
@@ -409,28 +439,51 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                 <button class="close-btn" (click)="closeAddVendorPanel()">✕</button>
               </div>
               <div class="panel-body form-body">
-                <!-- Name (with suggestions) -->
+                <!-- Name (with API autocomplete) -->
                 <div class="form-group">
                   <label class="form-label">Nimi *</label>
                   <div class="searchable-dropdown" [class.open]="showNameDropdown">
-                    <input
-                      type="text"
-                      class="form-input"
-                      [(ngModel)]="newVendorForm.name"
-                      (input)="onNameInput()"
-                      (focus)="onNameFocus()"
-                      (blur)="onNameBlur()"
-                      placeholder="Ettevõtte nimi (nt. Helmes, AWS...)"
-                    />
-                    @if (showNameDropdown && filteredProviders.length > 0) {
-                      <div class="dropdown-list">
-                        @for (p of filteredProviders; track p) {
-                          <div
-                            class="dropdown-item"
-                            (mousedown)="selectProvider(p)"
-                          >
-                            {{ p }}
-                          </div>
+                    <div class="name-input-wrapper">
+                      <input
+                        type="text"
+                        class="form-input"
+                        [(ngModel)]="newVendorForm.name"
+                        (input)="onNameInput()"
+                        (focus)="onNameFocus()"
+                        (blur)="onNameBlur()"
+                        placeholder="Ettevõtte nimi (nt. Helmes, AWS...)"
+                      />
+                      @if (isSearchingCompany()) {
+                        <span class="name-loading-indicator">⏳</span>
+                      }
+                    </div>
+                    @if (showNameDropdown && (companySearchResults().length > 0 || filteredProviders.length > 0)) {
+                      <div class="dropdown-list company-dropdown">
+                        @if (companySearchResults().length > 0) {
+                          <div class="dropdown-section-header">Äriregistrist</div>
+                          @for (company of companySearchResults(); track company.registryCode) {
+                            <div
+                              class="dropdown-item company-item"
+                              (mousedown)="selectCompany(company)"
+                            >
+                              <span class="company-name">{{ company.name }}</span>
+                              <span class="company-meta">
+                                <span class="registry-code">{{ company.registryCode }}</span>
+                                <span class="company-country">{{ company.countryCode }}</span>
+                              </span>
+                            </div>
+                          }
+                        }
+                        @if (filteredProviders.length > 0) {
+                          <div class="dropdown-section-header">Tuntud pakkujad</div>
+                          @for (p of filteredProviders; track p) {
+                            <div
+                              class="dropdown-item"
+                              (mousedown)="selectProvider(p)"
+                            >
+                              {{ p }}
+                            </div>
+                          }
                         }
                       </div>
                     }
@@ -1675,6 +1728,145 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
       font-size: 14px;
     }
 
+    /* Vendor Search/Filter */
+    .vendor-search {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .search-input-container {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      font-size: 14px;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .vendor-search-input {
+      width: 100%;
+      padding: 12px 14px 12px 40px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      color: #fff;
+      transition: all 0.2s;
+    }
+
+    .vendor-search-input:focus {
+      outline: none;
+      border-color: #00E5FF;
+      background: rgba(0, 229, 255, 0.05);
+    }
+
+    .vendor-search-input::placeholder {
+      color: #6d7580;
+    }
+
+    .clear-search-btn {
+      position: absolute;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #a0a0a0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .clear-search-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .search-results-count {
+      font-size: 13px;
+      color: #6d7580;
+      white-space: nowrap;
+    }
+
+    /* Company Autocomplete */
+    .name-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .name-input-wrapper .form-input {
+      width: 100%;
+      padding-right: 36px;
+    }
+
+    .name-loading-indicator {
+      position: absolute;
+      right: 12px;
+      font-size: 14px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .company-dropdown {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .dropdown-section-header {
+      padding: 8px 14px 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #6d7580;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: rgba(0, 0, 0, 0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .company-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .company-name {
+      font-weight: 500;
+      color: #fff;
+    }
+
+    .company-meta {
+      display: flex;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .registry-code {
+      color: #00E5FF;
+      font-family: monospace;
+    }
+
+    .company-country {
+      color: #6d7580;
+    }
+
     /* Add Vendor Panel */
     .add-vendor-panel {
       width: 480px;
@@ -2258,6 +2450,11 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   private readonly auth = inject(AuthService);
   private readonly roiExport = inject(RoiExportService);
   private readonly subscription = inject(SubscriptionService);
+  private readonly http = inject(HttpClient);
+
+  // Company search with debounce
+  private readonly companySearchSubject = new Subject<string>();
+  private readonly vendorFilterSubject = new Subject<string>();
 
   // State
   readonly currentView = signal<ViewType>('main');
@@ -2271,6 +2468,11 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   readonly csvErrors = signal<string[]>([]);
   readonly isLoading = signal(false);
   readonly saveError = signal<string | null>(null);
+
+  // Vendor table search/filter
+  readonly vendorSearchQuery = signal('');
+  readonly companySearchResults = signal<CompanySearchResult[]>([]);
+  readonly isSearchingCompany = signal(false);
 
   // Searchable dropdown states
   countrySearch = '';
@@ -2560,9 +2762,21 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     return resolved.length > 0 ? resolved[0].timeAgo : 'none';
   });
 
-  readonly sortedVendors = computed(() =>
-    [...this.vendors()].sort((a, b) => b.riskScore - a.riskScore)
-  );
+  readonly sortedVendors = computed(() => {
+    const query = this.vendorSearchQuery().toLowerCase().trim();
+    let filtered = [...this.vendors()];
+
+    if (query) {
+      filtered = filtered.filter(v =>
+        v.name.toLowerCase().includes(query) ||
+        v.country.toLowerCase().includes(query) ||
+        v.countryCode.toLowerCase().includes(query) ||
+        v.type.toLowerCase().includes(query)
+      );
+    }
+
+    return filtered.sort((a, b) => b.riskScore - a.riskScore);
+  });
 
   readonly sortedROICategories = computed(() =>
     [...this.roiCategories()].sort((a, b) => a.completeness - b.completeness)
@@ -2573,6 +2787,30 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Load vendors from API if user is logged in
     this.loadVendorsFromApi();
+
+    // Set up company name autocomplete with debounce
+    this.companySearchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => this.isSearchingCompany.set(true)),
+      switchMap(query => {
+        if (!query || query.length < 3) {
+          return of([]);
+        }
+        return this.searchCompanies(query);
+      })
+    ).subscribe(results => {
+      this.companySearchResults.set(results);
+      this.isSearchingCompany.set(false);
+    });
+
+    // Set up vendor filter with debounce
+    this.vendorFilterSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(query => {
+      this.vendorSearchQuery.set(query);
+    });
 
     this.timeInterval = setInterval(() => {
       this.incidents.update(incidents =>
@@ -2649,6 +2887,107 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.timeInterval) clearInterval(this.timeInterval);
+    this.companySearchSubject.complete();
+    this.vendorFilterSubject.complete();
+  }
+
+  // Vendor table search/filter
+  onVendorSearchChange(query: string): void {
+    this.vendorFilterSubject.next(query);
+  }
+
+  clearVendorSearch(): void {
+    this.vendorSearchQuery.set('');
+  }
+
+  // Company API search
+  private searchCompanies(query: string) {
+    // Try Estonian Business Registry first, then fallback to OpenCorporates
+    return this.searchEstonianRegistry(query).pipe(
+      switchMap(results => {
+        if (results.length > 0) {
+          return of(results);
+        }
+        // Fallback to OpenCorporates
+        return this.searchOpenCorporates(query);
+      }),
+      catchError(() => {
+        // On error, try OpenCorporates
+        return this.searchOpenCorporates(query).pipe(
+          catchError(() => of([]))
+        );
+      })
+    );
+  }
+
+  private searchEstonianRegistry(query: string) {
+    // Estonian Business Registry API (ariregister.rik.ee)
+    // Using the public search endpoint
+    const url = `https://ariregister.rik.ee/est/api/autocomplete?q=${encodeURIComponent(query)}`;
+
+    return this.http.get<any>(url).pipe(
+      switchMap(response => {
+        if (response && Array.isArray(response)) {
+          const results: CompanySearchResult[] = response.slice(0, 8).map((item: any) => ({
+            name: item.arinimi || item.nimi || item.name || query,
+            registryCode: item.ariregistri_kood || item.registrikood || item.registry_code || '',
+            country: 'Eesti',
+            countryCode: 'EE',
+            source: 'ariregister' as const
+          }));
+          return of(results);
+        }
+        return of([]);
+      }),
+      catchError(() => of([]))
+    );
+  }
+
+  private searchOpenCorporates(query: string) {
+    // OpenCorporates API (free tier)
+    const url = `https://api.opencorporates.com/v0.4/companies/search?q=${encodeURIComponent(query)}&jurisdiction_code=ee&per_page=8`;
+
+    return this.http.get<any>(url).pipe(
+      switchMap(response => {
+        if (response?.results?.companies) {
+          const results: CompanySearchResult[] = response.results.companies.slice(0, 8).map((item: any) => {
+            const company = item.company;
+            const countryCode = (company.jurisdiction_code || 'xx').toUpperCase().substring(0, 2);
+            return {
+              name: company.name || query,
+              registryCode: company.company_number || '',
+              country: this.getCountryName(countryCode),
+              countryCode: countryCode,
+              source: 'opencorporates' as const
+            };
+          });
+          return of(results);
+        }
+        return of([]);
+      }),
+      catchError(() => of([]))
+    );
+  }
+
+  private getCountryName(code: string): string {
+    const country = this.countryOptions.find(c => c.code === code);
+    return country?.name || code;
+  }
+
+  selectCompany(company: CompanySearchResult): void {
+    this.newVendorForm.name = company.name;
+    this.newVendorForm.country = company.countryCode;
+    this.countrySearch = '';
+
+    // Update LEI/registry code if we have a field for it
+    // For now, add it to contract number as reference
+    if (company.registryCode && !this.newVendorForm.contractNumber) {
+      this.newVendorForm.contractNumber = company.registryCode;
+    }
+
+    this.nameSearch = '';
+    this.showNameDropdown = false;
+    this.companySearchResults.set([]);
   }
 
   openView(view: ViewType): void {
@@ -2729,6 +3068,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     this.showCountryDropdown = false;
     this.showTypeDropdown = false;
     this.showNameDropdown = false;
+    this.companySearchResults.set([]);
     this.showAddVendorPanel.set(true);
   }
 
@@ -2775,6 +3115,13 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   onNameInput(): void {
     this.nameSearch = this.newVendorForm.name;
     this.showNameDropdown = this.nameSearch.length >= 2;
+
+    // Trigger company API search (debounced)
+    if (this.nameSearch.length >= 3) {
+      this.companySearchSubject.next(this.nameSearch);
+    } else {
+      this.companySearchResults.set([]);
+    }
   }
 
   onNameFocus(): void {
