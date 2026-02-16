@@ -34,19 +34,19 @@ export const PAYMENT_CONFIG = {
       },
       // New subscription products
       professional: {
-        checkoutUrl: '#', // TODO: Create in LemonSqueezy
+        checkoutUrl: 'https://compliancehub.lemonsqueezy.com/checkout/buy/c1cc62f1-9162-4f27-a57e-9e9cc24e87e5',
         price: 149,
         priceMonthly: '€149/kuu',
         name: 'Professional'
       },
       business: {
-        checkoutUrl: '#', // TODO: Create in LemonSqueezy
+        checkoutUrl: 'https://compliancehub.lemonsqueezy.com/checkout/buy/ad4319d2-27aa-4cb2-b551-5e92a698dfbf',
         price: 299,
         priceMonthly: '€299/kuu',
         name: 'Business'
       },
       enterprise: {
-        checkoutUrl: '#', // TODO: Create in LemonSqueezy
+        checkoutUrl: 'https://compliancehub.lemonsqueezy.com/checkout/buy/2a3d37f3-3571-4254-ac95-9aa6e1ee6b20',
         price: 499,
         priceMonthly: '€499/kuu',
         name: 'Enterprise'
@@ -55,21 +55,21 @@ export const PAYMENT_CONFIG = {
     // Subscription plans for freemium model
     subscriptions: {
       professional: {
-        checkoutUrl: '#', // TODO: Create in LemonSqueezy
+        checkoutUrl: 'https://compliancehub.lemonsqueezy.com/checkout/buy/c1cc62f1-9162-4f27-a57e-9e9cc24e87e5',
         price: 149,
         priceMonthly: '€149/kuu',
         name: 'Professional',
         features: ['DORA või NIS2 täishindamine', 'Detailne tegevuskava', 'PDF raport juhatusele', 'Eesti-spetsiifiline (E-ITS, CERT-EE)']
       },
       business: {
-        checkoutUrl: '#', // TODO: Create in LemonSqueezy
+        checkoutUrl: 'https://compliancehub.lemonsqueezy.com/checkout/buy/ad4319d2-27aa-4cb2-b551-5e92a698dfbf',
         price: 299,
         priceMonthly: '€299/kuu',
         name: 'Business',
         features: ['Kõik Professional features', 'DORA + NIS2 hindamine', 'Supply Chain Nerve Center', 'ICT pakkujate register (kuni 20)', 'Cross-compliance kaart']
       },
       enterprise: {
-        checkoutUrl: '#', // TODO: Create in LemonSqueezy
+        checkoutUrl: 'https://compliancehub.lemonsqueezy.com/checkout/buy/2a3d37f3-3571-4254-ac95-9aa6e1ee6b20',
         price: 499,
         priceMonthly: '€499/kuu',
         name: 'Enterprise',
