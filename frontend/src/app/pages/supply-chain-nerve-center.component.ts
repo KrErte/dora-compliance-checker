@@ -315,7 +315,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                 placeholder="Otsi pakkujat nime, riigi või tüübi järgi..."
               />
               @if (vendorSearchQuery()) {
-                <button class="clear-search-btn-large" (click)="clearVendorSearch()">✕</button>
+                <button type="button" class="clear-search-btn-large" (click)="clearVendorSearch(); $event.stopPropagation(); $event.preventDefault()">✕</button>
               }
               @if (isSearchingGlobal()) {
                 <span class="search-loading">⟳</span>
@@ -3738,6 +3738,17 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   }
 
   closeAddVendorPanel(): void {
+    // Reset form to empty state (prevent data leaking)
+    this.newVendorForm = this.getEmptyVendorForm();
+    this.countrySearch = '';
+    this.typeSearch = '';
+    this.nameSearch = '';
+    this.showCountryDropdown = false;
+    this.showTypeDropdown = false;
+    this.showNameDropdown = false;
+    this.companySearchResults.set([]);
+    this.saveError.set(null);
+    // Close the panel
     this.showAddVendorPanel.set(false);
   }
 
