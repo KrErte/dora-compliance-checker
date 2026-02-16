@@ -2927,10 +2927,11 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
 
     return this.http.get<any>(url).pipe(
       switchMap(response => {
-        if (response && Array.isArray(response)) {
-          const results: CompanySearchResult[] = response.slice(0, 8).map((item: any) => ({
-            name: item.arinimi || item.nimi || item.name || query,
-            registryCode: item.ariregistri_kood || item.registrikood || item.registry_code || '',
+        // Response format: { status: "OK", data: [...] }
+        if (response?.status === 'OK' && Array.isArray(response.data)) {
+          const results: CompanySearchResult[] = response.data.slice(0, 8).map((item: any) => ({
+            name: item.name || query,
+            registryCode: String(item.reg_code || ''),
             country: 'Eesti',
             countryCode: 'EE',
             source: 'ariregister' as const
