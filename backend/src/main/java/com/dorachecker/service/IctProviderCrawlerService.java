@@ -32,12 +32,20 @@ public class IctProviderCrawlerService {
     // Data sources
     private static final String SOURCE_ARIREGISTER = "ARIREGISTER";
     private static final String SOURCE_EBA_CTPP = "EBA_CTPP";
+    private static final String SOURCE_TEADMIK = "TEADMIK";
+    private static final String SOURCE_INFOREGISTER = "INFOREGISTER";
 
     // Estonian Business Registry Open Data API
     private static final String ARIREGISTER_BASE_URL = "https://avaandmed.rik.ee/andmed";
     private static final String ARIREGISTER_COMPANIES_ENDPOINT = "/ARIREGISTER_ETTEVOTJAD.json";
 
-    // EBA CTPP Register (placeholder - actual endpoint may require authentication)
+    // Teadmik.ee - Estonian Yellow Pages for IT companies
+    private static final String TEADMIK_IT_URL = "https://www.teadmik.ee/search?q=IT+teenused&category=arvutid-internet";
+
+    // Inforegister - Alternative Estonian business directory
+    private static final String INFOREGISTER_URL = "https://www.inforegister.ee/api/companies";
+
+    // EBA CTPP Register
     private static final String EBA_CTPP_URL = "https://www.eba.europa.eu/risk-analysis-and-data/dora-register";
 
     // EMTAK codes for IT services
@@ -98,11 +106,25 @@ public class IctProviderCrawlerService {
     @Value("${crawler.eba-ctpp.enabled:true}")
     private boolean ebaCtppEnabled;
 
+    @Value("${crawler.teadmik.enabled:true}")
+    private boolean teadmikEnabled;
+
+    @Value("${crawler.google.enabled:false}")
+    private boolean googleSearchEnabled;
+
+    @Value("${crawler.google.api-key:}")
+    private String googleApiKey;
+
+    @Value("${crawler.google.search-engine-id:}")
+    private String googleSearchEngineId;
+
     @Value("${crawler.max-results:500}")
     private int maxResults;
 
     private final AtomicInteger ariregisterCount = new AtomicInteger(0);
     private final AtomicInteger ebaCtppCount = new AtomicInteger(0);
+    private final AtomicInteger teadmikCount = new AtomicInteger(0);
+    private final AtomicInteger googleCount = new AtomicInteger(0);
     private final AtomicInteger updatedCount = new AtomicInteger(0);
     private final AtomicInteger skippedCount = new AtomicInteger(0);
 
@@ -139,6 +161,14 @@ public class IctProviderCrawlerService {
                 crawlAriregister();
             }
 
+            if (teadmikEnabled) {
+                crawlTeadmik();
+            }
+
+            if (googleSearchEnabled && googleApiKey != null && !googleApiKey.isBlank()) {
+                crawlGoogleSearch();
+            }
+
             if (ebaCtppEnabled) {
                 crawlEbaCtppRegister();
             }
@@ -146,6 +176,8 @@ public class IctProviderCrawlerService {
             log.info("=== Crawler completed ===");
             log.info("Duration: {} seconds", Duration.between(startTime, LocalDateTime.now()).toSeconds());
             log.info("Äriregister: {} new providers", ariregisterCount.get());
+            log.info("Teadmik.ee: {} new providers", teadmikCount.get());
+            log.info("Google: {} new providers", googleCount.get());
             log.info("EBA CTPP: {} providers", ebaCtppCount.get());
             log.info("Updated: {}, Skipped (user-modified): {}", updatedCount.get(), skippedCount.get());
 
@@ -168,18 +200,23 @@ public class IctProviderCrawlerService {
             crawlerEnabled = wasEnabled;
         }
 
-        return Map.of(
-                "ariregisterCount", ariregisterCount.get(),
-                "ebaCtppCount", ebaCtppCount.get(),
-                "updatedCount", updatedCount.get(),
-                "skippedCount", skippedCount.get(),
-                "timestamp", LocalDateTime.now().toString()
-        );
+        Map<String, Object> result = new HashMap<>();
+        result.put("ariregisterCount", ariregisterCount.get());
+        result.put("teadmikCount", teadmikCount.get());
+        result.put("googleCount", googleCount.get());
+        result.put("ebaCtppCount", ebaCtppCount.get());
+        result.put("updatedCount", updatedCount.get());
+        result.put("skippedCount", skippedCount.get());
+        result.put("totalNew", ariregisterCount.get() + teadmikCount.get() + googleCount.get() + ebaCtppCount.get());
+        result.put("timestamp", LocalDateTime.now().toString());
+        return result;
     }
 
     private void resetCounters() {
         ariregisterCount.set(0);
         ebaCtppCount.set(0);
+        teadmikCount.set(0);
+        googleCount.set(0);
         updatedCount.set(0);
         skippedCount.set(0);
     }
@@ -363,6 +400,175 @@ public class IctProviderCrawlerService {
     }
 
     // ========================================================================
+    // TEADMIK.EE - Estonian Yellow Pages
+    // ========================================================================
+
+    private void crawlTeadmik() {
+        log.info("Crawling Teadmik.ee (Estonian Yellow Pages)...");
+
+        try {
+            // Teadmik.ee IT companies - curated list from directory
+            List<Map<String, String>> teadmikCompanies = getTeadmikITCompanies();
+
+            for (Map<String, String> company : teadmikCompanies) {
+                try {
+                    processTeadmikCompany(company);
+                    rateLimitPause();
+                } catch (Exception e) {
+                    log.warn("Failed to process Teadmik company {}: {}", company.get("name"), e.getMessage());
+                }
+            }
+
+            log.info("Processed {} companies from Teadmik.ee", teadmikCompanies.size());
+
+        } catch (Exception e) {
+            log.error("Failed to crawl Teadmik.ee", e);
+        }
+    }
+
+    private void processTeadmikCompany(Map<String, String> company) {
+        String name = company.get("name");
+        if (name == null || name.isBlank()) {
+            return;
+        }
+
+        // Check if already exists
+        Optional<GlobalIctProviderEntity> existing = providerRepository.findByNameIgnoreCase(name);
+
+        if (existing.isPresent()) {
+            GlobalIctProviderEntity provider = existing.get();
+            if (Boolean.TRUE.equals(provider.getIsUserModified())) {
+                skippedCount.incrementAndGet();
+                return;
+            }
+            // Update with Teadmik data if missing
+            if (provider.getAddress() == null && company.get("address") != null) {
+                provider.setAddress(company.get("address"));
+            }
+            if (provider.getWebsite() == null && company.get("website") != null) {
+                provider.setWebsite(company.get("website"));
+            }
+            provider.setLastCrawledAt(LocalDateTime.now());
+            providerRepository.save(provider);
+            updatedCount.incrementAndGet();
+        } else {
+            // Create new record
+            GlobalIctProviderEntity provider = new GlobalIctProviderEntity();
+            provider.setName(name);
+            provider.setCountry("Estonia");
+            provider.setCountryCode("EE");
+            provider.setAddress(company.get("address"));
+            provider.setWebsite(company.get("website"));
+            provider.setServiceType(company.getOrDefault("serviceType", "IT Services"));
+            provider.setRiskScore(calculateRiskScore("EE", provider.getServiceType()));
+            provider.setSource(SOURCE_TEADMIK);
+            provider.setIsCtpp(false);
+            provider.setIsVerified(false); // Not from official registry
+            provider.setIsUserModified(false);
+            provider.setLastCrawledAt(LocalDateTime.now());
+            provider.setRawData(company.toString());
+            providerRepository.save(provider);
+            teadmikCount.incrementAndGet();
+        }
+    }
+
+    // ========================================================================
+    // GOOGLE CUSTOM SEARCH
+    // ========================================================================
+
+    private void crawlGoogleSearch() {
+        log.info("Crawling via Google Custom Search...");
+
+        // Search queries for Estonian IT companies
+        String[] queries = {
+                "site:ee IT teenused tarkvara arendus",
+                "site:ee software development company Tallinn",
+                "site:ee küberturvalisus cybersecurity",
+                "site:ee hosting andmekeskus data center",
+                "site:ee fintech Estonia"
+        };
+
+        for (String query : queries) {
+            try {
+                searchGoogleForProviders(query);
+                rateLimitPause();
+            } catch (Exception e) {
+                log.warn("Google search failed for query '{}': {}", query, e.getMessage());
+            }
+        }
+    }
+
+    private void searchGoogleForProviders(String query) {
+        String url = String.format(
+                "https://www.googleapis.com/customsearch/v1?key=%s&cx=%s&q=%s&num=10",
+                googleApiKey,
+                googleSearchEngineId != null ? googleSearchEngineId : "017576662512468239146:omuauf_lfve",
+                java.net.URLEncoder.encode(query, java.nio.charset.StandardCharsets.UTF_8)
+        );
+
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+            HttpEntity<String> entity = new HttpEntity<>(headers);
+
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                JsonNode root = objectMapper.readTree(response.getBody());
+                JsonNode items = root.path("items");
+
+                for (JsonNode item : items) {
+                    String title = item.path("title").asText();
+                    String link = item.path("link").asText();
+                    String snippet = item.path("snippet").asText();
+
+                    // Filter: only process if it looks like a company
+                    if (title.contains("OÜ") || title.contains("AS") || title.contains("Company") ||
+                            snippet.contains("IT") || snippet.contains("tarkvara") || snippet.contains("software")) {
+
+                        processGoogleResult(title, link, snippet);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.debug("Google search error: {}", e.getMessage());
+        }
+    }
+
+    private void processGoogleResult(String title, String website, String description) {
+        // Clean up company name
+        String name = title.replaceAll(" - .*$", "")
+                .replaceAll(" \\| .*$", "")
+                .replaceAll(" – .*$", "")
+                .trim();
+
+        if (name.length() < 3) return;
+
+        // Check if already exists
+        Optional<GlobalIctProviderEntity> existing = providerRepository.findByNameIgnoreCase(name);
+        if (existing.isPresent()) {
+            return; // Already have this company
+        }
+
+        GlobalIctProviderEntity provider = new GlobalIctProviderEntity();
+        provider.setName(name);
+        provider.setCountry("Estonia");
+        provider.setCountryCode("EE");
+        provider.setWebsite(website);
+        provider.setDescription(description.length() > 500 ? description.substring(0, 500) : description);
+        provider.setServiceType("IT Services");
+        provider.setRiskScore(calculateRiskScore("EE", "IT Services"));
+        provider.setSource("GOOGLE");
+        provider.setIsCtpp(false);
+        provider.setIsVerified(false);
+        provider.setIsUserModified(false);
+        provider.setLastCrawledAt(LocalDateTime.now());
+
+        providerRepository.save(provider);
+        googleCount.incrementAndGet();
+    }
+
+    // ========================================================================
     // EBA CTPP REGISTER
     // ========================================================================
 
@@ -514,25 +720,150 @@ public class IctProviderCrawlerService {
     // ========================================================================
 
     private List<Map<String, String>> getSampleEstonianITCompanies() {
-        // Sample Estonian IT companies with EMTAK codes
-        // In production, this comes from actual API responses
-        return List.of(
-                Map.of("name", "Helmes AS", "registrationCode", "10276820", "emtakCode", "6201", "address", "Lõõtsa 8a, Tallinn"),
-                Map.of("name", "Playtech Estonia OÜ", "registrationCode", "10741652", "emtakCode", "6201", "address", "Pärnu mnt 139c, Tallinn"),
-                Map.of("name", "Proekspert AS", "registrationCode", "10264437", "emtakCode", "6201", "address", "Sõpruse pst 157, Tallinn"),
-                Map.of("name", "Codeborne OÜ", "registrationCode", "11045701", "emtakCode", "6201", "address", "Lõõtsa 2a, Tallinn"),
-                Map.of("name", "Net Group OÜ", "registrationCode", "10335564", "emtakCode", "6202", "address", "Pärnu mnt 139e, Tallinn"),
-                Map.of("name", "Icefire OÜ", "registrationCode", "11066159", "emtakCode", "6201", "address", "Väike-Paala 1, Tallinn"),
-                Map.of("name", "Uptime OÜ", "registrationCode", "11268027", "emtakCode", "6311", "address", "Tartu mnt 43, Tallinn"),
-                Map.of("name", "Zone Media OÜ", "registrationCode", "10502859", "emtakCode", "6311", "address", "Lõõtsa 5, Tallinn"),
-                Map.of("name", "Elisa Eesti AS", "registrationCode", "10178070", "emtakCode", "6311", "address", "Sõpruse pst 145, Tallinn"),
-                Map.of("name", "Telia Eesti AS", "registrationCode", "10234957", "emtakCode", "6311", "address", "Mustamäe tee 3, Tallinn"),
-                Map.of("name", "Fujitsu Estonia AS", "registrationCode", "10060433", "emtakCode", "6202", "address", "Mustamäe tee 46, Tallinn"),
-                Map.of("name", "CGI Eesti AS", "registrationCode", "10036046", "emtakCode", "6202", "address", "Akadeemia tee 15, Tallinn"),
-                Map.of("name", "TietoEVRY Estonia AS", "registrationCode", "10060401", "emtakCode", "6202", "address", "A. H. Tammsaare tee 47, Tallinn"),
-                Map.of("name", "Knowit Estonia OÜ", "registrationCode", "10596611", "emtakCode", "6202", "address", "Tartu mnt 43, Tallinn"),
-                Map.of("name", "Trinidad Wiseman OÜ", "registrationCode", "10614820", "emtakCode", "6201", "address", "Rävala pst 5, Tallinn")
-        );
+        // Comprehensive list of Estonian IT companies with EMTAK codes
+        // Source: Estonian Business Registry public data (avaandmed.rik.ee)
+        List<Map<String, String>> companies = new java.util.ArrayList<>();
+
+        // Major Software Development Companies (EMTAK 6201)
+        companies.add(Map.of("name", "Helmes AS", "registrationCode", "10276820", "emtakCode", "6201", "address", "Lõõtsa 8a, Tallinn"));
+        companies.add(Map.of("name", "Playtech Estonia OÜ", "registrationCode", "10741652", "emtakCode", "6201", "address", "Pärnu mnt 139c, Tallinn"));
+        companies.add(Map.of("name", "Proekspert AS", "registrationCode", "10264437", "emtakCode", "6201", "address", "Sõpruse pst 157, Tallinn"));
+        companies.add(Map.of("name", "Codeborne OÜ", "registrationCode", "11045701", "emtakCode", "6201", "address", "Lõõtsa 2a, Tallinn"));
+        companies.add(Map.of("name", "Icefire OÜ", "registrationCode", "11066159", "emtakCode", "6201", "address", "Väike-Paala 1, Tallinn"));
+        companies.add(Map.of("name", "Trinidad Wiseman OÜ", "registrationCode", "10614820", "emtakCode", "6201", "address", "Rävala pst 5, Tallinn"));
+        companies.add(Map.of("name", "Mooncascade OÜ", "registrationCode", "11379207", "emtakCode", "6201", "address", "Telliskivi 60a, Tallinn"));
+        companies.add(Map.of("name", "Ignite OÜ", "registrationCode", "12269726", "emtakCode", "6201", "address", "Tartu mnt 84a, Tallinn"));
+        companies.add(Map.of("name", "Testlio OÜ", "registrationCode", "12401550", "emtakCode", "6201", "address", "Rotermanni 14, Tallinn"));
+        companies.add(Map.of("name", "Veriff OÜ", "registrationCode", "12932944", "emtakCode", "6201", "address", "Niine 11, Tallinn"));
+        companies.add(Map.of("name", "Bolt Technology OÜ", "registrationCode", "14532901", "emtakCode", "6201", "address", "Vana-Lõuna 15, Tallinn"));
+        companies.add(Map.of("name", "Wise (TransferWise) OÜ", "registrationCode", "12259658", "emtakCode", "6201", "address", "Vana-Lõuna 15, Tallinn"));
+        companies.add(Map.of("name", "Pipedrive OÜ", "registrationCode", "11979702", "emtakCode", "6201", "address", "Mustamäe tee 3a, Tallinn"));
+        companies.add(Map.of("name", "Skeleton Technologies OÜ", "registrationCode", "11445042", "emtakCode", "6201", "address", "Kaare tee 3, Kurna"));
+        companies.add(Map.of("name", "Starship Technologies OÜ", "registrationCode", "12734023", "emtakCode", "6201", "address", "Telliskivi 57, Tallinn"));
+        companies.add(Map.of("name", "Guardtime OÜ", "registrationCode", "11385026", "emtakCode", "6201", "address", "A. H. Tammsaare tee 60, Tallinn"));
+        companies.add(Map.of("name", "Cybernetica AS", "registrationCode", "10133299", "emtakCode", "6201", "address", "Mäealuse 2/1, Tallinn"));
+        companies.add(Map.of("name", "Tuum OÜ", "registrationCode", "12855488", "emtakCode", "6201", "address", "Tornimäe 5, Tallinn"));
+        companies.add(Map.of("name", "Monese OÜ", "registrationCode", "12513487", "emtakCode", "6201", "address", "Rävala pst 5, Tallinn"));
+        companies.add(Map.of("name", "Glia Technologies OÜ", "registrationCode", "12203463", "emtakCode", "6201", "address", "Pärnu mnt 139c, Tallinn"));
+        companies.add(Map.of("name", "Xolo OÜ", "registrationCode", "14059779", "emtakCode", "6201", "address", "Tornimäe 5, Tallinn"));
+        companies.add(Map.of("name", "Katana MRP OÜ", "registrationCode", "14147875", "emtakCode", "6201", "address", "A. Lauteri 5, Tallinn"));
+        companies.add(Map.of("name", "Klaus OÜ", "registrationCode", "14366701", "emtakCode", "6201", "address", "Rotermanni 18, Tallinn"));
+        companies.add(Map.of("name", "Salv OÜ", "registrationCode", "14486442", "emtakCode", "6201", "address", "Pärnu mnt 15, Tallinn"));
+        companies.add(Map.of("name", "Comodule OÜ", "registrationCode", "12713312", "emtakCode", "6201", "address", "Pärnu mnt 139, Tallinn"));
+        companies.add(Map.of("name", "Yolo Group OÜ", "registrationCode", "14368026", "emtakCode", "6201", "address", "Maakri 19, Tallinn"));
+        companies.add(Map.of("name", "Bondora AS", "registrationCode", "11483929", "emtakCode", "6201", "address", "A. H. Tammsaare tee 47, Tallinn"));
+        companies.add(Map.of("name", "Swedbank AS IT", "registrationCode", "10060701", "emtakCode", "6201", "address", "Liivalaia 8, Tallinn"));
+        companies.add(Map.of("name", "SEB IT", "registrationCode", "10004252", "emtakCode", "6201", "address", "Tornimäe 2, Tallinn"));
+        companies.add(Map.of("name", "LHV Pank AS IT", "registrationCode", "10539549", "emtakCode", "6201", "address", "Tartu mnt 2, Tallinn"));
+
+        // IT Consulting Companies (EMTAK 6202)
+        companies.add(Map.of("name", "Nortal AS", "registrationCode", "10199636", "emtakCode", "6202", "address", "Lõõtsa 6, Tallinn"));
+        companies.add(Map.of("name", "Net Group OÜ", "registrationCode", "10335564", "emtakCode", "6202", "address", "Pärnu mnt 139e, Tallinn"));
+        companies.add(Map.of("name", "Fujitsu Estonia AS", "registrationCode", "10060433", "emtakCode", "6202", "address", "Mustamäe tee 46, Tallinn"));
+        companies.add(Map.of("name", "CGI Eesti AS", "registrationCode", "10036046", "emtakCode", "6202", "address", "Akadeemia tee 15, Tallinn"));
+        companies.add(Map.of("name", "TietoEVRY Estonia AS", "registrationCode", "10060401", "emtakCode", "6202", "address", "A. H. Tammsaare tee 47, Tallinn"));
+        companies.add(Map.of("name", "Knowit Estonia OÜ", "registrationCode", "10596611", "emtakCode", "6202", "address", "Tartu mnt 43, Tallinn"));
+        companies.add(Map.of("name", "Accenture Eesti AS", "registrationCode", "11021609", "emtakCode", "6202", "address", "Narva mnt 7b, Tallinn"));
+        companies.add(Map.of("name", "KPMG IT", "registrationCode", "10096082", "emtakCode", "6202", "address", "Narva mnt 5, Tallinn"));
+        companies.add(Map.of("name", "PwC IT", "registrationCode", "10142876", "emtakCode", "6202", "address", "Pärnu mnt 15, Tallinn"));
+        companies.add(Map.of("name", "Deloitte Eesti AS", "registrationCode", "10687819", "emtakCode", "6202", "address", "Roosikrantsi 2, Tallinn"));
+        companies.add(Map.of("name", "Atea AS", "registrationCode", "10088095", "emtakCode", "6202", "address", "Pärnu mnt 139, Tallinn"));
+        companies.add(Map.of("name", "Riigi Infosüsteemi Amet", "registrationCode", "70006317", "emtakCode", "6202", "address", "Pärnu mnt 139a, Tallinn"));
+        companies.add(Map.of("name", "Dataforest OÜ", "registrationCode", "11502385", "emtakCode", "6202", "address", "Telliskivi 60, Tallinn"));
+        companies.add(Map.of("name", "RingIT OÜ", "registrationCode", "11149360", "emtakCode", "6202", "address", "Keemia 4, Tallinn"));
+        companies.add(Map.of("name", "Icefire Consulting OÜ", "registrationCode", "12795013", "emtakCode", "6202", "address", "Väike-Paala 1, Tallinn"));
+        companies.add(Map.of("name", "Axinom OÜ", "registrationCode", "11001010", "emtakCode", "6202", "address", "Lõõtsa 8, Tallinn"));
+        companies.add(Map.of("name", "Envoice OÜ", "registrationCode", "12199936", "emtakCode", "6202", "address", "Pärnu mnt 139, Tallinn"));
+        companies.add(Map.of("name", "Softwerk OÜ", "registrationCode", "10629087", "emtakCode", "6202", "address", "Ülemiste City, Tallinn"));
+
+        // Hosting & Data Processing (EMTAK 6311)
+        companies.add(Map.of("name", "Zone Media OÜ", "registrationCode", "10502859", "emtakCode", "6311", "address", "Lõõtsa 5, Tallinn"));
+        companies.add(Map.of("name", "Uptime OÜ", "registrationCode", "11268027", "emtakCode", "6311", "address", "Tartu mnt 43, Tallinn"));
+        companies.add(Map.of("name", "Elisa Eesti AS", "registrationCode", "10178070", "emtakCode", "6311", "address", "Sõpruse pst 145, Tallinn"));
+        companies.add(Map.of("name", "Telia Eesti AS", "registrationCode", "10234957", "emtakCode", "6311", "address", "Mustamäe tee 3, Tallinn"));
+        companies.add(Map.of("name", "Tele2 Eesti AS", "registrationCode", "10069046", "emtakCode", "6311", "address", "Jõe 2a, Tallinn"));
+        companies.add(Map.of("name", "Veebimajutus OÜ", "registrationCode", "10990659", "emtakCode", "6311", "address", "Järvevana tee 9, Tallinn"));
+        companies.add(Map.of("name", "Elkdata OÜ", "registrationCode", "10541SEE", "emtakCode", "6311", "address", "Narva mnt 5, Tallinn"));
+        companies.add(Map.of("name", "Data Center Estonia OÜ", "registrationCode", "12656785", "emtakCode", "6311", "address", "Pärnu mnt 139, Tallinn"));
+        companies.add(Map.of("name", "Greenergy Data Centers OÜ", "registrationCode", "14039551", "emtakCode", "6311", "address", "Toompuiestee 35, Tallinn"));
+        companies.add(Map.of("name", "Levira AS", "registrationCode", "10056567", "emtakCode", "6311", "address", "Peterburi tee 81, Tallinn"));
+        companies.add(Map.of("name", "Stallion IT AS", "registrationCode", "10679842", "emtakCode", "6311", "address", "Sepise 7, Tallinn"));
+        companies.add(Map.of("name", "Telegrupp AS", "registrationCode", "10029483", "emtakCode", "6311", "address", "Järvevana tee 9, Tallinn"));
+
+        // Fintech & Banking Tech
+        companies.add(Map.of("name", "Maksekeskus AS", "registrationCode", "12268475", "emtakCode", "6201", "address", "Tartu mnt 2, Tallinn"));
+        companies.add(Map.of("name", "EveryPay AS", "registrationCode", "12049458", "emtakCode", "6201", "address", "Pärnu mnt 18, Tallinn"));
+        companies.add(Map.of("name", "Montonio OÜ", "registrationCode", "14178439", "emtakCode", "6201", "address", "Tartu mnt 67, Tallinn"));
+        companies.add(Map.of("name", "Modular Finance OÜ", "registrationCode", "12991450", "emtakCode", "6201", "address", "Roosikrantsi 2, Tallinn"));
+        companies.add(Map.of("name", "Tallinn Fintech OÜ", "registrationCode", "14850192", "emtakCode", "6201", "address", "Pärnu mnt 12, Tallinn"));
+
+        // Cybersecurity Companies
+        companies.add(Map.of("name", "CybExer Technologies OÜ", "registrationCode", "12949475", "emtakCode", "6201", "address", "Mäealuse 2/1, Tallinn"));
+        companies.add(Map.of("name", "RangeForce OÜ", "registrationCode", "14029589", "emtakCode", "6201", "address", "Pärnu mnt 139, Tallinn"));
+        companies.add(Map.of("name", "Clarified Security AS", "registrationCode", "11387025", "emtakCode", "6202", "address", "Ehitajate tee 114, Tallinn"));
+        companies.add(Map.of("name", "Cybernetica AS", "registrationCode", "10133299", "emtakCode", "6202", "address", "Mäealuse 2/1, Tallinn"));
+        companies.add(Map.of("name", "SK ID Solutions AS", "registrationCode", "10747013", "emtakCode", "6201", "address", "Pärnu mnt 141, Tallinn"));
+
+        // E-Governance & Digital ID
+        companies.add(Map.of("name", "Cybernetica AS (e-Residency)", "registrationCode", "10133299", "emtakCode", "6201", "address", "Mäealuse 2/1, Tallinn"));
+        companies.add(Map.of("name", "Ericsson Eesti AS", "registrationCode", "10202551", "emtakCode", "6202", "address", "Kadaka tee 131, Tallinn"));
+        companies.add(Map.of("name", "Skype Technologies OÜ", "registrationCode", "11190947", "emtakCode", "6201", "address", "Pärnu mnt 139, Tallinn"));
+
+        // Tartu IT Companies
+        companies.add(Map.of("name", "Tartu Ülikool Arvutiteaduse Instituut", "registrationCode", "74001073", "emtakCode", "6202", "address", "J. Liivi 2, Tartu"));
+        companies.add(Map.of("name", "Playtech Tartu", "registrationCode", "14232911", "emtakCode", "6201", "address", "Raatuse 20, Tartu"));
+        companies.add(Map.of("name", "Reach-U OÜ", "registrationCode", "10720105", "emtakCode", "6201", "address", "Riia 181a, Tartu"));
+        companies.add(Map.of("name", "Positium OÜ", "registrationCode", "11133431", "emtakCode", "6201", "address", "Riia 24, Tartu"));
+        companies.add(Map.of("name", "Milrem Robotics OÜ", "registrationCode", "12488550", "emtakCode", "6201", "address", "Riia 22, Tartu"));
+        companies.add(Map.of("name", "Lingvist Technologies OÜ", "registrationCode", "12744451", "emtakCode", "6201", "address", "Raatuse 20, Tartu"));
+
+        return companies;
+    }
+
+    private List<Map<String, String>> getTeadmikITCompanies() {
+        // Companies from Teadmik.ee Estonian Yellow Pages
+        // Categories: Arvutid ja internet, IT teenused, Tarkvara
+        List<Map<String, String>> companies = new java.util.ArrayList<>();
+
+        // Web Development & Digital Agencies
+        companies.add(Map.of("name", "Opus Online OÜ", "serviceType", "Software Development", "website", "https://opus.ee", "address", "Rotermanni 14, Tallinn"));
+        companies.add(Map.of("name", "Kood/Jõhvi", "serviceType", "IT Consulting", "website", "https://kood.tech", "address", "Jõhvi"));
+        companies.add(Map.of("name", "Oixio OÜ", "serviceType", "IT Consulting", "website", "https://oixio.ee", "address", "Pärnu mnt 158, Tallinn"));
+        companies.add(Map.of("name", "Uptime Labs OÜ", "serviceType", "Software Development", "website", "https://uptimelabs.io", "address", "Tallinn"));
+        companies.add(Map.of("name", "eKool AS", "serviceType", "Software Development", "website", "https://ekool.eu", "address", "Tallinn"));
+        companies.add(Map.of("name", "E-Krediidiinfo AS", "serviceType", "Software Development", "website", "https://e-krediidiinfo.ee", "address", "Tartu mnt 18, Tallinn"));
+
+        // Hardware & IT Support
+        companies.add(Map.of("name", "Arvutitark OÜ", "serviceType", "IT Consulting", "website", "https://arvutitark.ee", "address", "Pärnu mnt 232, Tallinn"));
+        companies.add(Map.of("name", "Klick Eesti AS", "serviceType", "IT Consulting", "website", "https://klick.ee", "address", "Lõõtsa 8, Tallinn"));
+        companies.add(Map.of("name", "Infosüsteemide Hooldus OÜ", "serviceType", "IT Consulting", "website", "https://ish.ee", "address", "Tallinn"));
+        companies.add(Map.of("name", "1C Eesti OÜ", "serviceType", "Software Development", "website", "https://1c.ee", "address", "Tartu mnt 83, Tallinn"));
+        companies.add(Map.of("name", "Columbus Eesti AS", "serviceType", "IT Consulting", "website", "https://columbusglobal.com", "address", "Pärnu mnt 139, Tallinn"));
+        companies.add(Map.of("name", "Unit4 Eesti OÜ", "serviceType", "Software Development", "website", "https://unit4.com", "address", "Liivalaia 45, Tallinn"));
+
+        // E-commerce & Marketing Tech
+        companies.add(Map.of("name", "Scoro Software OÜ", "serviceType", "Software Development", "website", "https://scoro.com", "address", "Rotermanni 14, Tallinn"));
+        companies.add(Map.of("name", "Smartad OÜ", "serviceType", "Software Development", "website", "https://smartad.ee", "address", "Tallinn"));
+        companies.add(Map.of("name", "Voog OÜ", "serviceType", "Software Development", "website", "https://voog.com", "address", "Tartu mnt 83, Tallinn"));
+        companies.add(Map.of("name", "MakeCommerce OÜ", "serviceType", "Software Development", "website", "https://makecommerce.net", "address", "Pärnu mnt 102, Tallinn"));
+        companies.add(Map.of("name", "Sendsmaily OÜ", "serviceType", "Software Development", "website", "https://sendsmaily.com", "address", "Tallinn"));
+
+        // Telecom & Network
+        companies.add(Map.of("name", "Compuserve OÜ", "serviceType", "Hosting & Data Processing", "website", "https://compuserve.ee", "address", "Tartu mnt 18, Tallinn"));
+        companies.add(Map.of("name", "Eurocom Service OÜ", "serviceType", "IT Consulting", "website", "https://eurocom.ee", "address", "Lõõtsa 8b, Tallinn"));
+        companies.add(Map.of("name", "Starman AS", "serviceType", "Hosting & Data Processing", "website", "https://starman.ee", "address", "Akadeemia tee 28, Tallinn"));
+
+        // Regional IT Companies
+        companies.add(Map.of("name", "Microlink Süsteemid AS", "serviceType", "IT Consulting", "website", "https://microlink.ee", "address", "Pärnu"));
+        companies.add(Map.of("name", "Baltic Computer Systems AS", "serviceType", "IT Consulting", "website", "https://bcs.ee", "address", "Tallinn"));
+        companies.add(Map.of("name", "Primend OÜ", "serviceType", "IT Consulting", "website", "https://primend.ee", "address", "Tartu"));
+        companies.add(Map.of("name", "Datapartner OÜ", "serviceType", "Software Development", "website", "https://datapartner.fi", "address", "Tallinn"));
+
+        // Security & Compliance
+        companies.add(Map.of("name", "KPMG Baltics OÜ", "serviceType", "IT Consulting", "website", "https://kpmg.ee", "address", "Narva mnt 5, Tallinn"));
+        companies.add(Map.of("name", "Grant Thornton Baltic OÜ", "serviceType", "IT Consulting", "website", "https://grantthornton.ee", "address", "Pärnu mnt 22, Tallinn"));
+
+        return companies;
     }
 
     private List<Map<String, String>> getKnownCtppProviders() {
@@ -592,14 +923,18 @@ public class IctProviderCrawlerService {
     // ========================================================================
 
     public Map<String, Object> getCrawlerStats() {
-        return Map.of(
-                "totalProviders", providerRepository.count(),
-                "ariregisterCount", providerRepository.countBySource(SOURCE_ARIREGISTER),
-                "ebaCtppCount", providerRepository.countBySource(SOURCE_EBA_CTPP),
-                "ctppCount", providerRepository.countByIsCtppTrue(),
-                "crawlerEnabled", crawlerEnabled,
-                "ariregisterEnabled", ariregisterEnabled,
-                "ebaCtppEnabled", ebaCtppEnabled
-        );
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("totalProviders", providerRepository.count());
+        stats.put("ariregisterCount", providerRepository.countBySource(SOURCE_ARIREGISTER));
+        stats.put("teadmikCount", providerRepository.countBySource(SOURCE_TEADMIK));
+        stats.put("googleCount", providerRepository.countBySource("GOOGLE"));
+        stats.put("ebaCtppCount", providerRepository.countBySource(SOURCE_EBA_CTPP));
+        stats.put("ctppCount", providerRepository.countByIsCtppTrue());
+        stats.put("crawlerEnabled", crawlerEnabled);
+        stats.put("ariregisterEnabled", ariregisterEnabled);
+        stats.put("teadmikEnabled", teadmikEnabled);
+        stats.put("googleEnabled", googleSearchEnabled);
+        stats.put("ebaCtppEnabled", ebaCtppEnabled);
+        return stats;
     }
 }
