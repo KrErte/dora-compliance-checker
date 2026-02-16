@@ -716,15 +716,15 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                   <label class="form-label">Kriitilisus</label>
                   <div class="radio-group">
                     <label class="radio-item" [class.selected]="newVendorForm.criticality === 'critical'">
-                      <input type="radio" name="criticality" value="critical" [(ngModel)]="newVendorForm.criticality" />
+                      <input type="radio" name="criticality" value="critical" [(ngModel)]="newVendorForm.criticality" (ngModelChange)="onFormChange()" />
                       <span class="radio-label critical">Kriitiline</span>
                     </label>
                     <label class="radio-item" [class.selected]="newVendorForm.criticality === 'important'">
-                      <input type="radio" name="criticality" value="important" [(ngModel)]="newVendorForm.criticality" />
+                      <input type="radio" name="criticality" value="important" [(ngModel)]="newVendorForm.criticality" (ngModelChange)="onFormChange()" />
                       <span class="radio-label important">Oluline</span>
                     </label>
                     <label class="radio-item" [class.selected]="newVendorForm.criticality === 'normal'">
-                      <input type="radio" name="criticality" value="normal" [(ngModel)]="newVendorForm.criticality" />
+                      <input type="radio" name="criticality" value="normal" [(ngModel)]="newVendorForm.criticality" (ngModelChange)="onFormChange()" />
                       <span class="radio-label normal">Tavaline</span>
                     </label>
                   </div>
@@ -788,6 +788,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                       <input
                         type="checkbox"
                         [(ngModel)]="newVendorForm.hasExitStrategy"
+                        (ngModelChange)="onFormChange()"
                       />
                       <span class="toggle-switch"></span>
                       <span class="toggle-label">Exit strateegia olemas</span>
@@ -2999,6 +3000,8 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
 
   // New Vendor Form
   newVendorForm: NewVendorForm = this.getEmptyVendorForm();
+  // Signal to trigger risk recalculation when form changes
+  private readonly formVersion = signal(0);
 
   // Dropdown options for form
   countryOptions = [
@@ -3131,6 +3134,9 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   // Risk score calculation based on country + criticality + exit strategy
   // Base risks: EE=20, EU=25, non-EU=40 for normal provider with exit strategy
   readonly calculatedRiskScore = computed(() => {
+    // Depend on formVersion to trigger recalculation when form changes
+    this.formVersion();
+
     let score = 0;
 
     // Country risk (base values for "normal" criticality with exit strategy)
@@ -3479,6 +3485,9 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
       exitStrategyDescription: ''
     };
 
+    // Trigger risk recalculation
+    this.formVersion.update(v => v + 1);
+
     // Mark usage in global registry
     this.http.post(`/api/global-providers/${provider.id}/use`, {}).subscribe();
 
@@ -3580,6 +3589,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     this.nameSearch = '';
     this.showNameDropdown = false;
     this.companySearchResults.set([]);
+    this.formVersion.update(v => v + 1);
   }
 
   openView(view: ViewType): void {
@@ -3661,6 +3671,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     this.showTypeDropdown = false;
     this.showNameDropdown = false;
     this.companySearchResults.set([]);
+    this.formVersion.update(v => v + 1);
     this.showAddVendorPanel.set(true);
   }
 
@@ -3668,6 +3679,12 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     this.newVendorForm.country = code;
     this.countrySearch = '';
     this.showCountryDropdown = false;
+    this.formVersion.update(v => v + 1);
+  }
+
+  // Trigger risk recalculation when form fields change
+  onFormChange(): void {
+    this.formVersion.update(v => v + 1);
   }
 
   selectServiceType(type: string): void {
