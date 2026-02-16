@@ -51,6 +51,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/exports/**").permitAll()
                 .requestMatchers("/api/webhooks/**").permitAll()
                 .requestMatchers("/api/benchmarks/**").permitAll()
+                .requestMatchers("/api/global-providers/**").permitAll()
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().permitAll()
             )
