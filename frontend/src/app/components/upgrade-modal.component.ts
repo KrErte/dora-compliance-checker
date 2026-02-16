@@ -96,7 +96,7 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
 
         <!-- CTA Buttons -->
         <div class="space-y-3">
-          <a [href]="paymentConfig.lemonsqueezy.subscriptions?.standard?.checkoutUrl || paymentConfig.lemonsqueezy.products.doraAssessment.checkoutUrl"
+          <a [href]="paymentConfig.lemonsqueezy.subscriptions?.professional?.checkoutUrl || paymentConfig.lemonsqueezy.products.doraAssessment.checkoutUrl"
              target="_blank"
              (click)="onUpgrade()"
              class="w-full py-3.5 px-4 rounded-xl text-center font-bold text-sm block
