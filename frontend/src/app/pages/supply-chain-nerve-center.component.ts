@@ -322,60 +322,6 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
               }
             </div>
 
-            <!-- Search Results Sections -->
-            @if (vendorSearchQuery() && (sortedVendors().length > 0 || showGlobalResults())) {
-              <div class="search-results-container">
-                <!-- User's Vendors Section -->
-                @if (sortedVendors().length > 0) {
-                  <div class="search-section">
-                    <div class="search-section-header">
-                      <span class="section-icon">👤</span>
-                      <span class="section-title">Sinu pakkujad</span>
-                      <span class="section-count">{{ sortedVendors().length }}</span>
-                    </div>
-                  </div>
-                }
-
-                <!-- Global Registry Section -->
-                @if (showGlobalResults() && globalSearchResults().length > 0) {
-                  <div class="search-section global-section">
-                    <div class="search-section-header">
-                      <span class="section-icon">🌍</span>
-                      <span class="section-title">Globaalne register</span>
-                      <span class="section-count">{{ globalSearchResults().length }}</span>
-                    </div>
-                    <div class="global-results">
-                      @for (provider of globalSearchResults(); track provider.id) {
-                        <div class="global-result-item">
-                          <div class="global-provider-info">
-                            <span class="provider-name">
-                              {{ provider.name }}
-                              @if (provider.isCtpp) {
-                                <span class="ctpp-badge" title="Critical Third-Party Provider">CTPP</span>
-                              }
-                              @if (provider.isVerified) {
-                                <span class="verified-badge" title="Kinnitatud">✓</span>
-                              }
-                            </span>
-                            <span class="provider-details">
-                              {{ provider.countryCode ? getFlag(provider.countryCode) : '' }}
-                              {{ provider.country || 'N/A' }} • {{ provider.serviceType || 'N/A' }}
-                              @if (provider.usageCount > 0) {
-                                • <span class="usage-count">{{ provider.usageCount }} kasutajat</span>
-                              }
-                            </span>
-                          </div>
-                          <button class="add-global-btn" (click)="addGlobalProviderToSupplyChain(provider)">
-                            + Lisa
-                          </button>
-                        </div>
-                      }
-                    </div>
-                  </div>
-                }
-              </div>
-            }
-
             <div class="vendor-table">
               <div class="table-header">
                 <span class="col-name">Nimi</span>
@@ -409,6 +355,44 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                 }
               }
             </div>
+
+            <!-- Global Registry Results - Below Table -->
+            @if (showGlobalResults() && globalSearchResults().length > 0) {
+              <div class="global-registry-section">
+                <div class="global-section-header">
+                  <span class="section-icon">🌍</span>
+                  <span class="section-title">Leitud globaalsest registrist</span>
+                  <span class="section-count">{{ globalSearchResults().length }}</span>
+                </div>
+                <div class="global-results-grid">
+                  @for (provider of globalSearchResults(); track provider.id) {
+                    <div class="global-result-card">
+                      <div class="provider-info">
+                        <span class="provider-name">
+                          {{ provider.name }}
+                          @if (provider.isCtpp) {
+                            <span class="ctpp-badge" title="Critical Third-Party Provider">CTPP</span>
+                          }
+                          @if (provider.isVerified) {
+                            <span class="verified-badge" title="Kinnitatud">✓</span>
+                          }
+                        </span>
+                        <span class="provider-meta">
+                          {{ provider.countryCode ? getFlag(provider.countryCode) : '' }}
+                          {{ provider.country || 'N/A' }} • {{ provider.serviceType || 'N/A' }}
+                        </span>
+                        @if (provider.usageCount > 0) {
+                          <span class="usage-info">{{ provider.usageCount }} kasutajat</span>
+                        }
+                      </div>
+                      <button class="add-to-chain-btn" (click)="addGlobalProviderToSupplyChain(provider)">
+                        + Lisa tarneahelasse
+                      </button>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
           </div>
 
           <!-- Vendor Slide-out Panel -->
@@ -2158,6 +2142,113 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
       box-shadow: 0 4px 12px rgba(0, 229, 255, 0.3);
     }
 
+    /* Global Registry Section - Below Table */
+    .global-registry-section {
+      margin-top: 24px;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.05), rgba(0, 180, 216, 0.03));
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      border-radius: 16px;
+      padding: 20px;
+    }
+
+    .global-section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .global-section-header .section-icon {
+      font-size: 20px;
+    }
+
+    .global-section-header .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #00E5FF;
+    }
+
+    .global-section-header .section-count {
+      background: rgba(0, 229, 255, 0.2);
+      color: #00E5FF;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .global-results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 12px;
+    }
+
+    .global-result-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      transition: all 0.2s;
+    }
+
+    .global-result-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(0, 229, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .global-result-card .provider-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .global-result-card .provider-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .global-result-card .provider-meta {
+      font-size: 12px;
+      color: #8b9299;
+    }
+
+    .global-result-card .usage-info {
+      font-size: 11px;
+      color: #00E5FF;
+    }
+
+    .add-to-chain-btn {
+      background: linear-gradient(135deg, #00E5FF, #00B4D8);
+      color: #0a0f1a;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      margin-left: 12px;
+    }
+
+    .add-to-chain-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 16px rgba(0, 229, 255, 0.4);
+    }
+
     /* Company Autocomplete */
     .name-input-wrapper {
       position: relative;
@@ -2975,31 +3066,36 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   }));
 
   // Risk score calculation based on country + criticality + exit strategy
+  // Base risks: EE=20, EU=25, non-EU=40 for normal provider with exit strategy
   readonly calculatedRiskScore = computed(() => {
     let score = 0;
 
-    // Country risk
+    // Country risk (base values for "normal" criticality with exit strategy)
     const countryCode = this.newVendorForm.country;
-    if (countryCode === 'CN') {
-      score += 50; // China = high risk
-    } else if (countryCode === 'US' || countryCode === 'GB') {
-      score += 20; // Non-EU but trusted
+    if (countryCode === 'EE') {
+      score += 15; // Estonia = lowest risk (20 with normal + exit)
+    } else if (countryCode === 'CN') {
+      score += 55; // China = high risk
+    } else if (countryCode === 'RU' || countryCode === 'BY') {
+      score += 60; // Russia/Belarus = very high risk
     } else if (this.countries.some(c => c.code === countryCode && c.isEU)) {
-      score += 5; // EU = low risk
+      score += 20; // EU = low risk (25 with normal + exit)
+    } else if (['US', 'GB', 'CH', 'NO', 'IS'].includes(countryCode)) {
+      score += 30; // Trusted non-EU (35 with normal + exit)
     } else {
-      score += 30; // Unknown
+      score += 35; // Other non-EU = higher risk (40 with normal + exit)
     }
 
     // Criticality risk
     switch (this.newVendorForm.criticality) {
-      case 'critical': score += 30; break;
-      case 'important': score += 15; break;
+      case 'critical': score += 25; break;
+      case 'important': score += 10; break;
       case 'normal': score += 5; break;
     }
 
     // Exit strategy (no exit = higher risk)
     if (!this.newVendorForm.hasExitStrategy) {
-      score += 20;
+      score += 15;
     }
 
     return Math.min(score, 100);
