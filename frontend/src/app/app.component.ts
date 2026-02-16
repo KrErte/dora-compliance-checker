@@ -172,16 +172,14 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
           </a>
           <!-- Dashboard -->
           @if (auth.isLoggedIn()) {
-            <!-- Hidden: Dashboard/history - uncomment when ready
-            <a routerLink="/history" routerLinkActive="nav-link-active"
+            <a routerLink="/dashboard" routerLinkActive="nav-link-active"
                class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
               </svg>
-              Dashboard
+              {{ lang.t('nav.dashboard') }}
             </a>
             <div class="w-px h-5 bg-slate-700/50 mx-1"></div>
-            -->
             <span class="text-xs text-slate-500 px-2 truncate max-w-[120px]">{{ auth.user()?.email }}</span>
             <button type="button" (click)="auth.logout()"
                     class="text-sm text-slate-400 hover:text-red-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
@@ -334,13 +332,15 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
             </a>
           </div>
           @if (auth.isLoggedIn()) {
-            <!-- Hidden: Dashboard/history - uncomment when ready
             <div class="border-t border-slate-700/50 mt-2 pt-2">
-              <a routerLink="/history" (click)="mobileMenu = false"
+              <a routerLink="/dashboard" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
-                <span class="text-violet-400">&#9635;</span> Dashboard</a>
+                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
+                </svg>
+                {{ lang.t('nav.dashboard') }}
+              </a>
             </div>
-            -->
             <div class="border-t border-slate-700/50 mt-2 pt-2">
               <span class="text-xs text-slate-500 px-3">{{ auth.user()?.email }}</span>
               <button type="button" (click)="auth.logout(); mobileMenu = false"
@@ -464,7 +464,8 @@ export class AppComponent implements OnInit, OnDestroy {
     '/fine-calculator': { et: 'Trahvikalkulaator | DoraAudit.eu', en: 'Fine Calculator | DoraAudit.eu' },
     '/timeline': { et: 'Regulatiivne Ajakava | DoraAudit.eu', en: 'Regulatory Timeline | DoraAudit.eu' },
     '/vendors': { et: 'ICT Teenusepakkujate Andmebaas | DoraAudit.eu', en: 'ICT Vendor Database | DoraAudit.eu' },
-    '/supply-chain': { et: 'Supply Chain Nerve Center | DoraAudit.eu', en: 'Supply Chain Nerve Center | DoraAudit.eu' }
+    '/supply-chain': { et: 'Supply Chain Nerve Center | DoraAudit.eu', en: 'Supply Chain Nerve Center | DoraAudit.eu' },
+    '/dashboard': { et: 'Juhtpaneel | DoraAudit.eu', en: 'Dashboard | DoraAudit.eu' }
   };
 
   private pageDescriptions: { [path: string]: string } = {

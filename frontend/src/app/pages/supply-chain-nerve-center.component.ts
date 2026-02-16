@@ -2,10 +2,12 @@
 // Simplified for non-technical compliance managers
 // Rule: One screen = one clear answer
 
-import { Component, signal, computed, OnInit, OnDestroy } from '@angular/core';
+import { Component, signal, computed, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ApiService, IctProvider, CreateIctProviderRequest } from '../api.service';
+import { AuthService } from '../auth/auth.service';
 
 interface Vendor {
   id: string;
@@ -598,15 +600,26 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                   </div>
                 </div>
 
+                <!-- Error message -->
+                @if (saveError()) {
+                  <div class="form-error">
+                    {{ saveError() }}
+                  </div>
+                }
+
                 <!-- Submit -->
                 <div class="form-actions">
                   <button class="cancel-btn" (click)="closeAddVendorPanel()">Tühista</button>
                   <button
                     class="submit-btn"
-                    [disabled]="!isFormValid()"
+                    [disabled]="!isFormValid() || isLoading()"
                     (click)="submitNewVendor()"
                   >
-                    Lisa pakkuja
+                    @if (isLoading()) {
+                      Salvestan...
+                    } @else {
+                      Lisa pakkuja
+                    }
                   </button>
                 </div>
               </div>
@@ -1949,6 +1962,16 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
       cursor: not-allowed;
     }
 
+    .form-error {
+      padding: 12px 16px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 8px;
+      color: #ef4444;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
     /* CSV Import */
     .csv-panel {
       width: 700px;
@@ -2153,6 +2176,9 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
   `]
 })
 export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
+  private readonly api = inject(ApiService);
+  private readonly auth = inject(AuthService);
+
   // State
   readonly currentView = signal<ViewType>('main');
   readonly selectedVendor = signal<Vendor | null>(null);
@@ -2162,6 +2188,8 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   readonly isDragOver = signal(false);
   readonly csvPreviewData = signal<CSVRow[]>([]);
   readonly csvErrors = signal<string[]>([]);
+  readonly isLoading = signal(false);
+  readonly saveError = signal<string | null>(null);
 
   // Searchable dropdown states
   countrySearch = '';
@@ -2462,6 +2490,9 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   private timeInterval: ReturnType<typeof setInterval> | null = null;
 
   ngOnInit(): void {
+    // Load vendors from API if user is logged in
+    this.loadVendorsFromApi();
+
     this.timeInterval = setInterval(() => {
       this.incidents.update(incidents =>
         incidents.map(inc =>
@@ -2471,6 +2502,68 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
         )
       );
     }, 60000);
+  }
+
+  private loadVendorsFromApi(): void {
+    if (!this.auth.isLoggedIn()) {
+      // User not logged in - keep demo data
+      return;
+    }
+
+    this.isLoading.set(true);
+    this.api.getIctProviders().subscribe({
+      next: (providers) => {
+        if (providers.length > 0) {
+          // Convert API response to local Vendor format
+          const loadedVendors: Vendor[] = providers.map(p => ({
+            id: p.id,
+            name: p.providerName,
+            country: p.providerCountry || 'Määramata',
+            countryCode: p.countryCode || 'XX',
+            type: p.serviceType || 'Muu',
+            riskScore: p.riskScore || 30,
+            subcontractors: p.subcontractingInfo ? this.parseSubcontractors(p.subcontractingInfo) : [],
+            contractNumber: p.contractNumber,
+            contractStart: p.contractStartDate,
+            contractEnd: p.contractEndDate,
+            criticality: (p.criticality as 'critical' | 'important' | 'normal') || 'normal',
+            hasExitStrategy: p.hasExitStrategy,
+            exitStrategyDescription: p.exitStrategyDescription
+          }));
+          this.vendors.set(loadedVendors);
+        }
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Failed to load ICT providers:', err);
+        this.isLoading.set(false);
+        // Keep demo data on error
+      }
+    });
+  }
+
+  private parseSubcontractors(info: string): SubVendor[] {
+    if (!info) return [];
+    try {
+      const parsed = JSON.parse(info);
+      if (Array.isArray(parsed)) {
+        return parsed.map(s => ({
+          name: s.name || s,
+          country: s.country || 'Unknown',
+          type: s.type || 'Unknown',
+          riskScore: s.riskScore || 30
+        }));
+      }
+    } catch {
+      // If not JSON, treat as comma-separated names
+      return info.split(',').map(name => ({
+        name: name.trim(),
+        country: 'Unknown',
+        type: 'Unknown',
+        riskScore: 30
+      }));
+    }
+    return [];
   }
 
   ngOnDestroy(): void {
@@ -2647,38 +2740,84 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   submitNewVendor(): void {
     if (!this.isFormValid()) return;
 
+    this.saveError.set(null);
     const country = this.newVendorForm.country ? this.findCountry(this.newVendorForm.country) : null;
-    const newVendor: Vendor = {
-      id: `v${Date.now()}`,
+
+    const subcontractorsJson = this.newVendorForm.subcontractors
+      .filter(s => s.name.trim())
+      .map(s => ({ name: s.name.trim(), country: 'Unknown', type: 'Unknown', riskScore: 30 }));
+
+    const request: CreateIctProviderRequest = {
       name: this.newVendorForm.name.trim(),
       country: country?.name || 'Määramata',
       countryCode: this.newVendorForm.country || 'XX',
       type: this.newVendorForm.type || 'Muu',
-      riskScore: this.calculatedRiskScore(),
-      subcontractors: this.newVendorForm.subcontractors
-        .filter(s => s.name.trim())
-        .map(s => ({
-          name: s.name.trim(),
-          country: 'Unknown',
-          type: 'Unknown',
-          riskScore: 30
-        })),
+      criticality: this.newVendorForm.criticality,
       contractNumber: this.newVendorForm.contractNumber,
       contractStart: this.newVendorForm.contractStart,
       contractEnd: this.newVendorForm.contractEnd,
-      criticality: this.newVendorForm.criticality,
+      riskScore: this.calculatedRiskScore(),
       hasExitStrategy: this.newVendorForm.hasExitStrategy,
-      exitStrategyDescription: this.newVendorForm.exitStrategyDescription
+      exitStrategyDescription: this.newVendorForm.exitStrategyDescription,
+      subcontractors: subcontractorsJson.length > 0 ? JSON.stringify(subcontractorsJson) : undefined
     };
 
-    this.vendors.update(vendors => [...vendors, newVendor]);
-    this.closeAddVendorPanel();
-    // Navigate to vendors view to show the new vendor
-    this.currentView.set('vendors');
-    // Highlight the new vendor by selecting it
-    setTimeout(() => {
-      this.selectedVendor.set(newVendor);
-    }, 100);
+    // If user is logged in, save to API
+    if (this.auth.isLoggedIn()) {
+      this.isLoading.set(true);
+      this.api.createIctProvider(request).subscribe({
+        next: (saved) => {
+          const newVendor: Vendor = {
+            id: saved.id,
+            name: saved.providerName,
+            country: saved.providerCountry || 'Määramata',
+            countryCode: saved.countryCode || 'XX',
+            type: saved.serviceType || 'Muu',
+            riskScore: saved.riskScore || this.calculatedRiskScore(),
+            subcontractors: subcontractorsJson,
+            contractNumber: saved.contractNumber,
+            contractStart: saved.contractStartDate,
+            contractEnd: saved.contractEndDate,
+            criticality: (saved.criticality as 'critical' | 'important' | 'normal') || 'normal',
+            hasExitStrategy: saved.hasExitStrategy,
+            exitStrategyDescription: saved.exitStrategyDescription
+          };
+
+          this.vendors.update(vendors => [...vendors, newVendor]);
+          this.isLoading.set(false);
+          this.closeAddVendorPanel();
+          this.currentView.set('vendors');
+          setTimeout(() => this.selectedVendor.set(newVendor), 100);
+        },
+        error: (err) => {
+          console.error('Failed to save provider:', err);
+          this.isLoading.set(false);
+          this.saveError.set('Salvestamine ebaõnnestus. Kontrolli, et oled sisse logitud.');
+        }
+      });
+    } else {
+      // Demo mode - just add locally
+      const newVendor: Vendor = {
+        id: `v${Date.now()}`,
+        name: this.newVendorForm.name.trim(),
+        country: country?.name || 'Määramata',
+        countryCode: this.newVendorForm.country || 'XX',
+        type: this.newVendorForm.type || 'Muu',
+        riskScore: this.calculatedRiskScore(),
+        subcontractors: subcontractorsJson,
+        contractNumber: this.newVendorForm.contractNumber,
+        contractStart: this.newVendorForm.contractStart,
+        contractEnd: this.newVendorForm.contractEnd,
+        criticality: this.newVendorForm.criticality,
+        hasExitStrategy: this.newVendorForm.hasExitStrategy,
+        exitStrategyDescription: this.newVendorForm.exitStrategyDescription
+      };
+
+      this.vendors.update(vendors => [...vendors, newVendor]);
+      this.closeAddVendorPanel();
+      this.currentView.set('vendors');
+      setTimeout(() => this.selectedVendor.set(newVendor), 100);
+    }
   }
 
   private findCountry(code: string): { code: string; name: string } | undefined {
@@ -2830,7 +2969,7 @@ Teine AS;DE;Network;Oluline;LEP-002;2024-06-01;2026-05-31`;
   importCsv(): void {
     const validRows = this.csvPreviewData().filter(r => r.valid);
 
-    const newVendors: Vendor[] = validRows.map((row, index) => {
+    const requests: CreateIctProviderRequest[] = validRows.map((row) => {
       const country = this.findCountry(row.country);
       const criticality = this.mapCriticality(row.criticality);
 
@@ -2848,23 +2987,71 @@ Teine AS;DE;Network;Oluline;LEP-002;2024-06-01;2026-05-31`;
       score += 20; // No exit strategy in CSV import
 
       return {
-        id: `v${Date.now()}-${index}`,
         name: row.name,
         country: country?.name || row.country,
         countryCode: row.country,
         type: row.type,
-        riskScore: Math.min(score, 100),
-        subcontractors: [],
+        criticality,
         contractNumber: row.contractNumber,
         contractStart: row.contractStart,
         contractEnd: row.contractEnd,
-        criticality,
+        riskScore: Math.min(score, 100),
         hasExitStrategy: false
       };
     });
 
-    this.vendors.update(vendors => [...vendors, ...newVendors]);
-    this.closeCsvImport();
+    // If user is logged in, save to API
+    if (this.auth.isLoggedIn()) {
+      this.isLoading.set(true);
+      this.api.createIctProvidersBatch(requests).subscribe({
+        next: (result) => {
+          const newVendors: Vendor[] = result.providers.map(p => ({
+            id: p.id,
+            name: p.providerName,
+            country: p.providerCountry || 'Määramata',
+            countryCode: p.countryCode || 'XX',
+            type: p.serviceType || 'Muu',
+            riskScore: p.riskScore || 30,
+            subcontractors: [],
+            contractNumber: p.contractNumber,
+            contractStart: p.contractStartDate,
+            contractEnd: p.contractEndDate,
+            criticality: (p.criticality as 'critical' | 'important' | 'normal') || 'normal',
+            hasExitStrategy: p.hasExitStrategy
+          }));
+
+          this.vendors.update(vendors => [...vendors, ...newVendors]);
+          this.isLoading.set(false);
+          this.closeCsvImport();
+          this.currentView.set('vendors');
+        },
+        error: (err) => {
+          console.error('Failed to import providers:', err);
+          this.isLoading.set(false);
+          this.csvErrors.set(['Importimine ebaõnnestus. Kontrolli, et oled sisse logitud.']);
+        }
+      });
+    } else {
+      // Demo mode - just add locally
+      const newVendors: Vendor[] = requests.map((req, index) => ({
+        id: `v${Date.now()}-${index}`,
+        name: req.name!,
+        country: req.country || 'Määramata',
+        countryCode: req.countryCode || 'XX',
+        type: req.type || 'Muu',
+        riskScore: req.riskScore || 30,
+        subcontractors: [],
+        contractNumber: req.contractNumber,
+        contractStart: req.contractStart,
+        contractEnd: req.contractEnd,
+        criticality: (req.criticality as 'critical' | 'important' | 'normal') || 'normal',
+        hasExitStrategy: false
+      }));
+
+      this.vendors.update(vendors => [...vendors, ...newVendors]);
+      this.closeCsvImport();
+      this.currentView.set('vendors');
+    }
   }
 
   private mapCriticality(value: string): 'critical' | 'important' | 'normal' {

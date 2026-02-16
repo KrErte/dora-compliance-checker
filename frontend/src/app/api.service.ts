@@ -115,6 +115,27 @@ export class ApiService {
     return this.http.post<RegulatoryUpdate>(`${this.baseUrl}/guardian/regulatory-updates`, body);
   }
 
+  // ICT Providers (Supply Chain)
+  getIctProviders(): Observable<IctProvider[]> {
+    return this.http.get<IctProvider[]>(`${this.baseUrl}/ict-providers`);
+  }
+
+  getIctProviderStats(): Observable<{ total: number; highRisk: number }> {
+    return this.http.get<{ total: number; highRisk: number }>(`${this.baseUrl}/ict-providers/stats`);
+  }
+
+  createIctProvider(provider: CreateIctProviderRequest): Observable<IctProvider> {
+    return this.http.post<IctProvider>(`${this.baseUrl}/ict-providers`, provider);
+  }
+
+  createIctProvidersBatch(providers: CreateIctProviderRequest[]): Observable<{ imported: number; providers: IctProvider[] }> {
+    return this.http.post<{ imported: number; providers: IctProvider[] }>(`${this.baseUrl}/ict-providers/batch`, providers);
+  }
+
+  deleteIctProvider(id: string): Observable<{ deleted: boolean }> {
+    return this.http.delete<{ deleted: boolean }>(`${this.baseUrl}/ict-providers/${id}`);
+  }
+
   // Contact
   submitContact(data: { name: string; email: string; reason?: string; message: string }): Observable<{ success: boolean }> {
     return this.http.post<{ success: boolean }>(`${this.baseUrl}/contact`, data);
@@ -180,4 +201,36 @@ export interface BenchmarkData {
   percentileRank: number;
   complianceLevelDistribution?: { [key: string]: number };
   industryBenchmarks?: { [key: string]: { average: number; label: string } };
+}
+
+export interface IctProvider {
+  id: string;
+  providerName: string;
+  providerCountry?: string;
+  countryCode?: string;
+  serviceType: string;
+  criticality?: string;
+  riskScore?: number;
+  contractNumber?: string;
+  contractStartDate?: string;
+  contractEndDate?: string;
+  hasExitStrategy?: boolean;
+  exitStrategyDescription?: string;
+  subcontractingInfo?: string;
+  createdAt: string;
+}
+
+export interface CreateIctProviderRequest {
+  name: string;
+  country?: string;
+  countryCode?: string;
+  type?: string;
+  criticality?: string;
+  contractNumber?: string;
+  contractStart?: string;
+  contractEnd?: string;
+  riskScore?: number;
+  hasExitStrategy?: boolean;
+  exitStrategyDescription?: string;
+  subcontractors?: string;
 }

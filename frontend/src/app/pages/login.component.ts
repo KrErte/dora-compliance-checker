@@ -118,11 +118,17 @@ import { timeout, catchError, throwError } from 'rxjs';
             </button>
           </form>
 
-          <div class="mt-6 text-center">
+          <div class="mt-6 text-center space-y-3">
             <p class="text-sm text-slate-400">
               {{ lang.t('auth.no_account') }}
               <a routerLink="/register" class="text-emerald-400 hover:text-emerald-300 font-medium transition-colors">
                 {{ lang.t('auth.register_link') }}
+              </a>
+            </p>
+            <p class="text-sm">
+              <a href="mailto:support@doraaudit.eu?subject=Parooli%20taastamine"
+                 class="text-slate-500 hover:text-slate-400 transition-colors">
+                {{ lang.t('auth.forgot_password') }}
               </a>
             </p>
           </div>

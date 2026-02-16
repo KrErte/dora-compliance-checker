@@ -41,6 +41,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/oauth-callback.component').then(m => m.OAuthCallbackComponent)
   },
   {
+    path: 'dashboard',
+    loadComponent: () => import('./pages/dashboard.component').then(m => m.DashboardComponent),
+    canActivate: [authGuard]
+  },
+  {
     path: 'assessment',
     loadComponent: () => import('./pages/assessment.component').then(m => m.AssessmentComponent)
     // No authGuard - free demo access for self-assessment

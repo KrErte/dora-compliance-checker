@@ -1102,6 +1102,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'auth.error_server': { et: 'Tehniline viga, proovi hiljem uuesti', en: 'Technical error, please try again later' },
   'auth.error_timeout': { et: 'Ühendus aegus, proovi uuesti', en: 'Connection timed out, please try again' },
   'auth.or': { et: 'või', en: 'or' },
+  'auth.forgot_password': { et: 'Unustasin parooli', en: 'Forgot password?' },
   'auth.login_google': { et: 'Logi sisse Google\'iga', en: 'Sign in with Google' },
   'auth.login_microsoft': { et: 'Logi sisse Microsoftiga', en: 'Sign in with Microsoft' },
   'auth.register_google': { et: 'Registreeru Google\'iga', en: 'Sign up with Google' },
@@ -1513,6 +1514,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'nav.timeline': { et: 'Ajakava', en: 'Timeline' },
   'nav.vendors': { et: 'Teenusepakkujad', en: 'Vendors' },
   'nav.supply_chain': { et: 'Supply Chain', en: 'Supply Chain' },
+  'nav.dashboard': { et: 'Juhtpaneel', en: 'Dashboard' },
 
   // Fine Calculator
   'nav.fine_calculator': { et: 'Trahvikalkulaator', en: 'Fine Calculator' },
