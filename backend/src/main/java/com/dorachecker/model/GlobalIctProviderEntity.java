@@ -38,6 +38,27 @@ public class GlobalIctProviderEntity {
     @Column(name = "lei_code")
     private String leiCode;
 
+    @Column(name = "registration_code", length = 50)
+    private String registrationCode;
+
+    @Column(name = "emtak_code", length = 10)
+    private String emtakCode;
+
+    @Column(name = "source", length = 50)
+    private String source = "MANUAL";
+
+    @Column(name = "address", columnDefinition = "TEXT")
+    private String address;
+
+    @Column(name = "is_user_modified")
+    private Boolean isUserModified = false;
+
+    @Column(name = "last_crawled_at")
+    private LocalDateTime lastCrawledAt;
+
+    @Column(name = "raw_data", columnDefinition = "TEXT")
+    private String rawData;
+
     @Column(name = "usage_count")
     private Integer usageCount = 0;
 
@@ -94,6 +115,27 @@ public class GlobalIctProviderEntity {
 
     public String getLeiCode() { return leiCode; }
     public void setLeiCode(String leiCode) { this.leiCode = leiCode; }
+
+    public String getRegistrationCode() { return registrationCode; }
+    public void setRegistrationCode(String registrationCode) { this.registrationCode = registrationCode; }
+
+    public String getEmtakCode() { return emtakCode; }
+    public void setEmtakCode(String emtakCode) { this.emtakCode = emtakCode; }
+
+    public String getSource() { return source; }
+    public void setSource(String source) { this.source = source; }
+
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+
+    public Boolean getIsUserModified() { return isUserModified; }
+    public void setIsUserModified(Boolean isUserModified) { this.isUserModified = isUserModified; }
+
+    public LocalDateTime getLastCrawledAt() { return lastCrawledAt; }
+    public void setLastCrawledAt(LocalDateTime lastCrawledAt) { this.lastCrawledAt = lastCrawledAt; }
+
+    public String getRawData() { return rawData; }
+    public void setRawData(String rawData) { this.rawData = rawData; }
 
     public Integer getUsageCount() { return usageCount; }
     public void setUsageCount(Integer usageCount) { this.usageCount = usageCount; }

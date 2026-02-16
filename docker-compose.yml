@@ -69,6 +69,8 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - GUARDIAN_FEED_ENABLED=${GUARDIAN_FEED_ENABLED:-false}
       - GUARDIAN_FEED_CRON=${GUARDIAN_FEED_CRON:-0 0 6 * * *}
+      - CRAWLER_ENABLED=${CRAWLER_ENABLED:-true}
+      - CRAWLER_CRON=${CRAWLER_CRON:-0 0 3 * * SUN}
       - RESEND_API_KEY=${RESEND_API_KEY}
       - RESEND_TO_EMAIL=${RESEND_TO_EMAIL:-info@doraaudit.eu}
     depends_on:

@@ -47,4 +47,28 @@ public interface GlobalIctProviderRepository extends JpaRepository<GlobalIctProv
 
     // Count total providers
     long count();
+
+    // Crawler-specific methods
+
+    // Find by registration code (Estonian business registry)
+    Optional<GlobalIctProviderEntity> findByRegistrationCode(String registrationCode);
+
+    // Find by source
+    List<GlobalIctProviderEntity> findBySource(String source);
+
+    // Find providers that can be updated by crawler (not user-modified)
+    @Query("SELECT g FROM GlobalIctProviderEntity g WHERE g.source = :source AND (g.isUserModified = false OR g.isUserModified IS NULL)")
+    List<GlobalIctProviderEntity> findCrawlerUpdatableBySource(@Param("source") String source);
+
+    // Find by name and source for upsert
+    Optional<GlobalIctProviderEntity> findByNameIgnoreCaseAndSource(String name, String source);
+
+    // Count by source
+    long countBySource(String source);
+
+    // Count CTPPs
+    long countByIsCtppTrue();
+
+    // Find by EMTAK code
+    List<GlobalIctProviderEntity> findByEmtakCodeStartingWith(String emtakPrefix);
 }
