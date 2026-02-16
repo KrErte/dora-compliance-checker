@@ -41,59 +41,102 @@ VALUES (@user_id, 'Greenhouse Software', 'USA', 'US', 'HR / Recruitment', 'stand
 
 -- Cloudflare — CDN/WAF
 INSERT INTO ict_providers (user_id, name, country, country_code, service_type, criticality, risk_score, has_exit_strategy, contract_ref, notes)
-VALUES (@user_id, 'Cloudflare Inc', 'USA', 'US', 'CDN / WAF', 'important', 18, true, 'LEP-2024-006',
+VALUES (@user_id, 'Cloudflare Inc', 'USA', 'US', 'CDN / WAF', 'important', 25, true, 'LEP-2024-006',
 'Veebiliikluse kaitse ja CDN. Kolmanda riigi teenusepakkuja — USA.');
+
+-- China Telecom Europe — Telco (KÕRGE RISK!)
+INSERT INTO ict_providers (user_id, name, country, country_code, service_type, criticality, risk_score, has_exit_strategy, contract_ref, notes)
+VALUES (@user_id, 'China Telecom Europe', 'Hiina', 'CN', 'Telco / Network', 'important', 75, false, 'LEP-2024-007',
+'Telekommunikatsioon. PUNANE LIPP: Hiina firma — kõrge geopoliitiline risk.');
+
+-- Nortal AS — IT teenused (madal risk)
+INSERT INTO ict_providers (user_id, name, country, country_code, service_type, criticality, risk_score, has_exit_strategy, contract_ref, notes)
+VALUES (@user_id, 'Nortal AS', 'Eesti', 'EE', 'IT konsultatsioon', 'standard', 20, true, 'LEP-2024-008',
+'Tarkvaraarendus ja IT konsultatsioon. Eesti firma.');
+
+-- Helmes AS — Tarkvaraarendus (madal risk)
+INSERT INTO ict_providers (user_id, name, country, country_code, service_type, criticality, risk_score, has_exit_strategy, contract_ref, notes)
+VALUES (@user_id, 'Helmes AS', 'Eesti', 'EE', 'Tarkvaraarendus', 'standard', 20, true, 'LEP-2024-009',
+'Custom tarkvaraarendus ja hooldus. Eesti firma.');
+
+-- Splunk Inc — SIEM/Monitoring
+INSERT INTO ict_providers (user_id, name, country, country_code, service_type, criticality, risk_score, has_exit_strategy, contract_ref, notes)
+VALUES (@user_id, 'Splunk Inc', 'USA', 'US', 'SIEM / Monitoring', 'important', 30, true, 'LEP-2024-010',
+'Logide analüüs, turvaseire, SIEM. USA firma (Cisco omanduses).');
 
 
 -- 3. Allhankijad (Reg. 2025/532 nõue)
 
 INSERT INTO subcontractors (provider_id, name, country, country_code, service_type, risk_score)
-VALUES 
--- Azure allhankijad
-((SELECT id FROM ict_providers WHERE name = 'Microsoft Azure (Ireland)' AND user_id = @user_id), 
- 'Equinix Dublin', 'Iirimaa', 'IE', 'Colocation', 12),
-((SELECT id FROM ict_providers WHERE name = 'Microsoft Azure (Ireland)' AND user_id = @user_id), 
- 'Akamai Technologies', 'USA', 'US', 'CDN', 20),
-
--- AWS allhankijad  
-((SELECT id FROM ict_providers WHERE name = 'AWS Europe (Frankfurt)' AND user_id = @user_id),
- 'Equinix Frankfurt', 'Saksamaa', 'DE', 'Colocation', 10),
-
--- Onfido allhankijad
+VALUES
+-- Onfido allhankijad (UK firma -> USA allhankijad)
 ((SELECT id FROM ict_providers WHERE name = 'Onfido Ltd' AND user_id = @user_id),
- 'AWS London', 'Suurbritannia', 'GB', 'Cloud Hosting', 25),
+ 'AWS', 'USA', 'US', 'Pilveinfrastruktuur', 35),
 ((SELECT id FROM ict_providers WHERE name = 'Onfido Ltd' AND user_id = @user_id),
- 'Jumio Corp', 'USA', 'US', 'Document Verification', 38);
+ 'Jumio', 'USA', 'US', 'Backup ID verification', 35),
+
+-- Tuum allhankijad (EE firma -> EU + UK allhankijad)
+((SELECT id FROM ict_providers WHERE name = 'Tuum OÜ' AND user_id = @user_id),
+ 'AWS', 'Iirimaa', 'IE', 'Hosting', 25),
+((SELECT id FROM ict_providers WHERE name = 'Tuum OÜ' AND user_id = @user_id),
+ 'Finastra', 'Suurbritannia', 'GB', 'Core banking moodulid', 35),
+
+-- Azure allhankijad (IE firma -> NL + USA allhankijad)
+((SELECT id FROM ict_providers WHERE name = 'Microsoft Azure (Ireland)' AND user_id = @user_id),
+ 'Equinix', 'Holland', 'NL', 'Data center', 25),
+((SELECT id FROM ict_providers WHERE name = 'Microsoft Azure (Ireland)' AND user_id = @user_id),
+ 'Akamai', 'USA', 'US', 'CDN', 35),
+
+-- Cloudflare allhankija
+((SELECT id FROM ict_providers WHERE name = 'Cloudflare Inc' AND user_id = @user_id),
+ 'Equinix', 'USA', 'US', 'Data center', 35),
+
+-- China Telecom allhankija
+((SELECT id FROM ict_providers WHERE name = 'China Telecom Europe' AND user_id = @user_id),
+ 'Huawei Marine', 'Hiina', 'CN', 'Merekaabel infrastruktuur', 80);
 
 
 -- =====================================================
 -- DEMO MÄRKMED (mis näidata Pärtelile):
 -- =====================================================
 --
--- 1. Onfido = PUNANE LIPP
---    - UK firma (kolmas riik pärast Brexitit)  
+-- 1. Onfido = PUNANE LIPP (risk 45)
+--    - UK firma (kolmas riik pärast Brexitit)
 --    - Exit strateegia puudub
---    - Allhankijad USA-s (Jumio) — topelt kolmanda riigi risk
---    - Risk score 35 — kõrgeim nende vendoritest
---    → "Kas teil on Onfido asendusplaan kui UK regulatsioon muutub?"
+--    - Allhankijad: AWS (US, risk 35) + Jumio (US, risk 35)
+--    → "Kas teil on Onfido asendusplaan? Veriff on Eesti alternatiiv."
 --
--- 2. Tuum = POSITIIVNE NÄIDE
+-- 2. Tuum = POSITIIVNE NÄIDE (risk 28)
 --    - Eesti firma, EU andmeresidentsus
---    - Cloud-native, modern stack
---    - Risk score 28 — mõistlik kriitilise teenuse jaoks
+--    - Allhankijad: AWS IE (risk 25) + Finastra UK (risk 35)
 --    → "Tuum valik oli DORA vaates väga hea otsus"
 --
--- 3. Azure CTPP staatus
---    - ESA määras Microsoft kriitiliseks kolmanda osapoole pakkujaks
---    - Tähendab rangemat järelevalvet ja raporteerimiskohustust
---    → "Kas teate et Azure on nüüd CTPP? See muudab teie kohustusi"
+-- 3. Azure = CTPP staatus (risk 32)
+--    - ESA määras kriitiliseks kolmanda osapoole pakkujaks
+--    - Allhankijad: Equinix NL (risk 25) + Akamai US (risk 35)
+--    → "Kas teate et Azure on nüüd CTPP? See muudab kohustusi"
 --
--- 4. Allhankijate ahel (Reg. 2025/532)
---    - Onfido → AWS London → ??? (kas veel allhankijaid?)
---    - Azure → Equinix + Akamai
---    → "Regulaator küsib 2026 RoI-s allhankijate kohta"
+-- 4. Cloudflare (risk 25)
+--    - USA firma, CDN/WAF
+--    - Allhankija: Equinix US (risk 35)
 --
--- 5. DORA kehtivus Bondorale:
+-- 5. China Telecom = KÕRGEIM RISK (risk 75)
+--    - Hiina firma — geopoliitiline risk
+--    - Allhankija: Huawei Marine (CN, risk 80)
+--    → "Hiina telco allhankijate ahel on tõsine mure"
+--
+-- 6. Nortal, Helmes, Splunk (risk 20-30)
+--    - Allhankijaid pole deklareeritud (realistlik)
+--    - Mitte kõigil pole allhankijaid
+--
+-- 7. SUPPLY CHAIN DEPTH
+--    - Onfido -> AWS US + Jumio US
+--    - Tuum -> AWS IE + Finastra UK
+--    - Azure -> Equinix NL + Akamai US
+--    - China Telecom -> Huawei Marine CN
+--    → "DORA nõuab allhankijate kaardistamist"
+--
+-- 8. DORA kehtivus Bondorale:
 --    - Krediidiandja litsents → DORA Art.2 kohaldub OTSE
 --    - Panganduslitsentsi taotlus → veelgi rangem kohaldamine
 --    - Finantsinspektsioon on pädev asutus
