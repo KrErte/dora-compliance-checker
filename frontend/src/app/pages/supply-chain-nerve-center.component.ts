@@ -196,9 +196,69 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
           <!-- VENDORS DETAIL VIEW -->
           <div class="detail-view">
             <div class="detail-header">
-              <button class="back-to-main" (click)="openView('main')">← Tagasi ülevaatesse</button>
               <h2>IKT teenusepakkujad</h2>
               <span class="detail-count">{{ vendors().length }} pakkujat</span>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+              <!-- Vendors Card -->
+              <div class="summary-card active" [class.has-risk]="highRiskCount() > 0">
+                <div class="card-icon">🏢</div>
+                <div class="card-main">
+                  <span class="big-number">{{ vendors().length }}</span>
+                  <span class="card-label">ICT providers</span>
+                </div>
+                <div class="card-divider">│</div>
+                <div class="card-secondary" [class.danger]="highRiskCount() > 0">
+                  <span class="secondary-number">{{ highRiskCount() }}</span>
+                  <span class="secondary-label">high risk</span>
+                </div>
+              </div>
+
+              <!-- ROI Card -->
+              <div class="summary-card" [class.has-warning]="worstCategory().completeness < 50" (click)="openView('roi')">
+                <div class="card-icon">
+                  <svg class="progress-ring" viewBox="0 0 36 36">
+                    <circle class="ring-bg" cx="18" cy="18" r="15.9"/>
+                    <circle
+                      class="ring-fill"
+                      cx="18" cy="18" r="15.9"
+                      [attr.stroke-dasharray]="roiDashArray()"
+                      [class.good]="overallROI() >= 80"
+                      [class.warning]="overallROI() >= 50 && overallROI() < 80"
+                      [class.danger]="overallROI() < 50"
+                    />
+                  </svg>
+                </div>
+                <div class="card-main">
+                  <span class="big-number">{{ overallROI() }}%</span>
+                  <span class="card-label">RoI complete</span>
+                </div>
+                <div class="card-divider">│</div>
+                <div class="card-secondary warning">
+                  <span class="secondary-label">{{ worstCategory().name }}</span>
+                  <span class="secondary-note">missing</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+
+              <!-- Incidents Card -->
+              <div class="summary-card" [class.has-incident]="activeIncidentCount() > 0" (click)="openView('incidents')">
+                <div class="card-icon" [class.ok]="activeIncidentCount() === 0">
+                  {{ activeIncidentCount() === 0 ? '✓' : '⚠' }}
+                </div>
+                <div class="card-main">
+                  <span class="big-number">{{ activeIncidentCount() }}</span>
+                  <span class="card-label">active incidents</span>
+                </div>
+                <div class="card-divider">│</div>
+                <div class="card-secondary ok">
+                  <span class="secondary-label">Last resolved</span>
+                  <span class="secondary-note">{{ lastIncidentTime() }}</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
             </div>
 
             <!-- Action buttons -->
@@ -948,6 +1008,16 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
     @keyframes incident-pulse {
       0%, 100% { background: rgba(239, 68, 68, 0.03); }
       50% { background: rgba(239, 68, 68, 0.08); }
+    }
+
+    .summary-card.active {
+      border-color: rgba(0, 229, 255, 0.6);
+      background: rgba(0, 229, 255, 0.08);
+      cursor: default;
+    }
+
+    .summary-card.active:hover {
+      transform: none;
     }
 
     .card-icon {
