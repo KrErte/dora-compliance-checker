@@ -3458,10 +3458,17 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
 
   // Add global provider to user's supply chain
   addGlobalProviderToSupplyChain(provider: GlobalProvider): void {
+    // Find the country by code or name to get the proper code
+    const countryMatch = this.countries.find(c =>
+      c.code === provider.countryCode ||
+      c.name.toLowerCase() === provider.country?.toLowerCase()
+    );
+
     // Pre-fill the add vendor form with global provider data
+    // IMPORTANT: country field stores the CODE (e.g. "EE"), not the name
     this.newVendorForm = {
       name: provider.name,
-      country: provider.country || '',
+      country: countryMatch?.code || provider.countryCode || '',
       type: provider.serviceType || 'Muu',
       criticality: provider.isCtpp ? 'critical' : 'normal',
       contractNumber: '',
@@ -3471,15 +3478,6 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
       hasExitStrategy: false,
       exitStrategyDescription: ''
     };
-
-    // Find and set the country in the dropdown
-    const countryMatch = this.countries.find(c =>
-      c.code === provider.countryCode ||
-      c.name.toLowerCase() === provider.country?.toLowerCase()
-    );
-    if (countryMatch) {
-      this.newVendorForm.country = countryMatch.name;
-    }
 
     // Mark usage in global registry
     this.http.post(`/api/global-providers/${provider.id}/use`, {}).subscribe();
