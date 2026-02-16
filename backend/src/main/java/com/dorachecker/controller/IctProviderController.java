@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -73,7 +74,9 @@ public class IctProviderController {
         provider.setCriticality(request.criticality());
         provider.setCritical("critical".equals(request.criticality()));
         provider.setContractNumber(request.contractNumber());
-        provider.setRiskScore(request.riskScore() != null ? request.riskScore() : 30);
+        // Calculate risk score based on country if not provided or seems wrong
+        int calculatedRisk = calculateRiskScore(request.countryCode(), request.criticality(), request.hasExitStrategy());
+        provider.setRiskScore(request.riskScore() != null ? request.riskScore() : calculatedRisk);
         provider.setHasExitStrategy(request.hasExitStrategy());
         provider.setExitStrategyDescription(request.exitStrategyDescription());
         provider.setSubcontractingInfo(request.subcontractors());
@@ -115,7 +118,7 @@ public class IctProviderController {
                 globalProvider.setCountry(request.country());
                 globalProvider.setCountryCode(request.countryCode());
                 globalProvider.setServiceType(request.type());
-                globalProvider.setRiskScore(30); // Default risk score
+                globalProvider.setRiskScore(calculateRiskScore(request.countryCode(), "normal", true));
                 globalProvider.setIsCtpp(false);
                 globalProvider.setIsVerified(false);
                 globalProvider.setUsageCount(1);
@@ -148,7 +151,8 @@ public class IctProviderController {
             provider.setCriticality(request.criticality());
             provider.setCritical("critical".equals(request.criticality()));
             provider.setContractNumber(request.contractNumber());
-            provider.setRiskScore(request.riskScore() != null ? request.riskScore() : 30);
+            int calculatedRisk = calculateRiskScore(request.countryCode(), request.criticality(), request.hasExitStrategy());
+            provider.setRiskScore(request.riskScore() != null ? request.riskScore() : calculatedRisk);
             provider.setHasExitStrategy(request.hasExitStrategy());
             provider.setExitStrategyDescription(request.exitStrategyDescription());
             provider.setSubcontractingInfo(request.subcontractors());
@@ -195,4 +199,49 @@ public class IctProviderController {
         String exitStrategyDescription,
         String subcontractors
     ) {}
+
+    // ============ Risk Score Calculation ============
+
+    private static final Set<String> EU_COUNTRIES = Set.of(
+        "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR",
+        "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL",
+        "PL", "PT", "RO", "SK", "SI", "ES", "SE"
+    );
+
+    private static final Set<String> TRUSTED_NON_EU = Set.of("US", "GB", "CH", "NO", "IS", "CA", "AU", "NZ", "JP");
+    private static final Set<String> HIGH_RISK = Set.of("CN", "RU", "BY", "IR", "KP");
+
+    /**
+     * Calculate risk score based on country code and criticality.
+     * Base risks: EE=20, EU=25, trusted non-EU=35, other non-EU=40, high-risk=60
+     */
+    private int calculateRiskScore(String countryCode, String criticality, Boolean hasExitStrategy) {
+        int baseScore;
+
+        if (countryCode == null || countryCode.isEmpty()) {
+            baseScore = 40; // Unknown country
+        } else if ("EE".equalsIgnoreCase(countryCode)) {
+            baseScore = 15; // Estonia - lowest risk
+        } else if (HIGH_RISK.contains(countryCode.toUpperCase())) {
+            baseScore = 55; // High-risk countries
+        } else if (EU_COUNTRIES.contains(countryCode.toUpperCase())) {
+            baseScore = 20; // EU countries
+        } else if (TRUSTED_NON_EU.contains(countryCode.toUpperCase())) {
+            baseScore = 30; // Trusted non-EU
+        } else {
+            baseScore = 35; // Other non-EU
+        }
+
+        // Criticality modifier
+        int criticalityMod = switch (criticality != null ? criticality : "normal") {
+            case "critical" -> 25;
+            case "important" -> 10;
+            default -> 5;
+        };
+
+        // Exit strategy modifier
+        int exitMod = (hasExitStrategy != null && hasExitStrategy) ? 0 : 15;
+
+        return Math.min(100, baseScore + criticalityMod + exitMod);
+    }
 }
