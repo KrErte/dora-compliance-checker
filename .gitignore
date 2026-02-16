@@ -62,3 +62,8 @@ build/
 out/
 *.bak
 *.tmp
+
+# Seed & demo data files
+*_seed.sql
+*_demo_*.sql
+demo_*.json
