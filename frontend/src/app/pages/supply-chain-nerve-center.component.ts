@@ -322,20 +322,22 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
               }
             </div>
 
-            <div class="vendor-table">
-              <div class="table-header">
-                <span class="col-name">Nimi</span>
-                <span class="col-country">Riik</span>
-                <span class="col-type">Tüüp</span>
-                <span class="col-risk">Risk</span>
-              </div>
-              @if (sortedVendors().length === 0 && vendorSearchQuery()) {
-                <div class="no-results">
-                  <span class="no-results-icon">🔍</span>
-                  <p>Pakkujat ei leitud</p>
-                  <span class="no-results-hint">Proovi teist otsingusõna</span>
+            <!-- User's Vendors Section -->
+            @if (sortedVendors().length > 0) {
+              @if (vendorSearchQuery()) {
+                <div class="section-label">
+                  <span class="section-icon">👤</span>
+                  <span>Sinu pakkujad</span>
+                  <span class="section-count">{{ sortedVendors().length }}</span>
                 </div>
-              } @else {
+              }
+              <div class="vendor-table">
+                <div class="table-header">
+                  <span class="col-name">Nimi</span>
+                  <span class="col-country">Riik</span>
+                  <span class="col-type">Tüüp</span>
+                  <span class="col-risk">Risk</span>
+                </div>
                 @for (vendor of sortedVendors(); track vendor.id) {
                   <div
                     class="table-row"
@@ -353,12 +355,12 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                     </span>
                   </div>
                 }
-              }
-            </div>
+              </div>
+            }
 
-            <!-- Global Registry Results - Below Table -->
+            <!-- Global Registry Results -->
             @if (showGlobalResults() && globalSearchResults().length > 0) {
-              <div class="global-registry-section">
+              <div class="global-registry-section" [class.primary]="sortedVendors().length === 0">
                 <div class="global-section-header">
                   <span class="section-icon">🌍</span>
                   <span class="section-title">Leitud globaalsest registrist</span>
@@ -390,6 +392,30 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                       </button>
                     </div>
                   }
+                </div>
+              </div>
+            }
+
+            <!-- No Results - only if BOTH local AND global are empty -->
+            @if (vendorSearchQuery() && sortedVendors().length === 0 && globalSearchResults().length === 0 && !isSearchingGlobal()) {
+              <div class="no-results">
+                <span class="no-results-icon">🔍</span>
+                <p>Pakkujat ei leitud</p>
+                <span class="no-results-hint">Proovi teist otsingusõna</span>
+              </div>
+            }
+
+            <!-- Empty state without search -->
+            @if (!vendorSearchQuery() && sortedVendors().length === 0) {
+              <div class="vendor-table">
+                <div class="table-header">
+                  <span class="col-name">Nimi</span>
+                  <span class="col-country">Riik</span>
+                  <span class="col-type">Tüüp</span>
+                  <span class="col-risk">Risk</span>
+                </div>
+                <div class="empty-state">
+                  <p>Lisa esimene pakkuja klõpsates "Lisa pakkuja"</p>
                 </div>
               </div>
             }
@@ -1244,12 +1270,42 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
       border-radius: 20px;
     }
 
+    /* Section Label */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: #8b9299;
+    }
+
+    .section-label .section-icon {
+      font-size: 16px;
+    }
+
+    .section-label .section-count {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
     /* Vendor Table */
     .vendor-table {
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 12px;
       overflow: hidden;
+    }
+
+    .empty-state {
+      padding: 40px 24px;
+      text-align: center;
+      color: #6d7580;
+      font-size: 14px;
     }
 
     .table-header {
@@ -2149,6 +2205,13 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
       border: 1px solid rgba(0, 229, 255, 0.2);
       border-radius: 16px;
       padding: 20px;
+    }
+
+    /* Primary style when no local results - make it more prominent */
+    .global-registry-section.primary {
+      margin-top: 0;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.08), rgba(0, 180, 216, 0.05));
+      border: 1px solid rgba(0, 229, 255, 0.3);
     }
 
     .global-section-header {
