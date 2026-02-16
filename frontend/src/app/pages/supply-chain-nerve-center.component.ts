@@ -4117,23 +4117,12 @@ Teine AS;DE;Network;Oluline;LEP-002;2024-06-01;2026-05-31`;
 
   exportRoiCsv(): void {
     this.showExportMenu.set(false);
-
-    if (!this.subscription.canAccess('ROI_EXPORT')) {
-      this.subscription.showUpgrade('ROI_EXPORT');
-      return;
-    }
-
     const roiVendors = this.vendorsToRoiFormat();
     this.roiExport.exportToCsv(roiVendors, 'MyCompany');
   }
 
   exportRoiPdf(): void {
     this.showExportMenu.set(false);
-
-    if (!this.subscription.canAccess('ROI_EXPORT')) {
-      this.subscription.showUpgrade('ROI_EXPORT');
-      return;
-    }
 
     const roiVendors = this.vendorsToRoiFormat();
     this.roiExport.exportToPdf(roiVendors, 'MyCompany');
