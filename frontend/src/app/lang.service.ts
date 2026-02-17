@@ -1367,6 +1367,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'nav.pricing': { et: 'Hinnakiri', en: 'Pricing' },
   'pricing.title': { et: 'Hinnakiri', en: 'Pricing' },
   'pricing.subtitle': { et: 'Alusta tasuta, uuenda vastavalt vajadusele', en: 'Start free, upgrade as needed' },
+  'pricing.badge': { et: 'Lihtne hinnakiri', en: 'Simple Pricing' },
 
   // Free tier
   'pricing.free_title': { et: 'Kiirkontroll', en: 'Quick Check' },

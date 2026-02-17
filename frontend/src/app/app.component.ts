@@ -30,7 +30,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
         </a>
 
         <!-- Desktop nav -->
-        <div class="hidden sm:flex items-center gap-1">
+        <div class="hidden md:flex items-center gap-1">
           <!-- DORA dropdown -->
           <div class="relative">
             <button type="button" (click)="toggleDoraMenu($event)"
@@ -211,7 +211,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
         </div>
 
         <!-- Mobile hamburger -->
-        <div class="flex items-center gap-2 sm:hidden">
+        <div class="flex items-center gap-2 md:hidden">
           <button type="button" (click)="mobileMenu = !mobileMenu"
                   [attr.aria-label]="mobileMenu ? 'Sulge menüü' : 'Ava menüü'"
                   [attr.aria-expanded]="mobileMenu"
@@ -229,7 +229,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
       </div>
 
       <!-- Mobile menu -->
-      <div *ngIf="mobileMenu" class="sm:hidden border-t border-slate-700/50 bg-slate-800/95 backdrop-blur-xl">
+      <div *ngIf="mobileMenu" class="md:hidden border-t border-slate-700/50 bg-slate-800/95 backdrop-blur-xl">
         <div class="px-4 py-3 flex flex-col gap-1">
           <p class="text-xs text-slate-600 px-3 mb-1 uppercase tracking-wider">DORA</p>
           <a routerLink="/contract-analysis" (click)="mobileMenu = false"
@@ -475,7 +475,7 @@ export class AppComponent implements OnInit, OnDestroy {
     '/assessment': 'DORA täishindamine 37 küsimusega. Detailne tegevuskava ja PDF raport juhatusele.',
     '/nis2/assessment': 'NIS2 vastavushindamine Eesti ettevõtetele. E-ITS ja KüTS nõuetele vastav tegevuskava.',
     '/contract-analysis': 'DORA Art. 30 lepinguanalüüs. Kontrolli kas sinu IKT-leping vastab regulatsiooni nõuetele.',
-    '/pricing': 'DoraAudit.eu hinnad. NIS2 ja DORA hindamine alates €29. Ühekordne makse, ei nõua tellimust.',
+    '/pricing': 'DoraAudit.eu hinnad. DORA ja NIS2 vastavuskontroll alates €149/kuu. Tasuta kiirkontroll, Professional €149, Business €299, Enterprise €499.',
     '/methodology': 'DORA vastavushindamise metoodika. Kuidas hindame IKT-lepinguid Art. 30 nõuete vastu.',
     '/about': 'DoraAudit.eu - DORA ja NIS2 vastavuskontrolli platvorm Eesti finantsettevõtetele.',
     '/privacy': 'DoraAudit.eu privaatsuspoliitika. Kuidas me kasutame ja kaitseme teie andmeid.',
