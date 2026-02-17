@@ -94,6 +94,14 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
                 </svg>
                 {{ lang.t('nav.vendors') }}
               </a>
+              <a routerLink="/company-profile" (click)="doraMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
+                <!-- Lucide: search -->
+                <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                </svg>
+                {{ lang.t('nav.company_profile') }}
+              </a>
               <div class="border-t border-slate-700/30 my-1"></div>
               <a routerLink="/supply-chain" (click)="doraMenu = false"
                  class="flex items-center justify-between px-4 py-2.5 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
@@ -279,6 +287,14 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
               <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>
             </svg>
             {{ lang.t('nav.vendors') }}
+          </a>
+          <a routerLink="/company-profile" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
+            <!-- Lucide: search -->
+            <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+            {{ lang.t('nav.company_profile') }}
           </a>
           <a routerLink="/supply-chain" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">

@@ -126,6 +126,11 @@ export const routes: Routes = [
     // No authGuard - public database
   },
   {
+    path: 'company-profile',
+    loadComponent: () => import('./pages/company-profile.component').then(m => m.CompanyProfileComponent)
+    // No authGuard - public company profiles
+  },
+  {
     path: 'playbook',
     loadComponent: () => import('./pages/playbook-generator.component').then(m => m.PlaybookGeneratorComponent)
     // No authGuard - free tool
