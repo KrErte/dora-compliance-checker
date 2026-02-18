@@ -27,6 +27,11 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'sign-in',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
     path: 'login',
     loadComponent: () => import('./pages/login.component').then(m => m.LoginComponent),
     canActivate: [guestGuard]
