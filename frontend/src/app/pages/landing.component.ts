@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -6,8 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 import { ApiService } from '../api.service';
 import { TrackingService } from '../tracking.service';
-import { timer, Subject } from 'rxjs';
-import { takeUntil, take } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 interface DoraRequirement {
   id: string;
@@ -19,47 +18,19 @@ interface DoraRequirement {
   expanded: boolean;
 }
 
-interface Stat {
-  value: number;
-  suffix: string;
-  label: string;
-  current: number;
-}
-
 @Component({
   selector: 'app-landing',
   imports: [CommonModule, RouterLink, FormsModule],
   template: `
-    <!-- Hero section with Aurora Background -->
-    <div class="relative overflow-hidden min-h-[70vh]">
-      <!-- Aurora animated background -->
-      <div class="aurora-bg"></div>
+    <!-- Hero section -->
+    <div class="relative overflow-hidden">
+      <!-- Subtle gradient background -->
+      <div class="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800"></div>
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-emerald-500/5 rounded-full blur-3xl"></div>
 
-      <!-- Floating particles -->
-      <div class="particles-container">
-        <div class="particle" style="left: 10%; top: 20%; animation-delay: 0s;"></div>
-        <div class="particle" style="left: 20%; top: 60%; animation-delay: 2s;"></div>
-        <div class="particle" style="left: 35%; top: 30%; animation-delay: 4s;"></div>
-        <div class="particle" style="left: 50%; top: 70%; animation-delay: 1s;"></div>
-        <div class="particle" style="left: 65%; top: 25%; animation-delay: 3s;"></div>
-        <div class="particle" style="left: 80%; top: 55%; animation-delay: 5s;"></div>
-        <div class="particle" style="left: 90%; top: 40%; animation-delay: 2.5s;"></div>
-        <div class="particle" style="left: 15%; top: 80%; animation-delay: 3.5s;"></div>
-        <div class="particle" style="left: 75%; top: 15%; animation-delay: 4.5s;"></div>
-        <div class="particle" style="left: 45%; top: 45%; animation-delay: 1.5s;"></div>
-      </div>
-
-      <!-- Cyber grid overlay -->
-      <div class="absolute inset-0 cyber-grid opacity-30"></div>
-
-      <!-- Gradient blobs -->
-      <div class="absolute -top-24 -left-24 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl animate-float"></div>
-      <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl animate-float" style="animation-delay: -1.5s;"></div>
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-500/5 rounded-full blur-3xl"></div>
-
-      <div class="relative flex flex-col items-center justify-center min-h-[70vh] text-center z-10 py-12">
+      <div class="relative flex flex-col items-center justify-center min-h-[60vh] text-center z-10 py-16 px-4">
         <!-- Live badge -->
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 mb-6 animate-fade-in badge-shine">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 mb-6">
           <span class="relative flex h-2 w-2">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -67,47 +38,20 @@ interface Stat {
           <span class="text-xs font-medium text-emerald-400">{{ lang.t('landing.live_badge') || 'DORA & NIS2 Active' }}</span>
         </div>
 
-        <h1 class="text-4xl md:text-6xl font-extrabold mb-6 animate-slide-in leading-tight">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-5 leading-tight max-w-3xl">
           <span class="gradient-text">{{ lang.t('landing.title') }}</span>
         </h1>
 
-        <p class="text-lg md:text-xl text-slate-300 max-w-2xl mb-8 leading-relaxed animate-slide-in delay-100">
+        <p class="text-lg text-slate-300 max-w-2xl mb-10 leading-relaxed">
           {{ lang.t('landing.subtitle') }}
         </p>
 
-        <!-- Compliance Score Preview -->
-        <div class="flex items-center gap-6 mb-10 animate-scale-in delay-200">
-          <div class="compliance-ring">
-            <div class="compliance-ring-glow"></div>
-            <svg viewBox="0 0 120 120" class="w-full h-full">
-              <defs>
-                <linearGradient id="compliance-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style="stop-color:#34d399"/>
-                  <stop offset="100%" style="stop-color:#22d3ee"/>
-                </linearGradient>
-              </defs>
-              <circle cx="60" cy="60" r="50" class="compliance-ring-bg"/>
-              <circle cx="60" cy="60" r="50" class="compliance-ring-progress"
-                      stroke-dasharray="314.16"
-                      [attr.stroke-dashoffset]="314.16 - (314.16 * compliancePreview / 100)"/>
-            </svg>
-            <div class="absolute inset-0 flex items-center justify-center flex-col">
-              <span class="text-3xl font-bold score-counter">{{ compliancePreview }}%</span>
-              <span class="text-xs text-slate-500">{{ lang.t('landing.score_label') || 'Sample Score' }}</span>
-            </div>
-          </div>
-          <div class="text-left hidden sm:block">
-            <p class="text-sm text-slate-400 mb-1">{{ lang.t('landing.score_cta') || 'See your real score' }}</p>
-            <p class="text-xs text-slate-500">{{ lang.t('landing.score_time') || 'Free • 5 min analysis' }}</p>
-          </div>
-        </div>
-
         <!-- CTA buttons -->
-        <div class="flex flex-col items-center gap-4 animate-slide-in delay-300">
+        <div class="flex flex-col items-center gap-4">
           <a routerLink="/contract-analysis"
-             class="magnetic-btn glow-border group inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
-                    text-slate-900 font-bold px-12 py-5 rounded-2xl text-lg
-                    hover:shadow-2xl hover:shadow-emerald-500/30 transition-all duration-300">
+             class="group inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
+                    text-slate-900 font-bold px-10 py-4 rounded-xl text-lg
+                    hover:shadow-lg hover:shadow-emerald-500/20 transition-all duration-300">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
@@ -116,44 +60,36 @@ interface Stat {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
           </a>
-          <div class="flex flex-wrap justify-center gap-4 mt-2">
+          <div class="flex flex-wrap justify-center gap-4 mt-1">
             <a routerLink="/nis2/scope-check"
-               class="interactive-highlight text-sm text-slate-400 hover:text-amber-400 transition-colors inline-flex items-center gap-1.5 py-1">
-              <svg class="w-4 h-4 icon-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               class="text-sm text-slate-400 hover:text-amber-400 transition-colors inline-flex items-center gap-1.5 py-1">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
               </svg>
               {{ lang.t('landing.cta_nis2_secondary') }}
             </a>
-            <span class="text-slate-700">•</span>
+            <span class="text-slate-700">|</span>
             <a routerLink="/fine-calculator"
-               class="interactive-highlight text-sm text-slate-400 hover:text-red-400 transition-colors inline-flex items-center gap-1.5 py-1">
-              <svg class="w-4 h-4 icon-bounce" style="animation-delay: 0.5s;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               class="text-sm text-slate-400 hover:text-red-400 transition-colors inline-flex items-center gap-1.5 py-1">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
               {{ lang.t('landing.cta_fine_calc') }}
             </a>
-            <span class="text-slate-700">•</span>
+            <span class="text-slate-700">|</span>
             <a routerLink="/timeline"
-               class="interactive-highlight text-sm text-slate-400 hover:text-cyan-400 transition-colors inline-flex items-center gap-1.5 py-1">
-              <svg class="w-4 h-4 icon-bounce" style="animation-delay: 1s;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               class="text-sm text-slate-400 hover:text-cyan-400 transition-colors inline-flex items-center gap-1.5 py-1">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
               </svg>
               {{ lang.t('landing.cta_timeline') || 'Timeline' }}
             </a>
           </div>
-        </div>
-
-        <!-- Scroll indicator -->
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce-subtle">
-          <svg class="w-6 h-6 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-          </svg>
+          <!-- Inline trust signals -->
+          <p class="text-xs text-slate-500 mt-2">{{ lang.t('landing.trust_no_cc') }} · {{ lang.t('landing.trust_instant') }} · {{ lang.t('landing.trust_pdf') }}</p>
         </div>
       </div>
     </div>
-
-    <!-- Gradient separator -->
-    <div class="gradient-line"></div>
 
     <!-- How It Works -->
     <div class="py-14 relative">
@@ -194,28 +130,41 @@ interface Stat {
       </div>
     </div>
 
-    <!-- Social Proof Stats Section -->
-    <div class="py-6 px-4 bg-slate-800/50 border-y border-slate-700/50">
+    <!-- Social Proof Bar -->
+    <div class="py-5 px-4 bg-slate-800/50 border-y border-slate-700/50">
       <div class="max-w-4xl mx-auto">
-        <!-- Stats row -->
-        <div class="flex flex-wrap justify-center gap-8 md:gap-12 mb-4">
-          <div class="text-center">
-            <span class="text-xl md:text-2xl font-bold text-emerald-400">8</span>
-            <p class="text-xs text-slate-400 mt-1">{{ lang.t('landing.proof_requirements') }}</p>
+        <div class="flex flex-wrap justify-center items-center gap-6 md:gap-10">
+          <!-- Dynamic stats from API -->
+          <ng-container *ngIf="publicStats">
+            <div class="flex items-center gap-2" *ngIf="publicStats.totalChecks > 0">
+              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span class="text-sm text-slate-300"><strong class="text-emerald-400">{{ publicStats.totalChecks }}</strong> {{ lang.t('landing.social_checks_done') }}</span>
+            </div>
+            <div class="flex items-center gap-2" *ngIf="publicStats.userCount > 0">
+              <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              <span class="text-sm text-slate-300"><strong class="text-cyan-400">{{ publicStats.userCount }}</strong> {{ lang.t('landing.social_companies') }}</span>
+            </div>
+          </ng-container>
+          <!-- Static capability stats (always shown) -->
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <span class="text-sm text-slate-300"><strong class="text-teal-400">8</strong> {{ lang.t('landing.social_base_requirements') }}</span>
           </div>
-          <div class="text-center">
-            <span class="text-xl md:text-2xl font-bold text-cyan-400">5 min</span>
-            <p class="text-xs text-slate-400 mt-1">{{ lang.t('landing.proof_time_label') }}</p>
-          </div>
-          <div class="text-center">
-            <span class="text-xl md:text-2xl font-bold text-teal-400">PDF</span>
-            <p class="text-xs text-slate-400 mt-1">{{ lang.t('landing.proof_report') }}</p>
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span class="text-sm text-slate-300"><strong class="text-violet-400">5 min</strong> {{ lang.t('landing.social_analysis') }}</span>
           </div>
         </div>
-
-        <!-- Trust bar -->
-        <p class="text-center text-xs text-slate-500">
-          {{ lang.t('landing.trust_methodology') }}
+        <p class="text-center text-xs text-slate-500 mt-3">
+          {{ lang.t('landing.social_trust') }}
         </p>
       </div>
     </div>
@@ -842,12 +791,6 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
     { id: 'INFORMATION_SHARING', icon: 'M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z', labelKey: 'landing.pillar_info', articles: 'Art. 45' }
   ];
 
-  stats: (Stat & { icon: string; labelKey: string })[] = [
-    { value: 8, suffix: '', label: '', labelKey: 'landing.stat_requirements', current: 8, icon: '📋' },
-    { value: 5, suffix: ' min', label: '', labelKey: 'landing.stat_analysis', current: 5, icon: '⚡' },
-    { value: 2, suffix: '%', label: '', labelKey: 'landing.stat_penalty', current: 2, icon: '⚠️' }
-  ];
-
   requirements: DoraRequirement[] = [
     { id: '1', name: '', nameKey: 'landing.req1_name', description: '', descKey: 'landing.req1_desc', checked: true, expanded: false },
     { id: '2', name: '', nameKey: 'landing.req2_name', description: '', descKey: 'landing.req2_desc', checked: true, expanded: false },
@@ -889,9 +832,6 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   // FAQ accordion state
   expandedFaq: number | null = null;
 
-  // Compliance preview animation
-  compliancePreview = 0;
-  targetCompliancePreview = 73;
 
   contactReasons = [
     { value: 'demo', labelKey: 'landing.contact_reason_demo' },
@@ -910,33 +850,10 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('DoraAudit.eu — DORA ja NIS2 vastavusplatvorm Eesti ettevõtetele');
-    this.animateStats();
-    this.animateCompliancePreview();
     this.loadPublicStats();
 
     // Track page view
     this.trackingService.trackPageView('/');
-  }
-
-  private animateCompliancePreview(): void {
-    const duration = 2000;
-    const steps = 60;
-    const stepDuration = duration / steps;
-
-    timer(500, stepDuration)
-      .pipe(
-        take(steps),
-        takeUntil(this.destroy$)
-      )
-      .subscribe({
-        next: (step) => {
-          const progress = this.easeOutQuad((step + 1) / steps);
-          this.compliancePreview = Math.round(this.targetCompliancePreview * progress);
-        },
-        complete: () => {
-          this.compliancePreview = this.targetCompliancePreview;
-        }
-      });
   }
 
   ngAfterViewInit(): void {
@@ -978,38 +895,6 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  animateStats(): void {
-    const duration = 2000;
-    const steps = 60;
-    const stepDuration = duration / steps;
-
-    this.stats.forEach((stat, index) => {
-      const targetValue = stat.value;
-      timer(50).subscribe(() => {
-        stat.current = 0;
-      });
-      timer(index * 150 + 100, stepDuration)
-        .pipe(
-          take(steps),
-          takeUntil(this.destroy$)
-        )
-        .subscribe({
-          next: (step) => {
-            const progress = this.easeOutQuad((step + 1) / steps);
-            stat.current = Math.round(targetValue * progress);
-          },
-          complete: () => {
-            // Always force exact final value
-            stat.current = targetValue;
-          }
-        });
-    });
-  }
-
-  private easeOutQuad(t: number): number {
-    return t * (2 - t);
   }
 
   get checkedCount(): number {
