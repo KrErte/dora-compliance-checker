@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/v2/**").permitAll()
                 .requestMatchers("/api/emtak/**").permitAll()
                 .requestMatchers("/api/company/**").permitAll()
+                .requestMatchers("/api/companies/**").permitAll()
                 .requestMatchers("/api/ariregister/**").permitAll()
                 .requestMatchers("/api/stats/**").permitAll()
                 .requestMatchers("/api/early-adopter/**").permitAll()
