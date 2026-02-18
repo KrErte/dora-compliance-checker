@@ -1380,6 +1380,8 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'company.search_placeholder': { et: 'Otsi nime või registrikoodi järgi...', en: 'Search by name or registry code...' },
   'company.fi_licensed_title': { et: 'FI-litsentsiga ettevõtted', en: 'FI-Licensed Companies' },
   'company.loading': { et: 'Laadimine...', en: 'Loading...' },
+  'company.load_error': { et: 'Andmeid ei leitud. Palun proovi uuesti.', en: 'Data not found. Please try again.' },
+  'company.retry': { et: 'Proovi uuesti', en: 'Try again' },
   'company.show_less': { et: 'Näita vähem', en: 'Show less' },
   'company.show_all': { et: 'Näita kõiki', en: 'Show all' },
   'company.back_to_search': { et: 'Tagasi otsingusse', en: 'Back to search' },

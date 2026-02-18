@@ -96,8 +96,15 @@ interface SearchResult {
         <!-- FI Licensed Companies -->
         <div class="mt-12">
           <h2 class="text-lg font-semibold text-slate-300 mb-4">{{ lang.t('company.fi_licensed_title') }}</h2>
-          <div *ngIf="fiLicensedCompanies().length === 0" class="text-slate-500">
+          <div *ngIf="fiLoadingState() === 'loading'" class="text-slate-500 flex items-center gap-2">
+            <div class="w-4 h-4 border-2 border-slate-500/30 border-t-emerald-400 rounded-full animate-spin"></div>
             {{ lang.t('company.loading') }}
+          </div>
+          <div *ngIf="fiLoadingState() === 'error'" class="text-amber-400 text-sm p-4 rounded-xl bg-amber-500/10 border border-amber-500/20">
+            {{ lang.t('company.load_error') }}
+            <button (click)="loadFiLicensedCompanies()" class="ml-2 text-emerald-400 hover:text-emerald-300 underline">
+              {{ lang.t('company.retry') }}
+            </button>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             <button *ngFor="let company of fiLicensedCompanies().slice(0, 12)"
@@ -344,6 +351,7 @@ export class CompanyProfileComponent implements OnInit {
   selectedProfile = signal<CompanyProfile | null>(null);
   isSearching = signal(false);
   isRefreshing = signal(false);
+  fiLoadingState = signal<'loading' | 'loaded' | 'error'>('loading');
 
   parsedBoardMembers = computed(() => {
     const profile = this.selectedProfile();
@@ -365,10 +373,19 @@ export class CompanyProfileComponent implements OnInit {
   }
 
   loadFiLicensedCompanies() {
-    this.http.get<SearchResult[]>(`/api/companies/fi-licensed`)
-      .subscribe({
-        next: (companies) => this.fiLicensedCompanies.set(companies),
-        error: (err) => console.error('Failed to load FI companies:', err)
+    this.fiLoadingState.set('loading');
+    const timeout$ = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('timeout')), 5000)
+    );
+    const fetch$ = this.http.get<SearchResult[]>(`/api/companies/fi-licensed`).toPromise();
+    Promise.race([fetch$, timeout$])
+      .then((companies) => {
+        this.fiLicensedCompanies.set(companies || []);
+        this.fiLoadingState.set('loaded');
+      })
+      .catch((err) => {
+        console.error('Failed to load FI companies:', err);
+        this.fiLoadingState.set('error');
       });
   }
 
