@@ -1712,7 +1712,17 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'onboarding.back': { et: 'Tagasi', en: 'Back' },
   'onboarding.skip': { et: 'Jäta vahele', en: 'Skip' },
 
-  // Step 1 - Role
+  // How it works
+  'onboarding.how_subtitle': { et: 'Kolm sammu täieliku DORA vastavuseni', en: 'Three steps to full DORA compliance' },
+  'onboarding.how_card1_title': { et: 'Hinda vastavust', en: 'Assess compliance' },
+  'onboarding.how_card1_desc': { et: '37-küsimuline DORA assessment näitab lüngad 15 minutiga', en: '37-question DORA assessment reveals gaps in 15 minutes' },
+  'onboarding.how_card2_title': { et: 'AI analüüsib riske', en: 'AI analyses risks' },
+  'onboarding.how_card2_desc': { et: 'Tuvastab kriitilised puudused ja arvutab trahvipotentsiaali', en: 'Identifies critical gaps and calculates fine potential' },
+  'onboarding.how_card3_title': { et: 'Genereeri aruanne', en: 'Generate report' },
+  'onboarding.how_card3_desc': { et: 'Juhtkonna raport ja tegevusplaan PDF-ina', en: 'Board report and action plan as PDF' },
+  'onboarding.how_cta': { et: 'Alusta hindamist', en: 'Start assessment' },
+
+  // Step 2 - Role
   'onboarding.step1_title': { et: 'Mis on teie roll?', en: 'What is your role?' },
   'onboarding.step1_desc': { et: 'See aitab meil pakkuda teile kõige relevantsemaid tööriistu', en: 'This helps us recommend the most relevant tools for you' },
   'onboarding.role_compliance': { et: 'Compliance Officer', en: 'Compliance Officer' },
