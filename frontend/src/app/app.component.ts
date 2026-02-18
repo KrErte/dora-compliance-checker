@@ -7,10 +7,11 @@ import { LangService } from './lang.service';
 import { AuthService } from './auth/auth.service';
 import { TrackingService } from './tracking.service';
 import { CookieConsentComponent } from './components/cookie-consent/cookie-consent.component';
+import { OnboardingComponent } from './pages/onboarding.component';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, CookieConsentComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, CookieConsentComponent, OnboardingComponent],
   host: {
     '(document:click)': 'onDocumentClick($event)',
     '(window:scroll)': 'closeAllMenus()'
@@ -452,12 +453,14 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
       </div>
     </footer>
     <app-cookie-consent></app-cookie-consent>
+    <app-onboarding *ngIf="showOnboarding" [isOverlay]="true" (completed)="showOnboarding = false"></app-onboarding>
   `
 })
 export class AppComponent implements OnInit, OnDestroy {
   mobileMenu = false;
   doraMenu = false;
   nis2Menu = false;
+  showOnboarding = false;
   private routerSub?: Subscription;
   private isBrowser: boolean;
 
@@ -481,7 +484,8 @@ export class AppComponent implements OnInit, OnDestroy {
     '/timeline': { et: 'Regulatiivne Ajakava | DoraAudit.eu', en: 'Regulatory Timeline | DoraAudit.eu' },
     '/vendors': { et: 'ICT Teenusepakkujate Andmebaas | DoraAudit.eu', en: 'ICT Vendor Database | DoraAudit.eu' },
     '/supply-chain': { et: 'Supply Chain Nerve Center | DoraAudit.eu', en: 'Supply Chain Nerve Center | DoraAudit.eu' },
-    '/dashboard': { et: 'Juhtpaneel | DoraAudit.eu', en: 'Dashboard | DoraAudit.eu' }
+    '/dashboard': { et: 'Juhtpaneel | DoraAudit.eu', en: 'Dashboard | DoraAudit.eu' },
+    '/welcome': { et: 'Tere tulemast | DoraAudit.eu', en: 'Welcome | DoraAudit.eu' }
   };
 
   private pageDescriptions: { [path: string]: { et: string; en: string } } = {
@@ -543,6 +547,11 @@ export class AppComponent implements OnInit, OnDestroy {
       this.trackingService.initAllTracking();
       // Track initial page view
       this.trackingService.trackPageView(this.router.url);
+
+      // Show onboarding on first visit (not on /welcome route which shows it inline)
+      if (!localStorage.getItem('onboarding_complete') && this.router.url !== '/welcome') {
+        this.showOnboarding = true;
+      }
     }
   }
 

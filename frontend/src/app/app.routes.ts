@@ -174,6 +174,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/workspace.component').then(m => m.WorkspaceComponent)
   },
   {
+    path: 'welcome',
+    loadComponent: () => import('./pages/onboarding.component').then(m => m.OnboardingComponent)
+    // No authGuard - public onboarding wizard
+  },
+  {
     path: 'pricing',
     loadComponent: () => import('./pages/pricing.component').then(m => m.PricingComponent)
   },

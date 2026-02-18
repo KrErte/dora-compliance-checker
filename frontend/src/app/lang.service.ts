@@ -1703,6 +1703,49 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'workspace.submitting': { et: 'Esitan...', en: 'Submitting...' },
   'workspace.audit_trail': { et: 'Tegevuste ajalugu', en: 'Audit Trail' },
   'workspace.export_pdf': { et: 'Ekspordi PDF', en: 'Export PDF' },
+
+  // Onboarding Wizard
+  'onboarding.title': { et: 'Tere tulemast DoraAudit\'i', en: 'Welcome to DoraAudit' },
+  'onboarding.subtitle': { et: 'Alustame teie profiilist', en: 'Let\'s start with your profile' },
+  'onboarding.step': { et: 'Samm', en: 'Step' },
+  'onboarding.of': { et: '/', en: 'of' },
+  'onboarding.back': { et: 'Tagasi', en: 'Back' },
+  'onboarding.skip': { et: 'Jäta vahele', en: 'Skip' },
+
+  // Step 1 - Role
+  'onboarding.step1_title': { et: 'Mis on teie roll?', en: 'What is your role?' },
+  'onboarding.step1_desc': { et: 'See aitab meil pakkuda teile kõige relevantsemaid tööriistu', en: 'This helps us recommend the most relevant tools for you' },
+  'onboarding.role_compliance': { et: 'Compliance Officer', en: 'Compliance Officer' },
+  'onboarding.role_compliance_desc': { et: 'DORA nõuete hindamine ja aruandlus', en: 'DORA requirements assessment and reporting' },
+  'onboarding.role_cto': { et: 'CTO / IT Juht', en: 'CTO / IT Lead' },
+  'onboarding.role_cto_desc': { et: 'Tehniline vastavus ja tarneahel', en: 'Technical compliance and supply chain' },
+  'onboarding.role_risk': { et: 'Risk Manager', en: 'Risk Manager' },
+  'onboarding.role_risk_desc': { et: 'Riskihindamine ja juhtkonna aruanded', en: 'Risk assessment and board reports' },
+
+  // Step 2 - Org type
+  'onboarding.step2_title': { et: 'Organisatsiooni tüüp', en: 'Organisation type' },
+  'onboarding.step2_desc': { et: 'Millist tüüpi finantsasutuses töötate?', en: 'What type of financial entity do you work at?' },
+  'onboarding.org_bank': { et: 'Pank / Krediidiasutus', en: 'Bank / Credit Institution' },
+  'onboarding.org_insurance': { et: 'Kindlustus', en: 'Insurance' },
+  'onboarding.org_ict': { et: 'IT Teenusepakkuja / TPSP', en: 'IT Service Provider / TPSP' },
+  'onboarding.org_other': { et: 'Muu finantsasutus', en: 'Other Financial Entity' },
+
+  // Step 3 - Recommendation
+  'onboarding.step3_title': { et: 'Teie personaalne teekond', en: 'Your personalised path' },
+  'onboarding.step3_desc': { et: 'Soovitame alustada nendest tööriistadest', en: 'We recommend starting with these tools' },
+  'onboarding.rec_start_with': { et: 'Alusta siit', en: 'Start here' },
+  'onboarding.rec_then': { et: 'Seejärel', en: 'Then' },
+  'onboarding.rec_assessment': { et: 'DORA Assessment', en: 'DORA Assessment' },
+  'onboarding.rec_assessment_desc': { et: 'Hinda oma organisatsiooni DORA vastavust 5 sambas', en: 'Assess your organisation\'s DORA compliance across 5 pillars' },
+  'onboarding.rec_fine': { et: 'Trahvikalkulaator', en: 'Fine Calculator' },
+  'onboarding.rec_fine_desc': { et: 'Arvuta potentsiaalne trahvirisk mittevastavuse korral', en: 'Calculate potential penalty risk for non-compliance' },
+  'onboarding.rec_nis2': { et: 'NIS2 Scope Checker', en: 'NIS2 Scope Checker' },
+  'onboarding.rec_nis2_desc': { et: 'Kontrolli kas NIS2 direktiiv kohaldub teie organisatsioonile', en: 'Check if NIS2 directive applies to your organisation' },
+  'onboarding.rec_supply': { et: 'Tarneahela Riskid', en: 'Supply Chain Risks' },
+  'onboarding.rec_supply_desc': { et: 'Halda IKT teenusepakkujate riske ja lepinguid', en: 'Manage ICT service provider risks and contracts' },
+  'onboarding.rec_board': { et: 'Board Risk Report', en: 'Board Risk Report' },
+  'onboarding.rec_board_desc': { et: 'Genereeri juhtkonnale riskiaruanne automaatselt', en: 'Generate risk report for the board automatically' },
+  'onboarding.start_btn': { et: 'Alusta', en: 'Get Started' },
 };
 
 @Injectable({ providedIn: 'root' })
