@@ -155,6 +155,59 @@ interface Stat {
     <!-- Gradient separator -->
     <div class="gradient-line"></div>
 
+    <!-- Process steps - How It Works -->
+    <div class="py-20 relative">
+      <!-- Background -->
+      <div class="absolute inset-0 cyber-grid opacity-20"></div>
+
+      <div class="relative z-10">
+        <div class="text-center mb-12">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-4">
+            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            <span class="text-xs font-medium text-cyan-400 uppercase tracking-wider">{{ lang.t('landing.steps_badge') || 'How It Works' }}</span>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-bold text-slate-100">{{ lang.t('landing.steps_title') }}</h2>
+        </div>
+
+        <!-- Steps with connecting line -->
+        <div class="max-w-4xl mx-auto px-4 relative">
+          <!-- Connecting line (desktop) -->
+          <div class="hidden md:block absolute top-20 left-[16%] right-[16%] h-0.5 bg-gradient-to-r from-emerald-500/50 via-cyan-500/50 to-violet-500/50"></div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div *ngFor="let step of steps; let i = index"
+                 class="group relative step-card"
+                 [style.animation-delay]="i * 150 + 'ms'">
+              <!-- Step number with glow -->
+              <div class="flex justify-center mb-6">
+                <div class="relative">
+                  <div class="absolute inset-0 rounded-full bg-gradient-to-r"
+                       [class.from-emerald-500]="i === 0" [class.to-cyan-500]="i === 0"
+                       [class.from-cyan-500]="i === 1" [class.to-violet-500]="i === 1"
+                       [class.from-violet-500]="i === 2" [class.to-pink-500]="i === 2"
+                       style="filter: blur(8px); opacity: 0.5;"></div>
+                  <div class="relative w-14 h-14 rounded-full bg-gradient-to-r flex items-center justify-center text-white text-xl font-bold shadow-lg"
+                       [class.from-emerald-500]="i === 0" [class.to-cyan-500]="i === 0"
+                       [class.from-cyan-500]="i === 1" [class.to-violet-500]="i === 1"
+                       [class.from-violet-500]="i === 2" [class.to-pink-500]="i === 2">
+                    {{ i + 1 }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card -->
+              <div class="glass-card p-6 text-center rounded-xl border border-slate-700/50 group-hover:border-emerald-500/30 transition-all duration-300 h-full feature-card">
+                <h3 class="font-bold text-lg text-slate-100 mb-3 group-hover:text-emerald-300 transition-colors">{{ lang.t(step.titleKey) }}</h3>
+                <p class="text-sm text-slate-400 leading-relaxed">{{ lang.t(step.descKey) }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Social Proof Stats Section -->
     <div class="py-6 px-4 bg-slate-800/50 border-y border-slate-700/50">
       <div class="max-w-4xl mx-auto">
@@ -181,183 +234,16 @@ interface Stat {
       </div>
     </div>
 
-    <!-- Free Analysis CTA Section -->
-    <div id="promo-section" class="py-8 px-4 animate-fade-in">
-      <div class="max-w-2xl mx-auto">
-        <div class="relative overflow-hidden rounded-2xl p-6 md:p-8 bg-gradient-to-br from-emerald-500/10 via-teal-500/10 to-cyan-500/10 border border-emerald-500/30">
-          <!-- Glow effect -->
-          <div class="absolute -top-20 -right-20 w-40 h-40 bg-emerald-500/20 rounded-full blur-3xl"></div>
-          <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl"></div>
-
-          <div class="relative z-10 text-center">
-            <div class="text-4xl mb-3">📄</div>
-            <p class="text-lg text-slate-300 mb-6 max-w-lg mx-auto">
-              {{ lang.t('landing.free_analysis_desc') }}
-            </p>
-
-            <a routerLink="/contract-analysis"
-               class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold text-lg
-                      bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
-                      hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
-              {{ lang.t('landing.free_analysis_cta') }}
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-              </svg>
-            </a>
-          </div>
+    <!-- DORA Status Info -->
+    <div class="py-6 px-4">
+      <div class="max-w-2xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+          </svg>
+          <span class="text-sm font-medium text-emerald-300">{{ lang.t('landing.dora_active_since') || 'DORA on jõus alates 17. jaanuarist 2025' }}</span>
         </div>
       </div>
-    </div>
-
-    <!-- Urgency Banner - Enhanced -->
-    <div class="py-8 px-4">
-      <div class="max-w-4xl mx-auto">
-        <div class="urgency-card urgency-pulse relative overflow-hidden rounded-2xl glass-ultra border border-red-500/40 p-6 md:p-8">
-          <!-- Animated glow effects -->
-          <div class="absolute -top-20 -right-20 w-60 h-60 bg-red-500/20 rounded-full blur-3xl animate-float"></div>
-          <div class="absolute -bottom-20 -left-20 w-60 h-60 bg-orange-500/15 rounded-full blur-3xl animate-float" style="animation-delay: -2s;"></div>
-
-          <!-- Warning stripes decoration -->
-          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 via-orange-500 to-red-500 animate-shimmer"></div>
-
-          <div class="relative z-10 flex flex-col md:flex-row items-center gap-6 md:gap-10">
-            <!-- Left: Warning info -->
-            <div class="flex-1 text-center md:text-left">
-              <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 mb-4">
-                <span class="relative flex h-2 w-2">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                </span>
-                <span class="text-xs font-bold uppercase tracking-wider text-red-400">{{ lang.t('landing.urgency_alert') }}</span>
-              </div>
-
-              <ul class="space-y-3 text-sm stagger-children">
-                <li class="flex items-start gap-3 justify-center md:justify-start reveal-left revealed">
-                  <div class="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                    <svg class="w-3.5 h-3.5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                  </div>
-                  <span class="text-slate-300">{{ lang.t('landing.urgency_dora_date') }}</span>
-                </li>
-                <li class="flex items-start gap-3 justify-center md:justify-start reveal-left revealed" style="animation-delay: 0.1s;">
-                  <div class="w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                    <svg class="w-3.5 h-3.5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                  </div>
-                  <span class="text-slate-300">{{ lang.t('landing.urgency_nis2_date') }}</span>
-                </li>
-                <li class="flex items-start gap-3 justify-center md:justify-start reveal-left revealed" style="animation-delay: 0.2s;">
-                  <div class="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                    <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                  </div>
-                  <span class="text-slate-300">{{ lang.t('landing.urgency_fine') }}</span>
-                </li>
-                <li class="flex items-start gap-3 justify-center md:justify-start reveal-left revealed" style="animation-delay: 0.3s;">
-                  <div class="w-6 h-6 rounded-full bg-red-500/20 flex items-center justify-center shrink-0 mt-0.5">
-                    <svg class="w-3.5 h-3.5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                    </svg>
-                  </div>
-                  <span class="text-slate-300">{{ lang.t('landing.urgency_personal') }}</span>
-                </li>
-              </ul>
-            </div>
-
-            <!-- Right: Animated Counter -->
-            <div class="text-center px-8 py-6 rounded-2xl bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30 relative overflow-hidden">
-              <!-- Animated ring -->
-              <div class="absolute inset-0 rounded-2xl border-2 border-red-500/20 animate-border-glow"></div>
-
-              <p class="text-xs text-slate-400 uppercase tracking-wider mb-2 font-medium">{{ lang.t('landing.urgency_counter_label') }}</p>
-              <div class="text-6xl md:text-7xl font-extrabold tabular-nums mb-2 urgency-number neon-text" style="color: #f87171;">
-                {{ daysSinceDora }}
-              </div>
-              <p class="text-sm text-red-300 font-semibold">{{ lang.t('landing.urgency_days') }}</p>
-              <p class="text-xs text-slate-500 mt-3 max-w-[180px]">{{ lang.t('landing.urgency_question') }}</p>
-            </div>
-          </div>
-
-          <!-- CTA -->
-          <div class="relative z-10 mt-8 flex flex-wrap justify-center gap-4">
-            <a routerLink="/assessment"
-               class="magnetic-btn inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-sm
-                      bg-gradient-to-r from-red-500 to-orange-500 text-white
-                      hover:from-red-400 hover:to-orange-400 hover:shadow-xl hover:shadow-red-500/30 transition-all">
-              {{ lang.t('landing.cta_check_nis2') }}
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-              </svg>
-            </a>
-            <a routerLink="/board-risk"
-               class="inline-flex items-center gap-2 px-6 py-4 rounded-xl font-semibold text-sm
-                      bg-slate-800/50 border border-teal-500/30 text-teal-400
-                      hover:bg-teal-500/10 hover:border-teal-400 transition-all">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-              </svg>
-              {{ lang.t('landing.cta_board_risk') || 'Personal Risk Check' }}
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Stats Counter Section - Enhanced -->
-    <div class="py-16 max-w-4xl mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 stagger-children">
-        <div *ngFor="let stat of stats; let i = index"
-             class="stat-card group text-center p-8 rounded-2xl glass-ultra border border-slate-700/30 hover:border-teal-500/40 transition-all duration-300 relative overflow-hidden feature-card"
-             [style.animation-delay]="i * 150 + 'ms'">
-          <!-- Animated gradient border on hover -->
-          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <div class="absolute inset-0 rounded-2xl animated-border"></div>
-          </div>
-
-          <div class="relative z-10">
-            <div class="text-5xl mb-4 feature-card-icon">{{ stat.icon }}</div>
-            <div class="text-5xl font-extrabold mb-2 tabular-nums score-counter">{{ stat.current }}{{ stat.suffix }}</div>
-            <div class="text-slate-400 text-sm font-medium">{{ lang.t(stat.labelKey) }}</div>
-          </div>
-
-          <!-- Bottom glow -->
-          <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-teal-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Social Proof / Platform Stats -->
-    <div class="py-8 max-w-4xl mx-auto px-4">
-      <!-- If we have enough users, show real stats -->
-      <div *ngIf="publicStats && publicStats.userCount >= 10" class="text-center">
-        <div class="flex flex-wrap justify-center gap-6 mb-4">
-          <div class="flex items-center gap-2">
-            <span class="text-2xl font-bold text-emerald-400">{{ publicStats.totalChecks }}</span>
-            <span class="text-slate-400 text-sm">{{ lang.t('landing.social_checks_done') }}</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="text-2xl font-bold text-cyan-400">{{ publicStats.userCount }}</span>
-            <span class="text-slate-400 text-sm">{{ lang.t('landing.social_companies') }}</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- If not enough users, show platform capabilities -->
-      <div *ngIf="!publicStats || publicStats.userCount < 10" class="text-center">
-        <div class="flex flex-wrap justify-center gap-4 text-sm text-slate-400">
-          <span class="px-3 py-1.5 rounded-lg bg-slate-800/50 border border-slate-700/50">8 DORA Art. 30 {{ lang.t('landing.social_base_requirements') }}</span>
-          <span class="px-3 py-1.5 rounded-lg bg-slate-800/50 border border-slate-700/50">5 min {{ lang.t('landing.social_analysis') }}</span>
-          <span class="px-3 py-1.5 rounded-lg bg-slate-800/50 border border-slate-700/50">PDF {{ lang.t('landing.social_report') }}</span>
-        </div>
-      </div>
-
-      <!-- Trust statement -->
-      <p class="text-center text-xs text-slate-500 mt-4">
-        {{ lang.t('landing.social_trust') }}
-      </p>
     </div>
 
     <!-- Contract Analysis CTA Card -->
@@ -453,87 +339,6 @@ interface Stat {
         <p class="text-slate-500 text-sm">
           {{ lang.t('landing.table_checked') }}: <span class="text-teal-400 font-medium">{{ checkedCount }}</span> / {{ requirements.length }}
         </p>
-      </div>
-    </div>
-
-    <!-- Email Capture Section -->
-    <div class="py-12 max-w-xl mx-auto px-4">
-      <div class="glass-card p-6 rounded-2xl border border-emerald-500/20 text-center">
-        <div class="text-3xl mb-3">📋</div>
-        <h3 class="text-lg font-semibold text-slate-200 mb-2">{{ lang.t('landing.email_title') }}</h3>
-        <p class="text-sm text-slate-400 mb-4">{{ lang.t('landing.email_desc') }}</p>
-
-        <form *ngIf="!emailSubscribed" (submit)="submitEmailSubscription($event)" class="flex flex-col sm:flex-row gap-3">
-          <input type="email" [(ngModel)]="subscribeEmail" name="email" required
-                 [placeholder]="lang.t('landing.email_placeholder')"
-                 class="flex-1 px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors">
-          <button type="submit" [disabled]="emailSending"
-                  class="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-900 font-semibold whitespace-nowrap disabled:opacity-50">
-            {{ emailSending ? '...' : lang.t('landing.email_btn') }}
-          </button>
-        </form>
-
-        <div *ngIf="emailSubscribed" class="flex items-center justify-center gap-2 text-emerald-400 animate-fade-in">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-          </svg>
-          <span>{{ lang.t('landing.email_success') }}</span>
-        </div>
-
-        <p *ngIf="emailError" class="text-red-400 text-sm mt-2 animate-fade-in">{{ lang.t('landing.email_error') }}</p>
-      </div>
-    </div>
-
-    <!-- Process steps - Enhanced -->
-    <div class="py-20 relative">
-      <!-- Background -->
-      <div class="absolute inset-0 cyber-grid opacity-20"></div>
-
-      <div class="relative z-10">
-        <div class="text-center mb-12">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-4">
-            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-            </svg>
-            <span class="text-xs font-medium text-cyan-400 uppercase tracking-wider">{{ lang.t('landing.steps_badge') || 'How It Works' }}</span>
-          </div>
-          <h2 class="text-2xl md:text-3xl font-bold text-slate-100">{{ lang.t('landing.steps_title') }}</h2>
-        </div>
-
-        <!-- Steps with connecting line -->
-        <div class="max-w-4xl mx-auto px-4 relative">
-          <!-- Connecting line (desktop) -->
-          <div class="hidden md:block absolute top-20 left-[16%] right-[16%] h-0.5 bg-gradient-to-r from-emerald-500/50 via-cyan-500/50 to-violet-500/50"></div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div *ngFor="let step of steps; let i = index"
-                 class="group relative step-card"
-                 [style.animation-delay]="i * 150 + 'ms'">
-              <!-- Step number with glow -->
-              <div class="flex justify-center mb-6">
-                <div class="relative">
-                  <div class="absolute inset-0 rounded-full bg-gradient-to-r"
-                       [class.from-emerald-500]="i === 0" [class.to-cyan-500]="i === 0"
-                       [class.from-cyan-500]="i === 1" [class.to-violet-500]="i === 1"
-                       [class.from-violet-500]="i === 2" [class.to-pink-500]="i === 2"
-                       style="filter: blur(8px); opacity: 0.5;"></div>
-                  <div class="relative w-14 h-14 rounded-full bg-gradient-to-r flex items-center justify-center text-white text-xl font-bold shadow-lg"
-                       [class.from-emerald-500]="i === 0" [class.to-cyan-500]="i === 0"
-                       [class.from-cyan-500]="i === 1" [class.to-violet-500]="i === 1"
-                       [class.from-violet-500]="i === 2" [class.to-pink-500]="i === 2">
-                    {{ i + 1 }}
-                  </div>
-                </div>
-              </div>
-
-              <!-- Card -->
-              <div class="glass-card p-6 text-center rounded-xl border border-slate-700/50 group-hover:border-emerald-500/30 transition-all duration-300 h-full feature-card">
-                <h3 class="font-bold text-lg text-slate-100 mb-3 group-hover:text-emerald-300 transition-colors">{{ lang.t(step.titleKey) }}</h3>
-                <p class="text-sm text-slate-400 leading-relaxed">{{ lang.t(step.descKey) }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -852,110 +657,6 @@ interface Stat {
       </div>
     </div>
 
-    <!-- Authority Badges / Social Proof -->
-    <div class="py-16 bg-slate-900/30">
-      <div class="max-w-4xl mx-auto px-4">
-        <h3 class="text-lg font-semibold text-slate-300 text-center mb-6">{{ lang.t('landing.authority_title') }}</h3>
-
-        <!-- Badges row -->
-        <div class="flex flex-wrap justify-center gap-3 mb-6">
-          <div class="glass-card px-4 py-2 rounded-lg border border-slate-700/50 flex items-center gap-2">
-            <span class="text-lg">🏛️</span>
-            <span class="text-xs text-slate-400">DORA (EU) 2022/2554</span>
-          </div>
-          <div class="glass-card px-4 py-2 rounded-lg border border-slate-700/50 flex items-center gap-2">
-            <span class="text-lg">🇪🇺</span>
-            <span class="text-xs text-slate-400">NIS2 (EU) 2022/2555</span>
-          </div>
-          <div class="glass-card px-4 py-2 rounded-lg border border-slate-700/50 flex items-center gap-2">
-            <span class="text-lg">🔒</span>
-            <span class="text-xs text-slate-400">E-ITS</span>
-          </div>
-          <div class="glass-card px-4 py-2 rounded-lg border border-slate-700/50 flex items-center gap-2">
-            <span class="text-lg">📋</span>
-            <span class="text-xs text-slate-400">EBA/ESMA</span>
-          </div>
-        </div>
-
-        <p class="text-xs text-slate-500 text-center max-w-2xl mx-auto mb-8">
-          {{ lang.t('landing.authority_desc') }}
-        </p>
-
-        <!-- Mission statement -->
-        <div class="text-center">
-          <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            <span class="text-sm text-emerald-300 font-medium">{{ lang.t('landing.mission_statement') }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Final CTA - Enhanced -->
-    <div class="py-20 relative overflow-hidden">
-      <!-- Background effects -->
-      <div class="absolute inset-0">
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-emerald-500/10 rounded-full blur-3xl"></div>
-        <div class="absolute top-1/2 left-1/3 -translate-y-1/2 w-[400px] h-[200px] bg-cyan-500/10 rounded-full blur-3xl"></div>
-      </div>
-
-      <div class="relative z-10 text-center px-4">
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-6 badge-shine">
-          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-          </svg>
-          <span class="text-xs font-medium text-emerald-400">{{ lang.t('landing.final_cta_badge') || 'Start in 30 seconds' }}</span>
-        </div>
-
-        <h2 class="text-3xl md:text-4xl font-bold mb-4">
-          <span class="gradient-text">{{ lang.t('landing.final_cta_title') }}</span>
-        </h2>
-        <p class="text-slate-400 mb-10 max-w-lg mx-auto text-lg">{{ lang.t('landing.final_cta_desc') }}</p>
-
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a routerLink="/contract-analysis"
-             class="magnetic-btn group inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
-                    text-slate-900 font-bold px-12 py-5 rounded-2xl text-lg
-                    hover:shadow-2xl hover:shadow-emerald-500/30 transition-all duration-300">
-            {{ lang.t('landing.cta_start_free') }}
-            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-            </svg>
-          </a>
-          <a routerLink="/pricing"
-             class="inline-flex items-center gap-2 px-8 py-5 rounded-2xl text-slate-300 hover:text-white font-medium transition-colors">
-            {{ lang.t('landing.view_pricing') || 'View Pricing' }}
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-
-        <!-- Trust micro-copy -->
-        <div class="mt-8 flex flex-wrap justify-center gap-6 text-xs text-slate-500">
-          <span class="inline-flex items-center gap-1.5">
-            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            {{ lang.t('landing.trust_no_cc') || 'No credit card required' }}
-          </span>
-          <span class="inline-flex items-center gap-1.5">
-            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            {{ lang.t('landing.trust_instant') || 'Instant results' }}
-          </span>
-          <span class="inline-flex items-center gap-1.5">
-            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            {{ lang.t('landing.trust_pdf') || 'PDF report included' }}
-          </span>
-        </div>
-      </div>
-    </div>
   `,
   styles: [`
     .cta-button {
