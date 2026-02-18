@@ -238,7 +238,9 @@ interface Stat {
          class="glass-card block p-6 rounded-2xl border border-cyan-500/30 hover:border-cyan-400 cursor-pointer transition-all duration-300 hover:bg-cyan-500/5 hover:shadow-lg hover:shadow-cyan-500/10 group">
         <div class="flex items-center gap-4">
           <div class="w-14 h-14 rounded-xl bg-cyan-500/10 flex items-center justify-center shrink-0 group-hover:bg-cyan-500/20 transition-colors">
-            <span class="text-3xl">📄</span>
+            <svg class="w-7 h-7 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
           </div>
           <div class="flex-1">
             <h3 class="text-lg font-semibold text-slate-200 group-hover:text-cyan-300 transition-colors mb-1">{{ lang.t('landing.contract_cta_title') }}</h3>
@@ -338,7 +340,9 @@ interface Stat {
       <div class="relative z-10">
         <div class="text-center mb-10">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-4">
-            <span class="text-emerald-400 text-sm">&#9881;</span>
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
             <span class="text-xs font-medium text-emerald-400 uppercase tracking-wider">{{ lang.t('landing.pillars_label') }}</span>
           </div>
           <h2 class="text-2xl md:text-3xl font-bold text-slate-100 mb-3">{{ lang.t('landing.pillars_title') }}</h2>
@@ -355,7 +359,11 @@ interface Stat {
              (mousemove)="onPillarMove($event, i)">
             <div class="tilt-card-inner feature-card glass-card p-5 text-center rounded-xl border border-slate-700/50 group-hover:border-emerald-500/40 transition-all duration-300 relative overflow-hidden">
               <div class="tilt-card-shine"></div>
-              <div class="feature-card-icon text-4xl mb-3 floating-label">{{ pillar.icon }}</div>
+              <div class="feature-card-icon mb-3 floating-label">
+                <svg class="w-10 h-10 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" [attr.d]="pillar.icon"/>
+                </svg>
+              </div>
               <h3 class="text-sm font-semibold text-slate-200 group-hover:text-emerald-300 transition-colors mb-1">{{ lang.t(pillar.labelKey) }}</h3>
               <p class="text-xs text-slate-500 mb-2">{{ pillar.articles }}</p>
               <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-400 badge-shine">
@@ -401,7 +409,9 @@ interface Stat {
                class="group flex flex-col items-center gap-3 p-4 sm:p-6 rounded-xl glass-card border border-slate-700/30 hover:border-emerald-500/30 transition-all duration-300 cursor-default"
                [style.animation-delay]="i * 100 + 'ms'">
             <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-slate-800 to-slate-700 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-black/20">
-              <span class="text-3xl">{{ badge.icon }}</span>
+              <svg class="w-7 h-7" [class]="badge.color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" [attr.d]="badge.icon"/>
+              </svg>
             </div>
             <span class="text-xs sm:text-sm text-slate-400 font-medium group-hover:text-slate-300 transition-colors">{{ lang.t(badge.textKey) }}</span>
           </div>
@@ -825,11 +835,11 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   ];
 
   pillars = [
-    { id: 'ICT_RISK_MANAGEMENT', icon: '🛡️', labelKey: 'landing.pillar_risk', articles: 'Art. 5–16' },
-    { id: 'INCIDENT_MANAGEMENT', icon: '📋', labelKey: 'landing.pillar_incident', articles: 'Art. 17–23' },
-    { id: 'TESTING', icon: '🔍', labelKey: 'landing.pillar_testing', articles: 'Art. 24–27' },
-    { id: 'THIRD_PARTY', icon: '🤝', labelKey: 'landing.pillar_thirdparty', articles: 'Art. 28–44' },
-    { id: 'INFORMATION_SHARING', icon: '📡', labelKey: 'landing.pillar_info', articles: 'Art. 45' }
+    { id: 'ICT_RISK_MANAGEMENT', icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', labelKey: 'landing.pillar_risk', articles: 'Art. 5–16' },
+    { id: 'INCIDENT_MANAGEMENT', icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z', labelKey: 'landing.pillar_incident', articles: 'Art. 17–23' },
+    { id: 'TESTING', icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z', labelKey: 'landing.pillar_testing', articles: 'Art. 24–27' },
+    { id: 'THIRD_PARTY', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z', labelKey: 'landing.pillar_thirdparty', articles: 'Art. 28–44' },
+    { id: 'INFORMATION_SHARING', icon: 'M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z', labelKey: 'landing.pillar_info', articles: 'Art. 45' }
   ];
 
   stats: (Stat & { icon: string; labelKey: string })[] = [
@@ -850,9 +860,9 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   ];
 
   trustBadges = [
-    { icon: '🇪🇪', textKey: 'landing.badge_estonian' },
-    { icon: '🤖', textKey: 'landing.badge_ai' },
-    { icon: '✔️', textKey: 'landing.badge_eu' }
+    { icon: 'M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16l-7-3.5L3 21z', color: 'text-blue-400', textKey: 'landing.badge_estonian' },
+    { icon: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', color: 'text-cyan-400', textKey: 'landing.badge_ai' },
+    { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', color: 'text-emerald-400', textKey: 'landing.badge_eu' }
   ];
 
   contactName = '';
