@@ -155,54 +155,40 @@ interface Stat {
     <!-- Gradient separator -->
     <div class="gradient-line"></div>
 
-    <!-- Process steps - How It Works -->
-    <div class="py-20 relative">
-      <!-- Background -->
-      <div class="absolute inset-0 cyber-grid opacity-20"></div>
-
+    <!-- How It Works -->
+    <div class="py-14 relative">
       <div class="relative z-10">
-        <div class="text-center mb-12">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-4">
-            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-            </svg>
-            <span class="text-xs font-medium text-cyan-400 uppercase tracking-wider">{{ lang.t('landing.steps_badge') || 'How It Works' }}</span>
-          </div>
+        <div class="text-center mb-10">
           <h2 class="text-2xl md:text-3xl font-bold text-slate-100">{{ lang.t('landing.steps_title') }}</h2>
         </div>
 
-        <!-- Steps with connecting line -->
-        <div class="max-w-4xl mx-auto px-4 relative">
-          <!-- Connecting line (desktop) -->
-          <div class="hidden md:block absolute top-20 left-[16%] right-[16%] h-0.5 bg-gradient-to-r from-emerald-500/50 via-cyan-500/50 to-violet-500/50"></div>
+        <div class="max-w-4xl mx-auto px-4">
+          <div class="how-it-works-grid">
+            <ng-container *ngFor="let step of steps; let i = index; let last = last">
+              <!-- Step card -->
+              <div class="how-it-works-card group" [style.animation-delay]="i * 150 + 'ms'">
+                <!-- Step number badge -->
+                <span class="hiw-badge">{{ i + 1 }}</span>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div *ngFor="let step of steps; let i = index"
-                 class="group relative step-card"
-                 [style.animation-delay]="i * 150 + 'ms'">
-              <!-- Step number with glow -->
-              <div class="flex justify-center mb-6">
-                <div class="relative">
-                  <div class="absolute inset-0 rounded-full bg-gradient-to-r"
-                       [class.from-emerald-500]="i === 0" [class.to-cyan-500]="i === 0"
-                       [class.from-cyan-500]="i === 1" [class.to-violet-500]="i === 1"
-                       [class.from-violet-500]="i === 2" [class.to-pink-500]="i === 2"
-                       style="filter: blur(8px); opacity: 0.5;"></div>
-                  <div class="relative w-14 h-14 rounded-full bg-gradient-to-r flex items-center justify-center text-white text-xl font-bold shadow-lg"
-                       [class.from-emerald-500]="i === 0" [class.to-cyan-500]="i === 0"
-                       [class.from-cyan-500]="i === 1" [class.to-violet-500]="i === 1"
-                       [class.from-violet-500]="i === 2" [class.to-pink-500]="i === 2">
-                    {{ i + 1 }}
-                  </div>
+                <!-- Icon -->
+                <div class="hiw-icon-wrap">
+                  <svg class="w-10 h-10 text-[#00d4aa]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" [attr.d]="step.icon"/>
+                  </svg>
                 </div>
+
+                <!-- Text -->
+                <h3 class="font-bold text-base text-slate-100 mb-1">{{ lang.t(step.titleKey) }}</h3>
+                <p class="text-sm text-slate-400 leading-snug line-clamp-2">{{ lang.t(step.descKey) }}</p>
               </div>
 
-              <!-- Card -->
-              <div class="glass-card p-6 text-center rounded-xl border border-slate-700/50 group-hover:border-emerald-500/30 transition-all duration-300 h-full feature-card">
-                <h3 class="font-bold text-lg text-slate-100 mb-3 group-hover:text-emerald-300 transition-colors">{{ lang.t(step.titleKey) }}</h3>
-                <p class="text-sm text-slate-400 leading-relaxed">{{ lang.t(step.descKey) }}</p>
+              <!-- Arrow between cards (desktop only) -->
+              <div *ngIf="!last" class="hiw-arrow hidden md:flex items-center justify-center">
+                <svg class="w-6 h-6 text-[#00d4aa]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                </svg>
               </div>
-            </div>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -659,6 +645,67 @@ interface Stat {
 
   `,
   styles: [`
+    /* How It Works */
+    .how-it-works-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 768px) {
+      .how-it-works-grid {
+        grid-template-columns: 1fr auto 1fr auto 1fr;
+        gap: 0;
+        align-items: center;
+      }
+    }
+    .how-it-works-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 1.5rem 1.25rem 1.25rem;
+      max-height: 220px;
+      border-radius: 1rem;
+      border: 1px solid rgba(100, 116, 139, 0.3);
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+      animation: fadeInUp 0.6s ease-out both;
+    }
+    .how-it-works-card:hover {
+      border-color: rgba(0, 212, 170, 0.4);
+      box-shadow: 0 0 24px rgba(0, 212, 170, 0.08);
+    }
+    .hiw-badge {
+      position: absolute;
+      top: 0.625rem;
+      left: 0.625rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.5rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #0f172a;
+      background: #00d4aa;
+    }
+    .hiw-icon-wrap {
+      width: 3.5rem;
+      height: 3.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.75rem;
+      background: rgba(0, 212, 170, 0.1);
+      margin-bottom: 0.75rem;
+    }
+    .hiw-arrow {
+      padding: 0 0.5rem;
+    }
+
     .cta-button {
       transition: all 0.3s ease;
     }
@@ -711,9 +758,6 @@ interface Stat {
       transform: rotate(90deg);
     }
 
-    .step-card {
-      animation: slideInUp 0.6s ease-out both;
-    }
 
     .tabular-nums {
       font-variant-numeric: tabular-nums;
@@ -775,9 +819,9 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   private promoViewTracked = false;
 
   steps = [
-    { titleKey: 'landing.step1_title', descKey: 'landing.step1_desc' },
-    { titleKey: 'landing.step2_title', descKey: 'landing.step2_desc' },
-    { titleKey: 'landing.step3_title', descKey: 'landing.step3_desc' }
+    { titleKey: 'landing.step1_title', descKey: 'landing.step1_desc', icon: 'M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12' },
+    { titleKey: 'landing.step2_title', descKey: 'landing.step2_desc', icon: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+    { titleKey: 'landing.step3_title', descKey: 'landing.step3_desc', icon: 'M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z' }
   ];
 
   pillars = [

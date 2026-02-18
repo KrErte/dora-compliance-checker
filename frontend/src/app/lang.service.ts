@@ -637,6 +637,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.proof_time_label': { et: 'analüüsiaeg', en: 'analysis time' },
   'landing.proof_report': { et: 'raport juhatusele', en: 'report for board' },
   'landing.trust_methodology': { et: 'Metoodika põhineb: DORA (EU) 2022/2554 · Finantsinspektsiooni juhised · E-ITS raamistik · EBA/ESMA standardid', en: 'Based on: DORA (EU) 2022/2554 · Estonian FSA guidelines · E-ITS framework · EBA/ESMA standards' },
+  'landing.dora_active_since': { et: 'DORA on jõus alates 17. jaanuarist 2025', en: 'DORA is in effect since January 17, 2025' },
 
   // Landing - FAQ
   'landing.faq_title': { et: 'Korduma kippuvad küsimused', en: 'Frequently Asked Questions' },
