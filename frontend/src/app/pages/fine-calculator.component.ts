@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -229,7 +229,7 @@ interface FineResult {
       </div>
 
       <!-- RESULTS SECTION -->
-      <div #resultsSection *ngIf="result" class="space-y-8 animate-fade-in">
+      <div #resultsSection id="fine-results" *ngIf="result" class="space-y-8 animate-fade-in">
 
         <!-- Hero Number -->
         <div class="max-w-2xl mx-auto text-center py-10 px-6 rounded-2xl border-2 transition-all"
@@ -396,7 +396,7 @@ interface FineResult {
     }
 
     .animate-fade-in {
-      animation: fadeIn 0.6s ease-out;
+      animation: fadeIn 0.6s ease-out forwards;
     }
 
     @keyframes fadeIn {
@@ -446,7 +446,8 @@ export class FineCalculatorComponent implements OnInit {
     public lang: LangService,
     private titleService: Title,
     private meta: Meta,
-    private http: HttpClient
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -573,16 +574,24 @@ export class FineCalculatorComponent implements OnInit {
       displayValue: 0
     };
 
+    console.log('Fine Calculator result:', this.result);
+
+    // Force Angular to create the results DOM immediately
+    this.cdr.detectChanges();
+
     // Animate the counter
     this.animateCounter(likelyMax);
 
     // Save to backend
     this.saveResult();
 
-    // Scroll to results
+    // Scroll to results after DOM is ready
     setTimeout(() => {
-      this.resultsSection?.nativeElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+      const el = this.resultsSection?.nativeElement || document.getElementById('fine-results');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 300);
   }
 
   private animateCounter(target: number): void {
