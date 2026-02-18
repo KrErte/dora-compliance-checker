@@ -3,6 +3,8 @@ package com.dorachecker.config;
 import com.dorachecker.model.UserEntity;
 import com.dorachecker.model.UserEntity.Role;
 import com.dorachecker.model.UserRepository;
+import com.dorachecker.model.UserSubscriptionEntity;
+import com.dorachecker.model.UserSubscriptionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +13,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -29,13 +32,15 @@ public class DevDataSeeder implements CommandLineRunner {
     private static final Logger log = LoggerFactory.getLogger(DevDataSeeder.class);
 
     private final UserRepository userRepository;
+    private final UserSubscriptionRepository subscriptionRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Value("${app.seed.enabled:false}")
     private boolean seedEnabled;
 
-    public DevDataSeeder(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public DevDataSeeder(UserRepository userRepository, UserSubscriptionRepository subscriptionRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.subscriptionRepository = subscriptionRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -51,6 +56,7 @@ public class DevDataSeeder implements CommandLineRunner {
         seedUser("Test Admin", "admin@test.local", "Admin123!", Role.ADMIN);
         seedUser("Test User", "user@test.local", "User123!", Role.USER);
         seedUser("Bondora Demo", "demo@bondora.com", "Demo123!", Role.USER);
+        seedEnterpriseUser("Enterprise Test", "enterprise@test.local", "Enterprise123!", Role.USER);
 
         log.info("DevDataSeeder: Seeding complete");
     }
@@ -70,5 +76,33 @@ public class DevDataSeeder implements CommandLineRunner {
 
         userRepository.save(user);
         log.info("DevDataSeeder: Created user {} with role {}", email, role);
+    }
+
+    private void seedEnterpriseUser(String fullName, String email, String rawPassword, Role role) {
+        if (userRepository.existsByEmail(email)) {
+            log.info("DevDataSeeder: Enterprise user {} already exists, skipping", email);
+            return;
+        }
+
+        UserEntity user = new UserEntity();
+        user.setFullName(fullName);
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(rawPassword));
+        user.setRole(role);
+        user.setAccountTier(UserEntity.AccountTier.PREMIUM);
+        user.setTrialEndDate(LocalDate.now().plusYears(10));
+        user.setCreatedAt(LocalDateTime.now());
+
+        UserEntity saved = userRepository.save(user);
+
+        // Create ENTERPRISE subscription
+        UserSubscriptionEntity sub = new UserSubscriptionEntity();
+        sub.setUserId(saved.getId());
+        sub.setPlan(UserSubscriptionEntity.Plan.ENTERPRISE);
+        sub.setStatus(UserSubscriptionEntity.Status.ACTIVE);
+        sub.setValidUntil(LocalDateTime.now().plusYears(10));
+        subscriptionRepository.save(sub);
+
+        log.info("DevDataSeeder: Created enterprise user {} with ENTERPRISE subscription", email);
     }
 }
