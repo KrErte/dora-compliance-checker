@@ -1644,6 +1644,11 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'fine.info_desc': { et: 'Kalkulaator kasutab DORA määruse artikleid 50-51 ja 35, mis sätestavad maksimaalsed trahvimäärad. Tegelik trahv sõltub rikkumise raskusest, kestusest ja ettevõtte koostöövalmidusest.', en: 'The calculator uses DORA regulation articles 50-51 and 35 which set maximum fine rates. Actual fines depend on violation severity, duration and company cooperation.' },
   'fine.progress': { et: 'Edenemise seis', en: 'Progress' },
 
+  // Navbar simplified
+  'nav.contracts_short': { et: 'Lepingud', en: 'Contracts' },
+  'nav.supply_short': { et: 'Tarneahel', en: 'Supply Chain' },
+  'nav.my_account': { et: 'Minu konto', en: 'My Account' },
+
   // Workspace
   'nav.workspace': { et: 'Lepingu töölaud', en: 'Contract Workspace' },
   'workspace.badge': { et: 'Multi-regulatsiooni kontroll', en: 'Multi-Regulation Check' },

@@ -32,171 +32,143 @@ import { OnboardingComponent } from './pages/onboarding.component';
 
         <!-- Desktop nav -->
         <div class="hidden lg:flex items-center gap-1">
-          <!-- DORA dropdown -->
+          <!-- Tools mega dropdown (DORA + NIS2 combined) -->
           <div class="relative">
-            <button type="button" (click)="toggleDoraMenu($event)"
-                    class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              <!-- Lucide: flag -->
-              <svg class="w-5 h-5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/>
+            <button type="button" (click)="toggleToolsMenu($event)"
+                    class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+              <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
               </svg>
-              DORA
-              <!-- Lucide: chevron-down -->
-              <svg class="w-4 h-4 transition-transform" [class.rotate-180]="doraMenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              {{ lang.t('nav.tools') }}
+              <svg class="w-3.5 h-3.5 transition-transform" [class.rotate-180]="toolsMenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m6 9 6 6 6-6"/>
               </svg>
             </button>
-            <div *ngIf="doraMenu" class="absolute left-0 top-full mt-1 w-56 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
-              <a routerLink="/contract-analysis" (click)="doraMenu = false"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
-                <!-- Lucide: file-text -->
-                <svg class="w-5 h-5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>
-                </svg>
-                {{ lang.t('nav.contract') }}
-              </a>
-              <a routerLink="/assessment" (click)="doraMenu = false"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
-                <!-- Lucide: clipboard-check -->
-                <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <div *ngIf="toolsMenu" class="absolute left-0 top-full mt-1 w-64 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
+              <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">DORA</p>
+              <a routerLink="/assessment" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>
                 </svg>
                 {{ lang.t('nav.assessment') }}
               </a>
-              <a routerLink="/board-risk" (click)="doraMenu = false"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-teal-400 hover:bg-slate-700/30 transition-colors">
-                <!-- Lucide: users -->
-                <svg class="w-5 h-5 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <a routerLink="/contract-analysis" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>
+                </svg>
+                {{ lang.t('nav.contract') }}
+              </a>
+              <a routerLink="/board-risk" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-teal-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                 </svg>
                 {{ lang.t('nav.board_risk') }}
               </a>
-              <a routerLink="/fine-calculator" (click)="doraMenu = false"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
-                <!-- Lucide: bar-chart-3 -->
-                <svg class="w-5 h-5 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <a routerLink="/fine-calculator" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
                 </svg>
                 {{ lang.t('nav.fine_calculator') }}
               </a>
-              <a routerLink="/timeline" (click)="doraMenu = false"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
-                <!-- Lucide: clock -->
-                <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <a routerLink="/timeline" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
                 </svg>
                 {{ lang.t('nav.timeline') }}
               </a>
-              <a routerLink="/vendors" (click)="doraMenu = false"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
-                <!-- Lucide: building-2 -->
-                <svg class="w-5 h-5 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <a routerLink="/vendors" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>
                 </svg>
                 {{ lang.t('nav.vendors') }}
               </a>
-              <a routerLink="/company-profile" (click)="doraMenu = false"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
-                <!-- Lucide: search -->
-                <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <a routerLink="/company-profile" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
                 </svg>
                 {{ lang.t('nav.company_profile') }}
               </a>
-              <div class="border-t border-slate-700/30 my-1"></div>
-              <a routerLink="/supply-chain" (click)="doraMenu = false"
-                 class="flex items-center justify-between px-4 py-2.5 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
-                <span class="flex items-center gap-2.5">
-                  <!-- Lucide: package -->
-                  <svg class="w-5 h-5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
-                  </svg>
-                  {{ lang.t('nav.supply_chain') }}
-                </span>
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30">PRO</span>
-              </a>
-            </div>
-          </div>
-          <!-- NIS2 dropdown -->
-          <div class="relative">
-            <button type="button" (click)="toggleNis2Menu($event)"
-                    class="text-sm text-slate-400 hover:text-amber-400 transition-colors duration-200 flex items-center gap-1 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              <!-- Lucide: shield-check -->
-              <svg class="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>
-              </svg>
-              NIS2
-              <!-- Lucide: chevron-down -->
-              <svg class="w-4 h-4 transition-transform" [class.rotate-180]="nis2Menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m6 9 6 6 6-6"/>
-              </svg>
-            </button>
-            <div *ngIf="nis2Menu" class="absolute left-0 top-full mt-1 w-56 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
-              <a routerLink="/nis2/scope-check" (click)="nis2Menu = false"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
-                <!-- Lucide: shield-check -->
-                <svg class="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <div class="border-t border-slate-700/30 my-1.5"></div>
+              <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">NIS2</p>
+              <a routerLink="/nis2/scope-check" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>
                 </svg>
                 {{ lang.t('nav.nis2_scope') }}
               </a>
-              <a routerLink="/nis2/assessment" (click)="nis2Menu = false"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-orange-400 hover:bg-slate-700/30 transition-colors">
-                <!-- Lucide: activity -->
-                <svg class="w-5 h-5 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <a routerLink="/nis2/assessment" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-orange-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>
                 </svg>
                 {{ lang.t('nav.nis2_assessment') }}
               </a>
             </div>
           </div>
-          <!-- Workspace -->
+          <!-- Lepingud [NEW] -->
           <a routerLink="/workspace" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-violet-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
-            <!-- Lucide: layout -->
-            <svg class="w-5 h-5 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/>
-            </svg>
-            {{ lang.t('nav.workspace') }}
-            <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-violet-500/20 text-violet-400">{{ lang.t('nav.new_badge') }}</span>
+             class="text-sm text-slate-400 hover:text-violet-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+            {{ lang.t('nav.contracts_short') }}
+            <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400">{{ lang.t('nav.new_badge') }}</span>
           </a>
-          <!-- Supply Chain -->
+          <!-- Tarneahel [PRO] -->
           <a routerLink="/supply-chain" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-cyan-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30 relative">
-            <!-- Lucide: network -->
-            <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>
-            </svg>
-            {{ lang.t('nav.supply_chain') }}
-            <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30">PRO</span>
+             class="text-sm text-slate-400 hover:text-cyan-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+            {{ lang.t('nav.supply_short') }}
+            <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30">PRO</span>
           </a>
           <!-- Pricing -->
           <a routerLink="/pricing" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-            <!-- Lucide: bar-chart-3 -->
-            <svg class="w-5 h-5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
-            </svg>
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
             {{ lang.t('nav.pricing') }}
           </a>
-          <!-- Dashboard -->
+          <!-- Dashboard (logged in only) -->
           @if (auth.isLoggedIn()) {
             <a routerLink="/dashboard" routerLinkActive="nav-link-active"
-               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
-              </svg>
+               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
               {{ lang.t('nav.dashboard') }}
             </a>
-            <div class="w-px h-5 bg-slate-700/50 mx-1"></div>
-            <span class="text-xs text-slate-500 px-2 truncate max-w-[120px]">{{ auth.user()?.email }}</span>
-            <button type="button" (click)="auth.logout()"
-                    class="text-sm text-slate-400 hover:text-red-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              {{ lang.t('auth.logout') }}
-            </button>
+          }
+          <div class="w-px h-5 bg-slate-700/50 mx-0.5"></div>
+          <!-- Lang toggle (flag only) -->
+          <button type="button" (click)="lang.toggle()"
+                  [attr.aria-label]="lang.currentLang === 'et' ? 'Switch to English' : 'Vaheta eesti keelele'"
+                  class="px-2 py-1.5 rounded-lg text-sm hover:bg-slate-700/30 transition-all duration-200"
+                  [title]="lang.currentLang === 'et' ? 'English' : 'Eesti'">
+            {{ lang.currentLang === 'et' ? '&#127466;&#127466;' : '&#127468;&#127463;' }}
+          </button>
+          <!-- User avatar / Auth -->
+          @if (auth.isLoggedIn()) {
+            <div class="relative">
+              <button type="button" (click)="toggleUserMenu($event)"
+                      class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-xs font-bold
+                             hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-200 hover:scale-105">
+                {{ getUserInitials() }}
+              </button>
+              <div *ngIf="userMenu" class="absolute right-0 top-full mt-1 w-48 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
+                <span class="block px-4 py-1.5 text-xs text-slate-500 truncate">{{ auth.user()?.email }}</span>
+                <div class="border-t border-slate-700/30 my-1"></div>
+                <a routerLink="/dashboard" (click)="userMenu = false"
+                   class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
+                  {{ lang.t('nav.my_account') }}
+                </a>
+                <button type="button" (click)="auth.logout(); userMenu = false"
+                        class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-red-400 hover:bg-slate-700/30 transition-colors">
+                  {{ lang.t('auth.logout') }}
+                </button>
+              </div>
+            </div>
           } @else {
             <a routerLink="/login"
-               class="text-sm text-emerald-400 hover:text-emerald-300 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+               class="text-sm text-emerald-400 hover:text-emerald-300 transition-colors duration-200 px-2.5 py-2 rounded-lg hover:bg-slate-700/30">
               {{ lang.t('auth.login') }}
             </a>
             <a routerLink="/register"
@@ -205,18 +177,6 @@ import { OnboardingComponent } from './pages/onboarding.component';
               {{ lang.t('auth.register') }}
             </a>
           }
-          <div class="w-px h-5 bg-slate-700/50 mx-1"></div>
-          <button type="button" (click)="lang.toggle()"
-                  aria-label="Vaheta keelt"
-                  class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
-                         bg-slate-700/50 text-slate-300 border border-slate-600/30
-                         hover:bg-slate-600/50 hover:text-emerald-400 transition-all duration-200">
-            <!-- Lucide: globe -->
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>
-            </svg>
-            {{ lang.currentLang === 'et' ? 'EN' : 'ET' }}
-          </button>
         </div>
 
         <!-- Mobile hamburger -->
@@ -240,148 +200,62 @@ import { OnboardingComponent } from './pages/onboarding.component';
       <!-- Mobile menu -->
       <div *ngIf="mobileMenu" class="lg:hidden border-t border-slate-700/50 bg-slate-800/95 backdrop-blur-xl">
         <div class="px-4 py-3 flex flex-col gap-1">
-          <p class="text-xs text-slate-600 px-3 mb-1 uppercase tracking-wider">DORA</p>
-          <a routerLink="/contract-analysis" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
-            <!-- Lucide: file-text -->
-            <svg class="w-5 h-5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>
-            </svg>
-            {{ lang.t('nav.contract') }}
-          </a>
+          <p class="text-[10px] text-slate-600 px-3 mb-1 font-bold uppercase tracking-wider">DORA</p>
           <a routerLink="/assessment" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
-            <!-- Lucide: clipboard-check -->
-            <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>
-            </svg>
-            {{ lang.t('nav.assessment') }}
-          </a>
+             class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.assessment') }}</a>
+          <a routerLink="/contract-analysis" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.contract') }}</a>
           <a routerLink="/board-risk" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-teal-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
-            <!-- Lucide: users -->
-            <svg class="w-5 h-5 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-            </svg>
-            {{ lang.t('nav.board_risk') }}
-          </a>
+             class="text-sm text-slate-400 hover:text-teal-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.board_risk') }}</a>
           <a routerLink="/fine-calculator" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
-            <!-- Lucide: bar-chart-3 -->
-            <svg class="w-5 h-5 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
-            </svg>
-            {{ lang.t('nav.fine_calculator') }}
-          </a>
+             class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.fine_calculator') }}</a>
           <a routerLink="/timeline" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
-            <!-- Lucide: clock -->
-            <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-            </svg>
-            {{ lang.t('nav.timeline') }}
-          </a>
+             class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.timeline') }}</a>
           <a routerLink="/vendors" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
-            <!-- Lucide: building-2 -->
-            <svg class="w-5 h-5 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>
-            </svg>
-            {{ lang.t('nav.vendors') }}
-          </a>
+             class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.vendors') }}</a>
           <a routerLink="/company-profile" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
-            <!-- Lucide: search -->
-            <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-            </svg>
-            {{ lang.t('nav.company_profile') }}
-          </a>
-          <a routerLink="/supply-chain" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-            <span class="flex items-center gap-2">
-              <!-- Lucide: package -->
-              <svg class="w-5 h-5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
-              </svg>
-              {{ lang.t('nav.supply_chain') }}
-            </span>
-            <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30">PRO</span>
-          </a>
-          <a routerLink="/workspace" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-            <span class="flex items-center gap-2">
-              <!-- Lucide: layout -->
-              <svg class="w-5 h-5 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/>
-              </svg>
-              {{ lang.t('nav.workspace') }}
-            </span>
-            <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-violet-500/20 text-violet-400">{{ lang.t('nav.new_badge') }}</span>
-          </a>
+             class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.company_profile') }}</a>
           <div class="border-t border-slate-700/50 mt-2 pt-2">
-            <p class="text-xs text-slate-600 px-3 mb-1 uppercase tracking-wider">NIS2</p>
+            <p class="text-[10px] text-slate-600 px-3 mb-1 font-bold uppercase tracking-wider">NIS2</p>
             <a routerLink="/nis2/scope-check" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
-              <!-- Lucide: shield-check -->
-              <svg class="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>
-              </svg>
-              {{ lang.t('nav.nis2_scope') }}
-            </a>
+               class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.nis2_scope') }}</a>
             <a routerLink="/nis2/assessment" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
-              <!-- Lucide: activity -->
-              <svg class="w-5 h-5 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>
-              </svg>
-              {{ lang.t('nav.nis2_assessment') }}
-            </a>
+               class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.nis2_assessment') }}</a>
           </div>
-          <div class="border-t border-slate-700/50 mt-2 pt-2">
-            <a routerLink="/pricing" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
-              <!-- Lucide: bar-chart-3 -->
-              <svg class="w-5 h-5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
-              </svg>
-              {{ lang.t('nav.pricing') }}
+          <div class="border-t border-slate-700/50 mt-2 pt-2 flex flex-col gap-1">
+            <a routerLink="/workspace" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+              {{ lang.t('nav.contracts_short') }}
+              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400">{{ lang.t('nav.new_badge') }}</span>
             </a>
+            <a routerLink="/supply-chain" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+              {{ lang.t('nav.supply_short') }}
+              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30">PRO</span>
+            </a>
+            <a routerLink="/pricing" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.pricing') }}</a>
           </div>
           @if (auth.isLoggedIn()) {
             <div class="border-t border-slate-700/50 mt-2 pt-2">
               <a routerLink="/dashboard" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
-                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
-                </svg>
-                {{ lang.t('nav.dashboard') }}
-              </a>
-            </div>
-            <div class="border-t border-slate-700/50 mt-2 pt-2">
-              <span class="text-xs text-slate-500 px-3">{{ auth.user()?.email }}</span>
+                 class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.dashboard') }}</a>
+              <span class="text-xs text-slate-500 px-3 mt-1 block">{{ auth.user()?.email }}</span>
               <button type="button" (click)="auth.logout(); mobileMenu = false"
-                      class="w-full text-left text-sm text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 mt-1">
-                {{ lang.t('auth.logout') }}
-              </button>
+                      class="w-full text-left text-sm text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 mt-1">{{ lang.t('auth.logout') }}</button>
             </div>
           } @else {
-            <div class="border-t border-slate-700/50 mt-2 pt-2">
+            <div class="border-t border-slate-700/50 mt-2 pt-2 flex flex-col gap-1">
               <a routerLink="/login" (click)="mobileMenu = false"
                  class="text-sm text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('auth.login') }}</a>
               <a routerLink="/register" (click)="mobileMenu = false"
-                 class="text-sm text-white bg-emerald-500/20 px-3 py-2 rounded-lg hover:bg-emerald-500/30">{{ lang.t('auth.register') }}</a>
+                 class="text-sm text-white bg-emerald-500/20 px-3 py-2 rounded-lg hover:bg-emerald-500/30 text-center">{{ lang.t('auth.register') }}</a>
             </div>
           }
           <div class="border-t border-slate-700/50 mt-2 pt-2">
             <button type="button" (click)="lang.toggle(); mobileMenu = false"
-                    aria-label="Vaheta keelt"
-                    class="w-full text-left text-sm text-slate-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
-              <!-- Lucide: globe -->
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>
-              </svg>
-              {{ lang.currentLang === 'et' ? 'English' : 'Eesti' }}
+                    class="w-full text-left text-sm text-slate-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+              {{ lang.currentLang === 'et' ? '&#127468;&#127463; English' : '&#127466;&#127466; Eesti' }}
             </button>
           </div>
         </div>
@@ -458,8 +332,8 @@ import { OnboardingComponent } from './pages/onboarding.component';
 })
 export class AppComponent implements OnInit, OnDestroy {
   mobileMenu = false;
-  doraMenu = false;
-  nis2Menu = false;
+  toolsMenu = false;
+  userMenu = false;
   showOnboarding = false;
   private routerSub?: Subscription;
   private isBrowser: boolean;
@@ -606,21 +480,27 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleDoraMenu(event: Event) {
+  toggleToolsMenu(event: Event) {
     event.stopPropagation();
-    this.nis2Menu = false;
-    this.doraMenu = !this.doraMenu;
+    this.userMenu = false;
+    this.toolsMenu = !this.toolsMenu;
   }
 
-  toggleNis2Menu(event: Event) {
+  toggleUserMenu(event: Event) {
     event.stopPropagation();
-    this.doraMenu = false;
-    this.nis2Menu = !this.nis2Menu;
+    this.toolsMenu = false;
+    this.userMenu = !this.userMenu;
+  }
+
+  getUserInitials(): string {
+    const email = this.auth.user()?.email;
+    if (!email) return 'DA';
+    return email.substring(0, 2).toUpperCase();
   }
 
   closeAllMenus() {
-    this.doraMenu = false;
-    this.nis2Menu = false;
+    this.toolsMenu = false;
+    this.userMenu = false;
   }
 
   onDocumentClick(event: Event) {
