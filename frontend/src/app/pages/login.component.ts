@@ -126,7 +126,7 @@ import { timeout, catchError, throwError } from 'rxjs';
               </a>
             </p>
             <p class="text-sm">
-              <a href="mailto:support@doraaudit.eu?subject=Parooli%20taastamine"
+              <a routerLink="/forgot-password"
                  class="text-slate-500 hover:text-slate-400 transition-colors">
                 {{ lang.t('auth.forgot_password') }}
               </a>

@@ -123,4 +123,28 @@ public class AuthController {
                 })
                 .orElse(ResponseEntity.status(401).body(null));
     }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        if (email == null || email.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Email is required"));
+        }
+
+        // Check if user exists (but always return success to prevent email enumeration)
+        Optional<UserEntity> userOpt = userRepository.findByEmail(email.trim());
+
+        if (userOpt.isPresent()) {
+            // TODO: Generate reset token and send email
+            // For now, log the request
+            // In production: generate UUID token, save to DB with 1h expiry, send email
+            System.out.println("Password reset requested for: " + email);
+        }
+
+        // Always return success to prevent email enumeration
+        return ResponseEntity.ok(Map.of(
+            "success", true,
+            "message", "If an account with this email exists, a reset link has been sent."
+        ));
+    }
 }

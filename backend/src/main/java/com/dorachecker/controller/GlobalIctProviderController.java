@@ -21,15 +21,28 @@ public class GlobalIctProviderController {
     }
 
     /**
-     * Search global providers by name
+     * Search global providers by name with optional country and type filters
+     * Also mapped as /api/ict-providers/search for backwards compatibility
      */
     @GetMapping("/search")
     public ResponseEntity<List<GlobalIctProviderEntity>> search(
             @RequestParam String q,
-            @RequestParam(defaultValue = "10") int limit) {
+            @RequestParam(required = false) String country,
+            @RequestParam(required = false) String type,
+            @RequestParam(defaultValue = "20") int limit) {
 
         if (q == null || q.trim().length() < 2) {
             return ResponseEntity.ok(List.of());
+        }
+
+        // Use advanced search if country or type filter provided
+        if ((country != null && !country.isBlank()) || (type != null && !type.isBlank())) {
+            List<GlobalIctProviderEntity> results = repository.searchProviders(
+                q.trim(),
+                country != null && !country.isBlank() ? country : null,
+                type != null && !type.isBlank() ? type : null
+            );
+            return ResponseEntity.ok(results);
         }
 
         List<GlobalIctProviderEntity> results = repository.searchByNameWithLimit(q.trim(), limit);

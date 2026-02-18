@@ -37,6 +37,11 @@ export const routes: Routes = [
     canActivate: [guestGuard]
   },
   {
+    path: 'forgot-password',
+    loadComponent: () => import('./pages/forgot-password.component').then(m => m.ForgotPasswordComponent),
+    canActivate: [guestGuard]
+  },
+  {
     path: 'oauth/callback',
     loadComponent: () => import('./pages/oauth-callback.component').then(m => m.OAuthCallbackComponent)
   },

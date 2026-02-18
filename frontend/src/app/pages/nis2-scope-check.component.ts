@@ -818,8 +818,8 @@ export class Nis2ScopeCheckComponent implements OnInit {
       if (!confirmed) return;
     }
 
-    // Fill with demo data - fictional 120-person IT services company
-    this.registryCode = '10000001';
+    // Fill with demo data - Swedbank AS (real Estonian company, 8-digit code)
+    this.registryCode = '10060701';
     this.sector = 'ict_b2b';  // IKT-teenuste haldamine (B2B)
     this.employees = 120;
     this.revenue = 8500000;

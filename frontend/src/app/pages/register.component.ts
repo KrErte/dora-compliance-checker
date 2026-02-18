@@ -120,6 +120,21 @@ import { AuthService } from '../auth/auth.service';
                      placeholder="********">
             </div>
 
+            <!-- Terms & Privacy checkbox -->
+            <div class="mb-6">
+              <label class="flex items-start gap-3 cursor-pointer group">
+                <input type="checkbox" [(ngModel)]="agreeTerms" name="agreeTerms"
+                       class="mt-0.5 w-4 h-4 rounded border-slate-600 bg-slate-700 text-emerald-500
+                              focus:ring-emerald-500/25 focus:ring-offset-0 cursor-pointer">
+                <span class="text-sm text-slate-400 leading-relaxed">
+                  {{ lang.t('auth.terms_agree') }}
+                  <a routerLink="/terms" target="_blank" class="text-emerald-400 hover:text-emerald-300 underline">{{ lang.t('auth.terms_link') }}</a>
+                  {{ lang.t('auth.terms_and') }}
+                  <a routerLink="/privacy" target="_blank" class="text-emerald-400 hover:text-emerald-300 underline">{{ lang.t('auth.privacy_link') }}</a>
+                </span>
+              </label>
+            </div>
+
             @if (error) {
               <div class="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
                 {{ error }}
@@ -163,6 +178,7 @@ export class RegisterComponent implements OnInit {
   email = '';
   password = '';
   confirmPassword = '';
+  agreeTerms = false;
   error = '';
   loading = false;
   registrationSuccess = false;
@@ -210,6 +226,11 @@ export class RegisterComponent implements OnInit {
 
     if (this.password !== this.confirmPassword) {
       this.error = this.lang.t('auth.error_mismatch');
+      return;
+    }
+
+    if (!this.agreeTerms) {
+      this.error = this.lang.t('auth.error_terms');
       return;
     }
 

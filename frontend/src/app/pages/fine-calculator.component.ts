@@ -54,8 +54,9 @@ interface FineResult {
         <div class="space-y-2">
           <label class="block text-sm font-medium text-slate-300">{{ lang.t('fine.company_type') }} *</label>
           <select [(ngModel)]="companyType"
-                  class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white
-                         focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 transition-all">
+                  class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border text-white
+                         focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 transition-all"
+                  [ngClass]="showValidation && !companyType ? 'border-red-500/60' : 'border-slate-600/50'">
             <option value="" disabled>{{ lang.t('fine.select_type') }}</option>
             <option value="credit">{{ lang.t('fine.type_credit') }}</option>
             <option value="investment">{{ lang.t('fine.type_investment') }}</option>
@@ -103,9 +104,10 @@ interface FineResult {
                  [(ngModel)]="employees"
                  min="1"
                  placeholder="50"
-                 class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white
+                 class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border text-white
                         focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 transition-all
-                        [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                        [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                 [ngClass]="showValidation && (!employees || employees <= 0) ? 'border-red-500/60' : 'border-slate-600/50'" />
           <p class="text-xs text-slate-500">{{ lang.t('fine.employees_hint') }}</p>
         </div>
 
@@ -113,8 +115,9 @@ interface FineResult {
         <div class="space-y-2">
           <label class="block text-sm font-medium text-slate-300">{{ lang.t('fine.country') }} *</label>
           <select [(ngModel)]="country"
-                  class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white
-                         focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 transition-all">
+                  class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border text-white
+                         focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 transition-all"
+                  [ngClass]="showValidation && !country ? 'border-red-500/60' : 'border-slate-600/50'">
             <option value="" disabled>{{ lang.t('fine.select_country') }}</option>
             <option value="EE">{{ lang.t('fine.country_ee') }}</option>
             <option value="PL">{{ lang.t('fine.country_pl') }}</option>
@@ -132,7 +135,8 @@ interface FineResult {
           </div>
 
           <!-- Question 1 -->
-          <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-700/30 space-y-3">
+          <div class="p-4 rounded-xl bg-slate-900/30 border space-y-3"
+               [ngClass]="showValidation && q1 === null ? 'border-red-500/40' : 'border-slate-700/30'">
             <div class="flex items-start justify-between gap-4">
               <div class="flex-1">
                 <p class="text-sm font-medium text-white">{{ lang.t('fine.q1') }}</p>
@@ -152,7 +156,8 @@ interface FineResult {
           </div>
 
           <!-- Question 2 -->
-          <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-700/30 space-y-3">
+          <div class="p-4 rounded-xl bg-slate-900/30 border space-y-3"
+               [ngClass]="showValidation && q2 === null ? 'border-red-500/40' : 'border-slate-700/30'">
             <div class="flex items-start justify-between gap-4">
               <div class="flex-1">
                 <p class="text-sm font-medium text-white">{{ lang.t('fine.q2') }}</p>
@@ -172,7 +177,8 @@ interface FineResult {
           </div>
 
           <!-- Question 3 -->
-          <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-700/30 space-y-3">
+          <div class="p-4 rounded-xl bg-slate-900/30 border space-y-3"
+               [ngClass]="showValidation && q3 === null ? 'border-red-500/40' : 'border-slate-700/30'">
             <div class="flex items-start justify-between gap-4">
               <div class="flex-1">
                 <p class="text-sm font-medium text-white">{{ lang.t('fine.q3') }}</p>
@@ -192,7 +198,8 @@ interface FineResult {
           </div>
 
           <!-- Question 4 -->
-          <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-700/30 space-y-3">
+          <div class="p-4 rounded-xl bg-slate-900/30 border space-y-3"
+               [ngClass]="showValidation && q4 === null ? 'border-red-500/40' : 'border-slate-700/30'">
             <div class="flex items-start justify-between gap-4">
               <div class="flex-1">
                 <p class="text-sm font-medium text-white">{{ lang.t('fine.q4') }}</p>
@@ -212,14 +219,21 @@ interface FineResult {
           </div>
         </div>
 
+        <!-- Validation Message -->
+        <div *ngIf="showValidation && !isFormValid()" class="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center gap-2">
+          <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          {{ lang.t('fine.validation_error') }}
+        </div>
+
         <!-- Calculate Button -->
         <div class="pt-4">
           <button (click)="calculate()"
-                  [disabled]="!isFormValid()"
                   class="w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all flex items-center justify-center gap-2
-                         disabled:opacity-50 disabled:cursor-not-allowed
                          bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-400 hover:to-orange-400
-                         text-white hover:shadow-lg hover:shadow-red-500/25">
+                         text-white hover:shadow-lg hover:shadow-red-500/25"
+                  [class.animate-shake]="shakeButton">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
             </svg>
@@ -404,6 +418,16 @@ interface FineResult {
       to { opacity: 1; transform: translateY(0); }
     }
 
+    .animate-shake {
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+
     .slider-red::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
@@ -441,6 +465,8 @@ export class FineCalculatorComponent implements OnInit {
   email = '';
   emailLoading = false;
   emailSent = false;
+  showValidation = false;
+  shakeButton = false;
 
   constructor(
     public lang: LangService,
@@ -508,7 +534,13 @@ export class FineCalculatorComponent implements OnInit {
   }
 
   calculate(): void {
-    if (!this.isFormValid()) return;
+    if (!this.isFormValid()) {
+      this.showValidation = true;
+      this.shakeButton = true;
+      setTimeout(() => this.shakeButton = false, 500);
+      return;
+    }
+    this.showValidation = false;
 
     // Calculate base fine based on company type
     let minFine: number;

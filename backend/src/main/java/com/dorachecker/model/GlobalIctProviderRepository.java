@@ -71,4 +71,16 @@ public interface GlobalIctProviderRepository extends JpaRepository<GlobalIctProv
 
     // Find by EMTAK code
     List<GlobalIctProviderEntity> findByEmtakCodeStartingWith(String emtakPrefix);
+
+    // Advanced search with country and service type filters
+    @Query(value = "SELECT * FROM global_ict_providers WHERE " +
+           "LOWER(name) LIKE LOWER(CONCAT('%', :query, '%')) " +
+           "AND (:country IS NULL OR country_code = :country) " +
+           "AND (:serviceType IS NULL OR service_type = :serviceType) " +
+           "ORDER BY is_ctpp DESC, name ASC LIMIT 20", nativeQuery = true)
+    List<GlobalIctProviderEntity> searchProviders(
+        @Param("query") String query,
+        @Param("country") String country,
+        @Param("serviceType") String serviceType
+    );
 }
