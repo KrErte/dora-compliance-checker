@@ -2,4 +2,8 @@ User-agent: *
 Allow: /
 Disallow: /payment/
 Disallow: /api/
+Disallow: /login
+Disallow: /register
+Disallow: /oauth/
+Disallow: /dashboard
 Sitemap: https://doraaudit.eu/sitemap.xml

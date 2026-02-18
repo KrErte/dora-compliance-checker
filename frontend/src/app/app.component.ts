@@ -30,7 +30,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
         </a>
 
         <!-- Desktop nav -->
-        <div class="hidden md:flex items-center gap-1">
+        <div class="hidden lg:flex items-center gap-1">
           <!-- DORA dropdown -->
           <div class="relative">
             <button type="button" (click)="toggleDoraMenu($event)"
@@ -219,7 +219,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
         </div>
 
         <!-- Mobile hamburger -->
-        <div class="flex items-center gap-2 md:hidden">
+        <div class="flex items-center gap-2 lg:hidden">
           <button type="button" (click)="mobileMenu = !mobileMenu"
                   [attr.aria-label]="mobileMenu ? 'Sulge menüü' : 'Ava menüü'"
                   [attr.aria-expanded]="mobileMenu"
@@ -237,7 +237,7 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
       </div>
 
       <!-- Mobile menu -->
-      <div *ngIf="mobileMenu" class="md:hidden border-t border-slate-700/50 bg-slate-800/95 backdrop-blur-xl">
+      <div *ngIf="mobileMenu" class="lg:hidden border-t border-slate-700/50 bg-slate-800/95 backdrop-blur-xl">
         <div class="px-4 py-3 flex flex-col gap-1">
           <p class="text-xs text-slate-600 px-3 mb-1 uppercase tracking-wider">DORA</p>
           <a routerLink="/contract-analysis" (click)="mobileMenu = false"
@@ -484,23 +484,23 @@ export class AppComponent implements OnInit, OnDestroy {
     '/dashboard': { et: 'Juhtpaneel | DoraAudit.eu', en: 'Dashboard | DoraAudit.eu' }
   };
 
-  private pageDescriptions: { [path: string]: string } = {
-    '/': 'DORA ja NIS2 vastavuskontroll Eesti ettevõtetele. Tasuta NIS2 scope check, lepinguanalüüs ja juhatuse riskikalkulaator.',
-    '/nis2/scope-check': 'Kontrolli tasuta kas NIS2 direktiiv kohaldub sinu ettevõttele. Sisesta registrikood ja saa kohene tulemus.',
-    '/board-risk': 'NIS2 ja DORA juhatuse liikme isikliku vastutuse kalkulaator. Arvuta oma riskieksposuur 2 minutiga.',
-    '/assessment': 'DORA täishindamine 37 küsimusega. Detailne tegevuskava ja PDF raport juhatusele.',
-    '/nis2/assessment': 'NIS2 vastavushindamine Eesti ettevõtetele. E-ITS ja KüTS nõuetele vastav tegevuskava.',
-    '/contract-analysis': 'DORA Art. 30 lepinguanalüüs. Kontrolli kas sinu IKT-leping vastab regulatsiooni nõuetele.',
-    '/pricing': 'DoraAudit.eu hinnad. DORA ja NIS2 vastavuskontroll alates €149/kuu. Tasuta kiirkontroll, Professional €149, Business €299, Enterprise €499.',
-    '/methodology': 'DORA vastavushindamise metoodika. Kuidas hindame IKT-lepinguid Art. 30 nõuete vastu.',
-    '/about': 'DoraAudit.eu - DORA ja NIS2 vastavuskontrolli platvorm Eesti finantsettevõtetele.',
-    '/privacy': 'DoraAudit.eu privaatsuspoliitika. Kuidas me kasutame ja kaitseme teie andmeid.',
-    '/terms': 'DoraAudit.eu kasutustingimused. Teenuse kasutamise õigused ja kohustused.',
-    '/workspace': 'IKT lepingute töölaud DORA, GDPR, NIS2 ja SLA vastavuskontrolliks. Multiregulatiivne analüüs ja meeskonnatöö.',
-    '/fine-calculator': 'DORA trahvikalkulaator. Arvuta võimalik trahvisumma mittevastavuse korral Art. 50-51 alusel.',
-    '/timeline': 'DORA ja NIS2 regulatiivne ajakava. Kõik olulised tähtajad, verstapostid ja RTS/ITS standardid ühes kohas.',
-    '/vendors': 'ICT teenusepakkujate DORA vastavuse andmebaas. Anonümiseeritud andmed lepinguanalüüsidest ja crowdsourced riskihinnangud.',
-    '/supply-chain': 'DORA Supply Chain Nerve Center. Real-time Nth-party monitoring, CTPP failure simulation, 4h incident command ja ROI intelligence.'
+  private pageDescriptions: { [path: string]: { et: string; en: string } } = {
+    '/': { et: 'DORA ja NIS2 vastavuskontroll Eesti ettevõtetele. Tasuta NIS2 scope check, lepinguanalüüs ja juhatuse riskikalkulaator.', en: 'DORA and NIS2 compliance for European companies. Free NIS2 scope check, contract analysis and board risk calculator.' },
+    '/nis2/scope-check': { et: 'Kontrolli tasuta kas NIS2 direktiiv kohaldub sinu ettevõttele. Sisesta registrikood ja saa kohene tulemus.', en: 'Check for free if NIS2 directive applies to your company. Enter registry code and get instant results.' },
+    '/board-risk': { et: 'NIS2 ja DORA juhatuse liikme isikliku vastutuse kalkulaator. Arvuta oma riskieksposuur 2 minutiga.', en: 'NIS2 and DORA board member personal liability calculator. Calculate your risk exposure in 2 minutes.' },
+    '/assessment': { et: 'DORA täishindamine 37 küsimusega. Detailne tegevuskava ja PDF raport juhatusele.', en: 'Full DORA assessment with 37 questions. Detailed action plan and PDF report for the board.' },
+    '/nis2/assessment': { et: 'NIS2 vastavushindamine Eesti ettevõtetele. E-ITS ja KüTS nõuetele vastav tegevuskava.', en: 'NIS2 compliance assessment for Estonian companies. Action plan aligned with E-ITS and KüTS requirements.' },
+    '/contract-analysis': { et: 'DORA Art. 30 lepinguanalüüs. Kontrolli kas sinu IKT-leping vastab regulatsiooni nõuetele.', en: 'DORA Art. 30 contract analysis. Check if your ICT contract meets regulatory requirements.' },
+    '/pricing': { et: 'DoraAudit.eu hinnad. DORA ja NIS2 vastavuskontroll alates €149/kuu. Tasuta kiirkontroll, Professional €149, Business €299, Enterprise €499.', en: 'DoraAudit.eu pricing. DORA and NIS2 compliance from €149/month. Free quick check, Professional €149, Business €299, Enterprise €499.' },
+    '/methodology': { et: 'DORA vastavushindamise metoodika. Kuidas hindame IKT-lepinguid Art. 30 nõuete vastu.', en: 'DORA compliance assessment methodology. How we evaluate ICT contracts against Art. 30 requirements.' },
+    '/about': { et: 'DoraAudit.eu - DORA ja NIS2 vastavuskontrolli platvorm Eesti finantsettevõtetele.', en: 'DoraAudit.eu - DORA and NIS2 compliance platform for European financial companies.' },
+    '/privacy': { et: 'DoraAudit.eu privaatsuspoliitika. Kuidas me kasutame ja kaitseme teie andmeid.', en: 'DoraAudit.eu privacy policy. How we use and protect your data.' },
+    '/terms': { et: 'DoraAudit.eu kasutustingimused. Teenuse kasutamise õigused ja kohustused.', en: 'DoraAudit.eu terms of service. Rights and obligations of using the service.' },
+    '/workspace': { et: 'IKT lepingute töölaud DORA, GDPR, NIS2 ja SLA vastavuskontrolliks. Multiregulatiivne analüüs ja meeskonnatöö.', en: 'ICT contract workspace for DORA, GDPR, NIS2 and SLA compliance. Multi-regulatory analysis and team collaboration.' },
+    '/fine-calculator': { et: 'DORA trahvikalkulaator. Arvuta võimalik trahvisumma mittevastavuse korral Art. 50-51 alusel.', en: 'DORA fine calculator. Calculate potential penalty for non-compliance under Art. 50-51.' },
+    '/timeline': { et: 'DORA ja NIS2 regulatiivne ajakava. Kõik olulised tähtajad, verstapostid ja RTS/ITS standardid ühes kohas.', en: 'DORA and NIS2 regulatory timeline. All key deadlines, milestones and RTS/ITS standards in one place.' },
+    '/vendors': { et: 'ICT teenusepakkujate DORA vastavuse andmebaas. Anonümiseeritud andmed lepinguanalüüsidest ja crowdsourced riskihinnangud.', en: 'ICT vendor DORA compliance database. Anonymized contract analysis data and crowdsourced risk ratings.' },
+    '/supply-chain': { et: 'DORA Supply Chain Nerve Center. Real-time Nth-party monitoring, CTPP failure simulation, 4h incident command ja ROI intelligence.', en: 'DORA Supply Chain Nerve Center. Real-time Nth-party monitoring, CTPP failure simulation, 4h incident command and ROI intelligence.' }
   };
 
   constructor(
@@ -559,7 +559,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.titleService.setTitle(title);
 
     // Update meta description
-    const description = this.pageDescriptions[path] || this.pageDescriptions['/'];
+    const descEntry = this.pageDescriptions[path] || this.pageDescriptions['/'];
+    const description = this.lang.currentLang === 'et' ? descEntry.et : descEntry.en;
     this.meta.updateTag({ name: 'description', content: description });
 
     // Update canonical URL
@@ -573,7 +574,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.meta.updateTag({ property: 'og:description', content: description });
     this.meta.updateTag({ property: 'og:url', content: canonicalUrl });
     this.meta.updateTag({ property: 'og:image', content: 'https://doraaudit.eu/assets/og-image.png' });
-    this.meta.updateTag({ property: 'og:locale', content: 'et_EE' });
+    this.meta.updateTag({ property: 'og:locale', content: this.lang.currentLang === 'et' ? 'et_EE' : 'en_US' });
 
     // Update Twitter Card tags
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });

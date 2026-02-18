@@ -11,6 +11,9 @@
   <url><loc>https://doraaudit.eu/timeline</loc><priority>0.6</priority></url>
   <url><loc>https://doraaudit.eu/vendors</loc><priority>0.6</priority></url>
   <url><loc>https://doraaudit.eu/methodology</loc><priority>0.6</priority></url>
+  <url><loc>https://doraaudit.eu/workspace</loc><priority>0.7</priority></url>
+  <url><loc>https://doraaudit.eu/supply-chain</loc><priority>0.7</priority></url>
+  <url><loc>https://doraaudit.eu/company-profile</loc><priority>0.7</priority></url>
   <url><loc>https://doraaudit.eu/about</loc><priority>0.5</priority></url>
   <url><loc>https://doraaudit.eu/privacy</loc><priority>0.4</priority></url>
   <url><loc>https://doraaudit.eu/terms</loc><priority>0.4</priority></url>

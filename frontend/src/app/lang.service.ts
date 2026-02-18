@@ -13,6 +13,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'nav.brand': { et: 'DoraAudit.eu', en: 'DoraAudit.eu' },
   'nav.nis2_scope': { et: 'Kohaldumise kontroll', en: 'Scope Check' },
   'nav.contract': { et: 'Lepinguanalüüs', en: 'Contract Analysis' },
+  'nav.contract_audit': { et: 'Lepinguaudit', en: 'Contract Audit' },
   'footer.location': { et: 'Tallinn, Eesti', en: 'Tallinn, Estonia' },
 
   // Paywall & Subscription
@@ -28,14 +29,31 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'paywall.pro_badge': { et: 'PRO', en: 'PRO' },
   'paywall.pro_tooltip': { et: 'Saadaval Standard plaaniga', en: 'Available with Standard plan' },
 
+  // Contract analysis paywall
+  'paywall.title': { et: 'Lepinguanalüüs', en: 'Contract Analysis' },
+  'paywall.desc': { et: 'Analüüsi oma ICT lepinguid DORA nõuete vastu', en: 'Analyze your ICT contracts against DORA requirements' },
+  'paywall.includes': { et: 'Sisaldab', en: 'Includes' },
+  'paywall.feature1': { et: 'Detailne DORA vastavusanalüüs', en: 'Detailed DORA compliance analysis' },
+  'paywall.feature2': { et: 'Riskihinnang ja soovitused', en: 'Risk assessment and recommendations' },
+  'paywall.feature3': { et: 'PDF raport juhatusele', en: 'PDF report for the board' },
+  'paywall.contact': { et: 'Võta ühendust', en: 'Contact us' },
+  'paywall.close': { et: 'Sulge', en: 'Close' },
+  'paywall.free': { et: 'TASUTA', en: 'FREE' },
+  'paywall.paid': { et: 'TASULINE', en: 'PAID' },
+  'paywall.own_contract': { et: 'Oma leping', en: 'Your own contract' },
+  'paywall.click_for_pricing': { et: 'Hinnapakkumise saamiseks võta ühendust', en: 'Contact us for pricing' },
+  'paywall.get_pricing': { et: 'Küsi hinnapakkumist', en: 'Get pricing' },
+  'paywall.liked_demo': { et: 'Meeldis demo?', en: 'Liked the demo?' },
+  'paywall.analyze_own': { et: 'Analüüsi oma lepinguid professionaalse tööriistaga', en: 'Analyze your own contracts with a professional tool' },
+
   // Pricing page - Subscription tiers
   'pricing.free_tier_title': { et: 'Tasuta', en: 'Free' },
   'pricing.free_tier_desc': { et: 'Kõik hindamised ja analüüsid tasuta. Andmed salvestatakse sinu brauseris.', en: 'All assessments and analyses free. Data stored in your browser.' },
   'pricing.standard_title': { et: 'Standard', en: 'Standard' },
-  'pricing.standard_price': { et: '€29/kuu', en: '€29/month' },
+  'pricing.standard_price': { et: '€149/kuu', en: '€149/month' },
   'pricing.standard_desc': { et: 'PDF raportid, Excel eksport, vastavustunnistus, lepingute teavitused', en: 'PDF reports, Excel export, compliance certificate, contract notifications' },
   'pricing.enterprise_title': { et: 'Enterprise', en: 'Enterprise' },
-  'pricing.enterprise_price': { et: '€79/kuu', en: '€79/month' },
+  'pricing.enterprise_price': { et: '€499/kuu', en: '€499/month' },
   'pricing.enterprise_desc': { et: 'xBRL-CSV regulaatorile, API ligipääs, mitme ettevõtte tugi, audit log', en: 'xBRL-CSV for regulator, API access, multi-company support, audit log' },
 
   // NIS2 Scope Checker
@@ -766,6 +784,10 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'contract.recommendation': { et: 'Soovitus', en: 'Recommendation' },
   'contract.new_analysis': { et: 'Uus kontroll', en: 'New Check' },
   'contract.drag_drop': { et: 'Lohista fail siia v\u00f5i kliki valimiseks', en: 'Drag file here or click to select' },
+  'contract.auto_demo_title': { et: 'Automaatne demo', en: 'Automatic demo' },
+  'contract.auto_demo_desc': { et: 'Proovi näidislepinguga, et näha kuidas analüüs toimib', en: 'Try with a sample contract to see how the analysis works' },
+  'contract.try_demo': { et: 'Proovi demot', en: 'Try demo' },
+  'contract.start_analysis': { et: 'Alusta analüüsi', en: 'Start analysis' },
   'contract.file_selected': { et: 'Fail valitud', en: 'File selected' },
   'contract.error': { et: 'Anal\u00fc\u00fcs eba\u00f5nnestus. Palun proovige uuesti.', en: 'Analysis failed. Please try again.' },
   'contract.summary': { et: 'Kokkuv\u00f5te', en: 'Summary' },
