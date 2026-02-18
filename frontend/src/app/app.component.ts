@@ -422,8 +422,8 @@ export class AppComponent implements OnInit, OnDestroy {
       // Track initial page view
       this.trackingService.trackPageView(this.router.url);
 
-      // Show onboarding on first visit (not on /welcome route which shows it inline)
-      if (!localStorage.getItem('onboarding_complete') && this.router.url !== '/welcome') {
+      // Show onboarding modal on first login only
+      if (!localStorage.getItem('onboarding_complete') && this.auth.isLoggedIn()) {
         this.showOnboarding = true;
       }
     }
