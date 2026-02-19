@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { LangService } from '../lang.service';
 
 interface HistoryEntry {
   id: string;
@@ -19,7 +20,7 @@ interface LeaderboardEntry extends HistoryEntry {
 
 interface PillarData {
   icon: string;
-  label: string;
+  labelKey: string;
   percentage: number;
   color: string;
   dashOffset: number;
@@ -43,9 +44,9 @@ interface ChartPoint {
       <div class="flex items-center justify-between mb-10 animate-fade-in-up">
         <div>
           <h1 class="text-3xl md:text-4xl font-extrabold">
-            <span class="gradient-text">Juhtpaneel</span>
+            <span class="gradient-text">{{ lang.t('dashboard.title') }}</span>
           </h1>
-          <p class="text-slate-500 text-sm mt-1">{{ history.length }} hindamist kokku &middot; Viimati uuendatud: {{ lastUpdated }}</p>
+          <p class="text-slate-500 text-sm mt-1">{{ history.length }} {{ lang.t('dashboard.assessments_total') }} &middot; {{ lang.t('dashboard.last_updated') }}: {{ lastUpdated }}</p>
         </div>
         <div class="flex gap-3">
           <a routerLink="/history"
@@ -55,7 +56,7 @@ interface ChartPoint {
             <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            Ajalugu
+            {{ lang.t('dashboard.history') }}
           </a>
           <a routerLink="/assessment"
              class="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
@@ -64,7 +65,7 @@ interface ChartPoint {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
-            Uus hindamine
+            {{ lang.t('dashboard.new_assessment') }}
           </a>
         </div>
       </div>
@@ -76,12 +77,12 @@ interface ChartPoint {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
           </svg>
         </div>
-        <h2 class="text-xl font-semibold text-slate-300 mb-2">Andmed puuduvad</h2>
-        <p class="text-slate-500 mb-8 max-w-md mx-auto">Juhtpaneel t&auml;itub automaatselt p&auml;rast hindamiste l&auml;biviimist. Alustage esimese hindamisega.</p>
+        <h2 class="text-xl font-semibold text-slate-300 mb-2">{{ lang.t('dashboard.no_data') }}</h2>
+        <p class="text-slate-500 mb-8 max-w-md mx-auto">{{ lang.t('dashboard.no_data_desc') }}</p>
         <a routerLink="/assessment"
            class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
                   font-semibold px-8 py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 text-lg">
-          Alusta hindamist
+          {{ lang.t('dashboard.start_assessment') }}
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
           </svg>
@@ -94,13 +95,13 @@ interface ChartPoint {
         <!-- KPI Cards Row -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 
-          <!-- Kokku hindamisi -->
+          <!-- Total assessments -->
           <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5 animate-fade-in-up delay-100 card-hover">
             <div class="flex items-start justify-between">
               <div>
-                <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">Kokku hindamisi</p>
+                <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">{{ lang.t('dashboard.total_assessments') }}</p>
                 <span class="text-4xl font-extrabold text-slate-100">{{ history.length }}</span>
-                <p class="text-xs text-slate-500 mt-1">+{{ recentCount }} viimase 30 p&auml;eva jooksul</p>
+                <p class="text-xs text-slate-500 mt-1">+{{ recentCount }} {{ lang.t('dashboard.last_30_days') }}</p>
               </div>
               <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
                 <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,14 +117,14 @@ interface ChartPoint {
             </div>
           </div>
 
-          <!-- Keskmine skoor -->
+          <!-- Average score -->
           <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5 animate-fade-in-up delay-200 card-hover">
             <div class="flex items-start justify-between">
               <div>
-                <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">Keskmine skoor</p>
+                <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">{{ lang.t('dashboard.avg_score') }}</p>
                 <span class="text-4xl font-extrabold" [style.color]="avgScoreColor">{{ avgScore | number:'1.0-0' }}%</span>
                 <p class="text-xs mt-1" [class]="scoreTrend >= 0 ? 'text-emerald-400' : 'text-red-400'">
-                  {{ scoreTrend >= 0 ? '+' : '' }}{{ scoreTrend | number:'1.1-1' }}% trend
+                  {{ scoreTrend >= 0 ? '+' : '' }}{{ scoreTrend | number:'1.1-1' }}% {{ lang.t('dashboard.trend') }}
                 </p>
               </div>
               <div class="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center shrink-0">
@@ -140,13 +141,13 @@ interface ChartPoint {
             </div>
           </div>
 
-          <!-- Vastavad ettevotted -->
+          <!-- Compliant companies -->
           <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5 animate-fade-in-up delay-300 card-hover">
             <div class="flex items-start justify-between">
               <div>
-                <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">Vastavad ettev&otilde;tted</p>
+                <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">{{ lang.t('dashboard.compliant_companies') }}</p>
                 <span class="text-4xl font-extrabold text-emerald-400">{{ greenCount }}</span>
-                <p class="text-xs text-slate-500 mt-1">{{ history.length }} hindamisest</p>
+                <p class="text-xs text-slate-500 mt-1">{{ history.length }} {{ lang.t('dashboard.of_assessments') }}</p>
               </div>
               <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
                 <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -176,14 +177,14 @@ interface ChartPoint {
             </div>
           </div>
 
-          <!-- Kriitilised puudused -->
+          <!-- Critical gaps -->
           <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5 animate-fade-in-up delay-400 card-hover">
             <div class="flex items-start justify-between">
               <div>
-                <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">Kriitilised puudused</p>
+                <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">{{ lang.t('dashboard.critical_gaps') }}</p>
                 <span class="text-4xl font-extrabold" [class]="redCount > 0 ? 'text-red-400' : 'text-emerald-400'">{{ redCount }}</span>
                 <p class="text-xs mt-1" [class]="redCount > 0 ? 'text-red-400/70' : 'text-emerald-400/70'">
-                  {{ redCount > 0 ? 'N\u00f5uab t\u00e4helepanu' : 'Puudused puuduvad' }}
+                  {{ redCount > 0 ? lang.t('dashboard.needs_attention') : lang.t('dashboard.no_gaps') }}
                 </p>
               </div>
               <div class="w-10 h-10 rounded-lg shrink-0 flex items-center justify-center"
@@ -205,23 +206,23 @@ interface ChartPoint {
         <!-- Main content grid: Leaderboard + Pillars -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
 
-          <!-- Firmade edetabel (2 cols) -->
+          <!-- Company leaderboard (2 cols) -->
           <div class="lg:col-span-2 bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6 animate-fade-in-up delay-300">
             <h2 class="text-sm font-semibold text-slate-300 mb-5 flex items-center gap-2">
               <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
               </svg>
-              Firmade edetabel
-              <span class="text-xs text-slate-500 font-normal ml-auto">{{ leaderboard.length }} ettev&otilde;tet</span>
+              {{ lang.t('dashboard.leaderboard') }}
+              <span class="text-xs text-slate-500 font-normal ml-auto">{{ leaderboard.length }} {{ lang.t('dashboard.companies') }}</span>
             </h2>
 
             <!-- Table header -->
             <div class="grid grid-cols-12 gap-2 px-3 py-2 text-xs text-slate-500 uppercase tracking-wider border-b border-slate-700/50 mb-2">
               <div class="col-span-1">#</div>
-              <div class="col-span-4">Ettev&otilde;te</div>
-              <div class="col-span-3">Leping</div>
-              <div class="col-span-2 text-center">Skoor</div>
-              <div class="col-span-2 text-center">Staatus</div>
+              <div class="col-span-4">{{ lang.t('dashboard.col_company') }}</div>
+              <div class="col-span-3">{{ lang.t('dashboard.col_contract') }}</div>
+              <div class="col-span-2 text-center">{{ lang.t('dashboard.col_score') }}</div>
+              <div class="col-span-2 text-center">{{ lang.t('dashboard.col_status') }}</div>
             </div>
 
             <!-- Table rows -->
@@ -276,7 +277,7 @@ interface ChartPoint {
             </div>
 
             <div *ngIf="leaderboard.length === 0" class="text-center py-8 text-slate-500 text-sm">
-              Andmed puuduvad
+              {{ lang.t('dashboard.no_data') }}
             </div>
           </div>
 
@@ -286,7 +287,7 @@ interface ChartPoint {
               <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
               </svg>
-              DORA 5 sammast
+              {{ lang.t('dashboard.dora_pillars') }}
             </h2>
 
             <div class="space-y-5">
@@ -312,7 +313,7 @@ interface ChartPoint {
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2">
                       <span class="text-lg">{{ pillar.icon }}</span>
-                      <p class="text-sm font-medium text-slate-200 truncate">{{ pillar.label }}</p>
+                      <p class="text-sm font-medium text-slate-200 truncate">{{ lang.t(pillar.labelKey) }}</p>
                     </div>
                     <div class="w-full bg-slate-700/50 rounded-full h-1.5 mt-1.5">
                       <div class="h-full rounded-full transition-all duration-1000"
@@ -332,8 +333,8 @@ interface ChartPoint {
             <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
             </svg>
-            Skoori trend
-            <span class="text-xs text-slate-500 font-normal ml-auto">Viimased {{ trendPoints.length }} hindamist</span>
+            {{ lang.t('dashboard.score_trend') }}
+            <span class="text-xs text-slate-500 font-normal ml-auto">{{ lang.t('dashboard.last_n_assessments') }} {{ trendPoints.length }} {{ lang.t('dashboard.assessments') }}</span>
           </h2>
           <div class="relative" style="height: 240px;">
             <svg class="w-full h-full" [attr.viewBox]="'0 0 ' + trendChartWidth + ' 240'" preserveAspectRatio="none">
@@ -390,13 +391,13 @@ interface ChartPoint {
         <!-- Bottom row: Deficiencies + Distribution -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
 
-          <!-- Top Puudused -->
+          <!-- Top Deficiencies -->
           <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6 animate-fade-in-up delay-600">
             <h2 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
               <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
               </svg>
-              Top puudused
+              {{ lang.t('dashboard.top_deficiencies') }}
             </h2>
 
             <div *ngIf="deficiencies.length === 0" class="text-center py-10">
@@ -405,7 +406,7 @@ interface ChartPoint {
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>
               </div>
-              <p class="text-sm text-slate-400">K&otilde;ik hindamised on vastavad!</p>
+              <p class="text-sm text-slate-400">{{ lang.t('dashboard.all_compliant') }}</p>
             </div>
 
             <div *ngIf="deficiencies.length > 0" class="space-y-2">
@@ -422,7 +423,7 @@ interface ChartPoint {
                 </div>
                 <div class="shrink-0">
                   <span class="text-xs px-2 py-0.5 rounded-full bg-red-500/15 text-red-400 border border-red-500/20">
-                    {{ def.totalQuestions - def.compliantCount }} puudust
+                    {{ def.totalQuestions - def.compliantCount }} {{ lang.t('dashboard.deficiency_count') }}
                   </span>
                 </div>
               </div>
@@ -436,7 +437,7 @@ interface ChartPoint {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
               </svg>
-              Skooride jaotus
+              {{ lang.t('dashboard.score_distribution') }}
             </h2>
 
             <div class="flex justify-center mb-4">
@@ -463,7 +464,7 @@ interface ChartPoint {
                         class="animate-draw-circle" style="animation-delay: 400ms;"/>
                 <!-- Center text -->
                 <text x="100" y="95" text-anchor="middle" font-size="22" font-weight="bold" class="fill-slate-100">{{ history.length }}</text>
-                <text x="100" y="115" text-anchor="middle" font-size="10" class="fill-slate-500">hindamist</text>
+                <text x="100" y="115" text-anchor="middle" font-size="10" class="fill-slate-500">{{ lang.t('dashboard.donut_assessments') }}</text>
               </svg>
             </div>
 
@@ -472,21 +473,21 @@ interface ChartPoint {
               <div class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-700/20 transition-colors">
                 <div class="flex items-center gap-2">
                   <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
-                  <span class="text-sm text-slate-300">Vastav (GREEN)</span>
+                  <span class="text-sm text-slate-300">{{ lang.t('dashboard.level_green') }}</span>
                 </div>
                 <span class="text-sm font-semibold text-emerald-400">{{ greenCount }} ({{ history.length > 0 ? (greenRatio * 100 | number:'1.0-0') : 0 }}%)</span>
               </div>
               <div class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-700/20 transition-colors">
                 <div class="flex items-center gap-2">
                   <div class="w-3 h-3 rounded-full bg-amber-400"></div>
-                  <span class="text-sm text-slate-300">Osaliselt (YELLOW)</span>
+                  <span class="text-sm text-slate-300">{{ lang.t('dashboard.level_yellow') }}</span>
                 </div>
                 <span class="text-sm font-semibold text-amber-400">{{ yellowCount }} ({{ history.length > 0 ? (yellowRatio * 100 | number:'1.0-0') : 0 }}%)</span>
               </div>
               <div class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-700/20 transition-colors">
                 <div class="flex items-center gap-2">
                   <div class="w-3 h-3 rounded-full bg-red-400"></div>
-                  <span class="text-sm text-slate-300">Mittevastav (RED)</span>
+                  <span class="text-sm text-slate-300">{{ lang.t('dashboard.level_red') }}</span>
                 </div>
                 <span class="text-sm font-semibold text-red-400">{{ redCount }} ({{ history.length > 0 ? (redRatio * 100 | number:'1.0-0') : 0 }}%)</span>
               </div>
@@ -504,7 +505,7 @@ interface ChartPoint {
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
               </svg>
-              Uus hindamine
+              {{ lang.t('dashboard.new_assessment') }}
             </a>
             <a routerLink="/history"
                class="bg-slate-700/50 hover:bg-slate-600/50 text-slate-200 font-semibold px-6 py-2.5 rounded-lg
@@ -512,7 +513,7 @@ interface ChartPoint {
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
-              Vaata ajalugu
+              {{ lang.t('dashboard.view_history') }}
             </a>
           </div>
         </div>
@@ -522,6 +523,8 @@ interface ChartPoint {
   `
 })
 export class DashboardComponent implements OnInit {
+  lang = inject(LangService);
+
   history: HistoryEntry[] = [];
   leaderboard: LeaderboardEntry[] = [];
   pillarData: PillarData[] = [];
@@ -620,11 +623,11 @@ export class DashboardComponent implements OnInit {
   buildPillarData() {
     const avgPct = this.avgScore;
     const pillars = [
-      { icon: '\u{1F6E1}\uFE0F', label: 'IKT riskihaldus', base: 0.90 },
-      { icon: '\u{1F4CB}', label: 'Intsidendid', base: 0.85 },
-      { icon: '\u{1F50D}', label: 'Testimine', base: 0.80 },
-      { icon: '\u{1F91D}', label: 'Kolmandad osapooled', base: 1.0 },
-      { icon: '\u{1F4E1}', label: 'Info jagamine', base: 0.75 }
+      { icon: '\u{1F6E1}\uFE0F', labelKey: 'dashboard.pillar_risk', base: 0.90 },
+      { icon: '\u{1F4CB}', labelKey: 'dashboard.pillar_incidents', base: 0.85 },
+      { icon: '\u{1F50D}', labelKey: 'dashboard.pillar_testing', base: 0.80 },
+      { icon: '\u{1F91D}', labelKey: 'dashboard.pillar_third_party', base: 1.0 },
+      { icon: '\u{1F4E1}', labelKey: 'dashboard.pillar_info', base: 0.75 }
     ];
 
     this.pillarData = pillars.map(p => {
@@ -633,7 +636,7 @@ export class DashboardComponent implements OnInit {
       const color = pct >= 75 ? '#34d399' : (pct >= 50 ? '#fbbf24' : '#f87171');
       return {
         icon: p.icon,
-        label: p.label,
+        labelKey: p.labelKey,
         percentage: pct,
         color,
         dashOffset: circumference - (circumference * pct / 100)
@@ -757,17 +760,21 @@ export class DashboardComponent implements OnInit {
 
   getBadgeLabel(level: string): string {
     switch (level) {
-      case 'GREEN': return 'Vastav';
-      case 'YELLOW': return 'Osaliselt';
-      case 'RED': return 'Mittevastav';
+      case 'GREEN': return this.lang.t('dashboard.badge_green');
+      case 'YELLOW': return this.lang.t('dashboard.badge_yellow');
+      case 'RED': return this.lang.t('dashboard.badge_red');
       default: return '';
     }
+  }
+
+  private get dateLocale(): string {
+    return this.lang.lang() === 'et' ? 'et-EE' : 'en-GB';
   }
 
   formatDate(dateStr: string): string {
     try {
       const d = new Date(dateStr);
-      return d.toLocaleDateString('et-EE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+      return d.toLocaleDateString(this.dateLocale, { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
     } catch {
       return dateStr;
     }
@@ -776,7 +783,7 @@ export class DashboardComponent implements OnInit {
   formatShortDate(dateStr: string): string {
     try {
       const d = new Date(dateStr);
-      return d.toLocaleDateString('et-EE', { day: '2-digit', month: '2-digit' });
+      return d.toLocaleDateString(this.dateLocale, { day: '2-digit', month: '2-digit' });
     } catch {
       return '';
     }

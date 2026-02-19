@@ -176,7 +176,7 @@ export class LoginComponent implements OnInit {
         this.loading = false;
         const returnUrl = sessionStorage.getItem('dora_returnUrl');
         sessionStorage.removeItem('dora_returnUrl');
-        this.router.navigateByUrl(returnUrl || '/assessment');
+        this.router.navigateByUrl(returnUrl || '/dashboard');
       },
       error: (err) => {
         this.loading = false;

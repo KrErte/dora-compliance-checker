@@ -663,6 +663,9 @@ export class AssessmentComponent implements OnInit {
     this.contractName = '';
     this.selectedSector = '';
     this.answers = {};
+    this.hasDraft = false;
+    this.error = '';
+    this.submitting = false;
     localStorage.removeItem('dora_assessment_progress');
     localStorage.removeItem('dora_draft'); // Clean up old key too
   }

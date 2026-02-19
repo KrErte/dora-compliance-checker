@@ -20,6 +20,6 @@ export const guestGuard: CanActivateFn = () => {
   if (!authService.isLoggedIn()) {
     return true;
   }
-  // Redirect logged-in users to assessment page
-  return router.createUrlTree(['/assessment']);
+  // Redirect logged-in users to dashboard
+  return router.createUrlTree(['/dashboard']);
 };
