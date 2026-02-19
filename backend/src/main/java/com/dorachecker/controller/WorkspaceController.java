@@ -312,6 +312,8 @@ public class WorkspaceController {
                 jsonStr = aiResponse.substring(start, end + 1);
             }
 
+            log.info("Parsing AI response for {}: length={}", regulation, jsonStr.length());
+
             List<Map<String, Object>> aiResults = objectMapper.readValue(jsonStr,
                 objectMapper.getTypeFactory().constructCollectionType(List.class, Map.class));
 
@@ -414,6 +416,7 @@ public class WorkspaceController {
             "totalChecks", g.getTotalChecks(),
             "passed", g.getPassed(),
             "failed", g.getFailed(),
+            "partial", g.getPartial(),
             "compliancePercentage", g.getCompliancePercentage()
         )).toList());
 

@@ -197,13 +197,22 @@ public class ClaudeApiService {
             String text = content.get(0).get("text").asText();
 
             // Extract JSON from response (may have markdown wrapping)
-            int jsonStart = text.indexOf('{');
-            int jsonEnd = text.lastIndexOf('}');
-            if (jsonStart == -1 || jsonEnd == -1) {
-                jsonStart = text.indexOf('[');
+            // Check if array [ comes before object { — if so, extract array
+            int arrayStart = text.indexOf('[');
+            int objectStart = text.indexOf('{');
+            int jsonStart, jsonEnd;
+
+            if (arrayStart >= 0 && (objectStart < 0 || arrayStart < objectStart)) {
+                jsonStart = arrayStart;
                 jsonEnd = text.lastIndexOf(']');
+            } else if (objectStart >= 0) {
+                jsonStart = objectStart;
+                jsonEnd = text.lastIndexOf('}');
+            } else {
+                throw new RuntimeException("JSON-i ei leitud vastusest");
             }
-            if (jsonStart == -1 || jsonEnd == -1) {
+
+            if (jsonEnd <= jsonStart) {
                 throw new RuntimeException("JSON-i ei leitud vastusest");
             }
             return text.substring(jsonStart, jsonEnd + 1);
