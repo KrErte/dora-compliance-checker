@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink, ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Title, Meta } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
+import { AuthService } from '../auth/auth.service';
+import { SubscriptionService } from '../services/subscription.service';
+import { UpgradeModalComponent } from '../components/upgrade-modal.component';
 
 interface RegulationCheck {
   id: string;
@@ -48,7 +51,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
 @Component({
   selector: 'app-workspace',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, UpgradeModalComponent],
   template: `
     <div class="space-y-8">
       <!-- Header -->
@@ -76,7 +79,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
       </div>
 
       <!-- Step 1: Create Project or Upload -->
-      <div *ngIf="!project" class="max-w-2xl mx-auto space-y-6">
+      <div *ngIf="currentStep === 1" class="max-w-2xl mx-auto space-y-6">
         <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 md:p-8">
           <h2 class="text-xl font-semibold text-white mb-6 flex items-center gap-2">
             <span class="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center text-violet-400 font-bold">1</span>
@@ -85,13 +88,13 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
 
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('workspace.project_name') }}</label>
+              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('workspace.project_name') }} <span class="text-slate-500">({{ lang.currentLang === 'et' ? 'valikuline' : 'optional' }})</span></label>
               <input type="text" [(ngModel)]="projectName" [placeholder]="lang.t('workspace.project_name_placeholder')"
                      class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white
                             focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all" />
             </div>
 
-            <div>
+            <div *ngIf="!auth.isLoggedIn()">
               <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('workspace.your_email') }}</label>
               <input type="email" [(ngModel)]="userEmail" placeholder="your@email.com"
                      class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white
@@ -101,6 +104,15 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
             <!-- Regulation Selection -->
             <div>
               <label class="block text-sm font-medium text-slate-300 mb-3">{{ lang.t('workspace.select_regulations') }}</label>
+
+              <!-- Select All -->
+              <label class="flex items-center gap-2 mb-3 cursor-pointer">
+                <input type="checkbox" [checked]="allRegulationsSelected"
+                       (change)="toggleAllRegulations()"
+                       class="rounded border-slate-600 bg-slate-800 text-violet-500 focus:ring-violet-500/20" />
+                <span class="text-sm text-slate-300">{{ lang.currentLang === 'et' ? 'Vali kõik' : 'Select all' }}</span>
+              </label>
+
               <div class="grid grid-cols-2 gap-3">
                 <label *ngFor="let reg of availableRegulations"
                        class="relative flex items-start gap-3 p-4 rounded-xl cursor-pointer transition-all"
@@ -113,6 +125,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
                   <div>
                     <span class="text-sm font-medium text-white">{{ reg.name }}</span>
                     <p class="text-xs text-slate-500 mt-0.5">{{ reg.checks }} {{ lang.t('workspace.checks') }}</p>
+                    <p class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? reg.descriptionEt : reg.descriptionEn }}</p>
                   </div>
                 </label>
               </div>
@@ -151,7 +164,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
 
             <!-- Analyze Button -->
             <button (click)="createAndAnalyze()"
-                    [disabled]="!projectName || !userEmail || !selectedFile || selectedRegulations.length === 0 || analyzing"
+                    [disabled]="!userEmail || !selectedFile || selectedRegulations.length === 0 || analyzing"
                     class="w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all flex items-center justify-center gap-2
                            disabled:opacity-50 disabled:cursor-not-allowed
                            bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-400 hover:to-purple-400
@@ -173,39 +186,10 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
             </div>
           </div>
         </div>
-
-        <!-- Free vs Pro Info -->
-        <div class="grid md:grid-cols-2 gap-4">
-          <div class="p-5 rounded-xl bg-slate-800/30 border border-slate-700/50">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="text-lg">🆓</span>
-              <span class="text-sm font-semibold text-white">{{ lang.t('workspace.free_tier') }}</span>
-            </div>
-            <ul class="space-y-1.5 text-sm text-slate-400">
-              <li>• {{ lang.t('workspace.free_1') }}</li>
-              <li>• {{ lang.t('workspace.free_2') }}</li>
-              <li>• {{ lang.t('workspace.free_3') }}</li>
-            </ul>
-          </div>
-          <div class="p-5 rounded-xl bg-violet-500/5 border border-violet-500/20">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="text-lg">⭐</span>
-              <span class="text-sm font-semibold text-violet-400">{{ lang.t('workspace.pro_tier') }}</span>
-            </div>
-            <ul class="space-y-1.5 text-sm text-slate-400">
-              <li>• {{ lang.t('workspace.pro_1') }}</li>
-              <li>• {{ lang.t('workspace.pro_2') }}</li>
-              <li>• {{ lang.t('workspace.pro_3') }}</li>
-            </ul>
-            <a routerLink="/pricing" class="inline-block mt-3 text-sm text-violet-400 hover:text-violet-300">
-              {{ lang.t('workspace.upgrade') }} →
-            </a>
-          </div>
-        </div>
       </div>
 
-      <!-- Project View (after analysis) -->
-      <div *ngIf="project" class="max-w-5xl mx-auto space-y-6">
+      <!-- Step 2: Project View (after analysis) -->
+      <div *ngIf="currentStep === 2 && project" class="max-w-5xl mx-auto space-y-6">
 
         <!-- Project Header -->
         <div class="flex items-center justify-between p-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
@@ -214,10 +198,37 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
             <p class="text-xs text-slate-500">{{ lang.t('workspace.expires') }}: {{ formatDate(project.expiresAt) }}</p>
           </div>
           <div class="flex items-center gap-3">
+            <button (click)="exportReport()"
+                    class="px-4 py-2 rounded-lg text-sm font-medium text-violet-400 hover:text-violet-300 bg-violet-500/10 hover:bg-violet-500/20 transition-all">
+              {{ lang.t('workspace.export_pdf') }}
+            </button>
+            <button (click)="resetToNewAnalysis()"
+                    class="px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white bg-slate-700/50 hover:bg-slate-600/50 transition-all">
+              {{ lang.currentLang === 'et' ? 'Analüüsi uut lepingut' : 'Analyze new contract' }}
+            </button>
             <span class="px-3 py-1 rounded-full text-xs font-medium"
                   [ngClass]="getStatusClass(project.status)">
               {{ lang.t('workspace.status_' + project.status) }}
             </span>
+          </div>
+        </div>
+
+        <!-- Overall Compliance Summary -->
+        <div class="p-6 rounded-xl bg-slate-800/50 border border-slate-700/50">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-white">{{ lang.currentLang === 'et' ? 'Üldine vastavus' : 'Overall Compliance' }}</h3>
+            <span class="text-2xl font-bold px-4 py-1 rounded-full"
+                  [ngClass]="getComplianceBadgeClass(getOverallScore())">
+              {{ getOverallScore() | number:'1.0-0' }}%
+            </span>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div *ngFor="let gap of project.gapResults" class="text-center p-3 rounded-lg bg-slate-900/30">
+              <span class="text-xs text-slate-400 block mb-1">{{ getRegulationName(gap.regulation) }}</span>
+              <span class="text-lg font-bold" [ngClass]="getComplianceBadgeClass(gap.compliancePercentage)">
+                {{ gap.compliancePercentage | number:'1.0-0' }}%
+              </span>
+            </div>
           </div>
         </div>
 
@@ -311,59 +322,75 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
           </div>
         </div>
 
-        <!-- Submit Review Section -->
-        <div class="p-6 rounded-xl bg-slate-800/50 border border-slate-700/50 space-y-4">
-          <h3 class="text-lg font-semibold text-white">{{ lang.t('workspace.submit_review') }}</h3>
-
-          <div class="grid md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('workspace.your_role') }}</label>
-              <select [(ngModel)]="reviewRole"
-                      class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white">
-                <option value="">{{ lang.t('workspace.select_role') }}</option>
-                <option value="account_manager">{{ lang.t('workspace.role_account_manager') }}</option>
-                <option value="technical_lead">{{ lang.t('workspace.role_technical_lead') }}</option>
-                <option value="ceo">{{ lang.t('workspace.role_ceo') }}</option>
-                <option value="legal_counsel">{{ lang.t('workspace.role_legal_counsel') }}</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('workspace.review_status') }}</label>
-              <select [(ngModel)]="reviewStatus"
-                      class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white">
-                <option value="">{{ lang.t('workspace.select_status') }}</option>
-                <option value="reviewed">{{ lang.t('workspace.status_reviewed') }}</option>
-                <option value="needs_attention">{{ lang.t('workspace.status_needs_attention') }}</option>
-                <option value="accepted_risk">{{ lang.t('workspace.status_accepted_risk') }}</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('workspace.comments') }}</label>
-            <textarea [(ngModel)]="reviewComments" rows="3"
-                      class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white resize-none"></textarea>
-          </div>
-
-          <button (click)="submitReview()"
-                  [disabled]="!reviewRole || !reviewStatus || submittingReview"
-                  class="px-6 py-3 rounded-xl font-semibold transition-all
-                         disabled:opacity-50 disabled:cursor-not-allowed
-                         bg-violet-500 hover:bg-violet-400 text-white">
-            {{ submittingReview ? lang.t('workspace.submitting') : lang.t('workspace.submit_review_btn') }}
+        <!-- Submit Review Section (Collapsible) -->
+        <div class="rounded-xl bg-slate-800/50 border border-slate-700/50">
+          <button (click)="showReviewForm = !showReviewForm"
+                  class="w-full p-6 flex items-center justify-between text-left">
+            <h3 class="text-lg font-semibold text-white">{{ lang.currentLang === 'et' ? 'Lisa ülevaatus' : 'Add review' }}</h3>
+            <svg class="w-5 h-5 text-slate-400 transition-transform duration-200"
+                 [class.rotate-180]="showReviewForm"
+                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
           </button>
-        </div>
 
-        <!-- Audit Trail -->
-        <div class="p-6 rounded-xl bg-slate-800/50 border border-slate-700/50 space-y-4">
-          <div class="flex items-center justify-between">
-            <h3 class="text-lg font-semibold text-white">{{ lang.t('workspace.audit_trail') }}</h3>
-            <button (click)="exportReport()" class="text-sm text-violet-400 hover:text-violet-300">
-              {{ lang.t('workspace.export_pdf') }}
+          <div *ngIf="showReviewForm" class="px-6 pb-6 space-y-4">
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('workspace.your_role') }}</label>
+                <select [(ngModel)]="reviewRole"
+                        class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white">
+                  <option value="">{{ lang.t('workspace.select_role') }}</option>
+                  <option value="account_manager">{{ lang.t('workspace.role_account_manager') }}</option>
+                  <option value="technical_lead">{{ lang.t('workspace.role_technical_lead') }}</option>
+                  <option value="ceo">{{ lang.t('workspace.role_ceo') }}</option>
+                  <option value="legal_counsel">{{ lang.t('workspace.role_legal_counsel') }}</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('workspace.review_status') }}</label>
+                <select [(ngModel)]="reviewStatus"
+                        class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white">
+                  <option value="">{{ lang.t('workspace.select_status') }}</option>
+                  <option value="reviewed">{{ lang.t('workspace.status_reviewed') }}</option>
+                  <option value="needs_attention">{{ lang.t('workspace.status_needs_attention') }}</option>
+                  <option value="accepted_risk">{{ lang.t('workspace.status_accepted_risk') }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('workspace.comments') }}</label>
+              <textarea [(ngModel)]="reviewComments" rows="3"
+                        class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white resize-none"></textarea>
+            </div>
+
+            <button (click)="submitReview()"
+                    [disabled]="!reviewRole || !reviewStatus || submittingReview"
+                    class="px-6 py-3 rounded-xl font-semibold transition-all
+                           disabled:opacity-50 disabled:cursor-not-allowed
+                           bg-violet-500 hover:bg-violet-400 text-white">
+              {{ submittingReview ? lang.t('workspace.submitting') : lang.t('workspace.submit_review_btn') }}
             </button>
           </div>
+        </div>
 
-          <div class="space-y-2 max-h-64 overflow-y-auto">
+        <!-- Audit Trail (Collapsible) -->
+        <div class="rounded-xl bg-slate-800/50 border border-slate-700/50">
+          <button (click)="showAuditTrail = !showAuditTrail"
+                  class="w-full p-6 flex items-center justify-between text-left">
+            <div class="flex items-center gap-2">
+              <h3 class="text-lg font-semibold text-white">{{ lang.t('workspace.audit_trail') }}</h3>
+              <span class="text-xs text-slate-500">({{ auditLogs.length }})</span>
+            </div>
+            <svg class="w-5 h-5 text-slate-400 transition-transform duration-200"
+                 [class.rotate-180]="showAuditTrail"
+                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+
+          <div *ngIf="showAuditTrail" class="px-6 pb-6 space-y-2 max-h-64 overflow-y-auto">
             <div *ngFor="let log of auditLogs"
                  class="flex items-start gap-3 p-3 rounded-lg bg-slate-900/30">
               <div class="w-2 h-2 rounded-full mt-2" [ngClass]="getAuditDotClass(log.action)"></div>
@@ -379,10 +406,13 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
           </div>
         </div>
       </div>
+
+      <app-upgrade-modal></app-upgrade-modal>
     </div>
   `,
   styles: [`
     :host { display: block; }
+    .rotate-180 { transform: rotate(180deg); }
   `]
 })
 export class WorkspaceComponent implements OnInit {
@@ -392,6 +422,8 @@ export class WorkspaceComponent implements OnInit {
   selectedRegulations: string[] = ['DORA_ART30'];
   analyzing = false;
   uploadProgress = 0;
+
+  currentStep: 1 | 2 = 1;
 
   project: Project | null = null;
   currentRole: ViewRole = 'overview';
@@ -403,13 +435,16 @@ export class WorkspaceComponent implements OnInit {
   reviewComments = '';
   submittingReview = false;
 
+  showReviewForm = false;
+  showAuditTrail = false;
+
   auditLogs: any[] = [];
 
   availableRegulations = [
-    { id: 'DORA_ART30', name: 'DORA Art. 30', checks: 18 },
-    { id: 'GDPR_ART28', name: 'GDPR Art. 28', checks: 10 },
-    { id: 'SLA', name: 'SLA Best Practices', checks: 10 },
-    { id: 'NIS2', name: 'NIS2 Supply Chain', checks: 8 }
+    { id: 'DORA_ART30', name: 'DORA Art. 30', checks: 18, descriptionEt: 'IKT lepingute kohustuslikud klauslid finantssektoris', descriptionEn: 'Mandatory ICT contractual clauses for financial sector' },
+    { id: 'GDPR_ART28', name: 'GDPR Art. 28', checks: 10, descriptionEt: 'Andmetöötleja lepingu nõuded', descriptionEn: 'Data processor agreement requirements' },
+    { id: 'SLA', name: 'SLA Best Practices', checks: 10, descriptionEt: 'Teenustaseme parimad praktikad', descriptionEn: 'Service level agreement best practices' },
+    { id: 'NIS2', name: 'NIS2 Supply Chain', checks: 8, descriptionEt: 'Tarneahela turvalisuse nõuded', descriptionEn: 'Supply chain security requirements' }
   ];
 
   viewRoles: { id: ViewRole; icon: string }[] = [
@@ -425,11 +460,18 @@ export class WorkspaceComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private titleService: Title,
-    private meta: Meta
+    private meta: Meta,
+    public auth: AuthService,
+    public subscriptionService: SubscriptionService
   ) {}
 
   ngOnInit(): void {
     this.updateMeta();
+
+    // Auto-fill email from logged-in user
+    if (this.auth.isLoggedIn()) {
+      this.userEmail = this.auth.user()!.email;
+    }
 
     // Check if we have a project ID in URL
     const projectId = this.route.snapshot.paramMap.get('id');
@@ -443,6 +485,18 @@ export class WorkspaceComponent implements OnInit {
       ? 'ICT Lepingu Töölaud — Multi-regulatsiooni vastavuse kontroll | DoraAudit.eu'
       : 'ICT Contract Workspace — Multi-Regulation Compliance Check | DoraAudit.eu';
     this.titleService.setTitle(title);
+  }
+
+  get allRegulationsSelected(): boolean {
+    return this.availableRegulations.every(r => this.selectedRegulations.includes(r.id));
+  }
+
+  toggleAllRegulations(): void {
+    if (this.allRegulationsSelected) {
+      this.selectedRegulations = [];
+    } else {
+      this.selectedRegulations = this.availableRegulations.map(r => r.id);
+    }
   }
 
   toggleRegulation(id: string): void {
@@ -482,7 +536,12 @@ export class WorkspaceComponent implements OnInit {
   }
 
   createAndAnalyze(): void {
-    if (!this.projectName || !this.userEmail || !this.selectedFile) return;
+    if (!this.userEmail || !this.selectedFile) return;
+
+    // Auto-generate project name from filename if empty
+    if (!this.projectName) {
+      this.projectName = this.selectedFile.name.replace(/\.[^/.]+$/, '');
+    }
 
     this.analyzing = true;
 
@@ -529,6 +588,7 @@ export class WorkspaceComponent implements OnInit {
     this.http.get<Project>(`/api/workspace/projects/${id}`).subscribe({
       next: (project) => {
         this.project = project;
+        this.currentStep = 2;
         this.loadAuditLogs(id);
       },
       error: (err) => console.error('Failed to load project', err)
@@ -582,8 +642,44 @@ export class WorkspaceComponent implements OnInit {
   }
 
   exportReport(): void {
+    if (!this.subscriptionService.canAccess('PDF_EXPORT')) {
+      this.subscriptionService.showUpgrade('PDF_EXPORT');
+      return;
+    }
     // TODO: Implement PDF export
     alert(this.lang.currentLang === 'et' ? 'PDF eksport tuleb varsti!' : 'PDF export coming soon!');
+  }
+
+  resetToNewAnalysis(): void {
+    this.project = null;
+    this.projectName = '';
+    this.selectedFile = null;
+    this.selectedRegulations = ['DORA_ART30'];
+    this.analyzing = false;
+    this.uploadProgress = 0;
+    this.currentRole = 'overview';
+    this.selectedGap = null;
+    this.gapDetails = [];
+    this.reviewRole = '';
+    this.reviewStatus = '';
+    this.reviewComments = '';
+    this.auditLogs = [];
+    this.showReviewForm = false;
+    this.showAuditTrail = false;
+    this.currentStep = 1;
+
+    // Re-fill email if logged in
+    if (this.auth.isLoggedIn()) {
+      this.userEmail = this.auth.user()!.email;
+    } else {
+      this.userEmail = '';
+    }
+  }
+
+  getOverallScore(): number {
+    if (!this.project || !this.project.gapResults.length) return 0;
+    const sum = this.project.gapResults.reduce((acc, g) => acc + g.compliancePercentage, 0);
+    return sum / this.project.gapResults.length;
   }
 
   getFilteredChecks(): RegulationCheck[] {
