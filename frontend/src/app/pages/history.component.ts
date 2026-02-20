@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { LangService } from '../lang.service';
 
 interface HistoryEntry {
   id: string;
@@ -21,9 +22,9 @@ interface HistoryEntry {
       <div class="flex items-center justify-between mb-8 animate-fade-in-up">
         <div>
           <h1 class="text-2xl font-bold">
-            <span class="gradient-text">Hindamiste ajalugu</span>
+            <span class="gradient-text">{{ lang.t('history.title') }}</span>
           </h1>
-          <p class="text-slate-500 text-sm mt-1">{{ history.length }} hindamist kokku</p>
+          <p class="text-slate-500 text-sm mt-1">{{ history.length }} {{ lang.t('history.total') }}</p>
         </div>
         <div class="flex gap-2">
           <a routerLink="/assessment"
@@ -33,7 +34,7 @@ interface HistoryEntry {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
-            Uus hindamine
+            {{ lang.t('history.new') }}
           </a>
         </div>
       </div>
@@ -41,19 +42,19 @@ interface HistoryEntry {
       <!-- Stats overview -->
       <div *ngIf="history.length > 0" class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
         <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4 animate-fade-in-up delay-100">
-          <p class="text-xs text-slate-500 mb-1">Keskmine skoor</p>
+          <p class="text-xs text-slate-500 mb-1">{{ lang.t('history.avg_score') }}</p>
           <span class="text-2xl font-bold text-emerald-400">{{ avgScore | number:'1.0-0' }}%</span>
         </div>
         <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4 animate-fade-in-up delay-200">
-          <p class="text-xs text-slate-500 mb-1">Vastavad</p>
+          <p class="text-xs text-slate-500 mb-1">{{ lang.t('history.compliant') }}</p>
           <span class="text-2xl font-bold text-emerald-400">{{ greenCount }}</span>
         </div>
         <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4 animate-fade-in-up delay-300">
-          <p class="text-xs text-slate-500 mb-1">Osaliselt</p>
+          <p class="text-xs text-slate-500 mb-1">{{ lang.t('history.partial') }}</p>
           <span class="text-2xl font-bold text-amber-400">{{ yellowCount }}</span>
         </div>
         <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4 animate-fade-in-up delay-400">
-          <p class="text-xs text-slate-500 mb-1">Mittevastav</p>
+          <p class="text-xs text-slate-500 mb-1">{{ lang.t('history.non_compliant') }}</p>
           <span class="text-2xl font-bold text-red-400">{{ redCount }}</span>
         </div>
       </div>
@@ -64,7 +65,7 @@ interface HistoryEntry {
           <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
           </svg>
-          Skoori trend
+          {{ lang.t('history.trend') }}
         </h2>
         <div class="relative h-32">
           <svg class="w-full h-full" [attr.viewBox]="'0 0 ' + chartWidth + ' 130'" preserveAspectRatio="none">
@@ -101,12 +102,12 @@ interface HistoryEntry {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
         </div>
-        <h2 class="text-lg font-semibold text-slate-300 mb-2">Ajalugu on t\u00fchi</h2>
-        <p class="text-slate-500 mb-6">Te pole veel \u00fchtegi hindamist l\u00e4bi viinud.</p>
+        <h2 class="text-lg font-semibold text-slate-300 mb-2">{{ lang.t('history.empty_title') }}</h2>
+        <p class="text-slate-500 mb-6">{{ lang.t('history.empty_desc') }}</p>
         <a routerLink="/assessment"
            class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
                   font-semibold px-6 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25">
-          Alusta esimest hindamist
+          {{ lang.t('history.first') }}
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
           </svg>
@@ -159,7 +160,7 @@ interface HistoryEntry {
       <div *ngIf="history.length > 0" class="text-center mt-8 animate-fade-in delay-500">
         <button type="button" (click)="clearHistory()"
                 class="text-xs text-slate-600 hover:text-red-400 transition-colors duration-200">
-          Kustuta ajalugu
+          {{ lang.t('history.clear') }}
         </button>
       </div>
     </div>
@@ -171,6 +172,8 @@ export class HistoryComponent implements OnInit {
   linePath = '';
   areaPath = '';
   chartWidth = 600;
+
+  constructor(public lang: LangService) {}
 
   ngOnInit() {
     this.loadHistory();
@@ -231,9 +234,9 @@ export class HistoryComponent implements OnInit {
 
   getBadgeLabel(level: string): string {
     switch (level) {
-      case 'GREEN': return 'Vastav';
-      case 'YELLOW': return 'Osaliselt';
-      case 'RED': return 'Mittevastav';
+      case 'GREEN': return this.lang.t('results.green');
+      case 'YELLOW': return this.lang.t('results.yellow');
+      case 'RED': return this.lang.t('results.red');
       default: return '';
     }
   }

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ApiService, BenchmarkData } from '../api.service';
 import { LangService } from '../lang.service';
-import { AssessmentResult, CATEGORY_LABELS } from '../models';
+import { AssessmentResult, CATEGORY_LABELS, PillarScore, calculatePillarScores } from '../models';
 import { SubscriptionService } from '../services/subscription.service';
 import { UpgradeModalComponent } from '../components/upgrade-modal.component';
 import { PremiumBadgeComponent } from '../components/premium-badge.component';
@@ -223,20 +223,14 @@ interface HeatmapCell {
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
             <div *ngFor="let pillar of doraPillars; let i = index"
                  class="text-center p-3 rounded-lg border animate-fade-in-up"
-                 [class]="pillar.active
-                   ? 'bg-emerald-500/5 border-emerald-500/20'
-                   : 'bg-slate-800/50 border-slate-700/30'"
+                 [class]="getPillarCardClass(pillar.percentage)"
                  [style.animation-delay]="(i * 100 + 500) + 'ms'">
               <div class="text-2xl mb-1">{{ pillar.icon }}</div>
-              <p class="text-xs font-medium" [class]="pillar.active ? 'text-emerald-400' : 'text-slate-500'">{{ pillar.label }}</p>
-              <div class="mt-2" *ngIf="pillar.active">
-                <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
-                  {{ result.scorePercentage | number:'1.0-0' }}%
-                </span>
-              </div>
-              <div class="mt-2" *ngIf="!pillar.active">
-                <span class="text-xs px-2 py-0.5 rounded-full bg-slate-700/50 text-slate-600 border border-slate-700/30">
-                  Peagi
+              <p class="text-xs font-medium" [class]="getPillarTextClass(pillar.percentage)">{{ lang.t(pillar.labelKey) }}</p>
+              <div class="mt-2">
+                <span class="text-xs px-2 py-0.5 rounded-full"
+                      [class]="getPillarBadgeClass(pillar.percentage)">
+                  {{ pillar.percentage | number:'1.0-0' }}%
                 </span>
               </div>
             </div>
@@ -407,7 +401,32 @@ interface HeatmapCell {
           </div>
         </div>
 
-        <!-- Email Gate for Detailed Report -->
+        <!-- Premium: Direct PDF download banner -->
+        <div *ngIf="emailCaptured && subscriptionService.canAccess('PDF_EXPORT')" class="glass-card p-6 mb-8 border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 animate-fade-in-up delay-600">
+          <div class="flex flex-col sm:flex-row items-center gap-5">
+            <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center shrink-0">
+              <svg class="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+            <div class="flex-1 text-center sm:text-left">
+              <h3 class="text-lg font-semibold text-slate-200 mb-1">{{ lang.t('results.pdf_ready_title') }}</h3>
+              <p class="text-sm text-slate-400">{{ lang.t('results.pdf_ready_desc') }}</p>
+            </div>
+            <button type="button" (click)="exportPdf()"
+                    class="px-6 py-3 rounded-xl font-semibold text-sm whitespace-nowrap
+                           bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
+                           hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all
+                           flex items-center gap-2 shrink-0">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              {{ lang.t('results.download_full_pdf') }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Email Gate for Detailed Report (Free users only) -->
         <div *ngIf="!emailCaptured" class="glass-card p-8 mb-8 border-cyan-500/30 bg-gradient-to-br from-cyan-500/5 to-emerald-500/5 animate-fade-in-up delay-600">
           <div class="text-center max-w-md mx-auto">
             <div class="w-16 h-16 rounded-full bg-cyan-500/20 flex items-center justify-center mx-auto mb-4">
@@ -760,12 +779,12 @@ export class ResultsComponent implements OnInit {
   emailCaptured = false;
   emailLoading = false;
 
-  doraPillars = [
-    { icon: '\u{1F6E1}\uFE0F', label: 'IKT risk', active: true },
-    { icon: '\u{1F4CB}', label: 'Intsidendid', active: true },
-    { icon: '\u{1F50D}', label: 'Testimine', active: true },
-    { icon: '\u{1F91D}', label: 'Kolmandad osapooled', active: true },
-    { icon: '\u{1F4E1}', label: 'Info jagamine', active: true }
+  doraPillars: { id: string; icon: string; labelKey: string; percentage: number }[] = [
+    { id: 'ICT_RISK_MANAGEMENT', icon: '\u{1F6E1}\uFE0F', labelKey: 'dashboard.pillar_risk', percentage: 0 },
+    { id: 'INCIDENT_MANAGEMENT', icon: '\u{1F4CB}', labelKey: 'dashboard.pillar_incidents', percentage: 0 },
+    { id: 'TESTING', icon: '\u{1F50D}', labelKey: 'dashboard.pillar_testing', percentage: 0 },
+    { id: 'THIRD_PARTY', icon: '\u{1F91D}', labelKey: 'dashboard.pillar_third_party', percentage: 0 },
+    { id: 'INFORMATION_SHARING', icon: '\u{1F4E1}', labelKey: 'dashboard.pillar_info', percentage: 0 }
   ];
 
   constructor(
@@ -779,6 +798,11 @@ export class ResultsComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id')!;
 
+    // Premium/Enterprise users skip the email gate entirely
+    if (!this.subscriptionService.shouldShowEmailGate()) {
+      this.emailCaptured = true;
+    }
+
     // Check if email was already captured for this assessment
     const savedEmail = localStorage.getItem('dora_results_email_' + id);
     if (savedEmail) {
@@ -790,6 +814,7 @@ export class ResultsComponent implements OnInit {
       next: (result) => {
         this.result = result;
         this.buildCategoryStats();
+        this.buildPillarScores();
         this.buildRadarChart();
         this.buildHeatmap();
         this.buildNonCompliantList();
@@ -813,6 +838,10 @@ export class ResultsComponent implements OnInit {
     const history = JSON.parse(localStorage.getItem('dora_history') || '[]');
     const exists = history.some((h: any) => h.id === this.result!.id);
     if (!exists) {
+      const pillarScores: { [id: string]: number } = {};
+      for (const p of this.doraPillars) {
+        pillarScores[p.id] = Math.round(p.percentage * 10) / 10;
+      }
       history.unshift({
         id: this.result.id,
         companyName: this.result.companyName,
@@ -821,7 +850,10 @@ export class ResultsComponent implements OnInit {
         complianceLevel: this.result.complianceLevel,
         assessmentDate: this.result.assessmentDate,
         compliantCount: this.result.compliantCount,
-        totalQuestions: this.result.totalQuestions
+        partialCount: this.result.partialCount,
+        nonCompliantCount: this.result.nonCompliantCount,
+        totalQuestions: this.result.totalQuestions,
+        pillarScores
       });
       if (history.length > 50) history.pop();
       localStorage.setItem('dora_history', JSON.stringify(history));
@@ -1018,6 +1050,33 @@ export class ResultsComponent implements OnInit {
     this.roadmapPhase1Progress = items.length > 0 ? Math.round((done / total) * 100) : 100;
     this.roadmapPhase2Progress = items.length > 3 ? Math.round(((done + this.roadmapPhase1.length) / total) * 100) : this.roadmapPhase1Progress;
     this.roadmapPhase3Progress = 100;
+  }
+
+  buildPillarScores() {
+    if (!this.result) return;
+    const scores = calculatePillarScores(this.result.questionResults);
+    for (const pillar of this.doraPillars) {
+      const match = scores.find(s => s.id === pillar.id);
+      if (match) pillar.percentage = match.percentage;
+    }
+  }
+
+  getPillarCardClass(pct: number): string {
+    if (pct >= 75) return 'bg-emerald-500/5 border-emerald-500/20';
+    if (pct >= 50) return 'bg-amber-500/5 border-amber-500/20';
+    return 'bg-red-500/5 border-red-500/20';
+  }
+
+  getPillarTextClass(pct: number): string {
+    if (pct >= 75) return 'text-emerald-400';
+    if (pct >= 50) return 'text-amber-400';
+    return 'text-red-400';
+  }
+
+  getPillarBadgeClass(pct: number): string {
+    if (pct >= 75) return 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20';
+    if (pct >= 50) return 'bg-amber-500/15 text-amber-400 border border-amber-500/20';
+    return 'bg-red-500/15 text-red-400 border border-red-500/20';
   }
 
   loadBenchmark() {

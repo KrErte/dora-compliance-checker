@@ -152,6 +152,41 @@ export interface RegulatoryUpdate {
   fetchedAt: string;
 }
 
+// ─── DORA 5 Pillars: shared category mapping ───────────────────────
+
+export const PILLAR_CATEGORIES: { [pillarId: string]: string[] } = {
+  ICT_RISK_MANAGEMENT: ['ICT_RISK_MANAGEMENT'],
+  INCIDENT_MANAGEMENT: ['INCIDENT_MANAGEMENT', 'INCIDENT'],
+  TESTING:             ['TESTING'],
+  THIRD_PARTY:         ['SERVICE_LEVEL', 'EXIT_STRATEGY', 'AUDIT', 'INCIDENT',
+                        'DATA', 'SUBCONTRACTING', 'RISK', 'LEGAL', 'CONTINUITY'],
+  INFORMATION_SHARING: ['INFORMATION_SHARING']
+};
+
+export interface PillarScore {
+  id: string;
+  percentage: number;
+}
+
+/**
+ * Calculate per-pillar scores from question results.
+ * Uses same scoring as buildCategoryStats: yes=1, partial=0.5, no=0.
+ */
+export function calculatePillarScores(questionResults: QuestionResult[]): PillarScore[] {
+  return Object.entries(PILLAR_CATEGORIES).map(([pillarId, categories]) => {
+    const questions = questionResults.filter(qr => categories.includes(qr.category));
+    if (questions.length === 0) return { id: pillarId, percentage: 0 };
+    const score = questions.reduce((sum, qr) => {
+      if (qr.complianceStatus === 'yes') return sum + 1;
+      if (qr.complianceStatus === 'partial') return sum + 0.5;
+      return sum;
+    }, 0);
+    return { id: pillarId, percentage: (score / questions.length) * 100 };
+  });
+}
+
+// ─── Category labels ────────────────────────────────────────────────
+
 export const CATEGORY_LABELS: { [key: string]: { et: string; en: string } } = {
   SERVICE_LEVEL: { et: 'Teenustaseme nõuded', en: 'Service Level Requirements' },
   EXIT_STRATEGY: { et: 'Väljumisstrateegia', en: 'Exit Strategy' },

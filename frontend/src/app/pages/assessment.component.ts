@@ -8,7 +8,7 @@ import { LangService } from '../lang.service';
 import { AuthService } from '../auth/auth.service';
 import { PaywallService } from '../services/paywall.service';
 import { PAYMENT_CONFIG } from '../config/payment.config';
-import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
+import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } from '../models';
 
 @Component({
   selector: 'app-assessment',
@@ -281,6 +281,72 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS } from '../models';
           </div>
         </div>
       </form>
+
+      <!-- Confirmation dialog -->
+      <div *ngIf="showConfirmDialog" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in"
+           (click)="cancelSubmit()">
+        <div class="bg-slate-800 border border-slate-700/50 rounded-2xl p-6 max-w-md w-full mx-4 shadow-2xl animate-scale-in"
+             (click)="$event.stopPropagation()">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-slate-100">{{ lang.t('assessment.confirm_title') }}</h3>
+          </div>
+
+          <div *ngIf="isComplete" class="text-slate-300 text-sm mb-6">
+            {{ lang.t('assessment.confirm_complete') }}
+          </div>
+
+          <div *ngIf="!isComplete" class="mb-6">
+            <div class="flex items-center gap-3 mb-3 px-4 py-3 bg-slate-700/50 rounded-xl">
+              <div class="relative w-10 h-10 shrink-0">
+                <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="#334155" stroke-width="8"/>
+                  <circle cx="50" cy="50" r="42" fill="none"
+                          stroke="#34d399"
+                          stroke-width="8"
+                          stroke-linecap="round"
+                          stroke-dasharray="263.89"
+                          [attr.stroke-dashoffset]="263.89 - (263.89 * answeredCount / totalQuestions)"/>
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="text-xs font-bold text-emerald-400">{{ answeredCount }}</span>
+                </div>
+              </div>
+              <div>
+                <p class="text-sm text-slate-200 font-medium">
+                  {{ lang.t('assessment.confirm_answered') }} {{ answeredCount }} {{ lang.t('assessment.confirm_of') }} {{ totalQuestions }} {{ lang.t('assessment.confirm_questions') }}
+                </p>
+              </div>
+            </div>
+            <div class="flex items-start gap-2 px-4 py-3 bg-amber-500/10 border border-amber-500/20 rounded-xl">
+              <svg class="w-5 h-5 text-amber-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+              </svg>
+              <p class="text-sm text-amber-300">
+                {{ unansweredCount }} {{ lang.t('assessment.confirm_warning') }}
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 justify-end">
+            <button type="button" (click)="cancelSubmit()"
+                    class="px-5 py-2 rounded-lg text-sm font-medium bg-slate-700 text-slate-300 hover:bg-slate-600 transition-all duration-200">
+              {{ lang.t('assessment.confirm_cancel') }}
+            </button>
+            <button type="button" (click)="confirmSubmit()"
+                    class="px-5 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-900 font-semibold transition-all duration-200 shadow-lg shadow-emerald-500/25 flex items-center gap-2">
+              {{ lang.t('assessment.confirm_confirm') }}
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   `
 })
@@ -294,17 +360,12 @@ export class AssessmentComponent implements OnInit {
   error = '';
   submitting = false;
   hasDraft = false;
+  showConfirmDialog = false;
 
   private scrollToCategory = '';
 
-  // Pillar → category mapping
-  private pillarCategories: { [key: string]: string[] } = {
-    'ICT_RISK_MANAGEMENT': ['ICT_RISK_MANAGEMENT'],
-    'INCIDENT_MANAGEMENT': ['INCIDENT_MANAGEMENT', 'INCIDENT'],
-    'TESTING': ['TESTING'],
-    'THIRD_PARTY': ['SERVICE_LEVEL', 'EXIT_STRATEGY', 'AUDIT', 'INCIDENT', 'DATA', 'SUBCONTRACTING', 'RISK', 'LEGAL', 'CONTINUITY'],
-    'INFORMATION_SHARING': ['INFORMATION_SHARING']
-  };
+  // Pillar → category mapping (shared from models.ts)
+  private pillarCategories = PILLAR_CATEGORIES;
 
   private categoryIcons: { [key: string]: string } = {
     SERVICE_LEVEL: '\u{1F4CB}',
@@ -472,7 +533,7 @@ export class AssessmentComponent implements OnInit {
   get canSubmit(): boolean {
     return this.companyName.trim() !== ''
       && this.contractName.trim() !== ''
-      && this.answeredCount === this.totalQuestions;
+      && this.answeredCount > 0;
   }
 
   applyScenario(scenario: 'ideal' | 'average' | 'weak') {
@@ -672,6 +733,11 @@ export class AssessmentComponent implements OnInit {
 
   onSubmit() {
     if (!this.canSubmit || this.submitting) return;
+    this.showConfirmDialog = true;
+  }
+
+  confirmSubmit() {
+    this.showConfirmDialog = false;
     this.submitting = true;
 
     const request: AssessmentRequest = {
@@ -691,5 +757,17 @@ export class AssessmentComponent implements OnInit {
         this.submitting = false;
       }
     });
+  }
+
+  cancelSubmit() {
+    this.showConfirmDialog = false;
+  }
+
+  get unansweredCount(): number {
+    return this.totalQuestions - this.answeredCount;
+  }
+
+  get isComplete(): boolean {
+    return this.answeredCount === this.totalQuestions;
   }
 }

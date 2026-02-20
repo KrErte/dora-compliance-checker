@@ -11,7 +11,10 @@ interface HistoryEntry {
   complianceLevel: 'GREEN' | 'YELLOW' | 'RED';
   assessmentDate: string;
   compliantCount: number;
+  partialCount?: number;
+  nonCompliantCount?: number;
   totalQuestions: number;
+  pillarScores?: { [id: string]: number };
 }
 
 interface LeaderboardEntry extends HistoryEntry {
@@ -182,22 +185,22 @@ interface ChartPoint {
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">{{ lang.t('dashboard.critical_gaps') }}</p>
-                <span class="text-4xl font-extrabold" [class]="redCount > 0 ? 'text-red-400' : 'text-emerald-400'">{{ redCount }}</span>
-                <p class="text-xs mt-1" [class]="redCount > 0 ? 'text-red-400/70' : 'text-emerald-400/70'">
-                  {{ redCount > 0 ? lang.t('dashboard.needs_attention') : lang.t('dashboard.no_gaps') }}
+                <span class="text-4xl font-extrabold" [class]="criticalGapsCount > 0 ? 'text-red-400' : 'text-emerald-400'">{{ criticalGapsCount }}</span>
+                <p class="text-xs mt-1" [class]="criticalGapsCount > 0 ? 'text-red-400/70' : 'text-emerald-400/70'">
+                  {{ criticalGapsCount > 0 ? lang.t('dashboard.needs_attention') : lang.t('dashboard.no_gaps') }}
                 </p>
               </div>
               <div class="w-10 h-10 rounded-lg shrink-0 flex items-center justify-center"
-                   [class]="redCount > 0 ? 'bg-red-500/10 border border-red-500/20' : 'bg-emerald-500/10 border border-emerald-500/20'">
-                <svg class="w-5 h-5" [class]="redCount > 0 ? 'text-red-400' : 'text-emerald-400'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                   [class]="criticalGapsCount > 0 ? 'bg-red-500/10 border border-red-500/20' : 'bg-emerald-500/10 border border-emerald-500/20'">
+                <svg class="w-5 h-5" [class]="criticalGapsCount > 0 ? 'text-red-400' : 'text-emerald-400'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
                 </svg>
               </div>
             </div>
             <div class="mt-3">
               <svg class="w-full h-8" viewBox="0 0 120 32" preserveAspectRatio="none">
-                <path [attr.d]="sparklineRedPath" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-                <path [attr.d]="sparklineRedArea" fill="#f87171" opacity="0.08"/>
+                <path [attr.d]="sparklineGapsPath" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                <path [attr.d]="sparklineGapsArea" fill="#f87171" opacity="0.08"/>
               </svg>
             </div>
           </div>
@@ -542,8 +545,8 @@ export class DashboardComponent implements OnInit {
   sparklineTotalArea = '';
   sparklineScorePath = '';
   sparklineScoreArea = '';
-  sparklineRedPath = '';
-  sparklineRedArea = '';
+  sparklineGapsPath = '';
+  sparklineGapsArea = '';
 
   lastUpdated = '';
 
@@ -593,6 +596,21 @@ export class DashboardComponent implements OnInit {
   get yellowCount(): number { return this.history.filter(h => h.complianceLevel === 'YELLOW').length; }
   get redCount(): number { return this.history.filter(h => h.complianceLevel === 'RED').length; }
 
+  get criticalGapsCount(): number {
+    if (this.history.length === 0) return 0;
+    const latest = this.history[0]; // history is newest-first
+    return this.getGapsForEntry(latest);
+  }
+
+  getGapsForEntry(entry: HistoryEntry): number {
+    // Use nonCompliantCount + partialCount if saved (new format)
+    if (entry.nonCompliantCount != null) {
+      return entry.nonCompliantCount + (entry.partialCount ?? 0);
+    }
+    // Fallback: recalculate from totalQuestions - compliantCount
+    return Math.max(0, entry.totalQuestions - entry.compliantCount);
+  }
+
   get recentCount(): number {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -621,17 +639,19 @@ export class DashboardComponent implements OnInit {
   // --- DORA 5 Pillars ---
 
   buildPillarData() {
+    const latest = this.history.length > 0 ? this.history[0] : null;
     const avgPct = this.avgScore;
     const pillars = [
-      { icon: '\u{1F6E1}\uFE0F', labelKey: 'dashboard.pillar_risk', base: 0.90 },
-      { icon: '\u{1F4CB}', labelKey: 'dashboard.pillar_incidents', base: 0.85 },
-      { icon: '\u{1F50D}', labelKey: 'dashboard.pillar_testing', base: 0.80 },
-      { icon: '\u{1F91D}', labelKey: 'dashboard.pillar_third_party', base: 1.0 },
-      { icon: '\u{1F4E1}', labelKey: 'dashboard.pillar_info', base: 0.75 }
+      { id: 'ICT_RISK_MANAGEMENT', icon: '\u{1F6E1}\uFE0F', labelKey: 'dashboard.pillar_risk', fallback: 0.90 },
+      { id: 'INCIDENT_MANAGEMENT', icon: '\u{1F4CB}', labelKey: 'dashboard.pillar_incidents', fallback: 0.85 },
+      { id: 'TESTING', icon: '\u{1F50D}', labelKey: 'dashboard.pillar_testing', fallback: 0.80 },
+      { id: 'THIRD_PARTY', icon: '\u{1F91D}', labelKey: 'dashboard.pillar_third_party', fallback: 1.0 },
+      { id: 'INFORMATION_SHARING', icon: '\u{1F4E1}', labelKey: 'dashboard.pillar_info', fallback: 0.75 }
     ];
 
     this.pillarData = pillars.map(p => {
-      const pct = Math.min(100, Math.max(0, avgPct * p.base));
+      // Use real per-pillar scores from latest assessment if available
+      const pct = latest?.pillarScores?.[p.id] ?? Math.min(100, Math.max(0, avgPct * p.fallback));
       const circumference = 238.76;
       const color = pct >= 75 ? '#34d399' : (pct >= 50 ? '#fbbf24' : '#f87171');
       return {
@@ -692,8 +712,8 @@ export class DashboardComponent implements OnInit {
       this.sparklineTotalArea = 'M0,16 L120,16 L120,32 L0,32 Z';
       this.sparklineScorePath = 'M0,16 L120,16';
       this.sparklineScoreArea = 'M0,16 L120,16 L120,32 L0,32 Z';
-      this.sparklineRedPath = 'M0,28 L120,28';
-      this.sparklineRedArea = 'M0,28 L120,28 L120,32 L0,32 Z';
+      this.sparklineGapsPath = 'M0,28 L120,28';
+      this.sparklineGapsArea = 'M0,28 L120,28 L120,32 L0,32 Z';
       return;
     }
 
@@ -714,18 +734,15 @@ export class DashboardComponent implements OnInit {
     this.sparklineScorePath = scorePoints.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x},${p.y}`).join(' ');
     this.sparklineScoreArea = `${this.sparklineScorePath} L120,32 L0,32 Z`;
 
-    // Red count sparkline
-    let redRunning = 0;
-    const maxRed = Math.max(1, this.redCount);
-    const redPoints = entries.map((e, i) => {
-      if (e.complianceLevel === 'RED') redRunning++;
-      return {
-        x: (i / (entries.length - 1)) * 120,
-        y: 28 - (redRunning / maxRed) * 24
-      };
-    });
-    this.sparklineRedPath = redPoints.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x},${p.y}`).join(' ');
-    this.sparklineRedArea = `${this.sparklineRedPath} L120,32 L0,32 Z`;
+    // Gaps sparkline — gap count per assessment over time
+    const gapCounts = entries.map(e => this.getGapsForEntry(e));
+    const maxGaps = Math.max(1, ...gapCounts);
+    const gapPoints = gapCounts.map((g, i) => ({
+      x: (i / (entries.length - 1)) * 120,
+      y: 28 - (g / maxGaps) * 24
+    }));
+    this.sparklineGapsPath = gapPoints.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x},${p.y}`).join(' ');
+    this.sparklineGapsArea = `${this.sparklineGapsPath} L120,32 L0,32 Z`;
   }
 
   // --- Deficiencies ---

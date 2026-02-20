@@ -6,6 +6,7 @@ import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Title, Meta } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 import { AuthService } from '../auth/auth.service';
+import { ApiService } from '../api.service';
 import { SubscriptionService } from '../services/subscription.service';
 import { UpgradeModalComponent } from '../components/upgrade-modal.component';
 
@@ -143,6 +144,24 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
                 <p class="text-slate-400 mb-2">{{ lang.t('workspace.drag_drop') }}</p>
                 <p class="text-xs text-slate-500">PDF, DOCX (max 10MB)</p>
               </div>
+
+              <!-- Sample contract button -->
+              <div *ngIf="!selectedFile" class="mt-4 flex items-center gap-3">
+                <div class="flex-1 h-px bg-slate-700/50"></div>
+                <span class="text-xs text-slate-600">{{ lang.t('workspace.or_divider') }}</span>
+                <div class="flex-1 h-px bg-slate-700/50"></div>
+              </div>
+              <button *ngIf="!selectedFile" type="button" (click)="loadSampleContract()" [disabled]="loadingSample"
+                      class="mt-3 w-full py-3 px-4 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2
+                             bg-emerald-500/10 border border-emerald-500/30 text-emerald-400
+                             hover:bg-emerald-500/20 hover:shadow-lg hover:shadow-emerald-500/10
+                             disabled:opacity-50 disabled:cursor-not-allowed">
+                <svg *ngIf="!loadingSample" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <div *ngIf="loadingSample" class="w-4 h-4 border-2 border-emerald-400/30 border-t-emerald-400 rounded-full animate-spin"></div>
+                {{ loadingSample ? lang.t('workspace.loading_sample') : lang.t('workspace.try_sample') }}
+              </button>
 
               <div *ngIf="selectedFile" class="mt-4 p-4 rounded-xl bg-slate-900/30 border border-slate-700/50">
                 <div class="flex items-center justify-between">
@@ -422,6 +441,7 @@ export class WorkspaceComponent implements OnInit {
   selectedRegulations: string[] = ['DORA_ART30'];
   analyzing = false;
   uploadProgress = 0;
+  loadingSample = false;
 
   currentStep: 1 | 2 = 1;
 
@@ -462,7 +482,8 @@ export class WorkspaceComponent implements OnInit {
     private titleService: Title,
     private meta: Meta,
     public auth: AuthService,
-    public subscriptionService: SubscriptionService
+    public subscriptionService: SubscriptionService,
+    private api: ApiService
   ) {}
 
   ngOnInit(): void {
@@ -527,6 +548,24 @@ export class WorkspaceComponent implements OnInit {
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
     }
+  }
+
+  loadSampleContract(): void {
+    this.loadingSample = true;
+    this.api.getSampleContract().subscribe({
+      next: (blob) => {
+        this.selectedFile = new File([blob], 'sample_ikt_leping.pdf', { type: 'application/pdf' });
+        this.projectName = this.lang.currentLang === 'et' ? 'IKT pilveteenuse leping 2025' : 'ICT Cloud Service Contract 2025';
+        // Ensure DORA Art. 30 is selected
+        if (!this.selectedRegulations.includes('DORA_ART30')) {
+          this.selectedRegulations.push('DORA_ART30');
+        }
+        this.loadingSample = false;
+      },
+      error: () => {
+        this.loadingSample = false;
+      }
+    });
   }
 
   formatFileSize(bytes: number): string {

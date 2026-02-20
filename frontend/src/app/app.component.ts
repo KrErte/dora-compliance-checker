@@ -6,6 +6,7 @@ import { Subscription, filter } from 'rxjs';
 import { LangService } from './lang.service';
 import { AuthService } from './auth/auth.service';
 import { TrackingService } from './tracking.service';
+import { SubscriptionService } from './services/subscription.service';
 import { CookieConsentComponent } from './components/cookie-consent/cookie-consent.component';
 import { OnboardingComponent } from './pages/onboarding.component';
 
@@ -138,13 +139,20 @@ import { OnboardingComponent } from './pages/onboarding.component';
             </a>
           }
           <div class="w-px h-5 bg-slate-700/50 mx-0.5"></div>
-          <!-- Lang toggle (flag only) -->
+          <!-- Lang toggle (pill with globe icon) -->
           <button type="button" (click)="lang.toggle()"
                   [attr.aria-label]="lang.currentLang === 'et' ? 'Switch to English' : 'Vaheta eesti keelele'"
-                  class="px-2 py-1.5 rounded-lg text-sm hover:bg-slate-700/30 transition-all duration-200"
+                  class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium
+                         border border-slate-600/50 text-slate-300 hover:border-emerald-500/50 hover:text-emerald-400
+                         hover:bg-slate-700/30 transition-all duration-200"
                   [title]="lang.currentLang === 'et' ? 'English' : 'Eesti'">
-            {{ lang.currentLang === 'et' ? '&#127466;&#127466;' : '&#127468;&#127463;' }}
+            <svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>
+            </svg>
+            {{ lang.currentLang === 'et' ? 'ET' : 'EN' }}
           </button>
+          <!-- Separator between lang and user -->
+          <div class="w-px h-5 bg-slate-700/50 mx-1"></div>
           <!-- User avatar / Auth -->
           @if (auth.isLoggedIn()) {
             <div class="relative">
@@ -160,6 +168,13 @@ import { OnboardingComponent } from './pages/onboarding.component';
                    class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
                   {{ lang.t('nav.my_account') }}
                 </a>
+                <button type="button" (click)="restartTour(); userMenu = false"
+                        class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                  </svg>
+                  {{ lang.t('onboarding.restart_tour') }}
+                </button>
                 <button type="button" (click)="auth.logout(); userMenu = false"
                         class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-red-400 hover:bg-slate-700/30 transition-colors">
                   {{ lang.t('auth.logout') }}
@@ -241,6 +256,13 @@ import { OnboardingComponent } from './pages/onboarding.component';
               <a routerLink="/dashboard" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.dashboard') }}</a>
               <span class="text-xs text-slate-500 px-3 mt-1 block">{{ auth.user()?.email }}</span>
+              <button type="button" (click)="restartTour(); mobileMenu = false"
+                      class="w-full text-left text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 mt-1 flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                </svg>
+                {{ lang.t('onboarding.restart_tour') }}
+              </button>
               <button type="button" (click)="auth.logout(); mobileMenu = false"
                       class="w-full text-left text-sm text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 mt-1">{{ lang.t('auth.logout') }}</button>
             </div>
@@ -254,8 +276,11 @@ import { OnboardingComponent } from './pages/onboarding.component';
           }
           <div class="border-t border-slate-700/50 mt-2 pt-2">
             <button type="button" (click)="lang.toggle(); mobileMenu = false"
-                    class="w-full text-left text-sm text-slate-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              {{ lang.currentLang === 'et' ? '&#127468;&#127463; English' : '&#127466;&#127466; Eesti' }}
+                    class="w-full text-left text-sm text-slate-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
+              <svg class="w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>
+              </svg>
+              {{ lang.currentLang === 'et' ? 'English (EN)' : 'Eesti (ET)' }}
             </button>
           </div>
         </div>
@@ -329,7 +354,7 @@ import { OnboardingComponent } from './pages/onboarding.component';
       </div>
     </footer>
     <app-cookie-consent></app-cookie-consent>
-    <app-onboarding *ngIf="showOnboarding" [isOverlay]="true" (completed)="showOnboarding = false"></app-onboarding>
+    <app-onboarding *ngIf="showOnboarding" (completed)="showOnboarding = false"></app-onboarding>
   `
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -390,6 +415,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private meta: Meta,
     private trackingService: TrackingService,
+    private subscriptionService: SubscriptionService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) platformId: Object
   ) {
@@ -424,8 +450,9 @@ export class AppComponent implements OnInit, OnDestroy {
       // Track initial page view
       this.trackingService.trackPageView(this.router.url);
 
-      // Show onboarding modal on first login only
-      if (!localStorage.getItem('onboarding_complete') && this.auth.isLoggedIn()) {
+      // Show onboarding wizard on first Enterprise login
+      if (!localStorage.getItem('onboarding_complete') && this.auth.isLoggedIn()
+          && this.subscriptionService.currentPlan() === 'ENTERPRISE') {
         this.showOnboarding = true;
       }
     }
@@ -503,6 +530,11 @@ export class AppComponent implements OnInit, OnDestroy {
   closeAllMenus() {
     this.toolsMenu = false;
     this.userMenu = false;
+  }
+
+  restartTour() {
+    localStorage.removeItem('onboarding_complete');
+    this.showOnboarding = true;
   }
 
   onDocumentClick(event: Event) {

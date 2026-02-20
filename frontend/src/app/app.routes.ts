@@ -27,6 +27,11 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'scope-check',
+    redirectTo: 'nis2/scope-check',
+    pathMatch: 'full'
+  },
+  {
     path: 'sign-in',
     redirectTo: 'login',
     pathMatch: 'full'

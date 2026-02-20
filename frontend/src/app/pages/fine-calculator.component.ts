@@ -102,13 +102,15 @@ interface FineResult {
           <label class="block text-sm font-medium text-slate-300">{{ lang.t('fine.employees') }} *</label>
           <input type="number"
                  [(ngModel)]="employees"
+                 (blur)="employeesTouched = true"
                  min="1"
-                 placeholder="50"
+                 [placeholder]="lang.t('fine.employees_placeholder')"
                  class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border text-white
                         focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 transition-all
                         [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                 [ngClass]="showValidation && (!employees || employees <= 0) ? 'border-red-500/60' : 'border-slate-600/50'" />
-          <p class="text-xs text-slate-500">{{ lang.t('fine.employees_hint') }}</p>
+                 [ngClass]="(employeesTouched || showValidation) && (!employees || employees <= 0) ? 'border-red-500/60' : 'border-slate-600/50'" />
+          <p *ngIf="!((employeesTouched || showValidation) && (!employees || employees <= 0))" class="text-xs text-slate-500">{{ lang.t('fine.employees_hint') }}</p>
+          <p *ngIf="(employeesTouched || showValidation) && (!employees || employees <= 0)" class="text-xs text-red-400">{{ lang.t('fine.employees_error') }}</p>
         </div>
 
         <!-- Country -->
@@ -454,7 +456,7 @@ export class FineCalculatorComponent implements OnInit {
 
   companyType = '';
   revenue = 10000000;
-  employees: number | null = null;
+  employees: number | null = 50;
   country = '';
   q1: boolean | null = null;
   q2: boolean | null = null;
@@ -467,6 +469,7 @@ export class FineCalculatorComponent implements OnInit {
   emailSent = false;
   showValidation = false;
   shakeButton = false;
+  employeesTouched = false;
 
   constructor(
     public lang: LangService,
@@ -542,19 +545,21 @@ export class FineCalculatorComponent implements OnInit {
     }
     this.showValidation = false;
 
-    // Calculate base fine based on company type
+    // Calculate fine boundaries based on DORA penalty framework
     let minFine: number;
     let maxFine: number;
 
     if (this.companyType === 'ict_provider') {
-      // Critical ICT providers: up to €5,000,000
+      // Critical ICT providers: DORA Art. 35 — up to €5,000,000
       minFine = 100000;
       maxFine = 5000000;
     } else {
-      // Financial entities: up to 2% of turnover or at least €1,000,000
+      // Financial entities: DORA Art. 50-51 — up to 2% of annual worldwide
+      // turnover or €1,000,000 for legal persons, whichever is higher
       const twoPercentRevenue = this.revenue * 0.02;
-      minFine = 1000000;
       maxFine = Math.max(twoPercentRevenue, 1000000);
+      // Regulatory floor: realistic minimum fine (~5% of max, at least €50K)
+      minFine = Math.max(50000, Math.round(maxFine * 0.05));
     }
 
     // Calculate risk score based on compliance gaps
@@ -590,10 +595,18 @@ export class FineCalculatorComponent implements OnInit {
       riskLevel = 'low';
     }
 
-    // Calculate likely range based on risk score
+    // Company size factor — larger firms face proportionally higher penalties
+    const sizeFactor = this.employees! <= 50 ? 0.7
+                     : this.employees! <= 250 ? 0.85
+                     : this.employees! <= 1000 ? 1.0
+                     : 1.15;
+
+    // Calculate likely range based on risk score, company size, and fine boundaries
     const riskMultiplier = riskScore / 100;
-    const likelyMin = Math.round(minFine + (maxFine - minFine) * riskMultiplier * 0.3);
-    const likelyMax = Math.round(minFine + (maxFine - minFine) * riskMultiplier * 0.8);
+    const adjustedMultiplier = Math.min(1, riskMultiplier * sizeFactor);
+    const fineRange = maxFine - minFine;
+    const likelyMin = Math.round(minFine + fineRange * adjustedMultiplier * 0.3);
+    const likelyMax = Math.round(minFine + fineRange * adjustedMultiplier * 0.8);
 
     this.result = {
       minFine,

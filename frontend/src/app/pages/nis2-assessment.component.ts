@@ -104,6 +104,31 @@ interface AssessmentResult {
         {{ lang.t('nis2_assess.draft_restored') }}
       </div>
 
+      <!-- Scenario buttons -->
+      <div *ngIf="!loading && !error && domains.length > 0" class="flex flex-wrap gap-2 mb-6 animate-fade-in-up delay-100">
+        <span class="text-xs text-slate-500 self-center mr-1">Demo:</span>
+        <button type="button" (click)="applyScenario('ideal')"
+                class="px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20
+                       hover:bg-emerald-500/20 transition-all duration-200">
+          {{ lang.t('nis2_assess.scenario_ideal') }}
+        </button>
+        <button type="button" (click)="applyScenario('average')"
+                class="px-3 py-1.5 rounded-lg text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20
+                       hover:bg-amber-500/20 transition-all duration-200">
+          {{ lang.t('nis2_assess.scenario_average') }}
+        </button>
+        <button type="button" (click)="applyScenario('weak')"
+                class="px-3 py-1.5 rounded-lg text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20
+                       hover:bg-red-500/20 transition-all duration-200">
+          {{ lang.t('nis2_assess.scenario_weak') }}
+        </button>
+        <button type="button" (click)="clearAll()"
+                class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-700/50 text-slate-400 border border-slate-600/30
+                       hover:bg-slate-600/50 transition-all duration-200">
+          {{ lang.t('nis2_assess.clear') }}
+        </button>
+      </div>
+
       <!-- Domain tabs -->
       <div *ngIf="!loading && !error && domains.length > 0" class="animate-fade-in-up">
         <div class="flex flex-wrap gap-2 mb-6">
@@ -559,5 +584,44 @@ export class Nis2AssessmentComponent implements OnInit {
   closeResult() {
     this.result = null;
     this.router.navigate(['/']);
+  }
+
+  applyScenario(scenario: 'ideal' | 'average' | 'weak') {
+    let questionIndex = 0;
+    for (const domain of this.domains) {
+      for (const q of domain.questions) {
+        switch (scenario) {
+          case 'ideal':
+            // Maturity 4-5: mostly 5s with some 4s
+            this.answers[q.id] = questionIndex % 4 === 0 ? 4 : 5;
+            break;
+          case 'average':
+            // Mixed 2-4: mostly 3s with some 2s and 4s
+            const avgMod = questionIndex % 5;
+            if (avgMod < 1) {
+              this.answers[q.id] = 2;
+            } else if (avgMod < 3) {
+              this.answers[q.id] = 3;
+            } else {
+              this.answers[q.id] = 4;
+            }
+            break;
+          case 'weak':
+            // Mostly 1-2: mostly 1s with some 2s
+            this.answers[q.id] = questionIndex % 3 === 0 ? 2 : 1;
+            break;
+        }
+        questionIndex++;
+      }
+    }
+    this.autoSave();
+  }
+
+  clearAll() {
+    this.answers = {};
+    this.hasDraft = false;
+    this.activeDomain = 0;
+    localStorage.removeItem('nis2_assessment_progress');
+    localStorage.removeItem('nis2_draft');
   }
 }

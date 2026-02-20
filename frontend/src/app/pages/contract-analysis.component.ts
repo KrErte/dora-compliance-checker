@@ -6,6 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
 import { AuthService } from '../auth/auth.service';
+import { SubscriptionService } from '../services/subscription.service';
 import { PaywallService } from '../services/paywall.service';
 import { PAYMENT_CONFIG } from '../config/payment.config';
 import { ContractAnalysisResult } from '../models';
@@ -14,6 +15,43 @@ import { ContractAnalysisResult } from '../models';
   selector: 'app-contract-analysis',
   imports: [CommonModule, FormsModule],
   template: `
+    <!-- Cached result banner -->
+    <div *ngIf="showCachedBanner && !analyzing && !result" class="mb-6 animate-fade-in">
+      <div class="glass-card p-5 border-cyan-500/30">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div class="flex items-center gap-3 flex-1 min-w-0">
+            <div class="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center shrink-0">
+              <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+            <div class="min-w-0">
+              <p class="text-sm font-semibold text-slate-200">{{ lang.t('contract.cached_title') }}</p>
+              <p class="text-xs text-slate-400 truncate">{{ cachedFileName }} &middot; {{ lang.t('contract.cached_desc') }}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <button type="button" (click)="viewCachedResults()"
+                    class="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-cyan-500
+                           text-slate-900 hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25
+                           transition-all duration-300 flex items-center gap-1.5">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+              </svg>
+              {{ lang.t('contract.view_cached') }}
+            </button>
+            <button type="button" (click)="startFreshAnalysis()"
+                    class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-300
+                           border border-slate-600/30 hover:bg-slate-600/50 hover:text-emerald-400
+                           transition-all duration-200">
+              {{ lang.t('contract.run_new') }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Upload Form -->
     <div *ngIf="!analyzing && !result" class="animate-fade-in-up">
 
@@ -501,9 +539,34 @@ import { ContractAnalysisResult } from '../models';
         </div>
       </div>
 
+      <!-- Premium: Direct PDF download banner -->
+      <div *ngIf="emailCaptured && !subscriptionService.shouldShowEmailGate()" class="glass-card p-5 mb-6 border-emerald-500/20 bg-gradient-to-br from-emerald-500/5 to-cyan-500/5">
+        <div class="flex flex-col sm:flex-row items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center shrink-0">
+            <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <div class="flex-1 text-center sm:text-left">
+            <h3 class="text-sm font-semibold text-slate-200 mb-0.5">{{ lang.t('contract.pdf_ready_title') }}</h3>
+            <p class="text-xs text-slate-400">{{ lang.t('contract.pdf_ready_desc') }}</p>
+          </div>
+          <button type="button" (click)="downloadPdf()"
+                  class="px-5 py-2.5 rounded-lg font-semibold text-sm whitespace-nowrap
+                         bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
+                         hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all
+                         flex items-center gap-2 shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            {{ lang.t('contract.download_pdf') }}
+          </button>
+        </div>
+      </div>
+
       <!-- Action buttons -->
       <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
-        <!-- PDF download - requires email -->
+        <!-- PDF download - direct for premium users -->
         <button type="button" *ngIf="emailCaptured" (click)="downloadPdf()"
                 class="px-6 py-2.5 rounded-lg font-medium text-sm bg-gradient-to-r from-emerald-500 to-cyan-500
                        text-slate-900 hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-300
@@ -513,7 +576,7 @@ import { ContractAnalysisResult } from '../models';
           </svg>
           {{ lang.t('contract.download_pdf') }}
         </button>
-        <!-- PDF download - locked until email -->
+        <!-- PDF download - locked until email (Free users only) -->
         <div *ngIf="!emailCaptured" class="flex items-center gap-2">
           <div class="glass-card px-4 py-2.5 rounded-lg border border-slate-600/50 flex items-center gap-3">
             <input type="email" [(ngModel)]="email" [placeholder]="lang.t('contract.email_placeholder')"
@@ -551,6 +614,9 @@ export class ContractAnalysisComponent implements OnInit {
   email = '';
   emailCaptured = false;
   showValidation = false;
+  showCachedBanner = false;
+  private cachedResult: ContractAnalysisResult | null = null;
+  cachedFileName = '';
 
   // Clause suggestions mapped to API requirement IDs
   private clauseMap: { [id: string]: { et: string; en: string } } = {
@@ -595,6 +661,7 @@ export class ContractAnalysisComponent implements OnInit {
     private api: ApiService,
     public lang: LangService,
     public auth: AuthService,
+    public subscriptionService: SubscriptionService,
     private route: ActivatedRoute,
     public paywall: PaywallService,
     private titleService: Title
@@ -602,11 +669,20 @@ export class ContractAnalysisComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('DORA lepinguanalüüs — Art. 30 vastavus | DoraAudit.eu');
+
+    // Premium/Enterprise users skip the email gate entirely
+    if (!this.subscriptionService.shouldShowEmailGate()) {
+      this.emailCaptured = true;
+    }
+
+    // Check for cached analysis result
+    this.loadCachedResult();
+
     this.route.queryParams.subscribe(params => {
       if (params['sample'] === 'true') {
         this.autoDemo = true;
       }
-      // Handle generated contract from Contract Generator
+      // Handle generated contract from Contract Generator — load file but don't auto-analyze
       if (params['generated'] === 'true') {
         this.loadGeneratedContract();
       }
@@ -624,12 +700,9 @@ export class ContractAnalysisComponent implements OnInit {
       this.companyName = this.lang.currentLang === 'et' ? 'Minu ettevõte' : 'My Company';
       this.contractName = contractName || (this.lang.currentLang === 'et' ? 'Genereeritud DORA leping' : 'Generated DORA Contract');
 
-      // Clear sessionStorage
+      // Clear sessionStorage so it doesn't reload on next visit
       sessionStorage.removeItem('generatedContract');
       sessionStorage.removeItem('generatedContractName');
-
-      // Auto-submit for analysis
-      setTimeout(() => this.onSubmit(), 100);
     }
   }
 
@@ -734,13 +807,16 @@ export class ContractAnalysisComponent implements OnInit {
   onSubmit() {
     if (!this.canSubmit || !this.selectedFile) return;
     this.showValidation = false;
+    this.showCachedBanner = false;
     this.analyzing = true;
     this.error = '';
+    const fileName = this.selectedFile.name;
     this.api.analyzeContract(this.selectedFile, this.companyName, this.contractName)
       .subscribe({
         next: (res) => {
           this.result = res;
           this.analyzing = false;
+          this.cacheResult(res, fileName);
         },
         error: () => {
           this.error = 'Analysis failed';
@@ -779,6 +855,7 @@ export class ContractAnalysisComponent implements OnInit {
         ]
       };
       this.analyzing = false;
+      this.cacheResult(this.result!, 'demo_contract.pdf');
     }, 1500);
   }
 
@@ -789,6 +866,8 @@ export class ContractAnalysisComponent implements OnInit {
     this.error = '';
     this.companyName = '';
     this.contractName = '';
+    this.showCachedBanner = false;
+    sessionStorage.removeItem('dora_contract_cache');
   }
 
   downloadPdf() {
@@ -855,5 +934,40 @@ export class ContractAnalysisComponent implements OnInit {
       printWindow.document.close();
       setTimeout(() => printWindow.print(), 500);
     }
+  }
+
+  private cacheResult(result: ContractAnalysisResult, fileName: string) {
+    try {
+      sessionStorage.setItem('dora_contract_cache', JSON.stringify({
+        result,
+        fileName,
+        cachedAt: new Date().toISOString()
+      }));
+    } catch {}
+  }
+
+  private loadCachedResult() {
+    try {
+      const cached = JSON.parse(sessionStorage.getItem('dora_contract_cache') || 'null');
+      if (cached?.result) {
+        this.cachedResult = cached.result;
+        this.cachedFileName = cached.fileName || '';
+        this.showCachedBanner = true;
+      }
+    } catch {}
+  }
+
+  viewCachedResults() {
+    if (this.cachedResult) {
+      this.result = this.cachedResult;
+      this.showCachedBanner = false;
+    }
+  }
+
+  startFreshAnalysis() {
+    this.showCachedBanner = false;
+    this.cachedResult = null;
+    this.cachedFileName = '';
+    sessionStorage.removeItem('dora_contract_cache');
   }
 }

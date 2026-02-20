@@ -63,6 +63,14 @@ export class SubscriptionService {
   }
 
   /**
+   * Whether the email gate should be shown (only for FREE users).
+   * STANDARD and ENTERPRISE subscribers skip the email gate.
+   */
+  shouldShowEmailGate(): boolean {
+    return this.status().plan === 'FREE' && !this.isPremium();
+  }
+
+  /**
    * Check if user can access a specific feature
    */
   canAccess(feature: PremiumFeature): boolean {
