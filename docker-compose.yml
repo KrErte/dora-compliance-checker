@@ -58,6 +58,8 @@ services:
     build: ./backend
     container_name: dora-backend
     restart: unless-stopped
+    volumes:
+      - branding_data:/app/data/branding
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
@@ -116,3 +118,4 @@ volumes:
   umami_postgres_data:
   caddy_data:
   caddy_config:
+  branding_data:

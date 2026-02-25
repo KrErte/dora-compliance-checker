@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
@@ -29,7 +30,7 @@ public class BrandingController {
     private static final Set<String> ALLOWED_TYPES = Set.of(
             "image/png", "image/jpeg", "image/jpg", "image/svg+xml"
     );
-    private static final String LOGO_BASE_DIR = "data/branding/logos";
+    private static final String LOGO_BASE_DIR = "/app/data/branding/logos";
 
     private final UserBrandingRepository brandingRepository;
     private final SubscriptionGuardService subscriptionGuard;
@@ -142,14 +143,16 @@ public class BrandingController {
 
             // Delete existing logo files
             if (Files.exists(logoDir)) {
-                Files.list(logoDir).forEach(p -> {
-                    try { Files.deleteIfExists(p); } catch (IOException ignored) {}
-                });
+                try (var stream = Files.list(logoDir)) {
+                    stream.forEach(p -> {
+                        try { Files.deleteIfExists(p); } catch (IOException ignored) {}
+                    });
+                }
             }
 
             String extension = getExtension(file.getOriginalFilename(), contentType);
             Path logoPath = logoDir.resolve("logo" + extension);
-            file.transferTo(logoPath.toFile());
+            Files.copy(file.getInputStream(), logoPath, StandardCopyOption.REPLACE_EXISTING);
 
             UserBrandingEntity branding = brandingRepository.findByUserId(userId)
                     .orElseGet(() -> {
