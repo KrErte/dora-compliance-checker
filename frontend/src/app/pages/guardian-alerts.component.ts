@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Subscription, interval, switchMap } from 'rxjs';
 import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
 import { ContractAlert } from '../models';
@@ -96,10 +97,11 @@ import { ContractAlert } from '../models';
     </div>
   `
 })
-export class GuardianAlertsComponent implements OnInit {
+export class GuardianAlertsComponent implements OnInit, OnDestroy {
   alerts: ContractAlert[] = [];
   loading = true;
   filter: 'unread' | 'all' = 'unread';
+  private pollingSub?: Subscription;
 
   constructor(public lang: LangService, private api: ApiService) {}
 
@@ -113,6 +115,18 @@ export class GuardianAlertsComponent implements OnInit {
         this.loading = false;
       }
     });
+
+    this.pollingSub = interval(30000).pipe(
+      switchMap(() => this.api.getAlerts())
+    ).subscribe({
+      next: (alerts) => {
+        this.alerts = alerts;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.pollingSub?.unsubscribe();
   }
 
   get unreadCount(): number {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { PdfBrandingHelper } from './pdf-branding.helper';
 
 export interface RoiVendor {
   id: string;
@@ -21,6 +22,8 @@ export interface RoiVendor {
 
 @Injectable({ providedIn: 'root' })
 export class RoiExportService {
+
+  constructor(private pdfBranding: PdfBrandingHelper) {}
 
   /**
    * Export vendors to EBA RoI CSV format (B_02.01 simplified)
@@ -77,10 +80,13 @@ export class RoiExportService {
   exportToPdf(vendors: RoiVendor[], companyName: string): void {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
+    const branding = this.pdfBranding.getHeaderConfigSync();
+    const [cr, cg, cb] = branding.primaryColor;
+    const brandName = branding.companyName;
 
     // Header
     doc.setFontSize(20);
-    doc.setTextColor(34, 197, 94); // Emerald green
+    doc.setTextColor(cr, cg, cb);
     doc.text('Register of Information', 14, 20);
 
     doc.setFontSize(12);
@@ -140,7 +146,7 @@ export class RoiExportService {
       ]),
       theme: 'striped',
       headStyles: {
-        fillColor: [34, 197, 94],
+        fillColor: [cr, cg, cb],
         textColor: [255, 255, 255],
         fontStyle: 'bold',
         fontSize: 8
@@ -168,7 +174,7 @@ export class RoiExportService {
       doc.setFontSize(8);
       doc.setTextColor(148, 163, 184);
       doc.text(
-        `Genereeritud DoraAudit.eu | ${new Date().toISOString().split('T')[0]} | Leht ${i}/${pageCount}`,
+        `Genereeritud ${brandName} | ${new Date().toISOString().split('T')[0]} | Leht ${i}/${pageCount}`,
         14,
         doc.internal.pageSize.getHeight() - 10
       );

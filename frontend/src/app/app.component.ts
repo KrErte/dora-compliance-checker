@@ -168,6 +168,15 @@ import { OnboardingComponent } from './pages/onboarding.component';
                    class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
                   {{ lang.t('nav.my_account') }}
                 </a>
+                @if (subscriptionService.isPremium()) {
+                  <a routerLink="/settings/branding" (click)="userMenu = false"
+                     class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                    </svg>
+                    {{ lang.currentLang === 'et' ? 'Brändi seaded' : 'Branding Settings' }}
+                  </a>
+                }
                 @if (auth.isAdmin()) {
                   <a routerLink="/admin/users" (click)="userMenu = false"
                      class="flex items-center gap-2 px-4 py-2 text-sm text-amber-400 hover:text-amber-300 hover:bg-slate-700/30 transition-colors">
@@ -265,6 +274,15 @@ import { OnboardingComponent } from './pages/onboarding.component';
             <div class="border-t border-slate-700/50 mt-2 pt-2">
               <a routerLink="/dashboard" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.dashboard') }}</a>
+              @if (subscriptionService.isPremium()) {
+                <a routerLink="/settings/branding" (click)="mobileMenu = false"
+                   class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                  </svg>
+                  {{ lang.currentLang === 'et' ? 'Brändi seaded' : 'Branding Settings' }}
+                </a>
+              }
               @if (auth.isAdmin()) {
                 <a routerLink="/admin/users" (click)="mobileMenu = false"
                    class="text-sm text-amber-400 hover:text-amber-300 px-3 py-2 rounded-lg hover:bg-slate-700/30">Admin Panel</a>
@@ -400,7 +418,8 @@ export class AppComponent implements OnInit, OnDestroy {
     '/vendors': { et: 'ICT Teenusepakkujate Andmebaas | DoraAudit.eu', en: 'ICT Vendor Database | DoraAudit.eu' },
     '/supply-chain': { et: 'Supply Chain Nerve Center | DoraAudit.eu', en: 'Supply Chain Nerve Center | DoraAudit.eu' },
     '/dashboard': { et: 'Juhtpaneel | DoraAudit.eu', en: 'Dashboard | DoraAudit.eu' },
-    '/welcome': { et: 'Tere tulemast | DoraAudit.eu', en: 'Welcome | DoraAudit.eu' }
+    '/welcome': { et: 'Tere tulemast | DoraAudit.eu', en: 'Welcome | DoraAudit.eu' },
+    '/settings/branding': { et: 'Brändi Seaded | DoraAudit.eu', en: 'Branding Settings | DoraAudit.eu' }
   };
 
   private pageDescriptions: { [path: string]: { et: string; en: string } } = {
@@ -429,7 +448,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private meta: Meta,
     private trackingService: TrackingService,
-    private subscriptionService: SubscriptionService,
+    public subscriptionService: SubscriptionService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) platformId: Object
   ) {

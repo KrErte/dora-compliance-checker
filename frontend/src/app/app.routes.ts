@@ -209,6 +209,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/terms.component').then(m => m.TermsComponent)
   },
   {
+    path: 'settings/branding',
+    loadComponent: () => import('./pages/branding-settings.component').then(m => m.BrandingSettingsComponent),
+    canActivate: [authGuard]
+  },
+  {
     path: 'admin/users',
     loadComponent: () => import('./pages/admin-users.component').then(m => m.AdminUsersComponent),
     canActivate: [adminGuard]

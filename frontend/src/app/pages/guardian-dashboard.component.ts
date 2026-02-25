@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Subscription, interval, switchMap } from 'rxjs';
 import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
 import { MonitoredContract } from '../models';
@@ -23,6 +24,17 @@ import { MonitoredContract } from '../models';
             {{ lang.t('guardian.title') }}
           </h1>
           <p class="text-slate-400 text-sm mt-1">{{ lang.t('guardian.subtitle') }}</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <!-- Live indicator -->
+          <div *ngIf="pollingActive" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+            </span>
+            <span class="text-[10px] font-medium text-emerald-400">Live</span>
+          </div>
+          <span *ngIf="lastUpdated" class="text-[10px] text-slate-500">{{ lastUpdated | date:'HH:mm:ss' }}</span>
         </div>
         <div class="flex gap-2">
           <a routerLink="/guardian/alerts"
@@ -114,15 +126,23 @@ import { MonitoredContract } from '../models';
     </div>
   `
 })
-export class GuardianDashboardComponent implements OnInit {
+export class GuardianDashboardComponent implements OnInit, OnDestroy {
   contracts: MonitoredContract[] = [];
   loading = true;
   reanalyzingId = '';
+  pollingActive = false;
+  lastUpdated: Date | null = null;
+  private pollingSub?: Subscription;
 
   constructor(public lang: LangService, private api: ApiService) {}
 
   ngOnInit() {
     this.loadContracts();
+    this.startPolling();
+  }
+
+  ngOnDestroy() {
+    this.pollingSub?.unsubscribe();
   }
 
   loadContracts() {
@@ -130,9 +150,22 @@ export class GuardianDashboardComponent implements OnInit {
       next: (contracts) => {
         this.contracts = contracts;
         this.loading = false;
+        this.lastUpdated = new Date();
       },
       error: () => {
         this.loading = false;
+      }
+    });
+  }
+
+  private startPolling() {
+    this.pollingActive = true;
+    this.pollingSub = interval(30000).pipe(
+      switchMap(() => this.api.getMonitoredContracts())
+    ).subscribe({
+      next: (contracts) => {
+        this.contracts = contracts;
+        this.lastUpdated = new Date();
       }
     });
   }
