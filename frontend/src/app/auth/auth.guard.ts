@@ -13,6 +13,20 @@ export const authGuard: CanActivateFn = (route, state) => {
   return router.createUrlTree(['/login']);
 };
 
+export const adminGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (authService.isLoggedIn() && authService.isAdmin()) {
+    return true;
+  }
+  if (!authService.isLoggedIn()) {
+    sessionStorage.setItem('dora_returnUrl', state.url);
+    return router.createUrlTree(['/login']);
+  }
+  return router.createUrlTree(['/dashboard']);
+};
+
 export const guestGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);

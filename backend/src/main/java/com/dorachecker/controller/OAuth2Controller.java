@@ -111,7 +111,7 @@ public class OAuth2Controller {
             UserEntity user = findOrCreateOAuthUser(email, name, googleId, UserEntity.AuthProvider.GOOGLE);
 
             // Generate JWT
-            String token = jwtService.generateToken(user.getId(), user.getEmail());
+            String token = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole().name());
 
             // Redirect to frontend with token
             response.sendRedirect(frontendUrl + "/oauth/callback?token=" + URLEncoder.encode(token, StandardCharsets.UTF_8));
@@ -155,7 +155,7 @@ public class OAuth2Controller {
             UserEntity user = findOrCreateOAuthUser(email, name, microsoftId, UserEntity.AuthProvider.MICROSOFT);
 
             // Generate JWT
-            String token = jwtService.generateToken(user.getId(), user.getEmail());
+            String token = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole().name());
 
             // Redirect to frontend with token
             response.sendRedirect(frontendUrl + "/oauth/callback?token=" + URLEncoder.encode(token, StandardCharsets.UTF_8));

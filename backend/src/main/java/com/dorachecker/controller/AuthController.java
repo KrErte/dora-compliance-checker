@@ -54,7 +54,7 @@ public class AuthController {
 
         userRepository.save(user);
 
-        String token = jwtService.generateToken(user.getId(), user.getEmail());
+        String token = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole().name());
         return ResponseEntity.ok(new AuthResponse(
             token,
             user.getId(),
@@ -63,7 +63,8 @@ public class AuthController {
             user.isEarlyAdopter(),
             user.getEarlyAdopterNumber(),
             user.getAccountTier().name(),
-            user.getTrialEndDate()
+            user.getTrialEndDate(),
+            user.getRole().name()
         ));
     }
 
@@ -84,7 +85,7 @@ public class AuthController {
             userRepository.save(user);
         }
 
-        String token = jwtService.generateToken(user.getId(), user.getEmail());
+        String token = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole().name());
         return ResponseEntity.ok(new AuthResponse(
             token,
             user.getId(),
@@ -93,7 +94,8 @@ public class AuthController {
             user.isEarlyAdopter(),
             user.getEarlyAdopterNumber(),
             user.getAccountTier().name(),
-            user.getTrialEndDate()
+            user.getTrialEndDate(),
+            user.getRole().name()
         ));
     }
 
@@ -118,7 +120,8 @@ public class AuthController {
                         user.isEarlyAdopter(),
                         user.getEarlyAdopterNumber(),
                         user.getAccountTier().name(),
-                        user.getTrialEndDate()
+                        user.getTrialEndDate(),
+                        user.getRole().name()
                     ));
                 })
                 .orElse(ResponseEntity.status(401).body(null));

@@ -26,11 +26,12 @@ public class AuthDtos {
             boolean earlyAdopter,
             Integer earlyAdopterNumber,
             String accountTier,
-            LocalDate trialEndDate
+            LocalDate trialEndDate,
+            String role
     ) {
         // Backward compatible constructor
         public AuthResponse(String token, String userId, String email, String fullName) {
-            this(token, userId, email, fullName, false, null, "FREE", null);
+            this(token, userId, email, fullName, false, null, "FREE", null, "USER");
         }
     }
 }

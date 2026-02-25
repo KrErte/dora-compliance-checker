@@ -168,6 +168,16 @@ import { OnboardingComponent } from './pages/onboarding.component';
                    class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
                   {{ lang.t('nav.my_account') }}
                 </a>
+                @if (auth.isAdmin()) {
+                  <a routerLink="/admin/users" (click)="userMenu = false"
+                     class="flex items-center gap-2 px-4 py-2 text-sm text-amber-400 hover:text-amber-300 hover:bg-slate-700/30 transition-colors">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    Admin Panel
+                  </a>
+                }
                 <button type="button" (click)="restartTour(); userMenu = false"
                         class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -255,6 +265,10 @@ import { OnboardingComponent } from './pages/onboarding.component';
             <div class="border-t border-slate-700/50 mt-2 pt-2">
               <a routerLink="/dashboard" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.dashboard') }}</a>
+              @if (auth.isAdmin()) {
+                <a routerLink="/admin/users" (click)="mobileMenu = false"
+                   class="text-sm text-amber-400 hover:text-amber-300 px-3 py-2 rounded-lg hover:bg-slate-700/30">Admin Panel</a>
+              }
               <span class="text-xs text-slate-500 px-3 mt-1 block">{{ auth.user()?.email }}</span>
               <button type="button" (click)="restartTour(); mobileMenu = false"
                       class="w-full text-left text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 mt-1 flex items-center gap-2">

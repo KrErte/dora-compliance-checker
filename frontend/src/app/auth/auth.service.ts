@@ -12,6 +12,7 @@ export class AuthService {
 
   user = this.currentUser.asReadonly();
   isLoggedIn = computed(() => this.currentUser() !== null);
+  isAdmin = computed(() => this.currentUser()?.role === 'ADMIN');
 
   constructor(private http: HttpClient, private router: Router) {
     this.loadFromStorage();
@@ -51,7 +52,8 @@ export class AuthService {
           email: res.email,
           fullName: res.fullName,
           accountTier: res.accountTier,
-          trialEndDate: res.trialEndDate
+          trialEndDate: res.trialEndDate,
+          role: res.role
         };
         localStorage.setItem(this.USER_KEY, JSON.stringify(user));
         this.currentUser.set(user);
@@ -61,7 +63,7 @@ export class AuthService {
 
   private handleAuth(res: AuthResponse): void {
     localStorage.setItem(this.TOKEN_KEY, res.token);
-    const user: AuthUser = { userId: res.userId, email: res.email, fullName: res.fullName };
+    const user: AuthUser = { userId: res.userId, email: res.email, fullName: res.fullName, role: res.role };
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
     this.currentUser.set(user);
   }

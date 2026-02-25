@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, guestGuard } from './auth/auth.guard';
+import { authGuard, adminGuard, guestGuard } from './auth/auth.guard';
 
 // DORA Article 30 ICT Contract Compliance Engine
 // Core: Assessment, Contract Audit, Results, Methodology, History
@@ -207,6 +207,11 @@ export const routes: Routes = [
   {
     path: 'terms',
     loadComponent: () => import('./pages/terms.component').then(m => m.TermsComponent)
+  },
+  {
+    path: 'admin/users',
+    loadComponent: () => import('./pages/admin-users.component').then(m => m.AdminUsersComponent),
+    canActivate: [adminGuard]
   },
   {
     path: '**',

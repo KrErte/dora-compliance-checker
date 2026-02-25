@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class UserEntity {
 
     public enum Role { USER, ADMIN }
-    public enum AccountTier { FREE, PREMIUM }
+    public enum AccountTier { FREE, PREMIUM, STANDARD, ENTERPRISE }
     public enum AuthProvider { LOCAL, GOOGLE, MICROSOFT }
 
     @Id
