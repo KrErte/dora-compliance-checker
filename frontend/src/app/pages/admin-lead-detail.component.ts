@@ -210,17 +210,17 @@ import { AdminService, LeadCompany } from '../services/admin.service';
 
             <div class="flex items-center gap-4 mb-4">
               <label class="text-xs text-slate-400">Language:</label>
-              <button (click)="outreachLang = 'ET'" class="px-3 py-1 text-xs rounded-lg transition-colors"
-                      [class]="outreachLang === 'ET' ? 'bg-emerald-600 text-white' : 'bg-slate-700 text-slate-400 hover:text-white'">
+              <button (click)="outreachLang.set('ET')" class="px-3 py-1 text-xs rounded-lg transition-colors"
+                      [class]="outreachLang() === 'ET' ? 'bg-emerald-600 text-white' : 'bg-slate-700 text-slate-400 hover:text-white'">
                 Estonian
               </button>
-              <button (click)="outreachLang = 'EN'" class="px-3 py-1 text-xs rounded-lg transition-colors"
-                      [class]="outreachLang === 'EN' ? 'bg-emerald-600 text-white' : 'bg-slate-700 text-slate-400 hover:text-white'">
+              <button (click)="outreachLang.set('EN')" class="px-3 py-1 text-xs rounded-lg transition-colors"
+                      [class]="outreachLang() === 'EN' ? 'bg-emerald-600 text-white' : 'bg-slate-700 text-slate-400 hover:text-white'">
                 English
               </button>
               <div class="flex-1"></div>
               <label class="text-xs text-slate-400">Contact name:</label>
-              <input type="text" [(ngModel)]="outreachName" placeholder="Name"
+              <input type="text" [ngModel]="outreachName()" (ngModelChange)="outreachName.set($event)" placeholder="Name"
                      class="w-40 bg-slate-700 border border-slate-600 text-slate-200 text-sm rounded-lg px-3 py-1.5 focus:border-emerald-500 focus:outline-none" />
             </div>
 
@@ -252,8 +252,8 @@ export class AdminLeadDetailComponent implements OnInit {
 
   edit: any = {};
   editLastContactedDate = '';
-  outreachLang: 'ET' | 'EN' = 'EN';
-  outreachName = '';
+  outreachLang = signal<'ET' | 'EN'>('EN');
+  outreachName = signal('');
 
   private id = '';
 
@@ -266,11 +266,11 @@ export class AdminLeadDetailComponent implements OnInit {
   generatedMessage = computed(() => {
     const l = this.lead();
     if (!l) return '';
-    const name = this.outreachName || '[NAME]';
+    const name = this.outreachName() || '[NAME]';
     const company = l.companyName || '[COMPANY]';
     const license = this.formatLicense(l.licenseType) || 'financial entity';
 
-    if (this.outreachLang === 'ET') {
+    if (this.outreachLang() === 'ET') {
       return `Tere ${name}! ${company} kui ${license} peab vastama DORA n\u00F5uetele. L\u00F5ime platvormi mis aitab vastavust hinnata 5 min \u2014 https://doraaudit.eu/ Kristo, DoraAudit`;
     }
     return `Hi ${name}! As a ${license}, ${company} needs DORA compliance. We built a tool that assesses your readiness in 5 min \u2014 https://doraaudit.eu/ Kristo, DoraAudit`;
@@ -290,7 +290,7 @@ export class AdminLeadDetailComponent implements OnInit {
         this.lead.set(lead);
         this.edit = { ...lead };
         this.editLastContactedDate = lead.lastContactedAt ? lead.lastContactedAt.slice(0, 10) : '';
-        this.outreachName = lead.ctoName || lead.complianceOfficerName || '';
+        this.outreachName.set(lead.ctoName || lead.complianceOfficerName || '');
         this.loading.set(false);
       },
       error: (err) => {
