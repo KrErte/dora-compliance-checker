@@ -4,6 +4,7 @@ import com.dorachecker.model.UserSubscriptionEntity;
 import com.dorachecker.model.UserSubscriptionRepository;
 import com.dorachecker.service.SubscriptionGuardService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -30,9 +31,16 @@ public class SubscriptionController {
      */
     @GetMapping("/status")
     public ResponseEntity<SubscriptionStatusResponse> getStatus(
-            @RequestHeader(value = "X-User-Id", required = false) String userId,
-            @RequestHeader(value = "X-Session-Id", required = false) String sessionId
+            @RequestHeader(value = "X-User-Id", required = false) String headerUserId,
+            @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
+            Authentication authentication
     ) {
+        // Prefer JWT-authenticated userId over header (more reliable)
+        String userId = headerUserId;
+        if ((userId == null || userId.isEmpty()) && authentication != null) {
+            userId = (String) authentication.getPrincipal();
+        }
+
         SubscriptionGuardService.SubscriptionStatus status = guardService.getStatus(userId, sessionId);
 
         return ResponseEntity.ok(new SubscriptionStatusResponse(
@@ -50,9 +58,14 @@ public class SubscriptionController {
     @GetMapping("/check/{feature}")
     public ResponseEntity<FeatureCheckResponse> checkFeature(
             @PathVariable String feature,
-            @RequestHeader(value = "X-User-Id", required = false) String userId,
-            @RequestHeader(value = "X-Session-Id", required = false) String sessionId
+            @RequestHeader(value = "X-User-Id", required = false) String headerUserId,
+            @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
+            Authentication authentication
     ) {
+        String userId = headerUserId;
+        if ((userId == null || userId.isEmpty()) && authentication != null) {
+            userId = (String) authentication.getPrincipal();
+        }
         try {
             SubscriptionGuardService.Feature featureEnum =
                     SubscriptionGuardService.Feature.valueOf(feature.toUpperCase());
@@ -82,9 +95,14 @@ public class SubscriptionController {
     @PostMapping("/verify")
     public ResponseEntity<?> verifyCheckout(
             @RequestBody VerifyCheckoutRequest request,
-            @RequestHeader(value = "X-User-Id", required = false) String userId,
-            @RequestHeader(value = "X-Session-Id", required = false) String sessionId
+            @RequestHeader(value = "X-User-Id", required = false) String headerUserId,
+            @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
+            Authentication authentication
     ) {
+        String userId = headerUserId;
+        if ((userId == null || userId.isEmpty()) && authentication != null) {
+            userId = (String) authentication.getPrincipal();
+        }
         if (request.checkoutId() == null || request.checkoutId().isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of(
                     "error", "INVALID_CHECKOUT",

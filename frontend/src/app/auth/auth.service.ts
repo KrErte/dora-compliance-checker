@@ -1,13 +1,12 @@
-import { Injectable, inject, signal, computed } from '@angular/core';
+import { Injectable, Injector, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { AuthResponse, AuthUser, LoginRequest, RegisterRequest } from './auth.models';
-import { SubscriptionService } from '../services/subscription.service';
+import type { SubscriptionService } from '../services/subscription.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private subscriptionService = inject(SubscriptionService);
   private currentUser = signal<AuthUser | null>(null);
   private readonly TOKEN_KEY = 'dora_token';
   private readonly USER_KEY = 'dora_user';
@@ -16,7 +15,7 @@ export class AuthService {
   isLoggedIn = computed(() => this.currentUser() !== null);
   isAdmin = computed(() => this.currentUser()?.role === 'ADMIN');
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private injector: Injector) {
     this.loadFromStorage();
   }
 
@@ -44,9 +43,7 @@ export class AuthService {
   }
 
   handleOAuthCallback(token: string): Observable<AuthResponse> {
-    // Store token first
     localStorage.setItem(this.TOKEN_KEY, token);
-    // Fetch user info using /me endpoint
     return this.http.get<AuthResponse>('/api/auth/me').pipe(
       tap(res => {
         const user: AuthUser = {
@@ -60,7 +57,7 @@ export class AuthService {
         };
         localStorage.setItem(this.USER_KEY, JSON.stringify(user));
         this.currentUser.set(user);
-        this.subscriptionService.refreshStatus();
+        this.refreshSubscription();
       })
     );
   }
@@ -76,7 +73,15 @@ export class AuthService {
     };
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
     this.currentUser.set(user);
-    this.subscriptionService.refreshStatus();
+    this.refreshSubscription();
+  }
+
+  private refreshSubscription(): void {
+    // Lazy resolve to avoid circular dependency at construction time
+    import('../services/subscription.service').then(m => {
+      const sub = this.injector.get(m.SubscriptionService);
+      sub.refreshStatus();
+    });
   }
 
   private loadFromStorage(): void {
