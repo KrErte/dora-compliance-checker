@@ -60,6 +60,10 @@ export class BrandingService {
     return '/api/branding/logo';
   }
 
+  getLogoBlob(): Observable<Blob> {
+    return this.http.get('/api/branding/logo', { responseType: 'blob' });
+  }
+
   getBrandingSnapshot(): BrandingSettings {
     return this.settings();
   }

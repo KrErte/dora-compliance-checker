@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -173,7 +173,7 @@ import { SubscriptionService } from '../services/subscription.service';
     </div>
   `
 })
-export class BrandingSettingsComponent implements OnInit {
+export class BrandingSettingsComponent implements OnInit, OnDestroy {
   settings: BrandingSettings = { companyName: '', primaryColorHex: '#22c55e', hasLogo: false };
   companyName = '';
   primaryColor = '#22c55e';
@@ -190,7 +190,8 @@ export class BrandingSettingsComponent implements OnInit {
   saveSuccess = false;
   saveError = '';
 
-  logoUrl = '/api/branding/logo';
+  logoUrl = '';
+  private logoBlobUrl = '';
 
   constructor(
     public lang: LangService,
@@ -199,20 +200,43 @@ export class BrandingSettingsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (this.subscriptionService.isPremium()) {
-      this.brandingService.loadBranding().subscribe({
-        next: (settings) => {
-          this.settings = settings;
-          this.companyName = settings.companyName || '';
-          this.primaryColor = settings.primaryColorHex || '#22c55e';
-          this.logoUrl = '/api/branding/logo?t=' + Date.now();
-          this.loading = false;
-        },
-        error: () => {
-          this.loading = false;
-        }
-      });
+    if (!this.subscriptionService.isPremium()) {
+      this.loading = false;
+      return;
     }
+    this.brandingService.loadBranding().subscribe({
+      next: (settings) => {
+        this.settings = settings;
+        this.companyName = settings.companyName || '';
+        this.primaryColor = settings.primaryColorHex || '#22c55e';
+        if (settings.hasLogo) {
+          this.loadLogoBlob();
+        }
+        this.loading = false;
+      },
+      error: () => {
+        this.loading = false;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.logoBlobUrl) {
+      URL.revokeObjectURL(this.logoBlobUrl);
+    }
+  }
+
+  private loadLogoBlob() {
+    this.brandingService.getLogoBlob().subscribe({
+      next: (blob) => {
+        if (this.logoBlobUrl) {
+          URL.revokeObjectURL(this.logoBlobUrl);
+        }
+        this.logoBlobUrl = URL.createObjectURL(blob);
+        this.logoUrl = this.logoBlobUrl;
+      },
+      error: () => {}
+    });
   }
 
   onDragOver(event: DragEvent) {
@@ -261,7 +285,7 @@ export class BrandingSettingsComponent implements OnInit {
       next: () => {
         this.logoSuccess = this.lang.currentLang === 'et' ? 'Logo edukalt üles laetud!' : 'Logo uploaded successfully!';
         this.settings.hasLogo = true;
-        this.logoUrl = '/api/branding/logo?t=' + Date.now();
+        this.loadLogoBlob();
       },
       error: (err) => {
         this.logoError = err.error?.error || (this.lang.currentLang === 'et' ? 'Logo üleslaadimine ebaonnestus' : 'Failed to upload logo');

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { Subscription, interval, switchMap } from 'rxjs';
+import { Subscription, interval, switchMap, catchError, of } from 'rxjs';
 import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
 import { MonitoredContract } from '../models';
@@ -34,7 +34,9 @@ import { MonitoredContract } from '../models';
             </span>
             <span class="text-[10px] font-medium text-emerald-400">Live</span>
           </div>
-          <span *ngIf="lastUpdated" class="text-[10px] text-slate-500">{{ lastUpdated | date:'HH:mm:ss' }}</span>
+          <span *ngIf="lastUpdated" class="text-[10px] text-slate-500">
+            {{ lang.currentLang === 'et' ? 'Uuendatud' : 'Last updated' }}: {{ lastUpdated | date:'HH:mm:ss' }}
+          </span>
         </div>
         <div class="flex gap-2">
           <a routerLink="/guardian/alerts"
@@ -161,7 +163,9 @@ export class GuardianDashboardComponent implements OnInit, OnDestroy {
   private startPolling() {
     this.pollingActive = true;
     this.pollingSub = interval(30000).pipe(
-      switchMap(() => this.api.getMonitoredContracts())
+      switchMap(() => this.api.getMonitoredContracts().pipe(
+        catchError(() => of(this.contracts))
+      ))
     ).subscribe({
       next: (contracts) => {
         this.contracts = contracts;

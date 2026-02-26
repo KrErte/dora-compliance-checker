@@ -53,6 +53,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/webhooks/**").permitAll()
                 .requestMatchers("/api/benchmarks/**").permitAll()
                 .requestMatchers("/api/global-providers/**").permitAll()
+                .requestMatchers("/api/branding/logo").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().permitAll()

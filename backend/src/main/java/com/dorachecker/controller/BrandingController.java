@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import org.springframework.lang.Nullable;
+
 @RestController
 @RequestMapping("/api/branding")
 public class BrandingController {
@@ -174,7 +176,10 @@ public class BrandingController {
     }
 
     @GetMapping("/logo")
-    public ResponseEntity<Resource> getLogo(Authentication auth) {
+    public ResponseEntity<Resource> getLogo(@Nullable Authentication auth) {
+        if (auth == null) {
+            return ResponseEntity.notFound().build();
+        }
         String userId = getUserId(auth);
 
         Optional<UserBrandingEntity> branding = brandingRepository.findByUserId(userId);
