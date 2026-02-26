@@ -385,7 +385,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   // Landing - Free Analysis CTA
   'landing.free_analysis_desc': { et: 'Kontrolli oma IKT-lepingut tasuta. Detailne raport koos soovituslike klauslitega — otse emailile.', en: 'Check your ICT contract for free. Detailed report with suggested clauses — straight to your email.' },
   'landing.free_analysis_cta': { et: 'Alusta analüüsi', en: 'Start analysis' },
-  'landing.trial_desc': { et: 'Registreeru ja proovi 30 päeva tasuta — täisfunktsionaalsus, ilma kohustuseta', en: 'Register and try 30 days free — full functionality, no obligation' },
+  'landing.trial_desc': { et: 'Registreeru ja proovi 14 päeva tasuta — täisfunktsionaalsus, ilma kohustuseta', en: 'Register and try 14 days free — full functionality, no obligation' },
   'landing.cta_register': { et: 'Registreeru', en: 'Start Free Trial' },
 
   // Early adopter trial
@@ -394,6 +394,10 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'trial.days_left': { et: 'päeva pärast', en: 'days' },
   'trial.upgrade_prompt': { et: 'Uuenda, et jätkata pärast trial perioodi', en: 'Upgrade to continue after trial period' },
   'trial.expired': { et: 'Trial on lõppenud', en: 'Trial has expired' },
+  'trial.banner_title': { et: 'Professional prooviaeg', en: 'Professional trial' },
+  'trial.banner_days_left': { et: 'päeva jäänud', en: 'days left' },
+  'trial.banner_features_active': { et: 'Kõik Professional funktsioonid on aktiivsed', en: 'All Professional features are active' },
+  'trial.banner_upgrade': { et: 'Uuenda plaani', en: 'Upgrade plan' },
 
   'landing.art30_explainer': { et: 'DORA Art. 30 sätestab 8 kohustuslikku nõuet, mis peavad sisalduma finantssektori ettevõtete ja IKT-teenusepakkujate vahelistes lepingutes. Mittevastavuse korral võib Finantsinspektsioon määrata trahvi kuni 2% aastasest käibest.', en: 'DORA Art. 30 establishes 8 mandatory requirements that must be included in contracts between financial sector companies and ICT service providers. Non-compliance may result in fines up to 2% of annual turnover by the Financial Supervisory Authority.' },
 
@@ -1166,10 +1170,10 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
 
   // Register - Early Adopter
   'register.early_adopter_banner': { et: 'Sa oled registreerija', en: 'You are registrant' },
-  'register.early_adopter_benefit': { et: 'Saad 30 päeva PREMIUM paketi tasuta!', en: 'You get 30 days PREMIUM for free!' },
+  'register.early_adopter_benefit': { et: 'Saad 14 päeva Professional paketi tasuta!', en: 'You get 14 days Professional for free!' },
   'register.success_early_title': { et: 'Palju õnne!', en: 'Congratulations!' },
   'register.success_early_number': { et: 'Oled early adopter', en: 'You are early adopter' },
-  'register.success_early_desc': { et: 'Sul on 30 päeva täielik ligipääs kõigile PREMIUM funktsioonidele tasuta.', en: 'You have 30 days full access to all PREMIUM features for free.' },
+  'register.success_early_desc': { et: 'Sul on 14 päeva täielik ligipääs kõigile Professional funktsioonidele tasuta.', en: 'You have 14 days full access to all Professional features for free.' },
   'register.success_title': { et: 'Registreerimine õnnestus!', en: 'Registration successful!' },
   'register.success_desc': { et: 'Sinu konto on loodud. Alusta kohe vastavuse hindamisega.', en: 'Your account has been created. Start your compliance assessment now.' },
   'register.start_now': { et: 'Alusta kohe', en: 'Start now' },

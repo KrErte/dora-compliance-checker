@@ -1,11 +1,13 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { AuthResponse, AuthUser, LoginRequest, RegisterRequest } from './auth.models';
+import { SubscriptionService } from '../services/subscription.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private subscriptionService = inject(SubscriptionService);
   private currentUser = signal<AuthUser | null>(null);
   private readonly TOKEN_KEY = 'dora_token';
   private readonly USER_KEY = 'dora_user';
@@ -58,6 +60,7 @@ export class AuthService {
         };
         localStorage.setItem(this.USER_KEY, JSON.stringify(user));
         this.currentUser.set(user);
+        this.subscriptionService.refreshStatus();
       })
     );
   }
@@ -73,6 +76,7 @@ export class AuthService {
     };
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
     this.currentUser.set(user);
+    this.subscriptionService.refreshStatus();
   }
 
   private loadFromStorage(): void {

@@ -55,15 +55,15 @@ interface ChartPoint {
               </svg>
             </div>
             <div>
-              <p class="text-sm font-semibold text-emerald-300">Professional prooviaeg</p>
-              <p class="text-xs text-slate-400">{{ subService.trialDaysLeft() }} p\u00e4eva j\u00e4\u00e4nud &middot; K\u00f5ik Professional funktsioonid on aktiivne</p>
+              <p class="text-sm font-semibold text-emerald-300">{{ lang.t('trial.banner_title') }}</p>
+              <p class="text-xs text-slate-400">{{ subService.trialDaysLeft() }} {{ lang.t('trial.banner_days_left') }} &middot; {{ lang.t('trial.banner_features_active') }}</p>
             </div>
           </div>
           <a routerLink="/pricing"
              class="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
                     text-slate-900 font-semibold px-5 py-2 rounded-lg transition-all duration-300
                     hover:shadow-lg hover:shadow-emerald-500/25 text-sm flex items-center gap-2 whitespace-nowrap">
-            Uuenda plaani
+            {{ lang.t('trial.banner_upgrade') }}
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
