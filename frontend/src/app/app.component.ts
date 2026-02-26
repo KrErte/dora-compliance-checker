@@ -186,6 +186,16 @@ import { OnboardingComponent } from './pages/onboarding.component';
                     </svg>
                     Admin Panel
                   </a>
+                  <a routerLink="/admin/leads" (click)="userMenu = false"
+                     class="flex items-center gap-2 px-4 py-2 text-sm text-amber-400 hover:text-amber-300 hover:bg-slate-700/30 transition-colors">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    Leads
+                  </a>
                 }
                 <button type="button" (click)="restartTour(); userMenu = false"
                         class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
@@ -286,6 +296,8 @@ import { OnboardingComponent } from './pages/onboarding.component';
               @if (auth.isAdmin()) {
                 <a routerLink="/admin/users" (click)="mobileMenu = false"
                    class="text-sm text-amber-400 hover:text-amber-300 px-3 py-2 rounded-lg hover:bg-slate-700/30">Admin Panel</a>
+                <a routerLink="/admin/leads" (click)="mobileMenu = false"
+                   class="text-sm text-amber-400 hover:text-amber-300 px-3 py-2 rounded-lg hover:bg-slate-700/30">Leads</a>
               }
               <span class="text-xs text-slate-500 px-3 mt-1 block">{{ auth.user()?.email }}</span>
               <button type="button" (click)="restartTour(); mobileMenu = false"
