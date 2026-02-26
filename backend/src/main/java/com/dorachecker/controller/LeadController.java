@@ -39,12 +39,13 @@ public class LeadController {
             @RequestParam(defaultValue = "desc") String sortDir) {
 
         Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
-        // Normalize empty strings to null to avoid Hibernate bytea cast issues with PostgreSQL
+        // Normalize empty strings to null; pre-process search with lowercase + wildcards
+        // to avoid Hibernate bytea cast issues with PostgreSQL LOWER()/CONCAT()
         String c = (country != null && !country.isEmpty()) ? country : null;
         String lt = (licenseType != null && !licenseType.isEmpty()) ? licenseType : null;
         String ls = (leadStatus != null && !leadStatus.isEmpty()) ? leadStatus : null;
         String s = (sector != null && !sector.isEmpty()) ? sector : null;
-        String q = (search != null && !search.isEmpty()) ? search : null;
+        String q = (search != null && !search.isEmpty()) ? "%" + search.toLowerCase() + "%" : null;
         Page<LeadCompanyEntity> result = leadRepo.findFiltered(
                 c, lt, ls, s, q,
                 PageRequest.of(page, size, sort));
@@ -106,7 +107,7 @@ public class LeadController {
         String lt = (licenseType != null && !licenseType.isEmpty()) ? licenseType : null;
         String ls = (leadStatus != null && !leadStatus.isEmpty()) ? leadStatus : null;
         String s = (sector != null && !sector.isEmpty()) ? sector : null;
-        String q = (search != null && !search.isEmpty()) ? search : null;
+        String q = (search != null && !search.isEmpty()) ? "%" + search.toLowerCase() + "%" : null;
         List<LeadCompanyEntity> leads = leadRepo.findAllFiltered(c, lt, ls, s, q);
 
         StringBuilder csv = new StringBuilder();

@@ -32,7 +32,7 @@ public interface LeadCompanyRepository extends JpaRepository<LeadCompanyEntity, 
            "(:licenseType IS NULL OR l.licenseType = :licenseType) AND " +
            "(:leadStatus IS NULL OR l.leadStatus = :leadStatus) AND " +
            "(:sector IS NULL OR l.sector = :sector) AND " +
-           "(:search IS NULL OR LOWER(l.companyName) LIKE LOWER(CONCAT('%', :search, '%')))")
+           "(:search IS NULL OR LOWER(l.companyName) LIKE :search)")
     Page<LeadCompanyEntity> findFiltered(
             @Param("country") String country,
             @Param("licenseType") String licenseType,
@@ -46,7 +46,7 @@ public interface LeadCompanyRepository extends JpaRepository<LeadCompanyEntity, 
            "(:licenseType IS NULL OR l.licenseType = :licenseType) AND " +
            "(:leadStatus IS NULL OR l.leadStatus = :leadStatus) AND " +
            "(:sector IS NULL OR l.sector = :sector) AND " +
-           "(:search IS NULL OR LOWER(l.companyName) LIKE LOWER(CONCAT('%', :search, '%')))")
+           "(:search IS NULL OR LOWER(l.companyName) LIKE :search)")
     List<LeadCompanyEntity> findAllFiltered(
             @Param("country") String country,
             @Param("licenseType") String licenseType,
