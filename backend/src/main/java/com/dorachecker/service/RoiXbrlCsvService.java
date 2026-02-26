@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -48,17 +47,15 @@ public class RoiXbrlCsvService {
     private List<String[]> generateEntityTable(String companyName, String leiCode, String reportDate) {
         List<String[]> rows = new ArrayList<>();
         rows.add(new String[]{
-            "B_01.01.0010", "B_01.01.0020", "B_01.01.0030", "B_01.01.0040",
-            "B_01.01.0050", "B_01.01.0060", "B_01.01.0070"
+            "LEI", "Entity_Name", "Country", "Type_Of_Entity", "Reporting_Date", "Reference_Date"
         });
         rows.add(new String[]{
-            safe(companyName),
             safe(leiCode),
+            safe(companyName),
             "EE",
             "CI",
             reportDate,
-            reportDate,
-            "EUR"
+            reportDate
         });
         return rows;
     }
@@ -67,24 +64,25 @@ public class RoiXbrlCsvService {
     private List<String[]> generateArrangementsTable(List<IctProviderEntity> providers) {
         List<String[]> rows = new ArrayList<>();
         rows.add(new String[]{
-            "B_02.01.0010", "B_02.01.0020", "B_02.01.0030", "B_02.01.0040",
-            "B_02.01.0050", "B_02.01.0060", "B_02.01.0070", "B_02.01.0080",
-            "B_02.01.0090", "B_02.01.0100", "B_02.01.0110"
+            "Contract_ID", "Provider_Name", "Contract_Start_Date", "Contract_End_Date",
+            "Contract_Type", "Criticality", "Governing_Law"
         });
         int seq = 1;
         for (IctProviderEntity p : providers) {
+            String criticality = "N";
+            if (p.isCritical() || "critical".equalsIgnoreCase(p.getCriticality())) {
+                criticality = "Critical";
+            } else if ("important".equalsIgnoreCase(p.getCriticality())) {
+                criticality = "Important";
+            }
             rows.add(new String[]{
                 String.format("ARR-%04d", seq++),
-                getProviderIdentifier(p),
                 safe(p.getProviderName()),
-                mapServiceCategory(p.getServiceType()),
                 formatDate(p.getContractStartDate()),
                 formatDate(p.getContractEndDate()),
-                p.isCritical() || "critical".equalsIgnoreCase(p.getCriticality()) ? "Y" : "N",
-                safe(p.getCountryCode()),
-                safe(p.getDataLocation()),
-                p.getSubcontractingInfo() != null && !p.getSubcontractingInfo().isEmpty() ? "Y" : "N",
-                p.getHasExitStrategy() != null && p.getHasExitStrategy() ? "Y" : "N"
+                mapServiceCategory(p.getServiceType()),
+                criticality,
+                safe(p.getCountryCode())
             });
         }
         return rows;
@@ -94,8 +92,7 @@ public class RoiXbrlCsvService {
     private List<String[]> generateProvidersTable(List<IctProviderEntity> providers) {
         List<String[]> rows = new ArrayList<>();
         rows.add(new String[]{
-            "B_03.01.0010", "B_03.01.0020", "B_03.01.0030", "B_03.01.0040",
-            "B_03.01.0050", "B_03.01.0060", "B_03.01.0070"
+            "Provider_ID", "Provider_Name", "LEI_Provider", "EUID", "Country", "Provider_Type"
         });
         // Deduplicate by provider name
         Map<String, IctProviderEntity> unique = new LinkedHashMap<>();
@@ -103,26 +100,12 @@ public class RoiXbrlCsvService {
             unique.putIfAbsent(p.getProviderName(), p);
         }
         for (IctProviderEntity p : unique.values()) {
-            String idType;
-            String idValue;
-            if (p.getLeiCode() != null && !p.getLeiCode().isEmpty()) {
-                idType = "LEI";
-                idValue = p.getLeiCode();
-            } else if (p.getEuid() != null && !p.getEuid().isEmpty()) {
-                idType = "EUID";
-                idValue = p.getEuid();
-            } else {
-                idType = "OTHER";
-                idValue = "GEN-" + p.getId().substring(0, Math.min(8, p.getId().length()));
-            }
-
             rows.add(new String[]{
                 getProviderIdentifier(p),
                 safe(p.getProviderName()),
-                idType,
-                idValue,
+                safe(p.getLeiCode()),
+                safe(p.getEuid()),
                 safe(p.getCountryCode()),
-                safe(p.getProviderCountry()),
                 p.isCritical() || "critical".equalsIgnoreCase(p.getCriticality()) ? "CTPP" : "NON-CTPP"
             });
         }
@@ -133,18 +116,26 @@ public class RoiXbrlCsvService {
     private List<String[]> generateServicesTable(List<IctProviderEntity> providers) {
         List<String[]> rows = new ArrayList<>();
         rows.add(new String[]{
-            "B_04.01.0010", "B_04.01.0020", "B_04.01.0030", "B_04.01.0040",
-            "B_04.01.0050"
+            "Service_ID", "Contract_ID", "Provider_ID", "Service_Type",
+            "Service_Description", "Criticality_Assessment"
         });
         int seq = 1;
         for (IctProviderEntity p : providers) {
+            String criticality = "Normal";
+            if (p.isCritical() || "critical".equalsIgnoreCase(p.getCriticality())) {
+                criticality = "Critical";
+            } else if ("important".equalsIgnoreCase(p.getCriticality())) {
+                criticality = "Important";
+            }
             rows.add(new String[]{
-                String.format("SVC-%04d", seq++),
-                String.format("ARR-%04d", seq - 1),
+                String.format("SVC-%04d", seq),
+                String.format("ARR-%04d", seq),
                 getProviderIdentifier(p),
                 mapServiceCategory(p.getServiceType()),
-                safe(p.getServiceDescription())
+                safe(p.getServiceDescription()),
+                criticality
             });
+            seq++;
         }
         return rows;
     }
@@ -153,16 +144,18 @@ public class RoiXbrlCsvService {
     private List<String[]> generateFunctionsTable(List<IctProviderEntity> providers) {
         List<String[]> rows = new ArrayList<>();
         rows.add(new String[]{
-            "B_05.01.0010", "B_05.01.0020", "B_05.01.0030", "B_05.01.0040"
+            "Function_ID", "Service_ID", "Function_Name", "Critical_Or_Important", "Business_Line"
         });
         int seq = 1;
         for (IctProviderEntity p : providers) {
             rows.add(new String[]{
-                String.format("FN-%04d", seq++),
-                String.format("ARR-%04d", seq - 1),
+                String.format("FN-%04d", seq),
+                String.format("SVC-%04d", seq),
                 mapFunctionType(p.getServiceType()),
-                p.isCritical() || "critical".equalsIgnoreCase(p.getCriticality()) ? "Y" : "N"
+                p.isCritical() || "critical".equalsIgnoreCase(p.getCriticality()) ? "Y" : "N",
+                mapServiceCategory(p.getServiceType())
             });
+            seq++;
         }
         return rows;
     }
@@ -171,18 +164,24 @@ public class RoiXbrlCsvService {
     private List<String[]> generateAssessmentsTable(List<IctProviderEntity> providers) {
         List<String[]> rows = new ArrayList<>();
         rows.add(new String[]{
-            "B_06.01.0010", "B_06.01.0020", "B_06.01.0030", "B_06.01.0040",
-            "B_06.01.0050"
+            "Assessment_ID", "Provider_ID", "Assessment_Date", "Risk_Level",
+            "Substitutability", "Data_Location"
         });
         int seq = 1;
         for (IctProviderEntity p : providers) {
             if (p.isCritical() || "critical".equalsIgnoreCase(p.getCriticality()) || "important".equalsIgnoreCase(p.getCriticality())) {
+                String riskLevel = "Medium";
+                if (p.getRiskScore() != null) {
+                    if (p.getRiskScore() >= 70) riskLevel = "High";
+                    else if (p.getRiskScore() <= 30) riskLevel = "Low";
+                }
                 rows.add(new String[]{
                     String.format("ASM-%04d", seq++),
                     getProviderIdentifier(p),
-                    safe(p.getProviderName()),
                     formatDate(p.getLastAssessmentDate()),
-                    p.getLastAssessmentDate() != null ? "COMPLETED" : "PENDING"
+                    riskLevel,
+                    p.getHasExitStrategy() != null && p.getHasExitStrategy() ? "Substitutable" : "Not_Easily_Substitutable",
+                    safe(p.getDataLocation())
                 });
             }
         }
@@ -250,13 +249,18 @@ public class RoiXbrlCsvService {
 
     private void addCsvToZip(ZipOutputStream zos, String filename, List<String[]> rows) throws IOException {
         zos.putNextEntry(new ZipEntry(filename));
-        zos.write(UTF8_BOM);
-        OutputStreamWriter writer = new OutputStreamWriter(zos, StandardCharsets.UTF_8);
+
+        // Build CSV content as a single byte array — avoids OutputStreamWriter buffering issues
+        StringBuilder sb = new StringBuilder();
         for (String[] row : rows) {
-            writer.write(Arrays.stream(row).map(this::escapeCsvField).collect(Collectors.joining(",")));
-            writer.write("\r\n");
+            sb.append(Arrays.stream(row).map(this::escapeCsvField).collect(Collectors.joining(",")));
+            sb.append("\r\n");
         }
-        writer.flush();
+        byte[] csvBytes = sb.toString().getBytes(StandardCharsets.UTF_8);
+
+        // Write BOM + CSV bytes directly to ZipOutputStream
+        zos.write(UTF8_BOM);
+        zos.write(csvBytes);
         zos.closeEntry();
     }
 
