@@ -187,6 +187,17 @@ export class ApiService {
   getContractBenchmark(score: number): Observable<BenchmarkData> {
     return this.http.get<BenchmarkData>(`${this.baseUrl}/benchmarks/contract/${score}`);
   }
+
+  // RoI xBRL-CSV Export
+  exportRoiXbrlCsv(companyName: string, leiCode?: string): Observable<Blob> {
+    const params: any = { companyName };
+    if (leiCode) params.leiCode = leiCode;
+    return this.http.get(`${this.baseUrl}/roi/export/xbrl-csv`, { params, responseType: 'blob' });
+  }
+
+  getRoiCompleteness(): Observable<RoiCompleteness> {
+    return this.http.get<RoiCompleteness>(`${this.baseUrl}/roi/completeness`);
+  }
 }
 
 export interface BenchmarkData {
@@ -218,6 +229,19 @@ export interface IctProvider {
   exitStrategyDescription?: string;
   subcontractingInfo?: string;
   createdAt: string;
+}
+
+export interface RoiCompleteness {
+  totalProviders: number;
+  completedFields: number;
+  totalFields: number;
+  percentage: number;
+  providers: {
+    id: string;
+    name: string;
+    completeness: number;
+    missingFields: string[];
+  }[];
 }
 
 export interface CreateIctProviderRequest {

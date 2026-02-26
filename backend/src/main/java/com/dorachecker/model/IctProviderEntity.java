@@ -78,6 +78,9 @@ public class IctProviderEntity {
     @Column(name = "exit_strategy_description", columnDefinition = "TEXT")
     private String exitStrategyDescription;
 
+    @Column(name = "euid", length = 50)
+    private String euid;
+
     @PrePersist
     protected void onCreate() {
         if (createdAt == null) createdAt = LocalDateTime.now();
@@ -158,4 +161,7 @@ public class IctProviderEntity {
 
     public String getExitStrategyDescription() { return exitStrategyDescription; }
     public void setExitStrategyDescription(String exitStrategyDescription) { this.exitStrategyDescription = exitStrategyDescription; }
+
+    public String getEuid() { return euid; }
+    public void setEuid(String euid) { this.euid = euid; }
 }

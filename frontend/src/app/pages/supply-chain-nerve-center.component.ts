@@ -8,10 +8,11 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Subject, debounceTime, distinctUntilChanged, switchMap, of, catchError, tap } from 'rxjs';
-import { ApiService, IctProvider, CreateIctProviderRequest } from '../api.service';
+import { ApiService, IctProvider, CreateIctProviderRequest, RoiCompleteness } from '../api.service';
 import { AuthService } from '../auth/auth.service';
 import { RoiExportService, RoiVendor } from '../services/roi-export.service';
 import { SubscriptionService } from '../services/subscription.service';
+import { LangService } from '../lang.service';
 
 interface CompanySearchResult {
   name: string;
@@ -300,6 +301,15 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                       <span class="option-icon">📄</span>
                       PDF kokkuvote
                     </button>
+                    <button class="export-option xbrl-option" (click)="exportRoiXbrlCsv()" [disabled]="isXbrlExporting()">
+                      <span class="option-icon">📋</span>
+                      @if (isXbrlExporting()) {
+                        {{ lang.t('roi.xbrl_exporting') }}
+                      } @else {
+                        {{ lang.t('roi.xbrl_export') }}
+                      }
+                      <span class="enterprise-badge">ENT</span>
+                    </button>
                   </div>
                 }
               </div>
@@ -522,6 +532,42 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                 </div>
               }
             </div>
+
+            <!-- xBRL-CSV Readiness Panel -->
+            @if (roiXbrlCompleteness()) {
+              <div class="xbrl-readiness-panel">
+                <div class="xbrl-readiness-header">
+                  <h3>{{ lang.t('roi.xbrl_completeness') }}</h3>
+                  <span class="xbrl-readiness-pct" [class.good]="roiXbrlCompleteness()!.percentage >= 80" [class.warn]="roiXbrlCompleteness()!.percentage >= 50 && roiXbrlCompleteness()!.percentage < 80" [class.bad]="roiXbrlCompleteness()!.percentage < 50">
+                    {{ roiXbrlCompleteness()!.percentage }}%
+                  </span>
+                </div>
+                <div class="xbrl-progress-bar">
+                  <div class="xbrl-progress-fill" [style.width.%]="roiXbrlCompleteness()!.percentage" [class.good]="roiXbrlCompleteness()!.percentage >= 80" [class.warn]="roiXbrlCompleteness()!.percentage >= 50 && roiXbrlCompleteness()!.percentage < 80" [class.bad]="roiXbrlCompleteness()!.percentage < 50"></div>
+                </div>
+                <div class="xbrl-progress-label">{{ roiXbrlCompleteness()!.completedFields }} / {{ roiXbrlCompleteness()!.totalFields }} {{ lang.t('roi.fields_completed') }}</div>
+
+                @if (roiXbrlCompleteness()!.providers.length > 0) {
+                  <div class="xbrl-provider-list">
+                    @for (p of roiXbrlCompleteness()!.providers; track p.id) {
+                      @if (p.missingFields.length > 0) {
+                        <div class="xbrl-provider-item">
+                          <div class="xbrl-provider-header">
+                            <span class="xbrl-provider-name">{{ p.name }}</span>
+                            <span class="xbrl-provider-pct" [class.good]="p.completeness >= 80" [class.warn]="p.completeness >= 50 && p.completeness < 80" [class.bad]="p.completeness < 50">{{ p.completeness }}%</span>
+                          </div>
+                          <div class="xbrl-missing-fields">
+                            @for (field of p.missingFields; track field) {
+                              <span class="xbrl-missing-tag">{{ getMissingFieldLabel(field) }}</span>
+                            }
+                          </div>
+                        </div>
+                      }
+                    }
+                  </div>
+                }
+              </div>
+            }
           </div>
         }
 
@@ -1912,6 +1958,125 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
       font-size: 14px;
     }
 
+    .xbrl-option {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .enterprise-badge {
+      font-size: 9px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #000;
+      padding: 2px 5px;
+      border-radius: 3px;
+      margin-left: auto;
+    }
+
+    .export-option:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* xBRL Readiness Panel */
+    .xbrl-readiness-panel {
+      margin-top: 24px;
+      background: rgba(30, 33, 40, 0.8);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .xbrl-readiness-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .xbrl-readiness-header h3 {
+      margin: 0;
+      font-size: 15px;
+      color: #e0e0e0;
+    }
+
+    .xbrl-readiness-pct {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .xbrl-readiness-pct.good, .xbrl-provider-pct.good { color: #22c55e; }
+    .xbrl-readiness-pct.warn, .xbrl-provider-pct.warn { color: #f59e0b; }
+    .xbrl-readiness-pct.bad, .xbrl-provider-pct.bad { color: #ef4444; }
+
+    .xbrl-progress-bar {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .xbrl-progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .xbrl-progress-fill.good { background: #22c55e; }
+    .xbrl-progress-fill.warn { background: #f59e0b; }
+    .xbrl-progress-fill.bad { background: #ef4444; }
+
+    .xbrl-progress-label {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 16px;
+    }
+
+    .xbrl-provider-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .xbrl-provider-item {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .xbrl-provider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .xbrl-provider-name {
+      font-size: 13px;
+      color: #e0e0e0;
+      font-weight: 500;
+    }
+
+    .xbrl-provider-pct {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .xbrl-missing-fields {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .xbrl-missing-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
     /* Vendor Search/Filter */
     .vendor-search {
       display: flex;
@@ -2963,6 +3128,11 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   private readonly roiExport = inject(RoiExportService);
   private readonly subscription = inject(SubscriptionService);
   private readonly http = inject(HttpClient);
+  readonly lang = inject(LangService);
+
+  // xBRL export state
+  readonly isXbrlExporting = signal(false);
+  readonly roiXbrlCompleteness = signal<RoiCompleteness | null>(null);
 
   // Company search with debounce
   private readonly companySearchSubject = new Subject<string>();
@@ -3315,6 +3485,9 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Load vendors from API if user is logged in
     this.loadVendorsFromApi();
+
+    // Load xBRL completeness
+    this.loadXbrlCompleteness();
 
     // Set up company name autocomplete with debounce
     this.companySearchSubject.pipe(
@@ -4126,6 +4299,53 @@ Teine AS;DE;Network;Oluline;LEP-002;2024-06-01;2026-05-31`;
 
     const roiVendors = this.vendorsToRoiFormat();
     this.roiExport.exportToPdf(roiVendors, 'MyCompany');
+  }
+
+  exportRoiXbrlCsv(): void {
+    this.showExportMenu.set(false);
+    this.isXbrlExporting.set(true);
+
+    const companyName = 'MyCompany'; // TODO: get from user profile
+    this.api.exportRoiXbrlCsv(companyName).subscribe({
+      next: (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+        a.download = `RoI_DORA_${companyName}_${date}.zip`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+        this.isXbrlExporting.set(false);
+      },
+      error: (err) => {
+        this.isXbrlExporting.set(false);
+        if (err.status === 403) {
+          alert(this.lang.t('roi.enterprise_required'));
+        } else {
+          alert('Export failed: ' + (err.error?.message || err.message));
+        }
+      }
+    });
+  }
+
+  private loadXbrlCompleteness(): void {
+    this.api.getRoiCompleteness().subscribe({
+      next: (result) => this.roiXbrlCompleteness.set(result),
+      error: () => {} // silently fail if not logged in
+    });
+  }
+
+  getMissingFieldLabel(field: string): string {
+    const labels: Record<string, string> = {
+      identifier: this.lang.t('roi.missing_lei'),
+      contractStartDate: this.lang.t('roi.missing_contract_start'),
+      criticality: this.lang.t('roi.missing_criticality'),
+      hasExitStrategy: this.lang.t('roi.missing_exit_strategy'),
+      providerName: 'Provider name',
+      countryCode: 'Country code',
+      serviceType: 'Service type',
+    };
+    return labels[field] || field;
   }
 
   private vendorsToRoiFormat(): RoiVendor[] {

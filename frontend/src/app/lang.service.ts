@@ -1824,6 +1824,18 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'onboarding.step5_title': { et: 'ICT teenusepakkujate seire', en: 'ICT Vendor Monitoring' },
   'onboarding.step5_desc': { et: 'Sirvige IKT teenusepakkujate andmebaasi, vaadake vastavushinnanguid ja lisage oma ettev\u00f5tte teenusepakkujad seiresse.', en: 'Browse the ICT vendor database, view compliance ratings, and add your company\u2019s vendors to monitoring.' },
   'onboarding.restart_tour': { et: 'Taask\u00e4ivita tutvustus', en: 'Restart Tour' },
+
+  // RoI xBRL-CSV Export
+  'roi.xbrl_export': { et: 'xBRL-CSV (regulatoorne)', en: 'xBRL-CSV (Regulatory)' },
+  'roi.xbrl_tooltip': { et: 'EBA Framework 4.0 formaadis eksport Finantsinspektsioonile esitamiseks', en: 'EBA Framework 4.0 format export for regulatory submission' },
+  'roi.xbrl_exporting': { et: 'Genereeritakse...', en: 'Generating...' },
+  'roi.xbrl_completeness': { et: 'xBRL-CSV valmidus', en: 'xBRL-CSV Readiness' },
+  'roi.fields_completed': { et: 'v\u00e4lja t\u00e4idetud', en: 'fields completed' },
+  'roi.missing_lei': { et: 'LEI/EUID identifikaator puudub', en: 'LEI/EUID identifier missing' },
+  'roi.missing_contract_start': { et: 'Lepingu alguskuup\u00e4ev puudub', en: 'Contract start date missing' },
+  'roi.missing_criticality': { et: 'Kriitilisuse tase puudub', en: 'Criticality level missing' },
+  'roi.missing_exit_strategy': { et: 'V\u00e4ljumisstrateegia puudub', en: 'Exit strategy missing' },
+  'roi.enterprise_required': { et: 'xBRL-CSV eksport on saadaval Enterprise plaanil', en: 'xBRL-CSV export is available on Enterprise plan' },
 };
 
 @Injectable({ providedIn: 'root' })
