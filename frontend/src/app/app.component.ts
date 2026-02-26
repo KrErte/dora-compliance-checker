@@ -435,11 +435,11 @@ export class AppComponent implements OnInit, OnDestroy {
   };
 
   private pageDescriptions: { [path: string]: { et: string; en: string } } = {
-    '/': { et: 'DORA ja NIS2 vastavuskontroll Eesti ettevõtetele. Tasuta NIS2 scope check, lepinguanalüüs ja juhatuse riskikalkulaator.', en: 'DORA and NIS2 compliance for European companies. Free NIS2 scope check, contract analysis and board risk calculator.' },
+    '/': { et: 'DORA ja NIS2 vastavuskontroll Baltikumi ettevõtetele. Tasuta NIS2 scope check, lepinguanalüüs ja juhatuse riskikalkulaator.', en: 'DORA and NIS2 compliance for Baltic companies. Free NIS2 scope check, contract analysis and board risk calculator.' },
     '/nis2/scope-check': { et: 'Kontrolli tasuta kas NIS2 direktiiv kohaldub sinu ettevõttele. Sisesta registrikood ja saa kohene tulemus.', en: 'Check for free if NIS2 directive applies to your company. Enter registry code and get instant results.' },
     '/board-risk': { et: 'NIS2 ja DORA juhatuse liikme isikliku vastutuse kalkulaator. Arvuta oma riskieksposuur 2 minutiga.', en: 'NIS2 and DORA board member personal liability calculator. Calculate your risk exposure in 2 minutes.' },
     '/assessment': { et: 'DORA täishindamine 37 küsimusega. Detailne tegevuskava ja PDF raport juhatusele.', en: 'Full DORA assessment with 37 questions. Detailed action plan and PDF report for the board.' },
-    '/nis2/assessment': { et: 'NIS2 vastavushindamine Eesti ettevõtetele. E-ITS ja KüTS nõuetele vastav tegevuskava.', en: 'NIS2 compliance assessment for Estonian companies. Action plan aligned with E-ITS and KüTS requirements.' },
+    '/nis2/assessment': { et: 'NIS2 vastavushindamine Baltikumi ettevõtetele. E-ITS ja KüTS nõuetele vastav tegevuskava.', en: 'NIS2 compliance assessment for Baltic companies. Action plan aligned with E-ITS and KüTS requirements.' },
     '/contract-analysis': { et: 'DORA Art. 30 lepinguanalüüs. Kontrolli kas sinu IKT-leping vastab regulatsiooni nõuetele.', en: 'DORA Art. 30 contract analysis. Check if your ICT contract meets regulatory requirements.' },
     '/pricing': { et: 'DoraAudit.eu hinnad. DORA ja NIS2 vastavuskontroll alates €149/kuu. Tasuta kiirkontroll, Professional €149, Business €299, Enterprise €499.', en: 'DoraAudit.eu pricing. DORA and NIS2 compliance from €149/month. Free quick check, Professional €149, Business €299, Enterprise €499.' },
     '/methodology': { et: 'DORA vastavushindamise metoodika. Kuidas hindame IKT-lepinguid Art. 30 nõuete vastu.', en: 'DORA compliance assessment methodology. How we evaluate ICT contracts against Art. 30 requirements.' },

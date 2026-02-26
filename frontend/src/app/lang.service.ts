@@ -590,8 +590,8 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.authority_title': { et: 'Usaldusväärne metoodika', en: 'Trusted Methodology' },
   'landing.authority_desc': { et: 'Metoodika põhineb Euroopa Liidu regulatsioonidel ja Eesti Riigi Infosüsteemi Ameti (RIA) juhistel.', en: 'Methodology is based on European Union regulations and Estonian Information System Authority (RIA) guidelines.' },
   'landing.authority_checks_done': { et: 'vastavuskontrolli on juba tehtud', en: 'compliance checks completed' },
-  'landing.authority_free_tool': { et: 'Tasuta tööriist Eesti ettevõtetele', en: 'Free tool for Estonian companies' },
-  'landing.mission_statement': { et: 'Aitame Eesti ettevõtetel DORA ja NIS2 vastavust saavutada', en: 'Helping Estonian companies achieve DORA and NIS2 compliance' },
+  'landing.authority_free_tool': { et: 'Tasuta tööriist Baltikumi ettevõtetele', en: 'Free tool for Baltic companies' },
+  'landing.mission_statement': { et: 'Aitame Baltikumi ettevõtetel DORA ja NIS2 vastavust saavutada', en: 'Helping Baltic companies achieve DORA and NIS2 compliance' },
 
   // Landing - Pillars hints
   'landing.pillars_hint': { et: 'Kliki sambale, et näha detailseid nõudeid', en: 'Click on a pillar to see detailed requirements' },
@@ -629,7 +629,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'landing.req7_desc': { et: 'Lepingu lõppemisel peab olema selge plaan teenuse üleminekuks, andmete tagastamiseks ja kustutamiseks kindlaks tähtajaks.', en: 'Upon contract termination, there must be a clear plan for service transition, data return and deletion by a specified deadline.' },
   'landing.req8_name': { et: 'Talitluspidevuse nõuded', en: 'Business continuity requirements' },
   'landing.req8_desc': { et: 'Teenusepakkujal peab olema dokumenteeritud talitluspidevuse plaan ja taastamiskava, mida regulaarselt testitakse.', en: 'Service provider must have a documented business continuity plan and recovery plan that is regularly tested.' },
-  'landing.badge_estonian': { et: 'Eesti ettevõtetele kohandatud', en: 'Tailored for Estonian companies' },
+  'landing.badge_estonian': { et: 'Baltikumi ettevõtetele kohandatud', en: 'Tailored for Baltic companies' },
   'landing.badge_ai': { et: 'AI-toega analüüs', en: 'AI-powered analysis' },
   'landing.badge_eu': { et: 'DORA ja NIS2 regulatsioonidel põhinev', en: 'Based on DORA and NIS2 regulations' },
   'landing.table_checked': { et: 'Kontrollitud', en: 'Checked' },
@@ -1187,7 +1187,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'footer.dora_text': { et: 'DORA tekst', en: 'DORA text' },
   'footer.privacy': { et: 'Privaatsus', en: 'Privacy' },
   'footer.terms': { et: 'Kasutustingimused', en: 'Terms of Service' },
-  'footer.tagline': { et: 'DORA ja NIS2 vastavuskontrolli platvorm Eesti ettevõtetele.', en: 'DORA and NIS2 compliance platform for Estonian companies.' },
+  'footer.tagline': { et: 'DORA ja NIS2 vastavuskontrolli platvorm Baltikumi ettevõtetele.', en: 'DORA and NIS2 compliance platform for Baltic companies.' },
   'footer.tools': { et: 'Tööriistad', en: 'Tools' },
   'footer.company': { et: 'Ettevõte', en: 'Company' },
   'footer.contact': { et: 'Kontakt', en: 'Contact' },
