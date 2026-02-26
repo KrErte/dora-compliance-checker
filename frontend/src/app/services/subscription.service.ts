@@ -238,16 +238,7 @@ export class SubscriptionService {
     if (sessionId) {
       headers = headers.set('X-Session-Id', sessionId);
     }
-    // Add user ID if logged in
-    const userJson = localStorage.getItem('dora_user');
-    if (userJson) {
-      try {
-        const user = JSON.parse(userJson);
-        if (user.userId) {
-          headers = headers.set('X-User-Id', user.userId);
-        }
-      } catch {}
-    }
+    // userId is derived from JWT on the backend — no need to send X-User-Id header
     return headers;
   }
 

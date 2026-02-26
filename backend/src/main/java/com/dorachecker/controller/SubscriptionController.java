@@ -31,15 +31,11 @@ public class SubscriptionController {
      */
     @GetMapping("/status")
     public ResponseEntity<SubscriptionStatusResponse> getStatus(
-            @RequestHeader(value = "X-User-Id", required = false) String headerUserId,
             @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
             Authentication authentication
     ) {
-        // Prefer JWT-authenticated userId over header (more reliable)
-        String userId = headerUserId;
-        if ((userId == null || userId.isEmpty()) && authentication != null) {
-            userId = (String) authentication.getPrincipal();
-        }
+        // Only trust JWT for userId — never trust client-supplied headers
+        String userId = authentication != null ? (String) authentication.getPrincipal() : null;
 
         SubscriptionGuardService.SubscriptionStatus status = guardService.getStatus(userId, sessionId);
 
@@ -58,14 +54,10 @@ public class SubscriptionController {
     @GetMapping("/check/{feature}")
     public ResponseEntity<FeatureCheckResponse> checkFeature(
             @PathVariable String feature,
-            @RequestHeader(value = "X-User-Id", required = false) String headerUserId,
             @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
             Authentication authentication
     ) {
-        String userId = headerUserId;
-        if ((userId == null || userId.isEmpty()) && authentication != null) {
-            userId = (String) authentication.getPrincipal();
-        }
+        String userId = authentication != null ? (String) authentication.getPrincipal() : null;
         try {
             SubscriptionGuardService.Feature featureEnum =
                     SubscriptionGuardService.Feature.valueOf(feature.toUpperCase());
@@ -95,14 +87,10 @@ public class SubscriptionController {
     @PostMapping("/verify")
     public ResponseEntity<?> verifyCheckout(
             @RequestBody VerifyCheckoutRequest request,
-            @RequestHeader(value = "X-User-Id", required = false) String headerUserId,
             @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
             Authentication authentication
     ) {
-        String userId = headerUserId;
-        if ((userId == null || userId.isEmpty()) && authentication != null) {
-            userId = (String) authentication.getPrincipal();
-        }
+        String userId = authentication != null ? (String) authentication.getPrincipal() : null;
         if (request.checkoutId() == null || request.checkoutId().isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of(
                     "error", "INVALID_CHECKOUT",
