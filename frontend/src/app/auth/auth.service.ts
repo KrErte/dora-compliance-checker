@@ -53,6 +53,7 @@ export class AuthService {
           fullName: res.fullName,
           accountTier: res.accountTier,
           trialEndDate: res.trialEndDate,
+          trialEndsAt: res.trialEndsAt,
           role: res.role
         };
         localStorage.setItem(this.USER_KEY, JSON.stringify(user));
@@ -63,7 +64,13 @@ export class AuthService {
 
   private handleAuth(res: AuthResponse): void {
     localStorage.setItem(this.TOKEN_KEY, res.token);
-    const user: AuthUser = { userId: res.userId, email: res.email, fullName: res.fullName, role: res.role };
+    const user: AuthUser = {
+      userId: res.userId,
+      email: res.email,
+      fullName: res.fullName,
+      role: res.role,
+      trialEndsAt: res.trialEndsAt
+    };
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
     this.currentUser.set(user);
   }

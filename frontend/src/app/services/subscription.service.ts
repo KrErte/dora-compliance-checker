@@ -2,7 +2,7 @@ import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap, catchError, of } from 'rxjs';
 
-export type SubscriptionPlan = 'FREE' | 'STANDARD' | 'ENTERPRISE';
+export type SubscriptionPlan = 'FREE' | 'PROFESSIONAL' | 'STANDARD' | 'ENTERPRISE';
 
 export type PremiumFeature =
   | 'PDF_EXPORT'
@@ -17,6 +17,7 @@ export interface SubscriptionStatus {
   plan: SubscriptionPlan;
   isPremium: boolean;
   validUntil: string | null;
+  trialEndsAt: string | null;
   features: Record<PremiumFeature, boolean>;
 }
 
@@ -35,6 +36,7 @@ export class SubscriptionService {
     plan: 'FREE',
     isPremium: false,
     validUntil: null,
+    trialEndsAt: null,
     features: {
       PDF_EXPORT: false,
       EXCEL_EXPORT: false,
@@ -56,6 +58,18 @@ export class SubscriptionService {
   showUpgradeModal = this.upgradeModalVisible.asReadonly();
   upgradeFeature = this.upgradeModalFeature.asReadonly();
 
+  trialEndsAt = computed(() => this.status().trialEndsAt);
+  isTrialActive = computed(() => {
+    const t = this.status().trialEndsAt;
+    return t != null && new Date(t) > new Date() && this.status().plan === 'PROFESSIONAL';
+  });
+  trialDaysLeft = computed(() => {
+    const t = this.status().trialEndsAt;
+    if (!t) return 0;
+    const diff = new Date(t).getTime() - Date.now();
+    return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+  });
+
   constructor(private http: HttpClient) {
     this.ensureSessionId();
     this.loadFromStorage();
@@ -67,7 +81,7 @@ export class SubscriptionService {
    * STANDARD and ENTERPRISE subscribers skip the email gate.
    */
   shouldShowEmailGate(): boolean {
-    return this.status().plan === 'FREE' && !this.isPremium();
+    return this.status().plan === 'FREE' && !this.isPremium() && !this.isTrialActive();
   }
 
   /**
@@ -129,6 +143,7 @@ export class SubscriptionService {
         plan: 'FREE' as SubscriptionPlan,
         isPremium: false,
         validUntil: null,
+        trialEndsAt: null,
         features: {
           PDF_EXPORT: false,
           EXCEL_EXPORT: false,

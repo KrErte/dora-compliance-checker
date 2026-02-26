@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class AuthDtos {
 
@@ -27,11 +28,12 @@ public class AuthDtos {
             Integer earlyAdopterNumber,
             String accountTier,
             LocalDate trialEndDate,
+            LocalDateTime trialEndsAt,
             String role
     ) {
         // Backward compatible constructor
         public AuthResponse(String token, String userId, String email, String fullName) {
-            this(token, userId, email, fullName, false, null, "FREE", null, "USER");
+            this(token, userId, email, fullName, false, null, "FREE", null, null, "USER");
         }
     }
 }

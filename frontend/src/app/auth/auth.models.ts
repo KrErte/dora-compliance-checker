@@ -18,6 +18,7 @@ export interface AuthResponse {
   earlyAdopterNumber?: number;
   accountTier?: 'FREE' | 'PREMIUM';
   trialEndDate?: string;
+  trialEndsAt?: string;
   role?: 'USER' | 'ADMIN';
 }
 
@@ -29,5 +30,6 @@ export interface AuthUser {
   earlyAdopterNumber?: number;
   accountTier?: 'FREE' | 'PREMIUM';
   trialEndDate?: string;
+  trialEndsAt?: string;
   role?: 'USER' | 'ADMIN';
 }

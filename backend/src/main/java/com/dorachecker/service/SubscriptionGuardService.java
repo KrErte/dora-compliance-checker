@@ -1,5 +1,7 @@
 package com.dorachecker.service;
 
+import com.dorachecker.model.UserEntity;
+import com.dorachecker.model.UserRepository;
 import com.dorachecker.model.UserSubscriptionEntity;
 import com.dorachecker.model.UserSubscriptionRepository;
 import org.springframework.stereotype.Service;
@@ -21,9 +23,12 @@ public class SubscriptionGuardService {
     }
 
     private final UserSubscriptionRepository subscriptionRepository;
+    private final UserRepository userRepository;
 
-    public SubscriptionGuardService(UserSubscriptionRepository subscriptionRepository) {
+    public SubscriptionGuardService(UserSubscriptionRepository subscriptionRepository,
+                                     UserRepository userRepository) {
         this.subscriptionRepository = subscriptionRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -32,24 +37,36 @@ public class SubscriptionGuardService {
     public boolean canAccess(String userId, String sessionId, Feature feature) {
         Optional<UserSubscriptionEntity> subscription = findSubscription(userId, sessionId);
 
-        if (subscription.isEmpty() || !subscription.get().isPremium()) {
+        if (subscription.isPresent() && subscription.get().isPremium()) {
+            UserSubscriptionEntity sub = subscription.get();
+
+            // STANDARD plan features
+            if (sub.getPlan() == UserSubscriptionEntity.Plan.STANDARD) {
+                return switch (feature) {
+                    case PDF_EXPORT, EXCEL_EXPORT, CERTIFICATE, ACTION_PLAN_PDF,
+                         EMAIL_NOTIFICATIONS -> true;
+                    case XBRL_EXPORT, AI_REWRITER, HISTORICAL_COMPARISON -> false;
+                };
+            }
+
+            // ENTERPRISE plan has access to all features
+            if (sub.getPlan() == UserSubscriptionEntity.Plan.ENTERPRISE) {
+                return true;
+            }
+
             return false;
         }
 
-        UserSubscriptionEntity sub = subscription.get();
-
-        // STANDARD plan features
-        if (sub.getPlan() == UserSubscriptionEntity.Plan.STANDARD) {
-            return switch (feature) {
-                case PDF_EXPORT, EXCEL_EXPORT, CERTIFICATE, ACTION_PLAN_PDF,
-                     EMAIL_NOTIFICATIONS -> true;
-                case XBRL_EXPORT, AI_REWRITER, HISTORICAL_COMPARISON -> false;
-            };
-        }
-
-        // ENTERPRISE plan has access to all features
-        if (sub.getPlan() == UserSubscriptionEntity.Plan.ENTERPRISE) {
-            return true;
+        // Check trial — PROFESSIONAL gets same features as STANDARD
+        if (userId != null && !userId.isEmpty()) {
+            Optional<UserEntity> user = userRepository.findById(userId);
+            if (user.isPresent() && user.get().isTrialValid()) {
+                return switch (feature) {
+                    case PDF_EXPORT, EXCEL_EXPORT, CERTIFICATE, ACTION_PLAN_PDF,
+                         EMAIL_NOTIFICATIONS -> true;
+                    case XBRL_EXPORT, AI_REWRITER, HISTORICAL_COMPARISON -> false;
+                };
+            }
         }
 
         return false;
@@ -59,9 +76,18 @@ public class SubscriptionGuardService {
      * Check if user/session has any premium subscription
      */
     public boolean isPremium(String userId, String sessionId) {
-        return findSubscription(userId, sessionId)
+        boolean hasPaidSub = findSubscription(userId, sessionId)
                 .map(UserSubscriptionEntity::isPremium)
                 .orElse(false);
+        if (hasPaidSub) return true;
+
+        // Check trial
+        if (userId != null && !userId.isEmpty()) {
+            return userRepository.findById(userId)
+                    .map(UserEntity::isTrialValid)
+                    .orElse(false);
+        }
+        return false;
     }
 
     /**
@@ -70,16 +96,30 @@ public class SubscriptionGuardService {
     public SubscriptionStatus getStatus(String userId, String sessionId) {
         Optional<UserSubscriptionEntity> subscription = findSubscription(userId, sessionId);
 
-        if (subscription.isEmpty()) {
-            return new SubscriptionStatus("FREE", false, null);
+        if (subscription.isPresent() && subscription.get().isPremium()) {
+            UserSubscriptionEntity sub = subscription.get();
+            return new SubscriptionStatus(
+                    sub.getPlan().name(),
+                    true,
+                    sub.getValidUntil() != null ? sub.getValidUntil().toString() : null,
+                    null
+            );
         }
 
-        UserSubscriptionEntity sub = subscription.get();
-        return new SubscriptionStatus(
-                sub.getPlan().name(),
-                sub.isPremium(),
-                sub.getValidUntil() != null ? sub.getValidUntil().toString() : null
-        );
+        // Check trial
+        if (userId != null && !userId.isEmpty()) {
+            Optional<UserEntity> user = userRepository.findById(userId);
+            if (user.isPresent() && user.get().isTrialValid()) {
+                return new SubscriptionStatus(
+                        "PROFESSIONAL",
+                        true,
+                        user.get().getTrialEndsAt().toString(),
+                        user.get().getTrialEndsAt().toString()
+                );
+            }
+        }
+
+        return new SubscriptionStatus("FREE", false, null, null);
     }
 
     /**
@@ -133,5 +173,5 @@ public class SubscriptionGuardService {
         return Optional.empty();
     }
 
-    public record SubscriptionStatus(String plan, boolean isPremium, String validUntil) {}
+    public record SubscriptionStatus(String plan, boolean isPremium, String validUntil, String trialEndsAt) {}
 }

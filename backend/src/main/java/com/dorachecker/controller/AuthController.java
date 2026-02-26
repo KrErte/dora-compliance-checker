@@ -51,6 +51,7 @@ public class AuthController {
         user.setCreatedAt(LocalDateTime.now());
         user.setAccountTier(UserEntity.AccountTier.PREMIUM);
         user.setTrialEndDate(LocalDate.now().plusDays(trialDays));
+        user.setTrialEndsAt(LocalDateTime.now().plusDays(14));
 
         userRepository.save(user);
 
@@ -64,6 +65,7 @@ public class AuthController {
             user.getEarlyAdopterNumber(),
             user.getAccountTier().name(),
             user.getTrialEndDate(),
+            user.getTrialEndsAt(),
             user.getRole().name()
         ));
     }
@@ -95,6 +97,7 @@ public class AuthController {
             user.getEarlyAdopterNumber(),
             user.getAccountTier().name(),
             user.getTrialEndDate(),
+            user.getTrialEndsAt(),
             user.getRole().name()
         ));
     }
@@ -121,6 +124,7 @@ public class AuthController {
                         user.getEarlyAdopterNumber(),
                         user.getAccountTier().name(),
                         user.getTrialEndDate(),
+                        user.getTrialEndsAt(),
                         user.getRole().name()
                     ));
                 })

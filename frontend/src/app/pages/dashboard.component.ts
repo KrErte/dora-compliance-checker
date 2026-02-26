@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LangService } from '../lang.service';
+import { SubscriptionService } from '../services/subscription.service';
 
 interface HistoryEntry {
   id: string;
@@ -42,6 +43,33 @@ interface ChartPoint {
   imports: [CommonModule, RouterLink],
   template: `
     <div class="max-w-6xl mx-auto">
+
+      <!-- Trial Banner -->
+      <div *ngIf="subService.isTrialActive()" class="mb-6 animate-fade-in-up">
+        <div class="bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-500/30
+                    rounded-xl px-6 py-4 flex items-center justify-between flex-wrap gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center shrink-0">
+              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-sm font-semibold text-emerald-300">Professional prooviaeg</p>
+              <p class="text-xs text-slate-400">{{ subService.trialDaysLeft() }} p\u00e4eva j\u00e4\u00e4nud &middot; K\u00f5ik Professional funktsioonid on aktiivne</p>
+            </div>
+          </div>
+          <a routerLink="/pricing"
+             class="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
+                    text-slate-900 font-semibold px-5 py-2 rounded-lg transition-all duration-300
+                    hover:shadow-lg hover:shadow-emerald-500/25 text-sm flex items-center gap-2 whitespace-nowrap">
+            Uuenda plaani
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </a>
+        </div>
+      </div>
 
       <!-- Header -->
       <div class="flex items-center justify-between mb-10 animate-fade-in-up">
@@ -527,6 +555,7 @@ interface ChartPoint {
 })
 export class DashboardComponent implements OnInit {
   lang = inject(LangService);
+  subService = inject(SubscriptionService);
 
   history: HistoryEntry[] = [];
   leaderboard: LeaderboardEntry[] = [];

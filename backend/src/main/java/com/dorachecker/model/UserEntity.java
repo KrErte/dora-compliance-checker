@@ -46,6 +46,8 @@ public class UserEntity {
 
     private LocalDate trialEndDate;
 
+    private LocalDateTime trialEndsAt;
+
     public UserEntity() {}
 
     public String getId() { return id; }
@@ -80,6 +82,13 @@ public class UserEntity {
 
     public boolean isTrialActive() {
         return trialEndDate != null && !LocalDate.now().isAfter(trialEndDate);
+    }
+
+    public LocalDateTime getTrialEndsAt() { return trialEndsAt; }
+    public void setTrialEndsAt(LocalDateTime trialEndsAt) { this.trialEndsAt = trialEndsAt; }
+
+    public boolean isTrialValid() {
+        return trialEndsAt != null && LocalDateTime.now().isBefore(trialEndsAt);
     }
 
     public AuthProvider getAuthProvider() { return authProvider; }

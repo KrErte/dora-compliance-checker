@@ -252,6 +252,7 @@ public class OAuth2Controller {
         user.setCreatedAt(LocalDateTime.now());
         user.setAccountTier(UserEntity.AccountTier.PREMIUM);
         user.setTrialEndDate(LocalDate.now().plusDays(trialDays));
+        user.setTrialEndsAt(LocalDateTime.now().plusDays(14));
 
         return userRepository.save(user);
     }

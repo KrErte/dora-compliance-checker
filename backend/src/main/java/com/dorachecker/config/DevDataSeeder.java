@@ -86,6 +86,7 @@ public class DevDataSeeder implements CommandLineRunner {
         user.setRole(role);
         user.setAccountTier(UserEntity.AccountTier.PREMIUM);
         user.setTrialEndDate(LocalDate.now().plusYears(10));
+        user.setTrialEndsAt(LocalDateTime.now().plusYears(10));
         user.setCreatedAt(LocalDateTime.now());
 
         UserEntity saved = userRepository.save(user);

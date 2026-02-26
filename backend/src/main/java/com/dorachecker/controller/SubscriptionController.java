@@ -39,6 +39,7 @@ public class SubscriptionController {
                 status.plan(),
                 status.isPremium(),
                 status.validUntil(),
+                status.trialEndsAt(),
                 getFeatureAccess(userId, sessionId)
         ));
     }
@@ -144,6 +145,7 @@ public class SubscriptionController {
             String plan,
             boolean isPremium,
             String validUntil,
+            String trialEndsAt,
             Map<String, Boolean> features
     ) {}
 
