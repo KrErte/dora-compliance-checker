@@ -268,6 +268,39 @@ interface FineResult {
           </div>
         </div>
 
+        <!-- ROI CTA -->
+        <div *ngIf="roiData" class="max-w-2xl mx-auto roi-cta">
+          <div class="flex items-center gap-3 mb-5">
+            <span class="text-2xl">🛡️</span>
+            <h3 class="text-lg font-semibold text-white m-0">{{ lang.t('roi.title') }}</h3>
+          </div>
+
+          <div class="flex items-center justify-center gap-6 mb-6 flex-wrap">
+            <div class="text-center">
+              <span class="block text-xs uppercase tracking-wider opacity-60 mb-1">{{ lang.t('roi.fineRisk') }}</span>
+              <span class="block text-[28px] font-bold text-red-400">€{{ formatNumber(result!.likelyMax) }}</span>
+            </div>
+            <span class="text-sm opacity-40 font-semibold">vs</span>
+            <div class="text-center">
+              <span class="block text-xs uppercase tracking-wider opacity-60 mb-1">DoraAudit Professional</span>
+              <span class="block text-[28px] font-bold text-emerald-400">€149/{{ lang.t('roi.month') }}</span>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <p class="text-sm mb-1">
+              <strong class="text-xl text-emerald-400">{{ roiData.roiPercent }}%</strong>
+              <span class="text-slate-300 ml-1">{{ lang.t('roi.ofYourRisk') }}</span>
+            </p>
+            <p class="text-sm opacity-70 mt-2 mb-5">{{ lang.t('roi.context') }}</p>
+            <a routerLink="/register"
+               class="inline-block px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-slate-900 rounded-xl font-semibold text-sm transition-all hover:-translate-y-0.5 mr-3">
+              {{ lang.t('roi.startAssessment') }} →
+            </a>
+            <a routerLink="/pricing" class="text-sm opacity-60 underline">{{ lang.t('roi.seePlans') }}</a>
+          </div>
+        </div>
+
         <!-- Fine Range Breakdown -->
         <div class="max-w-2xl mx-auto bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
           <div class="grid grid-cols-2 gap-6">
@@ -449,6 +482,13 @@ interface FineResult {
       cursor: pointer;
       border: 2px solid #1e293b;
     }
+
+    .roi-cta {
+      padding: 28px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.06) 0%, rgba(34, 197, 94, 0.02) 100%);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+    }
   `]
 })
 export class FineCalculatorComponent implements OnInit {
@@ -464,6 +504,7 @@ export class FineCalculatorComponent implements OnInit {
   q4: boolean | null = null;
 
   result: FineResult | null = null;
+  roiData: { monthlyPrice: number; annualPrice: number; roiPercent: string; dailySaving: string } | null = null;
   email = '';
   emailLoading = false;
   emailSent = false;
@@ -621,6 +662,9 @@ export class FineCalculatorComponent implements OnInit {
 
     console.log('Fine Calculator result:', this.result);
 
+    // Calculate ROI data
+    this.roiData = this.calculateRoi(likelyMax);
+
     // Force Angular to create the results DOM immediately
     this.cdr.detectChanges();
 
@@ -637,6 +681,14 @@ export class FineCalculatorComponent implements OnInit {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 300);
+  }
+
+  private calculateRoi(fineAmount: number): { monthlyPrice: number; annualPrice: number; roiPercent: string; dailySaving: string } {
+    const monthlyPrice = 149;
+    const annualPrice = monthlyPrice * 12;
+    const roiPercent = (annualPrice / fineAmount * 100).toFixed(1);
+    const dailySaving = ((fineAmount - annualPrice) / 365).toFixed(0);
+    return { monthlyPrice, annualPrice, roiPercent, dailySaving };
   }
 
   private animateCounter(target: number): void {

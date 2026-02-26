@@ -1679,6 +1679,15 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
   'fine.info_desc': { et: 'Kalkulaator kasutab DORA määruse artikleid 50-51 ja 35, mis sätestavad maksimaalsed trahvimäärad. Tegelik trahv sõltub rikkumise raskusest, kestusest ja ettevõtte koostöövalmidusest.', en: 'The calculator uses DORA regulation articles 50-51 and 35 which set maximum fine rates. Actual fines depend on violation severity, duration and company cooperation.' },
   'fine.progress': { et: 'Edenemise seis', en: 'Progress' },
 
+  // ROI CTA (Fine Calculator)
+  'roi.title': { et: 'Kui palju maksab mittevastavus?', en: 'What does non-compliance cost you?' },
+  'roi.fineRisk': { et: 'Sinu trahvirisk', en: 'Your fine risk' },
+  'roi.month': { et: 'kuus', en: 'month' },
+  'roi.ofYourRisk': { et: 'sinu aastasest trahviriskist', en: 'of your annual fine risk' },
+  'roi.context': { et: 'Ühe kohvimasina kuutasu eest saad teada, kus su DORA vastavus seisab — ja mida parandada.', en: 'For less than a coffee machine subscription, know exactly where your DORA compliance stands — and what to fix.' },
+  'roi.startAssessment': { et: 'Alusta hindamist', en: 'Start assessment' },
+  'roi.seePlans': { et: 'Vaata plaane', en: 'See plans' },
+
   // Navbar simplified
   'nav.contracts_short': { et: 'Lepingud', en: 'Contracts' },
   'nav.supply_short': { et: 'Tarneahel', en: 'Supply Chain' },
