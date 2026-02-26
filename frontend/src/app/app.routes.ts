@@ -224,6 +224,16 @@ export const routes: Routes = [
     canActivate: [adminGuard]
   },
   {
+    path: 'admin/leads',
+    loadComponent: () => import('./pages/admin-leads.component').then(m => m.AdminLeadsComponent),
+    canActivate: [adminGuard]
+  },
+  {
+    path: 'admin/leads/:id',
+    loadComponent: () => import('./pages/admin-lead-detail.component').then(m => m.AdminLeadDetailComponent),
+    canActivate: [adminGuard]
+  },
+  {
     path: '**',
     loadComponent: () => import('./pages/not-found.component').then(m => m.NotFoundComponent)
   }
