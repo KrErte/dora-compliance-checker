@@ -39,8 +39,14 @@ public class LeadController {
             @RequestParam(defaultValue = "desc") String sortDir) {
 
         Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        // Normalize empty strings to null to avoid Hibernate bytea cast issues with PostgreSQL
+        String c = (country != null && !country.isEmpty()) ? country : null;
+        String lt = (licenseType != null && !licenseType.isEmpty()) ? licenseType : null;
+        String ls = (leadStatus != null && !leadStatus.isEmpty()) ? leadStatus : null;
+        String s = (sector != null && !sector.isEmpty()) ? sector : null;
+        String q = (search != null && !search.isEmpty()) ? search : null;
         Page<LeadCompanyEntity> result = leadRepo.findFiltered(
-                country, licenseType, leadStatus, sector, search,
+                c, lt, ls, s, q,
                 PageRequest.of(page, size, sort));
 
         Map<String, Object> response = new LinkedHashMap<>();
@@ -96,7 +102,12 @@ public class LeadController {
             @RequestParam(required = false) String sector,
             @RequestParam(required = false) String search) {
 
-        List<LeadCompanyEntity> leads = leadRepo.findAllFiltered(country, licenseType, leadStatus, sector, search);
+        String c = (country != null && !country.isEmpty()) ? country : null;
+        String lt = (licenseType != null && !licenseType.isEmpty()) ? licenseType : null;
+        String ls = (leadStatus != null && !leadStatus.isEmpty()) ? leadStatus : null;
+        String s = (sector != null && !sector.isEmpty()) ? sector : null;
+        String q = (search != null && !search.isEmpty()) ? search : null;
+        List<LeadCompanyEntity> leads = leadRepo.findAllFiltered(c, lt, ls, s, q);
 
         StringBuilder csv = new StringBuilder();
         csv.append("Company Name,Registry Code,Country,License Type,Regulatory Body,Website,Email,Phone,City,Sector,Company Size,LinkedIn,Lead Status,DORA Applicable,NIS2 Applicable,CTO Name,Compliance Officer,Notes,Source URL,Scraped At\n");
