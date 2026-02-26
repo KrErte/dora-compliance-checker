@@ -189,6 +189,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/workspace.component').then(m => m.WorkspaceComponent)
   },
   {
+    path: 'comparison',
+    loadComponent: () => import('./pages/comparison.component').then(m => m.ComparisonComponent)
+    // No authGuard - public SEO landing page
+  },
+  {
     path: 'pricing',
     loadComponent: () => import('./pages/pricing.component').then(m => m.PricingComponent)
   },
