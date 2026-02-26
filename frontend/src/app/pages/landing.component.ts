@@ -562,7 +562,7 @@ interface DoraRequirement {
                 </div>
                 <div>
                   <p class="text-xs text-slate-500 mb-1">{{ lang.t('landing.contact_demo_label') }}</p>
-                  <a href="https://calendly.com/compliancehub/demo" target="_blank" rel="noopener"
+                  <a href="https://cal.com/kristo.erte/15min" target="_blank" rel="noopener"
                      class="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 transition-colors font-medium">
                     {{ lang.t('landing.contact_demo_link') }}
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
