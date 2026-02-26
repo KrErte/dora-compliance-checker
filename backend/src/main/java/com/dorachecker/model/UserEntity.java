@@ -1,7 +1,6 @@
 package com.dorachecker.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -44,8 +43,6 @@ public class UserEntity {
 
     private Integer earlyAdopterNumber;
 
-    private LocalDate trialEndDate;
-
     private LocalDateTime trialEndsAt;
 
     public UserEntity() {}
@@ -76,13 +73,6 @@ public class UserEntity {
 
     public Integer getEarlyAdopterNumber() { return earlyAdopterNumber; }
     public void setEarlyAdopterNumber(Integer earlyAdopterNumber) { this.earlyAdopterNumber = earlyAdopterNumber; }
-
-    public LocalDate getTrialEndDate() { return trialEndDate; }
-    public void setTrialEndDate(LocalDate trialEndDate) { this.trialEndDate = trialEndDate; }
-
-    public boolean isTrialActive() {
-        return trialEndDate != null && !LocalDate.now().isAfter(trialEndDate);
-    }
 
     public LocalDateTime getTrialEndsAt() { return trialEndsAt; }
     public void setTrialEndsAt(LocalDateTime trialEndsAt) { this.trialEndsAt = trialEndsAt; }

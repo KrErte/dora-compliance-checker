@@ -15,7 +15,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
@@ -43,9 +42,6 @@ public class OAuth2Controller {
 
     @Value("${app.frontend-url:http://localhost:4200}")
     private String frontendUrl;
-
-    @Value("${promo.trial.days:30}")
-    private int trialDays;
 
     public OAuth2Controller(UserRepository userRepository, JwtService jwtService) {
         this.userRepository = userRepository;
@@ -233,12 +229,6 @@ public class OAuth2Controller {
                 userRepository.save(user);
             }
 
-            // Check if trial has expired
-            if (!user.isTrialActive() && user.getAccountTier() == UserEntity.AccountTier.PREMIUM) {
-                user.setAccountTier(UserEntity.AccountTier.FREE);
-                userRepository.save(user);
-            }
-
             return user;
         }
 
@@ -250,8 +240,7 @@ public class OAuth2Controller {
         user.setAuthProvider(provider);
         user.setOauthProviderId(providerId);
         user.setCreatedAt(LocalDateTime.now());
-        user.setAccountTier(UserEntity.AccountTier.PREMIUM);
-        user.setTrialEndDate(LocalDate.now().plusDays(trialDays));
+        user.setAccountTier(UserEntity.AccountTier.FREE);
         user.setTrialEndsAt(LocalDateTime.now().plusDays(14));
 
         return userRepository.save(user);

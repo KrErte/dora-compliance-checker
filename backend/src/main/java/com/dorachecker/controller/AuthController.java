@@ -7,13 +7,11 @@ import com.dorachecker.security.AuthDtos.LoginRequest;
 import com.dorachecker.security.AuthDtos.RegisterRequest;
 import com.dorachecker.security.JwtService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
@@ -25,9 +23,6 @@ public class AuthController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-
-    @Value("${promo.trial.days:30}")
-    private int trialDays;
 
     public AuthController(UserRepository userRepository,
                           PasswordEncoder passwordEncoder,
@@ -49,8 +44,7 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setFullName(request.fullName());
         user.setCreatedAt(LocalDateTime.now());
-        user.setAccountTier(UserEntity.AccountTier.PREMIUM);
-        user.setTrialEndDate(LocalDate.now().plusDays(trialDays));
+        user.setAccountTier(UserEntity.AccountTier.FREE);
         user.setTrialEndsAt(LocalDateTime.now().plusDays(14));
 
         userRepository.save(user);
@@ -64,7 +58,6 @@ public class AuthController {
             user.isEarlyAdopter(),
             user.getEarlyAdopterNumber(),
             user.getAccountTier().name(),
-            user.getTrialEndDate(),
             user.getTrialEndsAt(),
             user.getRole().name()
         ));
@@ -81,12 +74,6 @@ public class AuthController {
 
         UserEntity user = userOpt.get();
 
-        // Check if trial has expired
-        if (!user.isTrialActive() && user.getAccountTier() == UserEntity.AccountTier.PREMIUM) {
-            user.setAccountTier(UserEntity.AccountTier.FREE);
-            userRepository.save(user);
-        }
-
         String token = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole().name());
         return ResponseEntity.ok(new AuthResponse(
             token,
@@ -96,7 +83,6 @@ public class AuthController {
             user.isEarlyAdopter(),
             user.getEarlyAdopterNumber(),
             user.getAccountTier().name(),
-            user.getTrialEndDate(),
             user.getTrialEndsAt(),
             user.getRole().name()
         ));
@@ -109,13 +95,7 @@ public class AuthController {
         }
         String userId = (String) authentication.getPrincipal();
         return userRepository.findById(userId)
-                .map(user -> {
-                    // Check if trial has expired
-                    if (!user.isTrialActive() && user.getAccountTier() == UserEntity.AccountTier.PREMIUM) {
-                        user.setAccountTier(UserEntity.AccountTier.FREE);
-                        userRepository.save(user);
-                    }
-                    return ResponseEntity.ok(new AuthResponse(
+                .map(user -> ResponseEntity.ok(new AuthResponse(
                         null,
                         user.getId(),
                         user.getEmail(),
@@ -123,11 +103,9 @@ public class AuthController {
                         user.isEarlyAdopter(),
                         user.getEarlyAdopterNumber(),
                         user.getAccountTier().name(),
-                        user.getTrialEndDate(),
                         user.getTrialEndsAt(),
                         user.getRole().name()
-                    ));
-                })
+                    )))
                 .orElse(ResponseEntity.status(401).body(null));
     }
 

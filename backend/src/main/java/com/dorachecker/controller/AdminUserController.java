@@ -33,7 +33,6 @@ public class AdminUserController {
                     map.put("authProvider", user.getAuthProvider().name());
                     map.put("createdAt", user.getCreatedAt().toString());
                     map.put("earlyAdopter", user.isEarlyAdopter());
-                    map.put("trialEndDate", user.getTrialEndDate() != null ? user.getTrialEndDate().toString() : "");
                     map.put("trialEndsAt", user.getTrialEndsAt() != null ? user.getTrialEndsAt().toString() : "");
                     map.put("trialValid", user.isTrialValid());
                     return map;

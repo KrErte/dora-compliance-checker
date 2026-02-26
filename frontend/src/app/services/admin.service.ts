@@ -11,7 +11,7 @@ export interface AdminUser {
   authProvider: string;
   createdAt: string;
   earlyAdopter: boolean;
-  trialEndDate: string;
+  trialEndsAt: string;
 }
 
 export interface LeadCompany {

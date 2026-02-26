@@ -12,7 +12,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -85,7 +84,6 @@ public class DevDataSeeder implements CommandLineRunner {
         user.setPassword(passwordEncoder.encode(rawPassword));
         user.setRole(role);
         user.setAccountTier(UserEntity.AccountTier.PREMIUM);
-        user.setTrialEndDate(LocalDate.now().plusYears(10));
         user.setTrialEndsAt(LocalDateTime.now().plusYears(10));
         user.setCreatedAt(LocalDateTime.now());
 

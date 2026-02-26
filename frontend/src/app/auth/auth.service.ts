@@ -51,7 +51,6 @@ export class AuthService {
           email: res.email,
           fullName: res.fullName,
           accountTier: res.accountTier,
-          trialEndDate: res.trialEndDate,
           trialEndsAt: res.trialEndsAt,
           role: res.role
         };
