@@ -2,13 +2,17 @@ package com.dorachecker.service;
 
 import com.dorachecker.model.LeadCompanyEntity;
 import com.dorachecker.model.LeadCompanyRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -23,11 +27,16 @@ public class BalticLeadCrawlerService {
     private static final int TIMEOUT_MS = 30_000;
     private static final int RATE_LIMIT_MS = 2_000;
     private static final int MAX_RETRIES = 3;
+    private static final String ARIREGISTER_API = "https://ariregister.rik.ee/est/api";
 
     private final LeadCompanyRepository leadRepo;
+    private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
     public BalticLeadCrawlerService(LeadCompanyRepository leadRepo) {
         this.leadRepo = leadRepo;
+        this.restTemplate = new RestTemplate();
+        this.objectMapper = new ObjectMapper();
     }
 
     public Map<String, Object> runFullCrawl() {
@@ -77,6 +86,15 @@ public class BalticLeadCrawlerService {
             results.put("fintechDirectories", Map.of("error", e.getMessage()));
         }
 
+        // Enrich Estonian leads with board members from Äriregister
+        try {
+            Map<String, Object> enrichment = enrichEstonianLeadsFromAriregister();
+            results.put("ariregisterEnrichment", enrichment);
+        } catch (Exception e) {
+            log.error("Äriregister enrichment failed", e);
+            results.put("ariregisterEnrichment", Map.of("error", e.getMessage()));
+        }
+
         long duration = System.currentTimeMillis() - start;
         results.put("totalNew", totalNew.get());
         results.put("totalUpdated", totalUpdated.get());
@@ -92,6 +110,7 @@ public class BalticLeadCrawlerService {
             case "latvian_fcmc", "lv" -> crawlLatvianFCMC();
             case "lithuanian_lb", "lt" -> crawlLithuanianLB();
             case "fintech" -> crawlFintechDirectories();
+            case "ariregister", "enrich" -> enrichEstonianLeadsFromAriregister();
             default -> Map.of("error", "Unknown source: " + source);
         };
     }
@@ -437,6 +456,78 @@ public class BalticLeadCrawlerService {
                 "byStatus", Map.of("NEW", statusNew, "CONTACTED", contacted,
                         "QUALIFIED", qualified, "CONVERTED", converted)
         );
+    }
+
+    public Map<String, Object> enrichEstonianLeadsFromAriregister() {
+        log.info("Enriching Estonian leads with Äriregister board member data");
+        List<LeadCompanyEntity> estonianLeads = leadRepo.findByCountry("EE");
+        int enriched = 0;
+        int skipped = 0;
+        int failed = 0;
+
+        for (LeadCompanyEntity lead : estonianLeads) {
+            String regCode = lead.getRegistryCode();
+            if (regCode == null || regCode.isBlank()) {
+                skipped++;
+                continue;
+            }
+            // Skip if already has board member data
+            if (lead.getCtoName() != null && !lead.getCtoName().isBlank()) {
+                skipped++;
+                continue;
+            }
+
+            try {
+                String url = ARIREGISTER_API + "/company/" + regCode;
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.set("User-Agent", "DoraAudit/1.0");
+                headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+                ResponseEntity<String> response = restTemplate.exchange(
+                        url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+
+                if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                    JsonNode data = objectMapper.readTree(response.getBody());
+
+                    // Extract board members from juhatuse_liikmed
+                    JsonNode boardMembers = data.path("juhatuse_liikmed");
+                    if (boardMembers.isArray() && !boardMembers.isEmpty()) {
+                        // First board member → ctoName (primary contact)
+                        String firstMember = boardMembers.get(0).has("nimi")
+                                ? boardMembers.get(0).get("nimi").asText()
+                                : boardMembers.get(0).asText();
+                        if (firstMember != null && !firstMember.isBlank()) {
+                            lead.setCtoName(firstMember.trim());
+                        }
+
+                        // Second board member → complianceOfficerName (if exists)
+                        if (boardMembers.size() > 1) {
+                            String secondMember = boardMembers.get(1).has("nimi")
+                                    ? boardMembers.get(1).get("nimi").asText()
+                                    : boardMembers.get(1).asText();
+                            if (secondMember != null && !secondMember.isBlank()) {
+                                lead.setComplianceOfficerName(secondMember.trim());
+                            }
+                        }
+
+                        leadRepo.save(lead);
+                        enriched++;
+                        log.debug("Enriched {} with board members", lead.getCompanyName());
+                    } else {
+                        skipped++;
+                    }
+                }
+                rateLimitPause();
+            } catch (Exception e) {
+                failed++;
+                log.debug("Failed to enrich {} ({}): {}", lead.getCompanyName(), regCode, e.getMessage());
+            }
+        }
+
+        log.info("Äriregister enrichment: {} enriched, {} skipped, {} failed out of {} EE leads",
+                enriched, skipped, failed, estonianLeads.size());
+        return Map.of("enriched", enriched, "skipped", skipped, "failed", failed, "total", estonianLeads.size());
     }
 
     // --- Private helpers ---
