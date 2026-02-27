@@ -1,5 +1,6 @@
 import { CanActivateFn, Router } from '@angular/router';
-import { inject } from '@angular/core';
+import { inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from './auth.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
@@ -9,7 +10,9 @@ export const authGuard: CanActivateFn = (route, state) => {
   if (authService.isLoggedIn()) {
     return true;
   }
-  sessionStorage.setItem('dora_returnUrl', state.url);
+  if (isPlatformBrowser(inject(PLATFORM_ID))) {
+    sessionStorage.setItem('dora_returnUrl', state.url);
+  }
   return router.createUrlTree(['/login']);
 };
 
@@ -21,7 +24,9 @@ export const adminGuard: CanActivateFn = (route, state) => {
     return true;
   }
   if (!authService.isLoggedIn()) {
-    sessionStorage.setItem('dora_returnUrl', state.url);
+    if (isPlatformBrowser(inject(PLATFORM_ID))) {
+      sessionStorage.setItem('dora_returnUrl', state.url);
+    }
     return router.createUrlTree(['/login']);
   }
   return router.createUrlTree(['/dashboard']);

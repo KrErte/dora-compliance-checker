@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, PLATFORM_ID, inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
@@ -541,6 +541,7 @@ interface RiskCalculationResult {
 export class BoardRiskComponent implements OnInit, OnDestroy {
   @ViewChild('resultsSection') resultsSection!: ElementRef;
 
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private destroy$ = new Subject<void>();
   private searchSubject = new Subject<string>();
 
@@ -639,13 +640,17 @@ export class BoardRiskComponent implements OnInit, OnDestroy {
       this.showDropdown = this.autocompleteResults.length > 0;
     });
 
-    document.addEventListener('click', this.onDocumentClick.bind(this));
+    if (this.isBrowser) {
+      document.addEventListener('click', this.onDocumentClick.bind(this));
+    }
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    document.removeEventListener('click', this.onDocumentClick.bind(this));
+    if (this.isBrowser) {
+      document.removeEventListener('click', this.onDocumentClick.bind(this));
+    }
   }
 
   private onDocumentClick(event: Event): void {

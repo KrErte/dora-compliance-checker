@@ -1,4 +1,5 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { ApiService } from './api.service';
 
 declare global {
@@ -28,6 +29,8 @@ interface EventData {
 
 @Injectable({ providedIn: 'root' })
 export class TrackingService implements OnDestroy {
+  private platformId = inject(PLATFORM_ID);
+  private isBrowser = isPlatformBrowser(this.platformId);
   private sessionId: string;
   private utmParams: { source?: string; medium?: string; campaign?: string } = {};
 
@@ -49,8 +52,12 @@ export class TrackingService implements OnDestroy {
   private activeFormId: string | null = null;
 
   constructor(private apiService: ApiService) {
-    this.sessionId = this.getOrCreateSessionId();
-    this.parseUtmParams();
+    if (this.isBrowser) {
+      this.sessionId = this.getOrCreateSessionId();
+      this.parseUtmParams();
+    } else {
+      this.sessionId = '';
+    }
   }
 
   ngOnDestroy(): void {
@@ -113,6 +120,7 @@ export class TrackingService implements OnDestroy {
   // ============================================
 
   trackEvent(eventType: TrackingEventType, eventData?: EventData): void {
+    if (!this.isBrowser) return;
     const pageUrl = window.location.pathname;
 
     // Send to custom backend
@@ -158,7 +166,7 @@ export class TrackingService implements OnDestroy {
   // ============================================
 
   initScrollTracking(): void {
-    if (this.scrollListener) return; // Already initialized
+    if (!this.isBrowser || this.scrollListener) return;
 
     this.reachedMilestones.clear();
 
@@ -191,7 +199,7 @@ export class TrackingService implements OnDestroy {
   // ============================================
 
   initClickTracking(): void {
-    if (this.clickListener) return; // Already initialized
+    if (!this.isBrowser || this.clickListener) return;
 
     this.clickListener = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -246,7 +254,7 @@ export class TrackingService implements OnDestroy {
   // ============================================
 
   initTimeOnPageTracking(intervalSeconds = 30): void {
-    if (this.timeOnPageInterval) return; // Already initialized
+    if (!this.isBrowser || this.timeOnPageInterval) return;
 
     this.pageLoadTime = Date.now();
     this.totalTimeOnPage = 0;
@@ -277,6 +285,7 @@ export class TrackingService implements OnDestroy {
   // ============================================
 
   initFormTracking(formId?: string): void {
+    if (!this.isBrowser) return;
     this.activeFormId = formId || 'default';
     this.formFields.clear();
 

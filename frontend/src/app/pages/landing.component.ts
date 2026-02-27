@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, OnDestroy, AfterViewInit, PLATFORM_ID, inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
@@ -774,6 +774,7 @@ interface DoraRequirement {
   `]
 })
 export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private destroy$ = new Subject<void>();
   private promoViewTracked = false;
 
@@ -857,7 +858,7 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.setupPromoSectionObserver();
+    if (this.isBrowser) this.setupPromoSectionObserver();
   }
 
   private setupPromoSectionObserver(): void {

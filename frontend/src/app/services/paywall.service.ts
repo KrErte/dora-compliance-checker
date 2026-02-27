@@ -1,9 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class PaywallService {
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   hasAccess(): boolean {
+    if (!this.isBrowser) return false;
     const payment = localStorage.getItem('paymentCompleted');
     if (!payment) return false;
     try {
@@ -15,6 +18,7 @@ export class PaywallService {
   }
 
   getPaymentData(): { checkoutId: string; timestamp: string; products: string[] } | null {
+    if (!this.isBrowser) return null;
     const payment = localStorage.getItem('paymentCompleted');
     if (!payment) return null;
     try {

@@ -188,6 +188,22 @@ export const routes: Routes = [
     path: 'workspace/:id',
     loadComponent: () => import('./pages/workspace.component').then(m => m.WorkspaceComponent)
   },
+  // Register of Information (RoI) — DORA Art. 28(3)
+  {
+    path: 'roi',
+    loadComponent: () => import('./pages/roi/roi-dashboard.component').then(m => m.RoiDashboardComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'roi/new',
+    loadComponent: () => import('./pages/roi/roi-wizard.component').then(m => m.RoiWizardComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'roi/:id/edit',
+    loadComponent: () => import('./pages/roi/roi-wizard.component').then(m => m.RoiWizardComponent),
+    canActivate: [authGuard]
+  },
   {
     path: 'comparison',
     loadComponent: () => import('./pages/comparison.component').then(m => m.ComparisonComponent)

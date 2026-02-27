@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AriregisterService {
 
     private static final String ARIREGISTER_API_URL = "https://ariregister.rik.ee/est/api/autocomplete";
-    private static final String USER_AGENT = "ComplianceHub/1.0";
+    private static final String USER_AGENT = "Doraaudit/1.0";
     private static final Duration CACHE_DURATION = Duration.ofHours(1);
 
     private final RestTemplate restTemplate;

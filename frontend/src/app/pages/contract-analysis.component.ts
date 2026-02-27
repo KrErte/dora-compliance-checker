@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
@@ -602,6 +602,7 @@ import { ContractAnalysisResult } from '../models';
   `
 })
 export class ContractAnalysisComponent implements OnInit {
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   companyName = '';
   contractName = '';
   selectedFile: File | null = null;
@@ -690,6 +691,7 @@ export class ContractAnalysisComponent implements OnInit {
   }
 
   loadGeneratedContract() {
+    if (!this.isBrowser) return;
     const contractText = sessionStorage.getItem('generatedContract');
     const contractName = sessionStorage.getItem('generatedContractName');
 
@@ -947,6 +949,7 @@ export class ContractAnalysisComponent implements OnInit {
   }
 
   private loadCachedResult() {
+    if (!this.isBrowser) return;
     try {
       const cached = JSON.parse(sessionStorage.getItem('dora_contract_cache') || 'null');
       if (cached?.result) {

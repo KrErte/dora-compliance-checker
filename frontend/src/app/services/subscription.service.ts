@@ -1,4 +1,5 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap, catchError, of } from 'rxjs';
 
@@ -29,6 +30,8 @@ export interface FeatureCheckResult {
 
 @Injectable({ providedIn: 'root' })
 export class SubscriptionService {
+  private platformId = inject(PLATFORM_ID);
+  private isBrowser = isPlatformBrowser(this.platformId);
   private readonly STORAGE_KEY = 'dora_subscription';
   private readonly SESSION_KEY = 'dora_session_id';
 
@@ -71,9 +74,11 @@ export class SubscriptionService {
   });
 
   constructor(private http: HttpClient) {
-    this.ensureSessionId();
-    this.loadFromStorage();
-    this.refreshStatus();
+    if (this.isBrowser) {
+      this.ensureSessionId();
+      this.loadFromStorage();
+      this.refreshStatus();
+    }
   }
 
   /**
@@ -164,7 +169,7 @@ export class SubscriptionService {
    * Get session ID for anonymous users
    */
   getSessionId(): string {
-    return localStorage.getItem(this.SESSION_KEY) || '';
+    return this.isBrowser ? (localStorage.getItem(this.SESSION_KEY) || '') : '';
   }
 
   /**
@@ -215,6 +220,7 @@ export class SubscriptionService {
    * Check if we have a legacy payment (before subscription system)
    */
   hasLegacyPayment(): boolean {
+    if (!this.isBrowser) return false;
     const payment = localStorage.getItem('paymentCompleted');
     if (!payment) return false;
     try {
@@ -272,6 +278,7 @@ export class SubscriptionService {
   }
 
   private trackPaywallEvent(event: string, feature: PremiumFeature | null): void {
+    if (!this.isBrowser) return;
     // Track conversion events
     this.http.post('/api/public/track', {
       eventType: event,

@@ -75,6 +75,14 @@ import { OnboardingComponent } from './pages/onboarding.component';
                 </svg>
                 {{ lang.t('nav.fine_calculator') }}
               </a>
+              <a routerLink="/roi" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
+                </svg>
+                Register of Information
+                <span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
+              </a>
               <a routerLink="/timeline" (click)="toolsMenu = false"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -253,6 +261,8 @@ import { OnboardingComponent } from './pages/onboarding.component';
              class="text-sm text-slate-400 hover:text-teal-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.board_risk') }}</a>
           <a routerLink="/fine-calculator" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.fine_calculator') }}</a>
+          <a routerLink="/roi" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">Register of Information</a>
           <a routerLink="/timeline" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.timeline') }}</a>
           <a routerLink="/vendors" (click)="mobileMenu = false"
@@ -355,6 +365,7 @@ import { OnboardingComponent } from './pages/onboarding.component';
               <a routerLink="/board-risk" class="text-xs text-slate-500 hover:text-teal-400 transition-colors">{{ lang.t('nav.board_risk') }}</a>
               <a routerLink="/fine-calculator" class="text-xs text-slate-500 hover:text-red-400 transition-colors">{{ lang.t('nav.fine_calculator') }}</a>
               <a routerLink="/vendors" class="text-xs text-slate-500 hover:text-violet-400 transition-colors">{{ lang.t('nav.vendors') }}</a>
+              <a routerLink="/roi" class="text-xs text-slate-500 hover:text-amber-400 transition-colors">Register of Information</a>
             </div>
           </div>
 
@@ -375,7 +386,7 @@ import { OnboardingComponent } from './pages/onboarding.component';
             <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">{{ lang.t('footer.contact') }}</h4>
             <div class="flex flex-col gap-2 text-xs text-slate-500">
               <a href="mailto:info@doraaudit.eu" class="hover:text-emerald-400 transition-colors">info&#64;doraaudit.eu</a>
-              <p>ComplianceHub OÜ</p>
+              <p>Doraaudit</p>
               <p>{{ lang.t('footer.location') }}</p>
               <a href="https://www.linkedin.com/in/kristo-erte-52b73918a/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 hover:text-blue-400 transition-colors mt-1">
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
@@ -389,7 +400,7 @@ import { OnboardingComponent } from './pages/onboarding.component';
 
         <!-- Bottom bar -->
         <div class="border-t border-slate-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p class="text-xs text-slate-600">&copy; 2026 ComplianceHub OÜ. {{ lang.t('footer.rights') }}</p>
+          <p class="text-xs text-slate-600">&copy; 2026 Doraaudit. {{ lang.t('footer.rights') }}</p>
           <div class="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-center">
             <p class="text-[10px] text-slate-700">{{ lang.t('footer.regulation') }}</p>
             <p class="text-[10px] text-slate-700">{{ lang.t('footer.disclaimer') }}</p>
@@ -470,7 +481,9 @@ export class AppComponent implements OnInit, OnDestroy {
       const currentLang = this.lang.lang(); // Subscribe to language signal
       this.updatePageTitle(this.router.url);
       // Update html lang attribute for accessibility and SEO
-      this.document.documentElement.lang = currentLang;
+      if (this.isBrowser) {
+        this.document.documentElement.lang = currentLang;
+      }
     });
   }
 
@@ -541,8 +554,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private updateCanonicalUrl(url: string) {
-    if (!this.isBrowser) return;
-
     let link: HTMLLinkElement | null = this.document.querySelector('link[rel="canonical"]');
     if (link) {
       link.setAttribute('href', url);

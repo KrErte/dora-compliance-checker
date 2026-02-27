@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 declare global {
   interface Window {
@@ -16,6 +17,7 @@ declare global {
 
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private _isAvailable = signal(false);
   private _isLoading = signal(true);
   private _errorMessage = signal<string | null>(null);
@@ -27,7 +29,11 @@ export class PaymentService {
   errorMessage = this._errorMessage.asReadonly();
 
   constructor() {
-    this.checkLemonSqueezyAvailability();
+    if (this.isBrowser) {
+      this.checkLemonSqueezyAvailability();
+    } else {
+      this._isLoading.set(false);
+    }
   }
 
   private checkLemonSqueezyAvailability(): void {

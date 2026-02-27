@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
@@ -561,6 +561,7 @@ interface Sector {
   `
 })
 export class Nis2ScopeCheckComponent implements OnInit {
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   constructor(
     public lang: LangService,
     private http: HttpClient,
@@ -635,6 +636,7 @@ export class Nis2ScopeCheckComponent implements OnInit {
   }
 
   private loadProgress(): void {
+    if (!this.isBrowser) return;
     try {
       const saved = localStorage.getItem('dora_scope_progress');
       if (saved) {
@@ -667,11 +669,11 @@ export class Nis2ScopeCheckComponent implements OnInit {
       registryCode: this.registryCode,
       savedAt: new Date().toISOString()
     };
-    localStorage.setItem('dora_scope_progress', JSON.stringify(progress));
+    if (this.isBrowser) localStorage.setItem('dora_scope_progress', JSON.stringify(progress));
   }
 
   clearProgress(): void {
-    localStorage.removeItem('dora_scope_progress');
+    if (this.isBrowser) localStorage.removeItem('dora_scope_progress');
   }
 
   private prefillDemoData(): void {
@@ -711,7 +713,7 @@ export class Nis2ScopeCheckComponent implements OnInit {
     this.emailSending = true;
 
     // Save email to localStorage
-    localStorage.setItem('dora_lead_email', this.leadEmail);
+    if (this.isBrowser) localStorage.setItem('dora_lead_email', this.leadEmail);
 
     // Simulate API call (would be backend endpoint in production)
     setTimeout(() => {

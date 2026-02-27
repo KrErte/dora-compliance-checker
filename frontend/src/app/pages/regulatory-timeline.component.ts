@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, OnDestroy, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser, CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LangService } from '../lang.service';
 
@@ -204,14 +204,17 @@ export class RegulatoryTimelineComponent implements OnInit, OnDestroy {
   countdowns: any[] = [];
   filterRegulation = 'ALL';
   private intervalId: any;
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   constructor(public lang: LangService) {}
 
   ngOnInit() {
     this.initializeEvents();
     this.calculateCountdowns();
-    // Update countdowns every minute
-    this.intervalId = setInterval(() => this.calculateCountdowns(), 60000);
+    // Update countdowns every minute (browser only — setInterval blocks SSR stability)
+    if (this.isBrowser) {
+      this.intervalId = setInterval(() => this.calculateCountdowns(), 60000);
+    }
   }
 
   ngOnDestroy() {

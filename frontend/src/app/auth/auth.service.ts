@@ -1,4 +1,5 @@
-import { Injectable, Injector, signal, computed } from '@angular/core';
+import { Injectable, Injector, signal, computed, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
@@ -7,6 +8,8 @@ import type { SubscriptionService } from '../services/subscription.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private platformId = inject(PLATFORM_ID);
+  private isBrowser = isPlatformBrowser(this.platformId);
   private currentUser = signal<AuthUser | null>(null);
   private readonly TOKEN_KEY = 'dora_token';
   private readonly USER_KEY = 'dora_user';
@@ -16,7 +19,9 @@ export class AuthService {
   isAdmin = computed(() => this.currentUser()?.role === 'ADMIN');
 
   constructor(private http: HttpClient, private router: Router, private injector: Injector) {
-    this.loadFromStorage();
+    if (this.isBrowser) {
+      this.loadFromStorage();
+    }
   }
 
   login(request: LoginRequest): Observable<AuthResponse> {
@@ -32,18 +37,20 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
-    localStorage.removeItem(this.USER_KEY);
+    if (this.isBrowser) {
+      localStorage.removeItem(this.TOKEN_KEY);
+      localStorage.removeItem(this.USER_KEY);
+    }
     this.currentUser.set(null);
     this.router.navigate(['/login']);
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
+    return this.isBrowser ? localStorage.getItem(this.TOKEN_KEY) : null;
   }
 
   handleOAuthCallback(token: string): Observable<AuthResponse> {
-    localStorage.setItem(this.TOKEN_KEY, token);
+    if (this.isBrowser) localStorage.setItem(this.TOKEN_KEY, token);
     return this.http.get<AuthResponse>('/api/auth/me').pipe(
       tap(res => {
         const user: AuthUser = {
@@ -54,7 +61,7 @@ export class AuthService {
           trialEndsAt: res.trialEndsAt,
           role: res.role
         };
-        localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+        if (this.isBrowser) localStorage.setItem(this.USER_KEY, JSON.stringify(user));
         this.currentUser.set(user);
         this.refreshSubscription();
       })
@@ -62,7 +69,7 @@ export class AuthService {
   }
 
   private handleAuth(res: AuthResponse): void {
-    localStorage.setItem(this.TOKEN_KEY, res.token);
+    if (this.isBrowser) localStorage.setItem(this.TOKEN_KEY, res.token);
     const user: AuthUser = {
       userId: res.userId,
       email: res.email,
@@ -70,7 +77,7 @@ export class AuthService {
       role: res.role,
       trialEndsAt: res.trialEndsAt
     };
-    localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+    if (this.isBrowser) localStorage.setItem(this.USER_KEY, JSON.stringify(user));
     this.currentUser.set(user);
     this.refreshSubscription();
   }

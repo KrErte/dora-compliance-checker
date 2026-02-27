@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { LangService } from '../../lang.service';
 
@@ -35,22 +36,24 @@ import { LangService } from '../../lang.service';
 })
 export class CookieConsentComponent implements OnInit {
   showBanner = false;
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   constructor(public lang: LangService) {}
 
   ngOnInit(): void {
+    if (!this.isBrowser) return;
     const consent = localStorage.getItem('cookieConsent');
     // Show banner if user hasn't made a choice yet
     this.showBanner = !consent || (consent !== 'accepted' && consent !== 'declined' && consent !== 'true');
   }
 
   acceptCookies(): void {
-    localStorage.setItem('cookieConsent', 'accepted');
+    if (this.isBrowser) localStorage.setItem('cookieConsent', 'accepted');
     this.showBanner = false;
   }
 
   declineCookies(): void {
-    localStorage.setItem('cookieConsent', 'declined');
+    if (this.isBrowser) localStorage.setItem('cookieConsent', 'declined');
     this.showBanner = false;
   }
 }

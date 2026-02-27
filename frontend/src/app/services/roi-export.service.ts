@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { jsPDF } from 'jspdf';
-import autoTable from 'jspdf-autotable';
 import { PdfBrandingHelper } from './pdf-branding.helper';
 
 export interface RoiVendor {
@@ -77,7 +75,9 @@ export class RoiExportService {
   /**
    * Export vendors to PDF summary for board/management
    */
-  exportToPdf(vendors: RoiVendor[], companyName: string): void {
+  async exportToPdf(vendors: RoiVendor[], companyName: string): Promise<void> {
+    const { jsPDF } = await import('jspdf');
+    const autoTable = (await import('jspdf-autotable')).default;
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
     const branding = this.pdfBranding.getHeaderConfigSync();
