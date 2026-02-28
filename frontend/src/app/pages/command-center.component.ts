@@ -333,14 +333,14 @@ export class CommandCenterComponent implements OnInit, OnDestroy {
 
     // Regulatory deadlines
     const now = new Date();
-    const deadlineList: DeadlineItem[] = [
-      { title: 'DORA Application Date', date: '2025-01-17', daysLeft: this.daysBetween(now, new Date('2025-01-17')), severity: 'critical', type: 'DORA' },
-      { title: 'RTS/ITS Package 1 — Final', date: '2024-07-17', daysLeft: this.daysBetween(now, new Date('2024-07-17')), severity: 'critical', type: 'RTS' },
-      { title: et ? 'Aastaaruande t\u00e4htaeg' : 'Annual Review Deadline', date: '2026-06-30', daysLeft: this.daysBetween(now, new Date('2026-06-30')), severity: 'warning', type: 'INTERNAL' },
-      { title: et ? 'TLPT testi aruanne' : 'TLPT Test Report Due', date: '2026-12-31', daysLeft: this.daysBetween(now, new Date('2026-12-31')), severity: 'ok', type: 'TLPT' },
-      { title: 'NIS2 Transposition', date: '2024-10-17', daysLeft: this.daysBetween(now, new Date('2024-10-17')), severity: 'critical', type: 'NIS2' },
-      { title: et ? 'J\u00e4rgmine hindamine' : 'Next Assessment Due', date: '2026-03-31', daysLeft: this.daysBetween(now, new Date('2026-03-31')), severity: 'warning', type: 'ASSESSMENT' },
-    ].sort((a, b) => a.daysLeft - b.daysLeft);
+    const deadlineList: DeadlineItem[] = ([
+      { title: 'DORA Application Date', date: '2025-01-17', daysLeft: this.daysBetween(now, new Date('2025-01-17')), severity: 'critical' as const, type: 'DORA' },
+      { title: 'RTS/ITS Package 1 — Final', date: '2024-07-17', daysLeft: this.daysBetween(now, new Date('2024-07-17')), severity: 'critical' as const, type: 'RTS' },
+      { title: et ? 'Aastaaruande t\u00e4htaeg' : 'Annual Review Deadline', date: '2026-06-30', daysLeft: this.daysBetween(now, new Date('2026-06-30')), severity: 'warning' as const, type: 'INTERNAL' },
+      { title: et ? 'TLPT testi aruanne' : 'TLPT Test Report Due', date: '2026-12-31', daysLeft: this.daysBetween(now, new Date('2026-12-31')), severity: 'ok' as const, type: 'TLPT' },
+      { title: 'NIS2 Transposition', date: '2024-10-17', daysLeft: this.daysBetween(now, new Date('2024-10-17')), severity: 'critical' as const, type: 'NIS2' },
+      { title: et ? 'J\u00e4rgmine hindamine' : 'Next Assessment Due', date: '2026-03-31', daysLeft: this.daysBetween(now, new Date('2026-03-31')), severity: 'warning' as const, type: 'ASSESSMENT' },
+    ] as DeadlineItem[]).sort((a, b) => a.daysLeft - b.daysLeft);
 
     this.deadlines.set(deadlineList);
   }
