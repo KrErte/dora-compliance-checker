@@ -107,6 +107,44 @@ import { ToastService } from './auth/toast.service';
                 {{ lang.t('nav.company_profile') }}
               </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
+              <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">{{ lang.currentLang === 'et' ? 'HALDUS' : 'MANAGEMENT' }}</p>
+              <a routerLink="/incident-reporting" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                {{ lang.currentLang === 'et' ? 'Intsidendid' : 'Incidents' }}
+              </a>
+              <a routerLink="/remediation" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                </svg>
+                {{ lang.currentLang === 'et' ? 'Paranduskava' : 'Remediation' }}
+              </a>
+              <a routerLink="/maturity" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
+                </svg>
+                {{ lang.currentLang === 'et' ? 'Küpsusmudel' : 'Maturity Model' }}
+              </a>
+              <a routerLink="/risk-heatmap" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-orange-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                </svg>
+                {{ lang.currentLang === 'et' ? 'Riskikaart' : 'Risk Heatmap' }}
+              </a>
+              <a routerLink="/command-center" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                </svg>
+                {{ lang.currentLang === 'et' ? 'Juhtimiskeskus' : 'Command Center' }}
+                <span class="text-[9px] bg-cyan-500/20 text-cyan-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
+              </a>
+              <div class="border-t border-slate-700/30 my-1.5"></div>
               <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">NIS2</p>
               <a routerLink="/nis2/scope-check" (click)="toolsMenu = false"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
@@ -271,6 +309,22 @@ import { ToastService } from './auth/toast.service';
              class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.vendors') }}</a>
           <a routerLink="/company-profile" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.company_profile') }}</a>
+          <div class="border-t border-slate-700/50 mt-2 pt-2">
+            <p class="text-[10px] text-slate-600 px-3 mb-1 font-bold uppercase tracking-wider">{{ lang.currentLang === 'et' ? 'HALDUS' : 'MANAGEMENT' }}</p>
+            <a routerLink="/command-center" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+              {{ lang.currentLang === 'et' ? 'Juhtimiskeskus' : 'Command Center' }}
+              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-cyan-500/20 text-cyan-400">NEW</span>
+            </a>
+            <a routerLink="/incident-reporting" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Intsidendid' : 'Incidents' }}</a>
+            <a routerLink="/remediation" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Paranduskava' : 'Remediation' }}</a>
+            <a routerLink="/maturity" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Küpsusmudel' : 'Maturity Model' }}</a>
+            <a routerLink="/risk-heatmap" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Riskikaart' : 'Risk Heatmap' }}</a>
+          </div>
           <div class="border-t border-slate-700/50 mt-2 pt-2">
             <p class="text-[10px] text-slate-600 px-3 mb-1 font-bold uppercase tracking-wider">NIS2</p>
             <a routerLink="/nis2/scope-check" (click)="mobileMenu = false"

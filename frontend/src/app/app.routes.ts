@@ -237,6 +237,18 @@ export const routes: Routes = [
     data: { seoTitle: 'Group Entity Management', seoDescription: 'DORA Art. 11 consolidated digital operational resilience management for financial groups.' }
   },
   {
+    path: 'command-center',
+    loadComponent: () => import('./pages/command-center.component').then(m => m.CommandCenterComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Compliance Command Center', seoDescription: 'Real-time DORA compliance operational overview. Monitor pillar health, track deadlines, and manage all compliance modules.' }
+  },
+  {
+    path: 'trust-seal',
+    loadComponent: () => import('./pages/trust-seal.component').then(m => m.TrustSealComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'DORA Trust Seal', seoDescription: 'Get your embeddable DORA compliance badge. Show clients and partners your organization is DORA-compliant.' }
+  },
+  {
     path: 'settings/sso',
     loadComponent: () => import('./pages/sso-settings.component').then(m => m.SsoSettingsComponent),
     canActivate: [authGuard],
