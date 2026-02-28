@@ -26,7 +26,10 @@
         <root level="INFO">
             <appender-ref ref="JSON" />
         </root>
-        <!-- Reduce noise from frameworks but keep ERROR visible -->
+        <!-- DEBUG for request debugging -->
+        <logger name="org.springframework.web" level="DEBUG" />
+        <logger name="org.springframework.security" level="DEBUG" />
+        <logger name="com.dorachecker" level="DEBUG" />
         <logger name="org.springframework" level="INFO" />
         <logger name="org.hibernate" level="WARN" />
         <logger name="io.jsonwebtoken" level="WARN" />

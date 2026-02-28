@@ -100,6 +100,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
+        System.err.println("=== LOGIN ATTEMPT: " + request.email() + " ===");
         log.info("Login attempt for email: {}", request.email());
         try {
         Optional<UserEntity> userOpt = userRepository.findByEmail(request.email());
