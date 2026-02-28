@@ -45,15 +45,15 @@ interface TrainingRecord {
           <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Kokku' : 'Total' }}</div>
         </div>
         <div class="bg-slate-800/50 border border-emerald-500/30 rounded-xl p-4 text-center">
-          <div class="text-2xl font-bold text-emerald-400">{{ records().filter(r => r.status === 'COMPLETED').length }}</div>
+          <div class="text-2xl font-bold text-emerald-400">{{ countByStatus('COMPLETED') }}</div>
           <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'L\u00e4bitud' : 'Completed' }}</div>
         </div>
         <div class="bg-slate-800/50 border border-red-500/30 rounded-xl p-4 text-center">
-          <div class="text-2xl font-bold text-red-400">{{ records().filter(r => r.status === 'OVERDUE').length }}</div>
+          <div class="text-2xl font-bold text-red-400">{{ countByStatus('OVERDUE') }}</div>
           <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'T\u00e4htaja \u00fcletanud' : 'Overdue' }}</div>
         </div>
         <div class="bg-slate-800/50 border border-amber-500/30 rounded-xl p-4 text-center">
-          <div class="text-2xl font-bold text-amber-400">{{ records().filter(r => r.status === 'UPCOMING').length }}</div>
+          <div class="text-2xl font-bold text-amber-400">{{ countByStatus('UPCOMING') }}</div>
           <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Tulemas' : 'Upcoming' }}</div>
         </div>
       </div>
@@ -139,6 +139,10 @@ export class TrainingTrackerComponent {
     this.save();
     this.showForm = false;
     this.newRecord = { personName: '', role: 'Board Member', trainingTitle: '', completedDate: '', nextDueDate: '' };
+  }
+
+  countByStatus(status: string): number {
+    return this.records().filter(r => r.status === status).length;
   }
 
   deleteRecord(id: string) {
