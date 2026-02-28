@@ -2,8 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   @apply bg-slate-900 text-slate-100 min-h-screen;
+  overflow-x: hidden;
 }
 
 /* ===== ANIMATIONS ===== */

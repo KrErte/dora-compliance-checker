@@ -22,7 +22,7 @@ import { ToastService } from './auth/toast.service';
   template: `
     <a class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-teal-500 focus:text-white focus:px-4 focus:py-2 focus:rounded" href="#main-content">Liigu sisule</a>
     <nav ngSkipHydration class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50" aria-label="Peamine navigatsioon">
-      <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="max-w-5xl mx-auto px-3 sm:px-4 py-3 flex items-center justify-between">
         <a routerLink="/" class="flex items-center gap-3 group">
           <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs
                       group-hover:shadow-lg group-hover:shadow-emerald-500/25 transition-all duration-300 group-hover:scale-105">
@@ -342,7 +342,7 @@ import { ToastService } from './auth/toast.service';
         </div>
       </div>
     </nav>
-    <main id="main-content" class="max-w-5xl mx-auto px-4 py-8">
+    <main id="main-content" class="max-w-5xl mx-auto px-3 sm:px-4 py-6 sm:py-8">
       <router-outlet />
     </main>
     <footer class="border-t border-slate-800 mt-16 py-10">

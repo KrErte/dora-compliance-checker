@@ -58,7 +58,7 @@ interface HeatmapCell {
         </div>
 
         <!-- Score hero section -->
-        <div class="bg-gradient-to-br from-slate-800/80 to-slate-800/40 backdrop-blur rounded-2xl p-8 mb-8 border border-slate-700/50 animate-scale-in">
+        <div class="bg-gradient-to-br from-slate-800/80 to-slate-800/40 backdrop-blur rounded-2xl p-4 sm:p-8 mb-8 border border-slate-700/50 animate-scale-in">
           <div class="flex flex-col md:flex-row items-center gap-8">
             <!-- SVG circular score -->
             <div class="relative w-40 h-40 shrink-0">
@@ -248,7 +248,7 @@ interface HeatmapCell {
           </h2>
 
           <!-- Main comparison -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="grid grid-cols-3 gap-2 sm:gap-4 mb-6">
             <!-- Your Score -->
             <div class="bg-slate-800/50 rounded-lg p-4 text-center border border-slate-700/30">
               <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Teie tulemus' : 'Your Score' }}</p>
@@ -315,8 +315,8 @@ interface HeatmapCell {
           <div *ngIf="benchmark.industryBenchmarks">
             <p class="text-xs text-slate-500 mb-3">{{ lang.currentLang === 'et' ? 'V&otilde;rdlus sektoritega' : 'Sector Comparison' }}</p>
             <div class="space-y-2">
-              <div *ngFor="let industry of benchmark.industryBenchmarks | keyvalue" class="flex items-center gap-3">
-                <span class="text-xs text-slate-400 w-28 truncate">{{ industry.value.label }}</span>
+              <div *ngFor="let industry of benchmark.industryBenchmarks | keyvalue" class="flex items-center gap-2 sm:gap-3">
+                <span class="text-xs text-slate-400 w-20 sm:w-28 truncate shrink-0">{{ industry.value.label }}</span>
                 <div class="flex-1 h-2 bg-slate-700/50 rounded-full overflow-hidden">
                   <div class="h-full rounded-full transition-all duration-700"
                        [class]="industry.value.average < result.scorePercentage ? 'bg-slate-500' : 'bg-indigo-500'"
@@ -329,8 +329,8 @@ interface HeatmapCell {
                 </span>
               </div>
               <!-- Your score line -->
-              <div class="flex items-center gap-3 pt-2 border-t border-slate-700/50">
-                <span class="text-xs font-semibold w-28 truncate" [class]="scoreTextClass">{{ lang.currentLang === 'et' ? 'Teie tulemus' : 'Your Score' }}</span>
+              <div class="flex items-center gap-2 sm:gap-3 pt-2 border-t border-slate-700/50">
+                <span class="text-xs font-semibold w-20 sm:w-28 truncate shrink-0" [class]="scoreTextClass">{{ lang.currentLang === 'et' ? 'Teie tulemus' : 'Your Score' }}</span>
                 <div class="flex-1 h-2 bg-slate-700/50 rounded-full overflow-hidden">
                   <div class="h-full rounded-full transition-all duration-700"
                        [class]="result.complianceLevel === 'GREEN' ? 'bg-emerald-500' : result.complianceLevel === 'YELLOW' ? 'bg-amber-500' : 'bg-red-500'"
@@ -680,7 +680,7 @@ interface HeatmapCell {
         </div>
 
         <!-- Actions -->
-        <div class="flex flex-wrap justify-center gap-3 mt-10 mb-8 animate-fade-in-up delay-800 no-print">
+        <div class="flex flex-col sm:flex-row sm:flex-wrap sm:justify-center gap-3 mt-10 mb-8 animate-fade-in-up delay-800 no-print">
           <!-- Certificate - Paywalled -->
           <button *ngIf="emailCaptured" type="button" (click)="handleCertificateClick()"
                   class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400

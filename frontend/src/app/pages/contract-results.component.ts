@@ -30,8 +30,8 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
     <div *ngIf="result" class="max-w-5xl mx-auto space-y-8">
 
       <!-- Header with score ring -->
-      <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-8">
-        <div class="flex flex-col md:flex-row items-center gap-8">
+      <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-4 sm:p-8">
+        <div class="flex flex-col md:flex-row items-center gap-6 sm:gap-8">
           <!-- SVG Score Ring -->
           <div class="relative flex-shrink-0">
             <svg width="160" height="160" viewBox="0 0 160 160">
@@ -65,7 +65,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
         </div>
 
         <!-- Stats row -->
-        <div class="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-slate-700/50">
+        <div class="grid grid-cols-3 gap-2 sm:gap-4 mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-slate-700/50">
           <div class="text-center">
             <p class="text-2xl font-bold text-emerald-400">{{ result.foundCount }}</p>
             <p class="text-xs text-slate-500">{{ lang.t('contract.covered') }}</p>
@@ -88,7 +88,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
             </svg>
             <span class="text-sm font-semibold text-indigo-300">{{ lang.currentLang === 'et' ? 'T&ouml;&ouml;stuse v&otilde;rdlus' : 'Industry Benchmark' }}</span>
           </div>
-          <div class="grid grid-cols-3 gap-4">
+          <div class="grid grid-cols-3 gap-2 sm:gap-4">
             <div class="text-center">
               <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Teie tulemus' : 'Your Score' }}</p>
               <p class="text-lg font-bold" [style.color]="scoreColor">{{ result.scorePercentage | number:'1.0-0' }}%</p>
@@ -179,13 +179,13 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
         </div>
         <div *ngFor="let f of missingFindings; let i = index"
              class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl overflow-hidden">
-          <div [class]="'px-5 py-3 flex items-center justify-between ' + (f.status === 'missing' ? 'bg-red-500/10' : 'bg-yellow-500/10')">
-            <div class="flex items-center gap-3">
-              <span class="text-white font-bold text-sm">{{ i + 1 }}.</span>
-              <span class="text-white text-sm font-medium">{{ f.doraReference }}</span>
-              <span class="text-slate-300 text-sm">{{ lang.currentLang === 'et' ? f.requirementEt : f.requirementEn }}</span>
+          <div [class]="'px-4 sm:px-5 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 ' + (f.status === 'missing' ? 'bg-red-500/10' : 'bg-yellow-500/10')">
+            <div class="flex items-start sm:items-center gap-2 sm:gap-3 min-w-0">
+              <span class="text-white font-bold text-sm shrink-0">{{ i + 1 }}.</span>
+              <span class="text-white text-sm font-medium shrink-0">{{ f.doraReference }}</span>
+              <span class="text-slate-300 text-sm line-clamp-2 sm:line-clamp-1">{{ lang.currentLang === 'et' ? f.requirementEt : f.requirementEn }}</span>
             </div>
-            <span [class]="statusBadge(f.status)">{{ statusLabel(f.status) }}</span>
+            <span [class]="statusBadge(f.status) + ' shrink-0 self-end sm:self-auto'">{{ statusLabel(f.status) }}</span>
           </div>
           <div class="px-5 py-4">
             <p class="text-xs font-semibold text-slate-500 uppercase mb-1">{{ lang.t('contract.recommendation') }}</p>
@@ -266,7 +266,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
       </div>
 
       <!-- Action buttons -->
-      <div class="flex flex-wrap gap-3 justify-center">
+      <div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:justify-center">
         <button type="button" (click)="viewComparison()"
                 class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-cyan-500/25 transition-all">
           <span class="flex items-center gap-2">
