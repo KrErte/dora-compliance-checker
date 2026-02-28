@@ -1,20 +1,20 @@
 import { Injectable, signal } from '@angular/core';
 
-export type Lang = 'et' | 'en';
+export type Lang = 'et' | 'en' | 'lv' | 'lt';
 
 const GEOLOCATION_API = 'https://ipapi.co/json/';
 
-const TRANSLATIONS: { [key: string]: { et: string; en: string } } = {
+const TRANSLATIONS: { [key: string]: { et: string; en: string; lv?: string; lt?: string } } = {
   // Nav
-  'nav.history': { et: 'Ajalugu', en: 'History' },
-  'nav.assessment': { et: 'Hindamine', en: 'Assessment' },
-  'nav.subtitle': { et: 'IKT-lepingute hindamine', en: 'ICT Contract Assessment' },
-  'nav.methodology': { et: 'Metoodika', en: 'Methodology' },
+  'nav.history': { et: 'Ajalugu', en: 'History', lv: 'V\u0113sture', lt: 'Istorija' },
+  'nav.assessment': { et: 'Hindamine', en: 'Assessment', lv: 'Nov\u0113rt\u0113jums', lt: 'Vertinimas' },
+  'nav.subtitle': { et: 'IKT-lepingute hindamine', en: 'ICT Contract Assessment', lv: 'IKT l\u012bgumu nov\u0113rt\u0113\u0161ana', lt: 'IKT sutar\u010di\u0173 vertinimas' },
+  'nav.methodology': { et: 'Metoodika', en: 'Methodology', lv: 'Metodolo\u0123ija', lt: 'Metodologija' },
   'nav.brand': { et: 'DoraAudit.eu', en: 'DoraAudit.eu' },
-  'nav.nis2_scope': { et: 'Kohaldumise kontroll', en: 'Scope Check' },
-  'nav.contract': { et: 'Lepinguanalüüs', en: 'Contract Analysis' },
-  'nav.contract_audit': { et: 'Lepinguaudit', en: 'Contract Audit' },
-  'footer.location': { et: 'Tallinn, Eesti', en: 'Tallinn, Estonia' },
+  'nav.nis2_scope': { et: 'Kohaldumise kontroll', en: 'Scope Check', lv: 'Tv\u0113ruma p\u0101rbaude', lt: 'Apimties patikra' },
+  'nav.contract': { et: 'Lepinguanalüüs', en: 'Contract Analysis', lv: 'L\u012bgumu anal\u012bze', lt: 'Sutar\u010di\u0173 analiz\u0117' },
+  'nav.contract_audit': { et: 'Lepinguaudit', en: 'Contract Audit', lv: 'L\u012bgumu audits', lt: 'Sutar\u010di\u0173 auditas' },
+  'footer.location': { et: 'Tallinn, Eesti', en: 'Tallinn, Estonia', lv: 'Tallina, Igaunija', lt: 'Talinas, Estija' },
 
   // Paywall & Subscription
   'paywall.data_saved_title': { et: 'Sinu andmed on salvestatud', en: 'Your data is saved' },
@@ -1944,7 +1944,7 @@ export class LangService {
     if (typeof localStorage !== 'undefined') {
       // v2 key - ignores old auto-detected preferences
       const stored = localStorage.getItem('user-lang-choice') as Lang;
-      if (stored === 'et' || stored === 'en') {
+      if (stored === 'et' || stored === 'en' || stored === 'lv' || stored === 'lt') {
         return stored;
       }
     }
@@ -1962,10 +1962,14 @@ export class LangService {
       if (!response.ok) return;
 
       const data = await response.json();
-      // If user is in Estonia (country_code: 'EE'), switch to Estonian
-      if (data.country_code === 'EE' && !this.getStoredLang()) {
-        this.langSignal.set('et');
-        this.updateHtmlLang('et');
+      // If user is in Baltic states, switch to local language
+      if (!this.getStoredLang()) {
+        const countryLangMap: Record<string, Lang> = { 'EE': 'et', 'LV': 'lv', 'LT': 'lt' };
+        const detectedLang = countryLangMap[data.country_code];
+        if (detectedLang) {
+          this.langSignal.set(detectedLang);
+          this.updateHtmlLang(detectedLang);
+        }
       }
     } catch {
       // Silently fail - keep default English
@@ -1976,11 +1980,28 @@ export class LangService {
     return this.langSignal();
   }
 
+  private static readonly LANG_CYCLE: Lang[] = ['en', 'et', 'lv', 'lt'];
+
   toggle() {
-    const next: Lang = this.langSignal() === 'et' ? 'en' : 'et';
-    this.langSignal.set(next);
-    if (typeof localStorage !== 'undefined') localStorage.setItem('user-lang-choice', next);
-    this.updateHtmlLang(next);
+    const current = this.langSignal();
+    const idx = LangService.LANG_CYCLE.indexOf(current);
+    const next = LangService.LANG_CYCLE[(idx + 1) % LangService.LANG_CYCLE.length];
+    this.setLang(next);
+  }
+
+  setLang(lang: Lang) {
+    this.langSignal.set(lang);
+    if (typeof localStorage !== 'undefined') localStorage.setItem('user-lang-choice', lang);
+    this.updateHtmlLang(lang);
+  }
+
+  get availableLanguages(): { code: Lang; label: string }[] {
+    return [
+      { code: 'en', label: 'English' },
+      { code: 'et', label: 'Eesti' },
+      { code: 'lv', label: 'Latvie\u0161u' },
+      { code: 'lt', label: 'Lietuvi\u0173' }
+    ];
   }
 
   private updateHtmlLang(lang: Lang) {
@@ -1992,6 +2013,7 @@ export class LangService {
   t(key: string): string {
     const entry = TRANSLATIONS[key];
     if (!entry) return key;
-    return entry[this.langSignal()] || entry['et'] || key;
+    const lang = this.langSignal();
+    return (entry as any)[lang] || entry['en'] || entry['et'] || key;
   }
 }

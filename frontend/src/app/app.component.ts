@@ -151,15 +151,15 @@ import { ToastService } from './auth/toast.service';
           <div class="w-px h-5 bg-slate-700/50 mx-0.5"></div>
           <!-- Lang toggle (pill with globe icon) -->
           <button type="button" (click)="lang.toggle()"
-                  [attr.aria-label]="lang.currentLang === 'et' ? 'Switch to English' : 'Vaheta eesti keelele'"
+                  aria-label="Switch language"
                   class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium
                          border border-slate-600/50 text-slate-300 hover:border-emerald-500/50 hover:text-emerald-400
                          hover:bg-slate-700/30 transition-all duration-200"
-                  [title]="lang.currentLang === 'et' ? 'English' : 'Eesti'">
+                  [title]="getLangLabel()">
             <svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>
             </svg>
-            {{ lang.currentLang === 'et' ? 'ET' : 'EN' }}
+            {{ lang.currentLang.toUpperCase() }}
           </button>
           <!-- Separator between lang and user -->
           <div class="w-px h-5 bg-slate-700/50 mx-1"></div>
@@ -336,7 +336,7 @@ import { ToastService } from './auth/toast.service';
               <svg class="w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>
               </svg>
-              {{ lang.currentLang === 'et' ? 'English (EN)' : 'Eesti (ET)' }}
+              {{ getLangLabel() }} ({{ lang.currentLang.toUpperCase() }})
             </button>
           </div>
         </div>
@@ -586,7 +586,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.meta.updateTag({ property: 'og:description', content: description });
     this.meta.updateTag({ property: 'og:url', content: canonicalUrl });
     this.meta.updateTag({ property: 'og:image', content: 'https://doraaudit.eu/assets/og-image.png' });
-    this.meta.updateTag({ property: 'og:locale', content: this.lang.currentLang === 'et' ? 'et_EE' : 'en_US' });
+    const localeMap: Record<string, string> = { et: 'et_EE', en: 'en_US', lv: 'lv_LV', lt: 'lt_LT' };
+    this.meta.updateTag({ property: 'og:locale', content: localeMap[this.lang.currentLang] || 'en_US' });
 
     // Update Twitter Card tags
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
@@ -628,6 +629,11 @@ export class AppComponent implements OnInit, OnDestroy {
   closeAllMenus() {
     this.toolsMenu = false;
     this.userMenu = false;
+  }
+
+  getLangLabel(): string {
+    const found = this.lang.availableLanguages.find(l => l.code === this.lang.currentLang);
+    return found ? found.label : this.lang.currentLang.toUpperCase();
   }
 
   restartTour() {

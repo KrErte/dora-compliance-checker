@@ -106,6 +106,11 @@ export const routes: Routes = [
     data: { seoTitle: 'ICT Contract Generator', seoDescription: 'Generate DORA-compliant ICT service contracts with all required Article 30 clauses. Free contract template generator.' }
   },
   {
+    path: 'contract-checklist',
+    loadComponent: () => import('./pages/contract-checklist.component').then(m => m.ContractChecklistComponent),
+    data: { seoTitle: 'DORA Art. 30 Contract Checklist', seoDescription: 'Check if your ICT contracts contain all mandatory DORA Article 30 clauses. Free interactive contract compliance checklist.' }
+  },
+  {
     path: 'contract-analysis',
     loadComponent: () => import('./pages/contract-analysis.component').then(m => m.ContractAnalysisComponent),
     // No authGuard - free access for demo/sample
@@ -152,6 +157,90 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/incident-simulator.component').then(m => m.IncidentSimulatorComponent),
     canActivate: [authGuard],
     data: { seoTitle: 'ICT Incident Simulator', seoDescription: 'Simulate DORA-compliant ICT incident response scenarios. Practice incident classification and reporting workflows.' }
+  },
+  {
+    path: 'remediation',
+    loadComponent: () => import('./pages/remediation-tracker.component').then(m => m.RemediationTrackerComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Remediation Tracker', seoDescription: 'Track and manage DORA compliance remediation actions. Monitor progress of fixes and improvements across all five DORA pillars.' }
+  },
+  {
+    path: 'incident-reporting',
+    loadComponent: () => import('./pages/incident-reporting.component').then(m => m.IncidentReportingComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Incident Reporting', seoDescription: 'DORA Article 19 ICT incident reporting workflow. Manage initial, intermediate, and final reports with automated deadline tracking.' }
+  },
+  {
+    path: 'tlpt',
+    loadComponent: () => import('./pages/tlpt-module.component').then(m => m.TlptModuleComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'TLPT Module', seoDescription: 'DORA Article 26-27 Threat-Led Penetration Testing. Plan, track, and manage TLPT tests with TIBER-EU framework support.' }
+  },
+  {
+    path: 'concentration-risk',
+    loadComponent: () => import('./pages/concentration-risk.component').then(m => m.ConcentrationRiskComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Concentration Risk Analysis', seoDescription: 'DORA Article 29 ICT provider concentration risk analysis. Identify over-reliance on single providers.' }
+  },
+  {
+    path: 'training',
+    loadComponent: () => import('./pages/training-tracker.component').then(m => m.TrainingTrackerComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Training & Awareness Tracker', seoDescription: 'Track DORA-required training for board members and staff. Monitor compliance awareness program completion.' }
+  },
+  {
+    path: 'maturity',
+    loadComponent: () => import('./pages/maturity-model.component').then(m => m.MaturityModelComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Maturity Model Assessment', seoDescription: 'DORA compliance maturity assessment on 0-5 scale. Evaluate operational resilience maturity across all five DORA pillars.' }
+  },
+  {
+    path: 'compliance-trend',
+    loadComponent: () => import('./pages/compliance-trend.component').then(m => m.ComplianceTrendComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Compliance Trend', seoDescription: 'Track DORA compliance improvement over time. Historical assessment comparison and progress visualisation.' }
+  },
+  {
+    path: 'risk-heatmap',
+    loadComponent: () => import('./pages/risk-heatmap.component').then(m => m.RiskHeatmapComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Risk Heat Map', seoDescription: 'Visual heat map of DORA compliance risks by pillar and category. Identify highest-risk areas at a glance.' }
+  },
+  {
+    path: 'exit-strategies',
+    loadComponent: () => import('./pages/exit-strategy.component').then(m => m.ExitStrategyComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Exit Strategies', seoDescription: 'DORA Art. 28 & 30 exit strategy management for critical ICT providers. Plan transitions with alternative provider assessment.' }
+  },
+  {
+    path: 'audit-trail',
+    loadComponent: () => import('./pages/audit-trail.component').then(m => m.AuditTrailComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Audit Trail', seoDescription: 'Exportable compliance activity log for regulators. Evidence of DORA compliance activities and assessments.' }
+  },
+  {
+    path: 'info-sharing',
+    loadComponent: () => import('./pages/info-sharing.component').then(m => m.InfoSharingComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Information Sharing', seoDescription: 'DORA Article 45 cyber threat intelligence sharing management. Track ISAC, CERT and bilateral arrangements.' }
+  },
+  {
+    path: 'team',
+    loadComponent: () => import('./pages/team-management.component').then(m => m.TeamManagementComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Team Management', seoDescription: 'Manage your organization, invite team members, and collaborate on DORA compliance.' }
+  },
+  {
+    path: 'group-entities',
+    loadComponent: () => import('./pages/group-entity.component').then(m => m.GroupEntityComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Group Entity Management', seoDescription: 'DORA Art. 11 consolidated digital operational resilience management for financial groups.' }
+  },
+  {
+    path: 'settings/sso',
+    loadComponent: () => import('./pages/sso-settings.component').then(m => m.SsoSettingsComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'SSO Settings', seoDescription: 'Configure SAML2 or OIDC Single Sign-On for your organization.' }
   },
   {
     path: 'regulatory-updates',

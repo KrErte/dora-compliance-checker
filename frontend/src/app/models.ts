@@ -152,6 +152,114 @@ export interface RegulatoryUpdate {
   fetchedAt: string;
 }
 
+// ─── Incident Reporting (DORA Art. 19) ──────────────────────────────
+
+export interface IncidentReport {
+  id: string;
+  userId: string;
+  incidentTitle: string;
+  incidentType: 'CYBERATTACK' | 'SYSTEM_FAILURE' | 'DATA_BREACH' | 'THIRD_PARTY_FAILURE' | 'NATURAL_DISASTER' | 'OTHER';
+  description: string;
+  severityLevel: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
+  isMajor: boolean;
+  clientsAffected?: number;
+  transactionsAffected?: number;
+  geographicalSpread?: string;
+  dataLossType?: string;
+  criticalServicesAffected?: string;
+  economicImpact?: number;
+  durationMinutes?: number;
+  reputationalImpact?: string;
+  reportingStatus: 'DRAFT' | 'DETECTED' | 'INITIAL_SENT' | 'INTERMEDIATE_SENT' | 'FINAL_SENT' | 'CLOSED';
+  detectedAt: string;
+  classifiedAt?: string;
+  initialReportDueAt?: string;
+  initialReportSentAt?: string;
+  intermediateReportDueAt?: string;
+  intermediateReportSentAt?: string;
+  finalReportDueAt?: string;
+  finalReportSentAt?: string;
+  resolvedAt?: string;
+  initialReportJson?: string;
+  intermediateReportJson?: string;
+  finalReportJson?: string;
+  rootCause?: string;
+  remediationActions?: string;
+  lessonsLearned?: string;
+  competentAuthority?: string;
+  reportingContactName?: string;
+  reportingContactEmail?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IncidentStats {
+  total: number;
+  major: number;
+  open: number;
+  closed: number;
+  overdue: number;
+}
+
+// ─── Remediation Tracker ────────────────────────────────────────────
+
+export interface RemediationItem {
+  id: string;
+  userId: string;
+  title: string;
+  description?: string;
+  source: 'ASSESSMENT' | 'CONTRACT_ANALYSIS' | 'INCIDENT' | 'MANUAL';
+  sourceId?: string;
+  pillar: string;
+  articleReference?: string;
+  priority: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
+  status: 'OPEN' | 'IN_PROGRESS' | 'COMPLETED' | 'DEFERRED';
+  assignee?: string;
+  dueDate?: string;
+  completedDate?: string;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface RemediationStats {
+  total: number;
+  open: number;
+  inProgress: number;
+  completed: number;
+  deferred: number;
+}
+
+// ─── Organization / Team ────────────────────────────────────────────
+
+export interface Organization {
+  id: string;
+  name: string;
+  ownerId: string;
+  description?: string;
+  createdAt: string;
+}
+
+export interface OrgMember {
+  id: string;
+  userId: string;
+  email: string;
+  fullName: string;
+  role: 'OWNER' | 'ADMIN' | 'MEMBER';
+  joinedAt: string;
+}
+
+export interface OrgInvite {
+  id: string;
+  organizationId: string;
+  email: string;
+  role: 'OWNER' | 'ADMIN' | 'MEMBER';
+  token: string;
+  status: 'PENDING' | 'ACCEPTED' | 'EXPIRED' | 'CANCELLED';
+  createdAt: string;
+  expiresAt: string;
+}
+
 // ─── DORA 5 Pillars: shared category mapping ───────────────────────
 
 export const PILLAR_CATEGORIES: { [pillarId: string]: string[] } = {

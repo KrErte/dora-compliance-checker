@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DoraQuestion, AssessmentRequest, AssessmentResult, ContractAnalysisResult, NegotiationResult, NegotiationMessageResult, MonitoredContract, ContractAlert, RegulatoryUpdate } from './models';
+import { DoraQuestion, AssessmentRequest, AssessmentResult, ContractAnalysisResult, NegotiationResult, NegotiationMessageResult, MonitoredContract, ContractAlert, RegulatoryUpdate, IncidentReport, IncidentStats, RemediationItem, RemediationStats, Organization, OrgMember, OrgInvite } from './models';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -209,6 +209,130 @@ export class ApiService {
 
   getRoiCompleteness(): Observable<RoiCompleteness> {
     return this.http.get<RoiCompleteness>(`${this.baseUrl}/roi/completeness`);
+  }
+
+  // Incident Reporting (DORA Art. 19)
+  createIncident(data: any): Observable<IncidentReport> {
+    return this.http.post<IncidentReport>(`${this.baseUrl}/incidents`, data);
+  }
+
+  getIncidents(): Observable<IncidentReport[]> {
+    return this.http.get<IncidentReport[]>(`${this.baseUrl}/incidents`);
+  }
+
+  getIncident(id: string): Observable<IncidentReport> {
+    return this.http.get<IncidentReport>(`${this.baseUrl}/incidents/${id}`);
+  }
+
+  updateIncident(id: string, data: any): Observable<IncidentReport> {
+    return this.http.put<IncidentReport>(`${this.baseUrl}/incidents/${id}`, data);
+  }
+
+  classifyIncident(id: string): Observable<IncidentReport> {
+    return this.http.post<IncidentReport>(`${this.baseUrl}/incidents/${id}/classify`, {});
+  }
+
+  submitInitialReport(id: string, data: any): Observable<IncidentReport> {
+    return this.http.post<IncidentReport>(`${this.baseUrl}/incidents/${id}/initial-report`, data);
+  }
+
+  submitIntermediateReport(id: string, data: any): Observable<IncidentReport> {
+    return this.http.post<IncidentReport>(`${this.baseUrl}/incidents/${id}/intermediate-report`, data);
+  }
+
+  submitFinalReport(id: string, data: any): Observable<IncidentReport> {
+    return this.http.post<IncidentReport>(`${this.baseUrl}/incidents/${id}/final-report`, data);
+  }
+
+  resolveIncident(id: string, data: any): Observable<IncidentReport> {
+    return this.http.post<IncidentReport>(`${this.baseUrl}/incidents/${id}/resolve`, data);
+  }
+
+  closeIncident(id: string): Observable<IncidentReport> {
+    return this.http.post<IncidentReport>(`${this.baseUrl}/incidents/${id}/close`, {});
+  }
+
+  getIncidentStats(): Observable<IncidentStats> {
+    return this.http.get<IncidentStats>(`${this.baseUrl}/incidents/stats`);
+  }
+
+  // Remediation Tracker
+  createRemediation(data: any): Observable<RemediationItem> {
+    return this.http.post<RemediationItem>(`${this.baseUrl}/remediation`, data);
+  }
+
+  getRemediations(): Observable<RemediationItem[]> {
+    return this.http.get<RemediationItem[]>(`${this.baseUrl}/remediation`);
+  }
+
+  updateRemediation(id: string, data: any): Observable<RemediationItem> {
+    return this.http.put<RemediationItem>(`${this.baseUrl}/remediation/${id}`, data);
+  }
+
+  deleteRemediation(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/remediation/${id}`);
+  }
+
+  getRemediationStats(): Observable<RemediationStats> {
+    return this.http.get<RemediationStats>(`${this.baseUrl}/remediation/stats`);
+  }
+
+  // ─── Organizations ──────────────────────────────────
+  createOrganization(data: { name: string; description?: string }): Observable<Organization> {
+    return this.http.post<Organization>(`${this.baseUrl}/organizations`, data);
+  }
+  getOrganizations(): Observable<Organization[]> {
+    return this.http.get<Organization[]>(`${this.baseUrl}/organizations`);
+  }
+  getOrganization(orgId: string): Observable<Organization> {
+    return this.http.get<Organization>(`${this.baseUrl}/organizations/${orgId}`);
+  }
+  updateOrganization(orgId: string, data: { name: string; description?: string }): Observable<Organization> {
+    return this.http.put<Organization>(`${this.baseUrl}/organizations/${orgId}`, data);
+  }
+  deleteOrganization(orgId: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/organizations/${orgId}`);
+  }
+  getOrgMembers(orgId: string): Observable<OrgMember[]> {
+    return this.http.get<OrgMember[]>(`${this.baseUrl}/organizations/${orgId}/members`);
+  }
+  inviteToOrg(orgId: string, data: { email: string; role?: string }): Observable<OrgInvite> {
+    return this.http.post<OrgInvite>(`${this.baseUrl}/organizations/${orgId}/invite`, data);
+  }
+  getOrgInvites(orgId: string): Observable<OrgInvite[]> {
+    return this.http.get<OrgInvite[]>(`${this.baseUrl}/organizations/${orgId}/invites`);
+  }
+  cancelOrgInvite(orgId: string, inviteId: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/organizations/${orgId}/invites/${inviteId}`);
+  }
+  acceptOrgInvite(token: string): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/organizations/invites/${token}/accept`, {});
+  }
+  getMyOrgInvites(): Observable<OrgInvite[]> {
+    return this.http.get<OrgInvite[]>(`${this.baseUrl}/organizations/my-invites`);
+  }
+  updateMemberRole(orgId: string, memberId: string, role: string): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/organizations/${orgId}/members/${memberId}/role`, { role });
+  }
+  removeOrgMember(orgId: string, memberId: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/organizations/${orgId}/members/${memberId}`);
+  }
+  leaveOrganization(orgId: string): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/organizations/${orgId}/leave`, {});
+  }
+
+  // ─── SSO Config ─────────────────────────────────────
+  getSsoConfigs(orgId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/organizations/${orgId}/sso`);
+  }
+  createSsoConfig(orgId: string, config: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/organizations/${orgId}/sso`, config);
+  }
+  updateSsoConfig(orgId: string, configId: string, config: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/organizations/${orgId}/sso/${configId}`, config);
+  }
+  deleteSsoConfig(orgId: string, configId: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/organizations/${orgId}/sso/${configId}`);
   }
 }
 
