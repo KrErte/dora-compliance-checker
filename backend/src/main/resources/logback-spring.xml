@@ -26,8 +26,8 @@
         <root level="INFO">
             <appender-ref ref="JSON" />
         </root>
-        <!-- Reduce noise from frameworks -->
-        <logger name="org.springframework" level="WARN" />
+        <!-- Reduce noise from frameworks but keep ERROR visible -->
+        <logger name="org.springframework" level="INFO" />
         <logger name="org.hibernate" level="WARN" />
         <logger name="io.jsonwebtoken" level="WARN" />
     </springProfile>
