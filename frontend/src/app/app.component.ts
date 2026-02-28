@@ -220,7 +220,7 @@ import { ToastService } from './auth/toast.service';
                 </button>
               </div>
             </div>
-          } @else {
+          } @else if (isBrowser) {
             <a routerLink="/login"
                class="text-sm text-emerald-400 hover:text-emerald-300 transition-colors duration-200 px-2.5 py-2 rounded-lg hover:bg-slate-700/30">
               {{ lang.t('auth.login') }}
@@ -322,7 +322,7 @@ import { ToastService } from './auth/toast.service';
               <button type="button" (click)="auth.logout(); mobileMenu = false"
                       class="w-full text-left text-sm text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 mt-1">{{ lang.t('auth.logout') }}</button>
             </div>
-          } @else {
+          } @else if (isBrowser) {
             <div class="border-t border-slate-700/50 mt-2 pt-2 flex flex-col gap-1">
               <a routerLink="/login" (click)="mobileMenu = false"
                  class="text-sm text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('auth.login') }}</a>
@@ -434,7 +434,7 @@ export class AppComponent implements OnInit, OnDestroy {
   userMenu = false;
   showOnboarding = false;
   private routerSub?: Subscription;
-  private isBrowser: boolean;
+  isBrowser: boolean;
 
   private pageTitles: { [path: string]: { et: string; en: string } } = {
     '/': { et: 'DoraAudit.eu - DORA & NIS2 Vastavuskontroll', en: 'DoraAudit.eu - DORA & NIS2 Compliance' },
