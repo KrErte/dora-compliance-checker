@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface NegotiationRepository extends JpaRepository<NegotiationEntity, String> {
     List<NegotiationEntity> findByUserIdOrderByUpdatedAtDesc(String userId);
     Optional<NegotiationEntity> findByContractAnalysisIdAndUserId(String contractAnalysisId, String userId);
+    List<NegotiationEntity> findByUserId(String userId);
 }

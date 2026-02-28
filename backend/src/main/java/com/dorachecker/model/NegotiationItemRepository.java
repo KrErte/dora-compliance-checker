@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface NegotiationItemRepository extends JpaRepository<NegotiationItemEntity, String> {
     List<NegotiationItemEntity> findByNegotiationIdOrderByPriorityAsc(String negotiationId);
+    void deleteByNegotiationId(String negotiationId);
 }

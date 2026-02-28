@@ -4,7 +4,13 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user_subscriptions")
+@Table(name = "user_subscriptions", indexes = {
+    @Index(name = "idx_subscriptions_user_id", columnList = "userId"),
+    @Index(name = "idx_subscriptions_session_id", columnList = "sessionId"),
+    @Index(name = "idx_subscriptions_ls_sub_id", columnList = "lemon_squeezy_subscription_id"),
+    @Index(name = "idx_subscriptions_ls_order_id", columnList = "lemon_squeezy_order_id"),
+    @Index(name = "idx_subscriptions_ls_customer_id", columnList = "lemon_squeezy_customer_id")
+})
 public class UserSubscriptionEntity {
 
     public enum Plan { FREE, STANDARD, ENTERPRISE }

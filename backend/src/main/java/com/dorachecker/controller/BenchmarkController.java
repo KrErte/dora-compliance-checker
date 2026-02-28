@@ -11,7 +11,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/benchmarks")
-@CrossOrigin
 public class BenchmarkController {
 
     private final AssessmentRepository assessmentRepository;

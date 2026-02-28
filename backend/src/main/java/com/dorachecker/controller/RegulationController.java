@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/regulations")
-@CrossOrigin(origins = "*")
 public class RegulationController {
 
     private final RegulationService regulationService;

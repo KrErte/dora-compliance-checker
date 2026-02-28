@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin/leads")
-@CrossOrigin(origins = "*")
+@PreAuthorize("hasRole('ADMIN')")
 public class LeadController {
 
     private final LeadCompanyRepository leadRepo;

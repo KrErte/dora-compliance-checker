@@ -51,8 +51,9 @@ export class OAuthCallbackComponent implements OnInit {
       }
 
       if (token) {
+        const refreshToken = params['refreshToken'];
         // Store token and fetch user info
-        this.auth.handleOAuthCallback(token).subscribe({
+        this.auth.handleOAuthCallback(token, refreshToken).subscribe({
           next: () => {
             this.loading = false;
             const returnUrl = sessionStorage.getItem('dora_returnUrl');

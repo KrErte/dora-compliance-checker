@@ -164,31 +164,71 @@ public class ClaudeApiService {
         return callApi(sb.toString(), 1024);
     }
 
+    private static final int MAX_RETRIES = 3;
+    private static final java.util.Set<Integer> RETRYABLE_STATUS_CODES = java.util.Set.of(429, 500, 502, 503);
+
     /**
-     * Shared API call method.
+     * Shared API call method with exponential backoff retry.
      */
     private String callApi(String prompt, int maxTokens) {
+        String requestBody;
         try {
-            String requestBody = objectMapper.writeValueAsString(new ApiRequest(
+            requestBody = objectMapper.writeValueAsString(new ApiRequest(
                     model, maxTokens, List.of(new Message("user", prompt))
             ));
+        } catch (Exception e) {
+            throw new RuntimeException("API päringu koostamine ebaõnnestus: " + e.getMessage(), e);
+        }
 
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://api.anthropic.com/v1/messages"))
-                    .header("Content-Type", "application/json")
-                    .header("x-api-key", apiKey)
-                    .header("anthropic-version", "2023-06-01")
-                    .timeout(Duration.ofMinutes(3))
-                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                    .build();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.anthropic.com/v1/messages"))
+                .header("Content-Type", "application/json")
+                .header("x-api-key", apiKey)
+                .header("anthropic-version", "2023-06-01")
+                .timeout(Duration.ofMinutes(3))
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
 
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        Exception lastException = null;
+        for (int attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+            try {
+                if (attempt > 0) {
+                    long backoffMs = (long) Math.pow(2, attempt) * 1000;
+                    Thread.sleep(backoffMs);
+                }
 
-            if (response.statusCode() != 200) {
+                HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+                if (response.statusCode() == 200) {
+                    return parseApiResponse(response.body());
+                }
+
+                if (RETRYABLE_STATUS_CODES.contains(response.statusCode()) && attempt < MAX_RETRIES) {
+                    lastException = new RuntimeException("HTTP " + response.statusCode());
+                    continue;
+                }
+
                 throw new RuntimeException("Anthropic API viga (HTTP " + response.statusCode() + "): " + response.body());
-            }
 
-            JsonNode root = objectMapper.readTree(response.body());
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("API päring katkestati", e);
+            } catch (RuntimeException e) {
+                lastException = e;
+                if (attempt >= MAX_RETRIES) throw e;
+            } catch (Exception e) {
+                lastException = e;
+                if (attempt >= MAX_RETRIES) {
+                    throw new RuntimeException("API päring ebaõnnestus: " + e.getMessage(), e);
+                }
+            }
+        }
+        throw new RuntimeException("API päring ebaõnnestus pärast " + MAX_RETRIES + " katset", lastException);
+    }
+
+    private String parseApiResponse(String body) {
+        try {
+            JsonNode root = objectMapper.readTree(body);
             JsonNode content = root.get("content");
             if (content == null || !content.isArray() || content.isEmpty()) {
                 throw new RuntimeException("Tühi vastus API-lt");
@@ -196,8 +236,6 @@ public class ClaudeApiService {
 
             String text = content.get(0).get("text").asText();
 
-            // Extract JSON from response (may have markdown wrapping)
-            // Check if array [ comes before object { — if so, extract array
             int arrayStart = text.indexOf('[');
             int objectStart = text.indexOf('{');
             int jsonStart, jsonEnd;
@@ -216,11 +254,10 @@ public class ClaudeApiService {
                 throw new RuntimeException("JSON-i ei leitud vastusest");
             }
             return text.substring(jsonStart, jsonEnd + 1);
-
         } catch (RuntimeException e) {
             throw e;
         } catch (Exception e) {
-            throw new RuntimeException("API päring ebaõnnestus: " + e.getMessage(), e);
+            throw new RuntimeException("API vastuse parsimine ebaõnnestus: " + e.getMessage(), e);
         }
     }
 

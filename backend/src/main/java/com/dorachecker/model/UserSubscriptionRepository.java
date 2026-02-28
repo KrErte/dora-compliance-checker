@@ -19,4 +19,5 @@ public interface UserSubscriptionRepository extends JpaRepository<UserSubscripti
     Optional<UserSubscriptionEntity> findByLemonSqueezyCustomerId(String customerId);
 
     Optional<UserSubscriptionEntity> findByUserIdOrSessionId(String userId, String sessionId);
+    void deleteByUserId(String userId);
 }

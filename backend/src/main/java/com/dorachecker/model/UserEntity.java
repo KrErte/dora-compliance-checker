@@ -4,7 +4,12 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", indexes = {
+    @Index(name = "idx_users_email", columnList = "email"),
+    @Index(name = "idx_users_trial_ends_at", columnList = "trialEndsAt"),
+    @Index(name = "idx_users_refresh_token", columnList = "refreshToken"),
+    @Index(name = "idx_users_unsubscribe_token", columnList = "unsubscribeToken")
+})
 public class UserEntity {
 
     public enum Role { USER, ADMIN }
@@ -44,6 +49,23 @@ public class UserEntity {
     private Integer earlyAdopterNumber;
 
     private LocalDateTime trialEndsAt;
+
+    private String passwordResetToken;
+
+    private LocalDateTime passwordResetTokenExpiresAt;
+
+    @Column(nullable = false)
+    private boolean emailVerified = false;
+
+    private String emailVerificationToken;
+
+    @Column(nullable = false)
+    private boolean emailOptOut = false;
+
+    private String refreshToken;
+    private LocalDateTime refreshTokenExpiresAt;
+
+    private String unsubscribeToken;
 
     public UserEntity() {}
 
@@ -86,4 +108,28 @@ public class UserEntity {
 
     public String getOauthProviderId() { return oauthProviderId; }
     public void setOauthProviderId(String oauthProviderId) { this.oauthProviderId = oauthProviderId; }
+
+    public String getPasswordResetToken() { return passwordResetToken; }
+    public void setPasswordResetToken(String passwordResetToken) { this.passwordResetToken = passwordResetToken; }
+
+    public LocalDateTime getPasswordResetTokenExpiresAt() { return passwordResetTokenExpiresAt; }
+    public void setPasswordResetTokenExpiresAt(LocalDateTime passwordResetTokenExpiresAt) { this.passwordResetTokenExpiresAt = passwordResetTokenExpiresAt; }
+
+    public boolean isEmailVerified() { return emailVerified; }
+    public void setEmailVerified(boolean emailVerified) { this.emailVerified = emailVerified; }
+
+    public String getEmailVerificationToken() { return emailVerificationToken; }
+    public void setEmailVerificationToken(String emailVerificationToken) { this.emailVerificationToken = emailVerificationToken; }
+
+    public boolean isEmailOptOut() { return emailOptOut; }
+    public void setEmailOptOut(boolean emailOptOut) { this.emailOptOut = emailOptOut; }
+
+    public String getRefreshToken() { return refreshToken; }
+    public void setRefreshToken(String refreshToken) { this.refreshToken = refreshToken; }
+
+    public LocalDateTime getRefreshTokenExpiresAt() { return refreshTokenExpiresAt; }
+    public void setRefreshTokenExpiresAt(LocalDateTime refreshTokenExpiresAt) { this.refreshTokenExpiresAt = refreshTokenExpiresAt; }
+
+    public String getUnsubscribeToken() { return unsubscribeToken; }
+    public void setUnsubscribeToken(String unsubscribeToken) { this.unsubscribeToken = unsubscribeToken; }
 }

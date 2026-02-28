@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- Dev profile: human-readable console output -->
+    <springProfile name="!prod">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE" />
+        </root>
+    </springProfile>
+
+    <!-- Prod profile: structured JSON logging -->
+    <springProfile name="prod">
+        <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <includeMdcKeyName>userId</includeMdcKeyName>
+                <includeMdcKeyName>requestId</includeMdcKeyName>
+                <timeZone>UTC</timeZone>
+                <shortenedLoggerNameLength>36</shortenedLoggerNameLength>
+            </encoder>
+        </appender>
+        <root level="INFO">
+            <appender-ref ref="JSON" />
+        </root>
+        <!-- Reduce noise from frameworks -->
+        <logger name="org.springframework" level="WARN" />
+        <logger name="org.hibernate" level="WARN" />
+        <logger name="io.jsonwebtoken" level="WARN" />
+    </springProfile>
+
+</configuration>

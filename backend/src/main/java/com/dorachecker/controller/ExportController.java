@@ -2,10 +2,12 @@ package com.dorachecker.controller;
 
 import com.dorachecker.model.AssessmentRepository;
 import com.dorachecker.model.ContractAnalysisRepository;
+import com.dorachecker.service.ExcelExportService;
+import com.dorachecker.service.PdfExportService;
 import com.dorachecker.service.SubscriptionGuardService;
 import com.dorachecker.service.SubscriptionGuardService.Feature;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -17,54 +19,52 @@ public class ExportController {
     private final SubscriptionGuardService guardService;
     private final AssessmentRepository assessmentRepository;
     private final ContractAnalysisRepository contractAnalysisRepository;
+    private final PdfExportService pdfExportService;
+    private final ExcelExportService excelExportService;
 
     public ExportController(
             SubscriptionGuardService guardService,
             AssessmentRepository assessmentRepository,
-            ContractAnalysisRepository contractAnalysisRepository
+            ContractAnalysisRepository contractAnalysisRepository,
+            PdfExportService pdfExportService,
+            ExcelExportService excelExportService
     ) {
         this.guardService = guardService;
         this.assessmentRepository = assessmentRepository;
         this.contractAnalysisRepository = contractAnalysisRepository;
+        this.pdfExportService = pdfExportService;
+        this.excelExportService = excelExportService;
     }
 
-    /**
-     * Export assessment as PDF
-     */
     @PostMapping("/pdf/assessment/{id}")
     public ResponseEntity<?> exportAssessmentPdf(
             @PathVariable String id,
-            @RequestHeader(value = "X-User-Id", required = false) String userId,
-            @RequestHeader(value = "X-Session-Id", required = false) String sessionId
+            @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
+            Authentication authentication
     ) {
+        String userId = authentication != null ? (String) authentication.getPrincipal() : null;
+
         if (!guardService.canAccess(userId, sessionId, Feature.PDF_EXPORT)) {
             return premiumRequiredResponse(Feature.PDF_EXPORT);
         }
 
-        // Check if assessment exists
         var assessment = assessmentRepository.findById(id);
         if (assessment.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        // TODO: Generate actual PDF
-        // For now, return success - frontend will use browser print
-        return ResponseEntity.ok(Map.of(
-                "success", true,
-                "message", "PDF generation authorized",
-                "assessmentId", id
-        ));
+        byte[] pdfBytes = pdfExportService.generateAssessmentPdf(assessment.get());
+        return fileResponse(pdfBytes, "assessment-report.pdf", MediaType.APPLICATION_PDF);
     }
 
-    /**
-     * Export contract analysis as PDF
-     */
     @PostMapping("/pdf/contract/{id}")
     public ResponseEntity<?> exportContractPdf(
             @PathVariable String id,
-            @RequestHeader(value = "X-User-Id", required = false) String userId,
-            @RequestHeader(value = "X-Session-Id", required = false) String sessionId
+            @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
+            Authentication authentication
     ) {
+        String userId = authentication != null ? (String) authentication.getPrincipal() : null;
+
         if (!guardService.canAccess(userId, sessionId, Feature.PDF_EXPORT)) {
             return premiumRequiredResponse(Feature.PDF_EXPORT);
         }
@@ -74,22 +74,18 @@ public class ExportController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(Map.of(
-                "success", true,
-                "message", "PDF generation authorized",
-                "contractId", id
-        ));
+        byte[] pdfBytes = pdfExportService.generateContractPdf(contract.get());
+        return fileResponse(pdfBytes, "contract-analysis-report.pdf", MediaType.APPLICATION_PDF);
     }
 
-    /**
-     * Export assessment as Excel
-     */
     @PostMapping("/excel/assessment/{id}")
     public ResponseEntity<?> exportAssessmentExcel(
             @PathVariable String id,
-            @RequestHeader(value = "X-User-Id", required = false) String userId,
-            @RequestHeader(value = "X-Session-Id", required = false) String sessionId
+            @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
+            Authentication authentication
     ) {
+        String userId = authentication != null ? (String) authentication.getPrincipal() : null;
+
         if (!guardService.canAccess(userId, sessionId, Feature.EXCEL_EXPORT)) {
             return premiumRequiredResponse(Feature.EXCEL_EXPORT);
         }
@@ -99,43 +95,60 @@ public class ExportController {
             return ResponseEntity.notFound().build();
         }
 
-        // TODO: Generate actual Excel file
-        return ResponseEntity.ok(Map.of(
-                "success", true,
-                "message", "Excel generation authorized",
-                "assessmentId", id
-        ));
+        byte[] excelBytes = excelExportService.generateAssessmentExcel(assessment.get());
+        return fileResponse(excelBytes, "assessment-report.xlsx",
+                MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
     }
 
-    /**
-     * Export as xBRL-CSV for regulator submission
-     */
+    @PostMapping("/excel/contract/{id}")
+    public ResponseEntity<?> exportContractExcel(
+            @PathVariable String id,
+            @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
+            Authentication authentication
+    ) {
+        String userId = authentication != null ? (String) authentication.getPrincipal() : null;
+
+        if (!guardService.canAccess(userId, sessionId, Feature.EXCEL_EXPORT)) {
+            return premiumRequiredResponse(Feature.EXCEL_EXPORT);
+        }
+
+        var contract = contractAnalysisRepository.findById(id);
+        if (contract.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        byte[] excelBytes = excelExportService.generateContractExcel(contract.get());
+        return fileResponse(excelBytes, "contract-analysis-report.xlsx",
+                MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+    }
+
     @PostMapping("/xbrl-csv/{id}")
     public ResponseEntity<?> exportXbrlCsv(
             @PathVariable String id,
-            @RequestHeader(value = "X-User-Id", required = false) String userId,
-            @RequestHeader(value = "X-Session-Id", required = false) String sessionId
+            @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
+            Authentication authentication
     ) {
+        String userId = authentication != null ? (String) authentication.getPrincipal() : null;
+
         if (!guardService.canAccess(userId, sessionId, Feature.XBRL_EXPORT)) {
             return premiumRequiredResponse(Feature.XBRL_EXPORT);
         }
 
-        // TODO: Generate xBRL-CSV format
+        // xBRL-CSV export is handled by RoiExportController for RoI data
         return ResponseEntity.ok(Map.of(
                 "success", true,
                 "message", "xBRL-CSV generation authorized"
         ));
     }
 
-    /**
-     * Export compliance certificate
-     */
     @PostMapping("/certificate/{id}")
     public ResponseEntity<?> exportCertificate(
             @PathVariable String id,
-            @RequestHeader(value = "X-User-Id", required = false) String userId,
-            @RequestHeader(value = "X-Session-Id", required = false) String sessionId
+            @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
+            Authentication authentication
     ) {
+        String userId = authentication != null ? (String) authentication.getPrincipal() : null;
+
         if (!guardService.canAccess(userId, sessionId, Feature.CERTIFICATE)) {
             return premiumRequiredResponse(Feature.CERTIFICATE);
         }
@@ -152,15 +165,14 @@ public class ExportController {
         ));
     }
 
-    /**
-     * Export action plan as PDF
-     */
     @PostMapping("/action-plan/{id}")
     public ResponseEntity<?> exportActionPlan(
             @PathVariable String id,
-            @RequestHeader(value = "X-User-Id", required = false) String userId,
-            @RequestHeader(value = "X-Session-Id", required = false) String sessionId
+            @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
+            Authentication authentication
     ) {
+        String userId = authentication != null ? (String) authentication.getPrincipal() : null;
+
         if (!guardService.canAccess(userId, sessionId, Feature.ACTION_PLAN_PDF)) {
             return premiumRequiredResponse(Feature.ACTION_PLAN_PDF);
         }
@@ -169,6 +181,14 @@ public class ExportController {
                 "success", true,
                 "message", "Action plan PDF generation authorized"
         ));
+    }
+
+    private ResponseEntity<byte[]> fileResponse(byte[] data, String filename, MediaType mediaType) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(mediaType);
+        headers.setContentDisposition(ContentDisposition.attachment().filename(filename).build());
+        headers.setContentLength(data.length);
+        return new ResponseEntity<>(data, headers, HttpStatus.OK);
     }
 
     private ResponseEntity<Map<String, Object>> premiumRequiredResponse(Feature feature) {

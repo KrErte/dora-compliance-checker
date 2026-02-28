@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/global-providers")
-@CrossOrigin(origins = "*")
 public class GlobalIctProviderController {
 
     private final GlobalIctProviderRepository repository;
@@ -143,12 +142,12 @@ public class GlobalIctProviderController {
 
     // Request DTO
     public record ContributeRequest(
-        String name,
-        String country,
-        String countryCode,
-        String serviceType,
+        @jakarta.validation.constraints.Size(max = 200) String name,
+        @jakarta.validation.constraints.Size(max = 100) String country,
+        @jakarta.validation.constraints.Size(max = 3) String countryCode,
+        @jakarta.validation.constraints.Size(max = 100) String serviceType,
         Integer riskScore,
-        String website,
-        String description
+        @jakarta.validation.constraints.Size(max = 500) String website,
+        @jakarta.validation.constraints.Size(max = 1000) String description
     ) {}
 }

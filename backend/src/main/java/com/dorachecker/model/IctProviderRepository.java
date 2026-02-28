@@ -21,4 +21,6 @@ public interface IctProviderRepository extends JpaRepository<IctProviderEntity, 
     @Modifying
     @Transactional
     void deleteByIdAndUserId(String id, String userId);
+
+    void deleteByUserId(String userId);
 }

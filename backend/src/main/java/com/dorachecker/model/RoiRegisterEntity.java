@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "roi_registers")
+@Table(name = "roi_registers", indexes = {
+    @Index(name = "idx_roi_registers_user_id", columnList = "userId")
+})
 public class RoiRegisterEntity {
 
     public enum Status { DRAFT, VALIDATING, VALID, EXPORTED }

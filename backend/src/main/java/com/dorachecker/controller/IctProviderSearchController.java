@@ -13,7 +13,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/ict-providers")
-@CrossOrigin(origins = "*")
 public class IctProviderSearchController {
 
     private final GlobalIctProviderRepository repository;

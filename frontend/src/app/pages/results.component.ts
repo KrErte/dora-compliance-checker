@@ -2,6 +2,7 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { ApiService, BenchmarkData } from '../api.service';
 import { LangService } from '../lang.service';
 import { AssessmentResult, CATEGORY_LABELS, PillarScore, calculatePillarScores } from '../models';
@@ -791,6 +792,7 @@ export class ResultsComponent implements OnInit {
     private api: ApiService,
     private route: ActivatedRoute,
     private renderer: Renderer2,
+    private http: HttpClient,
     public lang: LangService,
     public subscriptionService: SubscriptionService
   ) {}
@@ -861,7 +863,11 @@ export class ResultsComponent implements OnInit {
   }
 
   exportPdf() {
-    window.print();
+    if (!this.result) return;
+    this.api.exportAssessmentPdf(this.result.id).subscribe({
+      next: (blob) => this.downloadBlob(blob, 'assessment-report.pdf'),
+      error: () => window.print()
+    });
   }
 
   handlePdfClick() {
@@ -874,11 +880,23 @@ export class ResultsComponent implements OnInit {
 
   handleExcelClick() {
     if (this.subscriptionService.canAccess('EXCEL_EXPORT')) {
-      // TODO: Implement Excel export
-      console.log('Excel export - implement');
+      if (!this.result) return;
+      this.api.exportAssessmentExcel(this.result.id).subscribe({
+        next: (blob) => this.downloadBlob(blob, 'assessment-report.xlsx'),
+        error: () => {}
+      });
     } else {
       this.subscriptionService.showUpgrade('EXCEL_EXPORT');
     }
+  }
+
+  private downloadBlob(blob: Blob, filename: string) {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.URL.revokeObjectURL(url);
   }
 
   handleCertificateClick() {
@@ -897,12 +915,23 @@ export class ResultsComponent implements OnInit {
     // Save email to localStorage for this assessment
     localStorage.setItem('dora_results_email_' + this.result.id, this.email);
 
-    // TODO: Send email to backend for lead capture
-    // For now, just unlock the content
-    setTimeout(() => {
-      this.emailCaptured = true;
-      this.emailLoading = false;
-    }, 500);
+    // Send email to backend for lead capture
+    this.http.post('/api/public/leads/email', {
+      email: this.email,
+      source: 'assessment_results',
+      assessmentId: this.result.id,
+      assessmentScore: this.result.scorePercentage
+    }).subscribe({
+      next: () => {
+        this.emailCaptured = true;
+        this.emailLoading = false;
+      },
+      error: () => {
+        // Still unlock content even if backend fails
+        this.emailCaptured = true;
+        this.emailLoading = false;
+      }
+    });
   }
 
   buildCategoryStats() {

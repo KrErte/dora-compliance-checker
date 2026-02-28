@@ -13,7 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/api/ariregister")
-@CrossOrigin(origins = "*")
 public class AriregisterController {
 
     private static final int MAX_REQUESTS_PER_MINUTE = 30;

@@ -551,9 +551,11 @@ export class ContractResultsComponent implements OnInit {
   }
 
   downloadPdf() {
-    if (this.result) {
-      this.api.downloadContractReport(this.result.id);
-    }
+    if (!this.result) return;
+    this.api.exportContractPdf(this.result.id).subscribe({
+      next: (blob) => this.downloadBlob(blob, 'contract-analysis-report.pdf'),
+      error: () => window.print()
+    });
   }
 
   handlePdfClick() {
@@ -566,11 +568,23 @@ export class ContractResultsComponent implements OnInit {
 
   handleExcelClick() {
     if (this.subscriptionService.canAccess('EXCEL_EXPORT')) {
-      // TODO: Implement Excel export for contracts
-      console.log('Excel export - implement');
+      if (!this.result) return;
+      this.api.exportContractExcel(this.result.id).subscribe({
+        next: (blob) => this.downloadBlob(blob, 'contract-analysis-report.xlsx'),
+        error: () => {}
+      });
     } else {
       this.subscriptionService.showUpgrade('EXCEL_EXPORT');
     }
+  }
+
+  private downloadBlob(blob: Blob, filename: string) {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.URL.revokeObjectURL(url);
   }
 
   startMonitoring() {

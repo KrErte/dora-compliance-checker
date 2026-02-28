@@ -3580,7 +3580,6 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
         this.isLoading.set(false);
       },
       error: (err) => {
-        console.error('Failed to load ICT providers:', err);
         this.isLoading.set(false);
         // Keep demo data on error
       }
@@ -4011,7 +4010,6 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
           setTimeout(() => this.selectedVendor.set(newVendor), 100);
         },
         error: (err) => {
-          console.error('Failed to save provider:', err);
           this.isLoading.set(false);
           this.saveError.set('Salvestamine ebaõnnestus. Kontrolli, et oled sisse logitud.');
         }
@@ -4247,7 +4245,6 @@ Teine AS;DE;Network;Oluline;LEP-002;2024-06-01;2026-05-31`;
           this.currentView.set('vendors');
         },
         error: (err) => {
-          console.error('Failed to import providers:', err);
           this.isLoading.set(false);
           this.csvErrors.set(['Importimine ebaõnnestus. Kontrolli, et oled sisse logitud.']);
         }
@@ -4291,21 +4288,23 @@ Teine AS;DE;Network;Oluline;LEP-002;2024-06-01;2026-05-31`;
   exportRoiCsv(): void {
     this.showExportMenu.set(false);
     const roiVendors = this.vendorsToRoiFormat();
-    this.roiExport.exportToCsv(roiVendors, 'MyCompany');
+    const companyName = this.auth.user()?.fullName || 'My Company';
+    this.roiExport.exportToCsv(roiVendors, companyName);
   }
 
   exportRoiPdf(): void {
     this.showExportMenu.set(false);
 
     const roiVendors = this.vendorsToRoiFormat();
-    this.roiExport.exportToPdf(roiVendors, 'MyCompany');
+    const companyName = this.auth.user()?.fullName || 'My Company';
+    this.roiExport.exportToPdf(roiVendors, companyName);
   }
 
   exportRoiXbrlCsv(): void {
     this.showExportMenu.set(false);
     this.isXbrlExporting.set(true);
 
-    const companyName = 'MyCompany'; // TODO: get from user profile
+    const companyName = this.auth.user()?.fullName || 'My Company';
     this.api.exportRoiXbrlCsv(companyName).subscribe({
       next: (blob) => {
         const url = window.URL.createObjectURL(blob);

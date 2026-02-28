@@ -5,7 +5,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tracking_events")
+@Table(name = "tracking_events", indexes = {
+    @Index(name = "idx_tracking_events_type_created", columnList = "event_type, created_at")
+})
 public class TrackingEventEntity {
 
     @Id

@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "ict_service_arrangements")
+@Table(name = "ict_service_arrangements", indexes = {
+    @Index(name = "idx_ict_providers_user_id", columnList = "user_id")
+})
 public class IctProviderEntity {
 
     @Id

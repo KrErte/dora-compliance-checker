@@ -86,17 +86,25 @@ import { timeout, catchError, throwError } from 'rxjs';
             <div class="mb-5">
               <label for="login-email" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.email') }}</label>
               <input type="email" [(ngModel)]="email" name="email" id="login-email" required
-                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border border-slate-600/50 text-white placeholder-slate-500
-                            focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
+                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
+                            focus:outline-none focus:ring-1 transition-all"
+                     [class]="fieldErrors['email'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/25'"
                      placeholder="teie@ettevote.ee">
+              @if (fieldErrors['email']) {
+                <p class="mt-1 text-xs text-red-400">{{ fieldErrors['email'] }}</p>
+              }
             </div>
 
             <div class="mb-6">
               <label for="login-password" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.password') }}</label>
               <input type="password" [(ngModel)]="password" name="password" id="login-password" required
-                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border border-slate-600/50 text-white placeholder-slate-500
-                            focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
+                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
+                            focus:outline-none focus:ring-1 transition-all"
+                     [class]="fieldErrors['password'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/25'"
                      placeholder="********">
+              @if (fieldErrors['password']) {
+                <p class="mt-1 text-xs text-red-400">{{ fieldErrors['password'] }}</p>
+              }
             </div>
 
             <button type="submit" [disabled]="loading"
@@ -143,6 +151,7 @@ export class LoginComponent implements OnInit {
   error = '';
   loading = false;
   shakeForm = false;
+  fieldErrors: Record<string, string> = {};
 
   constructor(public lang: LangService, private auth: AuthService, private router: Router, private titleService: Title) {}
 
@@ -157,8 +166,17 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     this.error = '';
-    if (!this.email.trim() || !this.password.trim()) {
-      this.error = this.lang.t('auth.error_empty');
+    this.fieldErrors = {};
+    let hasErrors = false;
+    if (!this.email.trim()) {
+      this.fieldErrors['email'] = this.lang.t('auth.error_email_required');
+      hasErrors = true;
+    }
+    if (!this.password.trim()) {
+      this.fieldErrors['password'] = this.lang.t('auth.error_password_required');
+      hasErrors = true;
+    }
+    if (hasErrors) {
       this.triggerShake();
       return;
     }

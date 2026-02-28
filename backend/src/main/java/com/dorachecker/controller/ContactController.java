@@ -26,9 +26,9 @@ public class ContactController {
     }
 
     public record ContactRequest(
-            @NotBlank String name,
-            @NotBlank @Email String email,
-            String reason,
+            @NotBlank @Size(max = 100) String name,
+            @NotBlank @Email @Size(max = 255) String email,
+            @Size(max = 100) String reason,
             @NotBlank @Size(max = 2000) String message
     ) {}
 

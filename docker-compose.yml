@@ -3,6 +3,13 @@ services:
     image: postgres:16-alpine
     container_name: dora-postgres
     restart: unless-stopped
+    mem_limit: 512m
+    cpus: 1.0
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -58,6 +65,13 @@ services:
     build: ./backend
     container_name: dora-backend
     restart: unless-stopped
+    mem_limit: 1g
+    cpus: 1.5
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     volumes:
       - branding_data:/app/data/branding
     environment:
@@ -82,7 +96,7 @@ services:
       postgres:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/api-docs"]
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -92,8 +106,56 @@ services:
     build: ./frontend
     container_name: dora-frontend
     restart: unless-stopped
+    mem_limit: 256m
+    cpus: 0.5
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"
     depends_on:
       backend:
+        condition: service_healthy
+
+  # PostgreSQL Daily Backup (pg_dump, retain 7 days)
+  pg-backup:
+    image: postgres:16-alpine
+    container_name: dora-pg-backup
+    restart: unless-stopped
+    volumes:
+      - pg_backups:/backups
+    environment:
+      - PGHOST=postgres
+      - PGPORT=5432
+      - PGUSER=${POSTGRES_USER}
+      - PGPASSWORD=${POSTGRES_PASSWORD}
+      - PGDATABASE=${POSTGRES_DB}
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+        echo "Backup scheduler started"
+        while true; do
+          sleep_until=$$(date -d "tomorrow 02:00" +%s 2>/dev/null || date -v+1d -v2H -v0M -v0S +%s)
+          now=$$(date +%s)
+          sleep_secs=$$(( sleep_until - now ))
+          if [ $$sleep_secs -le 0 ]; then sleep_secs=86400; fi
+          echo "Next backup in $$sleep_secs seconds"
+          sleep $$sleep_secs
+          FILENAME="/backups/dora_$$(date +%Y%m%d_%H%M%S).sql.gz"
+          echo "Starting backup: $$FILENAME"
+          pg_dump | gzip > "$$FILENAME"
+          if [ $$? -eq 0 ]; then
+            echo "Backup completed: $$FILENAME ($$(du -h $$FILENAME | cut -f1))"
+          else
+            echo "Backup FAILED"
+          fi
+          # Remove backups older than 7 days
+          find /backups -name "dora_*.sql.gz" -mtime +7 -delete
+          echo "Old backups cleaned"
+        done
+    depends_on:
+      postgres:
         condition: service_healthy
 
   # Caddy Reverse Proxy (HTTPS + subdomain routing)
@@ -119,3 +181,4 @@ volumes:
   caddy_data:
   caddy_config:
   branding_data:
+  pg_backups:

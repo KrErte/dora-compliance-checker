@@ -186,18 +186,18 @@ public class IctProviderController {
     }
 
     public record CreateProviderRequest(
-        String name,
-        String country,
-        String countryCode,
-        String type,
-        String criticality,
-        String contractNumber,
-        String contractStart,
-        String contractEnd,
+        @jakarta.validation.constraints.Size(max = 200) String name,
+        @jakarta.validation.constraints.Size(max = 100) String country,
+        @jakarta.validation.constraints.Size(max = 3) String countryCode,
+        @jakarta.validation.constraints.Size(max = 100) String type,
+        @jakarta.validation.constraints.Size(max = 50) String criticality,
+        @jakarta.validation.constraints.Size(max = 100) String contractNumber,
+        @jakarta.validation.constraints.Size(max = 20) String contractStart,
+        @jakarta.validation.constraints.Size(max = 20) String contractEnd,
         Integer riskScore,
         Boolean hasExitStrategy,
-        String exitStrategyDescription,
-        String subcontractors
+        @jakarta.validation.constraints.Size(max = 2000) String exitStrategyDescription,
+        @jakarta.validation.constraints.Size(max = 2000) String subcontractors
     ) {}
 
     // ============ Risk Score Calculation ============

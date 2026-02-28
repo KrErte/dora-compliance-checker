@@ -9,4 +9,5 @@ import java.util.List;
 public interface NegotiationMessageRepository extends JpaRepository<NegotiationMessageEntity, String> {
     List<NegotiationMessageEntity> findByNegotiationIdOrderByCreatedAtDesc(String negotiationId);
     List<NegotiationMessageEntity> findByNegotiationItemIdOrderByCreatedAtAsc(String negotiationItemId);
+    void deleteByNegotiationId(String negotiationId);
 }

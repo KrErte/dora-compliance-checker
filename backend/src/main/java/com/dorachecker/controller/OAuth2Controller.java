@@ -43,6 +43,9 @@ public class OAuth2Controller {
     @Value("${app.frontend-url:http://localhost:4200}")
     private String frontendUrl;
 
+    @Value("${jwt.refresh-expiration-days:7}")
+    private int refreshExpirationDays;
+
     public OAuth2Controller(UserRepository userRepository, JwtService jwtService) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
@@ -106,11 +109,13 @@ public class OAuth2Controller {
             // Find or create user
             UserEntity user = findOrCreateOAuthUser(email, name, googleId, UserEntity.AuthProvider.GOOGLE);
 
-            // Generate JWT
+            // Generate JWT + refresh token
             String token = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole().name());
+            String refreshToken = generateAndSaveRefreshToken(user);
 
-            // Redirect to frontend with token
-            response.sendRedirect(frontendUrl + "/oauth/callback?token=" + URLEncoder.encode(token, StandardCharsets.UTF_8));
+            // Redirect to frontend with tokens
+            response.sendRedirect(frontendUrl + "/oauth/callback?token=" + URLEncoder.encode(token, StandardCharsets.UTF_8)
+                    + "&refreshToken=" + URLEncoder.encode(refreshToken, StandardCharsets.UTF_8));
         } catch (Exception e) {
             response.sendRedirect(frontendUrl + "/login?error=oauth_failed");
         }
@@ -150,11 +155,13 @@ public class OAuth2Controller {
             // Find or create user
             UserEntity user = findOrCreateOAuthUser(email, name, microsoftId, UserEntity.AuthProvider.MICROSOFT);
 
-            // Generate JWT
+            // Generate JWT + refresh token
             String token = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole().name());
+            String refreshToken = generateAndSaveRefreshToken(user);
 
-            // Redirect to frontend with token
-            response.sendRedirect(frontendUrl + "/oauth/callback?token=" + URLEncoder.encode(token, StandardCharsets.UTF_8));
+            // Redirect to frontend with tokens
+            response.sendRedirect(frontendUrl + "/oauth/callback?token=" + URLEncoder.encode(token, StandardCharsets.UTF_8)
+                    + "&refreshToken=" + URLEncoder.encode(refreshToken, StandardCharsets.UTF_8));
         } catch (Exception e) {
             response.sendRedirect(frontendUrl + "/login?error=oauth_failed");
         }
@@ -217,6 +224,14 @@ public class OAuth2Controller {
         return response.getBody();
     }
 
+    private String generateAndSaveRefreshToken(UserEntity user) {
+        String refreshToken = UUID.randomUUID().toString();
+        user.setRefreshToken(refreshToken);
+        user.setRefreshTokenExpiresAt(LocalDateTime.now().plusDays(refreshExpirationDays));
+        userRepository.save(user);
+        return refreshToken;
+    }
+
     private UserEntity findOrCreateOAuthUser(String email, String name, String providerId, UserEntity.AuthProvider provider) {
         Optional<UserEntity> existingUser = userRepository.findByEmail(email);
 
@@ -242,6 +257,7 @@ public class OAuth2Controller {
         user.setCreatedAt(LocalDateTime.now());
         user.setAccountTier(UserEntity.AccountTier.FREE);
         user.setTrialEndsAt(LocalDateTime.now().plusDays(14));
+        user.setUnsubscribeToken(UUID.randomUUID().toString());
 
         return userRepository.save(user);
     }

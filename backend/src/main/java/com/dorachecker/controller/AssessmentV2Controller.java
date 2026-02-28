@@ -16,7 +16,6 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/v2/assessments")
-@CrossOrigin(origins = "*")
 public class AssessmentV2Controller {
 
     private final AssessmentEngineService assessmentEngineService;

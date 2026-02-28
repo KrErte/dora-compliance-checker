@@ -384,7 +384,6 @@ export class CompanyProfileComponent implements OnInit {
         this.fiLoadingState.set('loaded');
       })
       .catch((err) => {
-        console.error('Failed to load FI companies:', err);
         this.fiLoadingState.set('error');
       });
   }
@@ -415,7 +414,7 @@ export class CompanyProfileComponent implements OnInit {
           this.searchResults.set([]);
           this.searchQuery = '';
         },
-        error: (err) => console.error('Failed to load profile:', err)
+        error: () => {}
       });
   }
 

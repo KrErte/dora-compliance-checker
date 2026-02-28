@@ -438,7 +438,12 @@ public class WorkspaceController {
         return response;
     }
 
-    record CreateProjectRequest(String name, String email) {}
-    record ManualCheckRequest(String regulation, Map<String, String> checkResults, Map<String, String> comments) {}
-    record SubmitReviewRequest(String email, String role, String status, String comments) {}
+    record CreateProjectRequest(@jakarta.validation.constraints.Size(max = 200) String name,
+                                @jakarta.validation.constraints.Size(max = 255) String email) {}
+    record ManualCheckRequest(@jakarta.validation.constraints.Size(max = 50) String regulation,
+                              Map<String, String> checkResults, Map<String, String> comments) {}
+    record SubmitReviewRequest(@jakarta.validation.constraints.Size(max = 255) String email,
+                               @jakarta.validation.constraints.Size(max = 50) String role,
+                               @jakarta.validation.constraints.Size(max = 50) String status,
+                               @jakarta.validation.constraints.Size(max = 2000) String comments) {}
 }

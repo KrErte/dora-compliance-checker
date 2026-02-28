@@ -1,14 +1,16 @@
-import { Component, OnInit, OnDestroy, effect, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, OnDestroy, effect, Inject, PLATFORM_ID, ChangeDetectorRef, afterNextRender } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
-import { Subscription, filter } from 'rxjs';
+import { Subscription, filter, skip } from 'rxjs';
+import { toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LangService } from './lang.service';
 import { AuthService } from './auth/auth.service';
 import { TrackingService } from './tracking.service';
 import { SubscriptionService } from './services/subscription.service';
 import { CookieConsentComponent } from './components/cookie-consent/cookie-consent.component';
 import { OnboardingComponent } from './pages/onboarding.component';
+import { ToastService } from './auth/toast.service';
 
 @Component({
   selector: 'app-root',
@@ -410,6 +412,20 @@ import { OnboardingComponent } from './pages/onboarding.component';
     </footer>
     <app-cookie-consent></app-cookie-consent>
     <app-onboarding *ngIf="showOnboarding" (completed)="showOnboarding = false"></app-onboarding>
+
+    <!-- Toast notifications -->
+    <div class="fixed top-4 right-4 z-[100] flex flex-col gap-2 max-w-sm" *ngIf="toast.toasts().length > 0">
+      <div *ngFor="let t of toast.toasts()" (click)="toast.dismiss(t.id)"
+           class="px-4 py-3 rounded-lg shadow-lg cursor-pointer text-sm font-medium animate-slide-in backdrop-blur-xl border"
+           [ngClass]="{
+             'bg-red-500/90 text-white border-red-400': t.type === 'error',
+             'bg-amber-500/90 text-white border-amber-400': t.type === 'warning',
+             'bg-emerald-500/90 text-white border-emerald-400': t.type === 'success',
+             'bg-slate-700/90 text-white border-slate-600': t.type === 'info'
+           }">
+        {{ t.message }}
+      </div>
+    </div>
   `
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -442,7 +458,18 @@ export class AppComponent implements OnInit, OnDestroy {
     '/supply-chain': { et: 'Supply Chain Nerve Center | DoraAudit.eu', en: 'Supply Chain Nerve Center | DoraAudit.eu' },
     '/dashboard': { et: 'Juhtpaneel | DoraAudit.eu', en: 'Dashboard | DoraAudit.eu' },
     '/welcome': { et: 'Tere tulemast | DoraAudit.eu', en: 'Welcome | DoraAudit.eu' },
-    '/settings/branding': { et: 'Brändi Seaded | DoraAudit.eu', en: 'Branding Settings | DoraAudit.eu' }
+    '/settings/branding': { et: 'Brändi Seaded | DoraAudit.eu', en: 'Branding Settings | DoraAudit.eu' },
+    '/contract-generator': { et: 'Lepingu Generaator | DoraAudit.eu', en: 'Contract Generator | DoraAudit.eu' },
+    '/playbook': { et: 'DORA Tegevuskava | DoraAudit.eu', en: 'DORA Action Playbook | DoraAudit.eu' },
+    '/comparison': { et: 'DoraAudit vs Konkurendid | DoraAudit.eu', en: 'DoraAudit vs Competitors | DoraAudit.eu' },
+    '/company-profile': { et: 'Ettevõtte DORA Profiil | DoraAudit.eu', en: 'Company DORA Profile | DoraAudit.eu' },
+    '/incident-simulator': { et: 'Intsidendi Simulaator | DoraAudit.eu', en: 'Incident Simulator | DoraAudit.eu' },
+    '/guardian': { et: 'Guardian Monitooring | DoraAudit.eu', en: 'Guardian Monitoring | DoraAudit.eu' },
+    '/roi': { et: 'Teaberegister | DoraAudit.eu', en: 'Register of Information | DoraAudit.eu' },
+    '/history': { et: 'Hindamiste Ajalugu | DoraAudit.eu', en: 'Assessment History | DoraAudit.eu' },
+    '/regulatory-updates': { et: 'Regulatiivsed Uuendused | DoraAudit.eu', en: 'Regulatory Updates | DoraAudit.eu' },
+    '/forgot-password': { et: 'Unustasid parooli | DoraAudit.eu', en: 'Forgot Password | DoraAudit.eu' },
+    '/nis2/results': { et: 'NIS2 Tulemused | DoraAudit.eu', en: 'NIS2 Results | DoraAudit.eu' }
   };
 
   private pageDescriptions: { [path: string]: { et: string; en: string } } = {
@@ -461,7 +488,13 @@ export class AppComponent implements OnInit, OnDestroy {
     '/fine-calculator': { et: 'DORA trahvikalkulaator. Arvuta võimalik trahvisumma mittevastavuse korral Art. 50-51 alusel.', en: 'DORA fine calculator. Calculate potential penalty for non-compliance under Art. 50-51.' },
     '/timeline': { et: 'DORA ja NIS2 regulatiivne ajakava. Kõik olulised tähtajad, verstapostid ja RTS/ITS standardid ühes kohas.', en: 'DORA and NIS2 regulatory timeline. All key deadlines, milestones and RTS/ITS standards in one place.' },
     '/vendors': { et: 'ICT teenusepakkujate DORA vastavuse andmebaas. Anonümiseeritud andmed lepinguanalüüsidest ja crowdsourced riskihinnangud.', en: 'ICT vendor DORA compliance database. Anonymized contract analysis data and crowdsourced risk ratings.' },
-    '/supply-chain': { et: 'DORA Supply Chain Nerve Center. Real-time Nth-party monitoring, CTPP failure simulation, 4h incident command ja ROI intelligence.', en: 'DORA Supply Chain Nerve Center. Real-time Nth-party monitoring, CTPP failure simulation, 4h incident command and ROI intelligence.' }
+    '/supply-chain': { et: 'DORA Supply Chain Nerve Center. Real-time Nth-party monitoring, CTPP failure simulation, 4h incident command ja ROI intelligence.', en: 'DORA Supply Chain Nerve Center. Real-time Nth-party monitoring, CTPP failure simulation, 4h incident command and ROI intelligence.' },
+    '/contract-generator': { et: 'DORA Art. 30 nõuetele vastav IKT-lepingu generaator. Automaatselt kõik nõutud klauslid.', en: 'DORA Art. 30 compliant ICT contract generator. Automatically includes all required clauses.' },
+    '/playbook': { et: 'Personaalne DORA tegevuskava. Samm-sammuline plaan hindamistulemuste põhjal.', en: 'Personalized DORA action playbook. Step-by-step plan based on your assessment results.' },
+    '/comparison': { et: 'DoraAudit vs teised DORA vastavuskontrolli platvormid. Funktsioonide võrdlus ja Baltikumi fookus.', en: 'DoraAudit vs other DORA compliance platforms. Feature comparison with Baltic market focus.' },
+    '/company-profile': { et: 'Ettevõtte DORA digitaalse vastupidavuse profiil. Turvapäised, SSL ja vastavusandmed.', en: 'Company DORA digital resilience profile. Security headers, SSL and compliance data.' },
+    '/incident-simulator': { et: 'IKT intsidendi simulaator. Harjuta DORA-nõuetele vastavat intsidentide klassifitseerimist ja raporteerimist.', en: 'ICT incident simulator. Practice DORA-compliant incident classification and reporting workflows.' },
+    '/roi': { et: 'DORA Art. 28(3) Teaberegister. Hallake IKT-teenusepakkujate lepingute registrit.', en: 'DORA Art. 28(3) Register of Information. Manage ICT service provider contract register.' }
   };
 
   constructor(
@@ -472,8 +505,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private meta: Meta,
     private trackingService: TrackingService,
     public subscriptionService: SubscriptionService,
+    public toast: ToastService,
     @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) platformId: Object
+    @Inject(PLATFORM_ID) platformId: Object,
+    private cdr: ChangeDetectorRef
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
     // Update title and html lang attribute when language changes
@@ -485,6 +520,13 @@ export class AppComponent implements OnInit, OnDestroy {
         this.document.documentElement.lang = currentLang;
       }
     });
+
+    // Force nav re-render after hydration and on every auth state change
+    afterNextRender(() => this.cdr.detectChanges());
+    toObservable(this.auth.isLoggedIn).pipe(
+      skip(1),
+      takeUntilDestroyed()
+    ).subscribe(() => this.cdr.detectChanges());
   }
 
   ngOnInit() {

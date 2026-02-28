@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(ssh root@37.60.249.84 \"cd /root/dora-compliance-checker && git pull origin master && docker compose up -d --build\")",
+      "Bash(curl:*)",
+      "Bash(git add:*)",
+      "Bash(ssh -o ConnectTimeout=15 -o StrictHostKeyChecking=no root@37.60.249.84 \"echo connected\")",
+      "Bash(/c/Windows/System32/curl.exe -s https://doraaudit.eu/main-BY4RPGSF.js)",
+      "Bash(/c/Windows/System32/curl.exe -s https://doraaudit.eu/main-BY4RPGSF.js -o /c/Users/Badboy/Documents/dora-compliance-checker/tmp_main.js)",
+      "Bash(/c/Windows/System32/curl.exe -s https://doraaudit.eu/main-BY4RPGSF.js -o C:/Users/Badboy/Documents/dora-compliance-checker/tmp_main.js)",
+      "Bash(/c/Windows/System32/curl.exe -s \"https://doraaudit.eu/main-BY4RPGSF.js\" -o \"C:\\\\Users\\\\Badboy\\\\Documents\\\\dora-compliance-checker\\\\tmp_main.js\")",
+      "Bash(findstr:*)",
+      "Bash(/c/Windows/System32/OpenSSH/ssh.exe root@37.60.249.84 \"docker exec dora-frontend grep -c ''toolsMenu'' /usr/share/nginx/html/main-*.js && docker exec dora-frontend grep -c ''userMenu'' /usr/share/nginx/html/main-*.js && docker exec dora-frontend grep -c ''getUserInitials'' /usr/share/nginx/html/main-*.js\")",
+      "Bash(/c/Windows/System32/OpenSSH/ssh.exe root@37.60.249.84 \"docker exec dora-frontend sh -c ''grep -c toolsMenu /usr/share/nginx/html/main-*.js''\")"
+    ]
+  }
+}

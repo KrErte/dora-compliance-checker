@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface UserBrandingRepository extends JpaRepository<UserBrandingEntity, String> {
 
     Optional<UserBrandingEntity> findByUserId(String userId);
+    void deleteByUserId(String userId);
 }

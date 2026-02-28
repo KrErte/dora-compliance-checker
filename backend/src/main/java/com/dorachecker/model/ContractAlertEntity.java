@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "contract_alerts")
+@Table(name = "contract_alerts", indexes = {
+    @Index(name = "idx_contract_alerts_user_id", columnList = "userId")
+})
 public class ContractAlertEntity {
 
     @Id

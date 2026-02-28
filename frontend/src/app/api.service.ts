@@ -37,8 +37,20 @@ export class ApiService {
     return this.http.get(`${this.baseUrl}/sample/sample-pdf`, { responseType: 'blob' });
   }
 
-  downloadContractReport(id: string) {
-    window.print();
+  exportAssessmentPdf(id: string): Observable<Blob> {
+    return this.http.post(`${this.baseUrl}/exports/pdf/assessment/${id}`, {}, { responseType: 'blob' });
+  }
+
+  exportContractPdf(id: string): Observable<Blob> {
+    return this.http.post(`${this.baseUrl}/exports/pdf/contract/${id}`, {}, { responseType: 'blob' });
+  }
+
+  exportAssessmentExcel(id: string): Observable<Blob> {
+    return this.http.post(`${this.baseUrl}/exports/excel/assessment/${id}`, {}, { responseType: 'blob' });
+  }
+
+  exportContractExcel(id: string): Observable<Blob> {
+    return this.http.post(`${this.baseUrl}/exports/excel/contract/${id}`, {}, { responseType: 'blob' });
   }
 
   // Negotiations

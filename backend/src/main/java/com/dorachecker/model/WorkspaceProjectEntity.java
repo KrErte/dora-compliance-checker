@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "workspace_projects")
+@Table(name = "workspace_projects", indexes = {
+    @Index(name = "idx_workspace_created_by", columnList = "createdBy"),
+    @Index(name = "idx_workspace_team_id", columnList = "teamId")
+})
 public class WorkspaceProjectEntity {
 
     @Id

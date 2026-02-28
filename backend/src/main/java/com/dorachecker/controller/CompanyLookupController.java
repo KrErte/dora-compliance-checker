@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*")
 public class CompanyLookupController {
 
     private final EmtakNis2MappingService emtakService;

@@ -8,18 +8,19 @@ import java.time.LocalDateTime;
 public class AuthDtos {
 
     public record RegisterRequest(
-            @NotBlank @Email String email,
-            @NotBlank @Size(min = 6) String password,
-            @NotBlank String fullName
+            @NotBlank @Email @Size(max = 255) String email,
+            @NotBlank @Size(min = 6, max = 128) String password,
+            @NotBlank @Size(max = 100) String fullName
     ) {}
 
     public record LoginRequest(
-            @NotBlank @Email String email,
-            @NotBlank String password
+            @NotBlank @Email @Size(max = 255) String email,
+            @NotBlank @Size(max = 128) String password
     ) {}
 
     public record AuthResponse(
             String token,
+            String refreshToken,
             String userId,
             String email,
             String fullName,
@@ -31,7 +32,7 @@ public class AuthDtos {
     ) {
         // Backward compatible constructor
         public AuthResponse(String token, String userId, String email, String fullName) {
-            this(token, userId, email, fullName, false, null, "FREE", null, "USER");
+            this(token, null, userId, email, fullName, false, null, "FREE", null, "USER");
         }
     }
 }

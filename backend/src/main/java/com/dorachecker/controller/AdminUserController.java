@@ -2,7 +2,13 @@ package com.dorachecker.controller;
 
 import com.dorachecker.model.UserEntity;
 import com.dorachecker.model.UserRepository;
+import com.dorachecker.service.AuditLogService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -12,17 +18,27 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin/users")
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminUserController {
 
     private final UserRepository userRepository;
+    private final AuditLogService auditLog;
 
-    public AdminUserController(UserRepository userRepository) {
+    public AdminUserController(UserRepository userRepository, AuditLogService auditLog) {
         this.userRepository = userRepository;
+        this.auditLog = auditLog;
     }
 
     @GetMapping
-    public ResponseEntity<List<Map<String, Object>>> listUsers() {
-        List<Map<String, Object>> users = userRepository.findAll().stream()
+    public ResponseEntity<Map<String, Object>> listUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+
+        size = Math.min(size, 200);
+        Page<UserEntity> userPage = userRepository.findAll(
+                PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")));
+
+        List<Map<String, Object>> users = userPage.getContent().stream()
                 .map(user -> {
                     Map<String, Object> map = new HashMap<>();
                     map.put("id", user.getId());
@@ -38,16 +54,26 @@ public class AdminUserController {
                     return map;
                 })
                 .toList();
-        return ResponseEntity.ok(users);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("users", users);
+        response.put("totalElements", userPage.getTotalElements());
+        response.put("totalPages", userPage.getTotalPages());
+        response.put("page", page);
+        response.put("size", size);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{userId}/extend-trial")
     public ResponseEntity<?> extendTrial(@PathVariable String userId,
-                                         @RequestParam(defaultValue = "14") int days) {
+                                         @RequestParam(defaultValue = "14") int days,
+                                         Authentication auth) {
         return userRepository.findById(userId)
                 .map(user -> {
                     user.setTrialEndsAt(LocalDateTime.now().plusDays(days));
                     userRepository.save(user);
+                    auditLog.logAdminAction(auth.getName(), "EXTEND_TRIAL", userId,
+                            "days=" + days + " email=" + user.getEmail());
                     return ResponseEntity.ok(Map.of(
                             "id", user.getId(),
                             "email", user.getEmail(),
@@ -60,7 +86,8 @@ public class AdminUserController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable String userId,
-                                        @RequestBody Map<String, String> updates) {
+                                        @RequestBody Map<String, String> updates,
+                                        Authentication auth) {
         return userRepository.findById(userId)
                 .map(user -> {
                     if (updates.containsKey("accountTier")) {
@@ -80,6 +107,8 @@ public class AdminUserController {
                         }
                     }
                     userRepository.save(user);
+                    auditLog.logAdminAction(auth.getName(), "UPDATE_USER", userId,
+                            "updates=" + updates + " email=" + user.getEmail());
                     return ResponseEntity.ok(Map.of(
                             "id", user.getId(),
                             "email", user.getEmail(),

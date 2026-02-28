@@ -139,6 +139,11 @@ public class BrandingController {
             return ResponseEntity.badRequest().body(Map.of("error", "Only PNG, JPG, and SVG files are allowed"));
         }
 
+        // Validate file magic bytes match declared content type
+        if (!"image/svg+xml".equals(contentType) && !validateMagicBytes(file, contentType)) {
+            return ResponseEntity.badRequest().body(Map.of("error", "File content does not match declared type"));
+        }
+
         try {
             Path logoDir = Paths.get(LOGO_BASE_DIR, userId);
             Files.createDirectories(logoDir);
@@ -153,7 +158,13 @@ public class BrandingController {
             }
 
             String extension = getExtension(file.getOriginalFilename(), contentType);
-            Path logoPath = logoDir.resolve("logo" + extension);
+            Path logoPath = logoDir.resolve("logo" + extension).normalize();
+
+            // Guard against path traversal
+            if (!logoPath.startsWith(logoDir)) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Invalid file"));
+            }
+
             Files.copy(file.getInputStream(), logoPath, StandardCopyOption.REPLACE_EXISTING);
 
             UserBrandingEntity branding = brandingRepository.findByUserId(userId)
@@ -229,10 +240,28 @@ public class BrandingController {
         return ResponseEntity.ok(Map.of("success", true, "message", "Logo deleted"));
     }
 
-    private String getExtension(String filename, String contentType) {
-        if (filename != null && filename.contains(".")) {
-            return filename.substring(filename.lastIndexOf('.'));
+    private boolean validateMagicBytes(MultipartFile file, String contentType) {
+        try {
+            byte[] header = new byte[8];
+            int read = file.getInputStream().read(header);
+            if (read < 4) return false;
+
+            return switch (contentType) {
+                case "image/png" ->
+                    // PNG: 89 50 4E 47
+                    header[0] == (byte) 0x89 && header[1] == 0x50 && header[2] == 0x4E && header[3] == 0x47;
+                case "image/jpeg", "image/jpg" ->
+                    // JPEG: FF D8 FF
+                    header[0] == (byte) 0xFF && header[1] == (byte) 0xD8 && header[2] == (byte) 0xFF;
+                default -> false;
+            };
+        } catch (IOException e) {
+            return false;
         }
+    }
+
+    private String getExtension(String filename, String contentType) {
+        // Derive extension from content type only — never trust user-supplied filename
         return switch (contentType) {
             case "image/png" -> ".png";
             case "image/jpeg", "image/jpg" -> ".jpg";

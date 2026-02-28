@@ -243,26 +243,26 @@ public class FineCalculatorController {
     }
 
     record FineCalculatorRequest(
-        String companyType,
+        @jakarta.validation.constraints.Size(max = 50) String companyType,
         Long revenue,
         Integer employees,
-        String country,
+        @jakarta.validation.constraints.Size(max = 100) String country,
         Map<String, Boolean> riskAnswers,
         Long calculatedFineMin,
         Long calculatedFineMax,
-        String riskLevel
+        @jakarta.validation.constraints.Size(max = 20) String riskLevel
     ) {}
 
     record FineCalculatorReportRequest(
-        String email,
-        String companyType,
+        @jakarta.validation.constraints.Size(max = 255) String email,
+        @jakarta.validation.constraints.Size(max = 50) String companyType,
         Long revenue,
         Integer employees,
-        String country,
+        @jakarta.validation.constraints.Size(max = 100) String country,
         Map<String, Boolean> riskAnswers,
         Long calculatedFineMin,
         Long calculatedFineMax,
-        String riskLevel,
-        String language
+        @jakarta.validation.constraints.Size(max = 20) String riskLevel,
+        @jakarta.validation.constraints.Size(max = 5) String language
     ) {}
 }

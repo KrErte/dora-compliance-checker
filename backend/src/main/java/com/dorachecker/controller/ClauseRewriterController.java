@@ -19,7 +19,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/clause-rewriter")
-@CrossOrigin
 public class ClauseRewriterController {
 
     private static final Logger log = LoggerFactory.getLogger(ClauseRewriterController.class);
@@ -92,8 +91,15 @@ public class ClauseRewriterController {
 
     private Map<String, Object> callClaudeForRewrite(String originalClause, String requirementType,
                                                        String doraArticle, String language) throws Exception {
-        String prompt = buildRewritePrompt(originalClause, requirementType, doraArticle, language);
+        return callClaudeApi(buildRewritePrompt(originalClause, requirementType, doraArticle, language));
+    }
 
+    private Map<String, Object> callClaudeForSuggestion(String requirementType, String doraArticle,
+                                                          String context, String language) throws Exception {
+        return callClaudeApi(buildSuggestionPrompt(requirementType, doraArticle, context, language));
+    }
+
+    private Map<String, Object> callClaudeApi(String prompt) throws Exception {
         String requestBody = objectMapper.writeValueAsString(Map.of(
                 "model", model,
                 "max_tokens", 2048,
@@ -127,51 +133,6 @@ public class ClauseRewriterController {
         String text = (String) content.get(0).get("text");
 
         // Strip markdown code fences
-        text = text.trim();
-        if (text.startsWith("```json")) text = text.substring(7);
-        else if (text.startsWith("```")) text = text.substring(3);
-        if (text.endsWith("```")) text = text.substring(0, text.length() - 3);
-        text = text.trim();
-
-        return objectMapper.readValue(text, new TypeReference<Map<String, Object>>() {});
-    }
-
-    private Map<String, Object> callClaudeForSuggestion(String requirementType, String doraArticle,
-                                                          String context, String language) throws Exception {
-        String prompt = buildSuggestionPrompt(requirementType, doraArticle, context, language);
-
-        String requestBody = objectMapper.writeValueAsString(Map.of(
-                "model", model,
-                "max_tokens", 2048,
-                "messages", List.of(Map.of("role", "user", "content", prompt))
-        ));
-
-        HttpClient client = HttpClient.newBuilder()
-                .connectTimeout(Duration.ofSeconds(10))
-                .build();
-
-        HttpRequest httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.anthropic.com/v1/messages"))
-                .header("Content-Type", "application/json")
-                .header("x-api-key", apiKey)
-                .header("anthropic-version", "2023-06-01")
-                .timeout(Duration.ofSeconds(60))
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                .build();
-
-        HttpResponse<String> response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-
-        if (response.statusCode() != 200) {
-            throw new RuntimeException("Claude API returned status " + response.statusCode());
-        }
-
-        Map<String, Object> responseMap = objectMapper.readValue(response.body(),
-                new TypeReference<Map<String, Object>>() {});
-
-        @SuppressWarnings("unchecked")
-        List<Map<String, Object>> content = (List<Map<String, Object>>) responseMap.get("content");
-        String text = (String) content.get(0).get("text");
-
         text = text.trim();
         if (text.startsWith("```json")) text = text.substring(7);
         else if (text.startsWith("```")) text = text.substring(3);

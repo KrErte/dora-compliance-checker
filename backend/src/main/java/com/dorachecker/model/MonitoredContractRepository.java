@@ -11,4 +11,5 @@ public interface MonitoredContractRepository extends JpaRepository<MonitoredCont
     List<MonitoredContractEntity> findByUserIdOrderByUpdatedAtDesc(String userId);
     List<MonitoredContractEntity> findByMonitoringStatus(String status);
     Optional<MonitoredContractEntity> findByContractAnalysisIdAndUserId(String contractAnalysisId, String userId);
+    void deleteByUserId(String userId);
 }

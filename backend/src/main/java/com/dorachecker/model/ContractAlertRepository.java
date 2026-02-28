@@ -10,4 +10,5 @@ public interface ContractAlertRepository extends JpaRepository<ContractAlertEnti
     List<ContractAlertEntity> findByUserIdOrderByCreatedAtDesc(String userId);
     List<ContractAlertEntity> findByUserIdAndIsReadFalse(String userId);
     long countByUserIdAndIsReadFalse(String userId);
+    void deleteByUserId(String userId);
 }

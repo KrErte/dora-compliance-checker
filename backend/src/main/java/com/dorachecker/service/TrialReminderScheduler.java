@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TrialReminderScheduler {
@@ -39,6 +40,10 @@ public class TrialReminderScheduler {
         log.info("Sending trial expiry reminders to {} users", expiringUsers.size());
 
         for (UserEntity user : expiringUsers) {
+            if (user.isEmailOptOut()) {
+                log.debug("Skipping opted-out user: {}", user.getEmail());
+                continue;
+            }
             try {
                 String subject = "Teie DoraAudit Professional prooviaeg l\u00f5ppeb peagi";
                 String html = buildReminderEmail(user);
@@ -48,6 +53,14 @@ public class TrialReminderScheduler {
                 log.error("Failed to send trial reminder to {}: {}", user.getEmail(), e.getMessage());
             }
         }
+    }
+
+    private String getOrCreateUnsubscribeToken(UserEntity user) {
+        if (user.getUnsubscribeToken() == null) {
+            user.setUnsubscribeToken(UUID.randomUUID().toString());
+            userRepository.save(user);
+        }
+        return user.getUnsubscribeToken();
     }
 
     private String buildReminderEmail(UserEntity user) {
@@ -90,11 +103,12 @@ public class TrialReminderScheduler {
                             <p style="color: #6b7280; font-size: 14px;">Kui teil on k\u00fcsimusi, v\u00f5tke meiega \u00fchendust aadressil info@doraaudit.eu</p>
                         </div>
                         <div class="footer">
-                            &copy; 2026 DoraAudit. K\u00f5ik \u00f5igused kaitstud.
+                            &copy; 2026 DoraAudit. K\u00f5ik \u00f5igused kaitstud.<br>
+                            <a href="https://doraaudit.eu/api/auth/unsubscribe?token=%s" style="color: #9ca3af; text-decoration: underline;">Loobu turunduskirjadest</a>
                         </div>
                     </div>
                 </body>
                 </html>
-                """.formatted(name);
+                """.formatted(name, getOrCreateUnsubscribeToken(user));
     }
 }

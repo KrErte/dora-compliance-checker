@@ -11,7 +11,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/stats")
-@CrossOrigin
 public class StatsController {
 
     private final AssessmentRepository assessmentRepository;

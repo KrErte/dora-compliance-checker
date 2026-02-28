@@ -6,6 +6,10 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "lead_companies", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"registry_code", "country"})
+}, indexes = {
+    @Index(name = "idx_leads_country", columnList = "country"),
+    @Index(name = "idx_leads_lead_status", columnList = "lead_status"),
+    @Index(name = "idx_leads_license_type", columnList = "license_type")
 })
 public class LeadCompanyEntity {
 

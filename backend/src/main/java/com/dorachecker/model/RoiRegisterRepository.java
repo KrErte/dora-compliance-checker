@@ -11,4 +11,5 @@ public interface RoiRegisterRepository extends JpaRepository<RoiRegisterEntity, 
     List<RoiRegisterEntity> findByUserIdOrderByUpdatedAtDesc(String userId);
 
     long countByUserId(String userId);
+    void deleteByUserId(String userId);
 }

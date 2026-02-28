@@ -5,11 +5,14 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class JwtService {
@@ -19,6 +22,9 @@ public class JwtService {
 
     @Value("${jwt.expiration-ms}")
     private long expirationMs;
+
+    // In-memory blacklist: token -> expiry timestamp
+    private final Map<String, Long> blacklist = new ConcurrentHashMap<>();
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
@@ -46,11 +52,29 @@ public class JwtService {
 
     public boolean isTokenValid(String token) {
         try {
+            if (blacklist.containsKey(token)) {
+                return false;
+            }
             getClaims(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
+    }
+
+    public void blacklistToken(String token) {
+        try {
+            Claims claims = getClaims(token);
+            blacklist.put(token, claims.getExpiration().getTime());
+        } catch (JwtException | IllegalArgumentException e) {
+            // Token already invalid, no need to blacklist
+        }
+    }
+
+    @Scheduled(fixedRate = 3600000) // Clean up every hour
+    public void cleanupBlacklist() {
+        long now = System.currentTimeMillis();
+        blacklist.entrySet().removeIf(entry -> entry.getValue() < now);
     }
 
     private Claims getClaims(String token) {

@@ -10,7 +10,6 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/vendors")
-@CrossOrigin
 public class VendorRiskController {
 
     private final VendorRiskRepository vendorRiskRepository;

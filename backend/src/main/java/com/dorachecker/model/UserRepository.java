@@ -10,4 +10,8 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     boolean existsByEmail(String email);
     long countByEarlyAdopterTrue();
     List<UserEntity> findByTrialEndsAtBetween(LocalDateTime start, LocalDateTime end);
+    Optional<UserEntity> findByPasswordResetToken(String token);
+    Optional<UserEntity> findByEmailVerificationToken(String token);
+    Optional<UserEntity> findByRefreshToken(String refreshToken);
+    Optional<UserEntity> findByUnsubscribeToken(String unsubscribeToken);
 }

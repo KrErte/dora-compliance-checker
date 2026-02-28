@@ -91,33 +91,53 @@ import { AuthService } from '../auth/auth.service';
             <div class="mb-5">
               <label for="reg-fullname" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.full_name') }}</label>
               <input type="text" [(ngModel)]="fullName" name="fullName" id="reg-fullname" required
-                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border border-slate-600/50 text-white placeholder-slate-500
-                            focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
+                     (blur)="touched['fullName'] = true"
+                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
+                            focus:outline-none focus:ring-1 transition-all"
+                     [class]="fieldErrors['fullName'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/25'"
                      placeholder="Jaan Tamm">
+              @if (fieldErrors['fullName']) {
+                <p class="mt-1 text-xs text-red-400">{{ fieldErrors['fullName'] }}</p>
+              }
             </div>
 
             <div class="mb-5">
               <label for="reg-email" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.email') }}</label>
               <input type="email" [(ngModel)]="email" name="email" id="reg-email" required
-                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border border-slate-600/50 text-white placeholder-slate-500
-                            focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
+                     (blur)="touched['email'] = true"
+                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
+                            focus:outline-none focus:ring-1 transition-all"
+                     [class]="fieldErrors['email'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/25'"
                      placeholder="teie@ettevote.ee">
+              @if (fieldErrors['email']) {
+                <p class="mt-1 text-xs text-red-400">{{ fieldErrors['email'] }}</p>
+              }
             </div>
 
             <div class="mb-5">
               <label for="reg-password" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.password') }}</label>
               <input type="password" [(ngModel)]="password" name="password" id="reg-password" required minlength="6"
-                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border border-slate-600/50 text-white placeholder-slate-500
-                            focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
+                     (blur)="touched['password'] = true"
+                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
+                            focus:outline-none focus:ring-1 transition-all"
+                     [class]="fieldErrors['password'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/25'"
                      placeholder="********">
+              @if (fieldErrors['password']) {
+                <p class="mt-1 text-xs text-red-400">{{ fieldErrors['password'] }}</p>
+              }
             </div>
 
             <div class="mb-6">
               <label for="reg-confirm-password" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.confirm_password') }}</label>
               <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" id="reg-confirm-password" required
-                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border border-slate-600/50 text-white placeholder-slate-500
-                            focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 transition-all"
+                     (blur)="touched['confirmPassword'] = true"
+                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
+                            focus:outline-none focus:ring-1 transition-all"
+                     [class]="fieldErrors['confirmPassword'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/25'"
                      placeholder="********">
+              @if (fieldErrors['confirmPassword']) {
+                <p class="mt-1 text-xs text-red-400">{{ fieldErrors['confirmPassword'] }}</p>
+              }
             </div>
 
             <!-- Terms & Privacy checkbox -->
@@ -182,6 +202,8 @@ export class RegisterComponent implements OnInit {
   error = '';
   loading = false;
   registrationSuccess = false;
+  touched: Record<string, boolean> = {};
+  fieldErrors: Record<string, string> = {};
 
   constructor(
     public lang: LangService,
@@ -196,43 +218,46 @@ export class RegisterComponent implements OnInit {
 
   onRegister() {
     this.error = '';
+    this.fieldErrors = {};
 
-    // Frontend validation
+    // Frontend field-level validation
+    let hasErrors = false;
+
     if (!this.fullName.trim()) {
-      this.error = this.lang.t('auth.error_name_required');
-      return;
+      this.fieldErrors['fullName'] = this.lang.t('auth.error_name_required');
+      hasErrors = true;
     }
 
     if (!this.email.trim()) {
-      this.error = this.lang.t('auth.error_email_required');
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(this.email)) {
-      this.error = this.lang.t('auth.error_email_invalid');
-      return;
+      this.fieldErrors['email'] = this.lang.t('auth.error_email_required');
+      hasErrors = true;
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.email)) {
+        this.fieldErrors['email'] = this.lang.t('auth.error_email_invalid');
+        hasErrors = true;
+      }
     }
 
     if (!this.password) {
-      this.error = this.lang.t('auth.error_password_required');
-      return;
+      this.fieldErrors['password'] = this.lang.t('auth.error_password_required');
+      hasErrors = true;
+    } else if (this.password.length < 6) {
+      this.fieldErrors['password'] = this.lang.t('auth.error_password_short');
+      hasErrors = true;
     }
 
-    if (this.password.length < 6) {
-      this.error = this.lang.t('auth.error_password_short');
-      return;
-    }
-
-    if (this.password !== this.confirmPassword) {
-      this.error = this.lang.t('auth.error_mismatch');
-      return;
+    if (this.password && this.password !== this.confirmPassword) {
+      this.fieldErrors['confirmPassword'] = this.lang.t('auth.error_mismatch');
+      hasErrors = true;
     }
 
     if (!this.agreeTerms) {
       this.error = this.lang.t('auth.error_terms');
-      return;
+      hasErrors = true;
     }
+
+    if (hasErrors) return;
 
     this.loading = true;
     this.auth.register({ email: this.email, password: this.password, fullName: this.fullName }).subscribe({

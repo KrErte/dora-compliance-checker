@@ -2,6 +2,7 @@ package com.dorachecker.controller;
 
 import com.dorachecker.model.UserSubscriptionEntity;
 import com.dorachecker.model.UserSubscriptionRepository;
+import com.dorachecker.service.AuditLogService;
 import com.dorachecker.service.SubscriptionGuardService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HexFormat;
@@ -28,6 +30,7 @@ public class LemonSqueezyWebhookController {
     private final UserSubscriptionRepository subscriptionRepository;
     private final SubscriptionGuardService guardService;
     private final ObjectMapper objectMapper;
+    private final AuditLogService auditLog;
 
     @Value("${lemonsqueezy.webhook.secret:}")
     private String webhookSecret;
@@ -35,11 +38,13 @@ public class LemonSqueezyWebhookController {
     public LemonSqueezyWebhookController(
             UserSubscriptionRepository subscriptionRepository,
             SubscriptionGuardService guardService,
-            ObjectMapper objectMapper
+            ObjectMapper objectMapper,
+            AuditLogService auditLog
     ) {
         this.subscriptionRepository = subscriptionRepository;
         this.guardService = guardService;
         this.objectMapper = objectMapper;
+        this.auditLog = auditLog;
     }
 
     @PostMapping("/lemonsqueezy")
@@ -50,12 +55,14 @@ public class LemonSqueezyWebhookController {
     ) {
         log.info("Received LemonSqueezy webhook: event={}", eventName);
 
-        // Verify signature if secret is configured
-        if (webhookSecret != null && !webhookSecret.isEmpty()) {
-            if (!verifySignature(payload, signature)) {
-                log.warn("Invalid webhook signature");
-                return ResponseEntity.status(401).body(Map.of("error", "Invalid signature"));
-            }
+        // Verify webhook signature — fail closed if no secret configured
+        if (webhookSecret == null || webhookSecret.isEmpty()) {
+            log.error("Webhook secret not configured — rejecting all webhooks");
+            return ResponseEntity.status(401).body(Map.of("error", "Webhook verification unavailable"));
+        }
+        if (!verifySignature(payload, signature)) {
+            log.warn("Invalid webhook signature from {}", eventName);
+            return ResponseEntity.status(401).body(Map.of("error", "Invalid signature"));
         }
 
         try {
@@ -109,6 +116,7 @@ public class LemonSqueezyWebhookController {
                         customerId
                 );
 
+                auditLog.logPaymentEvent("ORDER_PAID", userId, orderId, plan.name());
                 log.info("Subscription activated for order: {}", orderId);
             }
 
@@ -196,6 +204,7 @@ public class LemonSqueezyWebhookController {
                     .ifPresent(sub -> {
                         sub.setStatus(UserSubscriptionEntity.Status.CANCELLED);
                         subscriptionRepository.save(sub);
+                        auditLog.logPaymentEvent("SUBSCRIPTION_CANCELLED", sub.getUserId(), subscriptionId, sub.getPlan().name());
                     });
 
         } catch (Exception e) {
@@ -212,6 +221,7 @@ public class LemonSqueezyWebhookController {
                     .ifPresent(sub -> {
                         sub.setStatus(UserSubscriptionEntity.Status.EXPIRED);
                         subscriptionRepository.save(sub);
+                        auditLog.logPaymentEvent("SUBSCRIPTION_EXPIRED", sub.getUserId(), subscriptionId, sub.getPlan().name());
                     });
 
         } catch (Exception e) {
@@ -249,7 +259,9 @@ public class LemonSqueezyWebhookController {
             mac.init(secretKey);
             byte[] hash = mac.doFinal(payload.getBytes(StandardCharsets.UTF_8));
             String computed = HexFormat.of().formatHex(hash);
-            return computed.equalsIgnoreCase(signature);
+            return MessageDigest.isEqual(
+                    computed.toLowerCase().getBytes(StandardCharsets.UTF_8),
+                    signature.toLowerCase().getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
             log.error("Error verifying signature", e);
             return false;

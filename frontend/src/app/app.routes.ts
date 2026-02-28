@@ -8,7 +8,8 @@ import { authGuard, adminGuard, guestGuard } from './auth/auth.guard';
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./pages/landing.component').then(m => m.LandingComponent)
+    loadComponent: () => import('./pages/landing.component').then(m => m.LandingComponent),
+    data: { seoTitle: 'DORA Compliance Platform for Baltic Financial Institutions', seoDescription: 'Automated DORA compliance assessment, ICT contract analysis, and regulatory tools. Free self-assessment for Baltic financial institutions.' }
   },
   // Redirects for broken/old links
   {
@@ -39,17 +40,30 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => import('./pages/login.component').then(m => m.LoginComponent),
-    canActivate: [guestGuard]
+    canActivate: [guestGuard],
+    data: { seoTitle: 'Login' }
   },
   {
     path: 'register',
     loadComponent: () => import('./pages/register.component').then(m => m.RegisterComponent),
-    canActivate: [guestGuard]
+    canActivate: [guestGuard],
+    data: { seoTitle: 'Register' }
   },
   {
     path: 'forgot-password',
     loadComponent: () => import('./pages/forgot-password.component').then(m => m.ForgotPasswordComponent),
-    canActivate: [guestGuard]
+    canActivate: [guestGuard],
+    data: { seoTitle: 'Forgot Password' }
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () => import('./pages/reset-password.component').then(m => m.ResetPasswordComponent),
+    canActivate: [guestGuard],
+    data: { seoTitle: 'Reset Password' }
+  },
+  {
+    path: 'verify-email',
+    loadComponent: () => import('./pages/verify-email.component').then(m => m.VerifyEmailComponent)
   },
   {
     path: 'oauth/callback',
@@ -58,199 +72,240 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     loadComponent: () => import('./pages/dashboard.component').then(m => m.DashboardComponent),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: { seoTitle: 'Dashboard' }
   },
   {
     path: 'assessment',
-    loadComponent: () => import('./pages/assessment.component').then(m => m.AssessmentComponent)
+    loadComponent: () => import('./pages/assessment.component').then(m => m.AssessmentComponent),
     // No authGuard - free demo access for self-assessment
+    data: { seoTitle: 'DORA Self-Assessment', seoDescription: 'Free DORA compliance self-assessment. Evaluate your ICT risk management, incident reporting, and digital resilience against DORA requirements.' }
   },
   {
     path: 'results/:id',
-    loadComponent: () => import('./pages/results.component').then(m => m.ResultsComponent)
+    loadComponent: () => import('./pages/results.component').then(m => m.ResultsComponent),
     // No authGuard - results available immediately, details require email
+    data: { seoTitle: 'Assessment Results' }
   },
   {
     path: 'history',
     loadComponent: () => import('./pages/history.component').then(m => m.HistoryComponent),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: { seoTitle: 'Assessment History' }
   },
   {
     path: 'certificate/:id',
     loadComponent: () => import('./pages/certificate.component').then(m => m.CertificateComponent),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: { seoTitle: 'Compliance Certificate' }
   },
   {
     path: 'contract-generator',
-    loadComponent: () => import('./pages/contract-generator.component').then(m => m.ContractGeneratorComponent)
+    loadComponent: () => import('./pages/contract-generator.component').then(m => m.ContractGeneratorComponent),
     // No authGuard - free access
+    data: { seoTitle: 'ICT Contract Generator', seoDescription: 'Generate DORA-compliant ICT service contracts with all required Article 30 clauses. Free contract template generator.' }
   },
   {
     path: 'contract-analysis',
-    loadComponent: () => import('./pages/contract-analysis.component').then(m => m.ContractAnalysisComponent)
+    loadComponent: () => import('./pages/contract-analysis.component').then(m => m.ContractAnalysisComponent),
     // No authGuard - free access for demo/sample
+    data: { seoTitle: 'ICT Contract Analysis', seoDescription: 'AI-powered DORA Article 30 contract compliance analysis. Upload your ICT contracts for automated regulatory gap detection.' }
   },
   {
     path: 'contract-results/:id',
-    loadComponent: () => import('./pages/contract-results.component').then(m => m.ContractResultsComponent)
+    loadComponent: () => import('./pages/contract-results.component').then(m => m.ContractResultsComponent),
     // No authGuard - free access for demo flow
+    data: { seoTitle: 'Contract Analysis Results' }
   },
   {
     path: 'contract-comparison/:id',
-    loadComponent: () => import('./pages/contract-comparison.component').then(m => m.ContractComparisonComponent)
+    loadComponent: () => import('./pages/contract-comparison.component').then(m => m.ContractComparisonComponent),
     // No authGuard - free access for demo flow
+    data: { seoTitle: 'Contract Comparison' }
   },
   {
     path: 'methodology',
-    loadComponent: () => import('./pages/methodology.component').then(m => m.MethodologyComponent)
+    loadComponent: () => import('./pages/methodology.component').then(m => m.MethodologyComponent),
     // No authGuard - educational content is free
+    data: { seoTitle: 'Assessment Methodology', seoDescription: 'DoraAudit assessment methodology based on DORA regulation requirements. Learn how we evaluate ICT risk management compliance.' }
   },
   {
     path: 'supply-chain',
-    loadComponent: () => import('./pages/supply-chain-nerve-center.component').then(m => m.SupplyChainNerveCenterComponent)
-    // authGuard removed temporarily for testing
+    loadComponent: () => import('./pages/supply-chain-nerve-center.component').then(m => m.SupplyChainNerveCenterComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'ICT Supply Chain Management' }
   },
   {
     path: 'guardian',
     loadComponent: () => import('./pages/guardian-dashboard.component').then(m => m.GuardianDashboardComponent),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: { seoTitle: 'Guardian – Contract Monitoring' }
   },
   {
     path: 'guardian/alerts',
     loadComponent: () => import('./pages/guardian-alerts.component').then(m => m.GuardianAlertsComponent),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: { seoTitle: 'Guardian Alerts' }
   },
   {
     path: 'incident-simulator',
     loadComponent: () => import('./pages/incident-simulator.component').then(m => m.IncidentSimulatorComponent),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: { seoTitle: 'ICT Incident Simulator', seoDescription: 'Simulate DORA-compliant ICT incident response scenarios. Practice incident classification and reporting workflows.' }
   },
   {
     path: 'regulatory-updates',
     loadComponent: () => import('./pages/regulatory-updates.component').then(m => m.RegulatoryUpdatesComponent),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: { seoTitle: 'Regulatory Updates' }
   },
   {
     path: 'timeline',
-    loadComponent: () => import('./pages/regulatory-timeline.component').then(m => m.RegulatoryTimelineComponent)
+    loadComponent: () => import('./pages/regulatory-timeline.component').then(m => m.RegulatoryTimelineComponent),
     // No authGuard - educational content is free
+    data: { seoTitle: 'DORA Regulatory Timeline', seoDescription: 'Complete DORA regulation implementation timeline. Key dates, milestones, and deadlines for financial institutions.' }
   },
   {
     path: 'vendors',
-    loadComponent: () => import('./pages/vendor-database.component').then(m => m.VendorDatabaseComponent)
+    loadComponent: () => import('./pages/vendor-database.component').then(m => m.VendorDatabaseComponent),
     // No authGuard - public database
+    data: { seoTitle: 'ICT Provider Database', seoDescription: 'Browse Baltic ICT service providers registered with financial regulators. CTPP directory and provider risk profiles.' }
   },
   {
     path: 'company-profile',
-    loadComponent: () => import('./pages/company-profile.component').then(m => m.CompanyProfileComponent)
+    loadComponent: () => import('./pages/company-profile.component').then(m => m.CompanyProfileComponent),
     // No authGuard - public company profiles
+    data: { seoTitle: 'Company DORA Profile' }
   },
   {
     path: 'playbook',
-    loadComponent: () => import('./pages/playbook-generator.component').then(m => m.PlaybookGeneratorComponent)
+    loadComponent: () => import('./pages/playbook-generator.component').then(m => m.PlaybookGeneratorComponent),
     // No authGuard - free tool
+    data: { seoTitle: 'DORA Action Playbook', seoDescription: 'Generate a personalized DORA compliance action plan. Step-by-step playbook based on your assessment results.' }
   },
   {
     path: 'pillar/:id',
-    loadComponent: () => import('./pages/pillar-info.component').then(m => m.PillarInfoComponent)
+    loadComponent: () => import('./pages/pillar-info.component').then(m => m.PillarInfoComponent),
+    data: { seoTitle: 'DORA Pillar Details' }
   },
   {
     path: 'nis2/scope-check',
-    loadComponent: () => import('./pages/nis2-scope-check.component').then(m => m.Nis2ScopeCheckComponent)
+    loadComponent: () => import('./pages/nis2-scope-check.component').then(m => m.Nis2ScopeCheckComponent),
     // No authGuard - free tool
+    data: { seoTitle: 'NIS2 Scope Check', seoDescription: 'Check if your organization falls under NIS2 directive scope. Free NIS2 applicability assessment tool.' }
   },
   {
     path: 'nis2/assessment',
-    loadComponent: () => import('./pages/nis2-assessment.component').then(m => m.Nis2AssessmentComponent)
+    loadComponent: () => import('./pages/nis2-assessment.component').then(m => m.Nis2AssessmentComponent),
     // No authGuard - free tool
+    data: { seoTitle: 'NIS2 Compliance Assessment', seoDescription: 'Comprehensive NIS2 directive compliance assessment. Evaluate your cybersecurity measures against NIS2 requirements.' }
   },
   {
     path: 'nis2/results',
-    loadComponent: () => import('./pages/nis2-results.component').then(m => m.Nis2ResultsComponent)
+    loadComponent: () => import('./pages/nis2-results.component').then(m => m.Nis2ResultsComponent),
     // No authGuard - free tool
+    data: { seoTitle: 'NIS2 Assessment Results' }
   },
   {
     path: 'board-risk',
-    loadComponent: () => import('./pages/board-risk.component').then(m => m.BoardRiskComponent)
+    loadComponent: () => import('./pages/board-risk.component').then(m => m.BoardRiskComponent),
     // No authGuard - free tool
+    data: { seoTitle: 'Board Risk Dashboard', seoDescription: 'Executive-level ICT risk dashboard for board members. Visualize DORA compliance status and key risk indicators.' }
   },
   {
     path: 'fine-calculator',
-    loadComponent: () => import('./pages/fine-calculator.component').then(m => m.FineCalculatorComponent)
+    loadComponent: () => import('./pages/fine-calculator.component').then(m => m.FineCalculatorComponent),
     // No authGuard - free tool
+    data: { seoTitle: 'DORA Fine Calculator', seoDescription: 'Calculate potential DORA non-compliance penalties. Estimate regulatory fines based on your organization profile.' }
   },
   {
     path: 'workspace',
-    loadComponent: () => import('./pages/workspace.component').then(m => m.WorkspaceComponent)
+    loadComponent: () => import('./pages/workspace.component').then(m => m.WorkspaceComponent),
     // No authGuard - free tier available
+    data: { seoTitle: 'Compliance Workspace' }
   },
   {
     path: 'workspace/:id',
-    loadComponent: () => import('./pages/workspace.component').then(m => m.WorkspaceComponent)
+    loadComponent: () => import('./pages/workspace.component').then(m => m.WorkspaceComponent),
+    data: { seoTitle: 'Compliance Workspace' }
   },
   // Register of Information (RoI) — DORA Art. 28(3)
   {
     path: 'roi',
     loadComponent: () => import('./pages/roi/roi-dashboard.component').then(m => m.RoiDashboardComponent),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: { seoTitle: 'Register of Information' }
   },
   {
     path: 'roi/new',
     loadComponent: () => import('./pages/roi/roi-wizard.component').then(m => m.RoiWizardComponent),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: { seoTitle: 'New Register Entry' }
   },
   {
     path: 'roi/:id/edit',
     loadComponent: () => import('./pages/roi/roi-wizard.component').then(m => m.RoiWizardComponent),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: { seoTitle: 'Edit Register Entry' }
   },
   {
     path: 'comparison',
-    loadComponent: () => import('./pages/comparison.component').then(m => m.ComparisonComponent)
+    loadComponent: () => import('./pages/comparison.component').then(m => m.ComparisonComponent),
     // No authGuard - public SEO landing page
+    data: { seoTitle: 'DoraAudit vs Competitors', seoDescription: 'Compare DoraAudit with other DORA compliance platforms. Feature comparison, pricing, and Baltic market focus.' }
   },
   {
     path: 'pricing',
-    loadComponent: () => import('./pages/pricing.component').then(m => m.PricingComponent)
+    loadComponent: () => import('./pages/pricing.component').then(m => m.PricingComponent),
+    data: { seoTitle: 'Pricing', seoDescription: 'DoraAudit pricing plans. Free self-assessment, Professional tier with exports and certificates, Enterprise with custom branding.' }
   },
   {
     path: 'payment/success',
-    loadComponent: () => import('./pages/payment-success.component').then(m => m.PaymentSuccessComponent)
+    loadComponent: () => import('./pages/payment-success.component').then(m => m.PaymentSuccessComponent),
+    data: { seoTitle: 'Payment Successful' }
   },
   {
     path: 'about',
-    loadComponent: () => import('./pages/about.component').then(m => m.AboutComponent)
+    loadComponent: () => import('./pages/about.component').then(m => m.AboutComponent),
+    data: { seoTitle: 'About DoraAudit', seoDescription: 'DoraAudit is a DORA compliance platform built for Baltic financial institutions. Automated assessments, contract analysis, and regulatory tools.' }
   },
   {
     path: 'privacy',
-    loadComponent: () => import('./pages/privacy.component').then(m => m.PrivacyComponent)
+    loadComponent: () => import('./pages/privacy.component').then(m => m.PrivacyComponent),
+    data: { seoTitle: 'Privacy Policy' }
   },
   {
     path: 'terms',
-    loadComponent: () => import('./pages/terms.component').then(m => m.TermsComponent)
+    loadComponent: () => import('./pages/terms.component').then(m => m.TermsComponent),
+    data: { seoTitle: 'Terms of Service' }
   },
   {
     path: 'settings/branding',
     loadComponent: () => import('./pages/branding-settings.component').then(m => m.BrandingSettingsComponent),
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    data: { seoTitle: 'Branding Settings' }
   },
   {
     path: 'admin/users',
     loadComponent: () => import('./pages/admin-users.component').then(m => m.AdminUsersComponent),
-    canActivate: [adminGuard]
+    canActivate: [adminGuard],
+    data: { seoTitle: 'Admin – Users' }
   },
   {
     path: 'admin/leads',
     loadComponent: () => import('./pages/admin-leads.component').then(m => m.AdminLeadsComponent),
-    canActivate: [adminGuard]
+    canActivate: [adminGuard],
+    data: { seoTitle: 'Admin – Leads' }
   },
   {
     path: 'admin/leads/:id',
     loadComponent: () => import('./pages/admin-lead-detail.component').then(m => m.AdminLeadDetailComponent),
-    canActivate: [adminGuard]
+    canActivate: [adminGuard],
+    data: { seoTitle: 'Lead Details' }
   },
   {
     path: '**',
-    loadComponent: () => import('./pages/not-found.component').then(m => m.NotFoundComponent)
+    loadComponent: () => import('./pages/not-found.component').then(m => m.NotFoundComponent),
+    data: { seoTitle: 'Page Not Found' }
   }
 ];

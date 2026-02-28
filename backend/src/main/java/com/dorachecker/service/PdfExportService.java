@@ -1,0 +1,219 @@
+package com.dorachecker.service;
+
+import com.dorachecker.model.AssessmentEntity;
+import com.dorachecker.model.ContractAnalysisEntity;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itextpdf.kernel.colors.ColorConstants;
+import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.UnitValue;
+import org.springframework.stereotype.Service;
+
+import java.io.ByteArrayOutputStream;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class PdfExportService {
+
+    private static final DeviceRgb BRAND_COLOR = new DeviceRgb(16, 185, 129);
+    private static final DeviceRgb HEADER_BG = new DeviceRgb(30, 41, 59);
+    private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    public byte[] generateAssessmentPdf(AssessmentEntity assessment) {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            PdfDocument pdf = new PdfDocument(new PdfWriter(baos));
+            Document doc = new Document(pdf);
+
+            // Title
+            doc.add(new Paragraph("DoraAudit.eu")
+                    .setFontSize(10).setFontColor(BRAND_COLOR).setMarginBottom(4));
+            doc.add(new Paragraph("DORA Compliance Assessment Report")
+                    .setFontSize(22).setBold().setFontColor(ColorConstants.DARK_GRAY));
+            doc.add(new Paragraph(" ").setFontSize(8));
+
+            // Summary table
+            Table summary = new Table(UnitValue.createPercentArray(new float[]{1, 2}))
+                    .useAllAvailableWidth().setMarginBottom(16);
+            addInfoRow(summary, "Company", assessment.getCompanyName());
+            addInfoRow(summary, "Contract", assessment.getContractName());
+            addInfoRow(summary, "Date", assessment.getAssessmentDate() != null ?
+                    assessment.getAssessmentDate().format(DATE_FMT) : "N/A");
+            addInfoRow(summary, "Score", String.format("%.0f%%", assessment.getScorePercentage()));
+            addInfoRow(summary, "Compliance Level", assessment.getComplianceLevel());
+            addInfoRow(summary, "Total Questions", String.valueOf(assessment.getTotalQuestions()));
+            addInfoRow(summary, "Compliant", String.valueOf(assessment.getCompliantCount()));
+            addInfoRow(summary, "Partial", String.valueOf(assessment.getPartialCount()));
+            int nonCompliant = assessment.getTotalQuestions() - assessment.getCompliantCount() - assessment.getPartialCount();
+            addInfoRow(summary, "Non-compliant", String.valueOf(nonCompliant));
+            doc.add(summary);
+
+            // Question details from answersJson
+            if (assessment.getAnswersJson() != null && !assessment.getAnswersJson().isBlank()) {
+                doc.add(new Paragraph("Question Details")
+                        .setFontSize(16).setBold().setFontColor(ColorConstants.DARK_GRAY).setMarginTop(12));
+
+                try {
+                    List<Map<String, Object>> answers = objectMapper.readValue(
+                            assessment.getAnswersJson(), new TypeReference<>() {});
+
+                    Table table = new Table(UnitValue.createPercentArray(new float[]{1, 4, 2, 4}))
+                            .useAllAvailableWidth().setFontSize(9).setMarginTop(8);
+                    addHeaderCell(table, "#");
+                    addHeaderCell(table, "Question");
+                    addHeaderCell(table, "Status");
+                    addHeaderCell(table, "Recommendation");
+
+                    int idx = 1;
+                    for (Map<String, Object> a : answers) {
+                        String question = getString(a, "question", getString(a, "questionEn", ""));
+                        String status = getString(a, "status", getString(a, "answer", ""));
+                        String recommendation = getString(a, "recommendation", "");
+
+                        table.addCell(new Cell().add(new Paragraph(String.valueOf(idx++))));
+                        table.addCell(new Cell().add(new Paragraph(question)));
+                        table.addCell(statusCell(status));
+                        table.addCell(new Cell().add(new Paragraph(recommendation)));
+                    }
+                    doc.add(table);
+                } catch (Exception e) {
+                    doc.add(new Paragraph("Could not parse question details.").setFontSize(10));
+                }
+            }
+
+            // Footer
+            doc.add(new Paragraph(" ").setFontSize(8));
+            doc.add(new Paragraph("Generated by DoraAudit.eu — DORA Compliance Platform")
+                    .setFontSize(8).setFontColor(ColorConstants.GRAY).setTextAlignment(TextAlignment.CENTER));
+
+            doc.close();
+            return baos.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate assessment PDF", e);
+        }
+    }
+
+    public byte[] generateContractPdf(ContractAnalysisEntity contract) {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            PdfDocument pdf = new PdfDocument(new PdfWriter(baos));
+            Document doc = new Document(pdf);
+
+            // Title
+            doc.add(new Paragraph("DoraAudit.eu")
+                    .setFontSize(10).setFontColor(BRAND_COLOR).setMarginBottom(4));
+            doc.add(new Paragraph("DORA Art. 30 Contract Analysis Report")
+                    .setFontSize(22).setBold().setFontColor(ColorConstants.DARK_GRAY));
+            doc.add(new Paragraph(" ").setFontSize(8));
+
+            // Summary table
+            Table summary = new Table(UnitValue.createPercentArray(new float[]{1, 2}))
+                    .useAllAvailableWidth().setMarginBottom(16);
+            addInfoRow(summary, "Company", contract.getCompanyName());
+            addInfoRow(summary, "Contract", contract.getContractName());
+            addInfoRow(summary, "File", contract.getFileName());
+            addInfoRow(summary, "Date", contract.getAnalysisDate() != null ?
+                    contract.getAnalysisDate().format(DATE_FMT) : "N/A");
+            addInfoRow(summary, "Score", String.format("%.0f%%", contract.getScorePercentage()));
+            addInfoRow(summary, "Compliance Level", contract.getComplianceLevel());
+            addInfoRow(summary, "Total Requirements", String.valueOf(contract.getTotalRequirements()));
+            addInfoRow(summary, "Found", String.valueOf(contract.getFoundCount()));
+            addInfoRow(summary, "Missing", String.valueOf(contract.getMissingCount()));
+            addInfoRow(summary, "Partial", String.valueOf(contract.getPartialCount()));
+            doc.add(summary);
+
+            // Summary text
+            if (contract.getSummary() != null && !contract.getSummary().isBlank()) {
+                doc.add(new Paragraph("Summary")
+                        .setFontSize(16).setBold().setFontColor(ColorConstants.DARK_GRAY).setMarginTop(12));
+                doc.add(new Paragraph(contract.getSummary()).setFontSize(10).setMarginTop(4));
+            }
+
+            // Findings from findingsJson
+            if (contract.getFindingsJson() != null && !contract.getFindingsJson().isBlank()) {
+                doc.add(new Paragraph("Findings")
+                        .setFontSize(16).setBold().setFontColor(ColorConstants.DARK_GRAY).setMarginTop(12));
+
+                try {
+                    List<Map<String, Object>> findings = objectMapper.readValue(
+                            contract.getFindingsJson(), new TypeReference<>() {});
+
+                    Table table = new Table(UnitValue.createPercentArray(new float[]{0.5f, 3, 1, 4}))
+                            .useAllAvailableWidth().setFontSize(9).setMarginTop(8);
+                    addHeaderCell(table, "#");
+                    addHeaderCell(table, "Requirement");
+                    addHeaderCell(table, "Status");
+                    addHeaderCell(table, "Quote / Note");
+
+                    for (Map<String, Object> f : findings) {
+                        String reqId = getString(f, "requirementId", "");
+                        String requirement = getString(f, "requirementEn",
+                                getString(f, "requirementEt", getString(f, "requirement", "")));
+                        String status = getString(f, "status", "");
+                        String quote = getString(f, "quote", "");
+
+                        table.addCell(new Cell().add(new Paragraph(reqId)));
+                        table.addCell(new Cell().add(new Paragraph(requirement)));
+                        table.addCell(statusCell(status));
+                        table.addCell(new Cell().add(new Paragraph(quote)));
+                    }
+                    doc.add(table);
+                } catch (Exception e) {
+                    doc.add(new Paragraph("Could not parse findings.").setFontSize(10));
+                }
+            }
+
+            // Footer
+            doc.add(new Paragraph(" ").setFontSize(8));
+            doc.add(new Paragraph("Generated by DoraAudit.eu — DORA Compliance Platform")
+                    .setFontSize(8).setFontColor(ColorConstants.GRAY).setTextAlignment(TextAlignment.CENTER));
+
+            doc.close();
+            return baos.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate contract PDF", e);
+        }
+    }
+
+    private void addInfoRow(Table table, String label, String value) {
+        table.addCell(new Cell().add(new Paragraph(label).setBold().setFontSize(10))
+                .setBackgroundColor(new DeviceRgb(241, 245, 249)).setPadding(6));
+        table.addCell(new Cell().add(new Paragraph(value != null ? value : "N/A").setFontSize(10))
+                .setPadding(6));
+    }
+
+    private void addHeaderCell(Table table, String text) {
+        table.addHeaderCell(new Cell().add(new Paragraph(text).setBold().setFontColor(ColorConstants.WHITE).setFontSize(9))
+                .setBackgroundColor(HEADER_BG).setPadding(6));
+    }
+
+    private Cell statusCell(String status) {
+        DeviceRgb bg;
+        DeviceRgb fg;
+        String label;
+
+        if (status == null) status = "";
+        switch (status.toLowerCase()) {
+            case "compliant", "found", "yes" -> { bg = new DeviceRgb(220, 252, 231); fg = new DeviceRgb(22, 101, 52); label = status; }
+            case "partial" -> { bg = new DeviceRgb(254, 249, 195); fg = new DeviceRgb(133, 77, 14); label = status; }
+            case "non_compliant", "missing", "no" -> { bg = new DeviceRgb(254, 226, 226); fg = new DeviceRgb(153, 27, 27); label = status; }
+            default -> { bg = new DeviceRgb(241, 245, 249); fg = new DeviceRgb(55, 65, 81); label = status; }
+        }
+
+        return new Cell().add(new Paragraph(label).setFontSize(9).setFontColor(fg))
+                .setBackgroundColor(bg).setPadding(4);
+    }
+
+    private String getString(Map<String, Object> map, String key, String defaultVal) {
+        Object v = map.get(key);
+        return v != null ? v.toString() : defaultVal;
+    }
+}

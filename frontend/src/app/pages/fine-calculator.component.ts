@@ -660,8 +660,6 @@ export class FineCalculatorComponent implements OnInit {
       displayValue: 0
     };
 
-    console.log('Fine Calculator result:', this.result);
-
     // Calculate ROI data
     this.roiData = this.calculateRoi(likelyMax);
 

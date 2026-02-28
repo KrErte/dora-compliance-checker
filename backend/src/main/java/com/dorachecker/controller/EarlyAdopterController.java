@@ -9,7 +9,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/early-adopter")
-@CrossOrigin
 public class EarlyAdopterController {
 
     private final UserRepository userRepository;

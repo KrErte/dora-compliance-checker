@@ -3,17 +3,18 @@ package com.dorachecker.controller;
 import com.dorachecker.service.BalticLeadCrawlerService;
 import com.dorachecker.service.IctProviderCrawlerService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 /**
  * Admin endpoints for ICT Provider Crawler and Lead Crawler management.
- * Protected by SecurityConfig admin-only rules.
+ * Protected by SecurityConfig admin-only rules + @PreAuthorize defense-in-depth.
  */
 @RestController
 @RequestMapping("/api/admin/crawler")
-@CrossOrigin(origins = "*")
+@PreAuthorize("hasRole('ADMIN')")
 public class CrawlerAdminController {
 
     private final IctProviderCrawlerService crawlerService;

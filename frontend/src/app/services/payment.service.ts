@@ -82,7 +82,6 @@ export class PaymentService {
         return true;
       }
     } catch (error) {
-      console.error('Failed to open checkout:', error);
       window.open(url, '_blank');
       return true;
     }
