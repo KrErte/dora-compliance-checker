@@ -74,7 +74,14 @@ public class DevDataSeeder implements CommandLineRunner {
 
     private void seedEnterpriseUser(String fullName, String email, String rawPassword, Role role) {
         if (userRepository.existsByEmail(email)) {
-            log.info("DevDataSeeder: Enterprise user {} already exists, skipping", email);
+            // Update password to ensure it matches the expected value
+            userRepository.findByEmail(email).ifPresent(existing -> {
+                existing.setPassword(passwordEncoder.encode(rawPassword));
+                existing.setAccountTier(UserEntity.AccountTier.PREMIUM);
+                existing.setRole(role);
+                userRepository.save(existing);
+            });
+            log.info("DevDataSeeder: Enterprise user {} already exists, updated password", email);
             return;
         }
 

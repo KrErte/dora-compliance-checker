@@ -45,8 +45,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGeneric(Exception ex) {
-        System.err.println("=== UNHANDLED EXCEPTION: " + ex.getClass().getName() + ": " + ex.getMessage() + " ===");
-        ex.printStackTrace(System.err);
         log.error("Unhandled exception: {}", ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Map.of("error", "Internal server error"));

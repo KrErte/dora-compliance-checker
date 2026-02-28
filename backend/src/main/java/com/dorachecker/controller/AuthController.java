@@ -9,8 +9,6 @@ import com.dorachecker.security.JwtService;
 import com.dorachecker.service.ResendEmailService;
 import com.dorachecker.service.UserDeletionService;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,7 +24,6 @@ import java.util.UUID;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -100,9 +97,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
-        System.err.println("=== LOGIN ATTEMPT: " + request.email() + " ===");
-        log.info("Login attempt for email: {}", request.email());
-        try {
         Optional<UserEntity> userOpt = userRepository.findByEmail(request.email());
         if (userOpt.isEmpty() ||
                 !passwordEncoder.matches(request.password(), userOpt.get().getPassword())) {
@@ -126,10 +120,6 @@ public class AuthController {
             user.getTrialEndsAt(),
             user.getRole().name()
         ));
-        } catch (Exception e) {
-            log.error("Login failed for {}: {}", request.email(), e.getMessage(), e);
-            return ResponseEntity.status(500).body(Map.of("error", "Login error: " + e.getMessage()));
-        }
     }
 
     @GetMapping("/me")
