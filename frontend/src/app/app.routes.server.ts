@@ -3,7 +3,7 @@ import { RenderMode, ServerRoute } from '@angular/ssr';
 export const serverRoutes: ServerRoute[] = [
   // Static public pages — prerender at build time for SEO
   { path: '', renderMode: RenderMode.Prerender },
-  { path: 'assessment', renderMode: RenderMode.Prerender },
+  { path: 'assessment', renderMode: RenderMode.Client },
   { path: 'methodology', renderMode: RenderMode.Prerender },
   { path: 'pricing', renderMode: RenderMode.Prerender },
   { path: 'about', renderMode: RenderMode.Prerender },
