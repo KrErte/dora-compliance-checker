@@ -59,7 +59,7 @@ public class UserEntity {
 
     private String emailVerificationToken;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean emailOptOut = false;
 
     private String refreshToken;
