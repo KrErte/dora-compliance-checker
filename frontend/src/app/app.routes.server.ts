@@ -32,6 +32,7 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'vendors', renderMode: RenderMode.Prerender },
   { path: 'nis2/assessment', renderMode: RenderMode.Prerender },
   { path: 'company-profile', renderMode: RenderMode.Prerender },
+  { path: 'workspace', renderMode: RenderMode.Prerender },
 
   // Everything else — client-side only
   { path: '**', renderMode: RenderMode.Client },

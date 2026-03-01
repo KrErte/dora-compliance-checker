@@ -374,6 +374,11 @@ export const routes: Routes = [
     data: { seoTitle: 'DORA Compliance Cost Calculator', seoDescription: 'Estimate the investment needed for full DORA compliance and compare against potential fines. Unique ROI calculator for financial institutions.' }
   },
   {
+    path: 'contracts',
+    redirectTo: 'workspace',
+    pathMatch: 'full'
+  },
+  {
     path: 'workspace',
     loadComponent: () => import('./pages/workspace.component').then(m => m.WorkspaceComponent),
     // No authGuard - free tier available
