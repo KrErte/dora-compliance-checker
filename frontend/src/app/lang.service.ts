@@ -1946,6 +1946,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; lv?: string; lt?:
   'chat.enter_hint': { et: 'Enter saadab, Shift+Enter uus rida', en: 'Enter to send, Shift+Enter for new line', lv: 'Enter s\u016bt\u012bt, Shift+Enter jauna rinda', lt: 'Enter si\u0173sti, Shift+Enter nauja eilut\u0117' },
   'chat.copy': { et: 'Kopeeri', en: 'Copy', lv: 'Kop\u0113t', lt: 'Kopijuoti' },
   'chat.copied': { et: 'Kopeeritud!', en: 'Copied!', lv: 'Nokop\u0113ts!', lt: 'Nukopijuota!' },
+  'chat.export': { et: 'Ekspordi', en: 'Export', lv: 'Eksport\u0113t', lt: 'Eksportuoti' },
 
   // Landing - AI Section
   'landing.ai_badge': { et: 'Uus: tehis\u00e4ru assistent', en: 'New: AI Assistant', lv: 'Jauns: MI asistents', lt: 'Naujas: DI asistentas' },

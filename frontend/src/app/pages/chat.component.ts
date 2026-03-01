@@ -21,6 +21,7 @@ interface ChatApiResponse {
   messagesLimit: number;
   suggestedTool: string | null;
   suggestedToolName: string | null;
+  followups: string[];
 }
 
 @Component({
@@ -135,6 +136,18 @@ interface ChatApiResponse {
               </div>
             }
 
+            <!-- Follow-up suggestions -->
+            @if (followups().length > 0 && !loading()) {
+              <div class="flex flex-wrap gap-2 pl-11">
+                @for (q of followups(); track q) {
+                  <button (click)="sendFollowup(q)"
+                          class="text-xs px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/40 transition-all">
+                    {{ q }}
+                  </button>
+                }
+              </div>
+            }
+
             @if (rateLimited()) {
               <div class="text-center px-4 py-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm">
                 {{ lang.t('chat.rate_limit') }}
@@ -157,9 +170,18 @@ interface ChatApiResponse {
               } @else {
                 <div></div>
               }
-              <button (click)="clearHistory()" class="text-xs text-slate-500 hover:text-slate-300 transition-colors">
-                {{ lang.t('chat.clear') }}
-              </button>
+              <div class="flex items-center gap-3">
+                <button (click)="exportChat()" [disabled]="messages().length === 0"
+                        class="text-xs text-slate-500 hover:text-emerald-400 transition-colors disabled:opacity-30 flex items-center gap-1">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  {{ lang.t('chat.export') }}
+                </button>
+                <button (click)="clearHistory()" class="text-xs text-slate-500 hover:text-slate-300 transition-colors">
+                  {{ lang.t('chat.clear') }}
+                </button>
+              </div>
             </div>
           }
 
@@ -202,6 +224,7 @@ export class ChatComponent {
   messagesLimit = signal(0);
   copiedIndex = signal<number | null>(null);
   typingStatus = signal('');
+  followups = signal<string[]>([]);
   inputText = '';
   private typingInterval: any;
 
@@ -224,7 +247,7 @@ export class ChatComponent {
         'Kuidas raporteerida suurt IKT-intsidenti?',
         'Millised on DORA 5 sammast?',
         'Mis on TLPT ja millal see on kohustuslik?',
-        'Milliseid tööriistu DoraAudit pakub?'
+        'Milliseid t\u00f6\u00f6riistu DoraAudit pakub?'
       ],
       lv: [
         'Kas ir DORA un kam t\u0101 attiecas?',
@@ -254,7 +277,6 @@ export class ChatComponent {
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
 
-    // Restore messages from localStorage
     if (this.isBrowser) {
       try {
         const saved = localStorage.getItem('dorabot_page_msgs');
@@ -285,10 +307,16 @@ export class ChatComponent {
     this.sendMessage(q);
   }
 
+  sendFollowup(q: string) {
+    this.followups.set([]);
+    this.sendMessage(q);
+  }
+
   clearHistory() {
     this.messages.set([]);
     this.rateLimited.set(false);
     this.messagesUsed.set(0);
+    this.followups.set([]);
     if (this.isBrowser) localStorage.removeItem('dorabot_page_msgs');
   }
 
@@ -298,6 +326,23 @@ export class ChatComponent {
       this.copiedIndex.set(index);
       setTimeout(() => this.copiedIndex.set(null), 2000);
     });
+  }
+
+  exportChat() {
+    if (!this.isBrowser || this.messages().length === 0) return;
+    const lines = this.messages().map(m => {
+      const time = new Date(m.timestamp).toLocaleTimeString();
+      const role = m.role === 'user' ? 'You' : 'DoraBot';
+      return `[${time}] ${role}:\n${m.content}\n`;
+    });
+    const text = `DoraBot Chat Export \u2014 ${new Date().toLocaleDateString()}\n${'='.repeat(40)}\n\n${lines.join('\n')}`;
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `dorabot-chat-${Date.now()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   private startTypingAnimation() {
@@ -319,7 +364,7 @@ export class ChatComponent {
 
   private getTypingStatuses(): string[] {
     switch (this.lang.lang()) {
-      case 'et': return ['Analüüsin...', 'Kontrollin regulatsiooni...', 'Koostan vastust...'];
+      case 'et': return ['Anal\u00fc\u00fcsin...', 'Kontrollin regulatsiooni...', 'Koostan vastust...'];
       case 'lv': return ['Analiz\u0113ju...', 'P\u0101rbaudu regul\u0113jumu...', 'Veido atbildi...'];
       case 'lt': return ['Analizuoju...', 'Tikrinti reglament\u0105...', 'Ruo\u0161iu atsakym\u0105...'];
       default: return ['Analyzing...', 'Checking regulation...', 'Composing answer...'];
@@ -330,6 +375,7 @@ export class ChatComponent {
     this.messages.update(msgs => [...msgs, { role: 'user', content: text, timestamp: new Date() }]);
     this.loading.set(true);
     this.rateLimited.set(false);
+    this.followups.set([]);
     this.startTypingAnimation();
 
     const sessionId = this.isBrowser ? (localStorage.getItem('dora_session_id') || 'anon-' + Math.random().toString(36).substring(2)) : 'ssr';
@@ -358,6 +404,7 @@ export class ChatComponent {
           suggestedTool: res.suggestedTool || undefined,
           suggestedToolName: res.suggestedToolName || undefined
         }]);
+        this.followups.set(res.followups || []);
         this.persistMessages();
         this.scrollToBottom();
       },
@@ -380,7 +427,7 @@ export class ChatComponent {
   private getErrorMessage(): string {
     switch (this.lang.lang()) {
       case 'et': return 'Vabandust, tehniline viga. Proovige uuesti.';
-      case 'lv': return 'Atvainojiet, tehniska k\u013C\u016Bda. M\u0113\u0123iniet v\u0113lreiz.';
+      case 'lv': return 'Atvainojiet, tehniska k\u013c\u016bda. M\u0113\u0123iniet v\u0113lreiz.';
       case 'lt': return 'Atsipra\u0161ome, technin\u0117 klaida. Bandykite dar kart\u0105.';
       default: return 'Sorry, an error occurred. Please try again.';
     }

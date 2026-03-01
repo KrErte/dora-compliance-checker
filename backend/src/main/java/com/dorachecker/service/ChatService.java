@@ -44,7 +44,7 @@ public class ChatService {
             int used = countRecentRequests(rateLimitKey);
             if (used >= ANONYMOUS_LIMIT) {
                 return new ChatResponse(
-                        null, true, used, ANONYMOUS_LIMIT, null, null
+                        null, true, used, ANONYMOUS_LIMIT, null, null, List.of()
                 );
             }
             recordRequest(rateLimitKey);
@@ -72,17 +72,33 @@ public class ChatService {
         try {
             String reply = claudeApi.analyzeChat(systemPrompt, List.copyOf(messages), MAX_REPLY_TOKENS);
 
-            // Add assistant reply to session
-            messages.add(Map.of("role", "assistant", "content", reply));
+            // Parse follow-up suggestions from reply
+            String cleanReply = reply;
+            List<String> followups = new ArrayList<>();
+            int followupMarker = reply.indexOf("---FOLLOWUPS---");
+            if (followupMarker >= 0) {
+                cleanReply = reply.substring(0, followupMarker).trim();
+                String followupSection = reply.substring(followupMarker + 15).trim();
+                for (String line : followupSection.split("\\n")) {
+                    String q = line.replaceFirst("^[-\\d.\\s*]+", "").trim();
+                    if (!q.isEmpty() && q.length() > 5) {
+                        followups.add(q);
+                    }
+                }
+                if (followups.size() > 3) followups = followups.subList(0, 3);
+            }
+
+            // Add assistant reply to session (clean version without followup markers)
+            messages.add(Map.of("role", "assistant", "content", cleanReply));
 
             // Extract tool suggestion
-            String suggestedTool = extractToolSuggestion(reply);
+            String suggestedTool = extractToolSuggestion(cleanReply);
             String suggestedToolName = suggestedTool != null ? getToolName(suggestedTool, language) : null;
 
             int used = authenticated ? 0 : countRecentRequests(rateLimitKey);
             int limit = authenticated ? 0 : ANONYMOUS_LIMIT;
 
-            return new ChatResponse(reply, false, used, limit, suggestedTool, suggestedToolName);
+            return new ChatResponse(cleanReply, false, used, limit, suggestedTool, suggestedToolName, followups);
         } catch (Exception e) {
             log.error("Chat API error: {}", e.getMessage());
             // Remove the user message since we failed
@@ -97,7 +113,7 @@ public class ChatService {
             };
             int used = authenticated ? 0 : countRecentRequests(rateLimitKey);
             int limit = authenticated ? 0 : ANONYMOUS_LIMIT;
-            return new ChatResponse(errorMsg, false, used, limit, null, null);
+            return new ChatResponse(errorMsg, false, used, limit, null, null, List.of());
         }
     }
 
@@ -131,7 +147,8 @@ public class ChatService {
                 + "- Always cite specific DORA articles when relevant (e.g., Art. 30(2)(a)).\n"
                 + "- If a question is outside DORA/NIS2 scope, politely redirect to DORA topics.\n"
                 + "- Never invent regulatory requirements. If unsure, say so.\n"
-                + "- Keep responses under 300 words.\n\n"
+                + "- Keep responses under 300 words.\n"
+                + "- IMPORTANT: After your response, add a line with exactly '---FOLLOWUPS---' followed by 2-3 short follow-up questions the user might want to ask next (one per line, in the same language as your response). These should be natural continuations of the topic.\n\n"
                 + DoraKnowledgeBase.getKnowledge();
     }
 
