@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { LangService } from '../lang.service';
 
 interface PlaybookSection {
@@ -25,7 +24,7 @@ interface PlaybookItem {
 @Component({
   selector: 'app-playbook-generator',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   template: `
     <div class="max-w-5xl mx-auto space-y-8">
       <!-- Header -->

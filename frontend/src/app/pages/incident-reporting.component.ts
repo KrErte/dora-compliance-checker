@@ -1,6 +1,5 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
@@ -9,7 +8,7 @@ import { IncidentReport, IncidentStats } from '../models';
 @Component({
   selector: 'app-incident-reporting',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, FormsModule],
   template: `
     <div class="space-y-8">
       <!-- Header -->
