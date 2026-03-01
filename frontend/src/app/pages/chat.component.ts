@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID, signal, computed } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, signal, computed, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -159,6 +159,8 @@ interface ChatApiResponse {
   `
 })
 export class ChatComponent {
+  @ViewChild('scrollArea') scrollArea?: ElementRef<HTMLDivElement>;
+
   isBrowser: boolean;
   messages = signal<ChatMessage[]>([]);
   loading = signal(false);
@@ -277,8 +279,8 @@ export class ChatComponent {
 
   private scrollToBottom() {
     setTimeout(() => {
-      const container = document.querySelector('.overflow-y-auto');
-      if (container) container.scrollTop = container.scrollHeight;
+      const el = this.scrollArea?.nativeElement;
+      if (el) el.scrollTop = el.scrollHeight;
     }, 100);
   }
 }

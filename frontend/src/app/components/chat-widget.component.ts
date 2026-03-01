@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID, signal, computed, DestroyRef } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, signal, computed, DestroyRef, ViewChild, ElementRef, afterNextRender } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -139,6 +139,7 @@ interface ChatApiResponse {
           <div class="px-3 py-3 border-t border-slate-700/50 bg-slate-900/80">
             <form (submit)="send($event)" class="flex gap-2">
               <input
+                #chatInput
                 [(ngModel)]="inputText"
                 name="chatInput"
                 type="text"
@@ -168,6 +169,9 @@ interface ChatApiResponse {
   `]
 })
 export class ChatWidgetComponent {
+  @ViewChild('scrollContainer') scrollContainer?: ElementRef<HTMLDivElement>;
+  @ViewChild('chatInput') chatInputEl?: ElementRef<HTMLInputElement>;
+
   isBrowser: boolean;
   isOpen = signal(false);
   onChatPage = signal(false);
@@ -230,6 +234,9 @@ export class ChatWidgetComponent {
 
   toggle() {
     this.isOpen.update(v => !v);
+    if (this.isOpen()) {
+      setTimeout(() => this.chatInputEl?.nativeElement?.focus(), 100);
+    }
   }
 
   send(event: Event) {
@@ -298,8 +305,8 @@ export class ChatWidgetComponent {
 
   private scrollToBottom() {
     setTimeout(() => {
-      const container = document.querySelector('.overflow-y-auto');
-      if (container) container.scrollTop = container.scrollHeight;
+      const el = this.scrollContainer?.nativeElement;
+      if (el) el.scrollTop = el.scrollHeight;
     }, 100);
   }
 }
