@@ -1942,6 +1942,8 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; lv?: string; lt?:
   'chat.badge': { et: 'Assistent', en: 'Assistant', lv: 'Asistents', lt: 'Asistentas' },
   'chat.page_desc': { et: 'Tehis\u00e4rul p\u00f5hinev DORA vastavuse assistent. K\u00fcsige k\u00f5ike DORA regulatsiooni kohta.', en: 'AI-powered DORA compliance assistant. Ask anything about DORA regulation.', lv: 'M\u0101ksl\u012bg\u0101 intelekta DORA atbilst\u012bbas asistents. Jaut\u0101jiet jebko par DORA.', lt: 'DI pagr\u012fstas DORA atitikties asistentas. Klauskite bet ko apie DORA.' },
   'chat.try_tool': { et: 'Proovi t\u00f6\u00f6riista', en: 'Try tool', lv: 'Izm\u0113\u0123iniet r\u012bku', lt: 'I\u0161bandykite \u012frank\u012f' },
+  'chat.msgs_used': { et: 's\u00f5numit kasutatud', en: 'messages used', lv: 'zi\u0146ojumi izmantoti', lt: '\u017einut\u0117s panaudotos' },
+  'chat.enter_hint': { et: 'Enter saadab, Shift+Enter uus rida', en: 'Enter to send, Shift+Enter for new line', lv: 'Enter s\u016bt\u012bt, Shift+Enter jauna rinda', lt: 'Enter si\u0173sti, Shift+Enter nauja eilut\u0117' },
 
   // Landing - AI Section
   'landing.ai_badge': { et: 'Uus: tehis\u00e4ru assistent', en: 'New: AI Assistant', lv: 'Jauns: MI asistents', lt: 'Naujas: DI asistentas' },

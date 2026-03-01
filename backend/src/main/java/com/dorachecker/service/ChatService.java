@@ -67,7 +67,7 @@ public class ChatService {
         messages.add(Map.of("role", "user", "content", request.message()));
 
         // Build system prompt
-        String systemPrompt = buildSystemPrompt(language);
+        String systemPrompt = buildSystemPrompt(language, request.currentPage());
 
         try {
             String reply = claudeApi.analyzeChat(systemPrompt, List.copyOf(messages), MAX_REPLY_TOKENS);
@@ -101,7 +101,7 @@ public class ChatService {
         }
     }
 
-    private String buildSystemPrompt(String language) {
+    private String buildSystemPrompt(String language, String currentPage) {
         String langInstruction = switch (language) {
             case "et" -> "IMPORTANT: Always respond in Estonian (eesti keel). The user's interface is in Estonian.";
             case "lv" -> "IMPORTANT: Always respond in Latvian (latvie\u0161u valoda). The user's interface is in Latvian.";
@@ -109,11 +109,22 @@ public class ChatService {
             default -> "Respond in English.";
         };
 
+        String pageContext = "";
+        if (currentPage != null && !currentPage.isBlank()) {
+            String pageName = getPageDescription(currentPage);
+            if (pageName != null) {
+                pageContext = "\nCONTEXT: The user is currently viewing the \"" + pageName + "\" page (" + currentPage + "). "
+                        + "If their question seems related to this page, provide contextually relevant answers. "
+                        + "You can reference features on this page directly.\n";
+            }
+        }
+
         return "You are DoraBot, an AI compliance assistant for the DoraAudit.eu platform. "
                 + "You help users understand the EU DORA regulation (Digital Operational Resilience Act, EU 2022/2554), "
                 + "answer questions about compliance requirements, ICT risk management, incident reporting, "
                 + "contract requirements (especially Article 30), and guide them to relevant platform tools.\n\n"
-                + langInstruction + "\n\n"
+                + langInstruction + "\n"
+                + pageContext + "\n"
                 + "RULES:\n"
                 + "- Be concise but thorough. Use bullet points for clarity.\n"
                 + "- When a question relates to a specific platform tool, mention it with its path (e.g., /assessment, /contract-analysis).\n"
@@ -122,6 +133,38 @@ public class ChatService {
                 + "- Never invent regulatory requirements. If unsure, say so.\n"
                 + "- Keep responses under 300 words.\n\n"
                 + DoraKnowledgeBase.getKnowledge();
+    }
+
+    private String getPageDescription(String path) {
+        // Strip language prefix
+        String clean = path.replaceFirst("^/(en|et|lv|lt)/", "/").replaceFirst("^/(en|et|lv|lt)$", "/");
+        return switch (clean) {
+            case "/", "" -> "Landing Page";
+            case "/assessment" -> "DORA Self-Assessment";
+            case "/contract-analysis" -> "ICT Contract Analysis (Art. 30)";
+            case "/contract-generator" -> "ICT Contract Generator";
+            case "/contract-checklist" -> "DORA Art. 30 Contract Checklist";
+            case "/incident-reporting" -> "Incident Reporting (Art. 19)";
+            case "/incident-decision-tree" -> "Incident Classification Decision Tree (Art. 18)";
+            case "/tlpt" -> "TLPT Module (Art. 26-27)";
+            case "/concentration-risk" -> "Concentration Risk Analysis (Art. 29)";
+            case "/roi" -> "Register of Information (Art. 28)";
+            case "/dora-explorer" -> "DORA Regulation Explorer";
+            case "/framework-mapping" -> "Multi-Framework Compliance Mapping";
+            case "/training-quiz" -> "DORA Staff Training Quiz";
+            case "/fine-calculator" -> "DORA Fine Calculator";
+            case "/playbook" -> "DORA Action Playbook";
+            case "/policy-generator" -> "Policy Document Generator";
+            case "/guardian" -> "Guardian Contract Monitoring";
+            case "/command-center" -> "Compliance Command Center";
+            case "/supply-chain" -> "ICT Supply Chain Management";
+            case "/risk-heatmap" -> "Risk Heat Map";
+            case "/maturity" -> "Maturity Model Assessment";
+            case "/workspace" -> "Compliance Workspace";
+            case "/pricing" -> "Pricing Plans";
+            case "/dashboard" -> "User Dashboard";
+            default -> null;
+        };
     }
 
     private int countRecentRequests(String key) {

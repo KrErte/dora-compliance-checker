@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID, signal, computed, DestroyRef, ViewChild, ElementRef, afterNextRender } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, signal, computed, DestroyRef, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -38,7 +38,9 @@ interface ChatApiResponse {
           <svg class="w-6 h-6 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
           </svg>
-          <span class="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full animate-pulse"></span>
+          @if (messages().length === 0) {
+            <span class="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full animate-pulse"></span>
+          }
         </button>
       }
 
@@ -135,21 +137,39 @@ interface ChatApiResponse {
             }
           </div>
 
+          <!-- Rate limit counter -->
+          @if (messagesUsed() > 0 && messagesLimit() > 0) {
+            <div class="px-3 py-1.5 border-t border-slate-800 flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <div class="flex gap-0.5">
+                  @for (i of limitDots(); track i) {
+                    <span class="w-1.5 h-1.5 rounded-full" [ngClass]="i < messagesUsed() ? 'bg-emerald-400' : 'bg-slate-700'"></span>
+                  }
+                </div>
+                <span class="text-[10px] text-slate-500">{{ messagesUsed() }}/{{ messagesLimit() }}</span>
+              </div>
+              <button (click)="clearHistory()" class="text-[10px] text-slate-600 hover:text-slate-400 transition-colors">
+                {{ lang.t('chat.clear') }}
+              </button>
+            </div>
+          }
+
           <!-- Input -->
           <div class="px-3 py-3 border-t border-slate-700/50 bg-slate-900/80">
-            <form (submit)="send($event)" class="flex gap-2">
-              <input
+            <form (submit)="send($event)" class="flex gap-2 items-end">
+              <textarea
                 #chatInput
                 [(ngModel)]="inputText"
                 name="chatInput"
-                type="text"
                 [placeholder]="lang.t('chat.placeholder')"
                 [disabled]="loading()"
-                class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 disabled:opacity-50"
+                (keydown)="onKeydown($event)"
+                rows="1"
+                class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 disabled:opacity-50 resize-none max-h-24 overflow-y-auto"
                 autocomplete="off"
-              />
+              ></textarea>
               <button type="submit" [disabled]="loading() || !inputText.trim()"
-                      class="px-3 py-2 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                      class="px-3 py-2 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed shrink-0">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
                 </svg>
@@ -166,11 +186,12 @@ interface ChatApiResponse {
       to { transform: scale(1) translateY(0); opacity: 1; }
     }
     .animate-scale-in { animation: scale-in 0.2s ease-out; }
+    textarea { field-sizing: content; }
   `]
 })
 export class ChatWidgetComponent {
   @ViewChild('scrollContainer') scrollContainer?: ElementRef<HTMLDivElement>;
-  @ViewChild('chatInput') chatInputEl?: ElementRef<HTMLInputElement>;
+  @ViewChild('chatInput') chatInputEl?: ElementRef<HTMLTextAreaElement>;
 
   isBrowser: boolean;
   isOpen = signal(false);
@@ -178,7 +199,12 @@ export class ChatWidgetComponent {
   messages = signal<ChatMessage[]>([]);
   loading = signal(false);
   rateLimited = signal(false);
+  messagesUsed = signal(0);
+  messagesLimit = signal(0);
   inputText = '';
+  private currentPath = '';
+
+  limitDots = computed(() => Array.from({ length: this.messagesLimit() }, (_, i) => i));
 
   quickQuestions = computed(() => {
     const l = this.lang.lang();
@@ -219,13 +245,26 @@ export class ChatWidgetComponent {
     private destroyRef: DestroyRef
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+    this.currentPath = this.router.url;
     this.onChatPage.set(this.isChatRoute(this.router.url));
     this.router.events.pipe(
       filter(e => e instanceof NavigationEnd),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe((e: any) => {
-      this.onChatPage.set(this.isChatRoute(e.urlAfterRedirects || e.url));
+      this.currentPath = e.urlAfterRedirects || e.url;
+      this.onChatPage.set(this.isChatRoute(this.currentPath));
     });
+
+    // Restore messages from localStorage
+    if (this.isBrowser) {
+      try {
+        const saved = localStorage.getItem('dorabot_widget_msgs');
+        if (saved) {
+          const parsed = JSON.parse(saved) as ChatMessage[];
+          this.messages.set(parsed.map(m => ({ ...m, timestamp: new Date(m.timestamp) })));
+        }
+      } catch {}
+    }
   }
 
   private isChatRoute(url: string): boolean {
@@ -236,6 +275,13 @@ export class ChatWidgetComponent {
     this.isOpen.update(v => !v);
     if (this.isOpen()) {
       setTimeout(() => this.chatInputEl?.nativeElement?.focus(), 100);
+    }
+  }
+
+  onKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.send(event);
     }
   }
 
@@ -251,6 +297,13 @@ export class ChatWidgetComponent {
     this.sendMessage(q);
   }
 
+  clearHistory() {
+    this.messages.set([]);
+    this.rateLimited.set(false);
+    this.messagesUsed.set(0);
+    if (this.isBrowser) localStorage.removeItem('dorabot_widget_msgs');
+  }
+
   private sendMessage(text: string) {
     this.messages.update(msgs => [...msgs, { role: 'user', content: text, timestamp: new Date() }]);
     this.loading.set(true);
@@ -261,10 +314,15 @@ export class ChatWidgetComponent {
     this.http.post<ChatApiResponse>('/api/chat/message', {
       message: text,
       sessionId,
-      language: this.lang.lang()
+      language: this.lang.lang(),
+      currentPage: this.currentPath
     }).subscribe({
       next: (res) => {
         this.loading.set(false);
+        if (res.messagesLimit > 0) {
+          this.messagesUsed.set(res.messagesUsed);
+          this.messagesLimit.set(res.messagesLimit);
+        }
         if (res.rateLimited) {
           this.rateLimited.set(true);
           return;
@@ -276,19 +334,40 @@ export class ChatWidgetComponent {
           suggestedTool: res.suggestedTool || undefined,
           suggestedToolName: res.suggestedToolName || undefined
         }]);
+        this.persistMessages();
         this.scrollToBottom();
       },
       error: () => {
         this.loading.set(false);
+        const errMsg = this.getErrorMessage();
         this.messages.update(msgs => [...msgs, {
           role: 'assistant',
-          content: this.lang.lang() === 'et' ? 'Vabandust, tehniline viga. Proovige uuesti.' : 'Sorry, an error occurred. Please try again.',
+          content: errMsg,
           timestamp: new Date()
         }]);
+        this.persistMessages();
       }
     });
 
     setTimeout(() => this.scrollToBottom(), 50);
+  }
+
+  private getErrorMessage(): string {
+    switch (this.lang.lang()) {
+      case 'et': return 'Vabandust, tehniline viga. Proovige uuesti.';
+      case 'lv': return 'Atvainojiet, tehniska k\u013C\u016Bda. M\u0113\u0123iniet v\u0113lreiz.';
+      case 'lt': return 'Atsipra\u0161ome, technin\u0117 klaida. Bandykite dar kart\u0105.';
+      default: return 'Sorry, an error occurred. Please try again.';
+    }
+  }
+
+  private persistMessages() {
+    if (!this.isBrowser) return;
+    try {
+      // Keep last 20 messages max
+      const msgs = this.messages().slice(-20);
+      localStorage.setItem('dorabot_widget_msgs', JSON.stringify(msgs));
+    } catch {}
   }
 
   navigateToTool(path: string) {

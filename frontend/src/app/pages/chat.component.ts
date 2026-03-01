@@ -125,7 +125,19 @@ interface ChatApiResponse {
 
           <!-- Actions bar -->
           @if (messages().length > 0) {
-            <div class="px-4 py-2 border-t border-slate-800 flex justify-end">
+            <div class="px-4 py-2 border-t border-slate-800 flex items-center justify-between">
+              @if (messagesLimit() > 0) {
+                <div class="flex items-center gap-2">
+                  <div class="flex gap-0.5">
+                    @for (i of limitDots(); track i) {
+                      <span class="w-2 h-2 rounded-full" [ngClass]="i < messagesUsed() ? 'bg-emerald-400' : 'bg-slate-700'"></span>
+                    }
+                  </div>
+                  <span class="text-xs text-slate-500">{{ messagesUsed() }}/{{ messagesLimit() }} {{ lang.t('chat.msgs_used') }}</span>
+                </div>
+              } @else {
+                <div></div>
+              }
               <button (click)="clearHistory()" class="text-xs text-slate-500 hover:text-slate-300 transition-colors">
                 {{ lang.t('chat.clear') }}
               </button>
@@ -134,24 +146,26 @@ interface ChatApiResponse {
 
           <!-- Input -->
           <div class="px-4 sm:px-6 py-4 border-t border-slate-800 bg-slate-900/80">
-            <form (submit)="send($event)" class="flex gap-3">
-              <input
+            <form (submit)="send($event)" class="flex gap-3 items-end">
+              <textarea
                 [(ngModel)]="inputText"
                 name="chatInput"
-                type="text"
                 [placeholder]="lang.t('chat.placeholder')"
                 [disabled]="loading()"
-                class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 disabled:opacity-50"
+                (keydown)="onKeydown($event)"
+                rows="1"
+                class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 disabled:opacity-50 resize-none max-h-32 overflow-y-auto"
                 autocomplete="off"
-              />
+              ></textarea>
               <button type="submit" [disabled]="loading() || !inputText.trim()"
-                      class="px-5 py-3 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2">
+                      class="px-5 py-3 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 shrink-0">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
                 </svg>
                 {{ lang.t('chat.send') }}
               </button>
             </form>
+            <div class="text-[10px] text-slate-600 mt-1.5 text-center">{{ lang.t('chat.enter_hint') }}</div>
           </div>
         </div>
       </div>
@@ -165,7 +179,11 @@ export class ChatComponent {
   messages = signal<ChatMessage[]>([]);
   loading = signal(false);
   rateLimited = signal(false);
+  messagesUsed = signal(0);
+  messagesLimit = signal(0);
   inputText = '';
+
+  limitDots = computed(() => Array.from({ length: this.messagesLimit() }, (_, i) => i));
 
   suggestedQuestions = computed(() => {
     const l = this.lang.lang();
@@ -198,7 +216,7 @@ export class ChatComponent {
         'Kas yra DORA ir kam ji taikoma?',
         'K\u0105 IKT sutartys turi apimti pagal 30 straipsn\u012f?',
         'Kaip prane\u0161ti apie didel\u012f IKT incident\u0105?',
-        'Kokie yra 5 DORA ramsčiai?',
+        'Kokie yra 5 DORA rams\u010diai?',
         'Kas yra TLPT ir kada jis reikalingas?',
         'Kokius \u012frankius si\u016blo DoraAudit?'
       ]
@@ -213,6 +231,24 @@ export class ChatComponent {
     public lang: LangService
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+
+    // Restore messages from localStorage
+    if (this.isBrowser) {
+      try {
+        const saved = localStorage.getItem('dorabot_page_msgs');
+        if (saved) {
+          const parsed = JSON.parse(saved) as ChatMessage[];
+          this.messages.set(parsed.map(m => ({ ...m, timestamp: new Date(m.timestamp) })));
+        }
+      } catch {}
+    }
+  }
+
+  onKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.send(event);
+    }
   }
 
   send(event: Event) {
@@ -230,6 +266,8 @@ export class ChatComponent {
   clearHistory() {
     this.messages.set([]);
     this.rateLimited.set(false);
+    this.messagesUsed.set(0);
+    if (this.isBrowser) localStorage.removeItem('dorabot_page_msgs');
   }
 
   private sendMessage(text: string) {
@@ -242,10 +280,15 @@ export class ChatComponent {
     this.http.post<ChatApiResponse>('/api/chat/message', {
       message: text,
       sessionId,
-      language: this.lang.lang()
+      language: this.lang.lang(),
+      currentPage: this.isBrowser ? window.location.pathname : '/chat'
     }).subscribe({
       next: (res) => {
         this.loading.set(false);
+        if (res.messagesLimit > 0) {
+          this.messagesUsed.set(res.messagesUsed);
+          this.messagesLimit.set(res.messagesLimit);
+        }
         if (res.rateLimited) {
           this.rateLimited.set(true);
           return;
@@ -257,19 +300,39 @@ export class ChatComponent {
           suggestedTool: res.suggestedTool || undefined,
           suggestedToolName: res.suggestedToolName || undefined
         }]);
+        this.persistMessages();
         this.scrollToBottom();
       },
       error: () => {
         this.loading.set(false);
+        const errMsg = this.getErrorMessage();
         this.messages.update(msgs => [...msgs, {
           role: 'assistant',
-          content: this.lang.lang() === 'et' ? 'Vabandust, tehniline viga. Proovige uuesti.' : 'Sorry, an error occurred. Please try again.',
+          content: errMsg,
           timestamp: new Date()
         }]);
+        this.persistMessages();
       }
     });
 
     setTimeout(() => this.scrollToBottom(), 50);
+  }
+
+  private getErrorMessage(): string {
+    switch (this.lang.lang()) {
+      case 'et': return 'Vabandust, tehniline viga. Proovige uuesti.';
+      case 'lv': return 'Atvainojiet, tehniska k\u013C\u016Bda. M\u0113\u0123iniet v\u0113lreiz.';
+      case 'lt': return 'Atsipra\u0161ome, technin\u0117 klaida. Bandykite dar kart\u0105.';
+      default: return 'Sorry, an error occurred. Please try again.';
+    }
+  }
+
+  private persistMessages() {
+    if (!this.isBrowser) return;
+    try {
+      const msgs = this.messages().slice(-30);
+      localStorage.setItem('dorabot_page_msgs', JSON.stringify(msgs));
+    } catch {}
   }
 
   navigateToTool(path: string) {
