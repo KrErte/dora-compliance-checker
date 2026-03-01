@@ -716,6 +716,7 @@ export class ContractAnalysisComponent implements OnInit {
 
   captureEmail() {
     if (this.email && this.email.includes('@')) {
+      if (typeof localStorage === 'undefined') return;
       const leads = JSON.parse(localStorage.getItem('dora_leads') || '[]');
       leads.push({ email: this.email, date: new Date().toISOString(), score: this.result?.scorePercentage });
       localStorage.setItem('dora_leads', JSON.stringify(leads));

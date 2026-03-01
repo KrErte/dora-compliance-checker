@@ -806,7 +806,7 @@ export class ResultsComponent implements OnInit {
     }
 
     // Check if email was already captured for this assessment
-    const savedEmail = localStorage.getItem('dora_results_email_' + id);
+    const savedEmail = typeof localStorage !== 'undefined' ? localStorage.getItem('dora_results_email_' + id) : null;
     if (savedEmail) {
       this.email = savedEmail;
       this.emailCaptured = true;
@@ -837,6 +837,7 @@ export class ResultsComponent implements OnInit {
 
   saveToHistory() {
     if (!this.result) return;
+    if (typeof localStorage === 'undefined') return;
     const history = JSON.parse(localStorage.getItem('dora_history') || '[]');
     const exists = history.some((h: any) => h.id === this.result!.id);
     if (!exists) {
@@ -913,7 +914,7 @@ export class ResultsComponent implements OnInit {
     this.emailLoading = true;
 
     // Save email to localStorage for this assessment
-    localStorage.setItem('dora_results_email_' + this.result.id, this.email);
+    if (typeof localStorage !== 'undefined') localStorage.setItem('dora_results_email_' + this.result.id, this.email);
 
     // Send email to backend for lead capture
     this.http.post('/api/public/leads/email', {

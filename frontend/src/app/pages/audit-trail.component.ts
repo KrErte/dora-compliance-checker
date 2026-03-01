@@ -77,6 +77,7 @@ export class AuditTrailComponent implements OnInit {
   constructor(public lang: LangService) {}
 
   ngOnInit() {
+    if (typeof localStorage === 'undefined') return;
     // Build audit trail from localStorage activity
     const entries: AuditEntry[] = [];
     const now = new Date().toISOString();

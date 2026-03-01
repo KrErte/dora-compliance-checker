@@ -172,6 +172,6 @@ export class OnboardingComponent {
   }
 
   private markComplete(): void {
-    localStorage.setItem('onboarding_complete', 'true');
+    if (typeof localStorage !== 'undefined') localStorage.setItem('onboarding_complete', 'true');
   }
 }

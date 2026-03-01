@@ -124,8 +124,10 @@ export class InfoSharingComponent {
   newArr: any = { communityName: '', communityType: 'ISAC', contactPerson: '', dataTypes: '', joinedDate: '' };
 
   constructor(public lang: LangService) {
-    const saved = localStorage.getItem('dora-info-sharing');
-    if (saved) { try { this.arrangements.set(JSON.parse(saved)); } catch {} }
+    if (typeof localStorage !== 'undefined') {
+      const saved = localStorage.getItem('dora-info-sharing');
+      if (saved) { try { this.arrangements.set(JSON.parse(saved)); } catch {} }
+    }
   }
 
   addArrangement() {
@@ -141,5 +143,5 @@ export class InfoSharingComponent {
     this.save();
   }
 
-  save() { localStorage.setItem('dora-info-sharing', JSON.stringify(this.arrangements())); }
+  save() { if (typeof localStorage !== 'undefined') localStorage.setItem('dora-info-sharing', JSON.stringify(this.arrangements())); }
 }

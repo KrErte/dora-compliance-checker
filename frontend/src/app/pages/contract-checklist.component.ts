@@ -271,6 +271,7 @@ export class ContractChecklistComponent {
 
   constructor(public lang: LangService) {
     // Load saved state
+    if (typeof localStorage === 'undefined') { this.expandedSections.add('general'); return; }
     const saved = localStorage.getItem('dora-art30-checklist');
     if (saved) {
       try {
@@ -354,6 +355,6 @@ export class ContractChecklistComponent {
         }
       }
     }
-    localStorage.setItem('dora-art30-checklist', JSON.stringify(data));
+    if (typeof localStorage !== 'undefined') localStorage.setItem('dora-art30-checklist', JSON.stringify(data));
   }
 }

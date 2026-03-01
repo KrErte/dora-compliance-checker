@@ -148,6 +148,7 @@ export class MaturityModelComponent {
   ];
 
   constructor(public lang: LangService) {
+    if (typeof localStorage === 'undefined') return;
     const saved = localStorage.getItem('dora-maturity-model');
     if (saved) {
       try {
@@ -197,6 +198,6 @@ export class MaturityModelComponent {
   save() {
     const data: Record<string, number> = {};
     for (const area of this.areas) data[area.id] = area.level;
-    localStorage.setItem('dora-maturity-model', JSON.stringify(data));
+    if (typeof localStorage !== 'undefined') localStorage.setItem('dora-maturity-model', JSON.stringify(data));
   }
 }

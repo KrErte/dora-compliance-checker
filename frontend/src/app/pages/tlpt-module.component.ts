@@ -165,8 +165,10 @@ export class TlptModuleComponent {
   newTest: any = { name: '', scope: '', framework: 'TIBER-EU', testerType: 'EXTERNAL', testerName: '', startDate: '', endDate: '' };
 
   constructor(public lang: LangService) {
-    const saved = localStorage.getItem('dora-tlpt-tests');
-    if (saved) { try { this.tests.set(JSON.parse(saved)); } catch {} }
+    if (typeof localStorage !== 'undefined') {
+      const saved = localStorage.getItem('dora-tlpt-tests');
+      if (saved) { try { this.tests.set(JSON.parse(saved)); } catch {} }
+    }
   }
 
   createTest() {
@@ -188,6 +190,6 @@ export class TlptModuleComponent {
   }
 
   saveTests() {
-    localStorage.setItem('dora-tlpt-tests', JSON.stringify(this.tests()));
+    if (typeof localStorage !== 'undefined') localStorage.setItem('dora-tlpt-tests', JSON.stringify(this.tests()));
   }
 }

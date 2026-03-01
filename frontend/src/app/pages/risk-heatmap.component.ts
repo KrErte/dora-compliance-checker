@@ -89,6 +89,7 @@ export class RiskHeatmapComponent {
 
   loadFromHistory() {
     // Find the latest assessment
+    if (typeof localStorage === 'undefined') return;
     const keys = Object.keys(localStorage).filter(k => k.startsWith('assessment_'));
     let latest: any = null;
     for (const key of keys) {

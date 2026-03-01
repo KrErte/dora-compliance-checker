@@ -711,7 +711,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.trackingService.trackPageView(this.router.url);
 
       // Show onboarding wizard on first Enterprise login
-      if (!localStorage.getItem('onboarding_complete') && this.auth.isLoggedIn()
+      if (typeof localStorage !== 'undefined' && !localStorage.getItem('onboarding_complete') && this.auth.isLoggedIn()
           && this.subscriptionService.currentPlan() === 'ENTERPRISE') {
         this.showOnboarding = true;
       }
@@ -797,7 +797,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   restartTour() {
-    localStorage.removeItem('onboarding_complete');
+    if (typeof localStorage !== 'undefined') localStorage.removeItem('onboarding_complete');
     this.showOnboarding = true;
   }
 

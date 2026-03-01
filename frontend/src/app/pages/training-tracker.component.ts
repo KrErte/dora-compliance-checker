@@ -127,8 +127,10 @@ export class TrainingTrackerComponent {
   newRecord: any = { personName: '', role: 'Board Member', trainingTitle: '', completedDate: '', nextDueDate: '' };
 
   constructor(public lang: LangService) {
-    const saved = localStorage.getItem('dora-training-records');
-    if (saved) { try { this.records.set(JSON.parse(saved)); } catch {} }
+    if (typeof localStorage !== 'undefined') {
+      const saved = localStorage.getItem('dora-training-records');
+      if (saved) { try { this.records.set(JSON.parse(saved)); } catch {} }
+    }
   }
 
   addRecord() {
@@ -150,5 +152,5 @@ export class TrainingTrackerComponent {
     this.save();
   }
 
-  private save() { localStorage.setItem('dora-training-records', JSON.stringify(this.records())); }
+  private save() { if (typeof localStorage !== 'undefined') localStorage.setItem('dora-training-records', JSON.stringify(this.records())); }
 }

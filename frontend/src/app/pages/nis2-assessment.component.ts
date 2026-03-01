@@ -525,7 +525,7 @@ export class Nis2AssessmentComponent implements OnInit {
       }
     }
 
-    localStorage.setItem('nis2_assessment_progress', JSON.stringify({
+    if (typeof localStorage !== 'undefined') localStorage.setItem('nis2_assessment_progress', JSON.stringify({
       answers: this.answers,
       lastQuestionId,
       lastDomainIndex,
@@ -541,6 +541,7 @@ export class Nis2AssessmentComponent implements OnInit {
   loadDraft() {
     try {
       // Try new key first, then fallback to old key for backwards compatibility
+      if (typeof localStorage === 'undefined') return;
       let draft = JSON.parse(localStorage.getItem('nis2_assessment_progress') || 'null');
       if (!draft) {
         draft = JSON.parse(localStorage.getItem('nis2_draft') || 'null');
@@ -569,9 +570,11 @@ export class Nis2AssessmentComponent implements OnInit {
       answers: this.answers
     }).subscribe({
       next: (res) => {
-        localStorage.removeItem('nis2_assessment_progress');
-        localStorage.removeItem('nis2_draft'); // Clean up old key too
-        sessionStorage.setItem('nis2_result', JSON.stringify(res));
+        if (typeof localStorage !== 'undefined') {
+          localStorage.removeItem('nis2_assessment_progress');
+          localStorage.removeItem('nis2_draft'); // Clean up old key too
+        }
+        if (typeof sessionStorage !== 'undefined') sessionStorage.setItem('nis2_result', JSON.stringify(res));
         this.router.navigate(['/nis2/results']);
       },
       error: () => {
@@ -621,7 +624,9 @@ export class Nis2AssessmentComponent implements OnInit {
     this.answers = {};
     this.hasDraft = false;
     this.activeDomain = 0;
-    localStorage.removeItem('nis2_assessment_progress');
-    localStorage.removeItem('nis2_draft');
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('nis2_assessment_progress');
+      localStorage.removeItem('nis2_draft');
+    }
   }
 }

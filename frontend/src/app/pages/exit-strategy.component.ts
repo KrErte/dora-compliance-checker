@@ -118,8 +118,10 @@ export class ExitStrategyComponent {
   newStrategy: any = { providerName: '', serviceType: '', criticality: 'CRITICAL', transitionPeriodMonths: 6, alternativeProviders: '', keyRisks: '', dataReturnPlan: '' };
 
   constructor(public lang: LangService) {
-    const saved = localStorage.getItem('dora-exit-strategies');
-    if (saved) { try { this.strategies.set(JSON.parse(saved)); } catch {} }
+    if (typeof localStorage !== 'undefined') {
+      const saved = localStorage.getItem('dora-exit-strategies');
+      if (saved) { try { this.strategies.set(JSON.parse(saved)); } catch {} }
+    }
   }
 
   addStrategy() {
@@ -135,5 +137,5 @@ export class ExitStrategyComponent {
     this.save();
   }
 
-  save() { localStorage.setItem('dora-exit-strategies', JSON.stringify(this.strategies())); }
+  save() { if (typeof localStorage !== 'undefined') localStorage.setItem('dora-exit-strategies', JSON.stringify(this.strategies())); }
 }

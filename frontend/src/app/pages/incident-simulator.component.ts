@@ -403,6 +403,7 @@ export class IncidentSimulatorComponent {
 
   latestAssessment = computed(() => {
     try {
+      if (typeof localStorage === 'undefined') return null;
       const history: AssessmentResult[] = JSON.parse(localStorage.getItem('dora_history') || '[]');
       if (history.length === 0) return null;
       return history[history.length - 1];

@@ -181,6 +181,7 @@ export class HistoryComponent implements OnInit {
   }
 
   loadHistory() {
+    if (typeof localStorage === 'undefined') return;
     this.history = JSON.parse(localStorage.getItem('dora_history') || '[]');
   }
 
@@ -242,7 +243,7 @@ export class HistoryComponent implements OnInit {
   }
 
   clearHistory() {
-    localStorage.removeItem('dora_history');
+    if (typeof localStorage !== 'undefined') localStorage.removeItem('dora_history');
     this.history = [];
     this.chartPoints = [];
     this.linePath = '';

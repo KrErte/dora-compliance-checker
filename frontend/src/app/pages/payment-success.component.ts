@@ -218,7 +218,7 @@ export class PaymentSuccessComponent implements OnInit {
     const checkoutId = this.route.snapshot.queryParamMap.get('checkout_id');
 
     if (checkoutId) {
-      localStorage.setItem('paymentCompleted', JSON.stringify({
+      if (typeof localStorage !== 'undefined') localStorage.setItem('paymentCompleted', JSON.stringify({
         checkoutId: checkoutId,
         timestamp: new Date().toISOString(),
         products: ['all']

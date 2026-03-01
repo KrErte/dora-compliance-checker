@@ -590,6 +590,7 @@ export class DashboardComponent implements OnInit {
   }
 
   loadHistory() {
+    if (typeof localStorage === 'undefined') return;
     try {
       this.history = JSON.parse(localStorage.getItem('dora_history') || '[]');
     } catch {

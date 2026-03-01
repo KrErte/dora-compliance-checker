@@ -689,7 +689,7 @@ export class AssessmentComponent implements OnInit {
       }
     });
 
-    localStorage.setItem('dora_assessment_progress', JSON.stringify({
+    if (typeof localStorage !== 'undefined') localStorage.setItem('dora_assessment_progress', JSON.stringify({
       companyName: this.companyName,
       contractName: this.contractName,
       selectedSector: this.selectedSector,
@@ -702,6 +702,7 @@ export class AssessmentComponent implements OnInit {
   private loadDraft() {
     try {
       // Try new key first, then fallback to old key for backwards compatibility
+      if (typeof localStorage === 'undefined') return;
       let draft = JSON.parse(localStorage.getItem('dora_assessment_progress') || 'null');
       if (!draft) {
         draft = JSON.parse(localStorage.getItem('dora_draft') || 'null');
@@ -727,8 +728,10 @@ export class AssessmentComponent implements OnInit {
     this.hasDraft = false;
     this.error = '';
     this.submitting = false;
-    localStorage.removeItem('dora_assessment_progress');
-    localStorage.removeItem('dora_draft'); // Clean up old key too
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('dora_assessment_progress');
+      localStorage.removeItem('dora_draft'); // Clean up old key too
+    }
   }
 
   onSubmit() {
@@ -748,8 +751,10 @@ export class AssessmentComponent implements OnInit {
 
     this.api.submitAssessment(request).subscribe({
       next: (result) => {
-        localStorage.removeItem('dora_assessment_progress');
-        localStorage.removeItem('dora_draft'); // Clean up old key too
+        if (typeof localStorage !== 'undefined') {
+          localStorage.removeItem('dora_assessment_progress');
+          localStorage.removeItem('dora_draft'); // Clean up old key too
+        }
         this.router.navigate(['/results', result.id]);
       },
       error: () => {

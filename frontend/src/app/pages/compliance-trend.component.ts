@@ -107,6 +107,7 @@ export class ComplianceTrendComponent implements OnInit {
   constructor(public lang: LangService, private api: ApiService) {}
 
   ngOnInit() {
+    if (typeof localStorage === 'undefined') return;
     // Load from localStorage assessment history
     const keys = Object.keys(localStorage).filter(k => k.startsWith('assessment_'));
     const results: AssessmentResult[] = [];
