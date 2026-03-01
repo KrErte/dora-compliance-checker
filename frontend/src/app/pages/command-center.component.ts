@@ -69,7 +69,7 @@ interface PillarHealth {
           <a [routerLink]="metric.route"
              class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 hover:border-slate-600/50 hover:bg-slate-800/80 transition-all group cursor-pointer">
             <div class="flex items-center justify-between mb-2">
-              <span class="text-lg" [innerHTML]="metric.icon"></span>
+              <span class="text-lg">{{ metric.icon }}</span>
               @if (metric.trend) {
                 <span class="text-[10px] font-medium px-1.5 py-0.5 rounded"
                       [ngClass]="metric.trendUp ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'">
@@ -335,10 +335,10 @@ export class CommandCenterComponent implements OnInit, OnDestroy {
     const now = new Date();
     const deadlineList: DeadlineItem[] = ([
       { title: 'DORA Application Date', date: '2025-01-17', daysLeft: this.daysBetween(now, new Date('2025-01-17')), severity: 'critical' as const, type: 'DORA' },
-      { title: 'RTS/ITS Package 1 — Final', date: '2024-07-17', daysLeft: this.daysBetween(now, new Date('2024-07-17')), severity: 'critical' as const, type: 'RTS' },
+      { title: 'RTS/ITS Package 2 — Final', date: '2025-07-17', daysLeft: this.daysBetween(now, new Date('2025-07-17')), severity: 'critical' as const, type: 'RTS' },
       { title: et ? 'Aastaaruande t\u00e4htaeg' : 'Annual Review Deadline', date: '2026-06-30', daysLeft: this.daysBetween(now, new Date('2026-06-30')), severity: 'warning' as const, type: 'INTERNAL' },
       { title: et ? 'TLPT testi aruanne' : 'TLPT Test Report Due', date: '2026-12-31', daysLeft: this.daysBetween(now, new Date('2026-12-31')), severity: 'ok' as const, type: 'TLPT' },
-      { title: 'NIS2 Transposition', date: '2024-10-17', daysLeft: this.daysBetween(now, new Date('2024-10-17')), severity: 'critical' as const, type: 'NIS2' },
+      { title: 'NIS2 Implementation Review', date: '2026-10-17', daysLeft: this.daysBetween(now, new Date('2026-10-17')), severity: 'warning' as const, type: 'NIS2' },
       { title: et ? 'J\u00e4rgmine hindamine' : 'Next Assessment Due', date: '2026-03-31', daysLeft: this.daysBetween(now, new Date('2026-03-31')), severity: 'warning' as const, type: 'ASSESSMENT' },
     ] as DeadlineItem[]).sort((a, b) => a.daysLeft - b.daysLeft);
 

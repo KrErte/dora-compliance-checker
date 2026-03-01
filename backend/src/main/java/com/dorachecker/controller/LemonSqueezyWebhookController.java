@@ -1,5 +1,6 @@
 package com.dorachecker.controller;
 
+import com.dorachecker.model.UserRepository;
 import com.dorachecker.model.UserSubscriptionEntity;
 import com.dorachecker.model.UserSubscriptionRepository;
 import com.dorachecker.service.AuditLogService;
@@ -28,6 +29,7 @@ public class LemonSqueezyWebhookController {
     private static final Logger log = LoggerFactory.getLogger(LemonSqueezyWebhookController.class);
 
     private final UserSubscriptionRepository subscriptionRepository;
+    private final UserRepository userRepository;
     private final SubscriptionGuardService guardService;
     private final ObjectMapper objectMapper;
     private final AuditLogService auditLog;
@@ -37,11 +39,13 @@ public class LemonSqueezyWebhookController {
 
     public LemonSqueezyWebhookController(
             UserSubscriptionRepository subscriptionRepository,
+            UserRepository userRepository,
             SubscriptionGuardService guardService,
             ObjectMapper objectMapper,
             AuditLogService auditLog
     ) {
         this.subscriptionRepository = subscriptionRepository;
+        this.userRepository = userRepository;
         this.guardService = guardService;
         this.objectMapper = objectMapper;
         this.auditLog = auditLog;
@@ -95,15 +99,16 @@ public class LemonSqueezyWebhookController {
             String userEmail = attributes.path("user_email").asText();
             String status = attributes.path("status").asText();
 
-            // Extract custom data (session_id, user_id) if provided
+            // Resolve userId from email (trusted) — fall back to custom_data sessionId for anonymous users
             JsonNode customData = meta.path("custom_data");
             String sessionId = customData.path("session_id").asText(null);
-            String userId = customData.path("user_id").asText(null);
+            String userId = userRepository.findByEmail(userEmail)
+                    .map(user -> user.getId())
+                    .orElse(null);
 
-            log.info("Order created: orderId={}, email={}, status={}", orderId, userEmail, status);
+            log.info("Order created: orderId={}, email={}, resolvedUserId={}, status={}", orderId, userEmail, userId, status);
 
             if ("paid".equals(status)) {
-                // Determine plan from product
                 String productName = attributes.path("first_order_item").path("product_name").asText("");
                 UserSubscriptionEntity.Plan plan = determinePlanFromProduct(productName);
 
@@ -116,7 +121,7 @@ public class LemonSqueezyWebhookController {
                         customerId
                 );
 
-                auditLog.logPaymentEvent("ORDER_PAID", userId, orderId, plan.name());
+                auditLog.logPaymentEvent("ORDER_PAID", userId != null ? userId : sessionId, orderId, plan.name());
                 log.info("Subscription activated for order: {}", orderId);
             }
 
@@ -133,12 +138,16 @@ public class LemonSqueezyWebhookController {
             String customerId = attributes.path("customer_id").asText();
             String status = attributes.path("status").asText();
             String renewsAt = attributes.path("renews_at").asText(null);
+            String userEmail = attributes.path("user_email").asText(null);
 
+            // Resolve userId from email (trusted) — fall back to custom_data sessionId for anonymous users
             JsonNode customData = data.path("meta").path("custom_data");
             String sessionId = customData.path("session_id").asText(null);
-            String userId = customData.path("user_id").asText(null);
+            String userId = (userEmail != null)
+                    ? userRepository.findByEmail(userEmail).map(user -> user.getId()).orElse(null)
+                    : null;
 
-            log.info("Subscription created: subscriptionId={}, status={}", subscriptionId, status);
+            log.info("Subscription created: subscriptionId={}, resolvedUserId={}, status={}", subscriptionId, userId, status);
 
             if ("active".equals(status)) {
                 String productName = attributes.path("product_name").asText("");

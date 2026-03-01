@@ -47,6 +47,10 @@ public class ContractAnalysisEntity {
     @Column(length = 20000)
     private String findingsJson;
 
+    private String userId;
+
+    private String sessionId;
+
     public ContractAnalysisEntity() {}
 
     public ContractAnalysisEntity(String companyName, String contractName, String fileName,
@@ -94,4 +98,9 @@ public class ContractAnalysisEntity {
     public void setSummary(String summary) { this.summary = summary; }
     public String getFindingsJson() { return findingsJson; }
     public void setFindingsJson(String findingsJson) { this.findingsJson = findingsJson; }
+
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
+    public String getSessionId() { return sessionId; }
+    public void setSessionId(String sessionId) { this.sessionId = sessionId; }
 }

@@ -53,6 +53,10 @@ public class ExportController {
             return ResponseEntity.notFound().build();
         }
 
+        if (!isOwner(userId, sessionId, assessment.get().getUserId(), assessment.get().getSessionId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "ACCESS_DENIED"));
+        }
+
         byte[] pdfBytes = pdfExportService.generateAssessmentPdf(assessment.get());
         return fileResponse(pdfBytes, "assessment-report.pdf", MediaType.APPLICATION_PDF);
     }
@@ -72,6 +76,10 @@ public class ExportController {
         var contract = contractAnalysisRepository.findById(id);
         if (contract.isEmpty()) {
             return ResponseEntity.notFound().build();
+        }
+
+        if (!isOwner(userId, sessionId, contract.get().getUserId(), contract.get().getSessionId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "ACCESS_DENIED"));
         }
 
         byte[] pdfBytes = pdfExportService.generateContractPdf(contract.get());
@@ -95,6 +103,10 @@ public class ExportController {
             return ResponseEntity.notFound().build();
         }
 
+        if (!isOwner(userId, sessionId, assessment.get().getUserId(), assessment.get().getSessionId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "ACCESS_DENIED"));
+        }
+
         byte[] excelBytes = excelExportService.generateAssessmentExcel(assessment.get());
         return fileResponse(excelBytes, "assessment-report.xlsx",
                 MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
@@ -115,6 +127,10 @@ public class ExportController {
         var contract = contractAnalysisRepository.findById(id);
         if (contract.isEmpty()) {
             return ResponseEntity.notFound().build();
+        }
+
+        if (!isOwner(userId, sessionId, contract.get().getUserId(), contract.get().getSessionId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "ACCESS_DENIED"));
         }
 
         byte[] excelBytes = excelExportService.generateContractExcel(contract.get());
@@ -158,6 +174,10 @@ public class ExportController {
             return ResponseEntity.notFound().build();
         }
 
+        if (!isOwner(userId, sessionId, assessment.get().getUserId(), assessment.get().getSessionId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "ACCESS_DENIED"));
+        }
+
         return ResponseEntity.ok(Map.of(
                 "success", true,
                 "message", "Certificate generation authorized",
@@ -181,6 +201,19 @@ public class ExportController {
                 "success", true,
                 "message", "Action plan PDF generation authorized"
         ));
+    }
+
+    private boolean isOwner(String userId, String sessionId, String resourceUserId, String resourceSessionId) {
+        if (resourceUserId == null && resourceSessionId == null) {
+            return true; // Legacy data without ownership — allow
+        }
+        if (userId != null && userId.equals(resourceUserId)) {
+            return true;
+        }
+        if (sessionId != null && sessionId.equals(resourceSessionId)) {
+            return true;
+        }
+        return false;
     }
 
     private ResponseEntity<byte[]> fileResponse(byte[] data, String filename, MediaType mediaType) {

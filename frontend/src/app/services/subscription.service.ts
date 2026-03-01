@@ -1,7 +1,7 @@
 import { Injectable, signal, computed, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, tap, catchError, of } from 'rxjs';
+import { Observable, tap, take, catchError, of } from 'rxjs';
 
 export type SubscriptionPlan = 'FREE' | 'PROFESSIONAL' | 'STANDARD' | 'ENTERPRISE';
 
@@ -144,6 +144,7 @@ export class SubscriptionService {
     this.http.get<SubscriptionStatus>('/api/subscription/status', {
       headers: this.getHeaders()
     }).pipe(
+      take(1),
       catchError(() => of({
         plan: 'FREE' as SubscriptionPlan,
         isPremium: false,

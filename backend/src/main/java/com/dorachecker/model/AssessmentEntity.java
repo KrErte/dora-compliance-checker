@@ -43,6 +43,10 @@ public class AssessmentEntity {
     @Column(length = 4000)
     private String answersJson;
 
+    private String userId;
+
+    private String sessionId;
+
     public AssessmentEntity() {}
 
     public AssessmentEntity(String companyName, String contractName, LocalDateTime assessmentDate,
@@ -82,4 +86,9 @@ public class AssessmentEntity {
 
     public String getRegulationCode() { return regulationCode; }
     public void setRegulationCode(String regulationCode) { this.regulationCode = regulationCode; }
+
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
+    public String getSessionId() { return sessionId; }
+    public void setSessionId(String sessionId) { this.sessionId = sessionId; }
 }

@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap, catchError, of } from 'rxjs';
+import { Observable, tap, switchMap, map, catchError, of } from 'rxjs';
 
 export interface BrandingSettings {
   companyName: string;
@@ -46,13 +46,13 @@ export class BrandingService {
     const formData = new FormData();
     formData.append('file', file);
     return this.http.post<{ success: boolean; message: string }>('/api/branding/logo', formData).pipe(
-      tap(() => this.loadBranding().subscribe())
+      switchMap(res => this.loadBranding().pipe(map(() => res)))
     );
   }
 
   deleteLogo(): Observable<{ success: boolean }> {
     return this.http.delete<{ success: boolean }>('/api/branding/logo').pipe(
-      tap(() => this.loadBranding().subscribe())
+      switchMap(res => this.loadBranding().pipe(map(() => res)))
     );
   }
 

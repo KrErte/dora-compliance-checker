@@ -67,3 +67,12 @@ out/
 *_seed.sql
 *_demo_*.sql
 demo_*.json
+
+# Debug / temp files
+pw_*.txt
+bcrypt_*.txt
+bondora_*.txt
+ssh_debug.txt
+build_out.txt
+*-prompt.md
+*-comparison.html

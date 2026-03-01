@@ -88,6 +88,14 @@ public class AdminUserController {
     public ResponseEntity<?> updateUser(@PathVariable String userId,
                                         @RequestBody Map<String, String> updates,
                                         Authentication auth) {
+        String adminId = (String) auth.getPrincipal();
+
+        // Prevent admins from modifying their own role
+        if (userId.equals(adminId) && updates.containsKey("role")) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "Cannot modify your own role"));
+        }
+
         return userRepository.findById(userId)
                 .map(user -> {
                     if (updates.containsKey("accountTier")) {
