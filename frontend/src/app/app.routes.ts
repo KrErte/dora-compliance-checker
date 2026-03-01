@@ -117,6 +117,12 @@ export const routes: Routes = [
     data: { seoTitle: 'ICT Contract Analysis', seoDescription: 'AI-powered DORA Article 30 contract compliance analysis. Upload your ICT contracts for automated regulatory gap detection.' }
   },
   {
+    path: 'bulk-analysis',
+    loadComponent: () => import('./pages/bulk-contract-analysis.component').then(m => m.BulkContractAnalysisComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Bulk Contract Analysis', seoDescription: 'Upload and analyze up to 50 contracts at once. Get a portfolio-level DORA compliance overview.' }
+  },
+  {
     path: 'contract-results/:id',
     loadComponent: () => import('./pages/contract-results.component').then(m => m.ContractResultsComponent),
     // No authGuard - free access for demo flow

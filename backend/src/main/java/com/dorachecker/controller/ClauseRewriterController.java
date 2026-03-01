@@ -143,7 +143,7 @@ public class ClauseRewriterController {
     }
 
     private String buildRewritePrompt(String originalClause, String requirementType, String doraArticle, String language) {
-        String lang = "et".equals(language) ? "Estonian" : "English";
+        String lang = getLanguageName(language);
         return """
                 You are a legal expert specializing in DORA (Digital Operational Resilience Act) compliance.
 
@@ -173,8 +173,21 @@ public class ClauseRewriterController {
                 """.formatted(doraArticle, originalClause, requirementType, lang);
     }
 
+    private String getLanguageName(String code) {
+        return switch (code != null ? code : "en") {
+            case "et" -> "Estonian";
+            case "de" -> "German";
+            case "fr" -> "French";
+            case "nl" -> "Dutch";
+            case "pl" -> "Polish";
+            case "es" -> "Spanish";
+            case "it" -> "Italian";
+            default -> "English";
+        };
+    }
+
     private String buildSuggestionPrompt(String requirementType, String doraArticle, String context, String language) {
-        String lang = "et".equals(language) ? "Estonian" : "English";
+        String lang = getLanguageName(language);
         return """
                 You are a legal expert specializing in DORA (Digital Operational Resilience Act) compliance.
 

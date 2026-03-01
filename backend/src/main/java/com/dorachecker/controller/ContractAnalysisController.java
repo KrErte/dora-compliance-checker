@@ -1,20 +1,32 @@
 package com.dorachecker.controller;
 
 import com.dorachecker.model.ContractAnalysisResult;
+import com.dorachecker.model.ContractAnalysisRepository;
 import com.dorachecker.service.ContractAnalysisService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.*;
+import java.util.concurrent.*;
 
 @RestController
 @RequestMapping("/api/contracts")
 public class ContractAnalysisController {
 
-    private final ContractAnalysisService contractAnalysisService;
+    private static final Logger log = LoggerFactory.getLogger(ContractAnalysisController.class);
 
-    public ContractAnalysisController(ContractAnalysisService contractAnalysisService) {
+    private final ContractAnalysisService contractAnalysisService;
+    private final ContractAnalysisRepository contractAnalysisRepository;
+
+    public ContractAnalysisController(ContractAnalysisService contractAnalysisService,
+                                       ContractAnalysisRepository contractAnalysisRepository) {
         this.contractAnalysisService = contractAnalysisService;
+        this.contractAnalysisRepository = contractAnalysisRepository;
     }
 
     @PostMapping(value = "/analyze", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -29,6 +41,96 @@ public class ContractAnalysisController {
 
         ContractAnalysisResult result = contractAnalysisService.analyze(companyName, contractName, file);
         return ResponseEntity.ok(result);
+    }
+
+    /**
+     * Bulk contract analysis — upload multiple files at once.
+     * Analyzes each contract sequentially and returns a portfolio summary.
+     */
+    @PostMapping(value = "/analyze/bulk", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Map<String, Object>> analyzeBulk(
+            @RequestParam("files") MultipartFile[] files,
+            @RequestParam("companyName") String companyName) {
+
+        if (files == null || files.length == 0) {
+            return ResponseEntity.badRequest().body(Map.of("error", "No files provided"));
+        }
+
+        if (files.length > 50) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Maximum 50 contracts per batch"));
+        }
+
+        List<Map<String, Object>> results = new ArrayList<>();
+        int totalFound = 0, totalPartial = 0, totalMissing = 0;
+        double scoreSum = 0;
+        int successCount = 0;
+        List<Map<String, Object>> weakest = new ArrayList<>();
+
+        for (MultipartFile file : files) {
+            if (file.isEmpty()) continue;
+
+            String contractName = file.getOriginalFilename() != null
+                    ? file.getOriginalFilename().replaceAll("\\.[^.]+$", "")
+                    : "Contract";
+
+            try {
+                ContractAnalysisResult result = contractAnalysisService.analyze(companyName, contractName, file);
+                Map<String, Object> entry = new LinkedHashMap<>();
+                entry.put("id", result.id());
+                entry.put("contractName", result.contractName());
+                entry.put("fileName", result.fileName());
+                entry.put("scorePercentage", result.scorePercentage());
+                entry.put("complianceLevel", result.complianceLevel());
+                entry.put("foundCount", result.foundCount());
+                entry.put("partialCount", result.partialCount());
+                entry.put("missingCount", result.missingCount());
+                entry.put("totalRequirements", result.totalRequirements());
+                entry.put("summary", result.summary());
+                entry.put("status", "success");
+                results.add(entry);
+
+                totalFound += result.foundCount();
+                totalPartial += result.partialCount();
+                totalMissing += result.missingCount();
+                scoreSum += result.scorePercentage();
+                successCount++;
+
+                // Track weak contracts for portfolio risk view
+                if (result.scorePercentage() < 60) {
+                    Map<String, Object> weak = new LinkedHashMap<>();
+                    weak.put("contractName", result.contractName());
+                    weak.put("score", result.scorePercentage());
+                    weak.put("missingCount", result.missingCount());
+                    weak.put("id", result.id());
+                    weakest.add(weak);
+                }
+            } catch (Exception e) {
+                log.error("Bulk analysis failed for file: {}", file.getOriginalFilename(), e);
+                Map<String, Object> entry = new LinkedHashMap<>();
+                entry.put("fileName", file.getOriginalFilename());
+                entry.put("status", "error");
+                entry.put("error", e.getMessage());
+                results.add(entry);
+            }
+        }
+
+        // Sort weakest by score ascending
+        weakest.sort(Comparator.comparingDouble(m -> (double) m.get("score")));
+
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("results", results);
+        response.put("totalContracts", files.length);
+        response.put("successCount", successCount);
+        response.put("averageScore", successCount > 0 ? Math.round(scoreSum / successCount * 10) / 10.0 : 0);
+        response.put("portfolioTotalFound", totalFound);
+        response.put("portfolioTotalPartial", totalPartial);
+        response.put("portfolioTotalMissing", totalMissing);
+        response.put("weakestContracts", weakest);
+        response.put("portfolioLevel", successCount > 0
+                ? (scoreSum / successCount >= 80 ? "GREEN" : (scoreSum / successCount >= 50 ? "YELLOW" : "RED"))
+                : "UNKNOWN");
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")

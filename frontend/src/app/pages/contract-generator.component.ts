@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LangService } from '../lang.service';
-import { MODEL_CLAUSES, ModelClause } from '../data/model-clauses';
+import { MODEL_CLAUSES, ModelClause, CLAUSE_LANGUAGES, ClauseLanguage, getClauseName, getClauseText } from '../data/model-clauses';
 
 interface ClauseSelection {
   clause: ModelClause;
@@ -28,6 +28,18 @@ interface ClauseSelection {
         <p class="text-slate-400 max-w-xl mx-auto">{{ lang.t('generator.subtitle') }}</p>
       </div>
 
+      <!-- Language Selector -->
+      <div class="flex items-center justify-center gap-2 mb-6 flex-wrap">
+        @for (l of languages; track l.code) {
+          <button type="button" (click)="clauseLang = l.code"
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all"
+                  [class]="clauseLang === l.code ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-300' : 'bg-slate-800/50 border border-slate-700/30 text-slate-400 hover:text-slate-300'">
+            <span>{{ l.flag }}</span>
+            <span>{{ l.label }}</span>
+          </button>
+        }
+      </div>
+
       <!-- Main Content: Split View -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
@@ -50,12 +62,12 @@ interface ClauseSelection {
                 <div class="flex-1">
                   <div class="flex items-center gap-2">
                     <span class="text-sm font-medium" [class]="item.selected ? 'text-emerald-300' : 'text-slate-300'">
-                      {{ item.clause.id }}. {{ lang.currentLang === 'et' ? item.clause.nameEt : item.clause.nameEn }}
+                      {{ item.clause.id }}. {{ getClauseName(item.clause) }}
                     </span>
                     <span class="text-xs px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400">{{ item.clause.doraReference }}</span>
                   </div>
                   <p class="text-xs text-slate-500 mt-1 line-clamp-2">
-                    {{ lang.currentLang === 'et' ? item.clause.clauseEt : item.clause.clauseEn }}
+                    {{ getClauseText(item.clause) }}
                   </p>
                 </div>
               </label>
@@ -112,10 +124,10 @@ interface ClauseSelection {
               <!-- Contract Header -->
               <div class="text-center mb-8 pb-6 border-b-2 border-slate-200">
                 <h1 class="text-xl font-bold text-slate-900 uppercase tracking-wide">
-                  {{ lang.currentLang === 'et' ? 'IKT TEENUSE OSUTAMISE LEPING' : 'ICT SERVICE PROVISION CONTRACT' }}
+                  {{ getContractTitle() }}
                 </h1>
                 <p class="text-sm text-slate-600 mt-2">
-                  {{ lang.currentLang === 'et' ? 'DORA artikkel 30 nõuetele vastav' : 'DORA Article 30 Compliant' }}
+                  {{ getContractSubtitle() }}
                 </p>
                 <p class="text-xs text-slate-400 mt-1">{{ today }}</p>
               </div>
@@ -125,10 +137,10 @@ interface ClauseSelection {
                 @for (item of selectedClauses; track item.clause.id; let idx = $index) {
                   <div class="pb-4" [class.border-b]="idx < selectedClauses.length - 1" [class.border-slate-200]="idx < selectedClauses.length - 1">
                     <h2 class="text-sm font-bold text-slate-900 uppercase mb-3">
-                      {{ idx + 1 }}. {{ lang.currentLang === 'et' ? item.clause.nameEt : item.clause.nameEn }}
+                      {{ idx + 1 }}. {{ getClauseName(item.clause) }}
                       <span class="text-xs font-normal text-cyan-600 ml-2">{{ item.clause.doraReference }}</span>
                     </h2>
-                    <p class="text-sm text-slate-700 leading-relaxed whitespace-pre-line">{{ lang.currentLang === 'et' ? item.clause.clauseEt : item.clause.clauseEn }}</p>
+                    <p class="text-sm text-slate-700 leading-relaxed whitespace-pre-line">{{ getClauseText(item.clause) }}</p>
                   </div>
                 }
               </div>
@@ -137,14 +149,14 @@ interface ClauseSelection {
               <div class="mt-8 pt-6 border-t-2 border-slate-200">
                 <div class="grid grid-cols-2 gap-8">
                   <div>
-                    <p class="text-xs text-slate-500 uppercase mb-2">{{ lang.currentLang === 'et' ? 'Tellija' : 'Client' }}</p>
+                    <p class="text-xs text-slate-500 uppercase mb-2">{{ getClientLabel() }}</p>
                     <div class="border-b border-slate-300 pb-8 mb-2"></div>
-                    <p class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? 'Nimi, allkiri, kuupäev' : 'Name, signature, date' }}</p>
+                    <p class="text-xs text-slate-400">{{ getSignatureLabel() }}</p>
                   </div>
                   <div>
-                    <p class="text-xs text-slate-500 uppercase mb-2">{{ lang.currentLang === 'et' ? 'Teenusepakkuja' : 'Service Provider' }}</p>
+                    <p class="text-xs text-slate-500 uppercase mb-2">{{ getProviderLabel() }}</p>
                     <div class="border-b border-slate-300 pb-8 mb-2"></div>
-                    <p class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? 'Nimi, allkiri, kuupäev' : 'Name, signature, date' }}</p>
+                    <p class="text-xs text-slate-400">{{ getSignatureLabel() }}</p>
                   </div>
                 </div>
               </div>
@@ -186,11 +198,53 @@ export class ContractGeneratorComponent {
   clauseSelections: ClauseSelection[] = [];
   analyzing = false;
   today = new Date().toLocaleDateString('et-EE');
+  clauseLang: ClauseLanguage = 'en';
+  languages = CLAUSE_LANGUAGES;
+
+  private contractTitles: Record<ClauseLanguage, string> = {
+    et: 'IKT TEENUSE OSUTAMISE LEPING',
+    en: 'ICT SERVICE PROVISION CONTRACT',
+    de: 'IKT-DIENSTLEISTUNGSVERTRAG',
+    fr: 'CONTRAT DE PRESTATION DE SERVICES TIC',
+    nl: 'ICT-DIENSTVERLENINGSOVEREENKOMST',
+    pl: 'UMOWA O ŚWIADCZENIE USŁUG ICT',
+    es: 'CONTRATO DE PRESTACIÓN DE SERVICIOS TIC',
+    it: 'CONTRATTO DI FORNITURA DI SERVIZI ICT',
+  };
+
+  private contractSubtitles: Record<ClauseLanguage, string> = {
+    et: 'DORA artikkel 30 nõuetele vastav',
+    en: 'DORA Article 30 Compliant',
+    de: 'Konform mit DORA Artikel 30',
+    fr: 'Conforme à l\'article 30 du DORA',
+    nl: 'Conform DORA Artikel 30',
+    pl: 'Zgodny z art. 30 DORA',
+    es: 'Conforme con el Artículo 30 de DORA',
+    it: 'Conforme all\'Articolo 30 del DORA',
+  };
+
+  private clientLabels: Record<ClauseLanguage, string> = {
+    et: 'Tellija', en: 'Client', de: 'Auftraggeber', fr: 'Client',
+    nl: 'Opdrachtgever', pl: 'Zleceniodawca', es: 'Cliente', it: 'Cliente',
+  };
+
+  private providerLabels: Record<ClauseLanguage, string> = {
+    et: 'Teenusepakkuja', en: 'Service Provider', de: 'Dienstleister', fr: 'Prestataire',
+    nl: 'Dienstverlener', pl: 'Dostawca', es: 'Proveedor', it: 'Fornitore',
+  };
+
+  private signatureLabels: Record<ClauseLanguage, string> = {
+    et: 'Nimi, allkiri, kuupäev', en: 'Name, signature, date',
+    de: 'Name, Unterschrift, Datum', fr: 'Nom, signature, date',
+    nl: 'Naam, handtekening, datum', pl: 'Imię, podpis, data',
+    es: 'Nombre, firma, fecha', it: 'Nome, firma, data',
+  };
 
   constructor(public lang: LangService, private router: Router) {
+    this.clauseLang = (this.lang.currentLang === 'et' ? 'et' : 'en') as ClauseLanguage;
     this.clauseSelections = MODEL_CLAUSES.map(clause => ({
       clause,
-      selected: true // Default: all selected
+      selected: true
     }));
   }
 
@@ -210,12 +264,24 @@ export class ContractGeneratorComponent {
     this.clauseSelections.forEach(c => c.selected = false);
   }
 
-  downloadPdf(): void {
-    const isEt = this.lang.currentLang === 'et';
+  getClauseName(clause: ModelClause): string {
+    return getClauseName(clause, this.clauseLang);
+  }
 
+  getClauseText(clause: ModelClause): string {
+    return getClauseText(clause, this.clauseLang);
+  }
+
+  getContractTitle(): string { return this.contractTitles[this.clauseLang]; }
+  getContractSubtitle(): string { return this.contractSubtitles[this.clauseLang]; }
+  getClientLabel(): string { return this.clientLabels[this.clauseLang]; }
+  getProviderLabel(): string { return this.providerLabels[this.clauseLang]; }
+  getSignatureLabel(): string { return this.signatureLabels[this.clauseLang]; }
+
+  downloadPdf(): void {
     let html = `<!DOCTYPE html><html><head>
       <meta charset="UTF-8">
-      <title>${isEt ? 'IKT Teenuse Osutamise Leping' : 'ICT Service Provision Contract'}</title>
+      <title>${this.getContractTitle()}</title>
       <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Times New Roman', serif; padding: 50px; color: #1a1a1a; line-height: 1.6; }
@@ -237,29 +303,29 @@ export class ContractGeneratorComponent {
     </head><body>`;
 
     html += `<div class="header">
-      <h1>${isEt ? 'IKT TEENUSE OSUTAMISE LEPING' : 'ICT SERVICE PROVISION CONTRACT'}</h1>
-      <p>${isEt ? 'DORA artikkel 30 nõuetele vastav' : 'DORA Article 30 Compliant'}</p>
+      <h1>${this.getContractTitle()}</h1>
+      <p>${this.getContractSubtitle()}</p>
       <p>${this.today}</p>
     </div>`;
 
     this.selectedClauses.forEach((item, idx) => {
       html += `<div class="clause">
-        <h2>${idx + 1}. ${isEt ? item.clause.nameEt : item.clause.nameEn} <span>${item.clause.doraReference}</span></h2>
-        <p>${isEt ? item.clause.clauseEt : item.clause.clauseEn}</p>
+        <h2>${idx + 1}. ${this.getClauseName(item.clause)} <span>${item.clause.doraReference}</span></h2>
+        <p>${this.getClauseText(item.clause)}</p>
       </div>`;
     });
 
     html += `<div class="footer">
       <div class="signatures">
         <div class="signature-box">
-          <p>${isEt ? 'Tellija' : 'Client'}</p>
+          <p>${this.getClientLabel()}</p>
           <div class="signature-line"></div>
-          <p class="signature-note">${isEt ? 'Nimi, allkiri, kuupäev' : 'Name, signature, date'}</p>
+          <p class="signature-note">${this.getSignatureLabel()}</p>
         </div>
         <div class="signature-box">
-          <p>${isEt ? 'Teenusepakkuja' : 'Service Provider'}</p>
+          <p>${this.getProviderLabel()}</p>
           <div class="signature-line"></div>
-          <p class="signature-note">${isEt ? 'Nimi, allkiri, kuupäev' : 'Name, signature, date'}</p>
+          <p class="signature-note">${this.getSignatureLabel()}</p>
         </div>
       </div>
     </div>`;
@@ -276,25 +342,20 @@ export class ContractGeneratorComponent {
 
   analyzeContract(): void {
     this.analyzing = true;
-    const isEt = this.lang.currentLang === 'et';
 
-    // Generate contract text
-    let contractText = `${isEt ? 'IKT TEENUSE OSUTAMISE LEPING\n\n' : 'ICT SERVICE PROVISION CONTRACT\n\n'}`;
+    let contractText = `${this.getContractTitle()}\n\n`;
 
     this.selectedClauses.forEach((item, idx) => {
-      contractText += `${idx + 1}. ${isEt ? item.clause.nameEt : item.clause.nameEn}\n`;
-      contractText += `${isEt ? item.clause.clauseEt : item.clause.clauseEn}\n\n`;
+      contractText += `${idx + 1}. ${this.getClauseName(item.clause)}\n`;
+      contractText += `${this.getClauseText(item.clause)}\n\n`;
     });
 
-    // Create a Blob and File from the contract text
     const blob = new Blob([contractText], { type: 'text/plain' });
     const file = new File([blob], 'generated-contract.txt', { type: 'text/plain' });
 
-    // Store in sessionStorage for the analysis page to pick up
     sessionStorage.setItem('generatedContract', contractText);
-    sessionStorage.setItem('generatedContractName', isEt ? 'Genereeritud DORA leping' : 'Generated DORA Contract');
+    sessionStorage.setItem('generatedContractName', this.getContractTitle());
 
-    // Navigate to contract analysis with flag
     setTimeout(() => {
       this.router.navigate(['/contract-analysis'], { queryParams: { generated: 'true' } });
     }, 500);
