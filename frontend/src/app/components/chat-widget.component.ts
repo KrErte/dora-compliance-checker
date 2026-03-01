@@ -1,9 +1,12 @@
-import { Component, Inject, PLATFORM_ID, signal, computed } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, signal, computed, DestroyRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 import { LangService } from '../lang.service';
+import { MarkdownPipe } from '../pipes/markdown.pipe';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -25,9 +28,9 @@ interface ChatApiResponse {
 @Component({
   selector: 'app-chat-widget',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MarkdownPipe],
   template: `
-    @if (isBrowser) {
+    @if (isBrowser && !onChatPage()) {
       <!-- Floating bubble -->
       @if (!isOpen()) {
         <button (click)="toggle()" [attr.aria-label]="lang.t('chat.open')"
@@ -91,11 +94,13 @@ interface ChatApiResponse {
 
             @for (msg of messages(); track $index) {
               <div class="flex" [class.justify-end]="msg.role === 'user'">
-                <div class="max-w-[85%] px-3 py-2 rounded-xl text-sm leading-relaxed whitespace-pre-wrap"
+                <div class="max-w-[85%] px-3 py-2 rounded-xl text-sm leading-relaxed"
+                     [class.whitespace-pre-wrap]="msg.role === 'user'"
                      [ngClass]="msg.role === 'user'
                        ? 'bg-emerald-600/20 text-emerald-100 border border-emerald-500/20 rounded-br-sm'
                        : 'bg-slate-800 text-slate-200 border border-slate-700/50 rounded-bl-sm'">
-                  {{ msg.content }}
+                  @if (msg.role === 'user') { {{ msg.content }} }
+                  @else { <div [innerHTML]="msg.content | markdown"></div> }
                   @if (msg.suggestedTool) {
                     <button (click)="navigateToTool(msg.suggestedTool!)"
                             class="mt-2 flex items-center gap-1.5 w-full px-2.5 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs hover:bg-emerald-500/20 transition-colors">
@@ -165,6 +170,7 @@ interface ChatApiResponse {
 export class ChatWidgetComponent {
   isBrowser: boolean;
   isOpen = signal(false);
+  onChatPage = signal(false);
   messages = signal<ChatMessage[]>([]);
   loading = signal(false);
   rateLimited = signal(false);
@@ -205,9 +211,21 @@ export class ChatWidgetComponent {
     @Inject(PLATFORM_ID) platformId: Object,
     private http: HttpClient,
     private router: Router,
-    public lang: LangService
+    public lang: LangService,
+    private destroyRef: DestroyRef
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+    this.onChatPage.set(this.isChatRoute(this.router.url));
+    this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe((e: any) => {
+      this.onChatPage.set(this.isChatRoute(e.urlAfterRedirects || e.url));
+    });
+  }
+
+  private isChatRoute(url: string): boolean {
+    return /\/(chat|en\/chat|et\/chat|lv\/chat|lt\/chat)(\/|$|\?)/.test(url);
   }
 
   toggle() {

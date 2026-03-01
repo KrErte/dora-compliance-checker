@@ -212,7 +212,7 @@ interface DoraRequirement {
 
       <div class="requirements-table rounded-xl overflow-x-auto border border-slate-700/50">
         <table class="w-full min-w-[480px]">
-          <caption class="sr-only">{{ lang.currentLang === 'et' ? 'DORA Art. 30 nõuete nimekiri' : 'DORA Art. 30 requirements list' }}</caption>
+          <caption class="sr-only">{{ lang.t('landing.table_caption') }}</caption>
           <thead class="bg-slate-800/80">
             <tr>
               <th class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider w-12">{{ lang.t('landing.table_check') }}</th>
@@ -276,6 +276,93 @@ interface DoraRequirement {
         <p class="text-slate-500 text-sm">
           {{ lang.t('landing.table_checked') }}: <span class="text-teal-400 font-medium">{{ checkedCount }}</span> / {{ requirements.length }}
         </p>
+      </div>
+    </div>
+
+    <!-- DoraBot AI Assistant Showcase -->
+    <div class="py-16 relative">
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-cyan-500/5 rounded-full blur-3xl"></div>
+      </div>
+      <div class="relative z-10 max-w-5xl mx-auto px-4">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+          <!-- Left: Text -->
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-4">
+              <div class="w-4 h-4 rounded bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-[7px] font-bold">AI</div>
+              <span class="text-xs font-medium text-emerald-400 uppercase tracking-wider">{{ lang.t('landing.ai_badge') }}</span>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-100 mb-3">{{ lang.t('landing.ai_title') }}</h2>
+            <p class="text-slate-400 text-sm leading-relaxed mb-6">{{ lang.t('landing.ai_desc') }}</p>
+            <div class="space-y-3 mb-6">
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span class="text-sm text-slate-300">{{ lang.t('landing.ai_f1') }}</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span class="text-sm text-slate-300">{{ lang.t('landing.ai_f2') }}</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span class="text-sm text-slate-300">{{ lang.t('landing.ai_f3') }}</span>
+              </div>
+            </div>
+            <a routerLink="/chat" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-cyan-600 text-white text-sm font-medium hover:from-emerald-500 hover:to-cyan-500 transition-all shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              {{ lang.t('landing.ai_cta') }}
+            </a>
+          </div>
+          <!-- Right: Chat preview mockup -->
+          <div class="relative">
+            <div class="bg-slate-900 border border-slate-700/50 rounded-2xl shadow-2xl shadow-black/30 overflow-hidden max-w-sm mx-auto">
+              <!-- Chat header -->
+              <div class="flex items-center gap-2.5 px-4 py-3 bg-gradient-to-r from-emerald-600/20 to-cyan-600/20 border-b border-slate-700/50">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs">AI</div>
+                <div>
+                  <div class="text-sm font-semibold text-white">DoraBot</div>
+                  <div class="text-[10px] text-emerald-400">{{ lang.t('chat.subtitle') }}</div>
+                </div>
+              </div>
+              <!-- Mock messages -->
+              <div class="px-3 py-3 space-y-3">
+                <div class="flex justify-end">
+                  <div class="max-w-[80%] px-3 py-2 rounded-xl rounded-br-sm bg-emerald-600/20 text-emerald-100 border border-emerald-500/20 text-sm">
+                    {{ lang.t('landing.ai_q') }}
+                  </div>
+                </div>
+                <div class="flex">
+                  <div class="max-w-[85%] px-3 py-2 rounded-xl rounded-bl-sm bg-slate-800 text-slate-200 border border-slate-700/50 text-sm leading-relaxed">
+                    {{ lang.t('landing.ai_a') }}
+                  </div>
+                </div>
+                <div class="flex">
+                  <div class="max-w-[85%]">
+                    <div class="px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs flex items-center gap-1.5">
+                      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+                      </svg>
+                      {{ lang.t('chat.try_tool') }}: {{ lang.t('landing.ai_tool') }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Mock input -->
+              <div class="px-3 py-3 border-t border-slate-700/50">
+                <div class="flex gap-2">
+                  <div class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-500">{{ lang.t('chat.placeholder') }}</div>
+                  <div class="px-3 py-2 rounded-xl bg-emerald-600 text-white">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Glow effect -->
+            <div class="absolute -inset-4 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 rounded-3xl blur-2xl -z-10"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -473,7 +560,7 @@ interface DoraRequirement {
                   <input type="text" [(ngModel)]="contactName" name="name" id="contact-name"
                          [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors ' +
                                   (contactNameError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
-                         [placeholder]="lang.currentLang === 'et' ? 'Teie nimi' : 'Your name'">
+                         [placeholder]="lang.t('landing.contact_name_placeholder')">
                   <p *ngIf="contactNameError" class="text-red-400 text-xs mt-1 animate-fade-in">
                     {{ lang.t('landing.contact_error_name') }}
                   </p>
@@ -505,7 +592,7 @@ interface DoraRequirement {
                   <textarea [(ngModel)]="contactMessage" name="message" id="contact-message" rows="3"
                             [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors resize-none ' +
                                      (contactMessageError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
-                            [placeholder]="lang.currentLang === 'et' ? 'Kirjeldage oma vajadust...' : 'Describe your needs...'"></textarea>
+                            [placeholder]="lang.t('landing.contact_message_placeholder')"></textarea>
                   <p *ngIf="contactMessageError" class="text-red-400 text-xs mt-1 animate-fade-in">
                     {{ lang.t('landing.contact_error_message') }}
                   </p>

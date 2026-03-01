@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LangService } from '../lang.service';
+import { MarkdownPipe } from '../pipes/markdown.pipe';
 
 interface ChatMessage {
   role: 'user' | 'assistant';
@@ -25,7 +26,7 @@ interface ChatApiResponse {
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MarkdownPipe],
   template: `
     <div class="min-h-screen bg-slate-950 pt-20 pb-12">
       <div class="max-w-3xl mx-auto px-4">
@@ -77,11 +78,13 @@ interface ChatApiResponse {
                     {{ msg.role === 'user' ? '?' : 'AI' }}
                   </div>
                   <div>
-                    <div class="px-4 py-3 rounded-xl text-sm leading-relaxed whitespace-pre-wrap"
+                    <div class="px-4 py-3 rounded-xl text-sm leading-relaxed"
+                         [class.whitespace-pre-wrap]="msg.role === 'user'"
                          [ngClass]="msg.role === 'user'
                            ? 'bg-emerald-600/20 text-emerald-100 border border-emerald-500/20 rounded-tr-sm'
                            : 'bg-slate-800 text-slate-200 border border-slate-700/50 rounded-tl-sm'">
-                      {{ msg.content }}
+                      @if (msg.role === 'user') { {{ msg.content }} }
+                      @else { <div [innerHTML]="msg.content | markdown"></div> }
                       @if (msg.suggestedTool) {
                         <button (click)="navigateToTool(msg.suggestedTool!)"
                                 class="mt-3 flex items-center gap-2 w-full px-3 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs hover:bg-emerald-500/20 transition-colors">
