@@ -33,6 +33,7 @@ export class TrackingService implements OnDestroy {
   private isBrowser = isPlatformBrowser(this.platformId);
   private sessionId: string;
   private utmParams: { source?: string; medium?: string; campaign?: string } = {};
+  private analyticsEnabled = false;
 
   // Scroll tracking
   private scrollMilestones = [25, 50, 75, 100];
@@ -55,6 +56,9 @@ export class TrackingService implements OnDestroy {
     if (this.isBrowser) {
       this.sessionId = this.getOrCreateSessionId();
       this.parseUtmParams();
+      // Check stored consent
+      const consent = typeof localStorage !== 'undefined' ? localStorage.getItem('cookieConsent') : null;
+      this.analyticsEnabled = consent === 'accepted' || consent === 'true';
     } else {
       this.sessionId = '';
     }
@@ -62,6 +66,45 @@ export class TrackingService implements OnDestroy {
 
   ngOnDestroy(): void {
     this.cleanup();
+  }
+
+  // ============================================
+  // CONSENT MANAGEMENT
+  // ============================================
+
+  hasConsent(): boolean {
+    return this.analyticsEnabled;
+  }
+
+  enableAnalytics(): void {
+    this.analyticsEnabled = true;
+    this.loadUmamiScript();
+    this.initAllTracking();
+    this.trackPageView();
+  }
+
+  disableAnalytics(): void {
+    this.analyticsEnabled = false;
+    this.cleanup();
+    this.removeUmamiScript();
+  }
+
+  private loadUmamiScript(): void {
+    if (!this.isBrowser) return;
+    if (document.getElementById('umami-script')) return;
+    const script = document.createElement('script');
+    script.id = 'umami-script';
+    script.defer = true;
+    script.src = 'https://umami.doraaudit.eu/script.js';
+    script.dataset['websiteId'] = '6f43e0b9-0250-4b71-811e-a9452b59de95';
+    document.head.appendChild(script);
+  }
+
+  private removeUmamiScript(): void {
+    if (!this.isBrowser) return;
+    const script = document.getElementById('umami-script');
+    if (script) script.remove();
+    delete (window as any).umami;
   }
 
   private cleanup(): void {
@@ -120,7 +163,7 @@ export class TrackingService implements OnDestroy {
   // ============================================
 
   trackEvent(eventType: TrackingEventType, eventData?: EventData): void {
-    if (!this.isBrowser) return;
+    if (!this.isBrowser || !this.analyticsEnabled) return;
     const pageUrl = window.location.pathname;
 
     // Send to custom backend
@@ -452,6 +495,7 @@ export class TrackingService implements OnDestroy {
   // ============================================
 
   initAllTracking(): void {
+    if (!this.analyticsEnabled) return;
     this.initScrollTracking();
     this.initClickTracking();
     this.initTimeOnPageTracking(30);

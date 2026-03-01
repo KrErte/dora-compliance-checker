@@ -328,9 +328,10 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; lv?: string; lt?:
   'methodology.ref_fsa_source': { et: 'Eesti Finantsinspektsioon', en: 'Estonian Financial Supervision Authority' },
 
   // Cookie consent
-  'cookie.message': { et: 'See veebileht kasutab ainult tehnilisi küpsiseid. Isikuandmeid ei koguta.', en: 'This website uses only technical cookies. No personal data is collected.' },
+  'cookie.message': { et: 'See veebileht kasutab küpsiseid analüütika jaoks. Andmeid kogutakse ainult teie nõusolekul.', en: 'This website uses cookies for analytics. Data is collected only with your consent.' },
   'cookie.accept': { et: 'Nõustun', en: 'Accept' },
   'cookie.decline': { et: 'Keeldu', en: 'Decline' },
+  'cookie.settings': { et: 'Küpsiste seaded', en: 'Cookie Settings' },
 
   // Landing - Hero
   'landing.title': { et: 'Sinu IKT-leping ei vasta DORA nõuetele. Me näitame, kus täpselt.', en: 'Your ICT contract doesn\'t meet DORA requirements. We show you exactly where.' },

@@ -2,6 +2,7 @@ import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { LangService } from '../../lang.service';
+import { TrackingService } from '../../tracking.service';
 
 @Component({
   selector: 'app-cookie-consent',
@@ -18,14 +19,13 @@ import { LangService } from '../../lang.service';
         </p>
         <div class="flex items-center gap-3">
           <button type="button" (click)="declineCookies()"
-                  class="px-5 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-300 border border-slate-600/50
-                         hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200 whitespace-nowrap">
+                  class="px-5 py-2 rounded-lg text-sm font-medium border border-slate-500/50 text-slate-200
+                         hover:bg-slate-700/50 transition-all duration-200 whitespace-nowrap">
             {{ lang.t('cookie.decline') }}
           </button>
           <button type="button" (click)="acceptCookies()"
-                  class="px-5 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-teal-500 to-emerald-500 text-white
-                         hover:from-teal-400 hover:to-emerald-400 hover:shadow-lg hover:shadow-teal-500/25
-                         transition-all duration-200 whitespace-nowrap">
+                  class="px-5 py-2 rounded-lg text-sm font-medium border border-emerald-500/50 text-emerald-400
+                         hover:bg-emerald-500/10 transition-all duration-200 whitespace-nowrap">
             {{ lang.t('cookie.accept') }}
           </button>
         </div>
@@ -38,22 +38,32 @@ export class CookieConsentComponent implements OnInit {
   showBanner = false;
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  constructor(public lang: LangService) {}
+  constructor(public lang: LangService, private trackingService: TrackingService) {}
 
   ngOnInit(): void {
     if (!this.isBrowser) return;
     const consent = localStorage.getItem('cookieConsent');
-    // Show banner if user hasn't made a choice yet
     this.showBanner = !consent || (consent !== 'accepted' && consent !== 'declined' && consent !== 'true');
   }
 
   acceptCookies(): void {
-    if (this.isBrowser) localStorage.setItem('cookieConsent', 'accepted');
+    if (this.isBrowser) {
+      localStorage.setItem('cookieConsent', 'accepted');
+      this.trackingService.enableAnalytics();
+    }
     this.showBanner = false;
   }
 
   declineCookies(): void {
-    if (this.isBrowser) localStorage.setItem('cookieConsent', 'declined');
+    if (this.isBrowser) {
+      localStorage.setItem('cookieConsent', 'declined');
+      this.trackingService.disableAnalytics();
+    }
     this.showBanner = false;
+  }
+
+  /** Called from footer "Cookie settings" link */
+  reopenBanner(): void {
+    this.showBanner = true;
   }
 }

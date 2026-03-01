@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, effect, Inject, PLATFORM_ID, ChangeDetectorRef, afterNextRender } from '@angular/core';
+import { Component, OnInit, OnDestroy, effect, Inject, PLATFORM_ID, ChangeDetectorRef, afterNextRender, ViewChild } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
@@ -524,6 +524,7 @@ import { ToastService } from './auth/toast.service';
               <a routerLink="/blog" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.currentLang === 'et' ? 'Blogi' : 'Blog' }}</a>
               <a routerLink="/privacy" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('footer.privacy') }}</a>
               <a routerLink="/terms" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('footer.terms') }}</a>
+              <button type="button" (click)="openCookieSettings()" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors text-left">{{ lang.t('cookie.settings') }}</button>
             </div>
           </div>
 
@@ -554,9 +555,7 @@ import { ToastService } from './auth/toast.service';
         </div>
       </div>
     </footer>
-    @defer (on idle) {
-      <app-cookie-consent></app-cookie-consent>
-    }
+    <app-cookie-consent></app-cookie-consent>
     @defer (when showOnboarding) {
       <app-onboarding (completed)="showOnboarding = false"></app-onboarding>
     }
@@ -577,6 +576,7 @@ import { ToastService } from './auth/toast.service';
   `
 })
 export class AppComponent implements OnInit, OnDestroy {
+  @ViewChild(CookieConsentComponent) cookieConsent?: CookieConsentComponent;
   mobileMenu = false;
   toolsMenu = false;
   userMenu = false;
@@ -589,76 +589,145 @@ export class AppComponent implements OnInit, OnDestroy {
     '/pricing': { et: 'Hinnakiri | DoraAudit.eu', en: 'Pricing | DoraAudit.eu' },
     '/nis2/scope-check': { et: 'NIS2 Scope Checker | DoraAudit.eu', en: 'NIS2 Scope Checker | DoraAudit.eu' },
     '/nis2/assessment': { et: 'NIS2 Hindamine | DoraAudit.eu', en: 'NIS2 Assessment | DoraAudit.eu' },
+    '/nis2/results': { et: 'NIS2 Tulemused | DoraAudit.eu', en: 'NIS2 Results | DoraAudit.eu' },
     '/assessment': { et: 'DORA Hindamine | DoraAudit.eu', en: 'DORA Assessment | DoraAudit.eu' },
+    '/results': { et: 'Hindamise Tulemused | DoraAudit.eu', en: 'Assessment Results | DoraAudit.eu' },
     '/contract-analysis': { et: 'Lepingu Analüüs | DoraAudit.eu', en: 'Contract Analysis | DoraAudit.eu' },
+    '/contract-results': { et: 'Lepinguanalüüsi Tulemused | DoraAudit.eu', en: 'Contract Analysis Results | DoraAudit.eu' },
+    '/contract-comparison': { et: 'Lepingute Võrdlus | DoraAudit.eu', en: 'Contract Comparison | DoraAudit.eu' },
+    '/contract-generator': { et: 'Lepingu Generaator | DoraAudit.eu', en: 'Contract Generator | DoraAudit.eu' },
+    '/contract-checklist': { et: 'DORA Art. 30 Kontrollnimekiri | DoraAudit.eu', en: 'DORA Art. 30 Contract Checklist | DoraAudit.eu' },
+    '/bulk-analysis': { et: 'Hulgianalüüs | DoraAudit.eu', en: 'Bulk Contract Analysis | DoraAudit.eu' },
     '/payment/success': { et: 'Makse Õnnestus | DoraAudit.eu', en: 'Payment Successful | DoraAudit.eu' },
     '/login': { et: 'Sisene | DoraAudit.eu', en: 'Login | DoraAudit.eu' },
     '/register': { et: 'Registreeri | DoraAudit.eu', en: 'Register | DoraAudit.eu' },
+    '/forgot-password': { et: 'Unustasid parooli | DoraAudit.eu', en: 'Forgot Password | DoraAudit.eu' },
+    '/reset-password': { et: 'Parooli Lähtestamine | DoraAudit.eu', en: 'Reset Password | DoraAudit.eu' },
     '/about': { et: 'Meist | DoraAudit.eu', en: 'About | DoraAudit.eu' },
     '/privacy': { et: 'Privaatsuspoliitika | DoraAudit.eu', en: 'Privacy Policy | DoraAudit.eu' },
+    '/terms': { et: 'Kasutustingimused | DoraAudit.eu', en: 'Terms of Service | DoraAudit.eu' },
     '/methodology': { et: 'Metoodika | DoraAudit.eu', en: 'Methodology | DoraAudit.eu' },
     '/board-risk': { et: 'Juhatuse riskikalkulaator | DoraAudit.eu', en: 'Board Risk Calculator | DoraAudit.eu' },
-    '/terms': { et: 'Kasutustingimused | DoraAudit.eu', en: 'Terms of Service | DoraAudit.eu' },
+    '/board-report': { et: 'Juhatuse Raport | DoraAudit.eu', en: 'Board Compliance Report | DoraAudit.eu' },
     '/workspace': { et: 'Lepingute Töölaud | DoraAudit.eu', en: 'Contract Workspace | DoraAudit.eu' },
     '/fine-calculator': { et: 'Trahvikalkulaator | DoraAudit.eu', en: 'Fine Calculator | DoraAudit.eu' },
+    '/cost-calculator': { et: 'DORA Kulukalkulaator | DoraAudit.eu', en: 'DORA Cost Calculator | DoraAudit.eu' },
     '/timeline': { et: 'Regulatiivne Ajakava | DoraAudit.eu', en: 'Regulatory Timeline | DoraAudit.eu' },
     '/vendors': { et: 'ICT Teenusepakkujate Andmebaas | DoraAudit.eu', en: 'ICT Vendor Database | DoraAudit.eu' },
-    '/supply-chain': { et: 'Supply Chain Nerve Center | DoraAudit.eu', en: 'Supply Chain Nerve Center | DoraAudit.eu' },
+    '/company-profile': { et: 'Ettevõtte DORA Profiil | DoraAudit.eu', en: 'Company DORA Profile | DoraAudit.eu' },
+    '/supply-chain': { et: 'ICT Tarneahela Haldus | DoraAudit.eu', en: 'ICT Supply Chain Management | DoraAudit.eu' },
     '/dashboard': { et: 'Juhtpaneel | DoraAudit.eu', en: 'Dashboard | DoraAudit.eu' },
-    '/welcome': { et: 'Tere tulemast | DoraAudit.eu', en: 'Welcome | DoraAudit.eu' },
+    '/history': { et: 'Hindamiste Ajalugu | DoraAudit.eu', en: 'Assessment History | DoraAudit.eu' },
+    '/certificate': { et: 'Vastavustunnistus | DoraAudit.eu', en: 'Compliance Certificate | DoraAudit.eu' },
     '/settings/branding': { et: 'Brändi Seaded | DoraAudit.eu', en: 'Branding Settings | DoraAudit.eu' },
-    '/contract-generator': { et: 'Lepingu Generaator | DoraAudit.eu', en: 'Contract Generator | DoraAudit.eu' },
+    '/settings/sso': { et: 'SSO Seaded | DoraAudit.eu', en: 'SSO Settings | DoraAudit.eu' },
     '/playbook': { et: 'DORA Tegevuskava | DoraAudit.eu', en: 'DORA Action Playbook | DoraAudit.eu' },
     '/comparison': { et: 'DoraAudit vs Konkurendid | DoraAudit.eu', en: 'DoraAudit vs Competitors | DoraAudit.eu' },
-    '/company-profile': { et: 'Ettevõtte DORA Profiil | DoraAudit.eu', en: 'Company DORA Profile | DoraAudit.eu' },
     '/incident-simulator': { et: 'Intsidendi Simulaator | DoraAudit.eu', en: 'Incident Simulator | DoraAudit.eu' },
+    '/incident-reporting': { et: 'Intsidentidest Teavitamine | DoraAudit.eu', en: 'Incident Reporting | DoraAudit.eu' },
+    '/incident-decision-tree': { et: 'Intsidendi Klassifikaator | DoraAudit.eu', en: 'Incident Classification Tool | DoraAudit.eu' },
     '/guardian': { et: 'Guardian Monitooring | DoraAudit.eu', en: 'Guardian Monitoring | DoraAudit.eu' },
+    '/guardian/alerts': { et: 'Guardian Teavitused | DoraAudit.eu', en: 'Guardian Alerts | DoraAudit.eu' },
+    '/remediation': { et: 'Paranduskava | DoraAudit.eu', en: 'Remediation Tracker | DoraAudit.eu' },
     '/roi': { et: 'Teaberegister | DoraAudit.eu', en: 'Register of Information | DoraAudit.eu' },
-    '/history': { et: 'Hindamiste Ajalugu | DoraAudit.eu', en: 'Assessment History | DoraAudit.eu' },
     '/regulatory-updates': { et: 'Regulatiivsed Uuendused | DoraAudit.eu', en: 'Regulatory Updates | DoraAudit.eu' },
-    '/forgot-password': { et: 'Unustasid parooli | DoraAudit.eu', en: 'Forgot Password | DoraAudit.eu' },
-    '/nis2/results': { et: 'NIS2 Tulemused | DoraAudit.eu', en: 'NIS2 Results | DoraAudit.eu' },
     '/blog': { et: 'DORA & NIS2 Blogi | DoraAudit.eu', en: 'DORA & NIS2 Blog | DoraAudit.eu' },
     '/dora-explorer': { et: 'DORA Regulatsiooni Sirvija | DoraAudit.eu', en: 'DORA Regulation Explorer | DoraAudit.eu' },
     '/policy-generator': { et: 'Poliitikadokumentide Generaator | DoraAudit.eu', en: 'Policy Document Generator | DoraAudit.eu' },
     '/framework-mapping': { et: 'Raamistike Kaardistus | DoraAudit.eu', en: 'Framework Compliance Mapping | DoraAudit.eu' },
-    '/cost-calculator': { et: 'DORA Kulukalkulaator | DoraAudit.eu', en: 'DORA Cost Calculator | DoraAudit.eu' },
     '/training-quiz': { et: 'DORA Koolitustest | DoraAudit.eu', en: 'DORA Training Quiz | DoraAudit.eu' },
-    '/incident-decision-tree': { et: 'Intsidendi Klassifikaator | DoraAudit.eu', en: 'Incident Classification Tool | DoraAudit.eu' },
-    '/board-report': { et: 'Juhatuse Raport | DoraAudit.eu', en: 'Board Compliance Report | DoraAudit.eu' }
+    '/tlpt': { et: 'TLPT Moodul | DoraAudit.eu', en: 'TLPT Module | DoraAudit.eu' },
+    '/concentration-risk': { et: 'Kontsentratsioonianalüüs | DoraAudit.eu', en: 'Concentration Risk Analysis | DoraAudit.eu' },
+    '/training': { et: 'Koolituste Jälgimine | DoraAudit.eu', en: 'Training Tracker | DoraAudit.eu' },
+    '/maturity': { et: 'Küpsusmudeli Hindamine | DoraAudit.eu', en: 'Maturity Model Assessment | DoraAudit.eu' },
+    '/compliance-trend': { et: 'Vastavuse Trend | DoraAudit.eu', en: 'Compliance Trend | DoraAudit.eu' },
+    '/risk-heatmap': { et: 'Riski Soojuskaart | DoraAudit.eu', en: 'Risk Heat Map | DoraAudit.eu' },
+    '/exit-strategies': { et: 'Väljumisstrateegia | DoraAudit.eu', en: 'Exit Strategies | DoraAudit.eu' },
+    '/audit-trail': { et: 'Auditijälg | DoraAudit.eu', en: 'Audit Trail | DoraAudit.eu' },
+    '/info-sharing': { et: 'Teabevahetus | DoraAudit.eu', en: 'Information Sharing | DoraAudit.eu' },
+    '/team': { et: 'Meeskonna Haldus | DoraAudit.eu', en: 'Team Management | DoraAudit.eu' },
+    '/group-entities': { et: 'Grupi Ettevõtted | DoraAudit.eu', en: 'Group Entity Management | DoraAudit.eu' },
+    '/command-center': { et: 'Juhtimiskeskus | DoraAudit.eu', en: 'Compliance Command Center | DoraAudit.eu' },
+    '/trust-seal': { et: 'DORA Usaldusmärk | DoraAudit.eu', en: 'DORA Trust Seal | DoraAudit.eu' },
+    '/vendor-questionnaires': { et: 'Tarnija Küsimustikud | DoraAudit.eu', en: 'Vendor Questionnaires | DoraAudit.eu' },
+    '/vendor-survey': { et: 'Tarnija Enesehindamine | DoraAudit.eu', en: 'Vendor Self-Assessment | DoraAudit.eu' },
+    '/negotiations': { et: 'Läbirääkimised | DoraAudit.eu', en: 'Negotiations | DoraAudit.eu' },
+    '/integrations': { et: 'Integratsioonid | DoraAudit.eu', en: 'Integrations | DoraAudit.eu' },
+    '/pillar': { et: 'DORA Samba Detailid | DoraAudit.eu', en: 'DORA Pillar Details | DoraAudit.eu' },
+    '/admin/users': { et: 'Admin – Kasutajad | DoraAudit.eu', en: 'Admin – Users | DoraAudit.eu' },
+    '/admin/leads': { et: 'Admin – Kontaktid | DoraAudit.eu', en: 'Admin – Leads | DoraAudit.eu' },
   };
 
   private pageDescriptions: { [path: string]: { et: string; en: string } } = {
     '/': { et: 'DORA ja NIS2 vastavuskontroll Baltikumi ettevõtetele. Tasuta NIS2 scope check, lepinguanalüüs ja juhatuse riskikalkulaator.', en: 'DORA and NIS2 compliance for Baltic companies. Free NIS2 scope check, contract analysis and board risk calculator.' },
-    '/nis2/scope-check': { et: 'Kontrolli tasuta kas NIS2 direktiiv kohaldub sinu ettevõttele. Sisesta registrikood ja saa kohene tulemus.', en: 'Check for free if NIS2 directive applies to your company. Enter registry code and get instant results.' },
-    '/board-risk': { et: 'NIS2 ja DORA juhatuse liikme isikliku vastutuse kalkulaator. Arvuta oma riskieksposuur 2 minutiga.', en: 'NIS2 and DORA board member personal liability calculator. Calculate your risk exposure in 2 minutes.' },
-    '/assessment': { et: 'DORA täishindamine 37 küsimusega. Detailne tegevuskava ja PDF raport juhatusele.', en: 'Full DORA assessment with 37 questions. Detailed action plan and PDF report for the board.' },
-    '/nis2/assessment': { et: 'NIS2 vastavushindamine Baltikumi ettevõtetele. E-ITS ja KüTS nõuetele vastav tegevuskava.', en: 'NIS2 compliance assessment for Baltic companies. Action plan aligned with E-ITS and KüTS requirements.' },
-    '/contract-analysis': { et: 'DORA Art. 30 lepinguanalüüs. Kontrolli kas sinu IKT-leping vastab regulatsiooni nõuetele.', en: 'DORA Art. 30 contract analysis. Check if your ICT contract meets regulatory requirements.' },
     '/pricing': { et: 'DoraAudit.eu hinnad. DORA ja NIS2 vastavuskontroll alates €149/kuu. Tasuta kiirkontroll, Professional €149, Business €299, Enterprise €499.', en: 'DoraAudit.eu pricing. DORA and NIS2 compliance from €149/month. Free quick check, Professional €149, Business €299, Enterprise €499.' },
+    '/nis2/scope-check': { et: 'Kontrolli tasuta kas NIS2 direktiiv kohaldub sinu ettevõttele. Sisesta registrikood ja saa kohene tulemus.', en: 'Check for free if NIS2 directive applies to your company. Enter registry code and get instant results.' },
+    '/nis2/assessment': { et: 'NIS2 vastavushindamine Baltikumi ettevõtetele. E-ITS ja KüTS nõuetele vastav tegevuskava.', en: 'NIS2 compliance assessment for Baltic companies. Action plan aligned with E-ITS and KüTS requirements.' },
+    '/nis2/results': { et: 'NIS2 vastavushindamise tulemused ja tegevuskava.', en: 'NIS2 compliance assessment results and action plan.' },
+    '/assessment': { et: 'DORA täishindamine 37 küsimusega. Detailne tegevuskava ja PDF raport juhatusele.', en: 'Full DORA assessment with 37 questions. Detailed action plan and PDF report for the board.' },
+    '/results': { et: 'DORA vastavushindamise tulemused. Detailne analüüs sambade kaupa ja soovitused.', en: 'DORA compliance assessment results. Detailed pillar-by-pillar analysis and recommendations.' },
+    '/contract-analysis': { et: 'DORA Art. 30 lepinguanalüüs. Kontrolli kas sinu IKT-leping vastab regulatsiooni nõuetele.', en: 'DORA Art. 30 contract analysis. Check if your ICT contract meets regulatory requirements.' },
+    '/contract-results': { et: 'IKT lepingu DORA Art. 30 vastavusanalüüsi tulemused ja puuduste aruanne.', en: 'ICT contract DORA Art. 30 compliance analysis results and gap report.' },
+    '/contract-comparison': { et: 'Lepinguversioonide võrdlus. Vaata kuidas parandused mõjutavad DORA vastavust.', en: 'Contract version comparison. See how amendments affect DORA compliance.' },
+    '/contract-generator': { et: 'DORA Art. 30 nõuetele vastav IKT-lepingu generaator. Automaatselt kõik nõutud klauslid.', en: 'DORA Art. 30 compliant ICT contract generator. Automatically includes all required clauses.' },
+    '/contract-checklist': { et: 'Kontrolli kas sinu IKT-lepingud sisaldavad kõiki DORA Art. 30 kohustuslikke klausleid.', en: 'Check if your ICT contracts contain all mandatory DORA Article 30 clauses.' },
+    '/bulk-analysis': { et: 'Laadi üles ja analüüsi kuni 50 lepingut korraga. Saa portfelli-tasemel DORA vastavuse ülevaade.', en: 'Upload and analyze up to 50 contracts at once. Get a portfolio-level DORA compliance overview.' },
+    '/board-risk': { et: 'NIS2 ja DORA juhatuse liikme isikliku vastutuse kalkulaator. Arvuta oma riskieksposuur 2 minutiga.', en: 'NIS2 and DORA board member personal liability calculator. Calculate your risk exposure in 2 minutes.' },
+    '/board-report': { et: 'Genereeri professionaalne DORA vastavusraport juhatusele ühe klikiga.', en: 'Generate a professional board-ready DORA compliance report with one click.' },
     '/methodology': { et: 'DORA vastavushindamise metoodika. Kuidas hindame IKT-lepinguid Art. 30 nõuete vastu.', en: 'DORA compliance assessment methodology. How we evaluate ICT contracts against Art. 30 requirements.' },
     '/about': { et: 'DoraAudit.eu - DORA ja NIS2 vastavuskontrolli platvorm Eesti finantsettevõtetele.', en: 'DoraAudit.eu - DORA and NIS2 compliance platform for European financial companies.' },
     '/privacy': { et: 'DoraAudit.eu privaatsuspoliitika. Kuidas me kasutame ja kaitseme teie andmeid.', en: 'DoraAudit.eu privacy policy. How we use and protect your data.' },
     '/terms': { et: 'DoraAudit.eu kasutustingimused. Teenuse kasutamise õigused ja kohustused.', en: 'DoraAudit.eu terms of service. Rights and obligations of using the service.' },
     '/workspace': { et: 'IKT lepingute töölaud DORA, GDPR, NIS2 ja SLA vastavuskontrolliks. Multiregulatiivne analüüs ja meeskonnatöö.', en: 'ICT contract workspace for DORA, GDPR, NIS2 and SLA compliance. Multi-regulatory analysis and team collaboration.' },
     '/fine-calculator': { et: 'DORA trahvikalkulaator. Arvuta võimalik trahvisumma mittevastavuse korral Art. 50-51 alusel.', en: 'DORA fine calculator. Calculate potential penalty for non-compliance under Art. 50-51.' },
+    '/cost-calculator': { et: 'Hinda DORA vastavuse investeeringut. Arvuta kulud vs võimalikud trahvid ja vaata vastavuse tasuvust.', en: 'Estimate your DORA compliance investment. Calculate costs vs potential fines and see ROI.' },
     '/timeline': { et: 'DORA ja NIS2 regulatiivne ajakava. Kõik olulised tähtajad, verstapostid ja RTS/ITS standardid ühes kohas.', en: 'DORA and NIS2 regulatory timeline. All key deadlines, milestones and RTS/ITS standards in one place.' },
     '/vendors': { et: 'ICT teenusepakkujate DORA vastavuse andmebaas. Anonümiseeritud andmed lepinguanalüüsidest ja crowdsourced riskihinnangud.', en: 'ICT vendor DORA compliance database. Anonymized contract analysis data and crowdsourced risk ratings.' },
-    '/supply-chain': { et: 'DORA Supply Chain Nerve Center. Real-time Nth-party monitoring, CTPP failure simulation, 4h incident command ja ROI intelligence.', en: 'DORA Supply Chain Nerve Center. Real-time Nth-party monitoring, CTPP failure simulation, 4h incident command and ROI intelligence.' },
-    '/contract-generator': { et: 'DORA Art. 30 nõuetele vastav IKT-lepingu generaator. Automaatselt kõik nõutud klauslid.', en: 'DORA Art. 30 compliant ICT contract generator. Automatically includes all required clauses.' },
+    '/company-profile': { et: 'Ettevõtte DORA digitaalse vastupidavuse profiil. Turvapäised, SSL ja vastavusandmed.', en: 'Company DORA digital resilience profile. Security headers, SSL and compliance data.' },
+    '/supply-chain': { et: 'DORA tarneahela haldus. Nth-party monitooring, CTPP tõrkesimulatsioon ja intsidendi juhtimiskeskus.', en: 'DORA supply chain management. Nth-party monitoring, CTPP failure simulation, and incident command center.' },
+    '/dashboard': { et: 'Sinu DORA vastavuse juhtpaneel. Hindamised, lepingud ja vastavuse ülevaade ühes kohas.', en: 'Your DORA compliance dashboard. Assessments, contracts, and compliance overview in one place.' },
+    '/history': { et: 'Varasemad DORA vastavushindamised. Võrdle tulemusi ja jälgi arengut.', en: 'Previous DORA compliance assessments. Compare results and track progress over time.' },
+    '/certificate': { et: 'DORA vastavustunnistus. Tõenda oma organisatsiooni digitaalset vastupidavust.', en: 'DORA compliance certificate. Demonstrate your organization digital operational resilience.' },
+    '/settings/branding': { et: 'Kohanda raportite ja sertifikaatide brändi oma ettevõtte logoga.', en: 'Customize report and certificate branding with your company logo.' },
+    '/settings/sso': { et: 'Seadista SAML2 või OIDC ühekordne sisselogimine oma organisatsioonile.', en: 'Configure SAML2 or OIDC Single Sign-On for your organization.' },
+    '/login': { et: 'Sisene oma DoraAudit.eu kontole. DORA ja NIS2 vastavuskontrolli platvorm.', en: 'Log in to your DoraAudit.eu account. DORA and NIS2 compliance platform.' },
+    '/register': { et: 'Loo tasuta DoraAudit.eu konto. Alusta DORA ja NIS2 vastavuskontrolliga.', en: 'Create a free DoraAudit.eu account. Start your DORA and NIS2 compliance journey.' },
+    '/forgot-password': { et: 'Lähtesta oma DoraAudit.eu konto parool.', en: 'Reset your DoraAudit.eu account password.' },
+    '/reset-password': { et: 'Loo uus parool oma DoraAudit.eu kontole.', en: 'Create a new password for your DoraAudit.eu account.' },
+    '/payment/success': { et: 'Makse õnnestus. Sinu DoraAudit.eu plaan on uuendatud.', en: 'Payment successful. Your DoraAudit.eu plan has been upgraded.' },
     '/playbook': { et: 'Personaalne DORA tegevuskava. Samm-sammuline plaan hindamistulemuste põhjal.', en: 'Personalized DORA action playbook. Step-by-step plan based on your assessment results.' },
     '/comparison': { et: 'DoraAudit vs teised DORA vastavuskontrolli platvormid. Funktsioonide võrdlus ja Baltikumi fookus.', en: 'DoraAudit vs other DORA compliance platforms. Feature comparison with Baltic market focus.' },
-    '/company-profile': { et: 'Ettevõtte DORA digitaalse vastupidavuse profiil. Turvapäised, SSL ja vastavusandmed.', en: 'Company DORA digital resilience profile. Security headers, SSL and compliance data.' },
     '/incident-simulator': { et: 'IKT intsidendi simulaator. Harjuta DORA-nõuetele vastavat intsidentide klassifitseerimist ja raporteerimist.', en: 'ICT incident simulator. Practice DORA-compliant incident classification and reporting workflows.' },
+    '/incident-reporting': { et: 'DORA Art. 19 IKT intsidentidest teavitamise töövoog. Alg-, vahe- ja lõpparuanded.', en: 'DORA Article 19 ICT incident reporting workflow. Manage initial, intermediate, and final reports.' },
+    '/incident-decision-tree': { et: 'Interaktiivne IKT intsidentide klassifitseerimise otsustuspuu. Määra kas intsident nõuab regulaatorile raporteerimist.', en: 'Interactive ICT incident classification decision tree. Determine if your incident requires regulatory reporting.' },
+    '/guardian': { et: 'Lepingute monitooring ja teavitused. Jälgi DORA vastavuse muutusi reaalajas.', en: 'Contract monitoring and alerts. Track DORA compliance changes in real time.' },
+    '/guardian/alerts': { et: 'Guardian teavituste haldamine. Vaata ja halda lepingute monitooringu märguandeid.', en: 'Guardian alert management. View and manage contract monitoring notifications.' },
+    '/remediation': { et: 'DORA paranduskava jälgimine. Monitoori paranduste ja täiustuste edenemist.', en: 'DORA remediation tracking. Monitor progress of fixes and improvements across all five DORA pillars.' },
     '/roi': { et: 'DORA Art. 28(3) Teaberegister. Hallake IKT-teenusepakkujate lepingute registrit.', en: 'DORA Art. 28(3) Register of Information. Manage ICT service provider contract register.' },
+    '/regulatory-updates': { et: 'DORA regulatiivsed uuendused. RTS, ITS ja juhendite viimased arengud.', en: 'DORA regulatory updates. Latest developments in RTS, ITS standards and guidelines.' },
     '/blog': { et: 'Praktilised juhendid ja artiklid DORA ja NIS2 regulatsioonide kohta. IKT lepingute nõuded, intsidentidest teavitamine, teaberegister ja palju muud.', en: 'Practical guides and articles about DORA and NIS2 compliance. ICT contract requirements, incident reporting, register of information, and more.' },
     '/dora-explorer': { et: 'Interaktiivne DORA määruse sirvija. Otsi artikleid, loe selgitusi ja mõista vastavusnõudeid.', en: 'Interactive DORA regulation browser. Search articles, read explanations, and understand compliance requirements.' },
     '/policy-generator': { et: 'Genereeri valmis DORA-vastavad poliitikadokumendid. IKT riskihaldus, intsidendireageerimine, äritegevuse jätkuvus.', en: 'Generate complete DORA-compliant policy documents. ICT risk management, incident response, business continuity.' },
     '/framework-mapping': { et: 'DORA kaardistus ISO 27001, NIS2, GDPR ja COBIT raamistikele. Arvuta olemasolev katvus.', en: 'Map DORA to ISO 27001, NIS2, GDPR and COBIT frameworks. Calculate your existing compliance coverage.' },
-    '/cost-calculator': { et: 'Hinda DORA vastavuse investeeringut. Arvuta kulud vs võimalikud trahvid ja vaata vastavuse tasuvust.', en: 'Estimate your DORA compliance investment. Calculate costs vs potential fines and see ROI.' },
     '/training-quiz': { et: 'Interaktiivne DORA koolitustest töötajatele. Testi oma meeskonna teadmisi IKT riskihaldusest.', en: 'Interactive DORA training quiz for staff. Test team knowledge on ICT risk management and digital resilience.' },
-    '/incident-decision-tree': { et: 'Interaktiivne IKT intsidentide klassifitseerimise otsustuspuu. Määra kas intsident nõuab regulaatorile raporteerimist.', en: 'Interactive ICT incident classification decision tree. Determine if your incident requires regulatory reporting.' },
-    '/board-report': { et: 'Genereeri professionaalne DORA vastavusraport juhatusele ühe klikiga.', en: 'Generate a professional board-ready DORA compliance report with one click.' }
+    '/tlpt': { et: 'DORA Art. 26-27 ohupõhine läbistustestimine. Planeeri ja jälgi TLPT teste TIBER-EU raamistikus.', en: 'DORA Article 26-27 Threat-Led Penetration Testing. Plan and track TLPT tests with TIBER-EU framework.' },
+    '/concentration-risk': { et: 'DORA Art. 29 IKT teenusepakkujate kontsentratsiooniriski analüüs.', en: 'DORA Article 29 ICT provider concentration risk analysis. Identify over-reliance on single providers.' },
+    '/training': { et: 'DORA koolituste jälgimine juhatuse liikmetele ja töötajatele.', en: 'Track DORA-required training completion for board members and staff.' },
+    '/maturity': { et: 'DORA vastavuse küpsusmudelil põhinev hindamine 0-5 skaalal.', en: 'DORA compliance maturity assessment on a 0-5 scale across all five DORA pillars.' },
+    '/compliance-trend': { et: 'DORA vastavuse arengu jälgimine. Ajalooliste hindamiste võrdlus ja edenemise visualiseerimine.', en: 'Track DORA compliance improvement over time. Historical assessment comparison and progress visualisation.' },
+    '/risk-heatmap': { et: 'DORA vastavusriskide visuaalne soojuskaart sambade ja kategooriate kaupa.', en: 'Visual heat map of DORA compliance risks by pillar and category. Identify highest-risk areas at a glance.' },
+    '/exit-strategies': { et: 'DORA Art. 28 ja 30 väljumisstrateegia haldus kriitiliste IKT teenusepakkujate jaoks.', en: 'DORA Art. 28 & 30 exit strategy management for critical ICT providers.' },
+    '/audit-trail': { et: 'Eksporditav vastavustegevuste logi regulaatoritele. DORA vastavuse tõendusmaterjal.', en: 'Exportable compliance activity log for regulators. Evidence of DORA compliance activities.' },
+    '/info-sharing': { et: 'DORA Art. 45 küberohuteavet jagamise haldus. ISAC, CERT ja kahepoolsed kokkulepped.', en: 'DORA Article 45 cyber threat intelligence sharing. Track ISAC, CERT and bilateral arrangements.' },
+    '/team': { et: 'Halda oma organisatsiooni, kutsu meeskonnaliikmeid ja tee koostööd DORA vastavuses.', en: 'Manage your organization, invite team members, and collaborate on DORA compliance.' },
+    '/group-entities': { et: 'DORA Art. 11 konsolideeritud digitaalse vastupidavuse haldus finantsgruppidele.', en: 'DORA Art. 11 consolidated digital operational resilience management for financial groups.' },
+    '/command-center': { et: 'Reaalajas DORA vastavuse ülevaade. Jälgi sambate tervist, tähtaegu ja kõiki mooduleid.', en: 'Real-time DORA compliance overview. Monitor pillar health, track deadlines, and manage all modules.' },
+    '/trust-seal': { et: 'Saa DORA vastavuse märgis oma veebilehele. Näita klientidele oma digitaalset vastupidavust.', en: 'Get a DORA compliance badge for your website. Show clients your digital operational resilience.' },
+    '/vendor-questionnaires': { et: 'Saada DORA vastavuse küsimustikud oma IKT teenusepakkujatele.', en: 'Send DORA compliance questionnaires to your ICT service providers.' },
+    '/vendor-survey': { et: 'IKT teenusepakkuja DORA enesehindamise küsimustik.', en: 'ICT service provider DORA self-assessment questionnaire.' },
+    '/negotiations': { et: 'Halda DORA lepinguvastavuse läbirääkimisi tarnijatega.', en: 'Manage DORA contract compliance negotiations with vendors.' },
+    '/integrations': { et: 'Ühenda Slack, Microsoft Teams ja webhookid reaalajas DORA teavituste saamiseks.', en: 'Connect Slack, Microsoft Teams, and webhooks for real-time DORA compliance notifications.' },
+    '/pillar': { et: 'DORA samba detailne ülevaade ja vastavusnõuded.', en: 'DORA pillar detailed overview and compliance requirements.' },
   };
 
   constructor(
@@ -675,10 +744,11 @@ export class AppComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
-    // Update title and html lang attribute when language changes
+    // Update title, hreflang, and html lang attribute when language changes
     effect(() => {
       const currentLang = this.lang.lang(); // Subscribe to language signal
       this.updatePageTitle(this.router.url);
+      this.updateHreflangTags(this.router.url);
       // Update html lang attribute for accessibility and SEO
       if (this.isBrowser) {
         this.document.documentElement.lang = currentLang;
@@ -698,6 +768,7 @@ export class AppComponent implements OnInit, OnDestroy {
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       this.updatePageTitle(event.urlAfterRedirects);
+      this.updateHreflangTags(event.urlAfterRedirects);
       this.closeAllMenus();
       // Track page view on navigation
       if (this.isBrowser) {
@@ -705,13 +776,13 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    // Set initial title
+    // Set initial title and hreflang
     this.updatePageTitle(this.router.url);
+    this.updateHreflangTags(this.router.url);
 
-    // Initialize all tracking (scroll, clicks, time, forms)
-    if (this.isBrowser) {
+    // Initialize tracking only if user has already given consent
+    if (this.isBrowser && this.trackingService.hasConsent()) {
       this.trackingService.initAllTracking();
-      // Track initial page view
       this.trackingService.trackPageView(this.router.url);
 
       // Show onboarding wizard on first Enterprise login
@@ -726,8 +797,24 @@ export class AppComponent implements OnInit, OnDestroy {
     this.routerSub?.unsubscribe();
   }
 
+  private static readonly LANG_PREFIXES = /^\/(?:en|et|lv|lt)(\/|$)/;
+
+  private stripLangPrefix(path: string): string {
+    return path.replace(AppComponent.LANG_PREFIXES, '/');
+  }
+
+  private resolvePath(path: string): string {
+    if (this.pageTitles[path]) return path;
+    // Strip trailing dynamic segment for routes like /results/:id, /pillar/:id
+    const parent = path.replace(/\/[^/]+$/, '');
+    if (parent && this.pageTitles[parent]) return parent;
+    return path;
+  }
+
   private updatePageTitle(url: string) {
-    const path = url.split('?')[0];
+    const rawPath = url.split('?')[0];
+    const stripped = this.stripLangPrefix(rawPath);
+    const path = this.resolvePath(stripped);
     const titleEntry = this.pageTitles[path];
     const title = titleEntry
       ? (this.lang.currentLang === 'et' ? titleEntry.et : titleEntry.en)
@@ -739,8 +826,10 @@ export class AppComponent implements OnInit, OnDestroy {
     const description = this.lang.currentLang === 'et' ? descEntry.et : descEntry.en;
     this.meta.updateTag({ name: 'description', content: description });
 
-    // Update canonical URL
-    const canonicalUrl = `https://doraaudit.eu${path === '/' ? '' : path}`;
+    // Update canonical URL — use lang-prefixed path
+    const langPrefix = `/${this.lang.currentLang}`;
+    const canonicalPath = path === '/' ? langPrefix : `${langPrefix}${path}`;
+    const canonicalUrl = `https://doraaudit.eu${canonicalPath}`;
     this.updateCanonicalUrl(canonicalUrl);
 
     // Update Open Graph tags
@@ -770,6 +859,32 @@ export class AppComponent implements OnInit, OnDestroy {
       link.setAttribute('href', url);
       this.document.head.appendChild(link);
     }
+  }
+
+  private updateHreflangTags(url: string) {
+    const rawPath = url.split('?')[0];
+    const path = this.stripLangPrefix(rawPath);
+    const suffix = path === '/' ? '' : path;
+
+    // Remove existing hreflang tags
+    this.document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(el => el.remove());
+
+    // Create hreflang tags for en, et, and x-default
+    const langs = ['en', 'et'];
+    for (const lang of langs) {
+      const link = this.document.createElement('link');
+      link.setAttribute('rel', 'alternate');
+      link.setAttribute('hreflang', lang);
+      link.setAttribute('href', `https://doraaudit.eu/${lang}${suffix}`);
+      this.document.head.appendChild(link);
+    }
+
+    // x-default points to English version
+    const xDefault = this.document.createElement('link');
+    xDefault.setAttribute('rel', 'alternate');
+    xDefault.setAttribute('hreflang', 'x-default');
+    xDefault.setAttribute('href', `https://doraaudit.eu/en${suffix}`);
+    this.document.head.appendChild(xDefault);
   }
 
   toggleToolsMenu(event: Event) {
@@ -803,6 +918,10 @@ export class AppComponent implements OnInit, OnDestroy {
   restartTour() {
     if (typeof localStorage !== 'undefined') localStorage.removeItem('onboarding_complete');
     this.showOnboarding = true;
+  }
+
+  openCookieSettings() {
+    this.cookieConsent?.reopenBanner();
   }
 
   onDocumentClick(event: Event) {

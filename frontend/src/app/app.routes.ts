@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
 import { authGuard, adminGuard, guestGuard } from './auth/auth.guard';
+import { langActivateGuard } from './lang.guard';
 
 // DORA Article 30 ICT Contract Compliance Engine
 // Core: Assessment, Contract Audit, Results, Methodology, History
 // Enabled: Guardian (monitoring), Incident Simulator
 
-export const routes: Routes = [
+const coreRoutes: Routes = [
   {
     path: '',
     loadComponent: () => import('./pages/landing.component').then(m => m.LandingComponent),
@@ -150,7 +151,7 @@ export const routes: Routes = [
     path: 'guardian',
     loadComponent: () => import('./pages/guardian-dashboard.component').then(m => m.GuardianDashboardComponent),
     canActivate: [authGuard],
-    data: { seoTitle: 'Guardian – Contract Monitoring' }
+    data: { seoTitle: 'Guardian \u2013 Contract Monitoring' }
   },
   {
     path: 'guardian/alerts',
@@ -389,7 +390,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/workspace.component').then(m => m.WorkspaceComponent),
     data: { seoTitle: 'Compliance Workspace' }
   },
-  // Register of Information (RoI) — DORA Art. 28(3)
+  // Register of Information (RoI) -- DORA Art. 28(3)
   {
     path: 'roi',
     loadComponent: () => import('./pages/roi/roi-dashboard.component').then(m => m.RoiDashboardComponent),
@@ -485,13 +486,13 @@ export const routes: Routes = [
     path: 'admin/users',
     loadComponent: () => import('./pages/admin-users.component').then(m => m.AdminUsersComponent),
     canActivate: [adminGuard],
-    data: { seoTitle: 'Admin – Users' }
+    data: { seoTitle: 'Admin \u2013 Users' }
   },
   {
     path: 'admin/leads',
     loadComponent: () => import('./pages/admin-leads.component').then(m => m.AdminLeadsComponent),
     canActivate: [adminGuard],
-    data: { seoTitle: 'Admin – Leads' }
+    data: { seoTitle: 'Admin \u2013 Leads' }
   },
   {
     path: 'admin/leads/:id',
@@ -499,6 +500,17 @@ export const routes: Routes = [
     canActivate: [adminGuard],
     data: { seoTitle: 'Lead Details' }
   },
+];
+
+const langRoutes: Routes = ['en', 'et', 'lv', 'lt'].map(lang => ({
+  path: lang,
+  canActivate: [langActivateGuard],
+  children: coreRoutes,
+}));
+
+export const routes: Routes = [
+  ...coreRoutes,
+  ...langRoutes,
   {
     path: '**',
     loadComponent: () => import('./pages/not-found.component').then(m => m.NotFoundComponent),
