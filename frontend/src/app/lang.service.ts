@@ -1944,6 +1944,8 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; lv?: string; lt?:
   'chat.try_tool': { et: 'Proovi t\u00f6\u00f6riista', en: 'Try tool', lv: 'Izm\u0113\u0123iniet r\u012bku', lt: 'I\u0161bandykite \u012frank\u012f' },
   'chat.msgs_used': { et: 's\u00f5numit kasutatud', en: 'messages used', lv: 'zi\u0146ojumi izmantoti', lt: '\u017einut\u0117s panaudotos' },
   'chat.enter_hint': { et: 'Enter saadab, Shift+Enter uus rida', en: 'Enter to send, Shift+Enter for new line', lv: 'Enter s\u016bt\u012bt, Shift+Enter jauna rinda', lt: 'Enter si\u0173sti, Shift+Enter nauja eilut\u0117' },
+  'chat.copy': { et: 'Kopeeri', en: 'Copy', lv: 'Kop\u0113t', lt: 'Kopijuoti' },
+  'chat.copied': { et: 'Kopeeritud!', en: 'Copied!', lv: 'Nokop\u0113ts!', lt: 'Nukopijuota!' },
 
   // Landing - AI Section
   'landing.ai_badge': { et: 'Uus: tehis\u00e4ru assistent', en: 'New: AI Assistant', lv: 'Jauns: MI asistents', lt: 'Naujas: DI asistentas' },

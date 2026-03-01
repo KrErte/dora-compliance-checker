@@ -84,7 +84,23 @@ interface ChatApiResponse {
                            ? 'bg-emerald-600/20 text-emerald-100 border border-emerald-500/20 rounded-tr-sm'
                            : 'bg-slate-800 text-slate-200 border border-slate-700/50 rounded-tl-sm'">
                       @if (msg.role === 'user') { {{ msg.content }} }
-                      @else { <div [innerHTML]="msg.content | markdown"></div> }
+                      @else {
+                        <div [innerHTML]="msg.content | markdown"></div>
+                        <div class="flex items-center gap-1 mt-2 -mb-1">
+                          <button (click)="copyMessage(msg.content, $index)" class="p-1 text-slate-600 hover:text-emerald-400 transition-colors rounded" [attr.aria-label]="lang.t('chat.copy')">
+                            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              @if (copiedIndex() === $index) {
+                                <polyline points="20 6 9 17 4 12"/>
+                              } @else {
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                              }
+                            </svg>
+                          </button>
+                          @if (copiedIndex() === $index) {
+                            <span class="text-[10px] text-emerald-400">{{ lang.t('chat.copied') }}</span>
+                          }
+                        </div>
+                      }
                       @if (msg.suggestedTool) {
                         <button (click)="navigateToTool(msg.suggestedTool!)"
                                 class="mt-3 flex items-center gap-2 w-full px-3 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs hover:bg-emerald-500/20 transition-colors">
@@ -107,10 +123,13 @@ interface ChatApiResponse {
               <div class="flex gap-3">
                 <div class="shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-xs font-bold text-slate-900">AI</div>
                 <div class="bg-slate-800 border border-slate-700/50 rounded-xl rounded-tl-sm px-4 py-3">
-                  <div class="flex gap-1.5">
-                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-bounce [animation-delay:0ms]"></span>
-                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-bounce [animation-delay:150ms]"></span>
-                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-bounce [animation-delay:300ms]"></span>
+                  <div class="flex items-center gap-2.5">
+                    <div class="flex gap-1">
+                      <span class="w-2 h-2 bg-emerald-400 rounded-full animate-bounce [animation-delay:0ms]"></span>
+                      <span class="w-2 h-2 bg-emerald-400 rounded-full animate-bounce [animation-delay:150ms]"></span>
+                      <span class="w-2 h-2 bg-emerald-400 rounded-full animate-bounce [animation-delay:300ms]"></span>
+                    </div>
+                    <span class="text-xs text-slate-500 animate-pulse">{{ typingStatus() }}</span>
                   </div>
                 </div>
               </div>
@@ -181,7 +200,10 @@ export class ChatComponent {
   rateLimited = signal(false);
   messagesUsed = signal(0);
   messagesLimit = signal(0);
+  copiedIndex = signal<number | null>(null);
+  typingStatus = signal('');
   inputText = '';
+  private typingInterval: any;
 
   limitDots = computed(() => Array.from({ length: this.messagesLimit() }, (_, i) => i));
 
@@ -270,10 +292,45 @@ export class ChatComponent {
     if (this.isBrowser) localStorage.removeItem('dorabot_page_msgs');
   }
 
+  copyMessage(content: string, index: number) {
+    if (!this.isBrowser) return;
+    navigator.clipboard.writeText(content).then(() => {
+      this.copiedIndex.set(index);
+      setTimeout(() => this.copiedIndex.set(null), 2000);
+    });
+  }
+
+  private startTypingAnimation() {
+    const statuses = this.getTypingStatuses();
+    let i = 0;
+    this.typingStatus.set(statuses[0]);
+    this.typingInterval = setInterval(() => {
+      i = (i + 1) % statuses.length;
+      this.typingStatus.set(statuses[i]);
+    }, 2500);
+  }
+
+  private stopTypingAnimation() {
+    if (this.typingInterval) {
+      clearInterval(this.typingInterval);
+      this.typingInterval = null;
+    }
+  }
+
+  private getTypingStatuses(): string[] {
+    switch (this.lang.lang()) {
+      case 'et': return ['Analüüsin...', 'Kontrollin regulatsiooni...', 'Koostan vastust...'];
+      case 'lv': return ['Analiz\u0113ju...', 'P\u0101rbaudu regul\u0113jumu...', 'Veido atbildi...'];
+      case 'lt': return ['Analizuoju...', 'Tikrinti reglament\u0105...', 'Ruo\u0161iu atsakym\u0105...'];
+      default: return ['Analyzing...', 'Checking regulation...', 'Composing answer...'];
+    }
+  }
+
   private sendMessage(text: string) {
     this.messages.update(msgs => [...msgs, { role: 'user', content: text, timestamp: new Date() }]);
     this.loading.set(true);
     this.rateLimited.set(false);
+    this.startTypingAnimation();
 
     const sessionId = this.isBrowser ? (localStorage.getItem('dora_session_id') || 'anon-' + Math.random().toString(36).substring(2)) : 'ssr';
 
@@ -285,6 +342,7 @@ export class ChatComponent {
     }).subscribe({
       next: (res) => {
         this.loading.set(false);
+        this.stopTypingAnimation();
         if (res.messagesLimit > 0) {
           this.messagesUsed.set(res.messagesUsed);
           this.messagesLimit.set(res.messagesLimit);
@@ -305,6 +363,7 @@ export class ChatComponent {
       },
       error: () => {
         this.loading.set(false);
+        this.stopTypingAnimation();
         const errMsg = this.getErrorMessage();
         this.messages.update(msgs => [...msgs, {
           role: 'assistant',
