@@ -179,6 +179,11 @@ import { ToastService } from './auth/toast.service';
              class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
             {{ lang.t('nav.pricing') }}
           </a>
+          <!-- Blog -->
+          <a routerLink="/blog" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+            {{ lang.currentLang === 'et' ? 'Blogi' : 'Blog' }}
+          </a>
           <!-- Dashboard (logged in only) -->
           @if (auth.isLoggedIn()) {
             <a routerLink="/dashboard" routerLinkActive="nav-link-active"
@@ -345,6 +350,8 @@ import { ToastService } from './auth/toast.service';
             </a>
             <a routerLink="/pricing" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.pricing') }}</a>
+            <a routerLink="/blog" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Blogi' : 'Blog' }}</a>
           </div>
           @if (auth.isLoggedIn()) {
             <div class="border-t border-slate-700/50 mt-2 pt-2">
@@ -432,6 +439,7 @@ import { ToastService } from './auth/toast.service';
               <a routerLink="/about" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.about') }}</a>
               <a routerLink="/methodology" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.methodology') }}</a>
               <a routerLink="/pricing" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.pricing') }}</a>
+              <a routerLink="/blog" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.currentLang === 'et' ? 'Blogi' : 'Blog' }}</a>
               <a routerLink="/privacy" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('footer.privacy') }}</a>
               <a routerLink="/terms" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('footer.terms') }}</a>
             </div>
@@ -523,7 +531,8 @@ export class AppComponent implements OnInit, OnDestroy {
     '/history': { et: 'Hindamiste Ajalugu | DoraAudit.eu', en: 'Assessment History | DoraAudit.eu' },
     '/regulatory-updates': { et: 'Regulatiivsed Uuendused | DoraAudit.eu', en: 'Regulatory Updates | DoraAudit.eu' },
     '/forgot-password': { et: 'Unustasid parooli | DoraAudit.eu', en: 'Forgot Password | DoraAudit.eu' },
-    '/nis2/results': { et: 'NIS2 Tulemused | DoraAudit.eu', en: 'NIS2 Results | DoraAudit.eu' }
+    '/nis2/results': { et: 'NIS2 Tulemused | DoraAudit.eu', en: 'NIS2 Results | DoraAudit.eu' },
+    '/blog': { et: 'DORA & NIS2 Blogi | DoraAudit.eu', en: 'DORA & NIS2 Blog | DoraAudit.eu' }
   };
 
   private pageDescriptions: { [path: string]: { et: string; en: string } } = {
@@ -548,7 +557,8 @@ export class AppComponent implements OnInit, OnDestroy {
     '/comparison': { et: 'DoraAudit vs teised DORA vastavuskontrolli platvormid. Funktsioonide võrdlus ja Baltikumi fookus.', en: 'DoraAudit vs other DORA compliance platforms. Feature comparison with Baltic market focus.' },
     '/company-profile': { et: 'Ettevõtte DORA digitaalse vastupidavuse profiil. Turvapäised, SSL ja vastavusandmed.', en: 'Company DORA digital resilience profile. Security headers, SSL and compliance data.' },
     '/incident-simulator': { et: 'IKT intsidendi simulaator. Harjuta DORA-nõuetele vastavat intsidentide klassifitseerimist ja raporteerimist.', en: 'ICT incident simulator. Practice DORA-compliant incident classification and reporting workflows.' },
-    '/roi': { et: 'DORA Art. 28(3) Teaberegister. Hallake IKT-teenusepakkujate lepingute registrit.', en: 'DORA Art. 28(3) Register of Information. Manage ICT service provider contract register.' }
+    '/roi': { et: 'DORA Art. 28(3) Teaberegister. Hallake IKT-teenusepakkujate lepingute registrit.', en: 'DORA Art. 28(3) Register of Information. Manage ICT service provider contract register.' },
+    '/blog': { et: 'Praktilised juhendid ja artiklid DORA ja NIS2 regulatsioonide kohta. IKT lepingute nõuded, intsidentidest teavitamine, teaberegister ja palju muud.', en: 'Practical guides and articles about DORA and NIS2 compliance. ICT contract requirements, incident reporting, register of information, and more.' }
   };
 
   constructor(

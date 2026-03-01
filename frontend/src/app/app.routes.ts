@@ -374,6 +374,18 @@ export const routes: Routes = [
     data: { seoTitle: 'Edit Register Entry' }
   },
   {
+    path: 'blog',
+    loadComponent: () => import('./pages/blog.component').then(m => m.BlogComponent),
+    // No authGuard - public SEO content
+    data: { seoTitle: 'DORA & NIS2 Blog', seoDescription: 'Practical guides and articles about DORA and NIS2 compliance. ICT contract requirements, incident reporting, register of information, and more.' }
+  },
+  {
+    path: 'blog/:slug',
+    loadComponent: () => import('./pages/blog.component').then(m => m.BlogComponent),
+    // No authGuard - public SEO content
+    data: { seoTitle: 'Blog Article' }
+  },
+  {
     path: 'comparison',
     loadComponent: () => import('./pages/comparison.component').then(m => m.ComparisonComponent),
     // No authGuard - public SEO landing page

@@ -18,6 +18,7 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'timeline', renderMode: RenderMode.Prerender },
   { path: 'nis2/scope-check', renderMode: RenderMode.Prerender },
   { path: 'contract-analysis', renderMode: RenderMode.Prerender },
+  { path: 'blog', renderMode: RenderMode.Prerender },
 
   // Everything else — client-side only
   { path: '**', renderMode: RenderMode.Client },
