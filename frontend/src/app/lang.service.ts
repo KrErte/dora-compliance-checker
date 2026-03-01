@@ -1927,6 +1927,21 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; lv?: string; lt?:
   'roi.prev': { et: 'Eelmine', en: 'Previous' },
   'roi.next': { et: 'Järgmine', en: 'Next' },
   'roi.finish': { et: 'Lõpeta', en: 'Finish' },
+
+  // Chat / DoraBot
+  'chat.open': { et: 'Ava DoraBot', en: 'Open DoraBot', lv: 'Atv\u0113rt DoraBot', lt: 'Atidaryti DoraBot' },
+  'chat.close': { et: 'Sulge', en: 'Close', lv: 'Aizv\u0113rt', lt: 'U\u017edaryti' },
+  'chat.subtitle': { et: 'DORA vastavuse assistent', en: 'DORA Compliance Assistant', lv: 'DORA atbilst\u012bbas asistents', lt: 'DORA atitikties asistentas' },
+  'chat.fullpage': { et: 'Ava t\u00e4isekraanil', en: 'Open full page', lv: 'Atv\u0113rt piln\u0101 lap\u0101', lt: 'Atidaryti vis\u0105 puslap\u012f' },
+  'chat.welcome_title': { et: 'Tere! Olen DoraBot', en: 'Hi! I\'m DoraBot', lv: 'Sveiki! Es esmu DoraBot', lt: 'Sveiki! A\u0161 esu DoraBot' },
+  'chat.welcome_desc': { et: 'K\u00fcsi DORA regulatsiooni, vastavusn\u00f5uete v\u00f5i platvormi t\u00f6\u00f6riistade kohta.', en: 'Ask me about DORA regulation, compliance requirements, or platform tools.', lv: 'Jaut\u0101jiet man par DORA regul\u0113jumu, atbilst\u012bbas pras\u012bb\u0101m vai platformas r\u012bkiem.', lt: 'Klauskite man\u0119s apie DORA reglament\u0105, atitikties reikalavimus ar platformos \u012frankius.' },
+  'chat.placeholder': { et: 'K\u00fcsi DORA kohta...', en: 'Ask about DORA...', lv: 'Jaut\u0101jiet par DORA...', lt: 'Klauskite apie DORA...' },
+  'chat.send': { et: 'Saada', en: 'Send', lv: 'S\u016bt\u012bt', lt: 'Si\u0173sti' },
+  'chat.rate_limit': { et: 'Olete saavutanud tunni limiidi (5 s\u00f5numit). Logige sisse piiramatu juurdep\u00e4\u00e4su saamiseks.', en: 'You\'ve reached the hourly limit (5 messages). Log in for unlimited access.', lv: 'J\u016bs esat sasniedzis stundas limitu (5 zi\u0146ojumi). Piesakieties neierobe\u017eotai piek\u013Cuvei.', lt: 'Pasiek\u0117te valandin\u012f limit\u0105 (5 \u017einut\u0117s). Prisijunkite neribotai prieigai.' },
+  'chat.clear': { et: 'T\u00fchjenda ajalugu', en: 'Clear history', lv: 'Not\u012br\u012bt v\u0113sturi', lt: 'I\u0161valyti istorij\u0105' },
+  'chat.badge': { et: 'Assistent', en: 'Assistant', lv: 'Asistents', lt: 'Asistentas' },
+  'chat.page_desc': { et: 'Tehis\u00e4rul p\u00f5hinev DORA vastavuse assistent. K\u00fcsige k\u00f5ike DORA regulatsiooni kohta.', en: 'AI-powered DORA compliance assistant. Ask anything about DORA regulation.', lv: 'M\u0101ksl\u012bg\u0101 intelekta DORA atbilst\u012bbas asistents. Jaut\u0101jiet jebko par DORA.', lt: 'DI pagr\u012fstas DORA atitikties asistentas. Klauskite bet ko apie DORA.' },
+  'chat.try_tool': { et: 'Proovi t\u00f6\u00f6riista', en: 'Try tool', lv: 'Izm\u0113\u0123iniet r\u012bku', lt: 'I\u0161bandykite \u012frank\u012f' },
 };
 
 @Injectable({ providedIn: 'root' })
@@ -2016,5 +2031,9 @@ export class LangService {
     if (!entry) return key;
     const lang = this.langSignal();
     return (entry as any)[lang] || entry['en'] || entry['et'] || key;
+  }
+
+  pick(obj: { et: string; en: string; [key: string]: string }): string {
+    return obj[this.currentLang] ?? obj['en'] ?? '';
   }
 }

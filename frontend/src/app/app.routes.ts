@@ -434,6 +434,12 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'DORA Policy Document Generator', seoDescription: 'Generate complete DORA-compliant policy documents. ICT risk management, incident response, business continuity, and more.' }
   },
   {
+    path: 'chat',
+    loadComponent: () => import('./pages/chat.component').then(m => m.ChatComponent),
+    // No authGuard - public AI assistant
+    data: { seoTitle: 'DoraBot AI Assistant', seoDescription: 'Ask DoraBot about DORA compliance, ICT contract requirements, incident reporting, and digital operational resilience.' }
+  },
+  {
     path: 'blog',
     loadComponent: () => import('./pages/blog.component').then(m => m.BlogComponent),
     // No authGuard - public SEO content

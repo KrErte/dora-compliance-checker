@@ -11,7 +11,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ClaudeApiService {
@@ -162,6 +164,51 @@ public class ClaudeApiService {
         sb.append("- Vasta AINULT JSON objektiga\n");
 
         return callApi(sb.toString(), 1024);
+    }
+
+    /**
+     * Multi-turn chat API call with a system prompt.
+     * Returns raw assistant text (no JSON extraction).
+     */
+    public String analyzeChat(String systemPrompt, List<Map<String, String>> messages, int maxTokens) {
+        if (apiKey == null || apiKey.isBlank()) {
+            throw new IllegalStateException("Anthropic API key is not configured.");
+        }
+
+        try {
+            Map<String, Object> body = new LinkedHashMap<>();
+            body.put("model", model);
+            body.put("max_tokens", maxTokens);
+            body.put("system", systemPrompt);
+            body.put("messages", messages);
+
+            String requestBody = objectMapper.writeValueAsString(body);
+
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://api.anthropic.com/v1/messages"))
+                    .header("Content-Type", "application/json")
+                    .header("x-api-key", apiKey)
+                    .header("anthropic-version", "2023-06-01")
+                    .timeout(Duration.ofMinutes(2))
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                throw new RuntimeException("Chat API error (HTTP " + response.statusCode() + "): " + response.body());
+            }
+
+            var root = objectMapper.readTree(response.body());
+            var content = root.get("content");
+            if (content == null || !content.isArray() || content.isEmpty()) {
+                throw new RuntimeException("Empty response from chat API");
+            }
+            return content.get(0).get("text").asText();
+        } catch (RuntimeException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException("Chat API call failed: " + e.getMessage(), e);
+        }
     }
 
     private static final int MAX_RETRIES = 3;

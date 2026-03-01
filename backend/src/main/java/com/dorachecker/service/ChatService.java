@@ -1,0 +1,225 @@
+package com.dorachecker.service;
+
+import com.dorachecker.model.ChatRequest;
+import com.dorachecker.model.ChatResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Service
+public class ChatService {
+
+    private static final Logger log = LoggerFactory.getLogger(ChatService.class);
+
+    private static final int ANONYMOUS_LIMIT = 5;
+    private static final long RATE_WINDOW_MS = 3_600_000; // 1 hour
+    private static final long SESSION_TTL_MS = 7_200_000; // 2 hours
+    private static final int MAX_TURNS = 20;
+    private static final int MAX_REPLY_TOKENS = 1024;
+
+    private final ClaudeApiService claudeApi;
+
+    // sessionId -> list of {role, content} maps
+    private final ConcurrentHashMap<String, List<Map<String, String>>> sessions = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Long> sessionLastAccess = new ConcurrentHashMap<>();
+
+    // rateLimitKey (IP or "user:id") -> list of timestamps
+    private final ConcurrentHashMap<String, List<Long>> rateLimits = new ConcurrentHashMap<>();
+
+    public ChatService(ClaudeApiService claudeApi) {
+        this.claudeApi = claudeApi;
+    }
+
+    public ChatResponse sendMessage(ChatRequest request, Long userId, String clientIp) {
+        boolean authenticated = userId != null;
+        String rateLimitKey = authenticated ? "user:" + userId : "ip:" + clientIp;
+
+        // Rate limiting for anonymous users only
+        if (!authenticated) {
+            int used = countRecentRequests(rateLimitKey);
+            if (used >= ANONYMOUS_LIMIT) {
+                return new ChatResponse(
+                        null, true, used, ANONYMOUS_LIMIT, null, null
+                );
+            }
+            recordRequest(rateLimitKey);
+        }
+
+        String sessionId = request.sessionId() != null ? request.sessionId() : UUID.randomUUID().toString();
+        String language = request.language() != null ? request.language() : "en";
+
+        // Get or create session
+        List<Map<String, String>> messages = sessions.computeIfAbsent(sessionId, k -> new ArrayList<>());
+        sessionLastAccess.put(sessionId, System.currentTimeMillis());
+
+        // Trim old turns if over limit
+        while (messages.size() >= MAX_TURNS * 2) {
+            messages.remove(0);
+            messages.remove(0);
+        }
+
+        // Add user message
+        messages.add(Map.of("role", "user", "content", request.message()));
+
+        // Build system prompt
+        String systemPrompt = buildSystemPrompt(language);
+
+        try {
+            String reply = claudeApi.analyzeChat(systemPrompt, List.copyOf(messages), MAX_REPLY_TOKENS);
+
+            // Add assistant reply to session
+            messages.add(Map.of("role", "assistant", "content", reply));
+
+            // Extract tool suggestion
+            String suggestedTool = extractToolSuggestion(reply);
+            String suggestedToolName = suggestedTool != null ? getToolName(suggestedTool, language) : null;
+
+            int used = authenticated ? 0 : countRecentRequests(rateLimitKey);
+            int limit = authenticated ? 0 : ANONYMOUS_LIMIT;
+
+            return new ChatResponse(reply, false, used, limit, suggestedTool, suggestedToolName);
+        } catch (Exception e) {
+            log.error("Chat API error: {}", e.getMessage());
+            // Remove the user message since we failed
+            if (!messages.isEmpty()) {
+                messages.remove(messages.size() - 1);
+            }
+            String errorMsg = switch (language) {
+                case "et" -> "Vabandust, tehniline viga. Palun proovige uuesti.";
+                case "lv" -> "Atvainojiet, tehniska k\u013C\u016Bda. L\u016Bdzu m\u0113\u0123iniet v\u0113lreiz.";
+                case "lt" -> "Atsipra\u0161ome, technin\u0117 klaida. Bandykite dar kart\u0105.";
+                default -> "Sorry, a technical error occurred. Please try again.";
+            };
+            int used = authenticated ? 0 : countRecentRequests(rateLimitKey);
+            int limit = authenticated ? 0 : ANONYMOUS_LIMIT;
+            return new ChatResponse(errorMsg, false, used, limit, null, null);
+        }
+    }
+
+    private String buildSystemPrompt(String language) {
+        String langInstruction = switch (language) {
+            case "et" -> "IMPORTANT: Always respond in Estonian (eesti keel). The user's interface is in Estonian.";
+            case "lv" -> "IMPORTANT: Always respond in Latvian (latvie\u0161u valoda). The user's interface is in Latvian.";
+            case "lt" -> "IMPORTANT: Always respond in Lithuanian (lietuvi\u0173 kalba). The user's interface is in Lithuanian.";
+            default -> "Respond in English.";
+        };
+
+        return "You are DoraBot, an AI compliance assistant for the DoraAudit.eu platform. "
+                + "You help users understand the EU DORA regulation (Digital Operational Resilience Act, EU 2022/2554), "
+                + "answer questions about compliance requirements, ICT risk management, incident reporting, "
+                + "contract requirements (especially Article 30), and guide them to relevant platform tools.\n\n"
+                + langInstruction + "\n\n"
+                + "RULES:\n"
+                + "- Be concise but thorough. Use bullet points for clarity.\n"
+                + "- When a question relates to a specific platform tool, mention it with its path (e.g., /assessment, /contract-analysis).\n"
+                + "- Always cite specific DORA articles when relevant (e.g., Art. 30(2)(a)).\n"
+                + "- If a question is outside DORA/NIS2 scope, politely redirect to DORA topics.\n"
+                + "- Never invent regulatory requirements. If unsure, say so.\n"
+                + "- Keep responses under 300 words.\n\n"
+                + DoraKnowledgeBase.getKnowledge();
+    }
+
+    private int countRecentRequests(String key) {
+        List<Long> timestamps = rateLimits.get(key);
+        if (timestamps == null) return 0;
+        long cutoff = System.currentTimeMillis() - RATE_WINDOW_MS;
+        synchronized (timestamps) {
+            timestamps.removeIf(ts -> ts < cutoff);
+            return timestamps.size();
+        }
+    }
+
+    private void recordRequest(String key) {
+        rateLimits.computeIfAbsent(key, k -> Collections.synchronizedList(new ArrayList<>()))
+                .add(System.currentTimeMillis());
+    }
+
+    private static final Map<String, String[]> TOOL_KEYWORDS = Map.ofEntries(
+            Map.entry("/assessment", new String[]{"self-assessment", "hindamine", "assessment", "evaluate", "check compliance", "nov\u0113rt\u0113jums", "vertinimas"}),
+            Map.entry("/contract-analysis", new String[]{"contract analysis", "lepinguanalüüs", "upload contract", "analyze contract", "l\u012bgumu anal\u012bze", "sutar\u010di\u0173 analiz\u0117"}),
+            Map.entry("/contract-generator", new String[]{"generate contract", "contract template", "lepingumall", "create contract"}),
+            Map.entry("/contract-checklist", new String[]{"checklist", "art 30 checklist", "kontrollnimekiri"}),
+            Map.entry("/incident-reporting", new String[]{"incident report", "report incident", "intsidendi teade", "art 19"}),
+            Map.entry("/incident-decision-tree", new String[]{"classify incident", "incident classification", "art 18", "decision tree"}),
+            Map.entry("/tlpt", new String[]{"tlpt", "penetration test", "tiber", "art 26", "art 27"}),
+            Map.entry("/concentration-risk", new String[]{"concentration risk", "provider dependency", "art 29"}),
+            Map.entry("/roi", new String[]{"register of information", "roi", "art 28", "xbrl"}),
+            Map.entry("/dora-explorer", new String[]{"browse articles", "read dora", "article text", "regulation text"}),
+            Map.entry("/framework-mapping", new String[]{"iso 27001", "nis2 mapping", "gdpr mapping", "framework comparison"}),
+            Map.entry("/training-quiz", new String[]{"quiz", "training", "staff awareness", "test knowledge"}),
+            Map.entry("/fine-calculator", new String[]{"fine", "penalty", "sanction", "trahv"}),
+            Map.entry("/playbook", new String[]{"action plan", "playbook", "tegevuskava"}),
+            Map.entry("/policy-generator", new String[]{"policy", "document generator", "poliitika"}),
+            Map.entry("/guardian", new String[]{"monitoring", "alerts", "contract expiry", "teavitused"}),
+            Map.entry("/command-center", new String[]{"dashboard", "overview", "command center", "ülevaade"})
+    );
+
+    private String extractToolSuggestion(String reply) {
+        String lowerReply = reply.toLowerCase();
+        for (var entry : TOOL_KEYWORDS.entrySet()) {
+            for (String keyword : entry.getValue()) {
+                if (lowerReply.contains(keyword.toLowerCase())) {
+                    return entry.getKey();
+                }
+            }
+        }
+        return null;
+    }
+
+    private static final Map<String, Map<String, String>> TOOL_NAMES = Map.ofEntries(
+            Map.entry("/assessment", Map.of("en", "Self-Assessment", "et", "Enesehindamine", "lv", "Pa\u0161nov\u0113rt\u0113jums", "lt", "Savivertinimas")),
+            Map.entry("/contract-analysis", Map.of("en", "Contract Analysis", "et", "Lepinguanalüüs", "lv", "L\u012bgumu anal\u012bze", "lt", "Sutar\u010di\u0173 analiz\u0117")),
+            Map.entry("/contract-generator", Map.of("en", "Contract Generator", "et", "Lepingugeneraator", "lv", "L\u012bgumu \u0123enerators", "lt", "Sutar\u010di\u0173 generatorius")),
+            Map.entry("/contract-checklist", Map.of("en", "Contract Checklist", "et", "Lepingu kontrollnimekiri", "lv", "L\u012bgumu kontrolsaraksts", "lt", "Sutarties kontrolinis s\u0105ra\u0161as")),
+            Map.entry("/incident-reporting", Map.of("en", "Incident Reporting", "et", "Intsidendi raporteerimine", "lv", "Incidentu zi\u0146o\u0161ana", "lt", "Incident\u0173 ataskait\u0173 teikimas")),
+            Map.entry("/incident-decision-tree", Map.of("en", "Incident Classification", "et", "Intsidendi klassifitseerimine", "lv", "Incidentu klasifik\u0101cija", "lt", "Incident\u0173 klasifikavimas")),
+            Map.entry("/tlpt", Map.of("en", "TLPT Module", "et", "TLPT moodul", "lv", "TLPT modulis", "lt", "TLPT modulis")),
+            Map.entry("/concentration-risk", Map.of("en", "Concentration Risk", "et", "Kontsentreerumisrisk", "lv", "Koncentr\u0101cijas risks", "lt", "Koncentracijos rizika")),
+            Map.entry("/roi", Map.of("en", "Register of Information", "et", "Teaberegister", "lv", "Inform\u0101cijas re\u0123istrs", "lt", "Informacijos registras")),
+            Map.entry("/dora-explorer", Map.of("en", "DORA Explorer", "et", "DORA sirvija", "lv", "DORA p\u0101rl\u016Bks", "lt", "DORA nar\u0161ykl\u0117")),
+            Map.entry("/framework-mapping", Map.of("en", "Framework Mapping", "et", "Raamistiku kaardistus", "lv", "Ietvaru kartogr\u0101fija", "lt", "Strukt\u016Bru \u017eem\u0117lapis")),
+            Map.entry("/training-quiz", Map.of("en", "Training Quiz", "et", "Koolitusviktoriin", "lv", "Apm\u0101c\u012bbu viktoriin", "lt", "Mokymo viktorina")),
+            Map.entry("/fine-calculator", Map.of("en", "Fine Calculator", "et", "Trahvikalkulaator", "lv", "Sodu kalkulators", "lt", "Baud\u0173 skai\u010diuokl\u0117")),
+            Map.entry("/playbook", Map.of("en", "Action Playbook", "et", "Tegevuskava", "lv", "R\u012bc\u012bbas pl\u0101ns", "lt", "Veiksm\u0173 planas")),
+            Map.entry("/policy-generator", Map.of("en", "Policy Generator", "et", "Poliitikageneraator", "lv", "Politiku \u0123enerators", "lt", "Politikos generatorius")),
+            Map.entry("/guardian", Map.of("en", "Guardian Monitoring", "et", "Guardian seire", "lv", "Guardian monitorings", "lt", "Guardian steb\u0117jimas")),
+            Map.entry("/command-center", Map.of("en", "Command Center", "et", "Juhtimiskeskus", "lv", "Komandcentrs", "lt", "Valdymo centras"))
+    );
+
+    private String getToolName(String toolPath, String language) {
+        Map<String, String> names = TOOL_NAMES.get(toolPath);
+        if (names == null) return toolPath;
+        return names.getOrDefault(language, names.get("en"));
+    }
+
+    @Scheduled(fixedRate = 900_000) // every 15 minutes
+    public void cleanupExpiredSessions() {
+        long now = System.currentTimeMillis();
+        int removed = 0;
+        for (var entry : sessionLastAccess.entrySet()) {
+            if (now - entry.getValue() > SESSION_TTL_MS) {
+                sessions.remove(entry.getKey());
+                sessionLastAccess.remove(entry.getKey());
+                removed++;
+            }
+        }
+        // Clean old rate limit entries
+        long cutoff = now - RATE_WINDOW_MS;
+        for (var entry : rateLimits.entrySet()) {
+            synchronized (entry.getValue()) {
+                entry.getValue().removeIf(ts -> ts < cutoff);
+            }
+            if (entry.getValue().isEmpty()) {
+                rateLimits.remove(entry.getKey());
+            }
+        }
+        if (removed > 0) {
+            log.debug("Cleaned up {} expired chat sessions", removed);
+        }
+    }
+}

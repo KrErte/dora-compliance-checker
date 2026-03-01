@@ -40,12 +40,10 @@ interface GlossaryTerm {
           EU 2022/2554
         </div>
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
-          {{ lang.currentLang === 'et' ? 'DORA Regulatsiooni Uurija' : 'DORA Regulation Explorer' }}
+          {{ lang.t('explorer.dora_regulation_explorer') }}
         </h1>
         <p class="text-slate-400 max-w-2xl mx-auto text-sm md:text-base">
-          {{ lang.currentLang === 'et'
-            ? 'Sirvi ja otsi DORA (Digital Operational Resilience Act) artikleid interaktiivse tööriistaga. Lihtsas keeles selgitused ja vastavusnõuded.'
-            : 'Browse and search DORA (Digital Operational Resilience Act) articles with this interactive tool. Plain-language explanations and compliance requirements.' }}
+          {{ lang.t('explorer.browse_and_search_dora_digital_operation') }}
         </p>
       </div>
 
@@ -53,19 +51,19 @@ interface GlossaryTerm {
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
         <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-xl p-4 text-center">
           <div class="text-2xl font-bold text-emerald-400">{{ articles.length }}</div>
-          <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Artiklid kaetud' : 'Articles Covered' }}</div>
+          <div class="text-xs text-slate-400 mt-1">{{ lang.t('explorer.articles_covered') }}</div>
         </div>
         <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-xl p-4 text-center">
           <div class="text-2xl font-bold text-red-400">{{ criticalCount }}</div>
-          <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Kriitilised nõuded' : 'Critical Requirements' }}</div>
+          <div class="text-xs text-slate-400 mt-1">{{ lang.t('explorer.critical_requirements') }}</div>
         </div>
         <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-xl p-4 text-center">
           <div class="text-2xl font-bold text-cyan-400">7</div>
-          <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Peatükid' : 'Chapters' }}</div>
+          <div class="text-xs text-slate-400 mt-1">{{ lang.t('explorer.chapters') }}</div>
         </div>
         <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-xl p-4 text-center">
           <div class="text-2xl font-bold text-violet-400">{{ mockCoverage }}%</div>
-          <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Sinu kaetus' : 'Your Coverage' }}</div>
+          <div class="text-xs text-slate-400 mt-1">{{ lang.t('explorer.your_coverage') }}</div>
         </div>
       </div>
 
@@ -78,7 +76,7 @@ interface GlossaryTerm {
           type="text"
           [(ngModel)]="searchQuery"
           (ngModelChange)="onSearch()"
-          [placeholder]="lang.currentLang === 'et' ? 'Otsi artiklite, nõuete või märksõnade järgi...' : 'Search articles, requirements, or keywords...'"
+          [placeholder]="lang.t('explorer.search_articles_requirements_or_keywords')"
           class="w-full pl-12 pr-4 py-3.5 bg-slate-800/80 border border-slate-600/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all text-sm"
         />
         <div *ngIf="searchQuery" class="absolute inset-y-0 right-0 pr-4 flex items-center">
@@ -92,22 +90,22 @@ interface GlossaryTerm {
       <div class="flex flex-wrap gap-2 mb-6">
         <button (click)="filterSeverity = null; onSearch()"
                 [class]="'px-3 py-1.5 rounded-lg text-xs font-medium transition-all ' + (!filterSeverity ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:border-slate-600')">
-          {{ lang.currentLang === 'et' ? 'Kõik' : 'All' }} ({{ articles.length }})
+          {{ lang.t('explorer.all') }} ({{ articles.length }})
         </button>
         <button (click)="filterSeverity = 'critical'; onSearch()"
                 [class]="'px-3 py-1.5 rounded-lg text-xs font-medium transition-all ' + (filterSeverity === 'critical' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:border-slate-600')">
           <span class="inline-block w-2 h-2 rounded-full bg-red-500 mr-1"></span>
-          {{ lang.currentLang === 'et' ? 'Kriitilised' : 'Critical' }} ({{ criticalCount }})
+          {{ lang.t('explorer.critical') }} ({{ criticalCount }})
         </button>
         <button (click)="filterSeverity = 'important'; onSearch()"
                 [class]="'px-3 py-1.5 rounded-lg text-xs font-medium transition-all ' + (filterSeverity === 'important' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:border-slate-600')">
           <span class="inline-block w-2 h-2 rounded-full bg-amber-500 mr-1"></span>
-          {{ lang.currentLang === 'et' ? 'Olulised' : 'Important' }} ({{ importantCount }})
+          {{ lang.t('explorer.important') }} ({{ importantCount }})
         </button>
         <button (click)="filterSeverity = 'informational'; onSearch()"
                 [class]="'px-3 py-1.5 rounded-lg text-xs font-medium transition-all ' + (filterSeverity === 'informational' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' : 'bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:border-slate-600')">
           <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mr-1"></span>
-          {{ lang.currentLang === 'et' ? 'Informatiivsed' : 'Informational' }} ({{ informationalCount }})
+          {{ lang.t('explorer.informational') }} ({{ informationalCount }})
         </button>
       </div>
 
@@ -116,7 +114,7 @@ interface GlossaryTerm {
         <div class="lg:w-72 shrink-0">
           <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-xl p-4 lg:sticky lg:top-24">
             <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-3">
-              {{ lang.currentLang === 'et' ? 'Peatükid' : 'Chapters' }}
+              {{ lang.t('explorer.chapters') }}
             </h3>
             <nav class="space-y-1">
               <button *ngFor="let ch of chapters"
@@ -137,14 +135,14 @@ interface GlossaryTerm {
                           ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20'
                           : 'text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 border border-transparent')">
                 <span class="text-base shrink-0">&#128218;</span>
-                <span class="font-medium text-xs">{{ lang.currentLang === 'et' ? 'Kuva kõik' : 'Show All' }}</span>
+                <span class="font-medium text-xs">{{ lang.t('explorer.show_all') }}</span>
               </button>
             </nav>
 
             <!-- Glossary Section -->
             <div class="mt-6 pt-4 border-t border-slate-700/50">
               <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-3">
-                {{ lang.currentLang === 'et' ? 'Sõnastik' : 'Glossary' }}
+                {{ lang.t('explorer.glossary') }}
               </h3>
               <div class="space-y-2">
                 <div *ngFor="let term of glossaryTerms"
@@ -175,7 +173,7 @@ interface GlossaryTerm {
             </p>
             <button *ngIf="expandedArticles.size > 0" (click)="collapseAll()"
                     class="text-xs text-slate-500 hover:text-slate-300 transition-colors">
-              {{ lang.currentLang === 'et' ? 'Sulge kõik' : 'Collapse All' }}
+              {{ lang.t('explorer.collapse_all') }}
             </button>
           </div>
 
@@ -183,7 +181,7 @@ interface GlossaryTerm {
           <div *ngIf="filteredArticles.length === 0" class="bg-slate-800/60 border border-slate-700/50 rounded-xl p-12 text-center">
             <svg class="w-12 h-12 text-slate-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <p class="text-slate-400 text-sm">
-              {{ lang.currentLang === 'et' ? 'Artikleid ei leitud. Proovi teist otsingut.' : 'No articles found. Try a different search.' }}
+              {{ lang.t('explorer.no_articles_found_try_a_different_search') }}
             </p>
           </div>
 
@@ -241,7 +239,7 @@ interface GlossaryTerm {
                   <!-- Summary -->
                   <div class="mt-4 mb-4">
                     <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                      {{ lang.currentLang === 'et' ? 'Selgitus lihtsas keeles' : 'Plain-Language Explanation' }}
+                      {{ lang.t('explorer.plainlanguage_explanation') }}
                     </h4>
                     <p class="text-sm text-slate-300 leading-relaxed">
                       {{ lang.currentLang === 'et' ? article.summary.et : article.summary.en }}
@@ -251,7 +249,7 @@ interface GlossaryTerm {
                   <!-- Key Requirements -->
                   <div class="mb-4">
                     <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
-                      {{ lang.currentLang === 'et' ? 'Peamised nõuded' : 'Key Requirements' }}
+                      {{ lang.t('explorer.key_requirements') }}
                     </h4>
                     <ul class="space-y-1.5">
                       <li *ngFor="let point of (lang.currentLang === 'et' ? article.keyPoints.et : article.keyPoints.en)"
@@ -271,7 +269,7 @@ interface GlossaryTerm {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                       </svg>
                       <span class="text-xs text-slate-400">
-                        {{ lang.currentLang === 'et' ? 'Vastavuse vihje' : 'Compliance Tip' }}
+                        {{ lang.t('explorer.compliance_tip') }}
                       </span>
                     </div>
                     <p class="text-sm text-emerald-300 mt-1">
@@ -288,23 +286,21 @@ interface GlossaryTerm {
           <!-- CTA Footer -->
           <div class="mt-10 bg-gradient-to-br from-emerald-900/20 to-cyan-900/20 border border-emerald-500/20 rounded-xl p-6 text-center">
             <h3 class="text-lg font-semibold text-white mb-2">
-              {{ lang.currentLang === 'et' ? 'Valmis oma vastavust kontrollima?' : 'Ready to check your compliance?' }}
+              {{ lang.t('explorer.ready_to_check_your_compliance') }}
             </h3>
             <p class="text-sm text-slate-400 mb-4 max-w-lg mx-auto">
-              {{ lang.currentLang === 'et'
-                ? 'Kasuta meie tasuta enesehindamise tööriista, et teada saada, kui kaugel sa DORA nõuete täitmisest oled.'
-                : 'Use our free self-assessment tool to find out how far you are from meeting DORA requirements.' }}
+              {{ lang.t('explorer.use_our_free_selfassessment_tool_to_find') }}
             </p>
             <div class="flex flex-wrap justify-center gap-3">
               <a routerLink="/assessment"
                  class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-medium rounded-lg transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-                {{ lang.currentLang === 'et' ? 'Alusta hindamist' : 'Start Assessment' }}
+                {{ lang.t('explorer.start_assessment') }}
               </a>
               <a routerLink="/contract-analysis"
                  class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium rounded-lg transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                {{ lang.currentLang === 'et' ? 'Analüüsi lepingut' : 'Analyze Contract' }}
+                {{ lang.t('explorer.analyze_contract') }}
               </a>
             </div>
           </div>
@@ -757,12 +753,12 @@ export class DoraExplorerComponent {
 
       // Text search
       if (!q) return true;
-      const lang = this.lang.currentLang === 'et' ? 'et' : 'en';
+      const lang = this.lang.t('explorer.en') as 'et' | 'en';
       return (
         a.number.includes(q) ||
         a.title[lang].toLowerCase().includes(q) ||
         a.summary[lang].toLowerCase().includes(q) ||
-        a.keyPoints[lang].some(kp => kp.toLowerCase().includes(q)) ||
+        a.keyPoints[lang].some((kp: string) => kp.toLowerCase().includes(q)) ||
         a.chapter.toLowerCase().includes(q) ||
         ('art. ' + a.number).includes(q) ||
         ('article ' + a.number).includes(q) ||

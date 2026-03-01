@@ -10,11 +10,12 @@ import { TrackingService } from './tracking.service';
 import { SubscriptionService } from './services/subscription.service';
 import { CookieConsentComponent } from './components/cookie-consent/cookie-consent.component';
 import { OnboardingComponent } from './pages/onboarding.component';
+import { ChatWidgetComponent } from './components/chat-widget.component';
 import { ToastService } from './auth/toast.service';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, CookieConsentComponent, OnboardingComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, CookieConsentComponent, OnboardingComponent, ChatWidgetComponent],
   host: {
     '(document:click)': 'onDocumentClick($event)',
     '(window:scroll)': 'closeAllMenus()'
@@ -559,6 +560,8 @@ import { ToastService } from './auth/toast.service';
     @defer (when showOnboarding) {
       <app-onboarding (completed)="showOnboarding = false"></app-onboarding>
     }
+
+    <app-chat-widget></app-chat-widget>
 
     <!-- Toast notifications -->
     <div class="fixed top-4 right-4 z-[100] flex flex-col gap-2 max-w-sm" *ngIf="toast.toasts().length > 0">
