@@ -233,6 +233,7 @@ export class SubscriptionService {
   }
 
   private ensureSessionId(): void {
+    if (!this.isBrowser) return;
     if (!localStorage.getItem(this.SESSION_KEY)) {
       const sessionId = 'sess_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
       localStorage.setItem(this.SESSION_KEY, sessionId);
@@ -250,6 +251,7 @@ export class SubscriptionService {
   }
 
   private loadFromStorage(): void {
+    if (!this.isBrowser) return;
     const stored = localStorage.getItem(this.STORAGE_KEY);
     if (stored) {
       try {
@@ -266,10 +268,12 @@ export class SubscriptionService {
   }
 
   private saveToStorage(status: SubscriptionStatus): void {
+    if (!this.isBrowser) return;
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(status));
   }
 
   private savePaymentCompleted(checkoutId: string): void {
+    if (!this.isBrowser) return;
     const data = {
       checkoutId,
       timestamp: new Date().toISOString(),
