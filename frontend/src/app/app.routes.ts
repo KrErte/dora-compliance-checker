@@ -273,6 +273,18 @@ export const routes: Routes = [
     data: { seoTitle: 'Vendor Self-Assessment' }
   },
   {
+    path: 'negotiations',
+    loadComponent: () => import('./pages/negotiation-list.component').then(m => m.NegotiationListComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Negotiations', seoDescription: 'Manage DORA contract compliance negotiations with vendors. Track negotiation items, generate strategies, and draft emails.' }
+  },
+  {
+    path: 'negotiations/:id',
+    loadComponent: () => import('./pages/negotiation-detail.component').then(m => m.NegotiationDetailComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Negotiation Details' }
+  },
+  {
     path: 'integrations',
     loadComponent: () => import('./pages/integrations.component').then(m => m.IntegrationsComponent),
     canActivate: [authGuard],
@@ -404,12 +416,6 @@ export const routes: Routes = [
     data: { seoTitle: 'Multi-Framework Compliance Mapping', seoDescription: 'See how DORA maps to ISO 27001, NIS2, GDPR, and COBIT. Calculate your existing compliance coverage and identify gaps.' }
   },
   {
-    path: 'cost-calculator',
-    loadComponent: () => import('./pages/cost-calculator.component').then(m => m.CostCalculatorComponent),
-    // No authGuard - free tool
-    data: { seoTitle: 'DORA Compliance Cost Calculator', seoDescription: 'Estimate your DORA compliance investment. Calculate costs vs potential fines and see ROI of compliance.' }
-  },
-  {
     path: 'training-quiz',
     loadComponent: () => import('./pages/training-quiz.component').then(m => m.TrainingQuizComponent),
     // No authGuard - free training tool
@@ -420,12 +426,6 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/incident-decision-tree.component').then(m => m.IncidentDecisionTreeComponent),
     // No authGuard - free tool
     data: { seoTitle: 'ICT Incident Classification Tool', seoDescription: 'Interactive DORA incident classification decision tree. Determine if your ICT incident requires regulatory reporting.' }
-  },
-  {
-    path: 'board-report',
-    loadComponent: () => import('./pages/board-report-generator.component').then(m => m.BoardReportGeneratorComponent),
-    // No authGuard - free tool
-    data: { seoTitle: 'Board Compliance Report Generator', seoDescription: 'Generate professional board-ready DORA compliance reports with one click. Executive summaries, pillar dashboards, and recommendations.' }
   },
   {
     path: 'policy-generator',
