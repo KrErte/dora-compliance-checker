@@ -554,8 +554,12 @@ import { ToastService } from './auth/toast.service';
         </div>
       </div>
     </footer>
-    <app-cookie-consent></app-cookie-consent>
-    <app-onboarding *ngIf="showOnboarding" (completed)="showOnboarding = false"></app-onboarding>
+    @defer (on idle) {
+      <app-cookie-consent></app-cookie-consent>
+    }
+    @defer (when showOnboarding) {
+      <app-onboarding (completed)="showOnboarding = false"></app-onboarding>
+    }
 
     <!-- Toast notifications -->
     <div class="fixed top-4 right-4 z-[100] flex flex-col gap-2 max-w-sm" *ngIf="toast.toasts().length > 0">
