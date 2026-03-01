@@ -163,12 +163,22 @@ export interface ValidationError {
   message: string;
 }
 
+export interface TemplateCompleteness {
+  templateCode: string;
+  templateName: string;
+  totalFields: number;
+  filledFields: number;
+  percentage: number;
+  missingFields: string[];
+}
+
 export interface ValidationResult {
   totalRules: number;
   passed: number;
   warnings: number;
   errors: number;
   issues: ValidationError[];
+  completeness?: { [key: string]: TemplateCompleteness };
 }
 
 export interface GleifResult {

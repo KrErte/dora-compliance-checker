@@ -6,7 +6,7 @@ import { LangService } from '../../lang.service';
 import {
   RoiService, RoiRegister, RoiProvider, RoiFunction, RoiContract,
   RoiContractDetail, RoiAssessment, RoiSupplyChain, RoiGroupEntity,
-  ValidationResult, ValidationError, GleifResult,
+  ValidationResult, ValidationError, TemplateCompleteness, GleifResult,
   ENTITY_TYPES, CONTRACT_TYPES, ICT_SERVICE_TYPES, CRITICALITY_OPTIONS,
   RISK_LEVELS, PROVIDER_TYPES, COMMON_FUNCTIONS, PRESET_PROVIDERS
 } from '../../services/roi.service';
@@ -41,6 +41,12 @@ import { SubscriptionService } from '../../services/subscription.service';
                 {{ s.num < currentStep ? '&#10003;' : s.num }}
               </span>
               {{ s.label }}
+              @if (getStepCompleteness(s.num) >= 0) {
+                <span class="text-[10px] px-1.5 py-0.5 rounded-full font-bold"
+                      [class]="getStepCompleteness(s.num) >= 80 ? 'bg-emerald-500/20 text-emerald-400' : (getStepCompleteness(s.num) >= 50 ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400')">
+                  {{ getStepCompleteness(s.num) }}%
+                </span>
+              }
             </button>
           }
         </div>
@@ -456,6 +462,33 @@ import { SubscriptionService } from '../../services/subscription.service';
                 </div>
               </div>
 
+              <!-- Template Completeness -->
+              @if (validationResult.completeness) {
+                <div class="mb-6">
+                  <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.template_completeness') || 'Template Completeness' }}</h3>
+                  <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    @for (entry of getCompletenessEntries(); track entry.templateCode) {
+                      <div class="bg-slate-800/30 rounded-lg p-3">
+                        <div class="flex items-center justify-between mb-1">
+                          <span class="text-xs font-mono text-slate-400">{{ entry.templateCode }}</span>
+                          <span class="text-xs font-bold" [class]="entry.percentage >= 80 ? 'text-emerald-400' : (entry.percentage >= 50 ? 'text-amber-400' : 'text-red-400')">
+                            {{ entry.percentage }}%
+                          </span>
+                        </div>
+                        <p class="text-sm text-white mb-1">{{ entry.templateName }}</p>
+                        <div class="w-full bg-slate-700 rounded-full h-1.5">
+                          <div class="h-1.5 rounded-full transition-all" [style.width.%]="entry.percentage"
+                               [class]="entry.percentage >= 80 ? 'bg-emerald-500' : (entry.percentage >= 50 ? 'bg-amber-500' : 'bg-red-500')"></div>
+                        </div>
+                        @if (entry.missingFields.length) {
+                          <p class="text-[10px] text-slate-500 mt-1">{{ entry.missingFields.join(', ') }}</p>
+                        }
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+
               <!-- Issues list -->
               @if (validationResult.issues.length) {
                 <div class="space-y-2 max-h-96 overflow-y-auto">
@@ -783,6 +816,30 @@ export class RoiWizardComponent implements OnInit {
   getPassRate(): number {
     if (!this.validationResult || this.validationResult.totalRules === 0) return 0;
     return Math.round((this.validationResult.passed / this.validationResult.totalRules) * 100);
+  }
+
+  getCompletenessEntries(): TemplateCompleteness[] {
+    if (!this.validationResult?.completeness) return [];
+    return Object.values(this.validationResult.completeness);
+  }
+
+  getStepCompleteness(step: number): number {
+    if (!this.validationResult?.completeness) return -1;
+    const stepTemplateMap: Record<number, string[]> = {
+      1: ['B_01.01'],
+      2: ['B_05.01'],
+      3: ['B_06.01'],
+      4: ['B_02.01', 'B_02.02'],
+      6: ['B_07.01']
+    };
+    const templates = stepTemplateMap[step];
+    if (!templates) return -1;
+    let totalPct = 0, count = 0;
+    for (const code of templates) {
+      const c = this.validationResult.completeness[code];
+      if (c) { totalPct += c.percentage; count++; }
+    }
+    return count > 0 ? Math.round(totalPct / count) : -1;
   }
 
   goToIssue(issue: ValidationError) {

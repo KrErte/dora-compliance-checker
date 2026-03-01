@@ -479,6 +479,13 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                       </div>
                     }
                   </div>
+
+                  <!-- Vendor Questionnaire -->
+                  <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(148,163,184,0.1);">
+                    <a routerLink="/vendor-questionnaires" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s;">
+                      &#128203; Send DORA Questionnaire
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

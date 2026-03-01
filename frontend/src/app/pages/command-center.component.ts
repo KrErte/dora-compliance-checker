@@ -135,6 +135,14 @@ interface PillarHealth {
                 <svg class="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg>
                 <span class="text-[10px] text-slate-400">{{ lang.currentLang === 'et' ? 'Ekspordi audit' : 'Export Audit' }}</span>
               </a>
+              <a routerLink="/integrations" class="flex flex-col items-center gap-1.5 p-3 rounded-lg bg-slate-700/20 hover:bg-slate-700/40 transition-colors text-center">
+                <svg class="w-5 h-5 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                <span class="text-[10px] text-slate-400">{{ lang.currentLang === 'et' ? 'Integratsioonid' : 'Integrations' }}</span>
+              </a>
+              <a routerLink="/vendor-questionnaires" class="flex flex-col items-center gap-1.5 p-3 rounded-lg bg-slate-700/20 hover:bg-slate-700/40 transition-colors text-center">
+                <svg class="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>
+                <span class="text-[10px] text-slate-400">{{ lang.currentLang === 'et' ? 'Hankija k\u00fcsimustik' : 'Vendor Questionnaire' }}</span>
+              </a>
             </div>
           </div>
         </div>

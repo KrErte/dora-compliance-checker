@@ -249,6 +249,24 @@ export const routes: Routes = [
     data: { seoTitle: 'DORA Trust Seal', seoDescription: 'Get your embeddable DORA compliance badge. Show clients and partners your organization is DORA-compliant.' }
   },
   {
+    path: 'vendor-questionnaires',
+    loadComponent: () => import('./pages/vendor-questionnaire-list.component').then(m => m.VendorQuestionnaireListComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Vendor Questionnaires', seoDescription: 'Send DORA compliance self-assessment questionnaires to your ICT service providers.' }
+  },
+  {
+    path: 'vendor-survey/:token',
+    loadComponent: () => import('./pages/vendor-questionnaire-public.component').then(m => m.VendorQuestionnairePublicComponent),
+    // No authGuard - public access via token
+    data: { seoTitle: 'Vendor Self-Assessment' }
+  },
+  {
+    path: 'integrations',
+    loadComponent: () => import('./pages/integrations.component').then(m => m.IntegrationsComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Integrations', seoDescription: 'Connect Slack, Microsoft Teams, and custom webhooks to receive real-time DORA compliance notifications.' }
+  },
+  {
     path: 'settings/sso',
     loadComponent: () => import('./pages/sso-settings.component').then(m => m.SsoSettingsComponent),
     canActivate: [authGuard],
