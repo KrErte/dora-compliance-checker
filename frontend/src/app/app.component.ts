@@ -145,6 +145,59 @@ import { ToastService } from './auth/toast.service';
                 <span class="text-[9px] bg-cyan-500/20 text-cyan-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
               </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
+              <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">{{ lang.currentLang === 'et' ? 'RESSURSID' : 'RESOURCES' }}</p>
+              <a routerLink="/dora-explorer" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
+                </svg>
+                {{ lang.currentLang === 'et' ? 'DORA Explorer' : 'DORA Explorer' }}
+                <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
+              </a>
+              <a routerLink="/policy-generator" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/>
+                </svg>
+                {{ lang.currentLang === 'et' ? 'Poliitika generaator' : 'Policy Generator' }}
+                <span class="text-[9px] bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
+              </a>
+              <a routerLink="/framework-mapping" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-blue-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>
+                </svg>
+                {{ lang.currentLang === 'et' ? 'Raamistike kaardistus' : 'Framework Mapping' }}
+              </a>
+              <a routerLink="/cost-calculator" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-green-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+                {{ lang.currentLang === 'et' ? 'Kulukalkulaator' : 'Cost Calculator' }}
+              </a>
+              <a routerLink="/training-quiz" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-pink-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-pink-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                {{ lang.currentLang === 'et' ? 'Koolitustest' : 'Training Quiz' }}
+              </a>
+              <a routerLink="/incident-decision-tree" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-rose-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/>
+                </svg>
+                {{ lang.currentLang === 'et' ? 'Intsidendi klassifikaator' : 'Incident Classifier' }}
+              </a>
+              <a routerLink="/board-report" (click)="toolsMenu = false"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-sky-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
+                </svg>
+                {{ lang.currentLang === 'et' ? 'Juhatuse raport' : 'Board Report' }}
+              </a>
+              <div class="border-t border-slate-700/30 my-1.5"></div>
               <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">NIS2</p>
               <a routerLink="/nis2/scope-check" (click)="toolsMenu = false"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
@@ -329,6 +382,26 @@ import { ToastService } from './auth/toast.service';
                class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Küpsusmudel' : 'Maturity Model' }}</a>
             <a routerLink="/risk-heatmap" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Riskikaart' : 'Risk Heatmap' }}</a>
+          </div>
+          <div class="border-t border-slate-700/50 mt-2 pt-2">
+            <p class="text-[10px] text-slate-600 px-3 mb-1 font-bold uppercase tracking-wider">{{ lang.currentLang === 'et' ? 'RESSURSID' : 'RESOURCES' }}</p>
+            <a routerLink="/dora-explorer" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+              DORA Explorer
+              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-emerald-500/20 text-emerald-400">NEW</span>
+            </a>
+            <a routerLink="/policy-generator" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Poliitika generaator' : 'Policy Generator' }}</a>
+            <a routerLink="/framework-mapping" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-blue-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Raamistike kaardistus' : 'Framework Mapping' }}</a>
+            <a routerLink="/cost-calculator" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-green-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Kulukalkulaator' : 'Cost Calculator' }}</a>
+            <a routerLink="/training-quiz" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-pink-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Koolitustest' : 'Training Quiz' }}</a>
+            <a routerLink="/incident-decision-tree" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-rose-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Intsidendi klassifikaator' : 'Incident Classifier' }}</a>
+            <a routerLink="/board-report" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-sky-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Juhatuse raport' : 'Board Report' }}</a>
           </div>
           <div class="border-t border-slate-700/50 mt-2 pt-2">
             <p class="text-[10px] text-slate-600 px-3 mb-1 font-bold uppercase tracking-wider">NIS2</p>
@@ -532,7 +605,14 @@ export class AppComponent implements OnInit, OnDestroy {
     '/regulatory-updates': { et: 'Regulatiivsed Uuendused | DoraAudit.eu', en: 'Regulatory Updates | DoraAudit.eu' },
     '/forgot-password': { et: 'Unustasid parooli | DoraAudit.eu', en: 'Forgot Password | DoraAudit.eu' },
     '/nis2/results': { et: 'NIS2 Tulemused | DoraAudit.eu', en: 'NIS2 Results | DoraAudit.eu' },
-    '/blog': { et: 'DORA & NIS2 Blogi | DoraAudit.eu', en: 'DORA & NIS2 Blog | DoraAudit.eu' }
+    '/blog': { et: 'DORA & NIS2 Blogi | DoraAudit.eu', en: 'DORA & NIS2 Blog | DoraAudit.eu' },
+    '/dora-explorer': { et: 'DORA Regulatsiooni Sirvija | DoraAudit.eu', en: 'DORA Regulation Explorer | DoraAudit.eu' },
+    '/policy-generator': { et: 'Poliitikadokumentide Generaator | DoraAudit.eu', en: 'Policy Document Generator | DoraAudit.eu' },
+    '/framework-mapping': { et: 'Raamistike Kaardistus | DoraAudit.eu', en: 'Framework Compliance Mapping | DoraAudit.eu' },
+    '/cost-calculator': { et: 'DORA Kulukalkulaator | DoraAudit.eu', en: 'DORA Cost Calculator | DoraAudit.eu' },
+    '/training-quiz': { et: 'DORA Koolitustest | DoraAudit.eu', en: 'DORA Training Quiz | DoraAudit.eu' },
+    '/incident-decision-tree': { et: 'Intsidendi Klassifikaator | DoraAudit.eu', en: 'Incident Classification Tool | DoraAudit.eu' },
+    '/board-report': { et: 'Juhatuse Raport | DoraAudit.eu', en: 'Board Compliance Report | DoraAudit.eu' }
   };
 
   private pageDescriptions: { [path: string]: { et: string; en: string } } = {
@@ -558,7 +638,14 @@ export class AppComponent implements OnInit, OnDestroy {
     '/company-profile': { et: 'Ettevõtte DORA digitaalse vastupidavuse profiil. Turvapäised, SSL ja vastavusandmed.', en: 'Company DORA digital resilience profile. Security headers, SSL and compliance data.' },
     '/incident-simulator': { et: 'IKT intsidendi simulaator. Harjuta DORA-nõuetele vastavat intsidentide klassifitseerimist ja raporteerimist.', en: 'ICT incident simulator. Practice DORA-compliant incident classification and reporting workflows.' },
     '/roi': { et: 'DORA Art. 28(3) Teaberegister. Hallake IKT-teenusepakkujate lepingute registrit.', en: 'DORA Art. 28(3) Register of Information. Manage ICT service provider contract register.' },
-    '/blog': { et: 'Praktilised juhendid ja artiklid DORA ja NIS2 regulatsioonide kohta. IKT lepingute nõuded, intsidentidest teavitamine, teaberegister ja palju muud.', en: 'Practical guides and articles about DORA and NIS2 compliance. ICT contract requirements, incident reporting, register of information, and more.' }
+    '/blog': { et: 'Praktilised juhendid ja artiklid DORA ja NIS2 regulatsioonide kohta. IKT lepingute nõuded, intsidentidest teavitamine, teaberegister ja palju muud.', en: 'Practical guides and articles about DORA and NIS2 compliance. ICT contract requirements, incident reporting, register of information, and more.' },
+    '/dora-explorer': { et: 'Interaktiivne DORA määruse sirvija. Otsi artikleid, loe selgitusi ja mõista vastavusnõudeid.', en: 'Interactive DORA regulation browser. Search articles, read explanations, and understand compliance requirements.' },
+    '/policy-generator': { et: 'Genereeri valmis DORA-vastavad poliitikadokumendid. IKT riskihaldus, intsidendireageerimine, äritegevuse jätkuvus.', en: 'Generate complete DORA-compliant policy documents. ICT risk management, incident response, business continuity.' },
+    '/framework-mapping': { et: 'DORA kaardistus ISO 27001, NIS2, GDPR ja COBIT raamistikele. Arvuta olemasolev katvus.', en: 'Map DORA to ISO 27001, NIS2, GDPR and COBIT frameworks. Calculate your existing compliance coverage.' },
+    '/cost-calculator': { et: 'Hinda DORA vastavuse investeeringut. Arvuta kulud vs võimalikud trahvid ja vaata vastavuse tasuvust.', en: 'Estimate your DORA compliance investment. Calculate costs vs potential fines and see ROI.' },
+    '/training-quiz': { et: 'Interaktiivne DORA koolitustest töötajatele. Testi oma meeskonna teadmisi IKT riskihaldusest.', en: 'Interactive DORA training quiz for staff. Test team knowledge on ICT risk management and digital resilience.' },
+    '/incident-decision-tree': { et: 'Interaktiivne IKT intsidentide klassifitseerimise otsustuspuu. Määra kas intsident nõuab regulaatorile raporteerimist.', en: 'Interactive ICT incident classification decision tree. Determine if your incident requires regulatory reporting.' },
+    '/board-report': { et: 'Genereeri professionaalne DORA vastavusraport juhatusele ühe klikiga.', en: 'Generate a professional board-ready DORA compliance report with one click.' }
   };
 
   constructor(

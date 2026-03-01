@@ -177,6 +177,12 @@ export const routes: Routes = [
     data: { seoTitle: 'Incident Reporting', seoDescription: 'DORA Article 19 ICT incident reporting workflow. Manage initial, intermediate, and final reports with automated deadline tracking.' }
   },
   {
+    path: 'incident-decision-tree',
+    loadComponent: () => import('./pages/incident-decision-tree.component').then(m => m.IncidentDecisionTreeComponent),
+    // No authGuard - free tool for incident classification
+    data: { seoTitle: 'ICT Incident Classification Decision Tree', seoDescription: 'Interactive DORA Article 18 incident classification tool. Determine severity, reporting obligations, and timelines for ICT-related incidents.' }
+  },
+  {
     path: 'tlpt',
     loadComponent: () => import('./pages/tlpt-module.component').then(m => m.TlptModuleComponent),
     canActivate: [authGuard],
@@ -338,10 +344,22 @@ export const routes: Routes = [
     data: { seoTitle: 'Board Risk Dashboard', seoDescription: 'Executive-level ICT risk dashboard for board members. Visualize DORA compliance status and key risk indicators.' }
   },
   {
+    path: 'board-report',
+    loadComponent: () => import('./pages/board-report-generator.component').then(m => m.BoardReportGeneratorComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Board Report Generator', seoDescription: 'Generate professional board-ready DORA compliance reports with one click. Instant executive summaries, pillar dashboards, and recommendations.' }
+  },
+  {
     path: 'fine-calculator',
     loadComponent: () => import('./pages/fine-calculator.component').then(m => m.FineCalculatorComponent),
     // No authGuard - free tool
     data: { seoTitle: 'DORA Fine Calculator', seoDescription: 'Calculate potential DORA non-compliance penalties. Estimate regulatory fines based on your organization profile.' }
+  },
+  {
+    path: 'cost-calculator',
+    loadComponent: () => import('./pages/cost-calculator.component').then(m => m.CostCalculatorComponent),
+    // No authGuard - free ROI tool
+    data: { seoTitle: 'DORA Compliance Cost Calculator', seoDescription: 'Estimate the investment needed for full DORA compliance and compare against potential fines. Unique ROI calculator for financial institutions.' }
   },
   {
     path: 'workspace',
@@ -372,6 +390,48 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/roi/roi-wizard.component').then(m => m.RoiWizardComponent),
     canActivate: [authGuard],
     data: { seoTitle: 'Edit Register Entry' }
+  },
+  {
+    path: 'dora-explorer',
+    loadComponent: () => import('./pages/dora-explorer.component').then(m => m.DoraExplorerComponent),
+    // No authGuard - free SEO content page
+    data: { seoTitle: 'DORA Regulation Explorer', seoDescription: 'Interactive browser for the EU DORA regulation (2022/2554). Search articles, read plain-language explanations, and understand compliance requirements.' }
+  },
+  {
+    path: 'framework-mapping',
+    loadComponent: () => import('./pages/framework-mapping.component').then(m => m.FrameworkMappingComponent),
+    // No authGuard - free SEO content
+    data: { seoTitle: 'Multi-Framework Compliance Mapping', seoDescription: 'See how DORA maps to ISO 27001, NIS2, GDPR, and COBIT. Calculate your existing compliance coverage and identify gaps.' }
+  },
+  {
+    path: 'cost-calculator',
+    loadComponent: () => import('./pages/cost-calculator.component').then(m => m.CostCalculatorComponent),
+    // No authGuard - free tool
+    data: { seoTitle: 'DORA Compliance Cost Calculator', seoDescription: 'Estimate your DORA compliance investment. Calculate costs vs potential fines and see ROI of compliance.' }
+  },
+  {
+    path: 'training-quiz',
+    loadComponent: () => import('./pages/training-quiz.component').then(m => m.TrainingQuizComponent),
+    // No authGuard - free training tool
+    data: { seoTitle: 'DORA Staff Training Quiz', seoDescription: 'Interactive DORA compliance training quiz. Test your team knowledge on ICT risk management, incident reporting, and digital resilience.' }
+  },
+  {
+    path: 'incident-decision-tree',
+    loadComponent: () => import('./pages/incident-decision-tree.component').then(m => m.IncidentDecisionTreeComponent),
+    // No authGuard - free tool
+    data: { seoTitle: 'ICT Incident Classification Tool', seoDescription: 'Interactive DORA incident classification decision tree. Determine if your ICT incident requires regulatory reporting.' }
+  },
+  {
+    path: 'board-report',
+    loadComponent: () => import('./pages/board-report-generator.component').then(m => m.BoardReportGeneratorComponent),
+    // No authGuard - free tool
+    data: { seoTitle: 'Board Compliance Report Generator', seoDescription: 'Generate professional board-ready DORA compliance reports with one click. Executive summaries, pillar dashboards, and recommendations.' }
+  },
+  {
+    path: 'policy-generator',
+    loadComponent: () => import('./pages/policy-generator.component').then(m => m.PolicyGeneratorComponent),
+    // No authGuard - free tool
+    data: { seoTitle: 'DORA Policy Document Generator', seoDescription: 'Generate complete DORA-compliant policy documents. ICT risk management, incident response, business continuity, and more.' }
   },
   {
     path: 'blog',

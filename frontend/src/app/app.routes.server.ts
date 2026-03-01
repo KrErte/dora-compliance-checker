@@ -19,6 +19,13 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'nis2/scope-check', renderMode: RenderMode.Prerender },
   { path: 'contract-analysis', renderMode: RenderMode.Prerender },
   { path: 'blog', renderMode: RenderMode.Prerender },
+  { path: 'dora-explorer', renderMode: RenderMode.Prerender },
+  { path: 'framework-mapping', renderMode: RenderMode.Prerender },
+  { path: 'cost-calculator', renderMode: RenderMode.Prerender },
+  { path: 'training-quiz', renderMode: RenderMode.Prerender },
+  { path: 'incident-decision-tree', renderMode: RenderMode.Prerender },
+  { path: 'board-report', renderMode: RenderMode.Prerender },
+  { path: 'policy-generator', renderMode: RenderMode.Prerender },
 
   // Everything else — client-side only
   { path: '**', renderMode: RenderMode.Client },
