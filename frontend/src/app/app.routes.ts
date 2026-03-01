@@ -422,12 +422,6 @@ export const routes: Routes = [
     data: { seoTitle: 'DORA Staff Training Quiz', seoDescription: 'Interactive DORA compliance training quiz. Test your team knowledge on ICT risk management, incident reporting, and digital resilience.' }
   },
   {
-    path: 'incident-decision-tree',
-    loadComponent: () => import('./pages/incident-decision-tree.component').then(m => m.IncidentDecisionTreeComponent),
-    // No authGuard - free tool
-    data: { seoTitle: 'ICT Incident Classification Tool', seoDescription: 'Interactive DORA incident classification decision tree. Determine if your ICT incident requires regulatory reporting.' }
-  },
-  {
     path: 'policy-generator',
     loadComponent: () => import('./pages/policy-generator.component').then(m => m.PolicyGeneratorComponent),
     // No authGuard - free tool

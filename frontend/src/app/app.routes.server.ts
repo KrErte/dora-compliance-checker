@@ -26,6 +26,12 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'incident-decision-tree', renderMode: RenderMode.Prerender },
   { path: 'board-report', renderMode: RenderMode.Prerender },
   { path: 'policy-generator', renderMode: RenderMode.Prerender },
+  { path: 'contract-generator', renderMode: RenderMode.Prerender },
+  { path: 'contract-checklist', renderMode: RenderMode.Prerender },
+  { path: 'playbook', renderMode: RenderMode.Prerender },
+  { path: 'vendors', renderMode: RenderMode.Prerender },
+  { path: 'nis2/assessment', renderMode: RenderMode.Prerender },
+  { path: 'company-profile', renderMode: RenderMode.Prerender },
 
   // Everything else — client-side only
   { path: '**', renderMode: RenderMode.Client },
