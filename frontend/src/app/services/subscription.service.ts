@@ -263,7 +263,9 @@ export class SubscriptionService {
     // Check legacy payment and migrate if needed
     if (this.hasLegacyPayment() && !this.isPremium()) {
       const payment = JSON.parse(localStorage.getItem('paymentCompleted') || '{}');
-      this.verifyCheckout(payment.checkoutId, 'standard').subscribe();
+      this.verifyCheckout(payment.checkoutId, 'standard').subscribe({
+        error: () => {} // Silent catch — legacy migration, non-critical
+      });
     }
   }
 
@@ -290,6 +292,8 @@ export class SubscriptionService {
       pageUrl: window.location.href,
       sessionId: this.getSessionId(),
       eventData: JSON.stringify({ feature })
-    }).subscribe();
+    }).subscribe({
+      error: () => {} // Silent catch — analytics tracking, non-critical
+    });
   }
 }

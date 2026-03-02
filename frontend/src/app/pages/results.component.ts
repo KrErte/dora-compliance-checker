@@ -902,8 +902,8 @@ export class ResultsComponent implements OnInit {
 
   handleCertificateClick() {
     if (this.subscriptionService.canAccess('CERTIFICATE')) {
-      // Navigate to certificate page
-      window.location.href = `/certificate/${this.result?.id}`;
+      if (!this.result?.id) return;
+      window.location.href = `/certificate/${this.result.id}`;
     } else {
       this.subscriptionService.showUpgrade('CERTIFICATE');
     }

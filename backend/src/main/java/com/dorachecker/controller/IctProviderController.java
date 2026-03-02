@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -82,11 +83,15 @@ public class IctProviderController {
         provider.setExitStrategyDescription(request.exitStrategyDescription());
         provider.setSubcontractingInfo(request.subcontractors());
 
-        if (request.contractStart() != null && !request.contractStart().isEmpty()) {
-            provider.setContractStartDate(LocalDate.parse(request.contractStart()));
-        }
-        if (request.contractEnd() != null && !request.contractEnd().isEmpty()) {
-            provider.setContractEndDate(LocalDate.parse(request.contractEnd()));
+        try {
+            if (request.contractStart() != null && !request.contractStart().isEmpty()) {
+                provider.setContractStartDate(LocalDate.parse(request.contractStart()));
+            }
+            if (request.contractEnd() != null && !request.contractEnd().isEmpty()) {
+                provider.setContractEndDate(LocalDate.parse(request.contractEnd()));
+            }
+        } catch (DateTimeParseException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Invalid date format. Expected yyyy-MM-dd"));
         }
 
         providerRepository.save(provider);
@@ -140,33 +145,42 @@ public class IctProviderController {
         }
         String userId = (String) authentication.getPrincipal();
 
-        List<IctProviderEntity> created = requests.stream().map(request -> {
-            IctProviderEntity provider = new IctProviderEntity();
-            provider.setId(UUID.randomUUID().toString());
-            provider.setUserId(userId);
-            provider.setProviderName(request.name());
-            provider.setProviderCountry(request.country());
-            provider.setCountryCode(request.countryCode());
-            provider.setServiceType(request.type() != null ? request.type() : "Muu");
-            provider.setServiceDescription(request.type() != null ? request.type() : "");
-            provider.setCriticality(request.criticality());
-            provider.setCritical("critical".equals(request.criticality()));
-            provider.setContractNumber(request.contractNumber());
-            int calculatedRisk = calculateRiskScore(request.countryCode(), request.criticality(), request.hasExitStrategy());
-            provider.setRiskScore(request.riskScore() != null ? request.riskScore() : calculatedRisk);
-            provider.setHasExitStrategy(request.hasExitStrategy());
-            provider.setExitStrategyDescription(request.exitStrategyDescription());
-            provider.setSubcontractingInfo(request.subcontractors());
+        List<IctProviderEntity> created;
+        try {
+            created = requests.stream().map(request -> {
+                IctProviderEntity provider = new IctProviderEntity();
+                provider.setId(UUID.randomUUID().toString());
+                provider.setUserId(userId);
+                provider.setProviderName(request.name());
+                provider.setProviderCountry(request.country());
+                provider.setCountryCode(request.countryCode());
+                provider.setServiceType(request.type() != null ? request.type() : "Muu");
+                provider.setServiceDescription(request.type() != null ? request.type() : "");
+                provider.setCriticality(request.criticality());
+                provider.setCritical("critical".equals(request.criticality()));
+                provider.setContractNumber(request.contractNumber());
+                int calculatedRisk = calculateRiskScore(request.countryCode(), request.criticality(), request.hasExitStrategy());
+                provider.setRiskScore(request.riskScore() != null ? request.riskScore() : calculatedRisk);
+                provider.setHasExitStrategy(request.hasExitStrategy());
+                provider.setExitStrategyDescription(request.exitStrategyDescription());
+                provider.setSubcontractingInfo(request.subcontractors());
 
-            if (request.contractStart() != null && !request.contractStart().isEmpty()) {
-                provider.setContractStartDate(LocalDate.parse(request.contractStart()));
-            }
-            if (request.contractEnd() != null && !request.contractEnd().isEmpty()) {
-                provider.setContractEndDate(LocalDate.parse(request.contractEnd()));
-            }
+                try {
+                    if (request.contractStart() != null && !request.contractStart().isEmpty()) {
+                        provider.setContractStartDate(LocalDate.parse(request.contractStart()));
+                    }
+                    if (request.contractEnd() != null && !request.contractEnd().isEmpty()) {
+                        provider.setContractEndDate(LocalDate.parse(request.contractEnd()));
+                    }
+                } catch (DateTimeParseException e) {
+                    throw new IllegalArgumentException("Invalid date format");
+                }
 
-            return providerRepository.save(provider);
-        }).toList();
+                return providerRepository.save(provider);
+            }).toList();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Invalid date format. Expected yyyy-MM-dd"));
+        }
 
         return ResponseEntity.ok(Map.of(
             "imported", created.size(),

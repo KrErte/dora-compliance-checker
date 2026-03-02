@@ -181,6 +181,9 @@ public class OAuth2Controller {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
         ResponseEntity<Map> response = restTemplate.postForEntity(
                 "https://oauth2.googleapis.com/token", request, Map.class);
+        if (response.getBody() == null) {
+            throw new RuntimeException("Empty response from Google token endpoint");
+        }
         return response.getBody();
     }
 
@@ -192,6 +195,9 @@ public class OAuth2Controller {
         ResponseEntity<Map> response = restTemplate.exchange(
                 "https://www.googleapis.com/oauth2/v3/userinfo",
                 HttpMethod.GET, request, Map.class);
+        if (response.getBody() == null) {
+            throw new RuntimeException("Empty response from Google userinfo endpoint");
+        }
         return response.getBody();
     }
 
@@ -210,6 +216,9 @@ public class OAuth2Controller {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
         ResponseEntity<Map> response = restTemplate.postForEntity(
                 "https://login.microsoftonline.com/common/oauth2/v2.0/token", request, Map.class);
+        if (response.getBody() == null) {
+            throw new RuntimeException("Empty response from Microsoft token endpoint");
+        }
         return response.getBody();
     }
 
@@ -221,6 +230,9 @@ public class OAuth2Controller {
         ResponseEntity<Map> response = restTemplate.exchange(
                 "https://graph.microsoft.com/v1.0/me",
                 HttpMethod.GET, request, Map.class);
+        if (response.getBody() == null) {
+            throw new RuntimeException("Empty response from Microsoft Graph endpoint");
+        }
         return response.getBody();
     }
 

@@ -11,6 +11,11 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; lv?: string; lt?:
   'nav.subtitle': { et: 'IKT-lepingute hindamine', en: 'ICT Contract Assessment', lv: 'IKT l\u012bgumu nov\u0113rt\u0113\u0161ana', lt: 'IKT sutar\u010di\u0173 vertinimas' },
   'nav.methodology': { et: 'Metoodika', en: 'Methodology', lv: 'Metodolo\u0123ija', lt: 'Metodologija' },
   'nav.brand': { et: 'DoraAudit.eu', en: 'DoraAudit.eu' },
+
+  // Error interceptor
+  'error.no_connection': { et: 'Ühendus serveriga puudub', en: 'No connection to server', lv: 'Nav savienojuma ar serveri', lt: 'N\u0117ra ry\u0161io su serveriu' },
+  'error.too_many_requests': { et: 'Liiga palju päringuid. Proovi hiljem uuesti.', en: 'Too many requests. Please try again later.', lv: 'P\u0101r\u0101k daudz piepras\u012bjumu. M\u0113\u0123iniet v\u0113l\u0101k.', lt: 'Per daug u\u017eklaus\u0173. Bandykite v\u0117liau.' },
+  'error.server_error': { et: 'Serveri viga. Proovi hiljem uuesti.', en: 'Server error. Please try again later.', lv: 'Servera k\u013c\u016bda. M\u0113\u0123iniet v\u0113l\u0101k.', lt: 'Serverio klaida. Bandykite v\u0117liau.' },
   'nav.nis2_scope': { et: 'Kohaldumise kontroll', en: 'Scope Check', lv: 'Tv\u0113ruma p\u0101rbaude', lt: 'Apimties patikra' },
   'nav.contract': { et: 'Lepinguanalüüs', en: 'Contract Analysis', lv: 'L\u012bgumu anal\u012bze', lt: 'Sutar\u010di\u0173 analiz\u0117' },
   'nav.contract_audit': { et: 'Lepinguaudit', en: 'Contract Audit', lv: 'L\u012bgumu audits', lt: 'Sutar\u010di\u0173 auditas' },
