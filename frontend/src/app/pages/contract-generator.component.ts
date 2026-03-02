@@ -241,7 +241,7 @@ export class ContractGeneratorComponent {
   };
 
   constructor(public lang: LangService, private router: Router) {
-    this.clauseLang = (this.lang.currentLang === 'et' ? 'et' : 'en') as ClauseLanguage;
+    this.clauseLang = (this.lang.t('contractgen.en')) as ClauseLanguage;
     this.clauseSelections = MODEL_CLAUSES.map(clause => ({
       clause,
       selected: true

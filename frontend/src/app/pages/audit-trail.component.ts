@@ -23,13 +23,13 @@ interface AuditEntry {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
               </svg>
             </div>
-            {{ lang.currentLang === 'et' ? 'Auditirada' : 'Audit Trail' }}
+            {{ lang.t('audit.audit_trail') }}
           </h1>
-          <p class="text-slate-400 text-sm mt-1">{{ lang.currentLang === 'et' ? 'Eksporditav tegevuslogi regulaatoritele' : 'Exportable activity log for regulators' }}</p>
+          <p class="text-slate-400 text-sm mt-1">{{ lang.t('audit.exportable_activity_log_for_regulators') }}</p>
         </div>
         <button (click)="exportCsv()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-slate-500 to-zinc-500 text-white font-semibold text-sm hover:shadow-lg transition-all flex items-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          {{ lang.currentLang === 'et' ? 'Ekspordi CSV' : 'Export CSV' }}
+          {{ lang.t('audit.export_csv') }}
         </button>
       </div>
 
@@ -38,7 +38,7 @@ interface AuditEntry {
         @for (cat of categories; track cat.key) {
           <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-white">{{ countByCategory(cat.key) }}</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? cat.labelEt : cat.labelEn }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.l(cat.labelEt, cat.labelEn) }}</div>
           </div>
         }
       </div>
@@ -56,7 +56,7 @@ interface AuditEntry {
           }
           @if (entries().length === 0) {
             <div class="px-6 py-12 text-center text-slate-400">
-              {{ lang.currentLang === 'et' ? 'Tegevusi pole registreeritud' : 'No activities recorded' }}
+              {{ lang.t('audit.no_activities_recorded') }}
             </div>
           }
         </div>

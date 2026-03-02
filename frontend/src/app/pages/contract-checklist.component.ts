@@ -34,15 +34,15 @@ interface ChecklistSection {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
               </svg>
             </div>
-            {{ lang.currentLang === 'et' ? 'DORA Art. 30 lepingu kontrollnimekiri' : 'DORA Art. 30 Contract Checklist' }}
+            {{ lang.t('checklist.dora_art_30_contract_checklist') }}
           </h1>
-          <p class="text-slate-400 text-sm mt-1">{{ lang.currentLang === 'et' ? 'Kontrollige, kas teie ICT leping sisaldab k\u00f5iki DORA Art. 30 kohustuslikke klausleid' : 'Verify that your ICT contract includes all mandatory DORA Art. 30 clauses' }}</p>
+          <p class="text-slate-400 text-sm mt-1">{{ lang.t('checklist.verify_that_your_ict_contract_includes_a') }}</p>
         </div>
         <div class="flex items-center gap-3">
           <label class="flex items-center gap-2 text-sm text-slate-300 cursor-pointer">
             <input type="checkbox" [(ngModel)]="criticalFunction"
                    class="w-4 h-4 rounded border-slate-600 bg-slate-900 text-violet-500 focus:ring-violet-500">
-            {{ lang.currentLang === 'et' ? 'Kriitilise funktsiooni tugi' : 'Critical function support' }}
+            {{ lang.t('checklist.critical_function_support') }}
           </label>
         </div>
       </div>
@@ -67,19 +67,19 @@ interface ChecklistSection {
           <div class="flex-1 grid grid-cols-4 gap-4">
             <div class="text-center">
               <div class="text-xl font-bold text-emerald-400">{{ countByStatus('yes') }}</div>
-              <div class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? 'Olemas' : 'Present' }}</div>
+              <div class="text-xs text-slate-400">{{ lang.t('checklist.present') }}</div>
             </div>
             <div class="text-center">
               <div class="text-xl font-bold text-amber-400">{{ countByStatus('partial') }}</div>
-              <div class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? 'Osaline' : 'Partial' }}</div>
+              <div class="text-xs text-slate-400">{{ lang.t('checklist.partial') }}</div>
             </div>
             <div class="text-center">
               <div class="text-xl font-bold text-red-400">{{ countByStatus('no') }}</div>
-              <div class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? 'Puudub' : 'Missing' }}</div>
+              <div class="text-xs text-slate-400">{{ lang.t('checklist.missing') }}</div>
             </div>
             <div class="text-center">
               <div class="text-xl font-bold text-slate-400">{{ countByStatus(null) }}</div>
-              <div class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? 'Hindamata' : 'Not Assessed' }}</div>
+              <div class="text-xs text-slate-400">{{ lang.t('checklist.not_assessed') }}</div>
             </div>
           </div>
         </div>
@@ -90,7 +90,7 @@ interface ChecklistSection {
         <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl overflow-hidden">
           <div class="px-6 py-4 border-b border-slate-700/50 flex items-center justify-between cursor-pointer"
                (click)="toggleSection(section.id)">
-            <h2 class="text-lg font-semibold text-white">{{ lang.currentLang === 'et' ? section.title.et : section.title.en }}</h2>
+            <h2 class="text-lg font-semibold text-white">{{ lang.l(section.title.et, section.title.en) }}</h2>
             <div class="flex items-center gap-3">
               <span class="text-xs text-slate-400">{{ getSectionScore(section) }}%</span>
               <div class="w-16 h-1.5 bg-slate-700 rounded-full overflow-hidden">
@@ -116,26 +116,26 @@ interface ChecklistSection {
                         <div class="flex items-center gap-2 mb-1">
                           <span class="px-1.5 py-0.5 rounded text-[10px] font-mono text-violet-400 bg-violet-500/10">{{ item.articleRef }}</span>
                           @if (item.critical) {
-                            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold text-amber-400 bg-amber-500/10">{{ lang.currentLang === 'et' ? 'KRIITILINE' : 'CRITICAL' }}</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold text-amber-400 bg-amber-500/10">{{ lang.t('checklist.critical') }}</span>
                           }
                         </div>
-                        <h3 class="text-sm font-medium text-white">{{ lang.currentLang === 'et' ? item.requirement.et : item.requirement.en }}</h3>
-                        <p class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? item.description.et : item.description.en }}</p>
+                        <h3 class="text-sm font-medium text-white">{{ lang.l(item.requirement.et, item.requirement.en) }}</h3>
+                        <p class="text-xs text-slate-400 mt-1">{{ lang.l(item.description.et, item.description.en) }}</p>
                       </div>
 
                       <!-- Status buttons -->
                       <div class="flex items-center gap-1.5 flex-shrink-0">
                         <button (click)="setStatus(item, 'yes')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
                                 [class]="item.status === 'yes' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-slate-700/30 text-slate-500 hover:text-slate-300'">
-                          {{ lang.currentLang === 'et' ? 'Jah' : 'Yes' }}
+                          {{ lang.t('checklist.yes') }}
                         </button>
                         <button (click)="setStatus(item, 'partial')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
                                 [class]="item.status === 'partial' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : 'bg-slate-700/30 text-slate-500 hover:text-slate-300'">
-                          {{ lang.currentLang === 'et' ? 'Osaline' : 'Partial' }}
+                          {{ lang.t('checklist.partial_9') }}
                         </button>
                         <button (click)="setStatus(item, 'no')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
                                 [class]="item.status === 'no' ? 'bg-red-500/20 text-red-400 border border-red-500/40' : 'bg-slate-700/30 text-slate-500 hover:text-slate-300'">
-                          {{ lang.currentLang === 'et' ? 'Ei' : 'No' }}
+                          {{ lang.t('checklist.no') }}
                         </button>
                         <button (click)="setStatus(item, 'na')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
                                 [class]="item.status === 'na' ? 'bg-slate-500/20 text-slate-300 border border-slate-500/40' : 'bg-slate-700/30 text-slate-500 hover:text-slate-300'">
@@ -148,7 +148,7 @@ interface ChecklistSection {
                       <div class="mt-2">
                         <input type="text" [(ngModel)]="item.notes"
                                class="w-full px-3 py-1.5 bg-slate-900/30 border border-slate-700/30 rounded-lg text-xs text-slate-300 placeholder-slate-600 focus:outline-none focus:border-violet-500/30"
-                               [placeholder]="lang.currentLang === 'et' ? 'M\u00e4rkmed (valikuline)...' : 'Notes (optional)...'">
+                               [placeholder]="lang.t('checklist.notes_optional')">
                       </div>
                     }
                   </div>
@@ -166,7 +166,7 @@ interface ChecklistSection {
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/>
           </svg>
-          {{ lang.currentLang === 'et' ? 'Salvesta hinnang' : 'Save Assessment' }}
+          {{ lang.t('checklist.save_assessment') }}
         </button>
       </div>
     </div>

@@ -138,7 +138,7 @@ interface AssessmentResult {
                     ? 'px-4 py-2 rounded-lg text-sm font-medium bg-amber-500/20 text-amber-400 border border-amber-500/30'
                     : 'px-4 py-2 rounded-lg text-sm font-medium bg-slate-800/50 text-slate-300 border border-slate-700/50 hover:bg-slate-700/50 hover:text-slate-200 transition-colors'">
             <span class="mr-1.5">{{ getDomainIcon(domain.code) }}</span>
-            {{ lang.currentLang === 'et' ? domain.nameEt : domain.nameEn }}
+            {{ lang.l(domain.nameEt, domain.nameEn) }}
             <span *ngIf="getDomainProgress(domain) === 100" class="ml-1.5 text-emerald-400">&#10003;</span>
           </button>
         </div>
@@ -148,7 +148,7 @@ interface AssessmentResult {
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-semibold text-amber-400 flex items-center gap-2">
               <span class="text-xl">{{ getDomainIcon(domains[activeDomain].code) }}</span>
-              {{ lang.currentLang === 'et' ? domains[activeDomain].nameEt : domains[activeDomain].nameEn }}
+              {{ lang.l(domains[activeDomain].nameEt, domains[activeDomain].nameEn) }}
             </h2>
             <span class="text-xs px-2 py-1 rounded-full"
                   [class]="getDomainProgress(domains[activeDomain]) === 100 ? 'bg-emerald-500/15 text-emerald-400' : 'bg-slate-700/50 text-slate-400'">
@@ -163,10 +163,10 @@ interface AssessmentResult {
               <div class="mb-3">
                 <p class="text-slate-100 mb-1">
                   <span class="text-slate-400 text-sm mr-2">{{ qi + 1 }}.</span>
-                  {{ lang.currentLang === 'et' ? q.questionEt : q.questionEn }}
+                  {{ lang.l(q.questionEt, q.questionEn) }}
                 </p>
                 <p *ngIf="q.guidanceEt || q.guidanceEn" class="text-xs text-slate-400 mt-1">
-                  {{ lang.currentLang === 'et' ? q.guidanceEt : q.guidanceEn }}
+                  {{ lang.l(q.guidanceEt, q.guidanceEn) }}
                 </p>
                 <span *ngIf="q.articleReference" class="text-xs text-slate-600 mt-1 inline-block">{{ q.articleReference }}</span>
               </div>
@@ -190,7 +190,7 @@ interface AssessmentResult {
               <div class="mb-3">
                 <p class="text-slate-100 mb-1">
                   <span class="text-slate-400 text-sm mr-2">{{ qi + 1 }}.</span>
-                  {{ lang.currentLang === 'et' ? q.questionEt : q.questionEn }}
+                  {{ lang.l(q.questionEt, q.questionEn) }}
                 </p>
               </div>
               <div class="flex flex-wrap gap-2">
@@ -335,7 +335,7 @@ interface AssessmentResult {
 
             <div class="space-y-2 mb-6">
               <div *ngFor="let ds of result.domainScores" class="flex items-center justify-between text-sm">
-                <span class="text-slate-400">{{ lang.currentLang === 'et' ? ds.nameEt : ds.nameEn }}</span>
+                <span class="text-slate-400">{{ lang.l(ds.nameEt, ds.nameEn) }}</span>
                 <div class="flex items-center gap-2">
                   <div class="w-20 h-1.5 bg-slate-700 rounded-full">
                     <div class="h-1.5 rounded-full transition-all"
@@ -498,7 +498,7 @@ export class Nis2AssessmentComponent implements OnInit {
       5: { et: 'Optimeeritud', en: 'Optimized' }
     };
     const label = labels[score];
-    return label ? (this.lang.currentLang === 'et' ? label.et : label.en) : '';
+    return label ? this.lang.pick(label) : '';
   }
 
   getScoreButtonActiveClass(score: number): string {

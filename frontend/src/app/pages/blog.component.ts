@@ -760,7 +760,7 @@ const ARTICLES: BlogArticle[] = [
       <div class="max-w-3xl mx-auto">
         <a routerLink="/blog" class="inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-emerald-400 transition-colors mb-6">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-          {{ lang.currentLang === 'et' ? 'Tagasi artiklite juurde' : 'Back to articles' }}
+          {{ lang.t('blog.back_to_articles') }}
         </a>
 
         <div class="flex items-center gap-3 mb-4">
@@ -769,11 +769,11 @@ const ARTICLES: BlogArticle[] = [
             {{ selectedArticle.category }}
           </span>
           <span class="text-xs text-slate-500">{{ selectedArticle.date }}</span>
-          <span class="text-xs text-slate-500">{{ selectedArticle.readTime }} min {{ lang.currentLang === 'et' ? 'lugemist' : 'read' }}</span>
+          <span class="text-xs text-slate-500">{{ selectedArticle.readTime }} min {{ lang.t('blog.read') }}</span>
         </div>
 
         <h1 class="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
-          {{ lang.currentLang === 'et' ? selectedArticle.title.et : selectedArticle.title.en }}
+          {{ lang.l(selectedArticle.title.et, selectedArticle.title.en) }}
         </h1>
 
         <div class="prose prose-invert prose-emerald max-w-none
@@ -786,7 +786,7 @@ const ARTICLES: BlogArticle[] = [
                     prose-table:border-collapse prose-table:w-full
                     prose-th:bg-slate-700/50 prose-th:text-slate-200 prose-th:px-4 prose-th:py-2 prose-th:text-left prose-th:border prose-th:border-slate-600
                     prose-td:px-4 prose-td:py-2 prose-td:border prose-td:border-slate-700 prose-td:text-slate-300"
-             [innerHTML]="lang.currentLang === 'et' ? selectedArticle.content.et : selectedArticle.content.en">
+             [innerHTML]="lang.l(selectedArticle.content.et, selectedArticle.content.en)">
         </div>
 
         <div class="flex flex-wrap gap-2 mt-8 pt-6 border-t border-slate-700/50">
@@ -798,15 +798,13 @@ const ARTICLES: BlogArticle[] = [
         <!-- CTA -->
         <div class="mt-10 p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20">
           <h3 class="text-lg font-semibold text-white mb-2">
-            {{ lang.currentLang === 'et' ? 'Alustage DORA vastavuse hindamist' : 'Start Your DORA Compliance Assessment' }}
+            {{ lang.t('blog.start_your_dora_compliance_assessment') }}
           </h3>
           <p class="text-sm text-slate-400 mb-4">
-            {{ lang.currentLang === 'et'
-               ? 'Tasuta hindamine 37 küsimusega. Saate kohesed tulemused ja personaalse tegevuskava.'
-               : 'Free assessment with 37 questions. Get instant results and a personalized action plan.' }}
+            {{ lang.t('blog.free_assessment_with_37_questions_get_in') }}
           </p>
           <a routerLink="/assessment" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-cyan-500 text-white hover:from-emerald-400 hover:to-cyan-400 transition-all">
-            {{ lang.currentLang === 'et' ? 'Alusta hindamist' : 'Start Assessment' }}
+            {{ lang.t('blog.start_assessment') }}
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
         </div>
@@ -818,15 +816,13 @@ const ARTICLES: BlogArticle[] = [
           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
           </svg>
-          {{ lang.currentLang === 'et' ? 'Artiklid ja juhendid' : 'Articles & Guides' }}
+          {{ lang.t('blog.articles_guides') }}
         </div>
         <h1 class="text-3xl sm:text-4xl font-bold text-white mb-3">
-          {{ lang.currentLang === 'et' ? 'DORA & NIS2 Blogi' : 'DORA & NIS2 Blog' }}
+          {{ lang.t('blog.dora_nis2_blog') }}
         </h1>
         <p class="text-slate-400 max-w-2xl mx-auto">
-          {{ lang.currentLang === 'et'
-             ? 'Praktilised juhendid ja artiklid DORA ja NIS2 regulatsioonide kohta. Aidame teil mõista nõudeid ja saavutada vastavus.'
-             : 'Practical guides and articles about DORA and NIS2 regulations. We help you understand requirements and achieve compliance.' }}
+          {{ lang.t('blog.practical_guides_and_articles_about_dora') }}
         </p>
       </div>
 
@@ -835,7 +831,7 @@ const ARTICLES: BlogArticle[] = [
         <button (click)="filterCategory = null"
                 class="px-4 py-2 rounded-lg text-sm font-medium transition-all"
                 [ngClass]="filterCategory === null ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-700/30'">
-          {{ lang.currentLang === 'et' ? 'Kõik' : 'All' }}
+          {{ lang.t('blog.all') }}
         </button>
         <button (click)="filterCategory = 'DORA'"
                 class="px-4 py-2 rounded-lg text-sm font-medium transition-all"
@@ -863,13 +859,13 @@ const ARTICLES: BlogArticle[] = [
               <span class="text-xs text-slate-500">{{ article.readTime }} min</span>
             </div>
             <h2 class="text-lg font-semibold text-white group-hover:text-emerald-400 transition-colors mb-2 leading-snug">
-              {{ lang.currentLang === 'et' ? article.title.et : article.title.en }}
+              {{ lang.l(article.title.et, article.title.en) }}
             </h2>
             <p class="text-sm text-slate-400 leading-relaxed line-clamp-3">
-              {{ lang.currentLang === 'et' ? article.excerpt.et : article.excerpt.en }}
+              {{ lang.l(article.excerpt.et, article.excerpt.en) }}
             </p>
             <div class="flex items-center gap-1.5 mt-4 text-xs text-emerald-400 group-hover:gap-2.5 transition-all">
-              {{ lang.currentLang === 'et' ? 'Loe edasi' : 'Read more' }}
+              {{ lang.t('blog.read_more') }}
               <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </div>
           </a>
@@ -879,15 +875,13 @@ const ARTICLES: BlogArticle[] = [
       <!-- Newsletter CTA -->
       <div class="mt-12 p-8 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-800/40 border border-slate-700/50 text-center">
         <h3 class="text-xl font-semibold text-white mb-2">
-          {{ lang.currentLang === 'et' ? 'Hoia end kursis' : 'Stay Informed' }}
+          {{ lang.t('blog.stay_informed') }}
         </h3>
         <p class="text-sm text-slate-400 mb-4 max-w-lg mx-auto">
-          {{ lang.currentLang === 'et'
-             ? 'Registreeruge DoraAudit kontoga, et saada teavitusi uute artiklite ja regulatiivsete muudatuste kohta.'
-             : 'Register a DoraAudit account to receive notifications about new articles and regulatory changes.' }}
+          {{ lang.t('blog.register_a_doraaudit_account_to_receive') }}
         </p>
         <a routerLink="/register" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-cyan-500 text-white hover:from-emerald-400 hover:to-cyan-400 transition-all">
-          {{ lang.currentLang === 'et' ? 'Registreeri tasuta' : 'Register for Free' }}
+          {{ lang.t('blog.register_for_free') }}
         </a>
       </div>
     }
@@ -922,9 +916,9 @@ export class BlogComponent implements OnInit {
         if (!this.selectedArticle) {
           this.router.navigate(['/blog']);
         } else {
-          const title = this.lang.currentLang === 'et' ? this.selectedArticle.title.et : this.selectedArticle.title.en;
+          const title = this.lang.l(this.selectedArticle.title.et, this.selectedArticle.title.en);
           this.titleService.setTitle(`${title} | DoraAudit.eu`);
-          const desc = this.lang.currentLang === 'et' ? this.selectedArticle.excerpt.et : this.selectedArticle.excerpt.en;
+          const desc = this.lang.l(this.selectedArticle.excerpt.et, this.selectedArticle.excerpt.en);
           this.meta.updateTag({ name: 'description', content: desc });
         }
       } else {

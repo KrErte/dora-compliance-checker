@@ -24,9 +24,9 @@ interface MaturityArea {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
             </svg>
           </div>
-          {{ lang.currentLang === 'et' ? 'K\u00fcpsusmudeli hindamine' : 'Maturity Model Assessment' }}
+          {{ lang.t('maturity.maturity_model_assessment') }}
         </h1>
-        <p class="text-slate-400 text-sm mt-1">{{ lang.currentLang === 'et' ? 'Hinnake oma DORA vastavuse k\u00fcpsust 0-5 skaalal iga valdkonna kohta' : 'Assess your DORA compliance maturity on a 0-5 scale per area' }}</p>
+        <p class="text-slate-400 text-sm mt-1">{{ lang.t('maturity.assess_your_dora_compliance_maturity_on') }}</p>
       </div>
 
       <!-- Overall maturity -->
@@ -57,12 +57,12 @@ interface MaturityArea {
               }
             </div>
             <div class="mt-2 text-xs text-slate-400">
-              0={{ lang.currentLang === 'et' ? 'Puudub' : 'Non-existent' }},
-              1={{ lang.currentLang === 'et' ? 'Alustav' : 'Initial' }},
-              2={{ lang.currentLang === 'et' ? 'Arenev' : 'Developing' }},
-              3={{ lang.currentLang === 'et' ? 'Defineeritud' : 'Defined' }},
-              4={{ lang.currentLang === 'et' ? 'Hallatav' : 'Managed' }},
-              5={{ lang.currentLang === 'et' ? 'Optimeeritud' : 'Optimised' }}
+              0={{ lang.t('maturity.nonexistent') }},
+              1={{ lang.t('maturity.initial') }},
+              2={{ lang.t('maturity.developing') }},
+              3={{ lang.t('maturity.defined') }},
+              4={{ lang.t('maturity.managed') }},
+              5={{ lang.t('maturity.optimised') }}
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@ interface MaturityArea {
         <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl overflow-hidden">
           <div class="px-6 py-4 border-b border-slate-700/50 flex items-center justify-between cursor-pointer"
                (click)="togglePillar(pillar.id)">
-            <h2 class="text-lg font-semibold text-white">{{ lang.currentLang === 'et' ? pillar.nameEt : pillar.nameEn }}</h2>
+            <h2 class="text-lg font-semibold text-white">{{ lang.l(pillar.nameEt, pillar.nameEn) }}</h2>
             <div class="flex items-center gap-3">
               <span class="text-sm font-bold" [class]="getPillarAverage(pillar.id) >= 4 ? 'text-emerald-400' : getPillarAverage(pillar.id) >= 2.5 ? 'text-amber-400' : 'text-red-400'">
                 {{ getPillarAverage(pillar.id).toFixed(1) }}/5
@@ -89,7 +89,7 @@ interface MaturityArea {
               @for (area of getAreasForPillar(pillar.id); track area.id) {
                 <div class="px-6 py-3 flex items-center gap-4">
                   <div class="flex-1 min-w-0">
-                    <div class="text-sm text-white">{{ lang.currentLang === 'et' ? area.name.et : area.name.en }}</div>
+                    <div class="text-sm text-white">{{ lang.l(area.name.et, area.name.en) }}</div>
                     <div class="text-[10px] text-slate-500">{{ area.articleRef }}</div>
                   </div>
                   <div class="flex gap-1">
@@ -110,7 +110,7 @@ interface MaturityArea {
 
       <div class="flex justify-center">
         <button (click)="save()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white font-semibold text-sm hover:shadow-lg transition-all">
-          {{ lang.currentLang === 'et' ? 'Salvesta hinnang' : 'Save Assessment' }}
+          {{ lang.t('maturity.save_assessment') }}
         </button>
       </div>
     </div>

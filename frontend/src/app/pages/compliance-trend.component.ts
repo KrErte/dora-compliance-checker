@@ -17,9 +17,9 @@ import { AssessmentResult } from '../models';
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
             </svg>
           </div>
-          {{ lang.currentLang === 'et' ? 'Vastavuse trend' : 'Compliance Trend' }}
+          {{ lang.t('trend.compliance_trend') }}
         </h1>
-        <p class="text-slate-400 text-sm mt-1">{{ lang.currentLang === 'et' ? 'Vastavuse paranemine ajas hindamiste p\u00f5hjal' : 'Compliance improvement over time based on assessments' }}</p>
+        <p class="text-slate-400 text-sm mt-1">{{ lang.t('trend.compliance_improvement_over_time_based_o') }}</p>
       </div>
 
       @if (loading()) {
@@ -30,14 +30,14 @@ import { AssessmentResult } from '../models';
 
       @if (!loading() && history().length === 0) {
         <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
-          <p class="text-slate-400">{{ lang.currentLang === 'et' ? 'Trendi n\u00e4gemiseks tehke v\u00e4hemalt 2 hindamist' : 'Complete at least 2 assessments to see trends' }}</p>
+          <p class="text-slate-400">{{ lang.t('trend.complete_at_least_2_assessments_to_see_t') }}</p>
         </div>
       }
 
       @if (!loading() && history().length > 0) {
         <!-- Score trend chart (CSS-only bar chart) -->
         <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
-          <h2 class="text-lg font-semibold text-white mb-4">{{ lang.currentLang === 'et' ? 'Skooride trend' : 'Score Trend' }}</h2>
+          <h2 class="text-lg font-semibold text-white mb-4">{{ lang.t('trend.score_trend') }}</h2>
           <div class="flex items-end gap-2 h-48">
             @for (item of history(); track item.id) {
               <div class="flex-1 flex flex-col items-center gap-1">
@@ -58,16 +58,16 @@ import { AssessmentResult } from '../models';
         @if (history().length >= 2) {
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 text-center">
-              <div class="text-sm text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Esimene skoor' : 'First Score' }}</div>
+              <div class="text-sm text-slate-400 mb-1">{{ lang.t('trend.first_score') }}</div>
               <div class="text-2xl font-bold text-white">{{ history()[history().length - 1].scorePercentage }}%</div>
             </div>
             <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 text-center">
-              <div class="text-sm text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Viimane skoor' : 'Latest Score' }}</div>
+              <div class="text-sm text-slate-400 mb-1">{{ lang.t('trend.latest_score') }}</div>
               <div class="text-2xl font-bold text-white">{{ history()[0].scorePercentage }}%</div>
             </div>
             <div class="bg-slate-800/50 border rounded-xl p-5 text-center"
                  [class]="improvement() > 0 ? 'border-emerald-500/30' : improvement() < 0 ? 'border-red-500/30' : 'border-slate-700/50'">
-              <div class="text-sm text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Muutus' : 'Change' }}</div>
+              <div class="text-sm text-slate-400 mb-1">{{ lang.t('trend.change') }}</div>
               <div class="text-2xl font-bold" [class]="improvement() > 0 ? 'text-emerald-400' : improvement() < 0 ? 'text-red-400' : 'text-slate-400'">
                 {{ improvement() > 0 ? '+' : '' }}{{ improvement() }}%
               </div>
@@ -78,7 +78,7 @@ import { AssessmentResult } from '../models';
         <!-- Assessment history table -->
         <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl overflow-hidden">
           <div class="px-6 py-4 border-b border-slate-700/50">
-            <h2 class="text-lg font-semibold text-white">{{ lang.currentLang === 'et' ? 'Hindamiste ajalugu' : 'Assessment History' }}</h2>
+            <h2 class="text-lg font-semibold text-white">{{ lang.t('trend.assessment_history') }}</h2>
           </div>
           <div class="divide-y divide-slate-700/30">
             @for (item of history(); track item.id) {

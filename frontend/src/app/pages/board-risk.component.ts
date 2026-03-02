@@ -168,17 +168,17 @@ interface RiskCalculationResult {
                   <option value="" disabled>{{ lang.t('board_risk.select_sector') }}</option>
                   <optgroup [label]="lang.t('board_risk.sectors_nis2_essential')">
                     <option *ngFor="let s of essentialSectors" [value]="s.code">
-                      {{ lang.currentLang === 'et' ? s.nameEt : s.nameEn }}
+                      {{ lang.l(s.nameEt, s.nameEn) }}
                     </option>
                   </optgroup>
                   <optgroup [label]="lang.t('board_risk.sectors_nis2_important')">
                     <option *ngFor="let s of importantSectors" [value]="s.code">
-                      {{ lang.currentLang === 'et' ? s.nameEt : s.nameEn }}
+                      {{ lang.l(s.nameEt, s.nameEn) }}
                     </option>
                   </optgroup>
                   <optgroup [label]="lang.t('board_risk.sectors_dora')">
                     <option *ngFor="let s of doraSectors" [value]="s.code">
-                      {{ lang.currentLang === 'et' ? s.nameEt : s.nameEn }}
+                      {{ lang.l(s.nameEt, s.nameEn) }}
                     </option>
                   </optgroup>
                 </select>
@@ -199,7 +199,7 @@ interface RiskCalculationResult {
                       [value]="role.value"
                       class="sr-only"
                     />
-                    <span class="text-xs font-medium">{{ lang.currentLang === 'et' ? role.labelEt : role.labelEn }}</span>
+                    <span class="text-xs font-medium">{{ lang.l(role.labelEt, role.labelEn) }}</span>
                   </label>
                 </div>
               </div>
@@ -661,9 +661,7 @@ export class BoardRiskComponent implements OnInit, OnDestroy {
   }
 
   private updateTitle(): void {
-    const title = this.lang.currentLang === 'et'
-      ? 'Juhatuse riskikalkulaator — NIS2 isiklik vastutus | DoraAudit.eu'
-      : 'Board Risk Calculator — NIS2 Personal Liability | DoraAudit.eu';
+    const title = this.lang.t('boardrisk.board_risk_calculator_nis2_personal_liab');
     this.titleService.setTitle(title);
   }
 

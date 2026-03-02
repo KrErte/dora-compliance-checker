@@ -155,7 +155,7 @@ import { MODEL_CLAUSES, ModelClause, getModelClause } from '../data/model-clause
                   <p *ngIf="!f.quote" class="text-sm text-slate-600 italic">{{ lang.t('comparison.clause_not_present') }}</p>
                 </div>
                 <p *ngIf="f.status !== 'found'" class="text-xs text-amber-400/80 mt-2">
-                  {{ lang.currentLang === 'et' ? f.recommendationEt : f.recommendationEn }}
+                  {{ lang.l(f.recommendationEt, f.recommendationEn) }}
                 </p>
               </div>
 
@@ -303,13 +303,13 @@ export class ContractComparisonComponent implements OnInit {
   getRequirementName(requirementId: number): string {
     const clause = getModelClause(requirementId);
     if (!clause) return '';
-    return this.lang.currentLang === 'et' ? clause.nameEt : clause.nameEn;
+    return this.lang.l(clause.nameEt, clause.nameEn);
   }
 
   getModelClauseText(requirementId: number): string {
     const clause = getModelClause(requirementId);
     if (!clause) return '';
-    return this.lang.currentLang === 'et' ? clause.clauseEt : clause.clauseEn;
+    return this.lang.l(clause.clauseEt, clause.clauseEn);
   }
 
   filterClass(filter: string): string {

@@ -403,14 +403,14 @@ import { ContractAnalysisResult } from '../models';
              [class]="'flex items-start gap-3 py-3' + (ri > 0 ? ' border-t border-slate-700/50' : '')">
           <span [class]="'px-2 py-0.5 rounded text-[10px] font-bold shrink-0 ' +
                          (rf.status === 'missing' ? 'bg-red-500/20 text-red-400' : 'bg-amber-500/20 text-amber-400')">
-            {{ rf.status === 'missing' ? (lang.currentLang === 'et' ? 'PUUDU' : 'MISSING') : (lang.currentLang === 'et' ? 'OSALISELT' : 'PARTIAL') }}
+            {{ rf.status === 'missing' ? lang.t('contractana.missing') : lang.t('contractana.partial') }}
           </span>
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2 mb-0.5">
-              <span class="text-sm font-medium text-slate-200">{{ lang.currentLang === 'et' ? rf.requirementEt : rf.requirementEn }}</span>
+              <span class="text-sm font-medium text-slate-200">{{ lang.l(rf.requirementEt, rf.requirementEn) }}</span>
               <span class="text-[10px] text-slate-500">{{ rf.doraReference }}</span>
             </div>
-            <p class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? rf.recommendationEt : rf.recommendationEn }}</p>
+            <p class="text-xs text-slate-400">{{ lang.l(rf.recommendationEt, rf.recommendationEn) }}</p>
           </div>
         </div>
       </div>
@@ -438,7 +438,7 @@ import { ContractAnalysisResult } from '../models';
 
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2 mb-1">
-              <h3 class="text-sm font-semibold text-slate-200">{{ lang.currentLang === 'et' ? finding.requirementEt : finding.requirementEn }}</h3>
+              <h3 class="text-sm font-semibold text-slate-200">{{ lang.l(finding.requirementEt, finding.requirementEn) }}</h3>
               <span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-700/50 text-slate-400 shrink-0">
                 {{ finding.doraReference }}
               </span>
@@ -451,9 +451,9 @@ import { ContractAnalysisResult } from '../models';
             </div>
 
             <!-- Recommendation -->
-            <div *ngIf="lang.currentLang === 'et' ? finding.recommendationEt : finding.recommendationEn" class="mt-2 pl-3 border-l-2 border-amber-500/30 bg-amber-500/5 rounded-r-lg py-2 pr-3">
+            <div *ngIf="lang.l(finding.recommendationEt, finding.recommendationEn)" class="mt-2 pl-3 border-l-2 border-amber-500/30 bg-amber-500/5 rounded-r-lg py-2 pr-3">
               <p class="text-xs text-slate-500 mb-0.5">{{ lang.t('contract.recommendation') }}</p>
-              <p class="text-xs text-slate-300">{{ lang.currentLang === 'et' ? finding.recommendationEt : finding.recommendationEn }}</p>
+              <p class="text-xs text-slate-300">{{ lang.l(finding.recommendationEt, finding.recommendationEn) }}</p>
             </div>
           </div>
         </div>
@@ -475,7 +475,7 @@ import { ContractAnalysisResult } from '../models';
         <div *ngIf="emailCaptured">
           <div *ngFor="let rf of riskFindings; let ci = index"
                [class]="'py-3' + (ci > 0 ? ' border-t border-slate-700/50' : '')">
-            <p class="text-xs font-medium text-slate-300 mb-1">{{ lang.currentLang === 'et' ? rf.requirementEt : rf.requirementEn }}
+            <p class="text-xs font-medium text-slate-300 mb-1">{{ lang.l(rf.requirementEt, rf.requirementEn) }}
               <span class="text-slate-600 ml-1">{{ rf.doraReference }}</span>
             </p>
             <div class="bg-slate-900/50 border border-slate-700/50 rounded-lg p-3 mt-1">
@@ -699,8 +699,8 @@ export class ContractAnalysisComponent implements OnInit {
       // Create a file from the generated text
       const blob = new Blob([contractText], { type: 'text/plain' });
       this.selectedFile = new File([blob], 'generated-contract.txt', { type: 'text/plain' });
-      this.companyName = this.lang.currentLang === 'et' ? 'Minu ettevõte' : 'My Company';
-      this.contractName = contractName || (this.lang.currentLang === 'et' ? 'Genereeritud DORA leping' : 'Generated DORA Contract');
+      this.companyName = this.lang.t('contractana.my_company');
+      this.contractName = contractName || (this.lang.t('contractana.generated_dora_contract'));
 
       // Clear sessionStorage so it doesn't reload on next visit
       sessionStorage.removeItem('generatedContract');
@@ -711,7 +711,7 @@ export class ContractAnalysisComponent implements OnInit {
   getClause(requirementId: string | number): string {
     const clause = this.clauseMap[String(requirementId)];
     if (!clause) return '';
-    return this.lang.currentLang === 'et' ? clause.et : clause.en;
+    return this.lang.pick(clause);
   }
 
   captureEmail() {
@@ -843,9 +843,7 @@ export class ContractAnalysisComponent implements OnInit {
         partialCount: 2,
         missingCount: 3,
         totalRequirements: 8,
-        summary: this.lang.currentLang === 'et'
-          ? 'Leping sisaldab mõningaid DORA nõudeid, kuid mitmed kriitilised klauslid on puudu või osaliselt kaetud.'
-          : 'The contract contains some DORA requirements, but several critical clauses are missing or partially covered.',
+        summary: this.lang.t('contractana.the_contract_contains_some_dora_requirem'),
         findings: [
           { requirementId: 1, status: 'found', doraReference: 'Art.30(2)(a)', requirementEt: 'Teenustaseme nõuded', requirementEn: 'Service level requirements', quote: 'Teenuse kättesaadavus on vähemalt 99.5%', recommendationEt: '', recommendationEn: '' },
           { requirementId: 2, status: 'found', doraReference: 'Art.30(2)(b)', requirementEt: 'Andmete asukoht', requirementEn: 'Data location', quote: 'Andmeid töödeldakse Euroopa Liidus', recommendationEt: '', recommendationEn: '' },

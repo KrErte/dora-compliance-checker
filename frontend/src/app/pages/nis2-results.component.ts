@@ -106,7 +106,7 @@ interface AssessmentResult {
                 {{ domain.score | number:'1.0-0' }}
               </div>
               <div class="text-xs text-slate-400 line-clamp-2">
-                {{ lang.currentLang === 'et' ? domain.nameEt : domain.nameEn }}
+                {{ lang.l(domain.nameEt, domain.nameEn) }}
               </div>
             </div>
           </div>
@@ -148,10 +148,10 @@ interface AssessmentResult {
                   </span>
                   <div class="flex-1 min-w-0">
                     <p class="text-sm text-slate-200">
-                      {{ lang.currentLang === 'et' ? action.titleEt : action.titleEn }}
+                      {{ lang.l(action.titleEt, action.titleEn) }}
                     </p>
                     <p class="text-xs text-slate-500 mt-1">
-                      {{ lang.currentLang === 'et' ? action.domainNameEt : action.domainNameEn }}
+                      {{ lang.l(action.domainNameEt, action.domainNameEn) }}
                     </p>
                     <div class="flex items-center gap-2 mt-2 text-xs text-slate-600">
                       <span>{{ action.reference }}</span>
@@ -192,10 +192,10 @@ interface AssessmentResult {
                   </span>
                   <div class="flex-1 min-w-0">
                     <p class="text-sm text-slate-200">
-                      {{ lang.currentLang === 'et' ? action.titleEt : action.titleEn }}
+                      {{ lang.l(action.titleEt, action.titleEn) }}
                     </p>
                     <p class="text-xs text-slate-500 mt-1">
-                      {{ lang.currentLang === 'et' ? action.domainNameEt : action.domainNameEn }}
+                      {{ lang.l(action.domainNameEt, action.domainNameEn) }}
                     </p>
                     <div class="flex items-center gap-2 mt-2 text-xs text-slate-600">
                       <span>{{ action.reference }}</span>
@@ -236,10 +236,10 @@ interface AssessmentResult {
                   </span>
                   <div class="flex-1 min-w-0">
                     <p class="text-sm text-slate-200">
-                      {{ lang.currentLang === 'et' ? action.titleEt : action.titleEn }}
+                      {{ lang.l(action.titleEt, action.titleEn) }}
                     </p>
                     <p class="text-xs text-slate-500 mt-1">
-                      {{ lang.currentLang === 'et' ? action.domainNameEt : action.domainNameEn }}
+                      {{ lang.l(action.domainNameEt, action.domainNameEn) }}
                     </p>
                     <div class="flex items-center gap-2 mt-2 text-xs text-slate-600">
                       <span>{{ action.reference }}</span>

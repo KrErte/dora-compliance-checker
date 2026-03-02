@@ -39,16 +39,16 @@ interface ConsolidatedView {
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 class="text-2xl font-bold text-white">
-            {{ lang.currentLang === 'et' ? 'Kontserni haldus' : 'Group Entity Management' }}
+            {{ lang.t('group.group_entity_management') }}
           </h1>
           <p class="text-sm text-slate-400 mt-1">DORA Art. 11 —
-            {{ lang.currentLang === 'et' ? 'Konsolideeritud digitaalse vastupidavuse juhtimine' : 'Consolidated digital operational resilience management' }}
+            {{ lang.t('group.consolidated_digital_operational_resilie') }}
           </p>
         </div>
         <button (click)="showModal = true; resetForm()"
                 class="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-violet-500 to-purple-500 text-white
                        hover:from-violet-400 hover:to-purple-400 hover:shadow-lg hover:shadow-violet-500/25 transition-all">
-          + {{ lang.currentLang === 'et' ? 'Lisa üksus' : 'Add Entity' }}
+          + {{ lang.t('group.add_entity') }}
         </button>
       </div>
 
@@ -58,7 +58,7 @@ interface ConsolidatedView {
           <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-4 text-center">
             <p class="text-2xl font-bold text-white">{{ consolidated().totalEntities }}</p>
             <p class="text-xs text-slate-400 mt-1">
-              {{ lang.currentLang === 'et' ? 'Üksused kokku' : 'Total Entities' }}
+              {{ lang.t('group.total_entities') }}
             </p>
           </div>
           <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-4 text-center">
@@ -76,7 +76,7 @@ interface ConsolidatedView {
               'text-emerald-400': consolidated().avgMaturity >= 3.5
             }">{{ consolidated().avgMaturity.toFixed(1) }}</p>
             <p class="text-xs text-slate-400 mt-1">
-              {{ lang.currentLang === 'et' ? 'Kesk. küpsus' : 'Avg. Maturity' }}
+              {{ lang.t('group.avg_maturity') }}
             </p>
           </div>
         </div>
@@ -85,7 +85,7 @@ interface ConsolidatedView {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-4">
             <h3 class="text-sm font-semibold text-slate-300 mb-3">
-              {{ lang.currentLang === 'et' ? 'Riigiti' : 'By Country' }}
+              {{ lang.t('group.by_country') }}
             </h3>
             @for (entry of getCountryEntries(); track entry[0]) {
               <div class="flex items-center justify-between py-1.5">
@@ -102,7 +102,7 @@ interface ConsolidatedView {
           </div>
           <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-4">
             <h3 class="text-sm font-semibold text-slate-300 mb-3">
-              {{ lang.currentLang === 'et' ? 'Tüübiti' : 'By Type' }}
+              {{ lang.t('group.by_type') }}
             </h3>
             @for (entry of getTypeEntries(); track entry[0]) {
               <div class="flex items-center justify-between py-1.5">
@@ -121,10 +121,10 @@ interface ConsolidatedView {
             <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/>
           </svg>
           <h3 class="text-lg font-semibold text-white mb-2">
-            {{ lang.currentLang === 'et' ? 'Üksusi pole lisatud' : 'No Entities Added' }}
+            {{ lang.t('group.no_entities_added') }}
           </h3>
           <p class="text-sm text-slate-400">
-            {{ lang.currentLang === 'et' ? 'Lisa kontserni kuuluvad üksused konsolideeritud ülevaate jaoks' : 'Add group entities for consolidated oversight' }}
+            {{ lang.t('group.add_group_entities_for_consolidated_over') }}
           </p>
         </div>
       }
@@ -167,7 +167,7 @@ interface ConsolidatedView {
           <div class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div>
               <p class="text-[10px] text-slate-500 uppercase">
-                {{ lang.currentLang === 'et' ? 'Küpsus' : 'Maturity' }}
+                {{ lang.t('group.maturity') }}
               </p>
               <p class="text-sm font-semibold" [ngClass]="{
                 'text-red-400': (entity.maturityScore || 0) < 2,
@@ -178,24 +178,24 @@ interface ConsolidatedView {
             </div>
             <div>
               <p class="text-[10px] text-slate-500 uppercase">
-                {{ lang.currentLang === 'et' ? 'Viimane hindamine' : 'Last Assessment' }}
+                {{ lang.t('group.last_assessment') }}
               </p>
               <p class="text-sm text-slate-300">{{ entity.lastAssessment || 'N/A' }}</p>
             </div>
             <div>
               <p class="text-[10px] text-slate-500 uppercase">
-                {{ lang.currentLang === 'et' ? 'Kontakt' : 'Contact' }}
+                {{ lang.t('group.contact') }}
               </p>
               <p class="text-sm text-slate-300">{{ entity.contactPerson || 'N/A' }}</p>
             </div>
             <div class="flex items-end justify-end gap-1">
               <button (click)="editEntity(entity)"
                       class="px-2 py-1 text-xs rounded bg-slate-600/30 text-slate-300 hover:bg-slate-600/50 transition-colors">
-                {{ lang.currentLang === 'et' ? 'Muuda' : 'Edit' }}
+                {{ lang.t('group.edit') }}
               </button>
               <button (click)="deleteEntity(entity.id)"
                       class="px-2 py-1 text-xs rounded bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors">
-                {{ lang.currentLang === 'et' ? 'Kustuta' : 'Delete' }}
+                {{ lang.t('group.delete') }}
               </button>
             </div>
           </div>
@@ -212,33 +212,33 @@ interface ConsolidatedView {
           <div class="bg-slate-800 rounded-xl border border-slate-700/50 shadow-xl w-full max-w-lg max-h-[80vh] overflow-y-auto" (click)="$event.stopPropagation()">
             <div class="p-5 border-b border-slate-700/50">
               <h3 class="text-lg font-semibold text-white">
-                {{ editingId ? (lang.currentLang === 'et' ? 'Muuda üksust' : 'Edit Entity') : (lang.currentLang === 'et' ? 'Lisa üksus' : 'Add Entity') }}
+                {{ editingId ? lang.t('group.edit_entity') : lang.t('group.add_entity_37') }}
               </h3>
             </div>
             <div class="p-5 space-y-4">
               <div class="grid grid-cols-2 gap-4">
                 <div class="col-span-2">
                   <label class="block text-xs font-medium text-slate-400 mb-1">
-                    {{ lang.currentLang === 'et' ? 'Nimi' : 'Name' }} *
+                    {{ lang.t('group.name') }} *
                   </label>
                   <input [(ngModel)]="form.name" type="text"
                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
-                    {{ lang.currentLang === 'et' ? 'Tüüp' : 'Type' }}
+                    {{ lang.t('group.type') }}
                   </label>
                   <select [(ngModel)]="form.type"
                           class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
-                    <option value="PARENT">{{ lang.currentLang === 'et' ? 'Emaettevõte' : 'Parent Company' }}</option>
-                    <option value="SUBSIDIARY">{{ lang.currentLang === 'et' ? 'Tütarettevõte' : 'Subsidiary' }}</option>
-                    <option value="BRANCH">{{ lang.currentLang === 'et' ? 'Filiaal' : 'Branch' }}</option>
-                    <option value="JOINT_VENTURE">{{ lang.currentLang === 'et' ? 'Ühisettevõte' : 'Joint Venture' }}</option>
+                    <option value="PARENT">{{ lang.t('group.parent_company') }}</option>
+                    <option value="SUBSIDIARY">{{ lang.t('group.subsidiary') }}</option>
+                    <option value="BRANCH">{{ lang.t('group.branch') }}</option>
+                    <option value="JOINT_VENTURE">{{ lang.t('group.joint_venture') }}</option>
                   </select>
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
-                    {{ lang.currentLang === 'et' ? 'Riik' : 'Country' }}
+                    {{ lang.t('group.country') }}
                   </label>
                   <input [(ngModel)]="form.country" type="text"
                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50"
@@ -246,23 +246,23 @@ interface ConsolidatedView {
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
-                    {{ lang.currentLang === 'et' ? 'Registrikood' : 'Registry Code' }}
+                    {{ lang.t('group.registry_code') }}
                   </label>
                   <input [(ngModel)]="form.registryCode" type="text"
                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
-                    {{ lang.currentLang === 'et' ? 'Sektor' : 'Sector' }}
+                    {{ lang.t('group.sector') }}
                   </label>
                   <select [(ngModel)]="form.sector"
                           class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
-                    <option value="Banking">{{ lang.currentLang === 'et' ? 'Pangandus' : 'Banking' }}</option>
-                    <option value="Insurance">{{ lang.currentLang === 'et' ? 'Kindlustus' : 'Insurance' }}</option>
-                    <option value="Investment">{{ lang.currentLang === 'et' ? 'Investeerimine' : 'Investment' }}</option>
-                    <option value="Payment">{{ lang.currentLang === 'et' ? 'Makseteenused' : 'Payment Services' }}</option>
-                    <option value="Crypto">{{ lang.currentLang === 'et' ? 'Krüptovarad' : 'Crypto Assets' }}</option>
-                    <option value="Other">{{ lang.currentLang === 'et' ? 'Muu' : 'Other' }}</option>
+                    <option value="Banking">{{ lang.t('group.banking') }}</option>
+                    <option value="Insurance">{{ lang.t('group.insurance') }}</option>
+                    <option value="Investment">{{ lang.t('group.investment') }}</option>
+                    <option value="Payment">{{ lang.t('group.payment_services') }}</option>
+                    <option value="Crypto">{{ lang.t('group.crypto_assets') }}</option>
+                    <option value="Other">{{ lang.t('group.other') }}</option>
                   </select>
                 </div>
                 <div class="flex items-center gap-4 col-span-2">
@@ -279,35 +279,35 @@ interface ConsolidatedView {
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
-                    {{ lang.currentLang === 'et' ? 'Küpsuse skoor' : 'Maturity Score' }} (0-5)
+                    {{ lang.t('group.maturity_score') }} (0-5)
                   </label>
                   <input [(ngModel)]="form.maturityScore" type="number" min="0" max="5" step="0.1"
                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
-                    {{ lang.currentLang === 'et' ? 'Viimane hindamine' : 'Last Assessment' }}
+                    {{ lang.t('group.last_assessment_30') }}
                   </label>
                   <input [(ngModel)]="form.lastAssessment" type="date"
                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
-                    {{ lang.currentLang === 'et' ? 'Kontaktisik' : 'Contact Person' }}
+                    {{ lang.t('group.contact_person') }}
                   </label>
                   <input [(ngModel)]="form.contactPerson" type="text"
                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
-                    {{ lang.currentLang === 'et' ? 'Kontaktmeil' : 'Contact Email' }}
+                    {{ lang.t('group.contact_email') }}
                   </label>
                   <input [(ngModel)]="form.contactEmail" type="email"
                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
                 </div>
                 <div class="col-span-2">
                   <label class="block text-xs font-medium text-slate-400 mb-1">
-                    {{ lang.currentLang === 'et' ? 'Märkmed' : 'Notes' }}
+                    {{ lang.t('group.notes') }}
                   </label>
                   <textarea [(ngModel)]="form.notes" rows="2"
                             class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50"></textarea>
@@ -317,12 +317,12 @@ interface ConsolidatedView {
             <div class="p-5 border-t border-slate-700/50 flex justify-end gap-2">
               <button (click)="showModal = false"
                       class="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors">
-                {{ lang.currentLang === 'et' ? 'Tühista' : 'Cancel' }}
+                {{ lang.t('group.cancel') }}
               </button>
               <button (click)="saveEntity()" [disabled]="!form.name.trim()"
                       class="px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-violet-500 to-purple-500 text-white
                              hover:from-violet-400 hover:to-purple-400 disabled:opacity-50 transition-all">
-                {{ lang.currentLang === 'et' ? 'Salvesta' : 'Save' }}
+                {{ lang.t('group.save') }}
               </button>
             </div>
           </div>
@@ -428,10 +428,10 @@ export class GroupEntityComponent implements OnInit {
 
   getTypeLabel(type: string): string {
     const map: { [k: string]: string } = {
-      PARENT: this.lang.currentLang === 'et' ? 'Emaettevõte' : 'Parent',
-      SUBSIDIARY: this.lang.currentLang === 'et' ? 'Tütarettevõte' : 'Subsidiary',
-      BRANCH: this.lang.currentLang === 'et' ? 'Filiaal' : 'Branch',
-      JOINT_VENTURE: this.lang.currentLang === 'et' ? 'Ühisettevõte' : 'Joint Venture'
+      PARENT: this.lang.t('group.parent'),
+      SUBSIDIARY: this.lang.t('group.subsidiary_39'),
+      BRANCH: this.lang.t('group.branch_40'),
+      JOINT_VENTURE: this.lang.t('group.joint_venture_41')
     };
     return map[type] || type;
   }

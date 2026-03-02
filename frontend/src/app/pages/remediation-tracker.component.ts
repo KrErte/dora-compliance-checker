@@ -20,16 +20,16 @@ import { RemediationItem, RemediationStats } from '../models';
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
               </svg>
             </div>
-            {{ lang.currentLang === 'et' ? 'Paranduste j\u00e4lgija' : 'Remediation Tracker' }}
+            {{ lang.t('remediation.remediation_tracker') }}
           </h1>
-          <p class="text-slate-400 text-sm mt-1">{{ lang.currentLang === 'et' ? 'J\u00e4lgige DORA vastavuse paranduste edenemist' : 'Track progress of DORA compliance remediation actions' }}</p>
+          <p class="text-slate-400 text-sm mt-1">{{ lang.t('remediation.track_progress_of_dora_compliance_remedi') }}</p>
         </div>
         <button (click)="showForm = true"
                 class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold text-sm hover:shadow-lg transition-all flex items-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
           </svg>
-          {{ lang.currentLang === 'et' ? 'Lisa tegevus' : 'Add Action' }}
+          {{ lang.t('remediation.add_action') }}
         </button>
       </div>
 
@@ -38,23 +38,23 @@ import { RemediationItem, RemediationStats } from '../models';
         <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
           <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-white">{{ stats()!.total }}</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Kokku' : 'Total' }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.t('remediation.total') }}</div>
           </div>
           <div class="bg-slate-800/50 border border-red-500/30 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-red-400">{{ stats()!.open }}</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Avatud' : 'Open' }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.t('remediation.open') }}</div>
           </div>
           <div class="bg-slate-800/50 border border-amber-500/30 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-amber-400">{{ stats()!.inProgress }}</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'T\u00f6\u00f6s' : 'In Progress' }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.t('remediation.in_progress') }}</div>
           </div>
           <div class="bg-slate-800/50 border border-emerald-500/30 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-emerald-400">{{ stats()!.completed }}</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Valmis' : 'Completed' }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.t('remediation.completed') }}</div>
           </div>
           <div class="bg-slate-800/50 border border-slate-600/50 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-slate-400">{{ stats()!.deferred }}</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Edasi l\u00fckatud' : 'Deferred' }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.t('remediation.deferred') }}</div>
           </div>
         </div>
       }
@@ -65,7 +65,7 @@ import { RemediationItem, RemediationStats } from '../models';
           <button (click)="activeFilter = f.value"
                   class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
                   [class]="activeFilter === f.value ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-slate-700/30 text-slate-400 hover:text-slate-200'">
-            {{ lang.currentLang === 'et' ? f.labelEt : f.labelEn }}
+            {{ lang.l(f.labelEt, f.labelEn) }}
           </button>
         }
       </div>
@@ -74,21 +74,21 @@ import { RemediationItem, RemediationStats } from '../models';
       @if (showForm) {
         <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" (click)="showForm = false">
           <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-lg" (click)="$event.stopPropagation()">
-            <h2 class="text-lg font-bold text-white mb-4">{{ lang.currentLang === 'et' ? 'Uus parandus\u00fclesanne' : 'New Remediation Action' }}</h2>
+            <h2 class="text-lg font-bold text-white mb-4">{{ lang.t('remediation.new_remediation_action') }}</h2>
             <div class="space-y-4">
               <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.currentLang === 'et' ? 'Pealkiri *' : 'Title *' }}</label>
+                <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.t('remediation.title') }}</label>
                 <input [(ngModel)]="newItem.title" type="text"
                        class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:outline-none focus:border-emerald-500/50">
               </div>
               <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.currentLang === 'et' ? 'Kirjeldus' : 'Description' }}</label>
+                <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.t('remediation.description') }}</label>
                 <textarea [(ngModel)]="newItem.description" rows="2"
                           class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:outline-none focus:border-emerald-500/50"></textarea>
               </div>
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Sammas' : 'Pillar' }}</label>
+                  <label class="block text-xs text-slate-400 mb-1">{{ lang.t('remediation.pillar') }}</label>
                   <select [(ngModel)]="newItem.pillar" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none">
                     <option value="ICT_RISK_MANAGEMENT">ICT Risk Management</option>
                     <option value="INCIDENT_MANAGEMENT">Incident Management</option>
@@ -98,35 +98,35 @@ import { RemediationItem, RemediationStats } from '../models';
                   </select>
                 </div>
                 <div>
-                  <label class="block text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Prioriteet' : 'Priority' }}</label>
+                  <label class="block text-xs text-slate-400 mb-1">{{ lang.t('remediation.priority') }}</label>
                   <select [(ngModel)]="newItem.priority" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none">
-                    <option value="CRITICAL">{{ lang.currentLang === 'et' ? 'Kriitiline' : 'Critical' }}</option>
-                    <option value="HIGH">{{ lang.currentLang === 'et' ? 'K\u00f5rge' : 'High' }}</option>
-                    <option value="MEDIUM">{{ lang.currentLang === 'et' ? 'Keskmine' : 'Medium' }}</option>
-                    <option value="LOW">{{ lang.currentLang === 'et' ? 'Madal' : 'Low' }}</option>
+                    <option value="CRITICAL">{{ lang.t('remediation.critical') }}</option>
+                    <option value="HIGH">{{ lang.t('remediation.high') }}</option>
+                    <option value="MEDIUM">{{ lang.t('remediation.medium') }}</option>
+                    <option value="LOW">{{ lang.t('remediation.low') }}</option>
                   </select>
                 </div>
               </div>
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Vastutaja' : 'Assignee' }}</label>
+                  <label class="block text-xs text-slate-400 mb-1">{{ lang.t('remediation.assignee') }}</label>
                   <input [(ngModel)]="newItem.assignee" type="text" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none">
                 </div>
                 <div>
-                  <label class="block text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'T\u00e4htaeg' : 'Due Date' }}</label>
+                  <label class="block text-xs text-slate-400 mb-1">{{ lang.t('remediation.due_date') }}</label>
                   <input [(ngModel)]="newItem.dueDate" type="date" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none">
                 </div>
               </div>
               <div>
-                <label class="block text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Artikli viide' : 'Article Reference' }}</label>
+                <label class="block text-xs text-slate-400 mb-1">{{ lang.t('remediation.article_reference') }}</label>
                 <input [(ngModel)]="newItem.articleReference" type="text" placeholder="e.g. Art. 6(1)"
                        class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none">
               </div>
               <div class="flex justify-end gap-3 pt-2">
-                <button (click)="showForm = false" class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-300 text-sm">{{ lang.currentLang === 'et' ? 'T\u00fchista' : 'Cancel' }}</button>
+                <button (click)="showForm = false" class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-300 text-sm">{{ lang.t('remediation.cancel') }}</button>
                 <button (click)="createItem()" [disabled]="!newItem.title"
                         class="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-semibold disabled:opacity-50">
-                  {{ lang.currentLang === 'et' ? 'Lisa' : 'Add' }}
+                  {{ lang.t('remediation.add') }}
                 </button>
               </div>
             </div>
@@ -146,7 +146,7 @@ import { RemediationItem, RemediationStats } from '../models';
           <svg class="w-16 h-16 mx-auto mb-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
           </svg>
-          <p class="text-slate-400">{{ lang.currentLang === 'et' ? 'Parandus\u00fclesandeid pole' : 'No remediation items found' }}</p>
+          <p class="text-slate-400">{{ lang.t('remediation.no_remediation_items_found') }}</p>
         </div>
       }
 
@@ -172,17 +172,17 @@ import { RemediationItem, RemediationStats } from '../models';
                   }
                   <div class="flex items-center gap-3 mt-1 text-[10px] text-slate-500">
                     @if (item.assignee) { <span>{{ item.assignee }}</span> }
-                    @if (item.dueDate) { <span>{{ lang.currentLang === 'et' ? 'T\u00e4htaeg' : 'Due' }}: {{ item.dueDate }}</span> }
+                    @if (item.dueDate) { <span>{{ lang.t('remediation.due') }}: {{ item.dueDate }}</span> }
                   </div>
                 </div>
 
                 <!-- Status selector -->
                 <select [(ngModel)]="item.status" (ngModelChange)="updateStatus(item)"
                         class="px-3 py-1.5 bg-slate-900/50 border border-slate-600/50 rounded-lg text-xs text-white focus:outline-none">
-                  <option value="OPEN">{{ lang.currentLang === 'et' ? 'Avatud' : 'Open' }}</option>
-                  <option value="IN_PROGRESS">{{ lang.currentLang === 'et' ? 'T\u00f6\u00f6s' : 'In Progress' }}</option>
-                  <option value="COMPLETED">{{ lang.currentLang === 'et' ? 'Valmis' : 'Completed' }}</option>
-                  <option value="DEFERRED">{{ lang.currentLang === 'et' ? 'Edasi l\u00fckatud' : 'Deferred' }}</option>
+                  <option value="OPEN">{{ lang.t('remediation.open_24') }}</option>
+                  <option value="IN_PROGRESS">{{ lang.t('remediation.in_progress_25') }}</option>
+                  <option value="COMPLETED">{{ lang.t('remediation.completed_26') }}</option>
+                  <option value="DEFERRED">{{ lang.t('remediation.deferred_27') }}</option>
                 </select>
 
                 <!-- Delete -->

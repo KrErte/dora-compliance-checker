@@ -409,7 +409,7 @@ export class PlaybookGeneratorComponent implements OnInit {
   }
 
   l(et: string | undefined, en: string | undefined): string {
-    return this.lang.currentLang === 'et' ? (et || en || '') : (en || et || '');
+    return this.lang.l(et || en || '', en || et || '');
   }
 
   getNotificationTemplate(): string {

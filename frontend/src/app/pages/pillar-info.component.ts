@@ -40,7 +40,7 @@ interface PillarInfo {
       <div class="glass-card p-6 mb-6">
         <h2 class="text-sm font-semibold text-slate-300 mb-3">{{ lang.t('pillar.overview') }}</h2>
         <p class="text-slate-400 leading-relaxed">
-          {{ lang.currentLang === 'et' ? pillar.descEt : pillar.descEn }}
+          {{ lang.l(pillar.descEt, pillar.descEn) }}
         </p>
       </div>
 
@@ -52,7 +52,7 @@ interface PillarInfo {
             <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            <span class="text-slate-400 text-sm">{{ lang.currentLang === 'et' ? req.et : req.en }}</span>
+            <span class="text-slate-400 text-sm">{{ lang.l(req.et, req.en) }}</span>
           </li>
         </ul>
       </div>
@@ -110,11 +110,11 @@ interface PillarInfo {
       <div class="glass-card p-8 md:p-12 max-w-lg mx-auto text-center border border-slate-700/50">
         <div class="text-6xl mb-4">🔍</div>
         <h1 class="text-2xl font-bold text-white mb-2">{{ lang.t('pillar.not_found') }}</h1>
-        <p class="text-slate-400 mb-8">{{ lang.currentLang === 'et' ? 'See DORA sammas ei eksisteeri.' : 'This DORA pillar does not exist.' }}</p>
+        <p class="text-slate-400 mb-8">{{ lang.t('pillar.this_dora_pillar_does_not_exist') }}</p>
 
         <!-- Available pillars -->
         <div class="mb-8">
-          <p class="text-sm text-slate-500 mb-4">{{ lang.currentLang === 'et' ? 'Saadaval olevad sambad:' : 'Available pillars:' }}</p>
+          <p class="text-sm text-slate-500 mb-4">{{ lang.t('pillar.available_pillars') }}</p>
           <div class="grid grid-cols-1 gap-2">
             <a *ngFor="let p of pillars" [routerLink]="'/pillar/' + p.id"
                class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30 hover:border-emerald-500/30 hover:bg-slate-700/30 transition-all group">
@@ -268,7 +268,7 @@ export class PillarInfoComponent implements OnInit {
     if (this.pillar) {
       const titleEntry = this.pillarTitles[this.pillar.id];
       if (titleEntry) {
-        this.titleService.setTitle(this.lang.currentLang === 'et' ? titleEntry.et : titleEntry.en);
+        this.titleService.setTitle(this.lang.pick(titleEntry));
       }
     }
   }

@@ -16,14 +16,14 @@ import { calculatePillarScores, QuestionResult } from '../models';
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
             </svg>
           </div>
-          {{ lang.currentLang === 'et' ? 'Riski soojuskaart' : 'Risk Heat Map' }}
+          {{ lang.t('heatmap.risk_heat_map') }}
         </h1>
-        <p class="text-slate-400 text-sm mt-1">{{ lang.currentLang === 'et' ? 'Visuaalne riskide kaardistamine DORA sammaste kaupa' : 'Visual risk mapping across DORA pillars' }}</p>
+        <p class="text-slate-400 text-sm mt-1">{{ lang.t('heatmap.visual_risk_mapping_across_dora_pillars') }}</p>
       </div>
 
       @if (!hasData()) {
         <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
-          <p class="text-slate-400">{{ lang.currentLang === 'et' ? 'Tehke esmalt hindamine, et n\u00e4ha riski soojuskaarti' : 'Complete an assessment first to see the risk heat map' }}</p>
+          <p class="text-slate-400">{{ lang.t('heatmap.complete_an_assessment_first_to_see_the') }}</p>
         </div>
       }
 
@@ -46,21 +46,21 @@ import { calculatePillarScores, QuestionResult } from '../models';
         <div class="flex justify-center gap-6">
           <div class="flex items-center gap-2">
             <div class="w-4 h-4 rounded bg-red-500/30 border border-red-500/40"></div>
-            <span class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? 'K\u00f5rge risk (<50%)' : 'High Risk (<50%)' }}</span>
+            <span class="text-xs text-slate-400">{{ lang.t('heatmap.high_risk_50') }}</span>
           </div>
           <div class="flex items-center gap-2">
             <div class="w-4 h-4 rounded bg-amber-500/30 border border-amber-500/40"></div>
-            <span class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? 'Keskmine risk (50-79%)' : 'Medium Risk (50-79%)' }}</span>
+            <span class="text-xs text-slate-400">{{ lang.t('heatmap.medium_risk_5079') }}</span>
           </div>
           <div class="flex items-center gap-2">
             <div class="w-4 h-4 rounded bg-emerald-500/30 border border-emerald-500/40"></div>
-            <span class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? 'Madal risk (80%+)' : 'Low Risk (80%+)' }}</span>
+            <span class="text-xs text-slate-400">{{ lang.t('heatmap.low_risk_80') }}</span>
           </div>
         </div>
 
         <!-- Category breakdown -->
         <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
-          <h2 class="text-lg font-semibold text-white mb-4">{{ lang.currentLang === 'et' ? 'Kategooriate kaart' : 'Category Map' }}</h2>
+          <h2 class="text-lg font-semibold text-white mb-4">{{ lang.t('heatmap.category_map') }}</h2>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
             @for (cat of categoryData(); track cat.category) {
               <div class="rounded-lg p-3 text-center"

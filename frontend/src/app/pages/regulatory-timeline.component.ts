@@ -25,10 +25,10 @@ interface TimelineEvent {
       <!-- Header -->
       <div class="text-center">
         <h1 class="text-3xl font-bold text-white mb-2">
-          {{ lang.currentLang === 'et' ? 'Regulatiivne ajakava' : 'Regulatory Timeline' }}
+          {{ lang.t('timeline.regulatory_timeline') }}
         </h1>
         <p class="text-slate-400">
-          {{ lang.currentLang === 'et' ? 'DORA ja NIS2 olulised t&auml;htajad ja verstapostid' : 'Key DORA and NIS2 deadlines and milestones' }}
+          {{ lang.t('timeline.key_dora_and_nis2_deadlines_and_mileston') }}
         </p>
       </div>
 
@@ -47,14 +47,14 @@ interface TimelineEvent {
             </span>
             <span *ngIf="countdown.urgent" class="flex items-center gap-1 text-xs text-red-400">
               <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-              {{ lang.currentLang === 'et' ? 'Kriitiline' : 'Critical' }}
+              {{ lang.t('timeline.critical') }}
             </span>
           </div>
           <h3 class="text-lg font-semibold text-white mb-2">
-            {{ lang.currentLang === 'et' ? countdown.titleEt : countdown.title }}
+            {{ lang.l(countdown.titleEt, countdown.title) }}
           </h3>
           <p class="text-sm text-slate-400 mb-4">
-            {{ lang.currentLang === 'et' ? countdown.descriptionEt : countdown.description }}
+            {{ lang.l(countdown.descriptionEt, countdown.description) }}
           </p>
           <div class="flex items-end justify-between">
             <div>
@@ -63,7 +63,7 @@ interface TimelineEvent {
                 <span class="text-3xl font-bold" [class]="countdown.urgent ? 'text-red-400' : countdown.soon ? 'text-amber-400' : 'text-emerald-400'">
                   {{ countdown.daysLeft }}
                 </span>
-                <span class="text-sm text-slate-500">{{ lang.currentLang === 'et' ? 'p&auml;eva' : 'days' }}</span>
+                <span class="text-sm text-slate-500">{{ lang.t('timeline.days') }}</span>
               </div>
             </div>
             <div class="text-right">
@@ -86,13 +86,13 @@ interface TimelineEvent {
           <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
           </svg>
-          {{ lang.currentLang === 'et' ? 'T&auml;ielik ajakava' : 'Complete Timeline' }}
+          {{ lang.t('timeline.complete_timeline') }}
         </h2>
 
         <!-- Filter buttons -->
         <div class="flex flex-wrap gap-2 mb-6">
           <button type="button" (click)="filterRegulation = 'ALL'" [class]="filterClass('ALL')">
-            {{ lang.currentLang === 'et' ? 'K&otilde;ik' : 'All' }}
+            {{ lang.t('timeline.all') }}
           </button>
           <button type="button" (click)="filterRegulation = 'DORA'" [class]="filterClass('DORA')">DORA</button>
           <button type="button" (click)="filterRegulation = 'NIS2'" [class]="filterClass('NIS2')">NIS2</button>
@@ -134,14 +134,14 @@ interface TimelineEvent {
                 <span class="text-xs text-slate-500 whitespace-nowrap">{{ event.date | date:'dd.MM.yyyy' }}</span>
               </div>
               <h3 class="text-sm font-semibold text-white mb-1">
-                {{ lang.currentLang === 'et' ? event.titleEt : event.title }}
+                {{ lang.l(event.titleEt, event.title) }}
               </h3>
               <p class="text-xs text-slate-400">
-                {{ lang.currentLang === 'et' ? event.descriptionEt : event.description }}
+                {{ lang.l(event.descriptionEt, event.description) }}
               </p>
               <a *ngIf="event.link" [href]="event.link" target="_blank" rel="noopener"
                  class="inline-flex items-center gap-1 mt-2 text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
-                {{ lang.currentLang === 'et' ? 'Loe rohkem' : 'Learn more' }}
+                {{ lang.t('timeline.learn_more') }}
                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                 </svg>
@@ -162,7 +162,7 @@ interface TimelineEvent {
               </svg>
             </div>
             <div>
-              <p class="text-sm font-semibold text-white group-hover:text-emerald-400 transition-colors">DORA {{ lang.currentLang === 'et' ? 'T&auml;istekst' : 'Full Text' }}</p>
+              <p class="text-sm font-semibold text-white group-hover:text-emerald-400 transition-colors">DORA {{ lang.t('timeline.full_text') }}</p>
               <p class="text-xs text-slate-500">EUR-Lex</p>
             </div>
           </div>
@@ -176,7 +176,7 @@ interface TimelineEvent {
               </svg>
             </div>
             <div>
-              <p class="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors">NIS2 {{ lang.currentLang === 'et' ? 'Direktiiv' : 'Directive' }}</p>
+              <p class="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors">NIS2 {{ lang.t('timeline.directive') }}</p>
               <p class="text-xs text-slate-500">EUR-Lex</p>
             </div>
           </div>
@@ -190,8 +190,8 @@ interface TimelineEvent {
               </svg>
             </div>
             <div>
-              <p class="text-sm font-semibold text-white group-hover:text-amber-400 transition-colors">{{ lang.currentLang === 'et' ? 'V&auml;rsked uuendused' : 'Latest Updates' }}</p>
-              <p class="text-xs text-slate-500">{{ lang.currentLang === 'et' ? 'Regulatiivsed muudatused' : 'Regulatory changes' }}</p>
+              <p class="text-sm font-semibold text-white group-hover:text-amber-400 transition-colors">{{ lang.t('timeline.latest_updates') }}</p>
+              <p class="text-xs text-slate-500">{{ lang.t('timeline.regulatory_changes') }}</p>
             </div>
           </div>
         </a>

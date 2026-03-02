@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { LangService } from '../lang.service';
@@ -17,7 +17,7 @@ interface PillarScore {
 @Component({
   selector: 'app-board-report-generator',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink],
   template: `
     <div class="max-w-7xl mx-auto space-y-8">
       <!-- Header -->
@@ -26,28 +26,27 @@ interface PillarScore {
           <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
           </svg>
-          {{ lang.currentLang === 'et' ? 'Juhatuse aruanne' : 'Board Report' }}
+          {{ lang.t('boardrep.board_report') }}
         </div>
         <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">
-          {{ lang.currentLang === 'et' ? 'DORA juhatuse aruande generaator' : 'DORA Board Report Generator' }}
+          {{ lang.t('boardrep.dora_board_report_generator') }}
         </h1>
         <p class="text-slate-400 max-w-2xl mx-auto">
-          {{ lang.currentLang === 'et'
-            ? 'Genereeri professionaalne juhatusele valmis vastavusaruanne uhe klikiga. Saasta paevi tood.'
-            : 'Generate a professional board-ready compliance report with one click. Save days of work.' }}
+          {{ lang.t('boardrep.generate_a_professional_boardready_compl') }}
         </p>
       </div>
 
       <!-- Template Selector -->
       <div class="flex flex-wrap justify-center gap-3">
-        <button *ngFor="let tmpl of templates"
-                (click)="selectedTemplate = tmpl.key"
+        @for (tmpl of templates; track tmpl.key) {
+        <button (click)="selectedTemplate = tmpl.key"
                 class="px-5 py-2.5 rounded-xl text-sm font-medium transition-all border"
                 [class]="selectedTemplate === tmpl.key
                   ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400'
                   : 'bg-slate-800/50 border-slate-700/50 text-slate-400 hover:border-slate-600/50 hover:text-slate-300'">
-          {{ lang.currentLang === 'et' ? tmpl.nameEt : tmpl.nameEn }}
+          {{ lang.l(tmpl.nameEt, tmpl.nameEn) }}
         </button>
+        }
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -58,22 +57,22 @@ interface PillarScore {
               <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
               </svg>
-              {{ lang.currentLang === 'et' ? 'Ettevotte andmed' : 'Company Data' }}
+              {{ lang.t('boardrep.company_data') }}
             </h2>
 
             <div class="space-y-4">
               <!-- Company Name -->
               <div>
-                <label class="block text-sm text-slate-400 mb-1.5">{{ lang.currentLang === 'et' ? 'Ettevotte nimi' : 'Company Name' }}</label>
+                <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('boardrep.company_name') }}</label>
                 <input type="text" [(ngModel)]="companyName"
-                       [placeholder]="lang.currentLang === 'et' ? 'Sisesta ettevotte nimi' : 'Enter company name'"
+                       [placeholder]="lang.t('boardrep.enter_company_name')"
                        class="w-full px-4 py-2.5 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white placeholder-slate-500
                               focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25 transition-all">
               </div>
 
               <!-- Report Period -->
               <div>
-                <label class="block text-sm text-slate-400 mb-1.5">{{ lang.currentLang === 'et' ? 'Aruande periood' : 'Report Period' }}</label>
+                <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('boardrep.report_period') }}</label>
                 <select [(ngModel)]="reportPeriod"
                         class="w-full px-4 py-2.5 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white
                                focus:outline-none focus:border-cyan-500/50 transition-all">
@@ -91,7 +90,7 @@ interface PillarScore {
               <!-- Overall Compliance Score -->
               <div>
                 <label class="block text-sm text-slate-400 mb-1.5">
-                  {{ lang.currentLang === 'et' ? 'Uldine vastavuse skoor' : 'Overall Compliance Score' }}:
+                  {{ lang.t('boardrep.overall_compliance_score') }}:
                   <span class="font-bold" [class]="getScoreColor(overallScore)">{{ overallScore }}%</span>
                 </label>
                 <input type="range" [(ngModel)]="overallScore" min="0" max="100" step="1"
@@ -106,19 +105,21 @@ interface PillarScore {
               <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
               </svg>
-              {{ lang.currentLang === 'et' ? 'DORA sambad' : 'DORA Pillars' }}
+              {{ lang.t('boardrep.dora_pillars') }}
             </h2>
 
             <div class="space-y-4">
-              <div *ngFor="let pillar of pillarScores">
+              @for (pillar of pillarScores; track pillar.key) {
+              <div>
                 <label class="block text-sm text-slate-400 mb-1.5">
-                  {{ lang.currentLang === 'et' ? pillar.nameEt : pillar.nameEn }}
+                  {{ lang.l(pillar.nameEt, pillar.nameEn) }}
                   <span class="text-xs text-slate-500 ml-1">({{ pillar.articleRef }})</span>
                   <span class="float-right font-bold" [class]="getScoreColor(pillar.score)">{{ pillar.score }}%</span>
                 </label>
                 <input type="range" [(ngModel)]="pillar.score" min="0" max="100" step="1"
                        class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500">
               </div>
+              }
             </div>
           </div>
 
@@ -128,17 +129,17 @@ interface PillarScore {
               <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
               </svg>
-              {{ lang.currentLang === 'et' ? 'Riskid ja tegevused' : 'Risks & Actions' }}
+              {{ lang.t('boardrep.risks_actions') }}
             </h2>
 
             <div class="space-y-4">
               <!-- Key Risks -->
               <div>
                 <label class="block text-sm text-slate-400 mb-1.5">
-                  {{ lang.currentLang === 'et' ? 'Peamised riskid (komadega eraldatud)' : 'Key Risks (comma separated)' }}
+                  {{ lang.t('boardrep.key_risks_comma_separated') }}
                 </label>
                 <textarea [(ngModel)]="keyRisks" rows="3"
-                          [placeholder]="lang.currentLang === 'et' ? 'nt. Kolmandate osapoolte kontsentratsioonirisk, Vananenud IKT susteemid' : 'e.g. Third-party concentration risk, Legacy ICT systems'"
+                          [placeholder]="lang.t('boardrep.eg_thirdparty_concentration_risk_legacy')"
                           class="w-full px-4 py-2.5 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white placeholder-slate-500
                                  focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25 transition-all resize-none"></textarea>
               </div>
@@ -146,10 +147,10 @@ interface PillarScore {
               <!-- Completed Actions -->
               <div>
                 <label class="block text-sm text-slate-400 mb-1.5">
-                  {{ lang.currentLang === 'et' ? 'Sel perioodil lõpetatud tegevused' : 'Completed Actions This Period' }}
+                  {{ lang.t('boardrep.completed_actions_this_period') }}
                 </label>
                 <textarea [(ngModel)]="completedActions" rows="3"
-                          [placeholder]="lang.currentLang === 'et' ? 'Iga tegevus uuel real' : 'One action per line'"
+                          [placeholder]="lang.t('boardrep.one_action_per_line')"
                           class="w-full px-4 py-2.5 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white placeholder-slate-500
                                  focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25 transition-all resize-none"></textarea>
               </div>
@@ -157,10 +158,10 @@ interface PillarScore {
               <!-- Planned Actions -->
               <div>
                 <label class="block text-sm text-slate-400 mb-1.5">
-                  {{ lang.currentLang === 'et' ? 'Planeeritud tegevused jargmisel perioodil' : 'Planned Actions Next Period' }}
+                  {{ lang.t('boardrep.planned_actions_next_period') }}
                 </label>
                 <textarea [(ngModel)]="plannedActions" rows="3"
-                          [placeholder]="lang.currentLang === 'et' ? 'Iga tegevus uuel real' : 'One action per line'"
+                          [placeholder]="lang.t('boardrep.one_action_per_line_51')"
                           class="w-full px-4 py-2.5 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white placeholder-slate-500
                                  focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25 transition-all resize-none"></textarea>
               </div>
@@ -173,25 +174,25 @@ interface PillarScore {
               <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
               </svg>
-              {{ lang.currentLang === 'et' ? 'Votnaitajad' : 'Key Metrics' }}
+              {{ lang.t('boardrep.key_metrics') }}
             </h2>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <label class="block text-sm text-slate-400 mb-1.5">{{ lang.currentLang === 'et' ? 'Avatud intsidendid' : 'Open Incidents' }}</label>
+                <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('boardrep.open_incidents') }}</label>
                 <input type="number" [(ngModel)]="openIncidents" min="0"
                        class="w-full px-4 py-2.5 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white
                               focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25 transition-all">
               </div>
               <div>
-                <label class="block text-sm text-slate-400 mb-1.5">{{ lang.currentLang === 'et' ? 'Kolmanda osapoole pakkujad' : 'Third-Party Providers' }}</label>
+                <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('boardrep.thirdparty_providers') }}</label>
                 <input type="number" [(ngModel)]="thirdPartyCount" min="0"
                        class="w-full px-4 py-2.5 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white
                               focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25 transition-all">
               </div>
               <div>
                 <label class="block text-sm text-slate-400 mb-1.5">
-                  {{ lang.currentLang === 'et' ? 'Eelarve kasutus' : 'Budget Utilization' }}:
+                  {{ lang.t('boardrep.budget_utilization') }}:
                   <span class="font-bold text-cyan-400">{{ budgetUtilization }}%</span>
                 </label>
                 <input type="range" [(ngModel)]="budgetUtilization" min="0" max="100" step="1"
@@ -206,24 +207,24 @@ interface PillarScore {
               <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
               </svg>
-              {{ lang.currentLang === 'et' ? 'Allkirjad' : 'Sign-off' }}
+              {{ lang.t('boardrep.signoff') }}
             </h2>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm text-slate-400 mb-1.5">{{ lang.currentLang === 'et' ? 'Koostaja' : 'Prepared By' }}</label>
+                <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('boardrep.prepared_by') }}</label>
                 <input type="text" [(ngModel)]="preparedBy"
                        class="w-full px-4 py-2.5 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white placeholder-slate-500
                               focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25 transition-all">
               </div>
               <div>
-                <label class="block text-sm text-slate-400 mb-1.5">{{ lang.currentLang === 'et' ? 'Kinnitaja' : 'Approved By' }}</label>
+                <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('boardrep.approved_by') }}</label>
                 <input type="text" [(ngModel)]="approvedBy"
                        class="w-full px-4 py-2.5 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white placeholder-slate-500
                               focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25 transition-all">
               </div>
               <div>
-                <label class="block text-sm text-slate-400 mb-1.5">{{ lang.currentLang === 'et' ? 'Kuupaev' : 'Date' }}</label>
+                <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('boardrep.date') }}</label>
                 <input type="date" [(ngModel)]="reportDate"
                        class="w-full px-4 py-2.5 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white
                               focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25 transition-all">
@@ -242,7 +243,7 @@ interface PillarScore {
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
-                {{ lang.currentLang === 'et' ? 'Laadi alla .txt' : 'Download .txt' }}
+                {{ lang.t('boardrep.download_txt') }}
               </button>
               <button (click)="copyToClipboard()"
                       class="flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 text-sm font-medium hover:bg-cyan-500/30 transition-all">
@@ -250,15 +251,15 @@ interface PillarScore {
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
                 </svg>
                 {{ copied
-                  ? (lang.currentLang === 'et' ? 'Kopeeritud!' : 'Copied!')
-                  : (lang.currentLang === 'et' ? 'Kopeeri' : 'Copy to Clipboard') }}
+                  ? lang.t('boardrep.copied')
+                  : lang.t('boardrep.copy_to_clipboard') }}
               </button>
               <button (click)="printReport()"
                       class="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-700/50 border border-slate-600/50 text-slate-300 text-sm font-medium hover:bg-slate-700 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                 </svg>
-                {{ lang.currentLang === 'et' ? 'Prindi' : 'Print' }}
+                {{ lang.t('boardrep.print') }}
               </button>
             </div>
 
@@ -273,21 +274,21 @@ interface PillarScore {
                   </svg>
                 </div>
                 <h2 class="text-xl font-bold text-white print:text-black">
-                  {{ companyName || (lang.currentLang === 'et' ? '[Ettevotte nimi]' : '[Company Name]') }}
+                  {{ companyName || lang.t('boardrep.company_name_47') }}
                 </h2>
                 <h3 class="text-lg font-semibold text-emerald-400 print:text-emerald-700 mt-1">
-                  {{ lang.currentLang === 'et' ? 'DORA vastavusaruanne' : 'DORA Compliance Report' }}
+                  {{ lang.t('boardrep.dora_compliance_report') }}
                 </h3>
                 <p class="text-sm text-slate-400 print:text-gray-500 mt-1">{{ reportPeriod }}</p>
                 <div class="inline-block mt-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium print:bg-red-50 print:border-red-200 print:text-red-600">
-                  {{ lang.currentLang === 'et' ? 'KONFIDENTSIAALNE' : 'CONFIDENTIAL' }}
+                  {{ lang.t('boardrep.confidential') }}
                 </div>
               </div>
 
               <!-- Executive Summary -->
               <div class="space-y-2">
                 <h4 class="text-sm font-bold text-emerald-400 uppercase tracking-wider">
-                  {{ lang.currentLang === 'et' ? 'Juhtimisulevade' : 'Executive Summary' }}
+                  {{ lang.t('boardrep.executive_summary') }}
                 </h4>
                 <p class="text-sm text-slate-300 print:text-gray-700 leading-relaxed">
                   {{ getExecutiveSummary() }}
@@ -295,9 +296,10 @@ interface PillarScore {
               </div>
 
               <!-- Overall Score -->
-              <div class="text-center py-4" *ngIf="selectedTemplate !== 'dashboard'">
+              @if (selectedTemplate !== 'dashboard') {
+              <div class="text-center py-4">
                 <div class="text-sm text-slate-400 mb-2">
-                  {{ lang.currentLang === 'et' ? 'Uldine vastavuse skoor' : 'Overall Compliance Score' }}
+                  {{ lang.t('boardrep.overall_compliance_score_25') }}
                 </div>
                 <div class="text-6xl font-black mb-1" [class]="getScoreColor(overallScore)">
                   {{ overallScore }}%
@@ -306,16 +308,18 @@ interface PillarScore {
                   {{ getScoreLabel(overallScore) }}
                 </div>
               </div>
+              }
 
               <!-- Pillar Dashboard -->
               <div class="space-y-3">
                 <h4 class="text-sm font-bold text-emerald-400 uppercase tracking-wider">
-                  {{ lang.currentLang === 'et' ? 'DORA sambad' : 'DORA Pillar Dashboard' }}
+                  {{ lang.t('boardrep.dora_pillar_dashboard') }}
                 </h4>
                 <div class="space-y-2.5">
-                  <div *ngFor="let pillar of pillarScores" class="space-y-1">
+                  @for (pillar of pillarScores; track pillar.key) {
+                  <div class="space-y-1">
                     <div class="flex justify-between items-center text-xs">
-                      <span class="text-slate-300 print:text-gray-700">{{ lang.currentLang === 'et' ? pillar.nameEt : pillar.nameEn }}</span>
+                      <span class="text-slate-300 print:text-gray-700">{{ lang.l(pillar.nameEt, pillar.nameEn) }}</span>
                       <span class="font-bold" [class]="getScoreColor(pillar.score)">{{ pillar.score }}%</span>
                     </div>
                     <div class="h-3 bg-slate-700/50 rounded-full overflow-hidden print:bg-gray-200">
@@ -324,56 +328,59 @@ interface PillarScore {
                            [class]="pillar.score >= 75 ? 'bg-emerald-500' : pillar.score >= 50 ? 'bg-amber-500' : 'bg-red-500'"></div>
                     </div>
                   </div>
+                  }
                 </div>
               </div>
 
               <!-- Risk Heat Map Summary (only for full and dashboard) -->
-              <div *ngIf="selectedTemplate !== 'executive'" class="space-y-3">
+              @if (selectedTemplate !== 'executive') {
+              <div class="space-y-3">
                 <h4 class="text-sm font-bold text-emerald-400 uppercase tracking-wider">
-                  {{ lang.currentLang === 'et' ? 'Riskikaart' : 'Risk Heat Map Summary' }}
+                  {{ lang.t('boardrep.risk_heat_map_summary') }}
                 </h4>
                 <div class="grid grid-cols-2 gap-2">
                   <div class="bg-red-500/20 border border-red-500/30 rounded-lg p-3 text-center">
                     <div class="text-xs text-red-400 font-medium mb-1">
-                      {{ lang.currentLang === 'et' ? 'Kõrge tõenäosus / Kõrge mõju' : 'High Prob / High Impact' }}
+                      {{ lang.t('boardrep.high_prob_high_impact') }}
                     </div>
                     <div class="text-lg font-bold text-red-400">{{ getHighHighRisks() }}</div>
                   </div>
                   <div class="bg-amber-500/20 border border-amber-500/30 rounded-lg p-3 text-center">
                     <div class="text-xs text-amber-400 font-medium mb-1">
-                      {{ lang.currentLang === 'et' ? 'Kõrge tõenäosus / Madal mõju' : 'High Prob / Low Impact' }}
+                      {{ lang.t('boardrep.high_prob_low_impact') }}
                     </div>
                     <div class="text-lg font-bold text-amber-400">{{ getHighLowRisks() }}</div>
                   </div>
                   <div class="bg-amber-500/20 border border-amber-500/30 rounded-lg p-3 text-center">
                     <div class="text-xs text-amber-400 font-medium mb-1">
-                      {{ lang.currentLang === 'et' ? 'Madal tõenäosus / Kõrge mõju' : 'Low Prob / High Impact' }}
+                      {{ lang.t('boardrep.low_prob_high_impact') }}
                     </div>
                     <div class="text-lg font-bold text-amber-400">{{ getLowHighRisks() }}</div>
                   </div>
                   <div class="bg-emerald-500/20 border border-emerald-500/30 rounded-lg p-3 text-center">
                     <div class="text-xs text-emerald-400 font-medium mb-1">
-                      {{ lang.currentLang === 'et' ? 'Madal tõenäosus / Madal mõju' : 'Low Prob / Low Impact' }}
+                      {{ lang.t('boardrep.low_prob_low_impact') }}
                     </div>
                     <div class="text-lg font-bold text-emerald-400">{{ getLowLowRisks() }}</div>
                   </div>
                 </div>
               </div>
+              }
 
               <!-- Key Metrics Cards -->
               <div class="grid grid-cols-3 gap-3">
                 <div class="bg-slate-900/50 border border-slate-700/50 rounded-xl p-3 text-center print:bg-gray-50 print:border-gray-200">
-                  <div class="text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Avatud intsidendid' : 'Open Incidents' }}</div>
+                  <div class="text-xs text-slate-400 mb-1">{{ lang.t('boardrep.open_incidents_32') }}</div>
                   <div class="text-2xl font-bold" [class]="openIncidents > 5 ? 'text-red-400' : openIncidents > 0 ? 'text-amber-400' : 'text-emerald-400'">
                     {{ openIncidents }}
                   </div>
                 </div>
                 <div class="bg-slate-900/50 border border-slate-700/50 rounded-xl p-3 text-center print:bg-gray-50 print:border-gray-200">
-                  <div class="text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'IKT pakkujad' : 'ICT Providers' }}</div>
+                  <div class="text-xs text-slate-400 mb-1">{{ lang.t('boardrep.ict_providers') }}</div>
                   <div class="text-2xl font-bold text-cyan-400">{{ thirdPartyCount }}</div>
                 </div>
                 <div class="bg-slate-900/50 border border-slate-700/50 rounded-xl p-3 text-center print:bg-gray-50 print:border-gray-200">
-                  <div class="text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Eelarve' : 'Budget' }}</div>
+                  <div class="text-xs text-slate-400 mb-1">{{ lang.t('boardrep.budget') }}</div>
                   <div class="text-2xl font-bold" [class]="budgetUtilization > 90 ? 'text-red-400' : budgetUtilization > 70 ? 'text-amber-400' : 'text-emerald-400'">
                     {{ budgetUtilization }}%
                   </div>
@@ -381,58 +388,70 @@ interface PillarScore {
               </div>
 
               <!-- Completed Actions (not for executive) -->
-              <div *ngIf="selectedTemplate !== 'executive' && getCompletedActionsList().length > 0" class="space-y-2">
+              @if (selectedTemplate !== 'executive' && getCompletedActionsList().length > 0) {
+              <div class="space-y-2">
                 <h4 class="text-sm font-bold text-emerald-400 uppercase tracking-wider">
-                  {{ lang.currentLang === 'et' ? 'Lopetatud tegevused' : 'Completed Actions' }}
+                  {{ lang.t('boardrep.completed_actions') }}
                 </h4>
                 <ul class="space-y-1.5">
-                  <li *ngFor="let action of getCompletedActionsList()" class="flex items-start gap-2 text-sm text-slate-300 print:text-gray-700">
+                  @for (action of getCompletedActionsList(); track action) {
+                  <li class="flex items-start gap-2 text-sm text-slate-300 print:text-gray-700">
                     <svg class="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                     </svg>
                     {{ action }}
                   </li>
+                  }
                 </ul>
               </div>
+              }
 
               <!-- Planned Actions (not for executive) -->
-              <div *ngIf="selectedTemplate !== 'executive' && getPlannedActionsList().length > 0" class="space-y-2">
+              @if (selectedTemplate !== 'executive' && getPlannedActionsList().length > 0) {
+              <div class="space-y-2">
                 <h4 class="text-sm font-bold text-cyan-400 uppercase tracking-wider">
-                  {{ lang.currentLang === 'et' ? 'Planeeritud tegevused' : 'Planned Actions' }}
+                  {{ lang.t('boardrep.planned_actions') }}
                 </h4>
                 <ul class="space-y-1.5">
-                  <li *ngFor="let action of getPlannedActionsList(); let i = index" class="flex items-start gap-2 text-sm text-slate-300 print:text-gray-700">
+                  @for (action of getPlannedActionsList(); track $index; let i = $index) {
+                  <li class="flex items-start gap-2 text-sm text-slate-300 print:text-gray-700">
                     <span class="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5"
                           [class]="i === 0 ? 'bg-red-500/20 text-red-400' : i === 1 ? 'bg-amber-500/20 text-amber-400' : 'bg-cyan-500/20 text-cyan-400'">
                       {{ i + 1 }}
                     </span>
                     {{ action }}
                   </li>
+                  }
                 </ul>
               </div>
+              }
 
               <!-- Auto-Generated Recommendations -->
-              <div *ngIf="getRecommendations().length > 0" class="space-y-2">
+              @if (getRecommendations().length > 0) {
+              <div class="space-y-2">
                 <h4 class="text-sm font-bold text-amber-400 uppercase tracking-wider">
-                  {{ lang.currentLang === 'et' ? 'Soovitused' : 'Recommendations' }}
+                  {{ lang.t('boardrep.recommendations') }}
                 </h4>
-                <div *ngFor="let rec of getRecommendations(); let i = index"
-                     class="flex items-start gap-3 p-3 bg-slate-900/50 rounded-lg border border-slate-700/50 print:bg-gray-50 print:border-gray-200">
+                @for (rec of getRecommendations(); track $index; let i = $index) {
+                <div class="flex items-start gap-3 p-3 bg-slate-900/50 rounded-lg border border-slate-700/50 print:bg-gray-50 print:border-gray-200">
                   <span class="flex-shrink-0 w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs font-bold">
                     {{ i + 1 }}
                   </span>
                   <p class="text-sm text-slate-300 print:text-gray-700">{{ rec }}</p>
                 </div>
+                }
               </div>
+              }
 
               <!-- Regulatory Timeline (only for full report) -->
-              <div *ngIf="selectedTemplate === 'full'" class="space-y-2">
+              @if (selectedTemplate === 'full') {
+              <div class="space-y-2">
                 <h4 class="text-sm font-bold text-cyan-400 uppercase tracking-wider">
-                  {{ lang.currentLang === 'et' ? 'Regulatiivne ajakava' : 'Regulatory Timeline' }}
+                  {{ lang.t('boardrep.regulatory_timeline') }}
                 </h4>
                 <div class="space-y-2">
-                  <div *ngFor="let deadline of getUpcomingDeadlines()"
-                       class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-lg border border-slate-700/50 print:bg-gray-50 print:border-gray-200">
+                  @for (deadline of getUpcomingDeadlines(); track deadline.date) {
+                  <div class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-lg border border-slate-700/50 print:bg-gray-50 print:border-gray-200">
                     <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center">
                       <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -441,54 +460,62 @@ interface PillarScore {
                     <div>
                       <div class="text-sm font-medium text-white print:text-black">{{ deadline.date }}</div>
                       <div class="text-xs text-slate-400 print:text-gray-500">
-                        {{ lang.currentLang === 'et' ? deadline.descEt : deadline.descEn }}
+                        {{ lang.l(deadline.descEt, deadline.descEn) }}
                       </div>
                     </div>
                   </div>
+                  }
                 </div>
               </div>
+              }
 
               <!-- Key Risks (only for full report) -->
-              <div *ngIf="selectedTemplate === 'full' && getRisksList().length > 0" class="space-y-2">
+              @if (selectedTemplate === 'full' && getRisksList().length > 0) {
+              <div class="space-y-2">
                 <h4 class="text-sm font-bold text-red-400 uppercase tracking-wider">
-                  {{ lang.currentLang === 'et' ? 'Peamised riskid' : 'Key Risks' }}
+                  {{ lang.t('boardrep.key_risks') }}
                 </h4>
                 <ul class="space-y-1.5">
-                  <li *ngFor="let risk of getRisksList()" class="flex items-start gap-2 text-sm text-slate-300 print:text-gray-700">
+                  @for (risk of getRisksList(); track risk) {
+                  <li class="flex items-start gap-2 text-sm text-slate-300 print:text-gray-700">
                     <svg class="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                     </svg>
                     {{ risk }}
                   </li>
+                  }
                 </ul>
               </div>
+              }
 
               <!-- Sign-off Section (not for dashboard) -->
-              <div *ngIf="selectedTemplate !== 'dashboard'" class="border-t border-slate-700/50 pt-4 mt-6 print:border-gray-300">
+              @if (selectedTemplate !== 'dashboard') {
+              <div class="border-t border-slate-700/50 pt-4 mt-6 print:border-gray-300">
                 <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">
-                  {{ lang.currentLang === 'et' ? 'Allkirjad' : 'Sign-off' }}
+                  {{ lang.t('boardrep.signoff_40') }}
                 </h4>
                 <div class="grid grid-cols-2 gap-6">
                   <div>
-                    <div class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Koostaja' : 'Prepared By' }}</div>
+                    <div class="text-xs text-slate-500 mb-1">{{ lang.t('boardrep.prepared_by_41') }}</div>
                     <div class="text-sm text-white print:text-black font-medium border-b border-slate-700/50 pb-2 print:border-gray-300">
                       {{ preparedBy || '________________________' }}
                     </div>
                   </div>
                   <div>
-                    <div class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Kinnitaja' : 'Approved By' }}</div>
+                    <div class="text-xs text-slate-500 mb-1">{{ lang.t('boardrep.approved_by_42') }}</div>
                     <div class="text-sm text-white print:text-black font-medium border-b border-slate-700/50 pb-2 print:border-gray-300">
                       {{ approvedBy || '________________________' }}
                     </div>
                   </div>
                   <div>
-                    <div class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Kuupaev' : 'Date' }}</div>
+                    <div class="text-xs text-slate-500 mb-1">{{ lang.t('boardrep.date_43') }}</div>
                     <div class="text-sm text-white print:text-black font-medium border-b border-slate-700/50 pb-2 print:border-gray-300">
                       {{ reportDate || '________________________' }}
                     </div>
                   </div>
                 </div>
               </div>
+              }
 
             </div>
           </div>
@@ -502,7 +529,7 @@ interface PillarScore {
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
           </svg>
-          {{ lang.currentLang === 'et' ? 'Tagasi toolauale' : 'Back to Dashboard' }}
+          {{ lang.t('boardrep.back_to_dashboard') }}
         </a>
       </div>
     </div>

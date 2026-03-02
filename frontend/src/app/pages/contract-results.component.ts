@@ -86,23 +86,23 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
             <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
             </svg>
-            <span class="text-sm font-semibold text-indigo-300">{{ lang.currentLang === 'et' ? 'T&ouml;&ouml;stuse v&otilde;rdlus' : 'Industry Benchmark' }}</span>
+            <span class="text-sm font-semibold text-indigo-300">{{ lang.t('contractres.industry_benchmark') }}</span>
           </div>
           <div class="grid grid-cols-3 gap-2 sm:gap-4">
             <div class="text-center">
-              <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Teie tulemus' : 'Your Score' }}</p>
+              <p class="text-xs text-slate-500 mb-1">{{ lang.t('contractres.your_score') }}</p>
               <p class="text-lg font-bold" [style.color]="scoreColor">{{ result.scorePercentage | number:'1.0-0' }}%</p>
               <p class="text-[10px]" [class]="result.scorePercentage >= benchmark.industryAverage ? 'text-emerald-400' : 'text-amber-400'">
                 {{ getBenchmarkComparison() }}
               </p>
             </div>
             <div class="text-center">
-              <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Keskmine' : 'Average' }}</p>
+              <p class="text-xs text-slate-500 mb-1">{{ lang.t('contractres.average') }}</p>
               <p class="text-lg font-bold text-slate-300">{{ benchmark.industryAverage | number:'1.0-0' }}%</p>
-              <p class="text-[10px] text-slate-500">{{ benchmark.totalAnalyses }} {{ lang.currentLang === 'et' ? 'anal\u00fc\u00fcsi' : 'analyses' }}</p>
+              <p class="text-[10px] text-slate-500">{{ benchmark.totalAnalyses }} {{ lang.t('contractres.analyses') }}</p>
             </div>
             <div class="text-center">
-              <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Positsioon' : 'Ranking' }}</p>
+              <p class="text-xs text-slate-500 mb-1">{{ lang.t('contractres.ranking') }}</p>
               <p class="text-lg font-bold text-indigo-400">{{ getPercentileLabel() }}</p>
               <p class="text-[10px] text-slate-500">{{ benchmark.percentileRank | number:'1.0-0' }}. protsentiil</p>
             </div>
@@ -110,7 +110,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
         </div>
         <div *ngIf="benchmarkLoading" class="mt-6 pt-6 border-t border-slate-700/50 flex items-center gap-2">
           <div class="w-4 h-4 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
-          <span class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? 'Laadin v&otilde;rdlusandmeid...' : 'Loading benchmark...' }}</span>
+          <span class="text-xs text-slate-400">{{ lang.t('contractres.loading_benchmark') }}</span>
         </div>
       </div>
 
@@ -139,7 +139,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
 
         <div class="overflow-x-auto">
           <table class="w-full">
-            <caption class="sr-only">{{ lang.currentLang === 'et' ? 'Lepingu analüüsi tulemused' : 'Contract analysis results' }}</caption>
+            <caption class="sr-only">{{ lang.t('contractres.contract_analysis_results') }}</caption>
             <thead>
               <tr class="bg-slate-700/30">
                 <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400">#</th>
@@ -154,7 +154,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
                 <td class="px-4 py-3 text-sm text-slate-400">{{ f.requirementId }}</td>
                 <td class="px-4 py-3 text-sm text-slate-300 whitespace-nowrap">{{ f.doraReference }}</td>
                 <td class="px-4 py-3 text-sm text-slate-300 max-w-xs">
-                  <span class="line-clamp-2">{{ lang.currentLang === 'et' ? f.requirementEt : f.requirementEn }}</span>
+                  <span class="line-clamp-2">{{ lang.l(f.requirementEt, f.requirementEn) }}</span>
                 </td>
                 <td class="px-4 py-3 text-center">
                   <span [class]="statusBadge(f.status)">{{ statusLabel(f.status) }}</span>
@@ -174,7 +174,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
         <div class="flex items-center justify-between">
           <h2 class="text-lg font-semibold text-white">{{ lang.t('contract.tab_gaps') }} ({{ missingFindings.length }})</h2>
           <span class="text-xs px-2 py-1 rounded-full bg-violet-500/20 text-violet-400 border border-violet-500/30">
-            {{ lang.currentLang === 'et' ? 'AI klauslite generaator' : 'AI Clause Generator' }}
+            {{ lang.t('contractres.ai_clause_generator') }}
           </span>
         </div>
         <div *ngFor="let f of missingFindings; let i = index"
@@ -183,13 +183,13 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
             <div class="flex items-start sm:items-center gap-2 sm:gap-3 min-w-0">
               <span class="text-white font-bold text-sm shrink-0">{{ i + 1 }}.</span>
               <span class="text-white text-sm font-medium shrink-0">{{ f.doraReference }}</span>
-              <span class="text-slate-300 text-sm line-clamp-2 sm:line-clamp-1">{{ lang.currentLang === 'et' ? f.requirementEt : f.requirementEn }}</span>
+              <span class="text-slate-300 text-sm line-clamp-2 sm:line-clamp-1">{{ lang.l(f.requirementEt, f.requirementEn) }}</span>
             </div>
             <span [class]="statusBadge(f.status) + ' shrink-0 self-end sm:self-auto'">{{ statusLabel(f.status) }}</span>
           </div>
           <div class="px-5 py-4">
             <p class="text-xs font-semibold text-slate-500 uppercase mb-1">{{ lang.t('contract.recommendation') }}</p>
-            <p class="text-sm text-slate-300 mb-4">{{ lang.currentLang === 'et' ? f.recommendationEt : f.recommendationEn }}</p>
+            <p class="text-sm text-slate-300 mb-4">{{ lang.l(f.recommendationEt, f.recommendationEn) }}</p>
 
             <!-- Generate clause button -->
             <button type="button" (click)="generateCompliantClause(f)"
@@ -206,8 +206,8 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
               </svg>
               {{ clauseLoading[f.requirementId]
-                ? (lang.currentLang === 'et' ? 'Genereerin...' : 'Generating...')
-                : (lang.currentLang === 'et' ? 'Genereeri DORA-vastavusega klausel' : 'Generate DORA-Compliant Clause') }}
+                ? lang.t('contractres.generating')
+                : lang.t('contractres.generate_doracompliant_clause') }}
             </button>
 
             <!-- Generated clause -->
@@ -217,7 +217,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
-                  {{ lang.currentLang === 'et' ? 'Soovitatud klausel' : 'Suggested Clause' }}
+                  {{ lang.t('contractres.suggested_clause') }}
                 </h4>
                 <button type="button" (click)="copyClause(f.requirementId)"
                         class="text-xs px-2 py-1 rounded bg-slate-700/50 text-slate-300 hover:bg-slate-600/50 transition-colors flex items-center gap-1">
@@ -228,15 +228,15 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                   </svg>
                   {{ copiedClause === f.requirementId
-                    ? (lang.currentLang === 'et' ? 'Kopeeritud!' : 'Copied!')
-                    : (lang.currentLang === 'et' ? 'Kopeeri' : 'Copy') }}
+                    ? lang.t('contractres.copied')
+                    : lang.t('contractres.copy') }}
                 </button>
               </div>
               <pre class="text-sm text-slate-200 whitespace-pre-wrap font-sans bg-slate-900/50 rounded-lg p-4 mb-3 leading-relaxed">{{ generatedClauses[f.requirementId].suggestedClause }}</pre>
 
               <!-- Key elements -->
               <div *ngIf="generatedClauses[f.requirementId].keyElements" class="mb-3">
-                <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'P\u00f5hielemendid:' : 'Key Elements:' }}</p>
+                <p class="text-xs text-slate-500 mb-1">{{ lang.t('contractres.key_elements') }}</p>
                 <div class="flex flex-wrap gap-2">
                   <span *ngFor="let el of generatedClauses[f.requirementId].keyElements"
                         class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
@@ -247,7 +247,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
 
               <!-- Legal references -->
               <div *ngIf="generatedClauses[f.requirementId].legalReferences" class="mb-3">
-                <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? '\u00d5iguslikud viited:' : 'Legal References:' }}</p>
+                <p class="text-xs text-slate-500 mb-1">{{ lang.t('contractres.legal_references') }}</p>
                 <div class="flex flex-wrap gap-2">
                   <span *ngFor="let ref of generatedClauses[f.requirementId].legalReferences"
                         class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
@@ -417,7 +417,7 @@ export class ContractResultsComponent implements OnInit {
         ? `${diff.toFixed(1)}% alla keskmise`
         : `${diff.toFixed(1)}% below average`;
     }
-    return this.lang.currentLang === 'et' ? 'T\u00e4pselt keskmine' : 'Exactly average';
+    return this.lang.t('contractres.exactly_average');
   }
 
   getPercentileLabel(): string {
@@ -425,9 +425,9 @@ export class ContractResultsComponent implements OnInit {
     const rank = this.benchmark.percentileRank;
     if (rank >= 90) return 'Top 10%';
     if (rank >= 75) return 'Top 25%';
-    if (rank >= 50) return this.lang.currentLang === 'et' ? '\u00dcle keskmise' : 'Above median';
-    if (rank >= 25) return this.lang.currentLang === 'et' ? 'Alla keskmise' : 'Below median';
-    return this.lang.currentLang === 'et' ? 'Alumine 25%' : 'Bottom 25%';
+    if (rank >= 50) return this.lang.t('contractres.above_median');
+    if (rank >= 25) return this.lang.t('contractres.below_median');
+    return this.lang.t('contractres.bottom_25');
   }
 
   toggleClauseExpand(requirementId: number) {

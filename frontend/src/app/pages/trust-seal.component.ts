@@ -28,12 +28,12 @@ type SealSize = 'sm' | 'md' | 'lg';
             DORA Trust Seal
           </h1>
           <p class="text-sm text-slate-400 mt-1">
-            {{ lang.currentLang === 'et' ? 'Embed\'itav vastavuspitser sinu veebilehele' : 'Embeddable compliance badge for your website' }}
+            {{ lang.t('seal.embeddable_compliance_badge_for_your_web') }}
           </p>
         </div>
         <a routerLink="/command-center" class="text-sm text-slate-400 hover:text-cyan-400 flex items-center gap-1.5 transition-colors">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m15 18-6-6 6-6"/></svg>
-          {{ lang.currentLang === 'et' ? 'Juhtimiskeskus' : 'Command Center' }}
+          {{ lang.t('seal.command_center') }}
         </a>
       </div>
 
@@ -45,7 +45,7 @@ type SealSize = 'sm' | 'md' | 'lg';
           <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
             <h2 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
               <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-              {{ lang.currentLang === 'et' ? 'Eelvaade' : 'Live Preview' }}
+              {{ lang.t('seal.live_preview') }}
             </h2>
 
             <!-- Preview container simulating a website -->
@@ -148,7 +148,7 @@ type SealSize = 'sm' | 'md' | 'lg';
           <!-- Verification status -->
           <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5">
             <h2 class="text-sm font-semibold text-slate-300 mb-3">
-              {{ lang.currentLang === 'et' ? 'Verifitseerimise staatus' : 'Verification Status' }}
+              {{ lang.t('seal.verification_status') }}
             </h2>
             <div class="space-y-3">
               @for (step of verificationSteps(); track step.label) {
@@ -168,8 +168,8 @@ type SealSize = 'sm' | 'md' | 'lg';
             <div class="mt-4 p-3 rounded-lg text-xs"
                  [ngClass]="sealVerified() ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400' : 'bg-amber-500/10 border border-amber-500/20 text-amber-400'">
               {{ sealVerified()
-                ? (lang.currentLang === 'et' ? 'Sinu organisatsioon on verifitseeritud. Pitser on aktiivne.' : 'Your organization is verified. Seal is active.')
-                : (lang.currentLang === 'et' ? 'L\u00e4bi k\u00f5ik sammud, et aktiveerida oma DORA Trust Seal.' : 'Complete all steps to activate your DORA Trust Seal.') }}
+                ? lang.t('seal.your_organization_is_verified_seal_is_ac')
+                : lang.t('seal.complete_all_steps_to_activate_your_dora') }}
             </div>
           </div>
         </div>
@@ -179,12 +179,12 @@ type SealSize = 'sm' | 'md' | 'lg';
           <!-- Customization options -->
           <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
             <h2 class="text-sm font-semibold text-slate-300 mb-4">
-              {{ lang.currentLang === 'et' ? 'Kohandamine' : 'Customize' }}
+              {{ lang.t('seal.customize') }}
             </h2>
             <div class="space-y-5">
               <!-- Variant -->
               <div>
-                <label class="block text-xs text-slate-400 mb-2">{{ lang.currentLang === 'et' ? 'Stiil' : 'Variant' }}</label>
+                <label class="block text-xs text-slate-400 mb-2">{{ lang.t('seal.variant') }}</label>
                 <div class="grid grid-cols-3 gap-2">
                   @for (v of variants; track v.value) {
                     <button (click)="selectedVariant = v.value" class="p-3 rounded-lg border text-xs text-center transition-all"
@@ -197,7 +197,7 @@ type SealSize = 'sm' | 'md' | 'lg';
 
               <!-- Theme -->
               <div>
-                <label class="block text-xs text-slate-400 mb-2">{{ lang.currentLang === 'et' ? 'Teema' : 'Theme' }}</label>
+                <label class="block text-xs text-slate-400 mb-2">{{ lang.t('seal.theme') }}</label>
                 <div class="grid grid-cols-3 gap-2">
                   @for (t of themes; track t.value) {
                     <button (click)="selectedTheme = t.value" class="p-3 rounded-lg border text-xs text-center transition-all"
@@ -210,7 +210,7 @@ type SealSize = 'sm' | 'md' | 'lg';
 
               <!-- Size -->
               <div>
-                <label class="block text-xs text-slate-400 mb-2">{{ lang.currentLang === 'et' ? 'Suurus' : 'Size' }}</label>
+                <label class="block text-xs text-slate-400 mb-2">{{ lang.t('seal.size') }}</label>
                 <div class="grid grid-cols-3 gap-2">
                   @for (s of sizes; track s.value) {
                     <button (click)="selectedSize = s.value" class="p-3 rounded-lg border text-xs text-center transition-all"
@@ -223,7 +223,7 @@ type SealSize = 'sm' | 'md' | 'lg';
 
               <!-- Company domain -->
               <div>
-                <label class="block text-xs text-slate-400 mb-2">{{ lang.currentLang === 'et' ? 'Veebilehe domeen' : 'Website Domain' }}</label>
+                <label class="block text-xs text-slate-400 mb-2">{{ lang.t('seal.website_domain') }}</label>
                 <input [(ngModel)]="domain" type="text" placeholder="your-company.eu"
                        class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white text-sm focus:outline-none focus:border-cyan-500/50">
               </div>
@@ -234,25 +234,25 @@ type SealSize = 'sm' | 'md' | 'lg';
           <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
             <div class="flex items-center justify-between mb-4">
               <h2 class="text-sm font-semibold text-slate-300">
-                {{ lang.currentLang === 'et' ? 'Embed kood' : 'Embed Code' }}
+                {{ lang.t('seal.embed_code') }}
               </h2>
               <button (click)="copyCode()" class="text-xs px-3 py-1.5 rounded-lg transition-all"
                       [ngClass]="copied() ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-700/50 text-slate-400 hover:text-white'">
-                {{ copied() ? (lang.currentLang === 'et' ? 'Kopeeritud!' : 'Copied!') : (lang.currentLang === 'et' ? 'Kopeeri' : 'Copy') }}
+                {{ copied() ? lang.t('seal.copied') : lang.t('seal.copy') }}
               </button>
             </div>
             <div class="bg-slate-900/80 rounded-lg p-4 overflow-x-auto">
               <pre class="text-xs text-slate-300 font-mono whitespace-pre-wrap break-all">{{ getEmbedCode() }}</pre>
             </div>
             <p class="text-[10px] text-slate-500 mt-3">
-              {{ lang.currentLang === 'et' ? 'Lisa see kood oma veebilehe HTML-i, kuhu soovid pitseri kuvada.' : 'Add this code to your website HTML where you want the seal to appear.' }}
+              {{ lang.t('seal.add_this_code_to_your_website_html_where') }}
             </p>
           </div>
 
           <!-- Benefits -->
           <div class="bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 border border-emerald-500/20 rounded-xl p-5">
             <h2 class="text-sm font-semibold text-white mb-3">
-              {{ lang.currentLang === 'et' ? 'Miks DORA Trust Seal?' : 'Why DORA Trust Seal?' }}
+              {{ lang.t('seal.why_dora_trust_seal') }}
             </h2>
             <div class="space-y-2.5">
               @for (benefit of benefits; track benefit.text) {
@@ -260,7 +260,7 @@ type SealSize = 'sm' | 'md' | 'lg';
                   <div class="w-5 h-5 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
                     <svg class="w-3 h-3 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 5 5L20 7"/></svg>
                   </div>
-                  <span class="text-sm text-slate-300">{{ lang.currentLang === 'et' ? benefit.et : benefit.text }}</span>
+                  <span class="text-sm text-slate-300">{{ lang.l(benefit.et, benefit.text) }}</span>
                 </div>
               }
             </div>
@@ -273,16 +273,14 @@ type SealSize = 'sm' | 'md' | 'lg';
         <div class="flex flex-col md:flex-row items-center gap-6">
           <div class="flex-1">
             <h2 class="text-lg font-bold text-white mb-2">
-              {{ lang.currentLang === 'et' ? 'Avalik verifitseerimine' : 'Public Verification Page' }}
+              {{ lang.t('seal.public_verification_page') }}
             </h2>
             <p class="text-sm text-slate-400">
-              {{ lang.currentLang === 'et'
-                ? 'Iga pitser sisaldab unikaalset linki avalikule verifitseerimislehele. K\u00fclastajad saavad kontrollida sinu DORA vastavuse staatust reaalajas.'
-                : 'Each seal includes a unique link to a public verification page. Visitors can verify your DORA compliance status in real-time.' }}
+              {{ lang.t('seal.each_seal_includes_a_unique_link_to_a_pu') }}
             </p>
           </div>
           <div class="flex-shrink-0 bg-slate-700/30 rounded-lg px-4 py-3 border border-slate-600/30">
-            <div class="text-[10px] text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Verifitseerimislink' : 'Verification URL' }}</div>
+            <div class="text-[10px] text-slate-500 mb-1">{{ lang.t('seal.verification_url') }}</div>
             <div class="text-xs font-mono text-cyan-400">doraaudit.eu/verify/{{ getSealId() }}</div>
           </div>
         </div>

@@ -137,7 +137,7 @@ interface Sector {
                 <span class="text-xs text-slate-500 font-mono">{{ companyInfo.registryCode }}</span>
               </div>
               <div class="text-xs text-slate-400">
-                EMTAK: {{ companyInfo.emtakCode }} - {{ lang.currentLang === 'et' ? companyInfo.emtakNameEt : companyInfo.emtakNameEn }}
+                EMTAK: {{ companyInfo.emtakCode }} - {{ lang.l(companyInfo.emtakNameEt, companyInfo.emtakNameEn) }}
               </div>
               <div *ngIf="dataAutoFilled" class="flex items-center gap-1.5 text-xs text-emerald-400 mt-2">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -177,10 +177,10 @@ interface Sector {
             <select [(ngModel)]="sector" (ngModelChange)="autoSave()" id="nis2-sector" class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all">
               <option value="">{{ lang.t('nis2.select_sector') }}</option>
               <optgroup [label]="lang.t('nis2.essential_sectors')">
-                <option *ngFor="let s of essentialSectors" [value]="s.code">{{ lang.currentLang === 'et' ? s.nameEt : s.nameEn }}</option>
+                <option *ngFor="let s of essentialSectors" [value]="s.code">{{ lang.l(s.nameEt, s.nameEn) }}</option>
               </optgroup>
               <optgroup [label]="lang.t('nis2.important_sectors')">
-                <option *ngFor="let s of importantSectors" [value]="s.code">{{ lang.currentLang === 'et' ? s.nameEt : s.nameEn }}</option>
+                <option *ngFor="let s of importantSectors" [value]="s.code">{{ lang.l(s.nameEt, s.nameEn) }}</option>
               </optgroup>
             </select>
           </div>
@@ -687,7 +687,7 @@ export class Nis2ScopeCheckComponent implements OnInit {
     // Set a fictional company info for display
     this.companyInfo = {
       registryCode: '99999999',
-      name: this.lang.currentLang === 'et' ? 'Näidis Finants OÜ' : 'Sample Finance Ltd',
+      name: this.lang.t('nis2scope.sample_finance_ltd'),
       emtakCode: '64191',
       emtakNameEt: 'Muu rahalise vahenduse tegevus',
       emtakNameEn: 'Other monetary intermediation',

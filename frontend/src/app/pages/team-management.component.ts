@@ -16,16 +16,16 @@ import { Organization, OrgMember, OrgInvite } from '../models';
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 class="text-2xl font-bold text-white">
-            {{ lang.currentLang === 'et' ? 'Meeskonna haldus' : 'Team Management' }}
+            {{ lang.t('team.team_management') }}
           </h1>
           <p class="text-sm text-slate-400 mt-1">
-            {{ lang.currentLang === 'et' ? 'Halda oma organisatsiooni ja meeskonna liikmeid' : 'Manage your organization and team members' }}
+            {{ lang.t('team.manage_your_organization_and_team_member') }}
           </p>
         </div>
         <button (click)="showCreateModal = true"
                 class="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
                        hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
-          + {{ lang.currentLang === 'et' ? 'Uus organisatsioon' : 'New Organization' }}
+          + {{ lang.t('team.new_organization') }}
         </button>
       </div>
 
@@ -33,7 +33,7 @@ import { Organization, OrgMember, OrgInvite } from '../models';
       @if (myInvites().length > 0) {
         <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4">
           <h3 class="text-sm font-semibold text-amber-400 mb-3">
-            {{ lang.currentLang === 'et' ? 'Ootel kutsed' : 'Pending Invitations' }}
+            {{ lang.t('team.pending_invitations') }}
           </h3>
           @for (invite of myInvites(); track invite.id) {
             <div class="flex items-center justify-between py-2 border-b border-amber-500/10 last:border-0">
@@ -43,7 +43,7 @@ import { Organization, OrgMember, OrgInvite } from '../models';
               </div>
               <button (click)="acceptInvite(invite.token)"
                       class="px-3 py-1 text-xs rounded-lg bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 transition-colors">
-                {{ lang.currentLang === 'et' ? 'Nõustu' : 'Accept' }}
+                {{ lang.t('team.accept') }}
               </button>
             </div>
           }
@@ -57,10 +57,10 @@ import { Organization, OrgMember, OrgInvite } from '../models';
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
           </svg>
           <h3 class="text-lg font-semibold text-white mb-2">
-            {{ lang.currentLang === 'et' ? 'Organisatsioone pole' : 'No Organizations' }}
+            {{ lang.t('team.no_organizations') }}
           </h3>
           <p class="text-sm text-slate-400">
-            {{ lang.currentLang === 'et' ? 'Loo oma esimene organisatsioon meeskonnatöö alustamiseks' : 'Create your first organization to start collaborating' }}
+            {{ lang.t('team.create_your_first_organization_to_start') }}
           </p>
         </div>
       }
@@ -99,13 +99,13 @@ import { Organization, OrgMember, OrgInvite } from '../models';
               <div class="p-4 sm:p-5">
                 <div class="flex items-center justify-between mb-4">
                   <h4 class="text-sm font-semibold text-slate-300">
-                    {{ lang.currentLang === 'et' ? 'Liikmed' : 'Members' }}
+                    {{ lang.t('team.members') }}
                     <span class="text-slate-500 font-normal ml-1">({{ orgMembers().length }})</span>
                   </h4>
                   @if (isOrgAdmin(org)) {
                     <button (click)="showInviteModal = org.id"
                             class="px-3 py-1.5 text-xs rounded-lg bg-violet-500/20 text-violet-400 hover:bg-violet-500/30 transition-colors">
-                      + {{ lang.currentLang === 'et' ? 'Kutsu' : 'Invite' }}
+                      + {{ lang.t('team.invite') }}
                     </button>
                   }
                 </div>
@@ -140,7 +140,7 @@ import { Organization, OrgMember, OrgInvite } from '../models';
                               <option value="MEMBER">Member</option>
                             </select>
                             <button (click)="removeMember(org.id, member.id)"
-                                    class="ml-1 text-red-400 hover:text-red-300 text-xs" title="Remove">
+                                    class="ml-1 text-red-400 hover:text-red-300 text-xs" [attr.aria-label]="lang.t('team.aria_remove_member')" title="Remove">
                               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <path d="M18 6 6 18M6 6l12 12"/>
                               </svg>
@@ -157,7 +157,7 @@ import { Organization, OrgMember, OrgInvite } from '../models';
               @if (isOrgAdmin(org) && orgInvites().length > 0) {
                 <div class="px-4 sm:px-5 pb-4">
                   <h4 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                    {{ lang.currentLang === 'et' ? 'Ootel kutsed' : 'Pending Invites' }}
+                    {{ lang.t('team.pending_invites') }}
                   </h4>
                   @for (invite of orgInvites(); track invite.id) {
                     <div class="flex items-center justify-between py-1.5 text-sm">
@@ -167,7 +167,7 @@ import { Organization, OrgMember, OrgInvite } from '../models';
                       </div>
                       <button (click)="cancelInvite(org.id, invite.id)"
                               class="text-xs text-red-400 hover:text-red-300">
-                        {{ lang.currentLang === 'et' ? 'Tühista' : 'Cancel' }}
+                        {{ lang.t('team.cancel') }}
                       </button>
                     </div>
                   }
@@ -179,16 +179,16 @@ import { Organization, OrgMember, OrgInvite } from '../models';
                 @if (org.ownerId === auth.user()?.userId) {
                   <button (click)="showEditModal = org.id; editName = org.name; editDesc = org.description || ''"
                           class="px-3 py-1.5 text-xs rounded-lg bg-slate-600/30 text-slate-300 hover:bg-slate-600/50 transition-colors">
-                    {{ lang.currentLang === 'et' ? 'Muuda' : 'Edit' }}
+                    {{ lang.t('team.edit') }}
                   </button>
                   <button (click)="confirmDeleteOrg = org.id"
                           class="px-3 py-1.5 text-xs rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors">
-                    {{ lang.currentLang === 'et' ? 'Kustuta' : 'Delete' }}
+                    {{ lang.t('team.delete') }}
                   </button>
                 } @else {
                   <button (click)="leaveOrg(org.id)"
                           class="px-3 py-1.5 text-xs rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors">
-                    {{ lang.currentLang === 'et' ? 'Lahku' : 'Leave' }}
+                    {{ lang.t('team.leave') }}
                   </button>
                 }
               </div>
@@ -203,38 +203,38 @@ import { Organization, OrgMember, OrgInvite } from '../models';
           <div class="bg-slate-800 rounded-xl border border-slate-700/50 shadow-xl w-full max-w-md" (click)="$event.stopPropagation()">
             <div class="p-5 border-b border-slate-700/50">
               <h3 class="text-lg font-semibold text-white">
-                {{ lang.currentLang === 'et' ? 'Loo organisatsioon' : 'Create Organization' }}
+                {{ lang.t('team.create_organization') }}
               </h3>
             </div>
             <div class="p-5 space-y-4">
               <div>
                 <label class="block text-xs font-medium text-slate-400 mb-1">
-                  {{ lang.currentLang === 'et' ? 'Nimi' : 'Name' }} *
+                  {{ lang.t('team.name') }} *
                 </label>
                 <input [(ngModel)]="newOrgName" type="text"
                        class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white
                               focus:outline-none focus:border-emerald-500/50"
-                       [placeholder]="lang.currentLang === 'et' ? 'Organisatsiooni nimi' : 'Organization name'">
+                       [placeholder]="lang.t('team.organization_name')">
               </div>
               <div>
                 <label class="block text-xs font-medium text-slate-400 mb-1">
-                  {{ lang.currentLang === 'et' ? 'Kirjeldus' : 'Description' }}
+                  {{ lang.t('team.description') }}
                 </label>
                 <textarea [(ngModel)]="newOrgDesc" rows="2"
                           class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white
                                  focus:outline-none focus:border-emerald-500/50"
-                          [placeholder]="lang.currentLang === 'et' ? 'Valikuline kirjeldus' : 'Optional description'"></textarea>
+                          [placeholder]="lang.t('team.optional_description')"></textarea>
               </div>
             </div>
             <div class="p-5 border-t border-slate-700/50 flex justify-end gap-2">
               <button (click)="showCreateModal = false"
                       class="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors">
-                {{ lang.currentLang === 'et' ? 'Tühista' : 'Cancel' }}
+                {{ lang.t('team.cancel_17') }}
               </button>
               <button (click)="createOrg()" [disabled]="!newOrgName.trim()"
                       class="px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
                              hover:from-emerald-400 hover:to-cyan-400 disabled:opacity-50 transition-all">
-                {{ lang.currentLang === 'et' ? 'Loo' : 'Create' }}
+                {{ lang.t('team.create') }}
               </button>
             </div>
           </div>
@@ -247,7 +247,7 @@ import { Organization, OrgMember, OrgInvite } from '../models';
           <div class="bg-slate-800 rounded-xl border border-slate-700/50 shadow-xl w-full max-w-md" (click)="$event.stopPropagation()">
             <div class="p-5 border-b border-slate-700/50">
               <h3 class="text-lg font-semibold text-white">
-                {{ lang.currentLang === 'et' ? 'Kutsu liige' : 'Invite Member' }}
+                {{ lang.t('team.invite_member') }}
               </h3>
             </div>
             <div class="p-5 space-y-4">
@@ -260,7 +260,7 @@ import { Organization, OrgMember, OrgInvite } from '../models';
               </div>
               <div>
                 <label class="block text-xs font-medium text-slate-400 mb-1">
-                  {{ lang.currentLang === 'et' ? 'Roll' : 'Role' }}
+                  {{ lang.t('team.role') }}
                 </label>
                 <select [(ngModel)]="inviteRole"
                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white
@@ -273,11 +273,11 @@ import { Organization, OrgMember, OrgInvite } from '../models';
             <div class="p-5 border-t border-slate-700/50 flex justify-end gap-2">
               <button (click)="showInviteModal = null"
                       class="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors">
-                {{ lang.currentLang === 'et' ? 'Tühista' : 'Cancel' }}
+                {{ lang.t('team.cancel_21') }}
               </button>
               <button (click)="sendInvite()" [disabled]="!inviteEmail.trim()"
                       class="px-4 py-2 text-sm font-medium rounded-lg bg-violet-500 text-white hover:bg-violet-400 disabled:opacity-50 transition-all">
-                {{ lang.currentLang === 'et' ? 'Saada kutse' : 'Send Invite' }}
+                {{ lang.t('team.send_invite') }}
               </button>
             </div>
           </div>
@@ -290,13 +290,13 @@ import { Organization, OrgMember, OrgInvite } from '../models';
           <div class="bg-slate-800 rounded-xl border border-slate-700/50 shadow-xl w-full max-w-md" (click)="$event.stopPropagation()">
             <div class="p-5 border-b border-slate-700/50">
               <h3 class="text-lg font-semibold text-white">
-                {{ lang.currentLang === 'et' ? 'Muuda organisatsiooni' : 'Edit Organization' }}
+                {{ lang.t('team.edit_organization') }}
               </h3>
             </div>
             <div class="p-5 space-y-4">
               <div>
                 <label class="block text-xs font-medium text-slate-400 mb-1">
-                  {{ lang.currentLang === 'et' ? 'Nimi' : 'Name' }}
+                  {{ lang.t('team.name_24') }}
                 </label>
                 <input [(ngModel)]="editName" type="text"
                        class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white
@@ -304,7 +304,7 @@ import { Organization, OrgMember, OrgInvite } from '../models';
               </div>
               <div>
                 <label class="block text-xs font-medium text-slate-400 mb-1">
-                  {{ lang.currentLang === 'et' ? 'Kirjeldus' : 'Description' }}
+                  {{ lang.t('team.description_25') }}
                 </label>
                 <textarea [(ngModel)]="editDesc" rows="2"
                           class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white
@@ -314,12 +314,12 @@ import { Organization, OrgMember, OrgInvite } from '../models';
             <div class="p-5 border-t border-slate-700/50 flex justify-end gap-2">
               <button (click)="showEditModal = null"
                       class="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors">
-                {{ lang.currentLang === 'et' ? 'Tühista' : 'Cancel' }}
+                {{ lang.t('team.cancel_26') }}
               </button>
               <button (click)="updateOrg()"
                       class="px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
                              hover:from-emerald-400 hover:to-cyan-400 transition-all">
-                {{ lang.currentLang === 'et' ? 'Salvesta' : 'Save' }}
+                {{ lang.t('team.save') }}
               </button>
             </div>
           </div>
@@ -331,19 +331,19 @@ import { Organization, OrgMember, OrgInvite } from '../models';
         <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" (click)="confirmDeleteOrg = null">
           <div class="bg-slate-800 rounded-xl border border-red-500/30 shadow-xl w-full max-w-sm p-5" (click)="$event.stopPropagation()">
             <h3 class="text-lg font-semibold text-white mb-2">
-              {{ lang.currentLang === 'et' ? 'Kustuta organisatsioon?' : 'Delete Organization?' }}
+              {{ lang.t('team.delete_organization') }}
             </h3>
             <p class="text-sm text-slate-400 mb-4">
-              {{ lang.currentLang === 'et' ? 'See toiming on pöördumatu. Kõik liikmed eemaldatakse.' : 'This action cannot be undone. All members will be removed.' }}
+              {{ lang.t('team.this_action_cannot_be_undone_all_members') }}
             </p>
             <div class="flex justify-end gap-2">
               <button (click)="confirmDeleteOrg = null"
                       class="px-4 py-2 text-sm text-slate-400 hover:text-white">
-                {{ lang.currentLang === 'et' ? 'Tühista' : 'Cancel' }}
+                {{ lang.t('team.cancel_30') }}
               </button>
               <button (click)="deleteOrg(confirmDeleteOrg!)"
                       class="px-4 py-2 text-sm font-medium rounded-lg bg-red-500 text-white hover:bg-red-400 transition-all">
-                {{ lang.currentLang === 'et' ? 'Kustuta' : 'Delete' }}
+                {{ lang.t('team.delete_31') }}
               </button>
             </div>
           </div>

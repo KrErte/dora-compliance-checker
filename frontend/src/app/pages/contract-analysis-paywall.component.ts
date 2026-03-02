@@ -266,7 +266,7 @@ import { ContractAnalysisResult } from '../models';
 
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2 mb-1">
-              <h3 class="text-sm font-semibold text-slate-200">{{ lang.currentLang === 'et' ? finding.requirementEt : finding.requirementEn }}</h3>
+              <h3 class="text-sm font-semibold text-slate-200">{{ lang.l(finding.requirementEt, finding.requirementEn) }}</h3>
               <span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-700/50 text-slate-400 shrink-0">
                 {{ finding.doraReference }}
               </span>
@@ -277,9 +277,9 @@ import { ContractAnalysisResult } from '../models';
               <p class="text-xs text-slate-300 italic">"{{ finding.quote }}"</p>
             </div>
 
-            <div *ngIf="lang.currentLang === 'et' ? finding.recommendationEt : finding.recommendationEn" class="mt-2 pl-3 border-l-2 border-amber-500/30 bg-amber-500/5 rounded-r-lg py-2 pr-3">
+            <div *ngIf="lang.l(finding.recommendationEt, finding.recommendationEn)" class="mt-2 pl-3 border-l-2 border-amber-500/30 bg-amber-500/5 rounded-r-lg py-2 pr-3">
               <p class="text-xs text-slate-500 mb-0.5">{{ lang.t('contract.recommendation') }}</p>
-              <p class="text-xs text-slate-300">{{ lang.currentLang === 'et' ? finding.recommendationEt : finding.recommendationEn }}</p>
+              <p class="text-xs text-slate-300">{{ lang.l(finding.recommendationEt, finding.recommendationEn) }}</p>
             </div>
           </div>
         </div>

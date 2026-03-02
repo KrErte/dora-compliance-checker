@@ -311,7 +311,7 @@ export class DoraExplorerComponent {
   public lang = inject(LangService);
 
   l(et: string, en: string): string {
-    return this.lang.currentLang === 'et' ? et : en;
+    return this.lang.l(et, en);
   }
 
   la(et: any[], en: any[]): any[] {

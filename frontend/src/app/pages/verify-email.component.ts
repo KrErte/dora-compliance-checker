@@ -16,7 +16,7 @@ import { LangService } from '../lang.service';
           <!-- Loading -->
           <div *ngIf="state === 'loading'">
             <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-700 animate-pulse"></div>
-            <p class="text-slate-400">{{ lang.currentLang === 'et' ? 'Kinnitan e-posti...' : 'Verifying email...' }}</p>
+            <p class="text-slate-400">{{ lang.t('verify.verifying_email') }}</p>
           </div>
 
           <!-- Success -->
@@ -27,13 +27,13 @@ import { LangService } from '../lang.service';
               </svg>
             </div>
             <h2 class="text-xl font-bold text-white mb-2">
-              {{ lang.currentLang === 'et' ? 'E-post kinnitatud!' : 'Email verified!' }}
+              {{ lang.t('verify.email_verified') }}
             </h2>
             <p class="text-slate-400 mb-6">
-              {{ lang.currentLang === 'et' ? 'Sinu e-posti aadress on edukalt kinnitatud. Nüüd saad platvormi täisfunktsionaalsust kasutada.' : 'Your email address has been successfully verified. You can now use all platform features.' }}
+              {{ lang.t('verify.your_email_address_has_been_successfully') }}
             </p>
             <a routerLink="/dashboard" class="inline-block px-6 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold rounded-lg hover:shadow-lg transition-all">
-              {{ lang.currentLang === 'et' ? 'Mine töölauale' : 'Go to Dashboard' }}
+              {{ lang.t('verify.go_to_dashboard') }}
             </a>
           </div>
 
@@ -45,13 +45,13 @@ import { LangService } from '../lang.service';
               </svg>
             </div>
             <h2 class="text-xl font-bold text-white mb-2">
-              {{ lang.currentLang === 'et' ? 'Kinnitamine ebaõnnestus' : 'Verification failed' }}
+              {{ lang.t('verify.verification_failed') }}
             </h2>
             <p class="text-slate-400 mb-6">
-              {{ lang.currentLang === 'et' ? 'Vigane või aegunud kinnituslink. Palun logi sisse ja küsi uus kinnituskiri.' : 'Invalid or expired verification link. Please log in and request a new verification email.' }}
+              {{ lang.t('verify.invalid_or_expired_verification_link_ple') }}
             </p>
             <a routerLink="/login" class="inline-block px-6 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold rounded-lg hover:shadow-lg transition-all">
-              {{ lang.currentLang === 'et' ? 'Logi sisse' : 'Log in' }}
+              {{ lang.t('verify.log_in') }}
             </a>
           </div>
 

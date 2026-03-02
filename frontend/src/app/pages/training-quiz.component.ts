@@ -1377,7 +1377,7 @@ export class TrainingQuizComponent implements OnDestroy {
   }
 
   l(et: string, en: string): string {
-    return this.lang.currentLang === 'et' ? et : en;
+    return this.lang.l(et, en);
   }
 
   getOptions(q: QuizQuestion): string[] {

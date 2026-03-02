@@ -89,7 +89,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
 
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('workspace.project_name') }} <span class="text-slate-500">({{ lang.currentLang === 'et' ? 'valikuline' : 'optional' }})</span></label>
+              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('workspace.project_name') }} <span class="text-slate-500">({{ lang.t('workspace.optional') }})</span></label>
               <input type="text" [(ngModel)]="projectName" [placeholder]="lang.t('workspace.project_name_placeholder')"
                      class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white
                             focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all" />
@@ -111,7 +111,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
                 <input type="checkbox" [checked]="allRegulationsSelected"
                        (change)="toggleAllRegulations()"
                        class="rounded border-slate-600 bg-slate-800 text-violet-500 focus:ring-violet-500/20" />
-                <span class="text-sm text-slate-300">{{ lang.currentLang === 'et' ? 'Vali kõik' : 'Select all' }}</span>
+                <span class="text-sm text-slate-300">{{ lang.t('workspace.select_all') }}</span>
               </label>
 
               <div class="grid grid-cols-2 gap-3">
@@ -126,7 +126,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
                   <div>
                     <span class="text-sm font-medium text-white">{{ reg.name }}</span>
                     <p class="text-xs text-slate-500 mt-0.5">{{ reg.checks }} {{ lang.t('workspace.checks') }}</p>
-                    <p class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? reg.descriptionEt : reg.descriptionEn }}</p>
+                    <p class="text-xs text-slate-400 mt-1">{{ lang.l(reg.descriptionEt, reg.descriptionEn) }}</p>
                   </div>
                 </label>
               </div>
@@ -223,7 +223,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
             </button>
             <button (click)="resetToNewAnalysis()"
                     class="px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white bg-slate-700/50 hover:bg-slate-600/50 transition-all">
-              {{ lang.currentLang === 'et' ? 'Analüüsi uut lepingut' : 'Analyze new contract' }}
+              {{ lang.t('workspace.analyze_new_contract') }}
             </button>
             <span class="px-3 py-1 rounded-full text-xs font-medium"
                   [ngClass]="getStatusClass(project.status)">
@@ -235,7 +235,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
         <!-- Overall Compliance Summary -->
         <div class="p-6 rounded-xl bg-slate-800/50 border border-slate-700/50">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold text-white">{{ lang.currentLang === 'et' ? 'Üldine vastavus' : 'Overall Compliance' }}</h3>
+            <h3 class="text-lg font-semibold text-white">{{ lang.t('workspace.overall_compliance') }}</h3>
             <span class="text-2xl font-bold px-4 py-1 rounded-full"
                   [ngClass]="getComplianceBadgeClass(getOverallScore())">
               {{ getOverallScore() | number:'1.0-0' }}%
@@ -345,7 +345,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
         <div class="rounded-xl bg-slate-800/50 border border-slate-700/50">
           <button (click)="showReviewForm = !showReviewForm"
                   class="w-full p-6 flex items-center justify-between text-left">
-            <h3 class="text-lg font-semibold text-white">{{ lang.currentLang === 'et' ? 'Lisa ülevaatus' : 'Add review' }}</h3>
+            <h3 class="text-lg font-semibold text-white">{{ lang.t('workspace.add_review') }}</h3>
             <svg class="w-5 h-5 text-slate-400 transition-transform duration-200"
                  [class.rotate-180]="showReviewForm"
                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -502,9 +502,7 @@ export class WorkspaceComponent implements OnInit {
   }
 
   private updateMeta(): void {
-    const title = this.lang.currentLang === 'et'
-      ? 'ICT Lepingu Töölaud — Multi-regulatsiooni vastavuse kontroll | DoraAudit.eu'
-      : 'ICT Contract Workspace — Multi-Regulation Compliance Check | DoraAudit.eu';
+    const title = this.lang.t('workspace.ict_contract_workspace_multiregulation_c');
     this.titleService.setTitle(title);
   }
 
@@ -555,7 +553,7 @@ export class WorkspaceComponent implements OnInit {
     this.api.getSampleContract().subscribe({
       next: (blob) => {
         this.selectedFile = new File([blob], 'sample_ikt_leping.pdf', { type: 'application/pdf' });
-        this.projectName = this.lang.currentLang === 'et' ? 'IKT pilveteenuse leping 2025' : 'ICT Cloud Service Contract 2025';
+        this.projectName = this.lang.t('workspace.ict_cloud_service_contract_2025');
         // Ensure DORA Art. 30 is selected
         if (!this.selectedRegulations.includes('DORA_ART30')) {
           this.selectedRegulations.push('DORA_ART30');
@@ -878,10 +876,10 @@ export class WorkspaceComponent implements OnInit {
   }
 
   formatDate(date: string): string {
-    return new Date(date).toLocaleDateString(this.lang.currentLang === 'et' ? 'et-EE' : 'en-US');
+    return new Date(date).toLocaleDateString(this.lang.t('workspace.enus'));
   }
 
   formatDateTime(date: string): string {
-    return new Date(date).toLocaleString(this.lang.currentLang === 'et' ? 'et-EE' : 'en-US');
+    return new Date(date).toLocaleString(this.lang.t('workspace.enus_8'));
   }
 }

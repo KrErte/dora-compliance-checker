@@ -211,15 +211,13 @@ const TEMPLATES: PolicyTemplate[] = [
         <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/>
         </svg>
-        {{ lang.currentLang === 'et' ? 'Tasuta tööriist' : 'Free Tool' }}
+        {{ lang.t('policy.free_tool') }}
       </div>
       <h1 class="text-3xl sm:text-4xl font-bold text-white mb-3">
-        {{ lang.currentLang === 'et' ? 'DORA Poliitikadokumentide Generaator' : 'DORA Policy Document Generator' }}
+        {{ lang.t('policy.dora_policy_document_generator') }}
       </h1>
       <p class="text-slate-400 max-w-2xl mx-auto">
-        {{ lang.currentLang === 'et'
-           ? 'Genereeri valmis DORA-vastavad poliitikadokumendid minutitega. Konsultandid küsivad selle eest tuhandeid eurosid.'
-           : 'Generate complete DORA-compliant policy documents in minutes. Consultants charge thousands for these.' }}
+        {{ lang.t('policy.generate_complete_doracompliant_policy_d') }}
       </p>
     </div>
 
@@ -235,7 +233,7 @@ const TEMPLATES: PolicyTemplate[] = [
             <path [attr.d]="t.icon"/>
           </svg>
           <p class="text-sm font-medium" [ngClass]="selectedTemplate?.id === t.id ? 'text-white' : 'text-slate-300'">
-            {{ lang.currentLang === 'et' ? t.name.et : t.name.en }}
+            {{ lang.l(t.name.et, t.name.en) }}
           </p>
           <p class="text-xs text-slate-500 mt-1">{{ t.doraRef }}</p>
         </button>
@@ -245,36 +243,36 @@ const TEMPLATES: PolicyTemplate[] = [
     @if (selectedTemplate) {
       <!-- Company details -->
       <div class="p-5 rounded-xl bg-slate-800/50 border border-slate-700/50 mb-6">
-        <h3 class="text-sm font-semibold text-slate-300 mb-4">{{ lang.currentLang === 'et' ? 'Ettevõtte andmed' : 'Company Details' }}</h3>
+        <h3 class="text-sm font-semibold text-slate-300 mb-4">{{ lang.t('policy.company_details') }}</h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Ettevõtte nimi' : 'Company Name' }}</label>
+            <label class="block text-xs text-slate-500 mb-1">{{ lang.t('policy.company_name') }}</label>
             <input [(ngModel)]="companyName" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="AS Finants">
           </div>
           <div>
-            <label class="block text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Registrikood' : 'Registration Number' }}</label>
+            <label class="block text-xs text-slate-500 mb-1">{{ lang.t('policy.registration_number') }}</label>
             <input [(ngModel)]="regNumber" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="12345678">
           </div>
           <div>
-            <label class="block text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Sektor' : 'Sector' }}</label>
+            <label class="block text-xs text-slate-500 mb-1">{{ lang.t('policy.sector') }}</label>
             <select [(ngModel)]="sector" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none">
-              <option value="banking">{{ lang.currentLang === 'et' ? 'Pangandus' : 'Banking' }}</option>
-              <option value="insurance">{{ lang.currentLang === 'et' ? 'Kindlustus' : 'Insurance' }}</option>
-              <option value="investment">{{ lang.currentLang === 'et' ? 'Investeerimine' : 'Investment' }}</option>
-              <option value="payment">{{ lang.currentLang === 'et' ? 'Makseteenused' : 'Payment Services' }}</option>
-              <option value="fund">{{ lang.currentLang === 'et' ? 'Fondivalitsemine' : 'Fund Management' }}</option>
+              <option value="banking">{{ lang.t('policy.banking') }}</option>
+              <option value="insurance">{{ lang.t('policy.insurance') }}</option>
+              <option value="investment">{{ lang.t('policy.investment') }}</option>
+              <option value="payment">{{ lang.t('policy.payment_services') }}</option>
+              <option value="fund">{{ lang.t('policy.fund_management') }}</option>
             </select>
           </div>
           <div>
-            <label class="block text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Riik' : 'Country' }}</label>
+            <label class="block text-xs text-slate-500 mb-1">{{ lang.t('policy.country') }}</label>
             <input [(ngModel)]="country" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="Estonia">
           </div>
           <div>
-            <label class="block text-xs text-slate-500 mb-1">CISO / IT {{ lang.currentLang === 'et' ? 'juht' : 'Manager' }}</label>
+            <label class="block text-xs text-slate-500 mb-1">CISO / IT {{ lang.t('policy.manager') }}</label>
             <input [(ngModel)]="cisoName" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="Mari Mets">
           </div>
           <div>
-            <label class="block text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Vastutav juhatuse liige' : 'Responsible Board Member' }}</label>
+            <label class="block text-xs text-slate-500 mb-1">{{ lang.t('policy.responsible_board_member') }}</label>
             <input [(ngModel)]="boardMember" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="Jaan Tamm">
           </div>
         </div>
@@ -286,13 +284,13 @@ const TEMPLATES: PolicyTemplate[] = [
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
           </svg>
-          {{ copied ? (lang.currentLang === 'et' ? 'Kopeeritud!' : 'Copied!') : (lang.currentLang === 'et' ? 'Kopeeri tekst' : 'Copy Text') }}
+          {{ copied ? lang.t('policy.copied') : lang.t('policy.copy_text') }}
         </button>
         <button (click)="printDoc()" class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-300 hover:bg-slate-700 transition-all flex items-center gap-2">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/>
           </svg>
-          {{ lang.currentLang === 'et' ? 'Prindi' : 'Print' }}
+          {{ lang.t('policy.print') }}
         </button>
       </div>
 
@@ -300,41 +298,41 @@ const TEMPLATES: PolicyTemplate[] = [
       <div id="policy-document" class="p-6 sm:p-8 rounded-xl bg-slate-800/80 border border-slate-700/50 print:bg-white print:text-black print:border-0">
         <!-- Header -->
         <div class="text-center mb-8 pb-6 border-b border-slate-700/50 print:border-gray-300">
-          <p class="text-xs text-red-400 font-bold tracking-widest mb-4 print:text-red-600">{{ lang.currentLang === 'et' ? 'KONFIDENTSIAALNE' : 'CONFIDENTIAL' }}</p>
+          <p class="text-xs text-red-400 font-bold tracking-widest mb-4 print:text-red-600">{{ lang.t('policy.confidential') }}</p>
           <h2 class="text-2xl font-bold text-white mb-2 print:text-black">{{ getCompanyName() }}</h2>
-          <h3 class="text-lg font-semibold text-emerald-400 mb-4 print:text-emerald-700">{{ lang.currentLang === 'et' ? selectedTemplate.name.et : selectedTemplate.name.en }}</h3>
+          <h3 class="text-lg font-semibold text-emerald-400 mb-4 print:text-emerald-700">{{ lang.l(selectedTemplate.name.et, selectedTemplate.name.en) }}</h3>
           <div class="flex justify-center gap-6 text-xs text-slate-400 print:text-gray-600">
-            <span>{{ lang.currentLang === 'et' ? 'Versioon' : 'Version' }}: 1.0</span>
-            <span>{{ lang.currentLang === 'et' ? 'Kuupäev' : 'Date' }}: {{ today }}</span>
+            <span>{{ lang.t('policy.version') }}: 1.0</span>
+            <span>{{ lang.t('policy.date') }}: {{ today }}</span>
             <span>{{ selectedTemplate.doraRef }}</span>
           </div>
         </div>
 
         <!-- Table of contents -->
         <div class="mb-8 p-4 rounded-lg bg-slate-900/30 print:bg-gray-100">
-          <p class="text-sm font-bold text-slate-300 mb-3 print:text-black">{{ lang.currentLang === 'et' ? 'Sisukord' : 'Table of Contents' }}</p>
+          <p class="text-sm font-bold text-slate-300 mb-3 print:text-black">{{ lang.t('policy.table_of_contents') }}</p>
           @for (section of selectedTemplate.sections; track section.title.en) {
-            <p class="text-sm text-slate-400 py-0.5 print:text-gray-700">{{ lang.currentLang === 'et' ? section.title.et : section.title.en }}</p>
+            <p class="text-sm text-slate-400 py-0.5 print:text-gray-700">{{ lang.l(section.title.et, section.title.en) }}</p>
           }
         </div>
 
         <!-- Sections -->
         @for (section of selectedTemplate.sections; track section.title.en) {
           <div class="mb-6">
-            <h4 class="text-base font-semibold text-white mb-2 print:text-black">{{ lang.currentLang === 'et' ? section.title.et : section.title.en }}</h4>
-            <p class="text-sm text-slate-300 leading-relaxed whitespace-pre-line print:text-gray-800">{{ interpolate(lang.currentLang === 'et' ? section.body.et : section.body.en) }}</p>
+            <h4 class="text-base font-semibold text-white mb-2 print:text-black">{{ lang.l(section.title.et, section.title.en) }}</h4>
+            <p class="text-sm text-slate-300 leading-relaxed whitespace-pre-line print:text-gray-800">{{ interpolate(lang.l(section.body.et, section.body.en)) }}</p>
           </div>
         }
 
         <!-- Sign-off -->
         <div class="mt-10 pt-6 border-t border-slate-700/50 grid grid-cols-2 gap-8 print:border-gray-300">
           <div>
-            <p class="text-xs text-slate-500 mb-1 print:text-gray-500">{{ lang.currentLang === 'et' ? 'Koostanud' : 'Prepared by' }}</p>
+            <p class="text-xs text-slate-500 mb-1 print:text-gray-500">{{ lang.t('policy.prepared_by') }}</p>
             <div class="h-px bg-slate-600 w-48 mt-8 print:bg-gray-400"></div>
             <p class="text-sm text-slate-400 mt-1 print:text-gray-700">{{ cisoName || '[CISO]' }}</p>
           </div>
           <div>
-            <p class="text-xs text-slate-500 mb-1 print:text-gray-500">{{ lang.currentLang === 'et' ? 'Kinnitanud' : 'Approved by' }}</p>
+            <p class="text-xs text-slate-500 mb-1 print:text-gray-500">{{ lang.t('policy.approved_by') }}</p>
             <div class="h-px bg-slate-600 w-48 mt-8 print:bg-gray-400"></div>
             <p class="text-sm text-slate-400 mt-1 print:text-gray-700">{{ boardMember || '[Board Member]' }}</p>
           </div>
@@ -344,15 +342,13 @@ const TEMPLATES: PolicyTemplate[] = [
       <!-- CTA -->
       <div class="mt-8 p-6 rounded-2xl bg-gradient-to-br from-violet-500/10 to-cyan-500/10 border border-violet-500/20 text-center">
         <h3 class="text-lg font-semibold text-white mb-2">
-          {{ lang.currentLang === 'et' ? 'Soovid personaalsemat poliitikat?' : 'Want a more personalized policy?' }}
+          {{ lang.t('policy.want_a_more_personalized_policy') }}
         </h3>
         <p class="text-sm text-slate-400 mb-4">
-          {{ lang.currentLang === 'et'
-             ? 'Alusta DORA hindamisega, et tuvastada täpsed puudused ja saada personaalne tegevuskava.'
-             : 'Start a DORA assessment to identify specific gaps and get a personalized action plan.' }}
+          {{ lang.t('policy.start_a_dora_assessment_to_identify_spec') }}
         </p>
         <a routerLink="/assessment" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-cyan-500 text-white hover:from-emerald-400 hover:to-cyan-400 transition-all">
-          {{ lang.currentLang === 'et' ? 'Alusta hindamist' : 'Start Assessment' }}
+          {{ lang.t('policy.start_assessment') }}
         </a>
       </div>
     }

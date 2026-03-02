@@ -36,10 +36,10 @@ interface SsoConfig {
       <!-- Header -->
       <div>
         <h1 class="text-2xl font-bold text-white">
-          {{ lang.currentLang === 'et' ? 'SSO seaded' : 'SSO Settings' }}
+          {{ lang.t('sso.sso_settings') }}
         </h1>
         <p class="text-sm text-slate-400 mt-1">
-          {{ lang.currentLang === 'et' ? 'Seadista SAML2 või OIDC ühekordne sisselogimine oma organisatsioonile' : 'Configure SAML2 or OIDC Single Sign-On for your organization' }}
+          {{ lang.t('sso.configure_saml2_or_oidc_single_signon_fo') }}
         </p>
       </div>
 
@@ -53,10 +53,10 @@ interface SsoConfig {
           </div>
           <h3 class="text-lg font-semibold text-white mb-2">Enterprise</h3>
           <p class="text-sm text-slate-400 mb-4">
-            {{ lang.currentLang === 'et' ? 'SSO/SAML tugi on saadaval Enterprise plaaniga' : 'SSO/SAML support is available with the Enterprise plan' }}
+            {{ lang.t('sso.ssosaml_support_is_available_with_the_en') }}
           </p>
           <a routerLink="/pricing" class="inline-block px-6 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-400 hover:to-orange-400 transition-all">
-            {{ lang.currentLang === 'et' ? 'Uuenda plaani' : 'Upgrade Plan' }}
+            {{ lang.t('sso.upgrade_plan') }}
           </a>
         </div>
       } @else {
@@ -64,13 +64,13 @@ interface SsoConfig {
         @if (organizations().length === 0) {
           <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-8 text-center">
             <p class="text-sm text-slate-400">
-              {{ lang.currentLang === 'et' ? 'Esmalt loo organisatsioon Meeskonna halduses' : 'First create an organization in Team Management' }}
+              {{ lang.t('sso.first_create_an_organization_in_team_man') }}
             </p>
           </div>
         } @else {
           <div class="flex items-center gap-3">
             <label class="text-sm text-slate-400">
-              {{ lang.currentLang === 'et' ? 'Organisatsioon' : 'Organization' }}:
+              {{ lang.t('sso.organization') }}:
             </label>
             <select [(ngModel)]="selectedOrgId" (ngModelChange)="onOrgChange()"
                     class="px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-emerald-500/50">
@@ -105,7 +105,7 @@ interface SsoConfig {
                   </span>
                   <button (click)="editConfig(config)"
                           class="px-2 py-1 text-xs rounded bg-slate-600/30 text-slate-300 hover:bg-slate-600/50 transition-colors">
-                    {{ lang.currentLang === 'et' ? 'Muuda' : 'Edit' }}
+                    {{ lang.t('sso.edit') }}
                   </button>
                 </div>
               </div>
@@ -132,7 +132,7 @@ interface SsoConfig {
                 }
                 <div>
                   <p class="text-[10px] text-slate-500 uppercase">
-                    {{ lang.currentLang === 'et' ? 'Lubatud domeenid' : 'Allowed Domains' }}
+                    {{ lang.t('sso.allowed_domains') }}
                   </p>
                   <p class="text-slate-300">{{ config.allowedDomains || '-' }}</p>
                 </div>
@@ -148,10 +148,10 @@ interface SsoConfig {
           @if (configs().length === 0) {
             <div class="bg-slate-800/50 rounded-xl border border-dashed border-slate-600/50 p-8 text-center">
               <h3 class="text-lg font-semibold text-white mb-3">
-                {{ lang.currentLang === 'et' ? 'Seadista SSO' : 'Configure SSO' }}
+                {{ lang.t('sso.configure_sso') }}
               </h3>
               <p class="text-sm text-slate-400 mb-5">
-                {{ lang.currentLang === 'et' ? 'Vali oma identiteedipakkuja protokoll' : 'Choose your identity provider protocol' }}
+                {{ lang.t('sso.choose_your_identity_provider_protocol') }}
               </p>
               <div class="flex justify-center gap-4">
                 <button (click)="startNewConfig('SAML2')"
@@ -169,17 +169,17 @@ interface SsoConfig {
           } @else {
             <button (click)="startNewConfig('SAML2')"
                     class="px-4 py-2 text-sm rounded-lg bg-slate-700/30 text-slate-300 hover:bg-slate-700/50 transition-colors">
-              + {{ lang.currentLang === 'et' ? 'Lisa SSO konfiguratsioon' : 'Add SSO Configuration' }}
+              + {{ lang.t('sso.add_sso_configuration') }}
             </button>
           }
 
           <!-- SP metadata info -->
           <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-5">
             <h3 class="text-sm font-semibold text-slate-300 mb-3">
-              {{ lang.currentLang === 'et' ? 'Teenusepakkuja andmed (SP)' : 'Service Provider Details (SP)' }}
+              {{ lang.t('sso.service_provider_details_sp') }}
             </h3>
             <p class="text-xs text-slate-400 mb-3">
-              {{ lang.currentLang === 'et' ? 'Kasuta neid andmeid oma identiteedipakkuja seadistamiseks' : 'Use these details to configure your identity provider' }}
+              {{ lang.t('sso.use_these_details_to_configure_your_iden') }}
             </p>
             <div class="space-y-2">
               <div class="flex items-center justify-between py-2 px-3 rounded bg-slate-700/20">
@@ -206,14 +206,14 @@ interface SsoConfig {
             <div class="p-5 border-b border-slate-700/50">
               <h3 class="text-lg font-semibold text-white">
                 {{ form.type === 'SAML2' ? 'SAML 2.0' : 'OIDC' }}
-                {{ lang.currentLang === 'et' ? 'seaded' : 'Configuration' }}
+                {{ lang.t('sso.configuration') }}
               </h3>
             </div>
             <div class="p-5 space-y-4">
               <!-- Type selector -->
               <div>
                 <label class="block text-xs font-medium text-slate-400 mb-1">
-                  {{ lang.currentLang === 'et' ? 'Protokoll' : 'Protocol' }}
+                  {{ lang.t('sso.protocol') }}
                 </label>
                 <div class="flex gap-2">
                   <button (click)="form.type = 'SAML2'" class="flex-1 px-3 py-2 rounded-lg text-sm font-medium border transition-all"
@@ -248,7 +248,7 @@ interface SsoConfig {
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
-                    {{ lang.currentLang === 'et' ? 'IdP X.509 sertifikaat' : 'IdP X.509 Certificate' }} *
+                    {{ lang.t('sso.idp_x509_certificate') }} *
                   </label>
                   <textarea [(ngModel)]="form.certificate" rows="4"
                             class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-xs text-white font-mono focus:outline-none focus:border-blue-500/50"
@@ -291,12 +291,12 @@ interface SsoConfig {
 
               <div class="border-t border-slate-700/50 pt-4">
                 <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
-                  {{ lang.currentLang === 'et' ? 'Atribuutide kaardistus' : 'Attribute Mapping' }}
+                  {{ lang.t('sso.attribute_mapping') }}
                 </h4>
                 <div class="grid grid-cols-2 gap-3">
                   <div>
                     <label class="block text-xs font-medium text-slate-400 mb-1">
-                      {{ lang.currentLang === 'et' ? 'E-posti atribuut' : 'Email Attribute' }}
+                      {{ lang.t('sso.email_attribute') }}
                     </label>
                     <input [(ngModel)]="form.emailAttribute" type="text"
                            class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-slate-500/50"
@@ -304,7 +304,7 @@ interface SsoConfig {
                   </div>
                   <div>
                     <label class="block text-xs font-medium text-slate-400 mb-1">
-                      {{ lang.currentLang === 'et' ? 'Nime atribuut' : 'Name Attribute' }}
+                      {{ lang.t('sso.name_attribute') }}
                     </label>
                     <input [(ngModel)]="form.nameAttribute" type="text"
                            class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-slate-500/50"
@@ -315,24 +315,24 @@ interface SsoConfig {
 
               <div class="border-t border-slate-700/50 pt-4">
                 <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
-                  {{ lang.currentLang === 'et' ? 'Provisioning' : 'Provisioning' }}
+                  {{ lang.t('sso.provisioning') }}
                 </h4>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
-                    {{ lang.currentLang === 'et' ? 'Lubatud domeenid' : 'Allowed Domains' }}
+                    {{ lang.t('sso.allowed_domains_20') }}
                   </label>
                   <input [(ngModel)]="form.allowedDomains" type="text"
                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-slate-500/50"
                          placeholder="example.com, company.eu">
                   <p class="text-[10px] text-slate-500 mt-1">
-                    {{ lang.currentLang === 'et' ? 'Komaga eraldatud domeenid' : 'Comma-separated domains' }}
+                    {{ lang.t('sso.commaseparated_domains') }}
                   </p>
                 </div>
                 <label class="flex items-center gap-2 cursor-pointer mt-3">
                   <input [(ngModel)]="form.autoProvision" type="checkbox"
                          class="rounded border-slate-600 bg-slate-700 text-emerald-500 focus:ring-emerald-500/30">
                   <span class="text-sm text-slate-300">
-                    {{ lang.currentLang === 'et' ? 'Automaatne kasutajate loomine' : 'Auto-provision users' }}
+                    {{ lang.t('sso.autoprovision_users') }}
                   </span>
                 </label>
               </div>
@@ -340,12 +340,12 @@ interface SsoConfig {
             <div class="p-5 border-t border-slate-700/50 flex justify-end gap-2">
               <button (click)="showModal = false"
                       class="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors">
-                {{ lang.currentLang === 'et' ? 'Tühista' : 'Cancel' }}
+                {{ lang.t('sso.cancel') }}
               </button>
               <button (click)="saveConfig()"
                       class="px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
                              hover:from-emerald-400 hover:to-cyan-400 transition-all">
-                {{ lang.currentLang === 'et' ? 'Salvesta' : 'Save' }}
+                {{ lang.t('sso.save') }}
               </button>
             </div>
           </div>

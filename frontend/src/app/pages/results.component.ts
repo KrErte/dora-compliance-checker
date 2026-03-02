@@ -1147,7 +1147,7 @@ export class ResultsComponent implements OnInit {
   getCategoryLabel(category: string): string {
     const label = CATEGORY_LABELS[category];
     if (!label) return category;
-    return this.lang.currentLang === 'et' ? label.et : label.en;
+    return this.lang.pick(label);
   }
 
   get circleColor(): string {

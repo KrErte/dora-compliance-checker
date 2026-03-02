@@ -25,7 +25,7 @@ import { IncidentReport, IncidentStats } from '../models';
           </h1>
           <p class="text-slate-400 text-sm mt-1">{{ lang.t('incident.subtitle') }}</p>
         </div>
-        <button (click)="showCreateForm = true"
+        <button (click)="showCreateForm.set(true)"
                 class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-red-500/25 transition-all flex items-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -33,6 +33,13 @@ import { IncidentReport, IncidentStats } from '../models';
           {{ lang.t('incident.report_btn') }}
         </button>
       </div>
+
+      @if (errorMsg()) {
+        <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-center justify-between">
+          <span class="text-red-400 text-sm">{{ errorMsg() }}</span>
+          <button (click)="errorMsg.set(null)" class="text-red-400 hover:text-red-300 ml-4" [attr.aria-label]="lang.t('incident.aria_close_error')">&times;</button>
+        </div>
+      }
 
       <!-- Stats cards -->
       @if (stats()) {
@@ -62,8 +69,8 @@ import { IncidentReport, IncidentStats } from '../models';
       }
 
       <!-- Create form modal -->
-      @if (showCreateForm) {
-        <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" (click)="showCreateForm = false">
+      @if (showCreateForm()) {
+        <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" (click)="showCreateForm.set(false)">
           <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto" (click)="$event.stopPropagation()">
             <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
               <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -200,7 +207,7 @@ import { IncidentReport, IncidentStats } from '../models';
 
               <!-- Actions -->
               <div class="flex justify-end gap-3 pt-4">
-                <button (click)="showCreateForm = false"
+                <button (click)="showCreateForm.set(false)"
                         class="px-5 py-2.5 rounded-xl bg-slate-700/50 border border-slate-600/50 text-slate-300 text-sm hover:bg-slate-600/50 transition-all">
                   {{ lang.t('incident.cancel') }}
                 </button>
@@ -223,7 +230,7 @@ import { IncidentReport, IncidentStats } from '../models';
       }
 
       <!-- Empty state -->
-      @if (!loading() && incidents().length === 0 && !showCreateForm) {
+      @if (!loading() && incidents().length === 0 && !showCreateForm()) {
         <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
           <svg class="w-16 h-16 mx-auto mb-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
@@ -473,10 +480,10 @@ import { IncidentReport, IncidentStats } from '../models';
                   {{ lang.t('incident.close_incident') }}
                 </button>
               }
-              <button (click)="exportPdf()" [disabled]="exportingPdf"
+              <button (click)="exportPdf()" [disabled]="exportingPdf()"
                       class="px-4 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2"
                       [class]="subscriptionService.canAccess('PDF_EXPORT') ? 'bg-violet-500/20 text-violet-400 hover:bg-violet-500/30' : 'bg-slate-700/50 text-slate-400'">
-                @if (exportingPdf) {
+                @if (exportingPdf()) {
                   <div class="w-4 h-4 border-2 border-violet-400 border-t-transparent rounded-full animate-spin"></div>
                 } @else {
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -549,7 +556,8 @@ export class IncidentReportingComponent implements OnInit {
   stats = signal<IncidentStats | null>(null);
   selectedIncident = signal<IncidentReport | null>(null);
   showReportForm = signal<'initial' | 'intermediate' | 'final' | null>(null);
-  showCreateForm = false;
+  showCreateForm = signal(false);
+  errorMsg = signal<string | null>(null);
 
   newIncident: any = {
     incidentTitle: '',
@@ -570,7 +578,7 @@ export class IncidentReportingComponent implements OnInit {
 
   reportForm: any = { summary: '', actionsTaken: '', rootCause: '', lessonsLearned: '' };
 
-  exportingPdf = false;
+  exportingPdf = signal(false);
 
   constructor(private api: ApiService, public lang: LangService, public subscriptionService: SubscriptionService) {}
 
@@ -580,22 +588,26 @@ export class IncidentReportingComponent implements OnInit {
 
   loadData() {
     this.loading.set(true);
+    this.errorMsg.set(null);
     this.api.getIncidents().subscribe({
       next: (data) => { this.incidents.set(data); this.loading.set(false); },
-      error: () => { this.loading.set(false); }
+      error: () => { this.loading.set(false); this.errorMsg.set(this.lang.t('incident.error_load')); }
     });
     this.api.getIncidentStats().subscribe({
-      next: (data) => this.stats.set(data)
+      next: (data) => this.stats.set(data),
+      error: () => { this.errorMsg.set(this.lang.t('incident.error_stats')); }
     });
   }
 
   createIncident() {
+    this.errorMsg.set(null);
     this.api.createIncident(this.newIncident).subscribe({
       next: () => {
-        this.showCreateForm = false;
+        this.showCreateForm.set(false);
         this.resetForm();
         this.loadData();
-      }
+      },
+      error: () => { this.errorMsg.set(this.lang.t('incident.error_create')); }
     });
   }
 
@@ -606,8 +618,10 @@ export class IncidentReportingComponent implements OnInit {
   classify() {
     const id = this.selectedIncident()?.id;
     if (!id) return;
+    this.errorMsg.set(null);
     this.api.classifyIncident(id).subscribe({
-      next: (updated) => { this.selectedIncident.set(updated); this.loadData(); }
+      next: (updated) => { this.selectedIncident.set(updated); this.loadData(); },
+      error: () => { this.errorMsg.set(this.lang.t('incident.error_classify')); }
     });
   }
 
@@ -627,28 +641,34 @@ export class IncidentReportingComponent implements OnInit {
       final: () => this.api.submitFinalReport(id, this.reportForm)
     }[type];
 
+    this.errorMsg.set(null);
     handler().subscribe({
       next: (updated) => {
         this.selectedIncident.set(updated);
         this.showReportForm.set(null);
         this.loadData();
-      }
+      },
+      error: () => { this.errorMsg.set(this.lang.t('incident.error_report')); }
     });
   }
 
   resolveIncident() {
     const id = this.selectedIncident()?.id;
     if (!id) return;
+    this.errorMsg.set(null);
     this.api.resolveIncident(id, {}).subscribe({
-      next: (updated) => { this.selectedIncident.set(updated); this.loadData(); }
+      next: (updated) => { this.selectedIncident.set(updated); this.loadData(); },
+      error: () => { this.errorMsg.set(this.lang.t('incident.error_resolve')); }
     });
   }
 
   closeIncident() {
     const id = this.selectedIncident()?.id;
     if (!id) return;
+    this.errorMsg.set(null);
     this.api.closeIncident(id).subscribe({
-      next: (updated) => { this.selectedIncident.set(updated); this.loadData(); }
+      next: (updated) => { this.selectedIncident.set(updated); this.loadData(); },
+      error: () => { this.errorMsg.set(this.lang.t('incident.error_close')); }
     });
   }
 
@@ -746,7 +766,8 @@ export class IncidentReportingComponent implements OnInit {
       window.location.href = '/pricing';
       return;
     }
-    this.exportingPdf = true;
+    this.exportingPdf.set(true);
+    this.errorMsg.set(null);
     this.api.exportIncidentPdf(id).subscribe({
       next: (blob) => {
         const url = URL.createObjectURL(blob);
@@ -755,9 +776,9 @@ export class IncidentReportingComponent implements OnInit {
         a.download = `incident-report-${id.substring(0, 8)}.pdf`;
         a.click();
         URL.revokeObjectURL(url);
-        this.exportingPdf = false;
+        this.exportingPdf.set(false);
       },
-      error: () => { this.exportingPdf = false; }
+      error: () => { this.exportingPdf.set(false); this.errorMsg.set(this.lang.t('incident.error_export')); }
     });
   }
 

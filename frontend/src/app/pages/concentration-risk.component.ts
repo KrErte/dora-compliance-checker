@@ -16,9 +16,9 @@ import { ApiService, IctProvider } from '../api.service';
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
             </svg>
           </div>
-          {{ lang.currentLang === 'et' ? 'Kontsentratsiooniriski anal\u00fc\u00fcs' : 'Concentration Risk Analysis' }}
+          {{ lang.t('concentration.concentration_risk_analysis') }}
         </h1>
-        <p class="text-slate-400 text-sm mt-1">{{ lang.currentLang === 'et' ? 'DORA Art. 29 — ICT teenusepakkujate kontsentratsiooni hindamine' : 'DORA Art. 29 — Assessment of ICT third-party concentration risk' }}</p>
+        <p class="text-slate-400 text-sm mt-1">{{ lang.t('concentration.dora_art_29_assessment_of_ict_thirdparty') }}</p>
       </div>
 
       @if (loading()) {
@@ -32,22 +32,22 @@ import { ApiService, IctProvider } from '../api.service';
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5">
             <div class="text-3xl font-bold text-white">{{ providers().length }}</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'ICT teenusepakkujaid' : 'ICT Providers' }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.t('concentration.ict_providers') }}</div>
           </div>
           <div class="bg-slate-800/50 border rounded-xl p-5"
                [class]="highConcentrationCount() > 0 ? 'border-red-500/30' : 'border-slate-700/50'">
             <div class="text-3xl font-bold" [class]="highConcentrationCount() > 0 ? 'text-red-400' : 'text-emerald-400'">{{ highConcentrationCount() }}</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'K\u00f5rge kontsentratsioon' : 'High Concentration' }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.t('concentration.high_concentration') }}</div>
           </div>
           <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5">
             <div class="text-3xl font-bold text-white">{{ uniqueCountries().length }}</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Riike' : 'Countries' }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.t('concentration.countries') }}</div>
           </div>
         </div>
 
         <!-- Service type distribution -->
         <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
-          <h2 class="text-lg font-semibold text-white mb-4">{{ lang.currentLang === 'et' ? 'Teenust\u00fc\u00fcpide jaotus' : 'Service Type Distribution' }}</h2>
+          <h2 class="text-lg font-semibold text-white mb-4">{{ lang.t('concentration.service_type_distribution') }}</h2>
           @for (entry of serviceTypeDistribution(); track entry.type) {
             <div class="mb-3">
               <div class="flex justify-between text-sm mb-1">
@@ -68,7 +68,7 @@ import { ApiService, IctProvider } from '../api.service';
         <!-- Provider concentration table -->
         <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl overflow-hidden">
           <div class="px-6 py-4 border-b border-slate-700/50">
-            <h2 class="text-lg font-semibold text-white">{{ lang.currentLang === 'et' ? 'Pakkujate kontsentratsioonianalüüs' : 'Provider Concentration Analysis' }}</h2>
+            <h2 class="text-lg font-semibold text-white">{{ lang.t('concentration.provider_concentration_analysis') }}</h2>
           </div>
           <div class="divide-y divide-slate-700/30">
             @for (provider of providers(); track provider.id) {
@@ -85,7 +85,7 @@ import { ApiService, IctProvider } from '../api.service';
                 </span>
                 @if (!provider.hasExitStrategy) {
                   <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-red-500/10 text-red-400 border border-red-500/20">
-                    {{ lang.currentLang === 'et' ? 'Puudub v\u00e4ljumisstrateegia' : 'No Exit Strategy' }}
+                    {{ lang.t('concentration.no_exit_strategy') }}
                   </span>
                 }
               </div>
@@ -95,7 +95,7 @@ import { ApiService, IctProvider } from '../api.service';
 
         @if (providers().length === 0) {
           <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
-            <p class="text-slate-400">{{ lang.currentLang === 'et' ? 'Lisage esmalt ICT teenusepakkujaid Supply Chain lehel' : 'Add ICT providers first in Supply Chain page' }}</p>
+            <p class="text-slate-400">{{ lang.t('concentration.add_ict_providers_first_in_supply_chain') }}</p>
           </div>
         }
       }

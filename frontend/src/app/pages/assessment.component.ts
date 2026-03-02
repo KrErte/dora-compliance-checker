@@ -107,14 +107,14 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
               <input type="text" [(ngModel)]="companyName" name="companyName" id="assess-company" required
                      class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
                             focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300"
-                     [placeholder]="lang.currentLang === 'et' ? 'OÜ Näidis' : 'Example Ltd'">
+                     [placeholder]="lang.t('assess.example_ltd')">
             </div>
             <div>
               <label for="assess-contract" class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.contract_name') }}</label>
               <input type="text" [(ngModel)]="contractName" name="contractName" id="assess-contract" required
                      class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
                             focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300"
-                     [placeholder]="lang.currentLang === 'et' ? 'Pilveteenus leping' : 'Cloud service agreement'">
+                     [placeholder]="lang.t('assess.cloud_service_agreement')">
             </div>
             <div>
               <label for="assess-sector" class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.sector') }}</label>
@@ -122,7 +122,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
                       class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
                              focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300 appearance-none">
                 <option value="">{{ lang.t('assessment.select_sector') }}</option>
-                <option *ngFor="let s of sectors" [value]="s.value">{{ lang.currentLang === 'et' ? s.et : s.en }}</option>
+                <option *ngFor="let s of sectors" [value]="s.value">{{ lang.l(s.et, s.en) }}</option>
               </select>
             </div>
           </div>
@@ -408,7 +408,7 @@ export class AssessmentComponent implements OnInit {
   get sectorHint(): string {
     if (!this.selectedSector) return '';
     const hint = this.sectorHints[this.selectedSector];
-    return hint ? (this.lang.currentLang === 'et' ? hint.et : hint.en) : '';
+    return hint ? this.lang.pick(hint) : '';
   }
 
   paymentConfig = PAYMENT_CONFIG;
@@ -473,7 +473,7 @@ export class AssessmentComponent implements OnInit {
   getCategoryLabel(category: string): string {
     const label = CATEGORY_LABELS[category];
     if (!label) return category;
-    return this.lang.currentLang === 'et' ? label.et : label.en;
+    return this.lang.pick(label);
   }
 
   get totalQuestions(): number {

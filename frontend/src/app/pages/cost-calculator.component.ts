@@ -40,16 +40,14 @@ interface CalculationResult {
         <div class="relative">
           <div class="flex items-center gap-2 mb-3">
             <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-              {{ lang.currentLang === 'et' ? 'Ainulaadne tööriist' : 'Unique ROI Tool' }}
+              {{ lang.t('costcalc.unique_roi_tool') }}
             </span>
           </div>
           <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">
-            {{ lang.currentLang === 'et' ? 'DORA vastavuse kulukalkulaator' : 'DORA Compliance Cost Calculator' }}
+            {{ lang.t('costcalc.dora_compliance_cost_calculator') }}
           </h1>
           <p class="text-slate-400 max-w-2xl">
-            {{ lang.currentLang === 'et'
-              ? 'Hinnake oma organisatsiooni DORA nõuetele vastavuse investeeringut ja võrrelge seda võimalike trahvidega. Saate selge ülevaate kuludest ja tasuvusajast.'
-              : 'Estimate your organization\'s investment needed for full DORA compliance and compare it against potential regulatory fines. Get a clear picture of costs and ROI.' }}
+            {{ lang.t('costcalc.estimate_your_organization') }}
           </p>
         </div>
       </div>
@@ -60,47 +58,47 @@ interface CalculationResult {
           <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
           </svg>
-          {{ lang.currentLang === 'et' ? 'Ettevõtte andmed' : 'Company Details' }}
+          {{ lang.t('costcalc.company_details') }}
         </h2>
 
         <!-- Company Size -->
         <div class="space-y-2">
           <label class="block text-sm font-medium text-slate-300">
-            {{ lang.currentLang === 'et' ? 'Ettevõtte suurus' : 'Company Size' }} *
+            {{ lang.t('costcalc.company_size') }} *
           </label>
           <select [(ngModel)]="companySize"
                   class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white
                          focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all">
-            <option value="" disabled>{{ lang.currentLang === 'et' ? 'Vali suurus' : 'Select size' }}</option>
-            <option value="small">{{ lang.currentLang === 'et' ? 'Väike (alla 50 töötaja)' : 'Small (<50 employees)' }}</option>
-            <option value="medium">{{ lang.currentLang === 'et' ? 'Keskmine (50-250 töötajat)' : 'Medium (50-250 employees)' }}</option>
-            <option value="large">{{ lang.currentLang === 'et' ? 'Suur (250-1000 töötajat)' : 'Large (250-1000 employees)' }}</option>
-            <option value="enterprise">{{ lang.currentLang === 'et' ? 'Suurettevõte (1000+ töötajat)' : 'Enterprise (1000+ employees)' }}</option>
+            <option value="" disabled>{{ lang.t('costcalc.select_size') }}</option>
+            <option value="small">{{ lang.t('costcalc.small_50_employees') }}</option>
+            <option value="medium">{{ lang.t('costcalc.medium_50250_employees') }}</option>
+            <option value="large">{{ lang.t('costcalc.large_2501000_employees') }}</option>
+            <option value="enterprise">{{ lang.t('costcalc.enterprise_1000_employees') }}</option>
           </select>
         </div>
 
         <!-- Sector -->
         <div class="space-y-2">
           <label class="block text-sm font-medium text-slate-300">
-            {{ lang.currentLang === 'et' ? 'Tegevusvaldkond' : 'Sector' }} *
+            {{ lang.t('costcalc.sector') }} *
           </label>
           <select [(ngModel)]="sector"
                   class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white
                          focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all">
-            <option value="" disabled>{{ lang.currentLang === 'et' ? 'Vali valdkond' : 'Select sector' }}</option>
-            <option value="banking">{{ lang.currentLang === 'et' ? 'Pangandus' : 'Banking' }}</option>
-            <option value="insurance">{{ lang.currentLang === 'et' ? 'Kindlustus' : 'Insurance' }}</option>
-            <option value="investment">{{ lang.currentLang === 'et' ? 'Investeerimine' : 'Investment' }}</option>
-            <option value="payment">{{ lang.currentLang === 'et' ? 'Makseteenused' : 'Payment Services' }}</option>
-            <option value="fund">{{ lang.currentLang === 'et' ? 'Fondihaldus' : 'Fund Management' }}</option>
-            <option value="crypto">{{ lang.currentLang === 'et' ? 'Krüptovarad' : 'Crypto Assets' }}</option>
+            <option value="" disabled>{{ lang.t('costcalc.select_sector') }}</option>
+            <option value="banking">{{ lang.t('costcalc.banking') }}</option>
+            <option value="insurance">{{ lang.t('costcalc.insurance') }}</option>
+            <option value="investment">{{ lang.t('costcalc.investment') }}</option>
+            <option value="payment">{{ lang.t('costcalc.payment_services') }}</option>
+            <option value="fund">{{ lang.t('costcalc.fund_management') }}</option>
+            <option value="crypto">{{ lang.t('costcalc.crypto_assets') }}</option>
           </select>
         </div>
 
         <!-- Annual Revenue -->
         <div class="space-y-2">
           <label class="block text-sm font-medium text-slate-300">
-            {{ lang.currentLang === 'et' ? 'Aastane käive (EUR)' : 'Annual Revenue (EUR)' }} *
+            {{ lang.t('costcalc.annual_revenue_eur') }} *
           </label>
           <div class="relative">
             <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm font-medium">&#8364;</span>
@@ -127,7 +125,7 @@ interface CalculationResult {
         <!-- Current Maturity Level -->
         <div class="space-y-3">
           <label class="block text-sm font-medium text-slate-300">
-            {{ lang.currentLang === 'et' ? 'Praegune küpsustase' : 'Current Maturity Level' }} *
+            {{ lang.t('costcalc.current_maturity_level') }} *
           </label>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
             <button *ngFor="let m of maturityOptions" (click)="maturity = m.value"
@@ -135,25 +133,21 @@ interface CalculationResult {
                     [ngClass]="maturity === m.value
                       ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400'
                       : 'bg-slate-900/30 border-slate-700/30 text-slate-400 hover:border-slate-500'">
-              {{ lang.currentLang === 'et' ? m.labelEt : m.labelEn }}
+              {{ lang.l(m.labelEt, m.labelEn) }}
             </button>
           </div>
           <p class="text-xs text-slate-500">
-            {{ lang.currentLang === 'et'
-              ? 'Kõrgem küpsustase vähendab rakenduskulusid'
-              : 'Higher maturity reduces implementation costs' }}
+            {{ lang.t('costcalc.higher_maturity_reduces_implementation_c') }}
           </p>
         </div>
 
         <!-- Existing Certifications -->
         <div class="space-y-3">
           <label class="block text-sm font-medium text-slate-300">
-            {{ lang.currentLang === 'et' ? 'Olemasolevad sertifikaadid' : 'Existing Certifications' }}
+            {{ lang.t('costcalc.existing_certifications') }}
           </label>
           <p class="text-xs text-slate-500 -mt-1">
-            {{ lang.currentLang === 'et'
-              ? 'Olemasolevad sertifikaadid vähendavad vastavuse saavutamise kulusid'
-              : 'Existing certifications reduce DORA compliance implementation costs' }}
+            {{ lang.t('costcalc.existing_certifications_reduce_dora_comp') }}
           </p>
           <div class="space-y-2">
             <label *ngFor="let cert of certOptions"
@@ -164,7 +158,7 @@ interface CalculationResult {
               <div class="flex-1">
                 <span class="text-sm text-white font-medium">{{ cert.name }}</span>
                 <span class="text-xs text-slate-500 ml-2">
-                  {{ lang.currentLang === 'et' ? 'vähendab ~' : 'reduces ~' }}{{ cert.discount }}%
+                  {{ lang.t('costcalc.reduces') }}{{ cert.discount }}%
                 </span>
               </div>
             </label>
@@ -174,7 +168,7 @@ interface CalculationResult {
         <!-- Number of ICT Third-Party Providers -->
         <div class="space-y-2">
           <label class="block text-sm font-medium text-slate-300">
-            {{ lang.currentLang === 'et' ? 'IKT kolmandate osapoolte teenusepakkujate arv' : 'Number of ICT Third-Party Providers' }}
+            {{ lang.t('costcalc.number_of_ict_thirdparty_providers') }}
           </label>
           <div class="flex items-center gap-4">
             <input type="range" [min]="1" [max]="100" [(ngModel)]="providerCount"
@@ -200,7 +194,7 @@ interface CalculationResult {
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
             </svg>
-            {{ lang.currentLang === 'et' ? 'Arvuta vastavuse maksumus' : 'Calculate Compliance Cost' }}
+            {{ lang.t('costcalc.calculate_compliance_cost') }}
           </button>
         </div>
       </div>
@@ -211,21 +205,21 @@ interface CalculationResult {
         <!-- Total Investment Hero -->
         <div class="max-w-3xl mx-auto text-center py-10 px-6 rounded-2xl border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 to-cyan-500/5">
           <p class="text-sm font-medium text-slate-400 uppercase tracking-wider mb-3">
-            {{ lang.currentLang === 'et' ? 'Hinnanguline koguinvesteering' : 'Estimated Total Investment' }}
+            {{ lang.t('costcalc.estimated_total_investment') }}
           </p>
           <div class="text-5xl md:text-6xl font-bold text-emerald-400 tabular-nums mb-2">
             &#8364; {{ formatNumber(result.totalAfterDiscount) }}
           </div>
           <p class="text-sm text-slate-500 mb-1">
-            {{ lang.currentLang === 'et' ? 'Ühekordne rakenduskulu' : 'One-time implementation cost' }}
+            {{ lang.t('costcalc.onetime_implementation_cost') }}
           </p>
           <div class="mt-4 inline-flex items-center gap-4 text-sm">
             <div class="px-4 py-2 rounded-lg bg-slate-800/70">
-              <span class="text-slate-400">{{ lang.currentLang === 'et' ? 'Aastane kulu' : 'Annual cost' }}: </span>
+              <span class="text-slate-400">{{ lang.t('costcalc.annual_cost') }}: </span>
               <span class="text-cyan-400 font-semibold">&#8364; {{ formatNumber(result.annualAfterDiscount) }}</span>
             </div>
             <div class="px-4 py-2 rounded-lg bg-slate-800/70">
-              <span class="text-slate-400">{{ lang.currentLang === 'et' ? 'Kulu/töötaja' : 'Cost/employee' }}: </span>
+              <span class="text-slate-400">{{ lang.t('costcalc.costemployee') }}: </span>
               <span class="text-cyan-400 font-semibold">&#8364; {{ formatNumber(result.costPerEmployee) }}</span>
             </div>
           </div>
@@ -237,12 +231,12 @@ interface CalculationResult {
             <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
             </svg>
-            {{ lang.currentLang === 'et' ? 'Kulude jaotus' : 'Cost Breakdown' }}
+            {{ lang.t('costcalc.cost_breakdown') }}
           </h3>
           <div class="space-y-4">
             <div *ngFor="let line of result.lines" class="space-y-1.5">
               <div class="flex items-center justify-between text-sm">
-                <span class="text-slate-300">{{ lang.currentLang === 'et' ? line.labelEt : line.labelEn }}</span>
+                <span class="text-slate-300">{{ lang.l(line.labelEt, line.labelEn) }}</span>
                 <span class="text-white font-medium tabular-nums">&#8364; {{ formatNumber(line.amount) }}</span>
               </div>
               <div class="h-3 bg-slate-900/50 rounded-full overflow-hidden">
@@ -261,13 +255,13 @@ interface CalculationResult {
             <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
             </svg>
-            {{ lang.currentLang === 'et' ? 'Sertifikaatide sääst' : 'Certification Savings' }}
+            {{ lang.t('costcalc.certification_savings') }}
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div *ngFor="let cert of getActiveCerts()" class="p-4 rounded-xl bg-slate-800/50 border border-emerald-500/20">
               <div class="text-sm font-semibold text-emerald-400">{{ cert.name }}</div>
               <div class="text-xs text-slate-400 mt-1">
-                {{ lang.currentLang === 'et' ? 'Vähendab kulusid' : 'Reduces costs by' }} ~{{ cert.discount }}%
+                {{ lang.t('costcalc.reduces_costs_by') }} ~{{ cert.discount }}%
               </div>
             </div>
           </div>
@@ -277,12 +271,12 @@ interface CalculationResult {
             </svg>
             <div>
               <div class="text-sm font-semibold text-emerald-400">
-                {{ lang.currentLang === 'et' ? 'Kokkuhoid kokku' : 'Total savings' }}: &#8364; {{ formatNumber(result.totalOneTime - result.totalAfterDiscount) }}
+                {{ lang.t('costcalc.total_savings') }}: &#8364; {{ formatNumber(result.totalOneTime - result.totalAfterDiscount) }}
               </div>
               <div class="text-xs text-slate-400">
-                {{ lang.currentLang === 'et' ? 'Tänu olemasolevatele sertifikaatidele' : 'Thanks to your existing certifications' }}
+                {{ lang.t('costcalc.thanks_to_your_existing_certifications') }}
                 ({{ Math.round(result.certDiscount * 100) }}%
-                {{ lang.currentLang === 'et' ? 'vähendus' : 'reduction' }})
+                {{ lang.t('costcalc.reduction') }})
               </div>
             </div>
           </div>
@@ -294,33 +288,31 @@ interface CalculationResult {
             <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/>
             </svg>
-            {{ lang.currentLang === 'et' ? 'ROI: Investeering vs trahvirisk' : 'ROI: Investment vs Fine Risk' }}
+            {{ lang.t('costcalc.roi_investment_vs_fine_risk') }}
           </h3>
 
           <!-- Side by side comparison -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div class="p-6 rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-center">
               <p class="text-xs uppercase tracking-wider text-slate-400 mb-2">
-                {{ lang.currentLang === 'et' ? 'Vastavuse investeering' : 'Compliance Investment' }}
+                {{ lang.t('costcalc.compliance_investment') }}
               </p>
               <p class="text-3xl font-bold text-emerald-400 tabular-nums">
                 &#8364; {{ formatNumber(result.totalAfterDiscount) }}
               </p>
               <p class="text-xs text-slate-500 mt-1">
-                {{ lang.currentLang === 'et' ? 'Ühekordne + esimene aasta' : 'One-time + first year' }}
+                {{ lang.t('costcalc.onetime_first_year') }}
               </p>
             </div>
             <div class="p-6 rounded-xl bg-red-500/5 border border-red-500/20 text-center">
               <p class="text-xs uppercase tracking-wider text-slate-400 mb-2">
-                {{ lang.currentLang === 'et' ? 'Potentsiaalne trahv (DORA Art. 50-51)' : 'Potential Fine (DORA Art. 50-51)' }}
+                {{ lang.t('costcalc.potential_fine_dora_art_5051') }}
               </p>
               <p class="text-3xl font-bold text-red-400 tabular-nums">
                 &#8364; {{ formatNumber(result.potentialFine) }}
               </p>
               <p class="text-xs text-slate-500 mt-1">
-                {{ lang.currentLang === 'et'
-                  ? 'Kuni 1% päevasest ülemaailmsest käibest x 180 päeva'
-                  : 'Up to 1% avg daily worldwide turnover x 180 days' }}
+                {{ lang.t('costcalc.up_to_1_avg_daily_worldwide_turnover_x_1') }}
               </p>
             </div>
           </div>
@@ -329,7 +321,7 @@ interface CalculationResult {
           <div class="space-y-3 mb-6">
             <div class="space-y-1">
               <div class="flex items-center justify-between text-xs">
-                <span class="text-emerald-400 font-medium">{{ lang.currentLang === 'et' ? 'Investeering' : 'Investment' }}</span>
+                <span class="text-emerald-400 font-medium">{{ lang.t('costcalc.investment_40') }}</span>
                 <span class="text-slate-400">&#8364; {{ formatNumber(result.totalAfterDiscount + result.annualAfterDiscount) }}</span>
               </div>
               <div class="h-6 bg-slate-900/50 rounded-full overflow-hidden">
@@ -340,7 +332,7 @@ interface CalculationResult {
             </div>
             <div class="space-y-1">
               <div class="flex items-center justify-between text-xs">
-                <span class="text-red-400 font-medium">{{ lang.currentLang === 'et' ? 'Potentsiaalne trahv' : 'Potential Fine' }}</span>
+                <span class="text-red-400 font-medium">{{ lang.t('costcalc.potential_fine') }}</span>
                 <span class="text-slate-400">&#8364; {{ formatNumber(result.potentialFine) }}</span>
               </div>
               <div class="h-6 bg-slate-900/50 rounded-full overflow-hidden">
@@ -354,13 +346,12 @@ interface CalculationResult {
           <!-- ROI multiple -->
           <div class="text-center p-4 rounded-xl bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20">
             <span class="text-slate-400 text-sm">
-              {{ lang.currentLang === 'et' ? 'Investeeringu tasuvus' : 'Return on investment' }}:
+              {{ lang.t('costcalc.return_on_investment') }}:
             </span>
             <span class="text-2xl font-bold text-emerald-400 ml-2">{{ getRoiMultiple() }}x</span>
             <p class="text-xs text-slate-500 mt-1">
-              {{ lang.currentLang === 'et'
-                ? 'Trahvirisk on ' + getRoiMultiple() + ' korda suurem kui vastavuse investeering'
-                : 'Fine risk is ' + getRoiMultiple() + 'x greater than compliance investment' }}
+              {{ lang.l('Trahvirisk on ' + getRoiMultiple() + ' korda suurem kui vastavuse investeering',
+                'Fine risk is ' + getRoiMultiple() + 'x greater than compliance investment') }}
             </p>
           </div>
         </div>
@@ -371,7 +362,7 @@ interface CalculationResult {
             <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            {{ lang.currentLang === 'et' ? 'Tasuvusperiood' : 'Break-even Period' }}
+            {{ lang.t('costcalc.breakeven_period') }}
           </h3>
           <div class="flex items-center gap-6">
             <!-- Timeline visual -->
@@ -383,20 +374,19 @@ interface CalculationResult {
               </div>
               <div class="flex justify-between text-xs text-slate-500 mt-2">
                 <span>0</span>
-                <span>12 {{ lang.currentLang === 'et' ? 'kuud' : 'months' }}</span>
-                <span>24 {{ lang.currentLang === 'et' ? 'kuud' : 'months' }}</span>
-                <span>36 {{ lang.currentLang === 'et' ? 'kuud' : 'months' }}</span>
+                <span>12 {{ lang.t('costcalc.months') }}</span>
+                <span>24 {{ lang.t('costcalc.months_45') }}</span>
+                <span>36 {{ lang.t('costcalc.months_46') }}</span>
               </div>
             </div>
             <div class="text-center shrink-0">
               <div class="text-3xl font-bold text-cyan-400">{{ result.breakEvenMonths }}</div>
-              <div class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? 'kuud' : 'months' }}</div>
+              <div class="text-xs text-slate-400">{{ lang.t('costcalc.months_47') }}</div>
             </div>
           </div>
           <p class="text-xs text-slate-500 mt-3">
-            {{ lang.currentLang === 'et'
-              ? 'Vastavuse investeering tasub end ära ainuüksi trahvide vältimise arvelt ' + result.breakEvenMonths + ' kuu jooksul.'
-              : 'Compliance investment pays for itself in fine avoidance alone within ' + result.breakEvenMonths + ' months.' }}
+            {{ lang.l('Vastavuse investeering tasub end ära ainuüksi trahvide vältimise arvelt ' + result.breakEvenMonths + ' kuu jooksul.',
+              'Compliance investment pays for itself in fine avoidance alone within ' + result.breakEvenMonths + ' months.') }}
           </p>
         </div>
 
@@ -404,19 +394,19 @@ interface CalculationResult {
         <div class="max-w-3xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3">
           <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-emerald-400 tabular-nums">&#8364;{{ formatCompact(result.totalAfterDiscount) }}</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Alginvesteering' : 'Initial investment' }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.t('costcalc.initial_investment') }}</div>
           </div>
           <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-cyan-400 tabular-nums">&#8364;{{ formatCompact(result.annualAfterDiscount) }}</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Aastane kulu' : 'Annual cost' }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.t('costcalc.annual_cost_49') }}</div>
           </div>
           <div class="bg-slate-800/50 border border-red-500/30 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-red-400 tabular-nums">&#8364;{{ formatCompact(result.potentialFine) }}</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Trahvirisk' : 'Fine risk' }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.t('costcalc.fine_risk') }}</div>
           </div>
           <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-white tabular-nums">{{ getRoiMultiple() }}x</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'ROI kordaja' : 'ROI multiple' }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.t('costcalc.roi_multiple') }}</div>
           </div>
         </div>
 
@@ -434,8 +424,8 @@ interface CalculationResult {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
             {{ copied
-              ? (lang.currentLang === 'et' ? 'Kopeeritud!' : 'Copied!')
-              : (lang.currentLang === 'et' ? 'Kopeeri kokkuvõte' : 'Download Summary') }}
+              ? lang.t('costcalc.copied')
+              : lang.t('costcalc.download_summary') }}
           </button>
         </div>
 
@@ -447,14 +437,10 @@ interface CalculationResult {
             </svg>
           </div>
           <h3 class="text-xl font-bold text-white mb-2">
-            {{ lang.currentLang === 'et'
-              ? 'Soovite täpsemat hinnangut?'
-              : 'Want a more accurate estimate?' }}
+            {{ lang.t('costcalc.want_a_more_accurate_estimate') }}
           </h3>
           <p class="text-slate-400 text-sm mb-6 max-w-lg mx-auto">
-            {{ lang.currentLang === 'et'
-              ? 'Alustage tasuta hindamist, et saada isikupärastatud vastavusanalüüs ja täpsem kuluhinnang teie organisatsiooni jaoks.'
-              : 'Start your free assessment to get a personalized compliance analysis and a more accurate cost estimate tailored to your organization.' }}
+            {{ lang.t('costcalc.start_your_free_assessment_to_get_a_pers') }}
           </p>
           <a routerLink="/assessment"
              class="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold
@@ -462,10 +448,10 @@ interface CalculationResult {
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
-            {{ lang.currentLang === 'et' ? 'Alusta tasuta hindamist' : 'Start Free Assessment' }}
+            {{ lang.t('costcalc.start_free_assessment') }}
           </a>
           <p class="text-xs text-slate-500 mt-3">
-            {{ lang.currentLang === 'et' ? 'Registreerumine ei ole vajalik' : 'No registration required' }}
+            {{ lang.t('costcalc.no_registration_required') }}
           </p>
         </div>
       </div>
