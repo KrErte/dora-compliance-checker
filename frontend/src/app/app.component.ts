@@ -21,8 +21,8 @@ import { ToastService } from './auth/toast.service';
     '(window:scroll)': 'closeAllMenus()'
   },
   template: `
-    <a class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-teal-500 focus:text-white focus:px-4 focus:py-2 focus:rounded" href="#main-content">Liigu sisule</a>
-    <nav ngSkipHydration class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50" aria-label="Peamine navigatsioon">
+    <a class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-teal-500 focus:text-white focus:px-4 focus:py-2 focus:rounded" href="#main-content">{{ lang.t('nav.skip_link') }}</a>
+    <nav ngSkipHydration class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50" [attr.aria-label]="lang.t('nav.main_nav')">
       <div class="max-w-5xl mx-auto px-3 sm:px-4 py-3 flex items-center justify-between">
         <a routerLink="/" class="flex items-center gap-3 group">
           <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs
@@ -90,7 +90,7 @@ import { ToastService } from './auth/toast.service';
                 <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
                 </svg>
-                Register of Information
+                {{ lang.t('nav.roi') }}
                 <span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
               </a>
               <a routerLink="/timeline" (click)="toolsMenu = false"
@@ -115,20 +115,20 @@ import { ToastService } from './auth/toast.service';
                 {{ lang.t('nav.company_profile') }}
               </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
-              <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">{{ lang.currentLang === 'et' ? 'HALDUS' : 'MANAGEMENT' }}</p>
+              <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">{{ lang.t('nav.management') }}</p>
               <a routerLink="/incident-reporting" (click)="toolsMenu = false"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
                 </svg>
-                {{ lang.currentLang === 'et' ? 'Intsidendid' : 'Incidents' }}
+                {{ lang.t('nav.incidents') }}
               </a>
               <a routerLink="/remediation" (click)="toolsMenu = false"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
                 </svg>
-                {{ lang.currentLang === 'et' ? 'Paranduskava' : 'Remediation' }}
+                {{ lang.t('nav.remediation') }}
               </a>
               <a routerLink="/negotiations" (click)="toolsMenu = false"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
@@ -142,31 +142,31 @@ import { ToastService } from './auth/toast.service';
                 <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
                 </svg>
-                {{ lang.currentLang === 'et' ? 'Küpsusmudel' : 'Maturity Model' }}
+                {{ lang.t('nav.maturity') }}
               </a>
               <a routerLink="/risk-heatmap" (click)="toolsMenu = false"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-orange-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
                 </svg>
-                {{ lang.currentLang === 'et' ? 'Riskikaart' : 'Risk Heatmap' }}
+                {{ lang.t('nav.risk_heatmap') }}
               </a>
               <a routerLink="/command-center" (click)="toolsMenu = false"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
                 </svg>
-                {{ lang.currentLang === 'et' ? 'Juhtimiskeskus' : 'Command Center' }}
+                {{ lang.t('nav.command_center') }}
                 <span class="text-[9px] bg-cyan-500/20 text-cyan-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
               </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
-              <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">{{ lang.currentLang === 'et' ? 'RESSURSID' : 'RESOURCES' }}</p>
+              <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">{{ lang.t('nav.resources') }}</p>
               <a routerLink="/dora-explorer" (click)="toolsMenu = false"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
                 </svg>
-                {{ lang.currentLang === 'et' ? 'DORA Explorer' : 'DORA Explorer' }}
+                {{ lang.t('nav.dora_explorer') }}
                 <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
               </a>
               <a routerLink="/policy-generator" (click)="toolsMenu = false"
@@ -174,7 +174,7 @@ import { ToastService } from './auth/toast.service';
                 <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/>
                 </svg>
-                {{ lang.currentLang === 'et' ? 'Poliitika generaator' : 'Policy Generator' }}
+                {{ lang.t('nav.policy_generator') }}
                 <span class="text-[9px] bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
               </a>
               <a routerLink="/framework-mapping" (click)="toolsMenu = false"
@@ -182,35 +182,35 @@ import { ToastService } from './auth/toast.service';
                 <svg class="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>
                 </svg>
-                {{ lang.currentLang === 'et' ? 'Raamistike kaardistus' : 'Framework Mapping' }}
+                {{ lang.t('nav.framework_mapping') }}
               </a>
               <a routerLink="/cost-calculator" (click)="toolsMenu = false"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-green-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                 </svg>
-                {{ lang.currentLang === 'et' ? 'Kulukalkulaator' : 'Cost Calculator' }}
+                {{ lang.t('nav.cost_calculator') }}
               </a>
               <a routerLink="/training-quiz" (click)="toolsMenu = false"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-pink-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-pink-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
                 </svg>
-                {{ lang.currentLang === 'et' ? 'Koolitustest' : 'Training Quiz' }}
+                {{ lang.t('nav.training_quiz') }}
               </a>
               <a routerLink="/incident-decision-tree" (click)="toolsMenu = false"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-rose-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/>
                 </svg>
-                {{ lang.currentLang === 'et' ? 'Intsidendi klassifikaator' : 'Incident Classifier' }}
+                {{ lang.t('nav.incident_classifier') }}
               </a>
               <a routerLink="/board-report" (click)="toolsMenu = false"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-sky-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
                 </svg>
-                {{ lang.currentLang === 'et' ? 'Juhatuse raport' : 'Board Report' }}
+                {{ lang.t('nav.board_report') }}
               </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
               <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">NIS2</p>
@@ -250,7 +250,7 @@ import { ToastService } from './auth/toast.service';
           <!-- Blog -->
           <a routerLink="/blog" routerLinkActive="nav-link-active"
              class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-            {{ lang.currentLang === 'et' ? 'Blogi' : 'Blog' }}
+            {{ lang.t('nav.blog') }}
           </a>
           <!-- Dashboard (logged in only) -->
           @if (auth.isLoggedIn()) {
@@ -295,7 +295,7 @@ import { ToastService } from './auth/toast.service';
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
                     </svg>
-                    {{ lang.currentLang === 'et' ? 'Brändi seaded' : 'Branding Settings' }}
+                    {{ lang.t('nav.branding') }}
                   </a>
                 }
                 @if (auth.isAdmin()) {
@@ -347,7 +347,7 @@ import { ToastService } from './auth/toast.service';
         <!-- Mobile hamburger -->
         <div class="flex items-center gap-2 lg:hidden">
           <button type="button" (click)="mobileMenu = !mobileMenu"
-                  [attr.aria-label]="mobileMenu ? 'Sulge menüü' : 'Ava menüü'"
+                  [attr.aria-label]="mobileMenu ? lang.t('nav.close_menu') : lang.t('nav.open_menu')"
                   [attr.aria-expanded]="mobileMenu"
                   class="p-2 rounded-lg text-slate-400 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
             <!-- Lucide: menu -->
@@ -381,7 +381,7 @@ import { ToastService } from './auth/toast.service';
           <a routerLink="/fine-calculator" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.fine_calculator') }}</a>
           <a routerLink="/roi" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">Register of Information</a>
+             class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.roi') }}</a>
           <a routerLink="/timeline" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.timeline') }}</a>
           <a routerLink="/vendors" (click)="mobileMenu = false"
@@ -389,42 +389,42 @@ import { ToastService } from './auth/toast.service';
           <a routerLink="/company-profile" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.company_profile') }}</a>
           <div class="border-t border-slate-700/50 mt-2 pt-2">
-            <p class="text-[10px] text-slate-600 px-3 mb-1 font-bold uppercase tracking-wider">{{ lang.currentLang === 'et' ? 'HALDUS' : 'MANAGEMENT' }}</p>
+            <p class="text-[10px] text-slate-600 px-3 mb-1 font-bold uppercase tracking-wider">{{ lang.t('nav.management') }}</p>
             <a routerLink="/command-center" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-              {{ lang.currentLang === 'et' ? 'Juhtimiskeskus' : 'Command Center' }}
+              {{ lang.t('nav.command_center') }}
               <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-cyan-500/20 text-cyan-400">NEW</span>
             </a>
             <a routerLink="/incident-reporting" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Intsidendid' : 'Incidents' }}</a>
+               class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.incidents') }}</a>
             <a routerLink="/remediation" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Paranduskava' : 'Remediation' }}</a>
+               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.remediation') }}</a>
             <a routerLink="/negotiations" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.negotiations') }}</a>
             <a routerLink="/maturity" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Küpsusmudel' : 'Maturity Model' }}</a>
+               class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.maturity') }}</a>
             <a routerLink="/risk-heatmap" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Riskikaart' : 'Risk Heatmap' }}</a>
+               class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.risk_heatmap') }}</a>
           </div>
           <div class="border-t border-slate-700/50 mt-2 pt-2">
-            <p class="text-[10px] text-slate-600 px-3 mb-1 font-bold uppercase tracking-wider">{{ lang.currentLang === 'et' ? 'RESSURSID' : 'RESOURCES' }}</p>
+            <p class="text-[10px] text-slate-600 px-3 mb-1 font-bold uppercase tracking-wider">{{ lang.t('nav.resources') }}</p>
             <a routerLink="/dora-explorer" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-              DORA Explorer
+              {{ lang.t('nav.dora_explorer') }}
               <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-emerald-500/20 text-emerald-400">NEW</span>
             </a>
             <a routerLink="/policy-generator" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Poliitika generaator' : 'Policy Generator' }}</a>
+               class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.policy_generator') }}</a>
             <a routerLink="/framework-mapping" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-blue-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Raamistike kaardistus' : 'Framework Mapping' }}</a>
+               class="text-sm text-slate-400 hover:text-blue-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.framework_mapping') }}</a>
             <a routerLink="/cost-calculator" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-green-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Kulukalkulaator' : 'Cost Calculator' }}</a>
+               class="text-sm text-slate-400 hover:text-green-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.cost_calculator') }}</a>
             <a routerLink="/training-quiz" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-pink-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Koolitustest' : 'Training Quiz' }}</a>
+               class="text-sm text-slate-400 hover:text-pink-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.training_quiz') }}</a>
             <a routerLink="/incident-decision-tree" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-rose-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Intsidendi klassifikaator' : 'Incident Classifier' }}</a>
+               class="text-sm text-slate-400 hover:text-rose-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.incident_classifier') }}</a>
             <a routerLink="/board-report" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-sky-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Juhatuse raport' : 'Board Report' }}</a>
+               class="text-sm text-slate-400 hover:text-sky-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.board_report') }}</a>
           </div>
           <div class="border-t border-slate-700/50 mt-2 pt-2">
             <p class="text-[10px] text-slate-600 px-3 mb-1 font-bold uppercase tracking-wider">NIS2</p>
@@ -447,7 +447,7 @@ import { ToastService } from './auth/toast.service';
             <a routerLink="/pricing" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.pricing') }}</a>
             <a routerLink="/blog" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.currentLang === 'et' ? 'Blogi' : 'Blog' }}</a>
+               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.blog') }}</a>
           </div>
           @if (auth.isLoggedIn()) {
             <div class="border-t border-slate-700/50 mt-2 pt-2">
@@ -459,7 +459,7 @@ import { ToastService } from './auth/toast.service';
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
                   </svg>
-                  {{ lang.currentLang === 'et' ? 'Brändi seaded' : 'Branding Settings' }}
+                  {{ lang.t('nav.branding') }}
                 </a>
               }
               @if (auth.isAdmin()) {
@@ -524,7 +524,7 @@ import { ToastService } from './auth/toast.service';
               <a routerLink="/board-risk" class="text-xs text-slate-500 hover:text-teal-400 transition-colors">{{ lang.t('nav.board_risk') }}</a>
               <a routerLink="/fine-calculator" class="text-xs text-slate-500 hover:text-red-400 transition-colors">{{ lang.t('nav.fine_calculator') }}</a>
               <a routerLink="/vendors" class="text-xs text-slate-500 hover:text-violet-400 transition-colors">{{ lang.t('nav.vendors') }}</a>
-              <a routerLink="/roi" class="text-xs text-slate-500 hover:text-amber-400 transition-colors">Register of Information</a>
+              <a routerLink="/roi" class="text-xs text-slate-500 hover:text-amber-400 transition-colors">{{ lang.t('nav.roi') }}</a>
             </div>
           </div>
 
@@ -535,7 +535,7 @@ import { ToastService } from './auth/toast.service';
               <a routerLink="/about" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.about') }}</a>
               <a routerLink="/methodology" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.methodology') }}</a>
               <a routerLink="/pricing" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.pricing') }}</a>
-              <a routerLink="/blog" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.currentLang === 'et' ? 'Blogi' : 'Blog' }}</a>
+              <a routerLink="/blog" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.blog') }}</a>
               <a routerLink="/privacy" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('footer.privacy') }}</a>
               <a routerLink="/terms" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('footer.terms') }}</a>
               <button type="button" (click)="openCookieSettings()" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors text-left">{{ lang.t('cookie.settings') }}</button>

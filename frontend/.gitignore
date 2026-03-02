@@ -37,6 +37,10 @@ yarn-error.log
 testem.log
 /typings
 
+# i18n migration scripts (one-time use)
+process-i18n*.mjs
+batch*-keys.txt
+
 # System files
 .DS_Store
 Thumbs.db

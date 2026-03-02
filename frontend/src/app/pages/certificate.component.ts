@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ApiService } from '../api.service';
 import { AssessmentResult } from '../models';
+import { LangService } from '../lang.service';
 
 @Component({
   selector: 'app-certificate',
@@ -38,11 +39,11 @@ import { AssessmentResult } from '../models';
               </div>
 
               <!-- Title -->
-              <p class="text-xs uppercase tracking-[0.3em] text-emerald-400 mb-2">DORA Vastavuskontroll</p>
+              <p class="text-xs uppercase tracking-[0.3em] text-emerald-400 mb-2">{{ lang.t('cert.subtitle') }}</p>
               <h1 class="text-3xl md:text-4xl font-extrabold mb-2">
-                <span class="gradient-text">Vastavustunnistus</span>
+                <span class="gradient-text">{{ lang.t('cert.title') }}</span>
               </h1>
-              <p class="text-slate-500 text-sm mb-8">EU m&auml;&auml;rus 2022/2554 &middot; Artiklid 28&ndash;30</p>
+              <p class="text-slate-500 text-sm mb-8">{{ lang.t('cert.regulation') }}</p>
 
               <!-- Divider -->
               <div class="flex items-center gap-4 mb-8">
@@ -54,13 +55,13 @@ import { AssessmentResult } from '../models';
               </div>
 
               <!-- Certification text -->
-              <p class="text-slate-400 mb-2">K&auml;esolevaga kinnitatakse, et</p>
+              <p class="text-slate-400 mb-2">{{ lang.t('cert.certifies_that') }}</p>
               <h2 class="text-2xl font-bold text-slate-100 mb-1">{{ result.companyName }}</h2>
-              <p class="text-slate-400 mb-6">on l&auml;binud DORA kolmanda osapoole riski hindamise</p>
+              <p class="text-slate-400 mb-6">{{ lang.t('cert.completed_assessment') }}</p>
 
               <!-- Contract -->
               <div class="inline-block bg-slate-800/50 border border-slate-700/50 rounded-xl px-6 py-3 mb-8">
-                <p class="text-xs text-slate-500">Hinnatud leping</p>
+                <p class="text-xs text-slate-500">{{ lang.t('cert.assessed_contract') }}</p>
                 <p class="text-slate-200 font-medium">{{ result.contractName }}</p>
               </div>
 
@@ -95,21 +96,21 @@ import { AssessmentResult } from '../models';
               <div class="grid grid-cols-3 gap-2 sm:gap-4 mb-8 max-w-sm mx-auto">
                 <div>
                   <div class="text-2xl font-bold text-emerald-400">{{ result.compliantCount }}</div>
-                  <p class="text-xs text-slate-500">vastav</p>
+                  <p class="text-xs text-slate-500">{{ lang.t('cert.compliant') }}</p>
                 </div>
                 <div>
                   <div class="text-2xl font-bold text-red-400">{{ result.nonCompliantCount }}</div>
-                  <p class="text-xs text-slate-500">mittevastav</p>
+                  <p class="text-xs text-slate-500">{{ lang.t('cert.non_compliant') }}</p>
                 </div>
                 <div>
                   <div class="text-2xl font-bold text-slate-300">{{ result.totalQuestions }}</div>
-                  <p class="text-xs text-slate-500">kokku</p>
+                  <p class="text-xs text-slate-500">{{ lang.t('cert.total') }}</p>
                 </div>
               </div>
 
               <!-- Date & ID -->
               <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-xs text-slate-600">
-                <span>Kuup&auml;ev: {{ result.assessmentDate | date:'dd.MM.yyyy' }}</span>
+                <span>{{ lang.t('cert.date') }}: {{ result.assessmentDate | date:'dd.MM.yyyy' }}</span>
                 <span>&middot;</span>
                 <span>ID: {{ result.id }}</span>
               </div>
@@ -118,7 +119,7 @@ import { AssessmentResult } from '../models';
               <div class="mt-8 pt-6 border-t border-slate-800">
                 <div class="flex items-center justify-center gap-2 text-xs text-slate-600">
                   <div class="w-6 h-6 rounded bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs">D</div>
-                  DORA Vastavuskontrolli T&ouml;&ouml;riist &middot; Automaatne hindamine
+                  {{ lang.t('cert.tool_name') }}
                 </div>
               </div>
             </div>
@@ -134,7 +135,7 @@ import { AssessmentResult } from '../models';
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
             </svg>
-            Prindi tunnistus
+            {{ lang.t('cert.print') }}
           </button>
           <a [routerLink]="['/results', result.id]"
              class="bg-slate-700/50 hover:bg-slate-600/50 text-slate-200 font-semibold px-6 py-2.5 rounded-lg
@@ -142,7 +143,7 @@ import { AssessmentResult } from '../models';
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
             </svg>
-            Tagasi tulemuste juurde
+            {{ lang.t('cert.back_to_results') }}
           </a>
         </div>
       </div>
@@ -152,6 +153,8 @@ import { AssessmentResult } from '../models';
 export class CertificateComponent implements OnInit {
   result: AssessmentResult | null = null;
   loading = true;
+
+  lang = inject(LangService);
 
   constructor(private api: ApiService, private route: ActivatedRoute) {}
 
@@ -186,9 +189,9 @@ export class CertificateComponent implements OnInit {
 
   get badgeLabel(): string {
     switch (this.result?.complianceLevel) {
-      case 'GREEN': return '\u2713 T\u00e4ielikult vastav';
-      case 'YELLOW': return '\u26a0 Osaliselt vastav';
-      case 'RED': return '\u2717 Mittevastav';
+      case 'GREEN': return this.lang.t('cert.fully_compliant');
+      case 'YELLOW': return this.lang.t('cert.partially_compliant');
+      case 'RED': return this.lang.t('cert.non_compliant_badge');
       default: return '';
     }
   }
