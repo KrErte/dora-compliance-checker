@@ -443,13 +443,12 @@ export class RegulatoryTimelineComponent implements OnInit, OnDestroy {
   }
 
   getTypeLabel(type: string): string {
-    const et = this.lang.currentLang === 'et';
-    switch (type) {
-      case 'deadline': return et ? 'T\u00e4htaeg' : 'Deadline';
-      case 'enforcement': return et ? 'J\u00f5ustumine' : 'Enforcement';
-      case 'milestone': return et ? 'Verstapost' : 'Milestone';
-      case 'update': return et ? 'Uuendus' : 'Update';
-      default: return type;
-    }
+    const keyMap: Record<string, string> = {
+      'deadline': 'timeline.type_deadline',
+      'enforcement': 'timeline.type_enforcement',
+      'milestone': 'timeline.type_milestone',
+      'update': 'timeline.type_update'
+    };
+    return keyMap[type] ? this.lang.t(keyMap[type]) : type;
   }
 }

@@ -581,9 +581,9 @@ export class BoardReportGeneratorComponent {
   // Template selection
   selectedTemplate: ReportTemplate = 'full';
   templates = [
-    { key: 'full' as ReportTemplate, nameEn: 'Full Board Report', nameEt: 'Taielik juhatuse aruanne' },
+    { key: 'full' as ReportTemplate, nameEn: 'Full Board Report', nameEt: 'Täielik juhatuse aruanne' },
     { key: 'executive' as ReportTemplate, nameEn: 'Executive Summary Only', nameEt: 'Ainult juhtimisulevade' },
-    { key: 'dashboard' as ReportTemplate, nameEn: 'Compliance Dashboard', nameEt: 'Vastavuse toolaup' }
+    { key: 'dashboard' as ReportTemplate, nameEn: 'Compliance Dashboard', nameEt: 'Vastavuse töölaup' }
   ];
 
   // Company data
@@ -629,38 +629,28 @@ export class BoardReportGeneratorComponent {
   }
 
   getScoreLabel(score: number): string {
-    const et = this.lang.currentLang === 'et';
-    if (score >= 90) return et ? 'Tugev vastavus' : 'Strong Compliance';
-    if (score >= 75) return et ? 'Hea edenemine' : 'Good Progress';
-    if (score >= 50) return et ? 'Edeneb, kuid lunkadega' : 'Progressing with Gaps';
-    return et ? 'Vajab kiiret tegutsemist' : 'Urgent Action Needed';
+    if (score >= 90) return this.lang.t('boardrep.score_label_strong');
+    if (score >= 75) return this.lang.t('boardrep.score_label_good');
+    if (score >= 50) return this.lang.t('boardrep.score_label_progressing');
+    return this.lang.t('boardrep.score_label_urgent');
   }
 
   getExecutiveSummary(): string {
-    const et = this.lang.currentLang === 'et';
-    const name = this.companyName || (et ? '[Ettevotte nimi]' : '[Company Name]');
+    const name = this.companyName || this.lang.t('boardrep.company_name_placeholder');
     const avg = this.getAveragePillarScore();
     const lowestPillar = this.getLowestPillar();
-    const lowestName = et ? lowestPillar.nameEt : lowestPillar.nameEn;
+    const lowestName = this.lang.l(lowestPillar.nameEt, lowestPillar.nameEn);
 
     if (this.overallScore >= 90) {
-      return et
-        ? `${name} naitab tugevat DORA vastavuse positsiooni uldise skooriga ${this.overallScore}%. Organisatsioon on hasti positsioneeritud regulatiivsete noudete taitmisel. Sambade keskmine skoor on ${avg}%. Jatkuv tahelepanu on soovitatav, et sailitada korge vastavuse tase.`
-        : `${name} demonstrates a strong DORA compliance posture with an overall score of ${this.overallScore}%. The organization is well-positioned to meet regulatory requirements. The average pillar score is ${avg}%. Continued attention is recommended to maintain this high level of compliance.`;
+      return `${name} ${this.lang.t('boardrep.summary_strong')} ${this.overallScore}${this.lang.t('boardrep.summary_strong_2')} ${avg}${this.lang.t('boardrep.summary_strong_3')}`;
     }
     if (this.overallScore >= 75) {
-      return et
-        ? `${name} on teinud head edusamme DORA vastavuse saavutamisel uldise skooriga ${this.overallScore}%. Sambade keskmine on ${avg}%. Moned valdkonnad, eriti ${lowestName} (${lowestPillar.score}%), vajavad veel peenhaaldust. Soovitame keskenduda madalama skooriga valdkondadele.`
-        : `${name} has made good progress toward DORA compliance with an overall score of ${this.overallScore}%. The pillar average stands at ${avg}%. Some areas, particularly ${lowestName} (${lowestPillar.score}%), still require fine-tuning. We recommend focusing on lower-scoring areas in the next period.`;
+      return `${name} ${this.lang.t('boardrep.summary_good')} ${this.overallScore}${this.lang.t('boardrep.summary_good_2')} ${avg}${this.lang.t('boardrep.summary_good_3')} ${lowestName} (${lowestPillar.score}%), ${this.lang.t('boardrep.summary_good_4')}`;
     }
     if (this.overallScore >= 50) {
-      return et
-        ? `${name} edeneb DORA vastavuse suunas, kuid olulised lukad jaavad skooriga ${this.overallScore}%. Sambade keskmine on ${avg}%. ${lowestName} on koige madalamal tasemel (${lowestPillar.score}%) ja vajab prioriteetset tahelepanu. Soovitame koostada kiirendatud tegevuskava.`
-        : `${name} is progressing toward DORA compliance but significant gaps remain with a score of ${this.overallScore}%. The pillar average is ${avg}%. ${lowestName} is at the lowest level (${lowestPillar.score}%) and requires priority attention. We recommend developing an accelerated action plan.`;
+      return `${name} ${this.lang.t('boardrep.summary_progressing')} ${this.overallScore}${this.lang.t('boardrep.summary_progressing_2')} ${avg}%. ${lowestName} ${this.lang.t('boardrep.summary_progressing_3')} (${lowestPillar.score}%) ${this.lang.t('boardrep.summary_progressing_4')}`;
     }
-    return et
-      ? `${name} vajab kiiret tegutsemist DORA vastavuse saavutamiseks uldise skooriga ${this.overallScore}%. Sambade keskmine on ${avg}%. Kriitiline valdkond on ${lowestName} skooriga ${lowestPillar.score}%. Juhatuse tasandil sekkumine on vajalik, et tagada regulatiivsete tahtaegade taitmine.`
-      : `${name} requires urgent action to achieve DORA compliance with an overall score of ${this.overallScore}%. The pillar average is ${avg}%. The critical area is ${lowestName} at ${lowestPillar.score}%. Board-level intervention is necessary to meet regulatory deadlines.`;
+    return `${name} ${this.lang.t('boardrep.summary_urgent')} ${this.overallScore}${this.lang.t('boardrep.summary_urgent_2')} ${avg}${this.lang.t('boardrep.summary_urgent_3')} ${lowestName} ${this.lang.t('boardrep.summary_urgent_4')} ${lowestPillar.score}${this.lang.t('boardrep.summary_urgent_5')}`;
   }
 
   getAveragePillarScore(): number {
@@ -702,60 +692,43 @@ export class BoardReportGeneratorComponent {
   }
 
   getRecommendations(): string[] {
-    const et = this.lang.currentLang === 'et';
     const recs: string[] = [];
 
     const ictRisk = this.pillarScores.find(p => p.key === 'ict_risk');
     if (ictRisk && ictRisk.score < 60) {
-      recs.push(et
-        ? 'Prioritiseerige ametliku IKT riskihalduse raamistiku loomine vastavalt DORA Art. 6. Kehtestage riskide tuvastamise, hindamise ja maandamise protsessid.'
-        : 'Prioritize establishing a formal ICT risk management framework as required by DORA Art. 6. Establish processes for risk identification, assessment, and mitigation.');
+      recs.push(this.lang.t('boardrep.rec_ict_risk_mgmt'));
     }
 
     const incident = this.pillarScores.find(p => p.key === 'incident');
     if (incident && incident.score < 60) {
-      recs.push(et
-        ? 'Rakendage intsidentide klassifitseerimise ja teavitamise protseduurid vastavalt DORA Art. 17-23. Maaake kindlaks raporteerimiskanalid padevale asutusele.'
-        : 'Implement incident classification and reporting procedures per DORA Art. 17-23. Establish reporting channels to the competent authority.');
+      recs.push(this.lang.t('boardrep.rec_incident_mgmt'));
     }
 
     const testing = this.pillarScores.find(p => p.key === 'testing');
     if (testing && testing.score < 60) {
-      recs.push(et
-        ? 'Tootage valja digitaalse toimepidevuse testimise programm vastavalt DORA Art. 24. Kaaluge ohupohise labitungimise testimist (TLPT).'
-        : 'Develop a digital operational resilience testing programme per DORA Art. 24. Consider threat-led penetration testing (TLPT).');
+      recs.push(this.lang.t('boardrep.rec_testing_prog'));
     }
 
     const thirdParty = this.pillarScores.find(p => p.key === 'third_party');
     if (thirdParty && thirdParty.score < 60) {
-      recs.push(et
-        ? 'Vaadake ule ja uuendage koik IKT-teenuste lepingud, et lisada kohustuslikud DORA Art. 30 sated. Hinnake kontsentreerumisriske.'
-        : 'Review and update all ICT service contracts to include mandatory Art. 30 provisions. Assess concentration risks across providers.');
+      recs.push(this.lang.t('boardrep.rec_third_party_contracts'));
     }
 
     const infoSharing = this.pillarScores.find(p => p.key === 'info_sharing');
     if (infoSharing && infoSharing.score < 60) {
-      recs.push(et
-        ? 'Kaaluge kuberohutuse teabejagamise kokkulepete sõlmimist vastavalt DORA Art. 45. Liituge asjakohaste infojagamise vorgustikega.'
-        : 'Consider establishing cyber threat intelligence sharing arrangements per DORA Art. 45. Join relevant information sharing networks.');
+      recs.push(this.lang.t('boardrep.rec_info_sharing'));
     }
 
     // Additional general recommendations if we have fewer than 3
     if (recs.length < 3) {
       if (this.budgetUtilization > 85) {
-        recs.push(et
-          ? 'Eelarve kasutus on korge (' + this.budgetUtilization + '%). Taotlege taiendavat rahastust DORA vastavuse programmile.'
-          : 'Budget utilization is high (' + this.budgetUtilization + '%). Request additional funding for the DORA compliance programme.');
+        recs.push(this.lang.t('boardrep.rec_budget_high') + ' (' + this.budgetUtilization + '%)');
       }
       if (this.openIncidents > 5) {
-        recs.push(et
-          ? 'Avatud intsidentide arv (' + this.openIncidents + ') on korge. Suurendage intsidentidele reageerimise voimekust.'
-          : 'The number of open incidents (' + this.openIncidents + ') is high. Increase incident response capacity.');
+        recs.push(this.lang.t('boardrep.rec_incidents_high') + ' (' + this.openIncidents + ')');
       }
       if (this.thirdPartyCount > 20) {
-        recs.push(et
-          ? 'Suur arv kolmandate osapoolte pakkujaid (' + this.thirdPartyCount + ') suurendab kontsentreerumisriski. Teostage pohjalik ulevaatus.'
-          : 'A large number of third-party providers (' + this.thirdPartyCount + ') increases concentration risk. Conduct a thorough review.');
+        recs.push(this.lang.t('boardrep.rec_third_party_count_high') + ' (' + this.thirdPartyCount + ')');
       }
     }
 
@@ -766,83 +739,81 @@ export class BoardReportGeneratorComponent {
     return [
       {
         date: '2026-06-30',
-        descEn: 'DORA RTS/ITS implementation review deadline for incident reporting',
-        descEt: 'DORA RTS/ITS rakendamise ulevaatuse tahtaeg intsidentide raporteerimiseks'
+        descEn: this.lang.t('boardrep.deadline_1_desc'),
+        descEt: this.lang.t('boardrep.deadline_1_desc')
       },
       {
         date: '2026-09-30',
-        descEn: 'ESA joint report on ICT third-party risk concentration',
-        descEt: 'ESA uhisaruanne IKT kolmandate osapoolte riskide kontsentreerumise kohta'
+        descEn: this.lang.t('boardrep.deadline_2_desc'),
+        descEt: this.lang.t('boardrep.deadline_2_desc')
       },
       {
         date: '2027-01-17',
-        descEn: 'DORA Article 26 — Advanced TLPT testing cycle completion',
-        descEt: 'DORA artikkel 26 — Taiustatud TLPT testimise tsukli loppetamine'
+        descEn: this.lang.t('boardrep.deadline_3_desc'),
+        descEt: this.lang.t('boardrep.deadline_3_desc')
       }
     ];
   }
 
   generateReportText(): string {
-    const et = this.lang.currentLang === 'et';
+    const t = (key: string) => this.lang.t(key);
     const sep = '═'.repeat(60);
     const line = '─'.repeat(60);
-    const name = this.companyName || (et ? '[Ettevotte nimi]' : '[Company Name]');
+    const name = this.companyName || t('boardrep.company_name_placeholder');
 
     let text = '';
     text += sep + '\n';
-    text += (et ? 'DORA VASTAVUSARUANNE' : 'DORA COMPLIANCE REPORT') + '\n';
+    text += t('boardrep.report_title') + '\n';
     text += name.toUpperCase() + '\n';
-    text += (et ? 'Periood: ' : 'Period: ') + this.reportPeriod + '\n';
-    text += (et ? 'KONFIDENTSIAALNE' : 'CONFIDENTIAL') + '\n';
+    text += t('boardrep.report_period_label') + ' ' + this.reportPeriod + '\n';
+    text += t('boardrep.report_confidential') + '\n';
     text += sep + '\n\n';
 
     // Executive summary
-    text += (et ? 'JUHTIMISULEVADE' : 'EXECUTIVE SUMMARY') + '\n';
+    text += t('boardrep.report_exec_summary') + '\n';
     text += line + '\n';
     text += this.getExecutiveSummary() + '\n\n';
 
     // Overall score
-    text += (et ? 'ULDINE VASTAVUSE SKOOR: ' : 'OVERALL COMPLIANCE SCORE: ') + this.overallScore + '%\n';
-    text += (et ? 'Staatus: ' : 'Status: ') + this.getScoreLabel(this.overallScore) + '\n\n';
+    text += t('boardrep.report_overall_score') + ' ' + this.overallScore + '%\n';
+    text += t('boardrep.report_status') + ' ' + this.getScoreLabel(this.overallScore) + '\n\n';
 
     if (this.selectedTemplate === 'executive') {
-      text += this.generateSignoff(et, line);
+      text += this.generateSignoff(line);
       return text;
     }
 
     // Pillar scores
-    text += (et ? 'DORA SAMBAD' : 'DORA PILLAR DASHBOARD') + '\n';
+    text += t('boardrep.report_pillars') + '\n';
     text += line + '\n';
     for (const pillar of this.pillarScores) {
-      const pillarName = et ? pillar.nameEt : pillar.nameEn;
+      const pillarName = this.lang.l(pillar.nameEt, pillar.nameEn);
       const bar = this.generateBar(pillar.score);
       text += `  ${pillarName.padEnd(30)} ${bar} ${pillar.score}%\n`;
     }
     text += '\n';
 
     // Key metrics
-    text += (et ? 'VOTNAITAJAD' : 'KEY METRICS') + '\n';
+    text += t('boardrep.report_metrics') + '\n';
     text += line + '\n';
-    text += (et ? '  Avatud intsidendid:          ' : '  Open Incidents:              ') + this.openIncidents + '\n';
-    text += (et ? '  IKT pakkujad:                ' : '  ICT Providers:               ') + this.thirdPartyCount + '\n';
-    text += (et ? '  Eelarve kasutus:             ' : '  Budget Utilization:          ') + this.budgetUtilization + '%\n\n';
+    text += `  ${t('boardrep.report_open_incidents').padEnd(30)} ${this.openIncidents}\n`;
+    text += `  ${t('boardrep.report_ict_providers').padEnd(30)} ${this.thirdPartyCount}\n`;
+    text += `  ${t('boardrep.report_budget').padEnd(30)} ${this.budgetUtilization}%\n\n`;
 
     if (this.selectedTemplate === 'dashboard') {
       return text;
     }
 
     // Risk heat map
-    text += (et ? 'RISKIKAART' : 'RISK HEAT MAP SUMMARY') + '\n';
+    text += t('boardrep.report_risk_heatmap') + '\n';
     text += line + '\n';
-    text += (et ? '  Kõrge/Kõrge: ' : '  High/High: ') + this.getHighHighRisks() + '  ';
-    text += (et ? 'Kõrge/Madal: ' : 'High/Low: ') + this.getHighLowRisks() + '\n';
-    text += (et ? '  Madal/Kõrge: ' : '  Low/High: ') + this.getLowHighRisks() + '  ';
-    text += (et ? 'Madal/Madal: ' : 'Low/Low: ') + this.getLowLowRisks() + '\n\n';
+    text += `  ${t('boardrep.report_risk_hh')} ${this.getHighHighRisks()}  ${t('boardrep.report_risk_hl')} ${this.getHighLowRisks()}\n`;
+    text += `  ${t('boardrep.report_risk_lh')} ${this.getLowHighRisks()}  ${t('boardrep.report_risk_ll')} ${this.getLowLowRisks()}\n\n`;
 
     // Key risks
     const risks = this.getRisksList();
     if (risks.length > 0) {
-      text += (et ? 'PEAMISED RISKID' : 'KEY RISKS') + '\n';
+      text += t('boardrep.report_risks') + '\n';
       text += line + '\n';
       for (const risk of risks) {
         text += `  - ${risk}\n`;
@@ -853,7 +824,7 @@ export class BoardReportGeneratorComponent {
     // Completed actions
     const completed = this.getCompletedActionsList();
     if (completed.length > 0) {
-      text += (et ? 'LOPETATUD TEGEVUSED' : 'COMPLETED ACTIONS') + '\n';
+      text += t('boardrep.report_completed') + '\n';
       text += line + '\n';
       for (const action of completed) {
         text += `  [x] ${action}\n`;
@@ -864,10 +835,10 @@ export class BoardReportGeneratorComponent {
     // Planned actions
     const planned = this.getPlannedActionsList();
     if (planned.length > 0) {
-      text += (et ? 'PLANEERITUD TEGEVUSED' : 'PLANNED ACTIONS') + '\n';
+      text += t('boardrep.report_planned') + '\n';
       text += line + '\n';
       for (let i = 0; i < planned.length; i++) {
-        const priority = i === 0 ? (et ? '[KORGE]' : '[HIGH]') : i === 1 ? (et ? '[KESKMINE]' : '[MEDIUM]') : (et ? '[TAVALINE]' : '[NORMAL]');
+        const priority = i === 0 ? t('boardrep.report_priority_high') : i === 1 ? t('boardrep.report_priority_medium') : t('boardrep.report_priority_normal');
         text += `  ${priority} ${planned[i]}\n`;
       }
       text += '\n';
@@ -876,7 +847,7 @@ export class BoardReportGeneratorComponent {
     // Recommendations
     const recs = this.getRecommendations();
     if (recs.length > 0) {
-      text += (et ? 'SOOVITUSED' : 'RECOMMENDATIONS') + '\n';
+      text += t('boardrep.report_recommendations') + '\n';
       text += line + '\n';
       for (let i = 0; i < recs.length; i++) {
         text += `  ${i + 1}. ${recs[i]}\n`;
@@ -886,26 +857,27 @@ export class BoardReportGeneratorComponent {
 
     // Regulatory timeline
     const deadlines = this.getUpcomingDeadlines();
-    text += (et ? 'REGULATIIVNE AJAKAVA' : 'REGULATORY TIMELINE') + '\n';
+    text += t('boardrep.report_timeline') + '\n';
     text += line + '\n';
     for (const d of deadlines) {
-      text += `  ${d.date} — ${et ? d.descEt : d.descEn}\n`;
+      text += `  ${d.date} — ${d.descEn}\n`;
     }
     text += '\n';
 
-    text += this.generateSignoff(et, line);
+    text += this.generateSignoff(line);
     return text;
   }
 
-  private generateSignoff(et: boolean, line: string): string {
+  private generateSignoff(line: string): string {
+    const t = (key: string) => this.lang.t(key);
     let text = '';
-    text += (et ? 'ALLKIRJAD' : 'SIGN-OFF') + '\n';
+    text += t('boardrep.report_signoff_title') + '\n';
     text += line + '\n';
-    text += (et ? '  Koostaja:  ' : '  Prepared By:  ') + (this.preparedBy || '________________________') + '\n';
-    text += (et ? '  Kinnitaja: ' : '  Approved By:  ') + (this.approvedBy || '________________________') + '\n';
-    text += (et ? '  Kuupaev:   ' : '  Date:         ') + (this.reportDate || '________________________') + '\n';
+    text += `  ${t('boardrep.report_prepared_by').padEnd(16)} ${this.preparedBy || '________________________'}\n`;
+    text += `  ${t('boardrep.report_approved_by').padEnd(16)} ${this.approvedBy || '________________________'}\n`;
+    text += `  ${t('boardrep.report_date').padEnd(16)} ${this.reportDate || '________________________'}\n`;
     text += '\n' + '═'.repeat(60) + '\n';
-    text += (et ? 'Genereeritud DoraAudit.eu abil' : 'Generated with DoraAudit.eu') + '\n';
+    text += t('boardrep.report_footer') + '\n';
     return text;
   }
 

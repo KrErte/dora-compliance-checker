@@ -255,12 +255,12 @@ type SealSize = 'sm' | 'md' | 'lg';
               {{ lang.t('seal.why_dora_trust_seal') }}
             </h2>
             <div class="space-y-2.5">
-              @for (benefit of benefits; track benefit.text) {
+              @for (key of benefitKeys; track key) {
                 <div class="flex items-start gap-2.5">
                   <div class="w-5 h-5 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
                     <svg class="w-3 h-3 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 5 5L20 7"/></svg>
                   </div>
-                  <span class="text-sm text-slate-300">{{ lang.l(benefit.et, benefit.text) }}</span>
+                  <span class="text-sm text-slate-300">{{ lang.t(key) }}</span>
                 </div>
               }
             </div>
@@ -316,18 +316,17 @@ export class TrustSealComponent implements OnInit {
     { value: 'lg', label: 'Large' }
   ];
 
-  benefits = [
-    { text: 'Build trust with clients and partners', et: 'Loo usaldust klientide ja partneritega' },
-    { text: 'Demonstrate regulatory compliance publicly', et: 'N\u00e4ita regulatiivset vastavust avalikult' },
-    { text: 'Real-time verification via unique URL', et: 'Reaalajas verifitseerimine unikaalse lingi kaudu' },
-    { text: 'Competitive advantage in RFP processes', et: 'Konkurentsieelis hangete protsessides' },
-    { text: 'Auto-updates with assessment results', et: 'Automaatne uuendamine hindamistulemustega' }
+  benefitKeys = [
+    'seal.benefit_build_trust',
+    'seal.benefit_compliance',
+    'seal.benefit_verification',
+    'seal.benefit_competitive',
+    'seal.benefit_auto_updates'
   ];
 
   constructor(public lang: LangService, public auth: AuthService) {}
 
   ngOnInit() {
-    const et = this.lang.currentLang === 'et';
     const history = this.getLocalStorage('assessment-history') || [];
     const hasAssessment = history.length > 0;
     const lastScore = hasAssessment ? (history[history.length - 1].scorePercentage || 0) : 0;
@@ -337,10 +336,10 @@ export class TrustSealComponent implements OnInit {
 
     // Check verification steps
     const steps = [
-      { label: et ? 'Konto loodud' : 'Account created', done: hasProfile },
-      { label: et ? 'Hindamine l\u00e4bitud' : 'Assessment completed', done: hasAssessment },
-      { label: et ? 'Skoor \u2265 60%' : 'Score \u2265 60%', done: hasHighScore },
-      { label: et ? 'Domeeni verifitseerimine' : 'Domain verification', done: false },
+      { label: this.lang.t('seal.step_account_created'), done: hasProfile },
+      { label: this.lang.t('seal.step_assessment_completed'), done: hasAssessment },
+      { label: this.lang.t('seal.step_score_threshold'), done: hasHighScore },
+      { label: this.lang.t('seal.step_domain_verification'), done: false },
     ];
     this.verificationSteps.set(steps);
 

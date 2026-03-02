@@ -257,7 +257,7 @@ export class ContractComparisonComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
-      this.error = 'ID puudub';
+      this.error = this.lang.t('error.id_missing');
       this.loading = false;
       return;
     }
@@ -333,7 +333,7 @@ export class ContractComparisonComponent implements OnInit {
 
     let html = `<!DOCTYPE html><html><head>
       <meta charset="UTF-8">
-      <title>DORA Art. 30 ${isEt ? 'Lepingu võrdlus' : 'Contract Comparison'}</title>
+      <title>DORA Art. 30 ${this.lang.t('pdf.comparison_title')}</title>
       <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Arial, sans-serif; padding: 40px; color: #1e293b; line-height: 1.5; }
@@ -362,7 +362,7 @@ export class ContractComparisonComponent implements OnInit {
     const scoreClass = this.result.scorePercentage >= 80 ? 'green' : this.result.scorePercentage >= 50 ? 'yellow' : 'red';
     html += `<div class="header">
       <div>
-        <h1>DORA Art. 30 ${isEt ? 'Lepingu vs mudeli võrdlus' : 'Contract vs Model Comparison'}</h1>
+        <h1>DORA Art. 30 ${this.lang.t('pdf.comparison_subtitle')}</h1>
         <p class="meta">${this.result.companyName} &middot; ${this.result.contractName}</p>
       </div>
       <div class="score ${scoreClass}">${Math.round(this.result.scorePercentage)}%</div>
@@ -370,32 +370,32 @@ export class ContractComparisonComponent implements OnInit {
 
     html += `<table>
       <thead><tr>
-        <th style="width:25%">${isEt ? 'Nõue' : 'Requirement'}</th>
-        <th style="width:30%">${isEt ? 'Teie leping' : 'Your Contract'}</th>
-        <th style="width:35%">${isEt ? 'Mudelklausel' : 'Model Clause'}</th>
-        <th style="width:10%">${isEt ? 'Staatus' : 'Status'}</th>
+        <th style="width:25%">${this.lang.t('pdf.th_requirement')}</th>
+        <th style="width:30%">${this.lang.t('pdf.th_your_contract')}</th>
+        <th style="width:35%">${this.lang.t('pdf.th_model_clause')}</th>
+        <th style="width:10%">${this.lang.t('pdf.th_status')}</th>
       </tr></thead><tbody>`;
 
     for (const f of this.result.findings) {
       const clause = getModelClause(f.requirementId);
       const modelText = clause ? (isEt ? clause.clauseEt : clause.clauseEn) : '';
-      const statusLabel = f.status === 'found' ? (isEt ? 'LEITUD' : 'FOUND') :
-                          f.status === 'partial' ? (isEt ? 'OSALINE' : 'PARTIAL') :
-                          (isEt ? 'PUUDU' : 'MISSING');
+      const statusLabel = f.status === 'found' ? this.lang.t('pdf.status_found') :
+                          f.status === 'partial' ? this.lang.t('pdf.status_partial') :
+                          this.lang.t('pdf.status_missing');
 
       html += `<tr>
         <td>
           <div class="req-name">${f.requirementId}. ${isEt ? f.requirementEt : f.requirementEn}</div>
           <div class="req-ref">${f.doraReference}</div>
         </td>
-        <td class="quote">${f.quote ? `"${f.quote}"` : (isEt ? '<em>Klauslit ei leitud</em>' : '<em>Clause not found</em>')}</td>
+        <td class="quote">${f.quote ? `"${f.quote}"` : `<em>${this.lang.t('pdf.clause_not_found')}</em>`}</td>
         <td><div class="model">${modelText}</div></td>
         <td><span class="status ${f.status}">${statusLabel}</span></td>
       </tr>`;
     }
 
     html += `</tbody></table>`;
-    html += `<div class="footer">${isEt ? 'Genereeritud' : 'Generated'}: ${new Date().toLocaleDateString(isEt ? 'et-EE' : 'en-US')} &middot; DORA Compliance Checker</div>`;
+    html += `<div class="footer">${this.lang.t('pdf.generated')}: ${new Date().toLocaleDateString(isEt ? 'et-EE' : 'en-US')} &middot; DORA Compliance Checker</div>`;
     html += `</body></html>`;
 
     const printWindow = window.open('', '_blank');

@@ -1301,10 +1301,7 @@ export class FrameworkMappingComponent {
     if (this.complyGdpr) parts.push('GDPR');
     if (this.complyCobit) parts.push('COBIT');
     const frameworks = parts.join(', ');
-    if (this.lang.currentLang === 'et') {
-      return `Teie olemasolev ${frameworks} vastavus katab ${this.coveragePercent}% DORA nõuetest. ${this.remainingGaps.length} nõuet vajavad täiendavat tähelepanu.`;
-    }
-    return `Your existing ${frameworks} compliance covers ${this.coveragePercent}% of DORA requirements. ${this.remainingGaps.length} requirements need additional attention.`;
+    return `${this.lang.t('fwmap.coverage_msg_1')} ${frameworks} ${this.lang.t('fwmap.coverage_msg_2')} ${this.coveragePercent}${this.lang.t('fwmap.coverage_msg_3')} ${this.remainingGaps.length} ${this.lang.t('fwmap.coverage_msg_4')}`;
   }
 
   getVisiblePillars(): { id: number; et: string; en: string }[] {
@@ -1349,19 +1346,12 @@ export class FrameworkMappingComponent {
   }
 
   getMatchLabel(match: 'full' | 'partial' | 'none' | 'na'): string {
-    if (this.lang.currentLang === 'et') {
-      switch (match) {
-        case 'full': return 'T\u00e4is';
-        case 'partial': return 'Osaline';
-        case 'none': return 'Puudub';
-        case 'na': return 'N/A';
-      }
-    }
-    switch (match) {
-      case 'full': return 'Full';
-      case 'partial': return 'Partial';
-      case 'none': return 'None';
-      case 'na': return 'N/A';
-    }
+    const keyMap: Record<string, string> = {
+      'full': 'fwmap.match_full',
+      'partial': 'fwmap.match_partial',
+      'none': 'fwmap.match_none',
+      'na': 'fwmap.match_na'
+    };
+    return this.lang.t(keyMap[match]);
   }
 }

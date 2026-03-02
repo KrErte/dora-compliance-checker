@@ -119,15 +119,14 @@ export class RiskHeatmapComponent {
   }
 
   getPillarName(id: string): string {
-    const et = this.lang.currentLang === 'et';
-    const names: Record<string, string> = {
-      ICT_RISK_MANAGEMENT: et ? 'ICT Riskihaldus' : 'ICT Risk Mgmt',
-      INCIDENT_MANAGEMENT: et ? 'Intsidendid' : 'Incidents',
-      TESTING: et ? 'Testimine' : 'Testing',
-      THIRD_PARTY: et ? '3. osapooled' : 'Third-Party',
-      INFORMATION_SHARING: et ? 'Info jagamine' : 'Info Sharing'
+    const keyMap: Record<string, string> = {
+      ICT_RISK_MANAGEMENT: 'heatmap.pillar_ict_risk',
+      INCIDENT_MANAGEMENT: 'heatmap.pillar_incidents',
+      TESTING: 'heatmap.pillar_testing',
+      THIRD_PARTY: 'heatmap.pillar_third_party',
+      INFORMATION_SHARING: 'heatmap.pillar_info_sharing'
     };
-    return names[id] || id;
+    return keyMap[id] ? this.lang.t(keyMap[id]) : id;
   }
 
   getHeatClass(percentage: number): string {
@@ -137,9 +136,8 @@ export class RiskHeatmapComponent {
   }
 
   getRiskLevel(percentage: number): string {
-    const et = this.lang.currentLang === 'et';
-    if (percentage >= 80) return et ? 'Madal risk' : 'Low Risk';
-    if (percentage >= 50) return et ? 'Keskmine risk' : 'Medium Risk';
-    return et ? 'Kõrge risk' : 'High Risk';
+    if (percentage >= 80) return this.lang.t('heatmap.risk_low');
+    if (percentage >= 50) return this.lang.t('heatmap.risk_medium');
+    return this.lang.t('heatmap.risk_high');
   }
 }

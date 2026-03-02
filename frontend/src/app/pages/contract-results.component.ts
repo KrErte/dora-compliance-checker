@@ -373,7 +373,7 @@ export class ContractResultsComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
-      this.error = 'ID puudub';
+      this.error = this.lang.t('error.id_missing');
       this.loading = false;
       return;
     }
@@ -409,13 +409,9 @@ export class ContractResultsComponent implements OnInit {
     if (!this.benchmark || !this.result) return '';
     const diff = this.result.scorePercentage - this.benchmark.industryAverage;
     if (diff > 0) {
-      return this.lang.currentLang === 'et'
-        ? `+${diff.toFixed(1)}% \u00fcle keskmise`
-        : `+${diff.toFixed(1)}% above average`;
+      return `+${diff.toFixed(1)}% ${this.lang.t('contractres.benchmark_above')}`;
     } else if (diff < 0) {
-      return this.lang.currentLang === 'et'
-        ? `${diff.toFixed(1)}% alla keskmise`
-        : `${diff.toFixed(1)}% below average`;
+      return `${diff.toFixed(1)}% ${this.lang.t('contractres.benchmark_below')}`;
     }
     return this.lang.t('contractres.exactly_average');
   }

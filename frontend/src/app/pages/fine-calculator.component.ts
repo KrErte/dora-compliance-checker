@@ -525,12 +525,8 @@ export class FineCalculatorComponent implements OnInit {
   }
 
   private updateMeta(): void {
-    const title = this.lang.currentLang === 'et'
-      ? 'DORA Trahvikalkulaator — Arvuta oma potentsiaalne trahv | DoraAudit.eu'
-      : 'DORA Fine Calculator — Calculate Your Potential Penalty | DoraAudit.eu';
-    const description = this.lang.currentLang === 'et'
-      ? 'Arvuta oma ettevõtte potentsiaalne DORA trahvirisk 2 minutiga. Põhineb DORA määruse artiklitel 50-51.'
-      : 'Calculate your company\'s potential DORA fine risk in 2 minutes. Based on DORA regulation articles 50-51.';
+    const title = this.lang.t('meta.fine_calculator_title');
+    const description = this.lang.t('meta.fine_calculator_desc');
 
     this.titleService.setTitle(title);
     this.meta.updateTag({ name: 'description', content: description });
@@ -772,9 +768,7 @@ export class FineCalculatorComponent implements OnInit {
   }
 
   shareLinkedIn(): void {
-    const text = this.lang.currentLang === 'et'
-      ? `Meie potentsiaalne DORA trahvirisk: €${this.formatNumber(this.result?.likelyMax || 0)}. Kontrolli enda oma:`
-      : `Our potential DORA fine risk: €${this.formatNumber(this.result?.likelyMax || 0)}. Check yours:`;
+    const text = `${this.lang.t('fine.linkedin_share_prefix')} €${this.formatNumber(this.result?.likelyMax || 0)}. ${this.lang.t('fine.linkedin_share_suffix')}`;
     const url = 'https://doraaudit.eu/fine-calculator';
     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&summary=${encodeURIComponent(text)}`, '_blank');
   }

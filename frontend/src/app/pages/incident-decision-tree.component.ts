@@ -39,17 +39,17 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
         <div class="relative">
           <div class="flex items-center gap-2 mb-3">
             <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-              {{ et ? 'DORA Art. 18' : 'DORA Art. 18' }}
+              {{ lang.t('decisiontree.dora_art_18') }}
             </span>
             <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-              {{ et ? 'Tasuta tööriist' : 'Free Tool' }}
+              {{ lang.t('decisiontree.free_tool') }}
             </span>
           </div>
           <h1 class="text-3xl font-bold text-white mb-2">
-            {{ et ? 'IKT intsidendi klassifitseerimise otsustuspuu' : 'ICT Incident Classification Decision Tree' }}
+            {{ lang.t('decisiontree.title') }}
           </h1>
           <p class="text-slate-400 max-w-2xl">
-            {{ et ? 'Interaktiivne juhend IKT intsidentide klassifitseerimiseks DORA artikli 18 kriteeriumide alusel. Määrake teavitamiskohustused ja ajakava.' : 'Interactive guide to classify ICT incidents per DORA Article 18 criteria. Determine reporting obligations and timelines.' }}
+            {{ lang.t('decisiontree.description') }}
           </p>
         </div>
       </div>
@@ -58,8 +58,8 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
       @if (!showResult()) {
         <div>
           <div class="flex items-center justify-between text-xs text-slate-500 mb-2">
-            <span>{{ et ? 'Edenemine' : 'Progress' }}</span>
-            <span>{{ et ? 'Samm' : 'Step' }} {{ currentStepIndex() + 1 }} / {{ steps.length }}</span>
+            <span>{{ lang.t('decisiontree.progress') }}</span>
+            <span>{{ lang.t('decisiontree.step') }} {{ currentStepIndex() + 1 }} / {{ steps.length }}</span>
           </div>
           <div class="h-2 bg-slate-800 rounded-full overflow-hidden">
             <div class="h-full bg-gradient-to-r from-emerald-500 to-cyan-500 transition-all duration-500 rounded-full"
@@ -78,7 +78,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                 <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                 </svg>
-                {{ et ? 'Otsustee' : 'Decision Path' }}
+                {{ lang.t('decisiontree.decision_path') }}
               </h3>
               <div class="space-y-0">
                 @for (answer of answers(); track answer.stepId; let i = $index; let last = $last) {
@@ -111,7 +111,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                       </svg>
                     </div>
                     <div>
-                      <p class="text-[11px] text-slate-500 leading-tight mb-0.5">{{ et ? 'Tulemus' : 'Result' }}</p>
+                      <p class="text-[11px] text-slate-500 leading-tight mb-0.5">{{ lang.t('decisiontree.result') }}</p>
                       <p class="text-xs font-bold" [class]="getClassificationTextClass()">
                         {{ getClassificationLabel() }}
                       </p>
@@ -123,7 +123,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
               <!-- Severity score -->
               <div class="mt-4 pt-4 border-t border-slate-700/50">
                 <div class="flex items-center justify-between text-xs">
-                  <span class="text-slate-500">{{ et ? 'Raskusaste skoor' : 'Severity Score' }}</span>
+                  <span class="text-slate-500">{{ lang.t('decisiontree.severity_score') }}</span>
                   <span class="font-bold" [class]="totalSeverity() >= 10 ? 'text-red-400' : totalSeverity() >= 5 ? 'text-yellow-400' : 'text-emerald-400'">
                     {{ totalSeverity() }} / 24
                   </span>
@@ -151,7 +151,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                 </div>
                 <div>
                   <p class="text-[11px] text-slate-500 uppercase tracking-wider font-medium">
-                    {{ et ? 'Samm' : 'Step' }} {{ currentStepIndex() + 1 }} {{ et ? '/' : 'of' }} {{ steps.length }}
+                    {{ lang.t('decisiontree.step') }} {{ currentStepIndex() + 1 }} {{ lang.t('decisiontree.step_of') }} {{ steps.length }}
                   </p>
                   <p class="text-xs text-slate-400">{{ getCurrentStepId() }}</p>
                 </div>
@@ -159,11 +159,11 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
 
               <!-- Question -->
               <h2 class="text-xl font-bold text-white mb-2">
-                {{ et ? getCurrentStep().question.et : getCurrentStep().question.en }}
+                {{ lang.l(getCurrentStep().question.et, getCurrentStep().question.en) }}
               </h2>
               @if (getCurrentStep().description) {
                 <p class="text-sm text-slate-400 mb-6">
-                  {{ et ? getCurrentStep().description!.et : getCurrentStep().description!.en }}
+                  {{ lang.l(getCurrentStep().description!.et, getCurrentStep().description!.en) }}
                 </p>
               } @else {
                 <div class="mb-6"></div>
@@ -199,7 +199,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                           }
                         </div>
                         <span class="text-sm font-medium text-white">
-                          {{ et ? option.label.et : option.label.en }}
+                          {{ lang.l(option.label.et, option.label.en) }}
                         </span>
                       </div>
                       <svg class="w-4 h-4 text-slate-600 group-hover:text-slate-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -217,7 +217,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                   </svg>
-                  {{ et ? 'Tagasi' : 'Go Back' }}
+                  {{ lang.t('decisiontree.go_back') }}
                 </button>
               }
             </div>
@@ -249,7 +249,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                   </div>
                   <div>
                     <p class="text-xs uppercase tracking-wider font-medium text-slate-400 mb-1">
-                      {{ et ? 'Intsidendi klassifikatsioon' : 'Incident Classification' }}
+                      {{ lang.t('decisiontree.incident_classification') }}
                     </p>
                     <h2 class="text-2xl font-bold" [class]="getClassificationTextClass()">
                       {{ getClassificationLabel() }}
@@ -266,12 +266,12 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                        [class]="getSeverityBadgeClass()">
                     <div class="w-2 h-2 rounded-full" [class]="getSeverityDotColorClass()"></div>
                     <span class="text-xs font-bold uppercase tracking-wider">
-                      {{ et ? 'Tase' : 'Level' }}: {{ getSeverityLabel() }}
+                      {{ lang.t('decisiontree.level') }}: {{ getSeverityLabel() }}
                     </span>
                   </div>
                   <div class="px-4 py-2 rounded-xl bg-slate-700/30 border border-slate-600/30">
                     <span class="text-xs text-slate-400">
-                      {{ et ? 'Skoor' : 'Score' }}: <span class="font-bold text-white">{{ totalSeverity() }}</span> / 24
+                      {{ lang.t('decisiontree.score') }}: <span class="font-bold text-white">{{ totalSeverity() }}</span> / 24
                     </span>
                   </div>
                   <div class="px-4 py-2 rounded-xl bg-slate-700/30 border border-slate-600/30">
@@ -284,9 +284,9 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                 <!-- Severity meter -->
                 <div class="bg-slate-900/50 rounded-xl p-4">
                   <div class="flex items-center justify-between text-[11px] text-slate-500 mb-2">
-                    <span>{{ et ? 'Kerge' : 'Minor' }}</span>
-                    <span>{{ et ? 'Oluline' : 'Significant' }}</span>
-                    <span>{{ et ? 'Suur' : 'Major' }}</span>
+                    <span>{{ lang.t('decisiontree.classification_minor') }}</span>
+                    <span>{{ lang.t('decisiontree.classification_significant') }}</span>
+                    <span>{{ lang.t('decisiontree.classification_major') }}</span>
                   </div>
                   <div class="h-3 bg-slate-800 rounded-full overflow-hidden relative">
                     <div class="absolute inset-0 flex">
@@ -314,9 +314,9 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                     <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    {{ et ? 'Kohustuslik teavitamise ajakava' : 'Mandatory Reporting Timeline' }}
+                    {{ lang.t('decisiontree.mandatory_reporting_timeline') }}
                   </h3>
-                  <p class="text-xs text-slate-400 mb-5">{{ et ? 'DORA artikkel 19 nõuded suurte intsidentide puhul' : 'DORA Article 19 requirements for major incidents' }}</p>
+                  <p class="text-xs text-slate-400 mb-5">{{ lang.t('decisiontree.dora_art19_requirements') }}</p>
 
                   <div class="space-y-4">
                     <!-- Initial notification -->
@@ -325,8 +325,8 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                         <span class="text-sm font-bold text-red-400">4h</span>
                       </div>
                       <div class="flex-1 pb-4 border-b border-slate-700/50">
-                        <p class="text-sm font-semibold text-white">{{ et ? 'Esialgne teavitus' : 'Initial Notification' }}</p>
-                        <p class="text-xs text-slate-400 mt-0.5">{{ et ? '4 tunni jooksul peale intsidendi klassifitseerimist suureks IKT intsidendiks' : 'Within 4 hours after classifying the incident as a major ICT-related incident' }}</p>
+                        <p class="text-sm font-semibold text-white">{{ lang.t('decisiontree.initial_notification') }}</p>
+                        <p class="text-xs text-slate-400 mt-0.5">{{ lang.t('decisiontree.initial_notif_desc') }}</p>
                         <p class="text-[11px] text-red-400/80 mt-1">DORA Art. 19(4)(a)</p>
                       </div>
                     </div>
@@ -336,8 +336,8 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                         <span class="text-sm font-bold text-yellow-400">72h</span>
                       </div>
                       <div class="flex-1 pb-4 border-b border-slate-700/50">
-                        <p class="text-sm font-semibold text-white">{{ et ? 'Vahearuanne' : 'Intermediate Report' }}</p>
-                        <p class="text-xs text-slate-400 mt-0.5">{{ et ? '72 tunni jooksul peale esialgset teavitust, uuendus oluliste muutuste korral' : 'Within 72 hours after initial notification, update when significant changes occur' }}</p>
+                        <p class="text-sm font-semibold text-white">{{ lang.t('decisiontree.intermediate_report') }}</p>
+                        <p class="text-xs text-slate-400 mt-0.5">{{ lang.t('decisiontree.intermediate_report_desc') }}</p>
                         <p class="text-[11px] text-yellow-400/80 mt-1">DORA Art. 19(4)(b)</p>
                       </div>
                     </div>
@@ -347,8 +347,8 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                         <span class="text-sm font-bold text-emerald-400">1m</span>
                       </div>
                       <div class="flex-1">
-                        <p class="text-sm font-semibold text-white">{{ et ? 'Lõpparuanne' : 'Final Report' }}</p>
-                        <p class="text-xs text-slate-400 mt-0.5">{{ et ? '1 kuu jooksul peale intsidendi lahendamist, sisaldab juurpõhjuse analüüsi' : 'Within 1 month after the incident is resolved, including root cause analysis' }}</p>
+                        <p class="text-sm font-semibold text-white">{{ lang.t('decisiontree.final_report') }}</p>
+                        <p class="text-xs text-slate-400 mt-0.5">{{ lang.t('decisiontree.final_report_desc') }}</p>
                         <p class="text-[11px] text-emerald-400/80 mt-1">DORA Art. 19(4)(c)</p>
                       </div>
                     </div>
@@ -362,33 +362,33 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                     <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                     </svg>
-                    {{ et ? 'Nõutavad toimingud' : 'Required Actions' }}
+                    {{ lang.t('decisiontree.required_actions') }}
                   </h3>
-                  <p class="text-xs text-slate-400 mb-4">{{ et ? 'Oluliste intsidentide haldamise nõuded' : 'Significant incident management requirements' }}</p>
+                  <p class="text-xs text-slate-400 mb-4">{{ lang.t('decisiontree.significant_incident_mgmt') }}</p>
                   <ul class="space-y-2">
                     <li class="flex items-start gap-2 text-sm text-slate-300">
                       <svg class="w-4 h-4 text-yellow-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
                       </svg>
-                      {{ et ? 'Logida siseregistris ja jälgida pidevalt' : 'Log in internal register and monitor continuously' }}
+                      {{ lang.t('decisiontree.log_internal_monitor') }}
                     </li>
                     <li class="flex items-start gap-2 text-sm text-slate-300">
                       <svg class="w-4 h-4 text-yellow-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
                       </svg>
-                      {{ et ? 'Jälgida eskaleerumise kriteeriume (suureks intsidendiks muutumine)' : 'Monitor escalation criteria (potential upgrade to major incident)' }}
+                      {{ lang.t('decisiontree.monitor_escalation') }}
                     </li>
                     <li class="flex items-start gap-2 text-sm text-slate-300">
                       <svg class="w-4 h-4 text-yellow-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
                       </svg>
-                      {{ et ? 'Koostada sisearuanne ja juurpõhjuse analüüs' : 'Prepare internal report and root cause analysis' }}
+                      {{ lang.t('decisiontree.prepare_internal_report') }}
                     </li>
                     <li class="flex items-start gap-2 text-sm text-slate-300">
                       <svg class="w-4 h-4 text-yellow-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
                       </svg>
-                      {{ et ? 'Teatada juhtkonnale' : 'Notify management body' }}
+                      {{ lang.t('decisiontree.notify_management') }}
                     </li>
                   </ul>
                 </div>
@@ -400,27 +400,27 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                     <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    {{ et ? 'Soovituslikud toimingud' : 'Recommended Actions' }}
+                    {{ lang.t('decisiontree.recommended_actions') }}
                   </h3>
-                  <p class="text-xs text-slate-400 mb-4">{{ et ? 'Kergete intsidentide haldamine' : 'Minor incident management' }}</p>
+                  <p class="text-xs text-slate-400 mb-4">{{ lang.t('decisiontree.minor_incident_mgmt') }}</p>
                   <ul class="space-y-2">
                     <li class="flex items-start gap-2 text-sm text-slate-300">
                       <svg class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
                       </svg>
-                      {{ et ? 'Registreerida sisemises intsidendi logis' : 'Record in internal incident log' }}
+                      {{ lang.t('decisiontree.record_internal_log') }}
                     </li>
                     <li class="flex items-start gap-2 text-sm text-slate-300">
                       <svg class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
                       </svg>
-                      {{ et ? 'Sisemine käsitlemine standardi protseduuride alusel' : 'Handle internally per standard procedures' }}
+                      {{ lang.t('decisiontree.handle_internal_standard') }}
                     </li>
                     <li class="flex items-start gap-2 text-sm text-slate-300">
                       <svg class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
                       </svg>
-                      {{ et ? 'Regulaatorile teavitamine pole kohustuslik' : 'No mandatory reporting to competent authority' }}
+                      {{ lang.t('decisiontree.no_mandatory_reporting') }}
                     </li>
                   </ul>
                 </div>
@@ -434,31 +434,31 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                       <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                       </svg>
-                      {{ et ? 'Esialgse teavituse mall' : 'Initial Notification Template' }}
+                      {{ lang.t('decisiontree.initial_notif_template') }}
                     </h3>
                     <button type="button" (click)="copyTemplate()"
                             class="px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors">
-                      {{ copied() ? (et ? 'Kopeeritud!' : 'Copied!') : (et ? 'Kopeeri' : 'Copy') }}
+                      {{ copied() ? lang.t('decisiontree.copied') : lang.t('decisiontree.copy') }}
                     </button>
                   </div>
 
                   <div class="bg-slate-900/70 rounded-xl p-5 font-mono text-xs text-slate-300 leading-relaxed space-y-3 border border-slate-700/30">
-                    <p class="text-slate-500">// {{ et ? 'DORA Art. 19 esialgne teavitus' : 'DORA Art. 19 Initial Notification' }}</p>
-                    <p><span class="text-cyan-400">{{ et ? 'Kuupaev' : 'Date' }}:</span> {{ today }}</p>
-                    <p><span class="text-cyan-400">{{ et ? 'Intsidendi tüüp' : 'Incident Type' }}:</span> {{ et ? 'IKT intsident' : 'ICT-related incident' }}</p>
-                    <p><span class="text-cyan-400">{{ et ? 'Klassifikatsioon' : 'Classification' }}:</span> {{ et ? 'Suur IKT intsident' : 'Major ICT-related incident' }}</p>
-                    <p><span class="text-cyan-400">{{ et ? 'Raskusaste' : 'Severity' }}:</span> {{ getSeverityLabel() }} ({{ totalSeverity() }}/24)</p>
+                    <p class="text-slate-500">// {{ lang.t('decisiontree.template_header') }}</p>
+                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_date') }}:</span> {{ today }}</p>
+                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_incident_type') }}:</span> {{ lang.t('decisiontree.template_ict_incident') }}</p>
+                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_classification') }}:</span> {{ lang.t('decisiontree.template_major_ict') }}</p>
+                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_severity') }}:</span> {{ getSeverityLabel() }} ({{ totalSeverity() }}/24)</p>
                     <p class="text-slate-500">---</p>
-                    <p><span class="text-cyan-400">{{ et ? 'Kriitilised funktsioonid' : 'Critical Functions' }}:</span> {{ getAnswerValue('critical_functions') }}</p>
-                    <p><span class="text-cyan-400">{{ et ? 'Mõjutatud kliendid' : 'Affected Clients' }}:</span> {{ getAnswerValue('clients_affected') }}</p>
-                    <p><span class="text-cyan-400">{{ et ? 'Kestus' : 'Duration' }}:</span> {{ getAnswerValue('duration') }}</p>
-                    <p><span class="text-cyan-400">{{ et ? 'Andmeleke' : 'Data Loss' }}:</span> {{ getAnswerValue('data_loss') }}</p>
-                    <p><span class="text-cyan-400">{{ et ? 'Mainemõju' : 'Reputational Impact' }}:</span> {{ getAnswerValue('reputational_impact') }}</p>
-                    <p><span class="text-cyan-400">{{ et ? 'Majanduslik mõju' : 'Economic Impact' }}:</span> {{ getAnswerValue('economic_impact') }}</p>
-                    <p><span class="text-cyan-400">{{ et ? 'Geograafiline ulatus' : 'Geographical Spread' }}:</span> {{ getAnswerValue('geographical_spread') }}</p>
+                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_critical_functions') }}:</span> {{ getAnswerValue('critical_functions') }}</p>
+                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_affected_clients') }}:</span> {{ getAnswerValue('clients_affected') }}</p>
+                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_duration') }}:</span> {{ getAnswerValue('duration') }}</p>
+                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_data_loss') }}:</span> {{ getAnswerValue('data_loss') }}</p>
+                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_reputational_impact') }}:</span> {{ getAnswerValue('reputational_impact') }}</p>
+                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_economic_impact') }}:</span> {{ getAnswerValue('economic_impact') }}</p>
+                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_geographical_spread') }}:</span> {{ getAnswerValue('geographical_spread') }}</p>
                     <p class="text-slate-500">---</p>
-                    <p><span class="text-cyan-400">{{ et ? 'Õiguslik alus' : 'Legal Basis' }}:</span> DORA Art. 18, 19</p>
-                    <p><span class="text-cyan-400">{{ et ? 'Tähtaeg' : 'Deadline' }}:</span> {{ et ? '4 tundi peale klassifitseerimist' : '4 hours after classification' }}</p>
+                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_legal_basis') }}:</span> DORA Art. 18, 19</p>
+                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_deadline') }}:</span> {{ lang.t('decisiontree.template_deadline_value') }}</p>
                   </div>
                 </div>
               }
@@ -469,7 +469,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                   <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                   </svg>
-                  {{ et ? 'Soovituslikud järgmised sammud' : 'Recommended Next Steps' }}
+                  {{ lang.t('decisiontree.recommended_next_steps') }}
                 </h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <a routerLink="/incident-reporting"
@@ -482,9 +482,9 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                       </div>
                       <div>
                         <p class="text-sm font-medium text-white group-hover:text-emerald-300 transition-colors">
-                          {{ et ? 'Intsidentide aruandlus' : 'Incident Reporting' }}
+                          {{ lang.t('decisiontree.incident_reporting') }}
                         </p>
-                        <p class="text-[11px] text-slate-500">{{ et ? 'Alusta ametlikku aruannet' : 'Start official report' }}</p>
+                        <p class="text-[11px] text-slate-500">{{ lang.t('decisiontree.start_official_report') }}</p>
                       </div>
                     </div>
                   </a>
@@ -499,9 +499,9 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                       </div>
                       <div>
                         <p class="text-sm font-medium text-white group-hover:text-cyan-300 transition-colors">
-                          {{ et ? 'Intsidendi simulaator' : 'Incident Simulator' }}
+                          {{ lang.t('decisiontree.incident_simulator') }}
                         </p>
-                        <p class="text-[11px] text-slate-500">{{ et ? 'Simuleeri reageerimist' : 'Simulate response' }}</p>
+                        <p class="text-[11px] text-slate-500">{{ lang.t('decisiontree.simulate_response') }}</p>
                       </div>
                     </div>
                   </a>
@@ -515,9 +515,9 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                       </div>
                       <div>
                         <p class="text-sm font-medium text-white group-hover:text-purple-300 transition-colors">
-                          {{ et ? 'Paranduste jälgija' : 'Remediation Tracker' }}
+                          {{ lang.t('decisiontree.remediation_tracker') }}
                         </p>
-                        <p class="text-[11px] text-slate-500">{{ et ? 'Jälgi parandusi' : 'Track fixes' }}</p>
+                        <p class="text-[11px] text-slate-500">{{ lang.t('decisiontree.track_fixes') }}</p>
                       </div>
                     </div>
                   </a>
@@ -531,9 +531,9 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                       </div>
                       <div>
                         <p class="text-sm font-medium text-white group-hover:text-blue-300 transition-colors">
-                          {{ et ? 'DORA hindamine' : 'DORA Assessment' }}
+                          {{ lang.t('decisiontree.dora_assessment') }}
                         </p>
-                        <p class="text-[11px] text-slate-500">{{ et ? 'Hinda vastavust' : 'Evaluate compliance' }}</p>
+                        <p class="text-[11px] text-slate-500">{{ lang.t('decisiontree.evaluate_compliance') }}</p>
                       </div>
                     </div>
                   </a>
@@ -547,7 +547,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                   </svg>
-                  {{ et ? 'Alusta uuesti' : 'Start Over' }}
+                  {{ lang.t('decisiontree.start_over') }}
                 </button>
               </div>
             </div>
@@ -561,48 +561,48 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
           <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
           </svg>
-          {{ et ? 'Viited ja õiguslikud alused' : 'References & Legal Basis' }}
+          {{ lang.t('decisiontree.references_legal_basis') }}
         </h3>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-700/20">
-            <h4 class="text-sm font-semibold text-emerald-400 mb-2">DORA Art. 18 -- {{ et ? 'Klassifitseerimine' : 'Classification' }}</h4>
+            <h4 class="text-sm font-semibold text-emerald-400 mb-2">DORA Art. 18 -- {{ lang.t('decisiontree.ref_classification') }}</h4>
             <p class="text-xs text-slate-400 leading-relaxed">
-              {{ et ? 'Finantsüksused klassifitseerivad IKT intsidente ja määravad nende mõju, kasutades artiklis 18 sätestatud kriteeriume: mõjutatud kliendid, kestus, geograafiline ulatus, andmekaotus, kriitiliste teenuste mõjutatus, majanduslik mõju.' : 'Financial entities shall classify ICT-related incidents and determine their impact using the criteria set out in Article 18: affected clients, duration, geographical spread, data losses, criticality of services affected, economic impact.' }}
+              {{ lang.t('decisiontree.ref_art18_desc') }}
             </p>
           </div>
           <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-700/20">
-            <h4 class="text-sm font-semibold text-cyan-400 mb-2">EBA RTS/ITS -- {{ et ? 'Künnised' : 'Thresholds' }}</h4>
+            <h4 class="text-sm font-semibold text-cyan-400 mb-2">EBA RTS/ITS -- {{ lang.t('decisiontree.ref_thresholds') }}</h4>
             <p class="text-xs text-slate-400 leading-relaxed">
-              {{ et ? 'Euroopa Pangandusjärelevalve regulatiivsed tehnilised standardid (RTS) ja rakendusstandardid (ITS) intsidentide teavitamise künniste kohta täpsustavad DORA artikli 18 kriteeriume ja kehtestavad konkreetsed kvantitatiivsed künnised.' : 'The European Banking Authority regulatory technical standards (RTS) and implementing technical standards (ITS) on incident reporting thresholds further specify the DORA Article 18 criteria and establish specific quantitative thresholds.' }}
+              {{ lang.t('decisiontree.ref_eba_desc') }}
             </p>
           </div>
           <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-700/20">
-            <h4 class="text-sm font-semibold text-purple-400 mb-2">DORA Art. 19 -- {{ et ? 'Teavitamine' : 'Reporting' }}</h4>
+            <h4 class="text-sm font-semibold text-purple-400 mb-2">DORA Art. 19 -- {{ lang.t('decisiontree.ref_reporting') }}</h4>
             <p class="text-xs text-slate-400 leading-relaxed">
-              {{ et ? 'Suurtest IKT intsidentidest tuleb teatada pädevale asutusele: esialgne teavitus 4 tunni jooksul, vahearuanne 72 tunni jooksul, lõpparuanne 1 kuu jooksul peale lahendamist.' : 'Major ICT-related incidents must be reported to the competent authority: initial notification within 4 hours, intermediate report within 72 hours, final report within 1 month after resolution.' }}
+              {{ lang.t('decisiontree.ref_art19_desc') }}
             </p>
           </div>
           <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-700/20">
-            <h4 class="text-sm font-semibold text-slate-300 mb-2">{{ et ? 'Seotud tööriistad' : 'Related Tools' }}</h4>
+            <h4 class="text-sm font-semibold text-slate-300 mb-2">{{ lang.t('decisiontree.related_tools') }}</h4>
             <div class="space-y-2">
               <a routerLink="/incident-reporting" class="flex items-center gap-2 text-xs text-emerald-400 hover:text-emerald-300 transition-colors">
                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                 </svg>
-                {{ et ? 'DORA intsidentide aruandluse tööriist' : 'DORA Incident Reporting Tool' }}
+                {{ lang.t('decisiontree.dora_incident_reporting_tool') }}
               </a>
               <a routerLink="/incident-simulator" class="flex items-center gap-2 text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                 </svg>
-                {{ et ? 'IKT intsidendi simulaator' : 'ICT Incident Simulator' }}
+                {{ lang.t('decisiontree.ict_incident_simulator') }}
               </a>
               <a routerLink="/assessment" class="flex items-center gap-2 text-xs text-blue-400 hover:text-blue-300 transition-colors">
                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                 </svg>
-                {{ et ? 'DORA enesehindamine' : 'DORA Self-Assessment' }}
+                {{ lang.t('decisiontree.dora_self_assessment') }}
               </a>
             </div>
           </div>
@@ -806,15 +806,15 @@ export class IncidentDecisionTreeComponent {
       'geographical_spread': { et: 'Geograafiline ulatus', en: 'Geographical Spread' }
     };
     const label = labels[id];
-    return label ? (this.et ? label.et : label.en) : id;
+    return label ? this.lang.l(label.et, label.en) : id;
   }
 
   selectOption(option: { label: { et: string; en: string }; value: string; severity: number; nextStep: string | null }): void {
     const step = this.getCurrentStep();
     const record: AnswerRecord = {
       stepId: step.id,
-      question: this.et ? step.question.et : step.question.en,
-      answer: this.et ? option.label.et : option.label.en,
+      question: this.lang.l(step.question.et, step.question.en),
+      answer: this.lang.l(option.label.et, option.label.en),
       severity: option.severity
     };
 
@@ -852,32 +852,35 @@ export class IncidentDecisionTreeComponent {
 
   getAnswerValue(stepId: string): string {
     const answer = this.answers().find(a => a.stepId === stepId);
-    return answer ? answer.answer : (this.et ? 'Pole vastatud' : 'Not answered');
+    return answer ? answer.answer : this.lang.t('decisiontree.not_answered');
   }
 
   getClassificationLabel(): string {
-    switch (this.classification()) {
-      case 'MAJOR': return this.et ? 'Suur intsident' : 'Major Incident';
-      case 'SIGNIFICANT': return this.et ? 'Oluline intsident' : 'Significant Incident';
-      case 'MINOR': return this.et ? 'Kerge intsident' : 'Minor Incident';
-    }
+    const keyMap: Record<string, string> = {
+      'MAJOR': 'decisiontree.classification_major_label',
+      'SIGNIFICANT': 'decisiontree.classification_significant_label',
+      'MINOR': 'decisiontree.classification_minor_label'
+    };
+    return this.lang.t(keyMap[this.classification()]);
   }
 
   getClassificationDescription(): string {
-    switch (this.classification()) {
-      case 'MAJOR': return this.et ? 'Kohustuslik teavitamine pädevale asutusele DORA artikkel 19 alusel' : 'Mandatory reporting to competent authority under DORA Article 19';
-      case 'SIGNIFICANT': return this.et ? 'Kohustuslik logimine ja jälgimine, juhtkonna teavitamine' : 'Mandatory logging and monitoring, management body notification';
-      case 'MINOR': return this.et ? 'Sisemine käsitlemine, regulaatorile teavitamine pole kohustuslik' : 'Internal handling only, no mandatory reporting to authority';
-    }
+    const keyMap: Record<string, string> = {
+      'MAJOR': 'decisiontree.desc_major_incident',
+      'SIGNIFICANT': 'decisiontree.desc_significant_incident',
+      'MINOR': 'decisiontree.desc_minor_incident'
+    };
+    return this.lang.t(keyMap[this.classification()]);
   }
 
   getSeverityLabel(): string {
-    switch (this.severityLevel()) {
-      case 'CRITICAL': return this.et ? 'Kriitiline' : 'Critical';
-      case 'HIGH': return this.et ? 'Kõrge' : 'High';
-      case 'MEDIUM': return this.et ? 'Keskmine' : 'Medium';
-      case 'LOW': return this.et ? 'Madal' : 'Low';
-    }
+    const keyMap: Record<string, string> = {
+      'CRITICAL': 'decisiontree.severity_critical',
+      'HIGH': 'decisiontree.severity_high',
+      'MEDIUM': 'decisiontree.severity_medium',
+      'LOW': 'decisiontree.severity_low'
+    };
+    return this.lang.t(keyMap[this.severityLevel()]);
   }
 
   getOptionClass(severity: number): string {
@@ -961,23 +964,24 @@ export class IncidentDecisionTreeComponent {
   }
 
   copyTemplate(): void {
+    const t = (key: string) => this.lang.t(key);
     const lines = [
-      `// DORA Art. 19 ${this.et ? 'Esialgne teavitus' : 'Initial Notification'}`,
-      `${this.et ? 'Kuupaev' : 'Date'}: ${this.today}`,
-      `${this.et ? 'Intsidendi tüüp' : 'Incident Type'}: ${this.et ? 'IKT intsident' : 'ICT-related incident'}`,
-      `${this.et ? 'Klassifikatsioon' : 'Classification'}: ${this.et ? 'Suur IKT intsident' : 'Major ICT-related incident'}`,
-      `${this.et ? 'Raskusaste' : 'Severity'}: ${this.getSeverityLabel()} (${this.totalSeverity()}/24)`,
+      `// ${t('decisiontree.template_header')}`,
+      `${t('decisiontree.template_date')}: ${this.today}`,
+      `${t('decisiontree.template_incident_type')}: ${t('decisiontree.template_ict_incident')}`,
+      `${t('decisiontree.template_classification')}: ${t('decisiontree.template_major_ict')}`,
+      `${t('decisiontree.template_severity')}: ${this.getSeverityLabel()} (${this.totalSeverity()}/24)`,
       '---',
-      `${this.et ? 'Kriitilised funktsioonid' : 'Critical Functions'}: ${this.getAnswerValue('critical_functions')}`,
-      `${this.et ? 'Mõjutatud kliendid' : 'Affected Clients'}: ${this.getAnswerValue('clients_affected')}`,
-      `${this.et ? 'Kestus' : 'Duration'}: ${this.getAnswerValue('duration')}`,
-      `${this.et ? 'Andmeleke' : 'Data Loss'}: ${this.getAnswerValue('data_loss')}`,
-      `${this.et ? 'Mainemõju' : 'Reputational Impact'}: ${this.getAnswerValue('reputational_impact')}`,
-      `${this.et ? 'Majanduslik mõju' : 'Economic Impact'}: ${this.getAnswerValue('economic_impact')}`,
-      `${this.et ? 'Geograafiline ulatus' : 'Geographical Spread'}: ${this.getAnswerValue('geographical_spread')}`,
+      `${t('decisiontree.template_critical_functions')}: ${this.getAnswerValue('critical_functions')}`,
+      `${t('decisiontree.template_affected_clients')}: ${this.getAnswerValue('clients_affected')}`,
+      `${t('decisiontree.template_duration')}: ${this.getAnswerValue('duration')}`,
+      `${t('decisiontree.template_data_loss')}: ${this.getAnswerValue('data_loss')}`,
+      `${t('decisiontree.template_reputational_impact')}: ${this.getAnswerValue('reputational_impact')}`,
+      `${t('decisiontree.template_economic_impact')}: ${this.getAnswerValue('economic_impact')}`,
+      `${t('decisiontree.template_geographical_spread')}: ${this.getAnswerValue('geographical_spread')}`,
       '---',
-      `${this.et ? 'Õiguslik alus' : 'Legal Basis'}: DORA Art. 18, 19`,
-      `${this.et ? 'Tähtaeg' : 'Deadline'}: ${this.et ? '4 tundi peale klassifitseerimist' : '4 hours after classification'}`
+      `${t('decisiontree.template_legal_basis')}: DORA Art. 18, 19`,
+      `${t('decisiontree.template_deadline')}: ${t('decisiontree.template_deadline_value')}`
     ];
 
     navigator.clipboard.writeText(lines.join('\n')).then(() => {
