@@ -771,16 +771,14 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
               DORA Art. 13(6)
             </span>
             <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-              {{ lang.currentLang === 'et' ? 'Interaktiivne' : 'Interactive' }}
+              {{ lang.t('quiz.interactive') }}
             </span>
           </div>
           <h1 class="text-3xl font-bold text-white mb-2">
-            {{ lang.currentLang === 'et' ? 'DORA personali koolituse viktoriin' : 'DORA Staff Training Quiz' }}
+            {{ lang.t('quiz.dora_staff_training_quiz') }}
           </h1>
           <p class="text-slate-400 max-w-2xl">
-            {{ lang.currentLang === 'et'
-              ? 'DORA artikkel 13(6) nõuab kohustuslikke IKT turbekoolitusi. Testi oma teadmisi ja saa koolitustunnistus.'
-              : 'DORA Article 13(6) mandates ICT security training. Test your knowledge and earn a training certificate.' }}
+            {{ lang.t('quiz.dora_article_136_mandates_ict_security_t') }}
           </p>
         </div>
       </div>
@@ -790,12 +788,10 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
         <div class="space-y-6">
           <div class="text-center">
             <h2 class="text-xl font-bold text-white mb-2">
-              {{ lang.currentLang === 'et' ? 'Vali oma roll' : 'Select Your Role' }}
+              {{ lang.t('quiz.select_your_role') }}
             </h2>
             <p class="text-sm text-slate-400">
-              {{ lang.currentLang === 'et'
-                ? 'Küsimused kohandatakse vastavalt sinu rollile organisatsioonis.'
-                : 'Questions will be tailored to your role within the organization.' }}
+              {{ lang.t('quiz.questions_will_be_tailored_to_your_role') }}
             </p>
           </div>
 
@@ -805,10 +801,10 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
                       class="group text-left p-5 rounded-2xl border border-slate-700/50 bg-slate-800/50 hover:border-emerald-500/40 hover:bg-slate-800/80 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-emerald-500/10">
                 <div class="text-3xl mb-3">{{ role.icon }}</div>
                 <h3 class="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors">
-                  {{ lang.currentLang === 'et' ? role.label.et : role.label.en }}
+                  {{ l(role.label.et, role.label.en) }}
                 </h3>
                 <p class="text-xs text-slate-500 mt-1 leading-relaxed">
-                  {{ lang.currentLang === 'et' ? role.description.et : role.description.en }}
+                  {{ l(role.description.et, role.description.en) }}
                 </p>
               </button>
             }
@@ -821,12 +817,12 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
                 <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               </div>
               <div>
-                <h4 class="text-sm font-semibold text-white mb-1">{{ lang.currentLang === 'et' ? 'Kuidas viktoriin toimib' : 'How the quiz works' }}</h4>
+                <h4 class="text-sm font-semibold text-white mb-1">{{ lang.t('quiz.how_the_quiz_works') }}</h4>
                 <ul class="text-xs text-slate-400 space-y-1 list-disc list-inside">
-                  <li>{{ lang.currentLang === 'et' ? '15 küsimust sinu rollile kohandatuna' : '15 questions tailored to your role' }}</li>
-                  <li>{{ lang.currentLang === 'et' ? '4 vastusevarianti iga küsimuse kohta' : '4 answer options per question' }}</li>
-                  <li>{{ lang.currentLang === 'et' ? 'Kohene tagasiside ja DORA artikli viited' : 'Instant feedback with DORA article references' }}</li>
-                  <li>{{ lang.currentLang === 'et' ? 'Koolitustunnistus l\u00f5petamisel' : 'Training certificate upon completion' }}</li>
+                  <li>{{ lang.t('quiz.15_questions_tailored_to_your_role') }}</li>
+                  <li>{{ lang.t('quiz.4_answer_options_per_question') }}</li>
+                  <li>{{ lang.t('quiz.instant_feedback_with_dora_article_refer') }}</li>
+                  <li>{{ lang.t('quiz.training_certificate_upon_completion') }}</li>
                 </ul>
               </div>
             </div>
@@ -843,7 +839,7 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
             <div class="flex items-center justify-between mb-3">
               <div class="flex items-center gap-3">
                 <span class="text-sm font-medium text-white">
-                  {{ lang.currentLang === 'et' ? 'K\u00fcsimus' : 'Question' }} {{ currentIndex() + 1 }}/{{ quizQuestions().length }}
+                  {{ lang.t('quiz.question') }} {{ currentIndex() + 1 }}/{{ quizQuestions().length }}
                 </span>
                 <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-700/50 text-slate-300">
                   {{ getCurrentCategory() }}
@@ -860,7 +856,7 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
             </div>
             <!-- Score so far -->
             <div class="flex items-center justify-between mt-2 text-xs text-slate-500">
-              <span>{{ lang.currentLang === 'et' ? '\u00d5igeid' : 'Correct' }}: {{ correctCount() }}/{{ answeredCount() }}</span>
+              <span>{{ lang.t('quiz.correct') }}: {{ correctCount() }}/{{ answeredCount() }}</span>
               <span>{{ Math.round(((currentIndex() + 1) / quizQuestions().length) * 100) }}%</span>
             </div>
           </div>
@@ -876,14 +872,14 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
                     {{ currentIndex() + 1 }}
                   </span>
                   <h3 class="text-lg font-semibold text-white leading-relaxed">
-                    {{ lang.currentLang === 'et' ? q.question.et : q.question.en }}
+                    {{ l(q.question.et, q.question.en) }}
                   </h3>
                 </div>
               </div>
 
               <!-- Answer options -->
               <div class="space-y-3">
-                @for (option of (lang.currentLang === 'et' ? q.options.et : q.options.en); track $index) {
+                @for (option of getOptions(q); track $index) {
                   <button (click)="selectAnswer($index)" type="button"
                           [disabled]="answered()"
                           class="w-full text-left p-4 rounded-xl border transition-all duration-300 flex items-start gap-3"
@@ -906,14 +902,14 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
                   <div class="flex items-center gap-2">
                     @if (selectedAnswer() === q.correctIndex) {
                       <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                      <span class="text-sm font-bold text-emerald-400">{{ lang.currentLang === 'et' ? '\u00d5ige!' : 'Correct!' }}</span>
+                      <span class="text-sm font-bold text-emerald-400">{{ lang.t('quiz.correct') }}</span>
                     } @else {
                       <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                      <span class="text-sm font-bold text-red-400">{{ lang.currentLang === 'et' ? 'Vale!' : 'Incorrect!' }}</span>
+                      <span class="text-sm font-bold text-red-400">{{ lang.t('quiz.incorrect') }}</span>
                     }
                   </div>
                   <p class="text-sm text-slate-300 leading-relaxed">
-                    {{ lang.currentLang === 'et' ? q.explanation.et : q.explanation.en }}
+                    {{ l(q.explanation.et, q.explanation.en) }}
                   </p>
                   <div class="flex items-center gap-2">
                     <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-cyan-500/20 text-cyan-400">
@@ -927,8 +923,8 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
                   <button (click)="nextQuestion()" type="button"
                           class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-emerald-500/25 transition-all flex items-center gap-2">
                     {{ isLastQuestion()
-                      ? (lang.currentLang === 'et' ? 'Vaata tulemusi' : 'View Results')
-                      : (lang.currentLang === 'et' ? 'J\u00e4rgmine k\u00fcsimus' : 'Next Question') }}
+                      ? (lang.t('quiz.view_results'))
+                      : (lang.t('quiz.next_question')) }}
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                   </button>
                 </div>
@@ -966,7 +962,7 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
             <!-- Category Breakdown -->
             <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 space-y-4">
               <h3 class="text-sm font-bold text-white uppercase tracking-wider">
-                {{ lang.currentLang === 'et' ? 'Tulemused kategooriate kaupa' : 'Results by Category' }}
+                {{ lang.t('quiz.results_by_category') }}
               </h3>
               @for (cat of result.categoryBreakdown; track cat.category) {
                 <div class="space-y-2">
@@ -991,7 +987,7 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
               <div class="bg-slate-800/50 border border-amber-500/20 rounded-2xl p-6 space-y-4">
                 <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                  {{ lang.currentLang === 'et' ? 'Soovitused parandamiseks' : 'Recommendations for Improvement' }}
+                  {{ lang.t('quiz.recommendations_for_improvement') }}
                 </h3>
                 @for (weak of getWeakCategories(result); track weak.category) {
                   <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-900/30">
@@ -1002,7 +998,7 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
                       <p class="text-sm font-semibold text-white">{{ getCategoryLabel(weak.category) }}</p>
                       <p class="text-xs text-slate-400 mt-0.5">{{ getRecommendation(weak.category) }}</p>
                       <a [routerLink]="getRecommendedLink(weak.category)" class="inline-flex items-center gap-1 text-xs text-cyan-400 hover:text-cyan-300 mt-1.5 transition-colors">
-                        {{ lang.currentLang === 'et' ? 'Ava t\u00f6\u00f6riist' : 'Open tool' }}
+                        {{ lang.t('quiz.open_tool') }}
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                       </a>
                     </div>
@@ -1026,20 +1022,20 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
                 <div>
                   <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400/70">DoraAudit.eu</p>
                   <h3 class="text-xl font-bold text-white mt-1">
-                    {{ lang.currentLang === 'et' ? 'DORA koolituse tunnistus' : 'DORA Training Certificate' }}
+                    {{ lang.t('quiz.dora_training_certificate') }}
                   </h3>
                 </div>
                 <div class="text-sm text-slate-300">
-                  {{ lang.currentLang === 'et' ? 'Roll' : 'Role' }}: <span class="font-semibold text-white">{{ getRoleLabel(result.role) }}</span>
+                  {{ lang.t('quiz.role') }}: <span class="font-semibold text-white">{{ getRoleLabel(result.role) }}</span>
                 </div>
                 <div class="text-sm text-slate-300">
-                  {{ lang.currentLang === 'et' ? 'Tulemus' : 'Score' }}: <span class="font-bold text-emerald-400">{{ result.percentage }}% ({{ result.grade }})</span>
+                  {{ lang.t('quiz.score') }}: <span class="font-bold text-emerald-400">{{ result.percentage }}% ({{ result.grade }})</span>
                 </div>
                 <div class="text-sm text-slate-300">
-                  {{ lang.currentLang === 'et' ? 'Aeg' : 'Time' }}: <span class="text-white">{{ formatTime(result.elapsedSeconds) }}</span>
+                  {{ lang.t('quiz.time') }}: <span class="text-white">{{ formatTime(result.elapsedSeconds) }}</span>
                 </div>
                 <div class="text-xs text-slate-500 pt-2 border-t border-slate-700/50">
-                  {{ lang.currentLang === 'et' ? 'L\u00e4bitud' : 'Completed' }}: {{ result.completedAt }}
+                  {{ lang.t('quiz.completed') }}: {{ result.completedAt }}
                   &bull; DORA Art. 13(6)
                 </div>
               </div>
@@ -1050,23 +1046,23 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
               <button (click)="retryQuiz()" type="button"
                       class="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-emerald-500/25 transition-all flex items-center gap-2 justify-center">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                {{ lang.currentLang === 'et' ? 'Proovi uuesti' : 'Retry Quiz' }}
+                {{ lang.t('quiz.retry_quiz') }}
               </button>
               <button (click)="shareResults()" type="button"
                       class="px-6 py-3 rounded-xl border border-slate-600/50 text-slate-300 font-semibold text-sm hover:border-emerald-500/30 hover:text-white transition-all flex items-center gap-2 justify-center">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
-                {{ lang.currentLang === 'et' ? 'Jaga tulemusi' : 'Share Results' }}
+                {{ lang.t('quiz.share_results') }}
               </button>
               <a routerLink="/training" class="px-6 py-3 rounded-xl border border-slate-600/50 text-slate-300 font-semibold text-sm hover:border-cyan-500/30 hover:text-white transition-all flex items-center gap-2 justify-center">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                {{ lang.currentLang === 'et' ? 'Koolituste j\u00e4lgija' : 'Training Tracker' }}
+                {{ lang.t('quiz.training_tracker') }}
               </a>
             </div>
 
             <!-- Copied toast -->
             @if (showCopied()) {
               <div class="fixed bottom-6 right-6 px-4 py-2.5 rounded-xl bg-emerald-500 text-white text-sm font-semibold shadow-lg shadow-emerald-500/25 animate-pulse z-50">
-                {{ lang.currentLang === 'et' ? 'Kopeeritud l\u00f5ikelauale!' : 'Copied to clipboard!' }}
+                {{ lang.t('quiz.copied_to_clipboard') }}
               </div>
             }
           </div>
@@ -1230,7 +1226,7 @@ export class TrainingQuizComponent implements OnDestroy {
       percentage: pct,
       grade,
       categoryBreakdown: breakdown,
-      completedAt: new Date().toLocaleDateString(this.lang.currentLang === 'et' ? 'et-EE' : 'en-GB', {
+      completedAt: new Date().toLocaleDateString(this.lang.t('quiz.engb'), {
         year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
       }),
       role: this.selectedRole() || 'general',
@@ -1256,9 +1252,10 @@ export class TrainingQuizComponent implements OnDestroy {
   shareResults() {
     const r = this.quizResult();
     if (!r) return;
-    const text = this.lang.currentLang === 'et'
-      ? `DORA koolituse viktoriin - Tulemus: ${r.percentage}% (${r.grade}) | ${r.correctAnswers}/${r.totalQuestions} \u00f5iget | Roll: ${this.getRoleLabel(r.role)} | DoraAudit.eu`
-      : `DORA Training Quiz - Score: ${r.percentage}% (${r.grade}) | ${r.correctAnswers}/${r.totalQuestions} correct | Role: ${this.getRoleLabel(r.role)} | DoraAudit.eu`;
+    const text = this.l(
+      `DORA koolituse viktoriin - Tulemus: ${r.percentage}% (${r.grade}) | ${r.correctAnswers}/${r.totalQuestions} \u00f5iget | Roll: ${this.getRoleLabel(r.role)} | DoraAudit.eu`,
+      `DORA Training Quiz - Score: ${r.percentage}% (${r.grade}) | ${r.correctAnswers}/${r.totalQuestions} correct | Role: ${this.getRoleLabel(r.role)} | DoraAudit.eu`
+    );
     navigator.clipboard.writeText(text).then(() => {
       this.showCopied.set(true);
       setTimeout(() => this.showCopied.set(false), 2500);
@@ -1338,7 +1335,7 @@ export class TrainingQuizComponent implements OnDestroy {
   getRoleLabel(roleKey: string): string {
     const r = ROLES.find(r => r.key === roleKey);
     if (!r) return roleKey;
-    return this.lang.currentLang === 'et' ? r.label.et : r.label.en;
+    return this.l(r.label.et, r.label.en);
   }
 
   getWeakCategories(result: QuizResult): { category: string; percentage: number }[] {
@@ -1377,6 +1374,14 @@ export class TrainingQuizComponent implements OnDestroy {
       case 'Resilience Testing': return '/tlpt';
       default: return '/assessment';
     }
+  }
+
+  l(et: string, en: string): string {
+    return this.lang.currentLang === 'et' ? et : en;
+  }
+
+  getOptions(q: QuizQuestion): string[] {
+    return this.lang.currentLang === 'et' ? q.options.et : q.options.en;
   }
 
   ngOnDestroy() {

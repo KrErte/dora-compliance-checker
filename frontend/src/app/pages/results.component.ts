@@ -244,14 +244,14 @@ interface HeatmapCell {
             <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
             </svg>
-            {{ lang.currentLang === 'et' ? 'T&ouml;&ouml;stuse v&otilde;rdlus' : 'Industry Benchmark' }}
+            {{ lang.t('results.industry_benchmark') }}
           </h2>
 
           <!-- Main comparison -->
           <div class="grid grid-cols-3 gap-2 sm:gap-4 mb-6">
             <!-- Your Score -->
             <div class="bg-slate-800/50 rounded-lg p-4 text-center border border-slate-700/30">
-              <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Teie tulemus' : 'Your Score' }}</p>
+              <p class="text-xs text-slate-500 mb-1">{{ lang.t('results.your_score') }}</p>
               <p class="text-3xl font-bold" [class]="scoreTextClass">{{ result.scorePercentage | number:'1.0-0' }}%</p>
               <p class="text-xs mt-1" [class]="result.scorePercentage >= benchmark.industryAverage ? 'text-emerald-400' : 'text-amber-400'">
                 {{ getBenchmarkComparison() }}
@@ -260,14 +260,14 @@ interface HeatmapCell {
 
             <!-- Industry Average -->
             <div class="bg-slate-800/50 rounded-lg p-4 text-center border border-slate-700/30">
-              <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'T&ouml;&ouml;stuse keskmine' : 'Industry Average' }}</p>
+              <p class="text-xs text-slate-500 mb-1">{{ lang.t('results.industry_average') }}</p>
               <p class="text-3xl font-bold text-slate-300">{{ benchmark.industryAverage | number:'1.0-0' }}%</p>
-              <p class="text-xs text-slate-500 mt-1">{{ benchmark.totalAssessments }} {{ lang.currentLang === 'et' ? 'hindamist' : 'assessments' }}</p>
+              <p class="text-xs text-slate-500 mt-1">{{ benchmark.totalAssessments }} {{ lang.t('results.assessments') }}</p>
             </div>
 
             <!-- Percentile Rank -->
             <div class="bg-slate-800/50 rounded-lg p-4 text-center border border-slate-700/30">
-              <p class="text-xs text-slate-500 mb-1">{{ lang.currentLang === 'et' ? 'Teie positsioon' : 'Your Ranking' }}</p>
+              <p class="text-xs text-slate-500 mb-1">{{ lang.t('results.your_ranking') }}</p>
               <p class="text-3xl font-bold text-indigo-400">{{ benchmark.percentileRank | number:'1.0-0' }}%</p>
               <p class="text-xs text-indigo-300 mt-1">{{ getPercentileLabel() }}</p>
             </div>
@@ -275,7 +275,7 @@ interface HeatmapCell {
 
           <!-- Score distribution bar -->
           <div class="mb-6">
-            <p class="text-xs text-slate-500 mb-2">{{ lang.currentLang === 'et' ? 'Tulemuste jaotus' : 'Score Distribution' }}</p>
+            <p class="text-xs text-slate-500 mb-2">{{ lang.t('results.score_distribution') }}</p>
             <div class="relative h-8 bg-slate-700/50 rounded-full overflow-hidden">
               <!-- Distribution gradient -->
               <div class="absolute inset-0 flex">
@@ -298,22 +298,22 @@ interface HeatmapCell {
             <div class="flex justify-center gap-4 mt-2">
               <div class="flex items-center gap-1">
                 <div class="w-2 h-2 rounded-full bg-red-500/60"></div>
-                <span class="text-[10px] text-slate-500">{{ lang.currentLang === 'et' ? 'Punane' : 'Red' }} &lt;50%</span>
+                <span class="text-[10px] text-slate-500">{{ lang.t('results.red') }} &lt;50%</span>
               </div>
               <div class="flex items-center gap-1">
                 <div class="w-2 h-2 rounded-full bg-amber-500/60"></div>
-                <span class="text-[10px] text-slate-500">{{ lang.currentLang === 'et' ? 'Kollane' : 'Yellow' }} 50-79%</span>
+                <span class="text-[10px] text-slate-500">{{ lang.t('results.yellow') }} 50-79%</span>
               </div>
               <div class="flex items-center gap-1">
                 <div class="w-2 h-2 rounded-full bg-emerald-500/60"></div>
-                <span class="text-[10px] text-slate-500">{{ lang.currentLang === 'et' ? 'Roheline' : 'Green' }} 80%+</span>
+                <span class="text-[10px] text-slate-500">{{ lang.t('results.green') }} 80%+</span>
               </div>
             </div>
           </div>
 
           <!-- Industry comparison bars -->
           <div *ngIf="benchmark.industryBenchmarks">
-            <p class="text-xs text-slate-500 mb-3">{{ lang.currentLang === 'et' ? 'V&otilde;rdlus sektoritega' : 'Sector Comparison' }}</p>
+            <p class="text-xs text-slate-500 mb-3">{{ lang.t('results.sector_comparison') }}</p>
             <div class="space-y-2">
               <div *ngFor="let industry of benchmark.industryBenchmarks | keyvalue" class="flex items-center gap-2 sm:gap-3">
                 <span class="text-xs text-slate-400 w-20 sm:w-28 truncate shrink-0">{{ industry.value.label }}</span>
@@ -330,7 +330,7 @@ interface HeatmapCell {
               </div>
               <!-- Your score line -->
               <div class="flex items-center gap-2 sm:gap-3 pt-2 border-t border-slate-700/50">
-                <span class="text-xs font-semibold w-20 sm:w-28 truncate shrink-0" [class]="scoreTextClass">{{ lang.currentLang === 'et' ? 'Teie tulemus' : 'Your Score' }}</span>
+                <span class="text-xs font-semibold w-20 sm:w-28 truncate shrink-0" [class]="scoreTextClass">{{ lang.t('results.your_score') }}</span>
                 <div class="flex-1 h-2 bg-slate-700/50 rounded-full overflow-hidden">
                   <div class="h-full rounded-full transition-all duration-700"
                        [class]="result.complianceLevel === 'GREEN' ? 'bg-emerald-500' : result.complianceLevel === 'YELLOW' ? 'bg-amber-500' : 'bg-red-500'"
@@ -347,7 +347,7 @@ interface HeatmapCell {
         <div *ngIf="benchmarkLoading" class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6 mb-8 animate-pulse">
           <div class="flex items-center gap-3">
             <div class="w-4 h-4 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
-            <span class="text-sm text-slate-400">{{ lang.currentLang === 'et' ? 'V&otilde;rdlusandmete laadimine...' : 'Loading benchmark data...' }}</span>
+            <span class="text-sm text-slate-400">{{ lang.t('results.loading_benchmark_data') }}</span>
           </div>
         </div>
 
@@ -441,7 +441,7 @@ interface HeatmapCell {
               <input type="email" [(ngModel)]="email" name="email"
                      class="flex-1 px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-600/50 text-white placeholder-slate-500
                             focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25 transition-all"
-                     [placeholder]="lang.currentLang === 'et' ? 'teie@ettevote.ee' : 'you@company.com'">
+                     [placeholder]="lang.t('results.youcompanycom')">
               <button type="button" (click)="captureEmail()"
                       [disabled]="!email || emailLoading"
                       class="px-6 py-3 rounded-xl font-semibold text-sm whitespace-nowrap
@@ -1127,25 +1127,21 @@ export class ResultsComponent implements OnInit {
     if (!this.benchmark || !this.result) return '';
     const diff = this.result.scorePercentage - this.benchmark.industryAverage;
     if (diff > 0) {
-      return this.lang.currentLang === 'et'
-        ? `+${diff.toFixed(1)}% \u00fcle keskmise`
-        : `+${diff.toFixed(1)}% above average`;
+      return `+${diff.toFixed(1)}% ${this.lang.t('results.above_avg')}`;
     } else if (diff < 0) {
-      return this.lang.currentLang === 'et'
-        ? `${diff.toFixed(1)}% alla keskmise`
-        : `${diff.toFixed(1)}% below average`;
+      return `${diff.toFixed(1)}% ${this.lang.t('results.below_avg')}`;
     }
-    return this.lang.currentLang === 'et' ? 'T\u00e4pselt keskmine' : 'Exactly average';
+    return this.lang.t('results.exactly_average');
   }
 
   getPercentileLabel(): string {
     if (!this.benchmark) return '';
     const rank = this.benchmark.percentileRank;
-    if (rank >= 90) return this.lang.currentLang === 'et' ? 'Top 10%' : 'Top 10%';
-    if (rank >= 75) return this.lang.currentLang === 'et' ? 'Top 25%' : 'Top 25%';
-    if (rank >= 50) return this.lang.currentLang === 'et' ? '\u00dcle keskmise' : 'Above median';
-    if (rank >= 25) return this.lang.currentLang === 'et' ? 'Alla keskmise' : 'Below median';
-    return this.lang.currentLang === 'et' ? 'Alumine 25%' : 'Bottom 25%';
+    if (rank >= 90) return this.lang.t('results.top_10');
+    if (rank >= 75) return this.lang.t('results.top_25');
+    if (rank >= 50) return this.lang.t('results.above_median');
+    if (rank >= 25) return this.lang.t('results.below_median');
+    return this.lang.t('results.bottom_25');
   }
 
   getCategoryLabel(category: string): string {

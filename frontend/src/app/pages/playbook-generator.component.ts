@@ -36,12 +36,10 @@ interface PlaybookItem {
           DORA Art. 17-23
         </div>
         <h1 class="text-3xl font-bold text-white mb-2">
-          {{ lang.currentLang === 'et' ? 'Intsidendi tegevuskava generaator' : 'Incident Response Playbook Generator' }}
+          {{ lang.t('playbook.title') }}
         </h1>
         <p class="text-slate-400 max-w-2xl mx-auto">
-          {{ lang.currentLang === 'et'
-            ? 'Genereeri DORA-vastavusega intsidentidele reageerimise tegevuskava, teatiste mallid ja kontrollnimekirjad.'
-            : 'Generate DORA-compliant incident response playbook, notification templates, and checklists.' }}
+          {{ lang.t('playbook.subtitle') }}
         </p>
       </div>
 
@@ -52,30 +50,30 @@ interface PlaybookItem {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
           </svg>
-          {{ lang.currentLang === 'et' ? 'Seadistused' : 'Configuration' }}
+          {{ lang.t('playbook.configuration') }}
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm text-slate-400 mb-2">{{ lang.currentLang === 'et' ? 'Organisatsiooni nimi' : 'Organization Name' }}</label>
+            <label class="block text-sm text-slate-400 mb-2">{{ lang.t('playbook.org_name') }}</label>
             <input type="text" [(ngModel)]="orgName"
-                   [placeholder]="lang.currentLang === 'et' ? 'Teie ettev\u00f5te nimi' : 'Your company name'"
+                   [placeholder]="lang.t('playbook.org_name_placeholder')"
                    class="w-full px-4 py-2 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white placeholder-slate-500
                           focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25 transition-all">
           </div>
           <div>
-            <label class="block text-sm text-slate-400 mb-2">{{ lang.currentLang === 'et' ? 'Intsidendi t\u00fc\u00fcp' : 'Incident Type' }}</label>
+            <label class="block text-sm text-slate-400 mb-2">{{ lang.t('playbook.incident_type') }}</label>
             <select [(ngModel)]="incidentType"
                     class="w-full px-4 py-2 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white
                            focus:outline-none focus:border-cyan-500/50 transition-all">
-              <option value="cyber">{{ lang.currentLang === 'et' ? 'K\u00fcberintsident' : 'Cyber Incident' }}</option>
-              <option value="data_breach">{{ lang.currentLang === 'et' ? 'Andmeleke' : 'Data Breach' }}</option>
-              <option value="service_outage">{{ lang.currentLang === 'et' ? 'Teenuse katkestus' : 'Service Outage' }}</option>
-              <option value="third_party">{{ lang.currentLang === 'et' ? 'Kolmanda osapoole intsident' : 'Third-Party Incident' }}</option>
+              <option value="cyber">{{ lang.t('playbook.type_cyber') }}</option>
+              <option value="data_breach">{{ lang.t('playbook.type_data_breach') }}</option>
+              <option value="service_outage">{{ lang.t('playbook.type_service_outage') }}</option>
+              <option value="third_party">{{ lang.t('playbook.type_third_party') }}</option>
             </select>
           </div>
           <div>
-            <label class="block text-sm text-slate-400 mb-2">{{ lang.currentLang === 'et' ? 'P\u00e4dev asutus' : 'Competent Authority' }}</label>
+            <label class="block text-sm text-slate-400 mb-2">{{ lang.t('playbook.competent_authority') }}</label>
             <select [(ngModel)]="authority"
                     class="w-full px-4 py-2 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white
                            focus:outline-none focus:border-cyan-500/50 transition-all">
@@ -83,17 +81,17 @@ interface PlaybookItem {
               <option value="bafin">BaFin (Germany)</option>
               <option value="fca">FCA (UK)</option>
               <option value="amf">AMF (France)</option>
-              <option value="other">{{ lang.currentLang === 'et' ? 'Muu' : 'Other' }}</option>
+              <option value="other">{{ lang.t('playbook.authority_other') }}</option>
             </select>
           </div>
           <div>
-            <label class="block text-sm text-slate-400 mb-2">{{ lang.currentLang === 'et' ? 'Kriitilisuse tase' : 'Severity Level' }}</label>
+            <label class="block text-sm text-slate-400 mb-2">{{ lang.t('playbook.severity_level') }}</label>
             <select [(ngModel)]="severity"
                     class="w-full px-4 py-2 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white
                            focus:outline-none focus:border-cyan-500/50 transition-all">
-              <option value="critical">{{ lang.currentLang === 'et' ? 'Kriitiline' : 'Critical' }}</option>
-              <option value="major">{{ lang.currentLang === 'et' ? 'Suur' : 'Major' }}</option>
-              <option value="minor">{{ lang.currentLang === 'et' ? 'V\u00e4ike' : 'Minor' }}</option>
+              <option value="critical">{{ lang.t('playbook.severity_critical') }}</option>
+              <option value="major">{{ lang.t('playbook.severity_major') }}</option>
+              <option value="minor">{{ lang.t('playbook.severity_minor') }}</option>
             </select>
           </div>
         </div>
@@ -111,8 +109,8 @@ interface PlaybookItem {
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
           </svg>
           {{ generating
-            ? (lang.currentLang === 'et' ? 'Genereerin tegevuskava...' : 'Generating playbook...')
-            : (lang.currentLang === 'et' ? 'Genereeri tegevuskava' : 'Generate Playbook') }}
+            ? lang.t('playbook.generating')
+            : lang.t('playbook.generate') }}
         </button>
       </div>
 
@@ -126,7 +124,7 @@ interface PlaybookItem {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
             </svg>
-            {{ lang.currentLang === 'et' ? 'Prindi' : 'Print' }}
+            {{ lang.t('playbook.print') }}
           </button>
           <button type="button" (click)="downloadPlaybook()"
                   class="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
@@ -134,7 +132,7 @@ interface PlaybookItem {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
-            {{ lang.currentLang === 'et' ? 'Laadi alla' : 'Download' }}
+            {{ lang.t('playbook.download') }}
           </button>
         </div>
 
@@ -143,9 +141,9 @@ interface PlaybookItem {
           <div class="flex items-start justify-between">
             <div>
               <h2 class="text-2xl font-bold text-white mb-1">
-                {{ lang.currentLang === 'et' ? 'Intsidendi tegevuskava' : 'Incident Response Playbook' }}
+                {{ lang.t('playbook.playbook_title') }}
               </h2>
-              <p class="text-slate-400">{{ orgName || (lang.currentLang === 'et' ? 'Teie organisatsioon' : 'Your Organization') }}</p>
+              <p class="text-slate-400">{{ orgName || lang.t('playbook.your_org') }}</p>
             </div>
             <div class="text-right">
               <span [class]="getSeverityClass(severity)">
@@ -162,24 +160,24 @@ interface PlaybookItem {
             <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            {{ lang.currentLang === 'et' ? 'DORA t\u00e4htajad' : 'DORA Deadlines' }}
+            {{ lang.t('playbook.dora_deadlines') }}
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-4 text-center">
               <p class="text-3xl font-bold text-red-400">4h</p>
-              <p class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? 'Esialgne teavitus' : 'Initial Notification' }}</p>
+              <p class="text-xs text-slate-400">{{ lang.t('playbook.initial_notification') }}</p>
             </div>
             <div class="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4 text-center">
               <p class="text-3xl font-bold text-amber-400">24h</p>
-              <p class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? 'Vahearuanne' : 'Intermediate Report' }}</p>
+              <p class="text-xs text-slate-400">{{ lang.t('playbook.intermediate_report') }}</p>
             </div>
             <div class="bg-cyan-500/10 border border-cyan-500/20 rounded-lg p-4 text-center">
               <p class="text-3xl font-bold text-cyan-400">72h</p>
-              <p class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? 'Detailne aruanne' : 'Detailed Report' }}</p>
+              <p class="text-xs text-slate-400">{{ lang.t('playbook.detailed_report') }}</p>
             </div>
             <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4 text-center">
               <p class="text-3xl font-bold text-emerald-400">1kuu</p>
-              <p class="text-xs text-slate-400">{{ lang.currentLang === 'et' ? 'L\u00f5pparuanne' : 'Final Report' }}</p>
+              <p class="text-xs text-slate-400">{{ lang.t('playbook.final_report') }}</p>
             </div>
           </div>
         </div>
@@ -193,7 +191,7 @@ interface PlaybookItem {
               <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center text-white text-sm font-bold">
                 {{ i + 1 }}
               </span>
-              {{ lang.currentLang === 'et' ? section.titleEt : section.title }}
+              {{ l(section.titleEt, section.title) }}
             </h3>
             <svg class="w-5 h-5 text-slate-400 transition-transform" [class.rotate-180]="expandedSections[section.id]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -205,13 +203,13 @@ interface PlaybookItem {
               <input type="checkbox" [(ngModel)]="item.checked"
                      class="mt-1 w-4 h-4 rounded border-slate-600 bg-slate-800 text-emerald-500 focus:ring-emerald-500/25">
               <div class="flex-1">
-                <p class="text-sm text-slate-200">{{ lang.currentLang === 'et' ? item.textEt : item.text }}</p>
+                <p class="text-sm text-slate-200">{{ l(item.textEt, item.text) }}</p>
                 <div class="flex items-center gap-4 mt-1">
                   <span *ngIf="item.timing" class="text-xs text-amber-400">
-                    {{ lang.currentLang === 'et' ? item.timingEt : item.timing }}
+                    {{ l(item.timingEt, item.timing) }}
                   </span>
                   <span *ngIf="item.responsible" class="text-xs text-cyan-400">
-                    {{ lang.currentLang === 'et' ? item.responsibleEt : item.responsible }}
+                    {{ l(item.responsibleEt, item.responsible) }}
                   </span>
                 </div>
               </div>
@@ -226,7 +224,7 @@ interface PlaybookItem {
               <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
               </svg>
-              {{ lang.currentLang === 'et' ? 'Teavituse mall' : 'Notification Template' }}
+              {{ lang.t('playbook.notification_template') }}
             </h3>
             <button type="button" (click)="copyTemplate()"
                     class="text-xs px-3 py-1.5 rounded-lg bg-slate-700/50 text-slate-300 hover:bg-slate-600/50 transition-colors flex items-center gap-1">
@@ -236,7 +234,7 @@ interface PlaybookItem {
               <svg *ngIf="templateCopied" class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
               </svg>
-              {{ templateCopied ? (lang.currentLang === 'et' ? 'Kopeeritud!' : 'Copied!') : (lang.currentLang === 'et' ? 'Kopeeri' : 'Copy') }}
+              {{ templateCopied ? lang.t('playbook.copied') : lang.t('playbook.copy') }}
             </button>
           </div>
           <pre class="text-sm text-slate-200 whitespace-pre-wrap font-sans bg-slate-900/50 rounded-lg p-4 leading-relaxed">{{ getNotificationTemplate() }}</pre>
@@ -248,18 +246,18 @@ interface PlaybookItem {
             <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
             </svg>
-            {{ lang.currentLang === 'et' ? 'Kontaktid ja eskaleerimine' : 'Contacts & Escalation' }}
+            {{ lang.t('playbook.contacts_escalation') }}
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="bg-slate-900/30 rounded-lg p-4">
-              <p class="text-xs text-slate-500 mb-2">{{ lang.currentLang === 'et' ? 'P\u00e4dev asutus' : 'Competent Authority' }}</p>
+              <p class="text-xs text-slate-500 mb-2">{{ lang.t('playbook.competent_authority') }}</p>
               <p class="text-sm text-white font-medium">{{ getAuthorityName() }}</p>
               <p class="text-xs text-slate-400 mt-1">{{ getAuthorityContact() }}</p>
             </div>
             <div class="bg-slate-900/30 rounded-lg p-4">
-              <p class="text-xs text-slate-500 mb-2">{{ lang.currentLang === 'et' ? 'Sisemine eskaleerimine' : 'Internal Escalation' }}</p>
+              <p class="text-xs text-slate-500 mb-2">{{ lang.t('playbook.internal_escalation') }}</p>
               <p class="text-sm text-white font-medium">CISO \u2192 CRO \u2192 CEO \u2192 Board</p>
-              <p class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Vastavalt kriitilisusele' : 'Based on severity' }}</p>
+              <p class="text-xs text-slate-400 mt-1">{{ lang.t('playbook.based_on_severity') }}</p>
             </div>
           </div>
         </div>
@@ -373,21 +371,19 @@ export class PlaybookGeneratorComponent implements OnInit {
   }
 
   getSeverityLabel(severity: string): string {
-    const et = this.lang.currentLang === 'et';
     switch (severity) {
-      case 'critical': return et ? 'KRIITILINE' : 'CRITICAL';
-      case 'major': return et ? 'SUUR' : 'MAJOR';
-      default: return et ? 'V\u00c4IKE' : 'MINOR';
+      case 'critical': return this.lang.t('playbook.label_critical');
+      case 'major': return this.lang.t('playbook.label_major');
+      default: return this.lang.t('playbook.label_minor');
     }
   }
 
   getIncidentTypeLabel(type: string): string {
-    const et = this.lang.currentLang === 'et';
     switch (type) {
-      case 'cyber': return et ? 'K\u00fcberintsident' : 'Cyber Incident';
-      case 'data_breach': return et ? 'Andmeleke' : 'Data Breach';
-      case 'service_outage': return et ? 'Teenuse katkestus' : 'Service Outage';
-      case 'third_party': return et ? 'Kolmanda osapoole intsident' : 'Third-Party Incident';
+      case 'cyber': return this.lang.t('playbook.type_cyber');
+      case 'data_breach': return this.lang.t('playbook.type_data_breach');
+      case 'service_outage': return this.lang.t('playbook.type_service_outage');
+      case 'third_party': return this.lang.t('playbook.type_third_party');
       default: return type;
     }
   }
@@ -398,7 +394,7 @@ export class PlaybookGeneratorComponent implements OnInit {
       case 'bafin': return 'BaFin - Bundesanstalt f\u00fcr Finanzdienstleistungsaufsicht';
       case 'fca': return 'Financial Conduct Authority';
       case 'amf': return 'Autorit\u00e9 des march\u00e9s financiers';
-      default: return this.lang.currentLang === 'et' ? 'P\u00e4dev asutus' : 'Competent Authority';
+      default: return this.lang.t('playbook.competent_authority');
     }
   }
 
@@ -412,11 +408,15 @@ export class PlaybookGeneratorComponent implements OnInit {
     }
   }
 
-  getNotificationTemplate(): string {
-    const et = this.lang.currentLang === 'et';
-    const org = this.orgName || (et ? '[Organisatsiooni nimi]' : '[Organization Name]');
+  l(et: string | undefined, en: string | undefined): string {
+    return this.lang.currentLang === 'et' ? (et || en || '') : (en || et || '');
+  }
 
-    if (et) {
+  getNotificationTemplate(): string {
+    const isEt = this.lang.currentLang === 'et';
+    const org = this.orgName || (isEt ? '[Organisatsiooni nimi]' : '[Organization Name]');
+
+    if (isEt) {
       return `ESIALGNE INTSIDENDI TEAVITUS
 DORA Art. 19 kohaselt
 
@@ -505,11 +505,11 @@ This notification is submitted pursuant to DORA Regulation (EU 2022/2554) Articl
     content += `${'='.repeat(60)}\n\n`;
 
     for (const section of this.playbookSections) {
-      content += `## ${this.lang.currentLang === 'et' ? section.titleEt : section.title}\n\n`;
+      content += `## ${this.l(section.titleEt, section.title)}\n\n`;
       for (const item of section.items) {
-        const text = this.lang.currentLang === 'et' ? item.textEt : item.text;
-        const timing = this.lang.currentLang === 'et' ? item.timingEt : item.timing;
-        const responsible = this.lang.currentLang === 'et' ? item.responsibleEt : item.responsible;
+        const text = this.l(item.textEt, item.text);
+        const timing = this.l(item.timingEt, item.timing);
+        const responsible = this.l(item.responsibleEt, item.responsible);
         content += `[ ] ${text}\n`;
         if (timing) content += `    Timing: ${timing}\n`;
         if (responsible) content += `    Responsible: ${responsible}\n`;

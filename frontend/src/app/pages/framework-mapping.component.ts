@@ -35,15 +35,13 @@ interface FrameworkMapping {
           <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
           </svg>
-          {{ lang.currentLang === 'et' ? 'Tasuta tööriist' : 'Free Tool' }}
+          {{ lang.t('fwmap.free_tool') }}
         </div>
         <h1 class="text-3xl font-bold text-white mb-2">
-          {{ lang.currentLang === 'et' ? 'Raamistike vastavuskaardistus' : 'Multi-Framework Compliance Mapping' }}
+          {{ lang.t('fwmap.multiframework_compliance_mapping') }}
         </h1>
         <p class="text-slate-400 max-w-3xl mx-auto">
-          {{ lang.currentLang === 'et'
-            ? 'Vaata, kuidas DORA seostub ISO 27001, NIS2, GDPR ja COBIT raamistikuga. Kui teil on juba mõni sertifikaat, näete kohe, millised DORA nõuded on juba kaetud.'
-            : 'See how DORA maps to ISO 27001, NIS2, GDPR, and COBIT. If you already comply with one framework, instantly see which DORA requirements you already cover.' }}
+          {{ lang.t('fwmap.see_how_dora_maps_to_iso_27001_nis2_gdpr') }}
         </p>
       </div>
 
@@ -52,25 +50,25 @@ interface FrameworkMapping {
         <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-2xl p-5 text-center">
           <div class="text-3xl font-bold text-white mb-1">{{ mappings.length }}</div>
           <div class="text-xs text-slate-400">
-            {{ lang.currentLang === 'et' ? 'DORA nõuet kaardistatud' : 'DORA requirements mapped' }}
+            {{ lang.t('fwmap.dora_requirements_mapped') }}
           </div>
         </div>
         <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-2xl p-5 text-center">
           <div class="text-3xl font-bold text-emerald-400 mb-1">{{ isoOverlapPercent }}%</div>
           <div class="text-xs text-slate-400">
-            {{ lang.currentLang === 'et' ? 'ISO 27001 kattuvus' : 'ISO 27001 overlap' }}
+            {{ lang.t('fwmap.iso_27001_overlap') }}
           </div>
         </div>
         <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-2xl p-5 text-center">
           <div class="text-3xl font-bold text-cyan-400 mb-1">{{ nis2OverlapPercent }}%</div>
           <div class="text-xs text-slate-400">
-            {{ lang.currentLang === 'et' ? 'NIS2 kattuvus' : 'NIS2 overlap' }}
+            {{ lang.t('fwmap.nis2_overlap') }}
           </div>
         </div>
         <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-2xl p-5 text-center">
           <div class="text-3xl font-bold text-amber-400 mb-1">{{ doraOnlyCount }}</div>
           <div class="text-xs text-slate-400">
-            {{ lang.currentLang === 'et' ? 'Ainult DORA nõuded' : 'DORA-unique requirements' }}
+            {{ lang.t('fwmap.doraunique_requirements') }}
           </div>
         </div>
       </div>
@@ -81,7 +79,7 @@ interface FrameworkMapping {
           <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
           </svg>
-          {{ lang.currentLang === 'et' ? 'Vali raamistikud' : 'Select Frameworks' }}
+          {{ lang.t('fwmap.select_frameworks') }}
         </h2>
         <div class="flex flex-wrap gap-3">
           <label class="flex items-center gap-2 px-4 py-2.5 rounded-xl border cursor-pointer transition-all"
@@ -129,12 +127,10 @@ interface FrameworkMapping {
           <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
           </svg>
-          {{ lang.currentLang === 'et' ? 'Kattuvuse kalkulaator' : 'Coverage Calculator' }}
+          {{ lang.t('fwmap.coverage_calculator') }}
         </h2>
         <p class="text-sm text-slate-400 mb-5">
-          {{ lang.currentLang === 'et'
-            ? 'Valige raamistikud, millele teie organisatsioon juba vastab, et näha DORA kattuvust:'
-            : 'Select frameworks your organization already complies with to see DORA coverage:' }}
+          {{ lang.t('fwmap.select_frameworks_your_organization_alre') }}
         </p>
 
         <div class="flex flex-wrap gap-3 mb-6">
@@ -165,7 +161,7 @@ interface FrameworkMapping {
           <div class="bg-slate-900/60 rounded-xl p-5 border border-slate-700/30">
             <div class="flex items-center justify-between mb-3">
               <span class="text-sm text-slate-300">
-                {{ lang.currentLang === 'et' ? 'DORA kattuvus olemasolevate sertifikaatidega' : 'DORA coverage from existing certifications' }}
+                {{ lang.t('fwmap.dora_coverage_from_existing_certificatio') }}
               </span>
               <span class="text-2xl font-bold" [class]="coveragePercent >= 70 ? 'text-emerald-400' : coveragePercent >= 40 ? 'text-amber-400' : 'text-red-400'">
                 {{ coveragePercent }}%
@@ -228,14 +224,14 @@ interface FrameworkMapping {
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
               </svg>
-              {{ lang.currentLang === 'et' ? 'Allesjäänud lüngad (' + remainingGaps.length + ')' : 'Remaining gaps (' + remainingGaps.length + ')' }}
+              {{ lang.t('fwmap.remaining_gaps') }} ({{ remainingGaps.length }})
             </h3>
             <ul class="space-y-2">
               <li *ngFor="let gap of remainingGaps" class="flex items-start gap-2 text-sm">
                 <span class="text-red-400 shrink-0 mt-0.5">&#9679;</span>
                 <span class="text-slate-400">
                   <span class="text-red-300 font-medium">{{ gap.doraArticle }}</span> &mdash;
-                  {{ lang.currentLang === 'et' ? gap.doraRequirement.et : gap.doraRequirement.en }}
+                  {{ l(gap.doraRequirement.et, gap.doraRequirement.en) }}
                 </span>
               </li>
             </ul>
@@ -247,9 +243,7 @@ interface FrameworkMapping {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
           </svg>
           <p class="text-slate-500 text-sm">
-            {{ lang.currentLang === 'et'
-              ? 'Valige ülaltoodud raamistikud, et näha kattuvuse arvutust'
-              : 'Select frameworks above to see the coverage calculation' }}
+            {{ lang.t('fwmap.select_frameworks_above_to_see_the_cover') }}
           </p>
         </div>
       </div>
@@ -259,12 +253,12 @@ interface FrameworkMapping {
         <button type="button" (click)="selectedPillar = 0"
                 class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
                 [class]="selectedPillar === 0 ? 'bg-cyan-500/20 border border-cyan-500/40 text-cyan-300' : 'bg-slate-800/60 border border-slate-700/50 text-slate-400 hover:text-slate-300'">
-          {{ lang.currentLang === 'et' ? 'Kõik sambad' : 'All Pillars' }}
+          {{ lang.t('fwmap.all_pillars') }}
         </button>
         <button *ngFor="let p of pillarNames" type="button" (click)="selectedPillar = p.id"
                 class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
                 [class]="selectedPillar === p.id ? 'bg-cyan-500/20 border border-cyan-500/40 text-cyan-300' : 'bg-slate-800/60 border border-slate-700/50 text-slate-400 hover:text-slate-300'">
-          {{ lang.currentLang === 'et' ? p.et : p.en }}
+          {{ l(p.et, p.en) }}
         </button>
       </div>
 
@@ -276,7 +270,7 @@ interface FrameworkMapping {
                   [class]="'bg-' + getPillarColor(pillar.id) + '-500/20 text-' + getPillarColor(pillar.id) + '-400'">
               {{ pillar.id }}
             </span>
-            {{ lang.currentLang === 'et' ? pillar.et : pillar.en }}
+            {{ l(pillar.et, pillar.en) }}
           </h3>
         </div>
 
@@ -285,10 +279,10 @@ interface FrameworkMapping {
             <thead>
               <tr class="border-b border-slate-700/50">
                 <th class="text-left px-4 py-3 text-slate-400 font-medium whitespace-nowrap">
-                  {{ lang.currentLang === 'et' ? 'DORA artikkel' : 'DORA Article' }}
+                  {{ lang.t('fwmap.dora_article') }}
                 </th>
                 <th class="text-left px-4 py-3 text-slate-400 font-medium min-w-[200px]">
-                  {{ lang.currentLang === 'et' ? 'Nõue' : 'Requirement' }}
+                  {{ lang.t('fwmap.requirement') }}
                 </th>
                 <th *ngIf="showIso" class="text-center px-4 py-3 text-emerald-400 font-medium whitespace-nowrap">ISO 27001</th>
                 <th *ngIf="showNis2" class="text-center px-4 py-3 text-cyan-400 font-medium whitespace-nowrap">NIS2</th>
@@ -301,7 +295,7 @@ interface FrameworkMapping {
                 <tr class="border-b border-slate-700/30 hover:bg-slate-700/20 cursor-pointer transition-colors"
                     (click)="toggleRow(m.doraArticle)">
                   <td class="px-4 py-3 text-cyan-300 font-mono text-xs whitespace-nowrap">{{ m.doraArticle }}</td>
-                  <td class="px-4 py-3 text-slate-300">{{ lang.currentLang === 'et' ? m.doraRequirement.et : m.doraRequirement.en }}</td>
+                  <td class="px-4 py-3 text-slate-300">{{ l(m.doraRequirement.et, m.doraRequirement.en) }}</td>
                   <td *ngIf="showIso" class="px-4 py-3 text-center">
                     <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium"
                           [class]="getMatchClass(m.iso27001Match)">
@@ -335,28 +329,28 @@ interface FrameworkMapping {
                         <div class="text-xs font-semibold text-emerald-400 mb-1">ISO 27001:2022</div>
                         <div class="text-xs text-slate-300 font-mono mb-1">{{ m.iso27001 }}</div>
                         <div *ngIf="m.iso27001Detail" class="text-xs text-slate-400">
-                          {{ lang.currentLang === 'et' ? m.iso27001Detail.et : m.iso27001Detail.en }}
+                          {{ l(m.iso27001Detail?.et, m.iso27001Detail?.en) }}
                         </div>
                       </div>
                       <div *ngIf="showNis2 && m.nis2" class="bg-slate-800/60 rounded-lg p-3 border border-cyan-500/20">
                         <div class="text-xs font-semibold text-cyan-400 mb-1">NIS2 Directive</div>
                         <div class="text-xs text-slate-300 font-mono mb-1">{{ m.nis2 }}</div>
                         <div *ngIf="m.nis2Detail" class="text-xs text-slate-400">
-                          {{ lang.currentLang === 'et' ? m.nis2Detail.et : m.nis2Detail.en }}
+                          {{ l(m.nis2Detail?.et, m.nis2Detail?.en) }}
                         </div>
                       </div>
                       <div *ngIf="showGdpr && m.gdpr" class="bg-slate-800/60 rounded-lg p-3 border border-violet-500/20">
                         <div class="text-xs font-semibold text-violet-400 mb-1">GDPR</div>
                         <div class="text-xs text-slate-300 font-mono mb-1">{{ m.gdpr }}</div>
                         <div *ngIf="m.gdprDetail" class="text-xs text-slate-400">
-                          {{ lang.currentLang === 'et' ? m.gdprDetail.et : m.gdprDetail.en }}
+                          {{ l(m.gdprDetail?.et, m.gdprDetail?.en) }}
                         </div>
                       </div>
                       <div *ngIf="showCobit && m.cobit" class="bg-slate-800/60 rounded-lg p-3 border border-amber-500/20">
                         <div class="text-xs font-semibold text-amber-400 mb-1">COBIT 2019</div>
                         <div class="text-xs text-slate-300 font-mono mb-1">{{ m.cobit }}</div>
                         <div *ngIf="m.cobitDetail" class="text-xs text-slate-400">
-                          {{ lang.currentLang === 'et' ? m.cobitDetail.et : m.cobitDetail.en }}
+                          {{ l(m.cobitDetail?.et, m.cobitDetail?.en) }}
                         </div>
                       </div>
                     </div>
@@ -371,24 +365,24 @@ interface FrameworkMapping {
       <!-- Legend -->
       <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-2xl p-6">
         <h3 class="text-sm font-semibold text-white mb-3">
-          {{ lang.currentLang === 'et' ? 'Legend' : 'Legend' }}
+          {{ lang.t('fwmap.legend') }}
         </h3>
         <div class="flex flex-wrap gap-4 text-xs">
           <span class="flex items-center gap-1.5">
             <span class="inline-block w-3 h-3 rounded-full bg-emerald-500/30 border border-emerald-500/50"></span>
-            <span class="text-slate-400">{{ lang.currentLang === 'et' ? 'Täielik kattuvus' : 'Full match' }}</span>
+            <span class="text-slate-400">{{ lang.t('fwmap.full_match') }}</span>
           </span>
           <span class="flex items-center gap-1.5">
             <span class="inline-block w-3 h-3 rounded-full bg-amber-500/30 border border-amber-500/50"></span>
-            <span class="text-slate-400">{{ lang.currentLang === 'et' ? 'Osaline kattuvus' : 'Partial match' }}</span>
+            <span class="text-slate-400">{{ lang.t('fwmap.partial_match') }}</span>
           </span>
           <span class="flex items-center gap-1.5">
             <span class="inline-block w-3 h-3 rounded-full bg-red-500/30 border border-red-500/50"></span>
-            <span class="text-slate-400">{{ lang.currentLang === 'et' ? 'Kattuvus puudub' : 'No match' }}</span>
+            <span class="text-slate-400">{{ lang.t('fwmap.no_match') }}</span>
           </span>
           <span class="flex items-center gap-1.5">
             <span class="inline-block w-3 h-3 rounded-full bg-slate-500/30 border border-slate-500/50"></span>
-            <span class="text-slate-400">{{ lang.currentLang === 'et' ? 'Ei kohaldu' : 'N/A' }}</span>
+            <span class="text-slate-400">{{ lang.t('fwmap.na') }}</span>
           </span>
         </div>
       </div>
@@ -396,15 +390,13 @@ interface FrameworkMapping {
       <!-- CTA -->
       <div class="bg-gradient-to-r from-emerald-900/30 to-cyan-900/30 border border-emerald-500/20 rounded-2xl p-8 text-center">
         <h2 class="text-xl font-bold text-white mb-2">
-          {{ lang.currentLang === 'et' ? 'Alustage DORA vastavuse hindamist' : 'Start Your DORA Compliance Assessment' }}
+          {{ lang.t('fwmap.start_your_dora_compliance_assessment') }}
         </h2>
         <p class="text-slate-400 text-sm mb-5 max-w-xl mx-auto">
-          {{ lang.currentLang === 'et'
-            ? 'Nüüd, kui teate, millised lüngad teil on, viige läbi täielik DORA hindamine ja saage personaalne tegevuskava.'
-            : 'Now that you know your gaps, run a full DORA assessment and get a personalized action plan.' }}
+          {{ lang.t('fwmap.now_that_you_know_your_gaps_run_a_full_d') }}
         </p>
         <a routerLink="/assessment" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-colors">
-          {{ lang.currentLang === 'et' ? 'Alusta hindamist' : 'Start Assessment' }}
+          {{ lang.t('fwmap.start_assessment') }}
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
           </svg>
@@ -1193,6 +1185,10 @@ export class FrameworkMappingComponent {
   ];
 
   constructor(public lang: LangService) {}
+
+  l(et: string | undefined, en: string | undefined): string {
+    return this.lang.currentLang === 'et' ? (et || en || '') : (en || et || '');
+  }
 
   // --- Computed stats ---
 

@@ -17,7 +17,7 @@ import { LangService } from '../lang.service';
 
         <!-- Suggested pages -->
         <div class="mb-8">
-          <p class="text-sm text-slate-500 mb-4">{{ lang.currentLang === 'et' ? 'Proovi neid lehti:' : 'Try these pages:' }}</p>
+          <p class="text-sm text-slate-500 mb-4">{{ lang.t('notfound.try_pages') }}</p>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <a routerLink="/nis2/scope-check"
                class="flex items-center gap-2 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30 hover:border-amber-500/30 hover:bg-slate-700/30 transition-all group">

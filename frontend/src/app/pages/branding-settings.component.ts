@@ -20,10 +20,10 @@ import { SubscriptionService } from '../services/subscription.service';
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
             </svg>
           </div>
-          {{ lang.currentLang === 'et' ? 'Brändi seaded' : 'Branding Settings' }}
+          {{ lang.t('branding.branding_settings') }}
         </h1>
         <p class="text-slate-400 text-sm mt-1">
-          {{ lang.currentLang === 'et' ? 'Kohanda oma ettevõtte logo, nimi ja värvid PDF raportites' : 'Customize your company logo, name and colors in PDF reports' }}
+          {{ lang.t('branding.customize_your_company_logo_name_and_col') }}
         </p>
       </div>
 
@@ -33,14 +33,14 @@ import { SubscriptionService } from '../services/subscription.service';
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
         </svg>
         <h2 class="text-lg font-bold text-white mb-2">
-          {{ lang.currentLang === 'et' ? 'Premium funktsioon' : 'Premium Feature' }}
+          {{ lang.t('branding.premium_feature') }}
         </h2>
         <p class="text-slate-400 text-sm mb-4">
-          {{ lang.currentLang === 'et' ? 'Brändi kohandamine on saadaval Standard ja Enterprise plaanidega.' : 'Branding customization is available with Standard and Enterprise plans.' }}
+          {{ lang.t('branding.branding_customization_is_available_with') }}
         </p>
         <a routerLink="/pricing"
            class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold text-sm hover:shadow-lg transition-all">
-          {{ lang.currentLang === 'et' ? 'Uuenda plaani' : 'Upgrade Plan' }}
+          {{ lang.t('branding.upgrade_plan') }}
         </a>
       </div>
 
@@ -49,7 +49,7 @@ import { SubscriptionService } from '../services/subscription.service';
         <!-- Logo Section -->
         <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
           <h2 class="text-lg font-semibold text-white mb-4">
-            {{ lang.currentLang === 'et' ? 'Ettevõtte logo' : 'Company Logo' }}
+            {{ lang.t('branding.company_logo') }}
           </h2>
 
           <!-- Current logo -->
@@ -58,7 +58,7 @@ import { SubscriptionService } from '../services/subscription.service';
                  class="w-20 h-20 rounded-xl border border-slate-600/50 object-contain bg-white/5 p-2">
             <button type="button" (click)="deleteLogo()"
                     class="px-3 py-1.5 rounded-lg text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 transition-all">
-              {{ lang.currentLang === 'et' ? 'Kustuta logo' : 'Delete Logo' }}
+              {{ lang.t('branding.delete_logo') }}
             </button>
           </div>
 
@@ -71,7 +71,7 @@ import { SubscriptionService } from '../services/subscription.service';
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
             </svg>
             <p class="text-sm text-slate-400 mb-1">
-              {{ lang.currentLang === 'et' ? 'Lohista logo siia või kliki üleslaadimiseks' : 'Drag logo here or click to upload' }}
+              {{ lang.t('branding.drag_logo_here_or_click_to_upload') }}
             </p>
             <p class="text-xs text-slate-500">PNG, JPG, SVG &middot; max 2MB</p>
           </div>
@@ -83,17 +83,17 @@ import { SubscriptionService } from '../services/subscription.service';
         <!-- Company Name & Color -->
         <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
           <h2 class="text-lg font-semibold text-white mb-4">
-            {{ lang.currentLang === 'et' ? 'Ettevõtte andmed' : 'Company Details' }}
+            {{ lang.t('branding.company_details') }}
           </h2>
 
           <div class="space-y-4">
             <!-- Company name -->
             <div>
               <label class="block text-sm text-slate-400 mb-1.5">
-                {{ lang.currentLang === 'et' ? 'Ettevõtte nimi' : 'Company Name' }} *
+                {{ lang.t('branding.company_name') }} *
               </label>
               <input type="text" [(ngModel)]="companyName"
-                     [placeholder]="lang.currentLang === 'et' ? 'Sinu ettevõtte nimi' : 'Your company name'"
+                     [placeholder]="lang.t('branding.your_company_name')"
                      class="w-full px-4 py-2.5 rounded-xl bg-slate-700/50 border border-slate-600/50 text-white text-sm
                             placeholder-slate-500 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 transition-all">
               <p *ngIf="nameError" class="text-red-400 text-xs mt-1">{{ nameError }}</p>
@@ -102,7 +102,7 @@ import { SubscriptionService } from '../services/subscription.service';
             <!-- Primary color -->
             <div>
               <label class="block text-sm text-slate-400 mb-1.5">
-                {{ lang.currentLang === 'et' ? 'Peamine brändi värv' : 'Primary Brand Color' }}
+                {{ lang.t('branding.primary_brand_color') }}
               </label>
               <div class="flex items-center gap-3">
                 <input type="color" [(ngModel)]="primaryColor"
@@ -121,7 +121,7 @@ import { SubscriptionService } from '../services/subscription.service';
         <!-- Preview -->
         <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
           <h2 class="text-lg font-semibold text-white mb-4">
-            {{ lang.currentLang === 'et' ? 'PDF eelvaade' : 'PDF Preview' }}
+            {{ lang.t('branding.pdf_preview') }}
           </h2>
           <div class="bg-white rounded-xl p-6 shadow-lg">
             <div class="flex items-center gap-4 mb-4 pb-4 border-b-2" [style.border-color]="primaryColor">
@@ -139,7 +139,7 @@ import { SubscriptionService } from '../services/subscription.service';
             <div class="h-2 rounded-full w-3/4 mb-2" [style.background-color]="primaryColor" style="opacity: 0.15"></div>
             <div class="h-2 rounded-full w-1/2" [style.background-color]="primaryColor" style="opacity: 0.1"></div>
             <p class="text-gray-400 text-[10px] mt-4 text-right">
-              {{ lang.currentLang === 'et' ? 'Genereeritud' : 'Generated by' }} {{ companyName || 'DoraAudit.eu' }} | {{ today }}
+              {{ lang.t('branding.generated_by') }} {{ companyName || 'DoraAudit.eu' }} | {{ today }}
             </p>
           </div>
         </div>
@@ -151,8 +151,8 @@ import { SubscriptionService } from '../services/subscription.service';
                          hover:shadow-lg hover:shadow-violet-500/25 transition-all disabled:opacity-50 flex items-center gap-2">
             <span *ngIf="saving" class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
             {{ saving
-                 ? (lang.currentLang === 'et' ? 'Salvestamine...' : 'Saving...')
-                 : (lang.currentLang === 'et' ? 'Salvesta muudatused' : 'Save Changes') }}
+                 ? (lang.t('branding.saving'))
+                 : (lang.t('branding.save_changes')) }}
           </button>
         </div>
 
@@ -161,7 +161,7 @@ import { SubscriptionService } from '../services/subscription.service';
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
           </svg>
-          {{ lang.currentLang === 'et' ? 'Brändi seaded salvestatud!' : 'Branding settings saved!' }}
+          {{ lang.t('branding.branding_settings_saved') }}
         </div>
         <div *ngIf="saveError" class="fixed bottom-6 right-6 bg-red-500/90 text-white px-5 py-3 rounded-xl shadow-lg text-sm font-medium flex items-center gap-2 z-50 animate-fade-in">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -271,24 +271,24 @@ export class BrandingSettingsComponent implements OnInit, OnDestroy {
     this.logoSuccess = '';
 
     if (file.size > 2 * 1024 * 1024) {
-      this.logoError = this.lang.currentLang === 'et' ? 'Fail on liiga suur (max 2MB)' : 'File is too large (max 2MB)';
+      this.logoError = this.lang.t('branding.file_is_too_large_max_2mb');
       return;
     }
 
     const allowed = ['image/png', 'image/jpeg', 'image/svg+xml'];
     if (!allowed.includes(file.type)) {
-      this.logoError = this.lang.currentLang === 'et' ? 'Lubatud ainult PNG, JPG ja SVG failid' : 'Only PNG, JPG and SVG files are allowed';
+      this.logoError = this.lang.t('branding.only_png_jpg_and_svg_files_are_allowed');
       return;
     }
 
     this.brandingService.uploadLogo(file).subscribe({
       next: () => {
-        this.logoSuccess = this.lang.currentLang === 'et' ? 'Logo edukalt üles laetud!' : 'Logo uploaded successfully!';
+        this.logoSuccess = this.lang.t('branding.logo_uploaded_successfully');
         this.settings.hasLogo = true;
         this.loadLogoBlob();
       },
       error: (err) => {
-        this.logoError = err.error?.error || (this.lang.currentLang === 'et' ? 'Logo üleslaadimine ebaonnestus' : 'Failed to upload logo');
+        this.logoError = err.error?.error || (this.lang.t('branding.failed_to_upload_logo'));
       }
     });
   }
@@ -297,10 +297,10 @@ export class BrandingSettingsComponent implements OnInit, OnDestroy {
     this.brandingService.deleteLogo().subscribe({
       next: () => {
         this.settings.hasLogo = false;
-        this.logoSuccess = this.lang.currentLang === 'et' ? 'Logo kustutatud' : 'Logo deleted';
+        this.logoSuccess = this.lang.t('branding.logo_deleted');
       },
       error: () => {
-        this.logoError = this.lang.currentLang === 'et' ? 'Logo kustutamine ebaonnestus' : 'Failed to delete logo';
+        this.logoError = this.lang.t('branding.failed_to_delete_logo');
       }
     });
   }
@@ -312,12 +312,12 @@ export class BrandingSettingsComponent implements OnInit, OnDestroy {
     this.saveError = '';
 
     if (!this.companyName.trim()) {
-      this.nameError = this.lang.currentLang === 'et' ? 'Ettevõtte nimi on kohustuslik' : 'Company name is required';
+      this.nameError = this.lang.t('branding.company_name_is_required');
       return;
     }
 
     if (this.primaryColor && !this.primaryColor.match(/^#[0-9a-fA-F]{6}$/)) {
-      this.colorError = this.lang.currentLang === 'et' ? 'Vigane värvikood (nt #22c55e)' : 'Invalid color hex (e.g. #22c55e)';
+      this.colorError = this.lang.t('branding.invalid_color_hex_eg_22c55e');
       return;
     }
 
@@ -331,7 +331,7 @@ export class BrandingSettingsComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         this.saving = false;
-        this.saveError = err.error?.error || (this.lang.currentLang === 'et' ? 'Salvestamine ebaonnestus' : 'Failed to save');
+        this.saveError = err.error?.error || (this.lang.t('branding.failed_to_save'));
         setTimeout(() => this.saveError = '', 4000);
       }
     });

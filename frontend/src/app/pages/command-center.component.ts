@@ -45,10 +45,10 @@ interface PillarHealth {
                 <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
               </svg>
             </div>
-            {{ lang.currentLang === 'et' ? 'Vastavuse juhtimiskeskus' : 'Compliance Command Center' }}
+            {{ lang.t('cmdcenter.compliance_command_center') }}
           </h1>
           <p class="text-sm text-slate-400 mt-1">
-            {{ lang.currentLang === 'et' ? 'Reaalajas DORA vastavuse operatiivne ülevaade' : 'Real-time DORA compliance operational overview' }}
+            {{ lang.t('cmdcenter.realtime_dora_compliance_operational_ove') }}
           </p>
         </div>
         <div class="flex items-center gap-3">
@@ -58,7 +58,7 @@ interface PillarHealth {
           </div>
           <div class="px-3 py-1.5 rounded-lg text-xs font-bold"
                [ngClass]="overallHealth() >= 70 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : overallHealth() >= 40 ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30' : 'bg-red-500/10 text-red-400 border border-red-500/30'">
-            {{ lang.currentLang === 'et' ? 'TERVIS' : 'HEALTH' }}: {{ overallHealth() }}%
+            {{ lang.t('cmdcenter.health') }}: {{ overallHealth() }}%
           </div>
         </div>
       </div>
@@ -89,7 +89,7 @@ interface PillarHealth {
         <div class="lg:col-span-2 bg-slate-800/50 border border-slate-700/50 rounded-xl p-5">
           <h2 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
             <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-            {{ lang.currentLang === 'et' ? 'DORA sammaste tervis' : 'DORA Pillar Health' }}
+            {{ lang.t('cmdcenter.dora_pillar_health') }}
           </h2>
           <div class="space-y-3">
             @for (pillar of pillarHealth(); track pillar.name) {
@@ -116,36 +116,36 @@ interface PillarHealth {
           <!-- Quick actions -->
           <div class="mt-6 pt-4 border-t border-slate-700/50">
             <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">
-              {{ lang.currentLang === 'et' ? 'Kiirtoimingud' : 'Quick Actions' }}
+              {{ lang.t('cmdcenter.quick_actions') }}
             </h3>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
               <a routerLink="/assessment" class="flex flex-col items-center gap-1.5 p-3 rounded-lg bg-slate-700/20 hover:bg-slate-700/40 transition-colors text-center">
                 <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
-                <span class="text-[10px] text-slate-400">{{ lang.currentLang === 'et' ? 'Uus hindamine' : 'New Assessment' }}</span>
+                <span class="text-[10px] text-slate-400">{{ lang.t('cmdcenter.new_assessment') }}</span>
               </a>
               <a routerLink="/incident-reporting" class="flex flex-col items-center gap-1.5 p-3 rounded-lg bg-slate-700/20 hover:bg-slate-700/40 transition-colors text-center">
                 <svg class="w-5 h-5 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
-                <span class="text-[10px] text-slate-400">{{ lang.currentLang === 'et' ? 'Raporteeri intsident' : 'Report Incident' }}</span>
+                <span class="text-[10px] text-slate-400">{{ lang.t('cmdcenter.report_incident') }}</span>
               </a>
               <a routerLink="/contract-checklist" class="flex flex-col items-center gap-1.5 p-3 rounded-lg bg-slate-700/20 hover:bg-slate-700/40 transition-colors text-center">
                 <svg class="w-5 h-5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                <span class="text-[10px] text-slate-400">{{ lang.currentLang === 'et' ? 'Art. 30 kontroll' : 'Art. 30 Check' }}</span>
+                <span class="text-[10px] text-slate-400">{{ lang.t('cmdcenter.art_30_check') }}</span>
               </a>
               <a routerLink="/audit-trail" class="flex flex-col items-center gap-1.5 p-3 rounded-lg bg-slate-700/20 hover:bg-slate-700/40 transition-colors text-center">
                 <svg class="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg>
-                <span class="text-[10px] text-slate-400">{{ lang.currentLang === 'et' ? 'Ekspordi audit' : 'Export Audit' }}</span>
+                <span class="text-[10px] text-slate-400">{{ lang.t('cmdcenter.export_audit') }}</span>
               </a>
               <a routerLink="/integrations" class="flex flex-col items-center gap-1.5 p-3 rounded-lg bg-slate-700/20 hover:bg-slate-700/40 transition-colors text-center">
                 <svg class="w-5 h-5 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                <span class="text-[10px] text-slate-400">{{ lang.currentLang === 'et' ? 'Integratsioonid' : 'Integrations' }}</span>
+                <span class="text-[10px] text-slate-400">{{ lang.t('cmdcenter.integrations') }}</span>
               </a>
               <a routerLink="/vendor-questionnaires" class="flex flex-col items-center gap-1.5 p-3 rounded-lg bg-slate-700/20 hover:bg-slate-700/40 transition-colors text-center">
                 <svg class="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M9 14l2 2 4-4"/></svg>
-                <span class="text-[10px] text-slate-400">{{ lang.currentLang === 'et' ? 'Hankija k\u00fcsimustik' : 'Vendor Questionnaire' }}</span>
+                <span class="text-[10px] text-slate-400">{{ lang.t('cmdcenter.vendor_questionnaire') }}</span>
               </a>
               <a routerLink="/bulk-analysis" class="flex flex-col items-center gap-1.5 p-3 rounded-lg bg-slate-700/20 hover:bg-slate-700/40 transition-colors text-center">
                 <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
-                <span class="text-[10px] text-slate-400">{{ lang.currentLang === 'et' ? 'Hulgianalüüs' : 'Bulk Analysis' }}</span>
+                <span class="text-[10px] text-slate-400">{{ lang.t('cmdcenter.bulk_analysis') }}</span>
               </a>
             </div>
           </div>
@@ -155,7 +155,7 @@ interface PillarHealth {
         <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5">
           <h2 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
             <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            {{ lang.currentLang === 'et' ? 'Regulatiivsed t\u00e4htajad' : 'Regulatory Deadlines' }}
+            {{ lang.t('cmdcenter.regulatory_deadlines') }}
           </h2>
           <div class="space-y-2">
             @for (d of deadlines(); track d.title) {
@@ -187,14 +187,14 @@ interface PillarHealth {
       <!-- Bottom grid: Module cards -->
       <div>
         <h2 class="text-sm font-semibold text-slate-300 mb-4">
-          {{ lang.currentLang === 'et' ? 'Vastavusmoodulid' : 'Compliance Modules' }}
+          {{ lang.t('cmdcenter.compliance_modules') }}
         </h2>
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           <a routerLink="/training" class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 hover:border-indigo-500/30 hover:bg-slate-800/80 transition-all group">
             <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
               <svg class="w-4 h-4 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
             </div>
-            <p class="text-xs font-medium text-slate-300">{{ lang.currentLang === 'et' ? 'Koolitused' : 'Training' }}</p>
+            <p class="text-xs font-medium text-slate-300">{{ lang.t('cmdcenter.training') }}</p>
           </a>
           <a routerLink="/tlpt" class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 hover:border-pink-500/30 hover:bg-slate-800/80 transition-all group">
             <div class="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
@@ -206,37 +206,37 @@ interface PillarHealth {
             <div class="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
               <svg class="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
             </div>
-            <p class="text-xs font-medium text-slate-300">{{ lang.currentLang === 'et' ? 'Kontsentratsioon' : 'Concentration' }}</p>
+            <p class="text-xs font-medium text-slate-300">{{ lang.t('cmdcenter.concentration') }}</p>
           </a>
           <a routerLink="/exit-strategies" class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 hover:border-teal-500/30 hover:bg-slate-800/80 transition-all group">
             <div class="w-8 h-8 rounded-lg bg-teal-500/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
               <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             </div>
-            <p class="text-xs font-medium text-slate-300">{{ lang.currentLang === 'et' ? 'V\u00e4ljumine' : 'Exit Strategy' }}</p>
+            <p class="text-xs font-medium text-slate-300">{{ lang.t('cmdcenter.exit_strategy') }}</p>
           </a>
           <a routerLink="/info-sharing" class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 hover:border-blue-500/30 hover:bg-slate-800/80 transition-all group">
             <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
               <svg class="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
             </div>
-            <p class="text-xs font-medium text-slate-300">{{ lang.currentLang === 'et' ? 'Infojagamine' : 'Info Sharing' }}</p>
+            <p class="text-xs font-medium text-slate-300">{{ lang.t('cmdcenter.info_sharing') }}</p>
           </a>
           <a routerLink="/compliance-trend" class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 hover:border-emerald-500/30 hover:bg-slate-800/80 transition-all group">
             <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
               <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
             </div>
-            <p class="text-xs font-medium text-slate-300">{{ lang.currentLang === 'et' ? 'Trend' : 'Trends' }}</p>
+            <p class="text-xs font-medium text-slate-300">{{ lang.t('cmdcenter.trends') }}</p>
           </a>
           <a routerLink="/team" class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 hover:border-violet-500/30 hover:bg-slate-800/80 transition-all group">
             <div class="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
               <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </div>
-            <p class="text-xs font-medium text-slate-300">{{ lang.currentLang === 'et' ? 'Meeskond' : 'Team' }}</p>
+            <p class="text-xs font-medium text-slate-300">{{ lang.t('cmdcenter.team') }}</p>
           </a>
           <a routerLink="/group-entities" class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 hover:border-amber-500/30 hover:bg-slate-800/80 transition-all group">
             <div class="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
               <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/></svg>
             </div>
-            <p class="text-xs font-medium text-slate-300">{{ lang.currentLang === 'et' ? 'Kontsern' : 'Group' }}</p>
+            <p class="text-xs font-medium text-slate-300">{{ lang.t('cmdcenter.group') }}</p>
           </a>
           <a routerLink="/contract-checklist" class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 hover:border-emerald-500/30 hover:bg-slate-800/80 transition-all group">
             <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
@@ -264,11 +264,11 @@ interface PillarHealth {
         <div class="flex-1 text-center md:text-left">
           <h3 class="text-lg font-bold text-white mb-1">DORA Trust Seal</h3>
           <p class="text-sm text-slate-400">
-            {{ lang.currentLang === 'et' ? 'Lisa oma veebilehele DORA vastavuse pitser. N\u00e4ita klientidele ja partneritele, et sinu ettev\u00f5te on DORA-vastavuses.' : 'Add a DORA compliance badge to your website. Show clients and partners your organization is DORA-compliant.' }}
+            {{ lang.t('cmdcenter.add_a_dora_compliance_badge_to_your_webs') }}
           </p>
         </div>
         <a routerLink="/trust-seal" class="px-6 py-2.5 rounded-lg text-sm font-semibold bg-gradient-to-r from-emerald-500 to-cyan-500 text-white hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all whitespace-nowrap">
-          {{ lang.currentLang === 'et' ? 'Hangi pitser' : 'Get Your Seal' }}
+          {{ lang.t('cmdcenter.get_your_seal') }}
         </a>
       </div>
     </div>
@@ -307,8 +307,6 @@ export class CommandCenterComponent implements OnInit, OnDestroy {
     const checklist = this.getLocalStorage('dora-contract-checklist');
     const exitStrategies = this.getLocalStorage('dora-exit-strategies') || [];
 
-    const et = this.lang.currentLang === 'et';
-
     // Calculate pillar health from maturity model
     const pillarScores = maturity ? this.calculatePillarScores(maturity) : [
       { name: 'ICT Risk', score: 0, trend: 0 },
@@ -335,12 +333,12 @@ export class CommandCenterComponent implements OnInit, OnDestroy {
     const overdueTraining = training.filter((r: any) => r.status === 'OVERDUE').length;
 
     this.metrics.set([
-      { label: et ? 'Hindamised' : 'Assessments', value: '' + history.length, color: '#34d399', icon: '📋', route: '/history', trend: history.length > 0 ? '+' + Math.min(history.length, 3) : undefined, trendUp: true },
-      { label: et ? 'Küpsus' : 'Maturity', value: avgHealth > 0 ? (avgHealth / 20).toFixed(1) + '/5' : 'N/A', color: '#a78bfa', icon: '📊', route: '/maturity' },
-      { label: et ? 'Intsidendid' : 'Incidents', value: '' + incidents.length, color: incidents.length > 0 ? '#f87171' : '#34d399', icon: '⚡', route: '/incident-reporting', trend: incidents.length > 0 ? '' + incidents.length + ' open' : undefined, trendUp: false },
-      { label: et ? 'Koolitused' : 'Training', value: completedTraining + '/' + training.length, color: overdueTraining > 0 ? '#fbbf24' : '#34d399', icon: '📚', route: '/training', trend: overdueTraining > 0 ? overdueTraining + ' overdue' : undefined, trendUp: false },
-      { label: et ? 'V\u00e4ljumisstrateegiad' : 'Exit Plans', value: '' + exitStrategies.length, color: '#38bdf8', icon: '🚪', route: '/exit-strategies' },
-      { label: et ? 'Pakkujad' : 'Providers', value: 'View', color: '#c084fc', icon: '🏢', route: '/concentration-risk' }
+      { label: this.lang.t('cmdcenter.assessments'), value: '' + history.length, color: '#34d399', icon: '\ud83d\udccb', route: '/history', trend: history.length > 0 ? '+' + Math.min(history.length, 3) : undefined, trendUp: true },
+      { label: this.lang.t('cmdcenter.maturity'), value: avgHealth > 0 ? (avgHealth / 20).toFixed(1) + '/5' : 'N/A', color: '#a78bfa', icon: '\ud83d\udcca', route: '/maturity' },
+      { label: this.lang.t('cmdcenter.incidents'), value: '' + incidents.length, color: incidents.length > 0 ? '#f87171' : '#34d399', icon: '\u26a1', route: '/incident-reporting', trend: incidents.length > 0 ? '' + incidents.length + ' open' : undefined, trendUp: false },
+      { label: this.lang.t('cmdcenter.training'), value: completedTraining + '/' + training.length, color: overdueTraining > 0 ? '#fbbf24' : '#34d399', icon: '\ud83d\udcda', route: '/training', trend: overdueTraining > 0 ? overdueTraining + ' overdue' : undefined, trendUp: false },
+      { label: this.lang.t('cmdcenter.exit_plans'), value: '' + exitStrategies.length, color: '#38bdf8', icon: '\ud83d\udeaa', route: '/exit-strategies' },
+      { label: this.lang.t('cmdcenter.providers'), value: 'View', color: '#c084fc', icon: '\ud83c\udfe2', route: '/concentration-risk' }
     ]);
 
     // Regulatory deadlines
@@ -348,10 +346,10 @@ export class CommandCenterComponent implements OnInit, OnDestroy {
     const deadlineList: DeadlineItem[] = ([
       { title: 'DORA Application Date', date: '2025-01-17', daysLeft: this.daysBetween(now, new Date('2025-01-17')), severity: 'critical' as const, type: 'DORA' },
       { title: 'RTS/ITS Package 2 — Final', date: '2025-07-17', daysLeft: this.daysBetween(now, new Date('2025-07-17')), severity: 'critical' as const, type: 'RTS' },
-      { title: et ? 'Aastaaruande t\u00e4htaeg' : 'Annual Review Deadline', date: '2026-06-30', daysLeft: this.daysBetween(now, new Date('2026-06-30')), severity: 'warning' as const, type: 'INTERNAL' },
-      { title: et ? 'TLPT testi aruanne' : 'TLPT Test Report Due', date: '2026-12-31', daysLeft: this.daysBetween(now, new Date('2026-12-31')), severity: 'ok' as const, type: 'TLPT' },
+      { title: this.lang.t('cmdcenter.annual_review_deadline'), date: '2026-06-30', daysLeft: this.daysBetween(now, new Date('2026-06-30')), severity: 'warning' as const, type: 'INTERNAL' },
+      { title: this.lang.t('cmdcenter.tlpt_test_report_due'), date: '2026-12-31', daysLeft: this.daysBetween(now, new Date('2026-12-31')), severity: 'ok' as const, type: 'TLPT' },
       { title: 'NIS2 Implementation Review', date: '2026-10-17', daysLeft: this.daysBetween(now, new Date('2026-10-17')), severity: 'warning' as const, type: 'NIS2' },
-      { title: et ? 'J\u00e4rgmine hindamine' : 'Next Assessment Due', date: '2026-03-31', daysLeft: this.daysBetween(now, new Date('2026-03-31')), severity: 'warning' as const, type: 'ASSESSMENT' },
+      { title: this.lang.t('cmdcenter.next_assessment_due'), date: '2026-03-31', daysLeft: this.daysBetween(now, new Date('2026-03-31')), severity: 'warning' as const, type: 'ASSESSMENT' },
     ] as DeadlineItem[]).sort((a, b) => a.daysLeft - b.daysLeft);
 
     this.deadlines.set(deadlineList);

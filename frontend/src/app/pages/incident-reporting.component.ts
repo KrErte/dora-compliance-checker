@@ -20,16 +20,16 @@ import { IncidentReport, IncidentStats } from '../models';
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
               </svg>
             </div>
-            {{ lang.currentLang === 'et' ? 'Intsidentide raporteerimiskeskus' : 'Incident Reporting Centre' }}
+            {{ lang.t('incident.title') }}
           </h1>
-          <p class="text-slate-400 text-sm mt-1">{{ lang.currentLang === 'et' ? 'DORA Art. 19 — ICT intsidentide haldamine ja raporteerimise t\u00f6\u00f6voog' : 'DORA Art. 19 — ICT incident management and reporting workflow' }}</p>
+          <p class="text-slate-400 text-sm mt-1">{{ lang.t('incident.subtitle') }}</p>
         </div>
         <button (click)="showCreateForm = true"
                 class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-red-500/25 transition-all flex items-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
           </svg>
-          {{ lang.currentLang === 'et' ? 'Registreeri intsident' : 'Report Incident' }}
+          {{ lang.t('incident.report_btn') }}
         </button>
       </div>
 
@@ -38,24 +38,24 @@ import { IncidentReport, IncidentStats } from '../models';
         <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
           <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-white">{{ stats()!.total }}</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Kokku' : 'Total' }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.t('incident.total') }}</div>
           </div>
           <div class="bg-slate-800/50 border border-red-500/30 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-red-400">{{ stats()!.major }}</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Olulised' : 'Major' }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.t('incident.major') }}</div>
           </div>
           <div class="bg-slate-800/50 border border-amber-500/30 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-amber-400">{{ stats()!.open }}</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Avatud' : 'Open' }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.t('incident.open') }}</div>
           </div>
           <div class="bg-slate-800/50 border border-emerald-500/30 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-emerald-400">{{ stats()!.closed }}</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'Suletud' : 'Closed' }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.t('incident.closed') }}</div>
           </div>
           <div class="bg-slate-800/50 border rounded-xl p-4 text-center"
                [class]="stats()!.overdue > 0 ? 'border-red-500/50 bg-red-500/5' : 'border-slate-700/50'">
             <div class="text-2xl font-bold" [class]="stats()!.overdue > 0 ? 'text-red-400' : 'text-slate-400'">{{ stats()!.overdue }}</div>
-            <div class="text-xs text-slate-400 mt-1">{{ lang.currentLang === 'et' ? 'T\u00e4htaja \u00fcletanud' : 'Overdue' }}</div>
+            <div class="text-xs text-slate-400 mt-1">{{ lang.t('incident.overdue') }}</div>
           </div>
         </div>
       }
@@ -68,102 +68,102 @@ import { IncidentReport, IncidentStats } from '../models';
               <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
               </svg>
-              {{ lang.currentLang === 'et' ? 'Registreeri uus intsident' : 'Report New Incident' }}
+              {{ lang.t('incident.report_new') }}
             </h2>
 
             <div class="space-y-4">
               <!-- Title -->
               <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.currentLang === 'et' ? 'Intsidendi pealkiri *' : 'Incident Title *' }}</label>
+                <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.t('incident.incident_title') }}</label>
                 <input [(ngModel)]="newIncident.incidentTitle" type="text"
                        class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50"
-                       [placeholder]="lang.currentLang === 'et' ? 'nt. Lunavara r\u00fcnnak p\u00f5his\u00fcsteemile' : 'e.g. Ransomware attack on core system'">
+                       [placeholder]="lang.t('incident.title_placeholder')">
               </div>
 
               <!-- Type + Severity -->
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.currentLang === 'et' ? 'Intsidendi t\u00fc\u00fcp' : 'Incident Type' }}</label>
+                  <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.t('incident.incident_type') }}</label>
                   <select [(ngModel)]="newIncident.incidentType"
                           class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:outline-none focus:border-blue-500/50">
-                    <option value="CYBERATTACK">{{ lang.currentLang === 'et' ? 'K\u00fcberr\u00fcnnak' : 'Cyberattack' }}</option>
-                    <option value="SYSTEM_FAILURE">{{ lang.currentLang === 'et' ? 'S\u00fcsteemi rike' : 'System Failure' }}</option>
-                    <option value="DATA_BREACH">{{ lang.currentLang === 'et' ? 'Andmeleke' : 'Data Breach' }}</option>
-                    <option value="THIRD_PARTY_FAILURE">{{ lang.currentLang === 'et' ? 'Kolmanda osapoole rike' : 'Third-Party Failure' }}</option>
-                    <option value="NATURAL_DISASTER">{{ lang.currentLang === 'et' ? 'Looduskatastroof' : 'Natural Disaster' }}</option>
-                    <option value="OTHER">{{ lang.currentLang === 'et' ? 'Muu' : 'Other' }}</option>
+                    <option value="CYBERATTACK">{{ lang.t('incident.type_cyberattack') }}</option>
+                    <option value="SYSTEM_FAILURE">{{ lang.t('incident.type_system_failure') }}</option>
+                    <option value="DATA_BREACH">{{ lang.t('incident.type_data_breach') }}</option>
+                    <option value="THIRD_PARTY_FAILURE">{{ lang.t('incident.type_third_party') }}</option>
+                    <option value="NATURAL_DISASTER">{{ lang.t('incident.type_natural_disaster') }}</option>
+                    <option value="OTHER">{{ lang.t('incident.type_other') }}</option>
                   </select>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.currentLang === 'et' ? 'Raskusaste' : 'Severity' }}</label>
+                  <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.t('incident.severity') }}</label>
                   <select [(ngModel)]="newIncident.severityLevel"
                           class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:outline-none focus:border-blue-500/50">
-                    <option value="CRITICAL">{{ lang.currentLang === 'et' ? 'Kriitiline' : 'Critical' }}</option>
-                    <option value="HIGH">{{ lang.currentLang === 'et' ? 'K\u00f5rge' : 'High' }}</option>
-                    <option value="MEDIUM">{{ lang.currentLang === 'et' ? 'Keskmine' : 'Medium' }}</option>
-                    <option value="LOW">{{ lang.currentLang === 'et' ? 'Madal' : 'Low' }}</option>
+                    <option value="CRITICAL">{{ lang.t('incident.severity_critical') }}</option>
+                    <option value="HIGH">{{ lang.t('incident.severity_high') }}</option>
+                    <option value="MEDIUM">{{ lang.t('incident.severity_medium') }}</option>
+                    <option value="LOW">{{ lang.t('incident.severity_low') }}</option>
                   </select>
                 </div>
               </div>
 
               <!-- Description -->
               <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.currentLang === 'et' ? 'Kirjeldus' : 'Description' }}</label>
+                <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.t('incident.description') }}</label>
                 <textarea [(ngModel)]="newIncident.description" rows="3"
                           class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50"
-                          [placeholder]="lang.currentLang === 'et' ? 'Kirjeldage intsidenti...' : 'Describe the incident...'"></textarea>
+                          [placeholder]="lang.t('incident.description_placeholder')"></textarea>
               </div>
 
               <!-- Detection time -->
               <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.currentLang === 'et' ? 'Avastamise aeg' : 'Detection Time' }}</label>
+                <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.t('incident.detection_time') }}</label>
                 <input [(ngModel)]="newIncident.detectedAt" type="datetime-local"
                        class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:outline-none focus:border-blue-500/50">
               </div>
 
               <!-- Art. 18 Classification Criteria -->
               <div class="border-t border-slate-700/50 pt-4">
-                <h3 class="text-sm font-semibold text-slate-300 mb-3">{{ lang.currentLang === 'et' ? 'DORA Art. 18 klassifitseerimiskriteeriumid' : 'DORA Art. 18 Classification Criteria' }}</h3>
+                <h3 class="text-sm font-semibold text-slate-300 mb-3">{{ lang.t('incident.classification_criteria') }}</h3>
                 <div class="grid grid-cols-2 gap-4">
                   <div>
-                    <label class="block text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'M\u00f5jutatud kliendid' : 'Clients Affected' }}</label>
+                    <label class="block text-xs text-slate-400 mb-1">{{ lang.t('incident.clients_affected') }}</label>
                     <input [(ngModel)]="newIncident.clientsAffected" type="number"
                            class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500/50">
                   </div>
                   <div>
-                    <label class="block text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'M\u00f5jutatud tehingud' : 'Transactions Affected' }}</label>
+                    <label class="block text-xs text-slate-400 mb-1">{{ lang.t('incident.transactions_affected') }}</label>
                     <input [(ngModel)]="newIncident.transactionsAffected" type="number"
                            class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500/50">
                   </div>
                   <div>
-                    <label class="block text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Majanduslik m\u00f5ju (\u20ac)' : 'Economic Impact (\u20ac)' }}</label>
+                    <label class="block text-xs text-slate-400 mb-1">{{ lang.t('incident.economic_impact') }}</label>
                     <input [(ngModel)]="newIncident.economicImpact" type="number"
                            class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500/50">
                   </div>
                   <div>
-                    <label class="block text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Kestus (minutid)' : 'Duration (minutes)' }}</label>
+                    <label class="block text-xs text-slate-400 mb-1">{{ lang.t('incident.duration_minutes') }}</label>
                     <input [(ngModel)]="newIncident.durationMinutes" type="number"
                            class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500/50">
                   </div>
                   <div>
-                    <label class="block text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Andmekadu t\u00fc\u00fcp' : 'Data Loss Type' }}</label>
+                    <label class="block text-xs text-slate-400 mb-1">{{ lang.t('incident.data_loss_type') }}</label>
                     <select [(ngModel)]="newIncident.dataLossType"
                             class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500/50">
-                      <option value="NONE">{{ lang.currentLang === 'et' ? 'Puudub' : 'None' }}</option>
-                      <option value="AVAILABILITY">{{ lang.currentLang === 'et' ? 'K\u00e4ttesaadavus' : 'Availability' }}</option>
-                      <option value="AUTHENTICITY">{{ lang.currentLang === 'et' ? 'Autentsus' : 'Authenticity' }}</option>
-                      <option value="INTEGRITY">{{ lang.currentLang === 'et' ? 'Terviklus' : 'Integrity' }}</option>
-                      <option value="CONFIDENTIALITY">{{ lang.currentLang === 'et' ? 'Konfidentsiaalsus' : 'Confidentiality' }}</option>
+                      <option value="NONE">{{ lang.t('incident.data_loss_none') }}</option>
+                      <option value="AVAILABILITY">{{ lang.t('incident.data_loss_availability') }}</option>
+                      <option value="AUTHENTICITY">{{ lang.t('incident.data_loss_authenticity') }}</option>
+                      <option value="INTEGRITY">{{ lang.t('incident.data_loss_integrity') }}</option>
+                      <option value="CONFIDENTIALITY">{{ lang.t('incident.data_loss_confidentiality') }}</option>
                     </select>
                   </div>
                   <div>
-                    <label class="block text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Mainega seotud m\u00f5ju' : 'Reputational Impact' }}</label>
+                    <label class="block text-xs text-slate-400 mb-1">{{ lang.t('incident.reputational_impact') }}</label>
                     <select [(ngModel)]="newIncident.reputationalImpact"
                             class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500/50">
-                      <option value="NONE">{{ lang.currentLang === 'et' ? 'Puudub' : 'None' }}</option>
-                      <option value="LOW">{{ lang.currentLang === 'et' ? 'Madal' : 'Low' }}</option>
-                      <option value="MEDIUM">{{ lang.currentLang === 'et' ? 'Keskmine' : 'Medium' }}</option>
-                      <option value="HIGH">{{ lang.currentLang === 'et' ? 'K\u00f5rge' : 'High' }}</option>
+                      <option value="NONE">{{ lang.t('incident.rep_none') }}</option>
+                      <option value="LOW">{{ lang.t('incident.rep_low') }}</option>
+                      <option value="MEDIUM">{{ lang.t('incident.rep_medium') }}</option>
+                      <option value="HIGH">{{ lang.t('incident.rep_high') }}</option>
                     </select>
                   </div>
                 </div>
@@ -171,26 +171,26 @@ import { IncidentReport, IncidentStats } from '../models';
 
               <!-- Competent Authority -->
               <div class="border-t border-slate-700/50 pt-4">
-                <h3 class="text-sm font-semibold text-slate-300 mb-3">{{ lang.currentLang === 'et' ? 'P\u00e4dev asutus' : 'Competent Authority' }}</h3>
+                <h3 class="text-sm font-semibold text-slate-300 mb-3">{{ lang.t('incident.competent_authority') }}</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label class="block text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Asutus' : 'Authority' }}</label>
+                    <label class="block text-xs text-slate-400 mb-1">{{ lang.t('incident.authority') }}</label>
                     <select [(ngModel)]="newIncident.competentAuthority"
                             class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500/50">
-                      <option value="">{{ lang.currentLang === 'et' ? 'Vali...' : 'Select...' }}</option>
+                      <option value="">{{ lang.t('incident.select') }}</option>
                       <option value="Finantsinspektsioon">Finantsinspektsioon (EE)</option>
                       <option value="FKTK">FKTK (LV)</option>
                       <option value="Bank of Lithuania">Bank of Lithuania (LT)</option>
-                      <option value="Other">{{ lang.currentLang === 'et' ? 'Muu' : 'Other' }}</option>
+                      <option value="Other">{{ lang.t('incident.type_other') }}</option>
                     </select>
                   </div>
                   <div>
-                    <label class="block text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Kontaktisiku nimi' : 'Contact Name' }}</label>
+                    <label class="block text-xs text-slate-400 mb-1">{{ lang.t('incident.contact_name') }}</label>
                     <input [(ngModel)]="newIncident.reportingContactName" type="text"
                            class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500/50">
                   </div>
                   <div>
-                    <label class="block text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Kontaktisiku e-post' : 'Contact Email' }}</label>
+                    <label class="block text-xs text-slate-400 mb-1">{{ lang.t('incident.contact_email') }}</label>
                     <input [(ngModel)]="newIncident.reportingContactEmail" type="email"
                            class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500/50">
                   </div>
@@ -201,12 +201,12 @@ import { IncidentReport, IncidentStats } from '../models';
               <div class="flex justify-end gap-3 pt-4">
                 <button (click)="showCreateForm = false"
                         class="px-5 py-2.5 rounded-xl bg-slate-700/50 border border-slate-600/50 text-slate-300 text-sm hover:bg-slate-600/50 transition-all">
-                  {{ lang.currentLang === 'et' ? 'T\u00fchista' : 'Cancel' }}
+                  {{ lang.t('incident.cancel') }}
                 </button>
                 <button (click)="createIncident()"
                         [disabled]="!newIncident.incidentTitle"
                         class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold text-sm hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed">
-                  {{ lang.currentLang === 'et' ? 'Registreeri' : 'Submit' }}
+                  {{ lang.t('incident.submit') }}
                 </button>
               </div>
             </div>
@@ -227,8 +227,8 @@ import { IncidentReport, IncidentStats } from '../models';
           <svg class="w-16 h-16 mx-auto mb-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
           </svg>
-          <h3 class="text-white font-semibold mb-2">{{ lang.currentLang === 'et' ? '\u00dchtegi intsidenti pole registreeritud' : 'No incidents reported' }}</h3>
-          <p class="text-slate-400 text-sm mb-4">{{ lang.currentLang === 'et' ? 'Registreerige ICT intsidente ja j\u00e4lgige DORA Art. 19 raporteerimise t\u00e4htaegu' : 'Register ICT incidents and track DORA Art. 19 reporting deadlines' }}</p>
+          <h3 class="text-white font-semibold mb-2">{{ lang.t('incident.no_incidents') }}</h3>
+          <p class="text-slate-400 text-sm mb-4">{{ lang.t('incident.no_incidents_desc') }}</p>
         </div>
       }
 
@@ -250,7 +250,7 @@ import { IncidentReport, IncidentStats } from '../models';
                     <!-- Major badge -->
                     @if (incident.isMajor) {
                       <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-500/20 text-red-400 border border-red-500/30">
-                        {{ lang.currentLang === 'et' ? 'OLULINE' : 'MAJOR' }}
+                        {{ lang.t('incident.major_badge') }}
                       </span>
                     }
                     <!-- Type badge -->
@@ -260,7 +260,7 @@ import { IncidentReport, IncidentStats } from '../models';
                   </div>
                   <h3 class="text-white font-semibold truncate">{{ incident.incidentTitle }}</h3>
                   <p class="text-slate-400 text-xs mt-1">
-                    {{ lang.currentLang === 'et' ? 'Avastatud' : 'Detected' }}: {{ incident.detectedAt | date:'dd.MM.yyyy HH:mm' }}
+                    {{ lang.t('incident.detected') }}: {{ incident.detectedAt | date:'dd.MM.yyyy HH:mm' }}
                   </p>
                 </div>
 
@@ -271,7 +271,7 @@ import { IncidentReport, IncidentStats } from '../models';
                     <div class="flex flex-col items-center">
                       <div class="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold"
                            [class]="getStepClass(incident, 'DETECTED')">1</div>
-                      <span class="text-[8px] text-slate-500 mt-0.5">{{ lang.currentLang === 'et' ? 'Tuv.' : 'Det.' }}</span>
+                      <span class="text-[8px] text-slate-500 mt-0.5">{{ lang.t('incident.step_det') }}</span>
                     </div>
                     <div class="w-4 h-0.5 bg-slate-700"></div>
                     <div class="flex flex-col items-center">
@@ -289,7 +289,7 @@ import { IncidentReport, IncidentStats } from '../models';
                     <div class="flex flex-col items-center">
                       <div class="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold"
                            [class]="getStepClass(incident, 'FINAL_SENT')">4</div>
-                      <span class="text-[8px] text-slate-500 mt-0.5">1{{ lang.currentLang === 'et' ? 'k' : 'mo' }}</span>
+                      <span class="text-[8px] text-slate-500 mt-0.5">{{ lang.t('incident.step_month') }}</span>
                     </div>
                   </div>
 
@@ -308,7 +308,7 @@ import { IncidentReport, IncidentStats } from '../models';
                   <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
-                  {{ isOverdue(incident) ? (lang.currentLang === 'et' ? 'T\u00c4HTAEG \u00dcLETATUD: ' : 'OVERDUE: ') : '' }}
+                  {{ isOverdue(incident) ? lang.t('incident.overdue_prefix') : '' }}
                   {{ getNextDeadline(incident) }}
                 </div>
               }
@@ -343,24 +343,24 @@ import { IncidentReport, IncidentStats } from '../models';
 
             <!-- Reporting timeline -->
             <div class="bg-slate-900/50 rounded-xl p-4 mb-6">
-              <h3 class="text-sm font-semibold text-slate-300 mb-3">{{ lang.currentLang === 'et' ? 'Raporteerimise ajajoon' : 'Reporting Timeline' }}</h3>
+              <h3 class="text-sm font-semibold text-slate-300 mb-3">{{ lang.t('incident.reporting_timeline') }}</h3>
               <div class="space-y-3">
                 <!-- Step 1: Detection -->
                 <div class="flex items-start gap-3">
                   <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
                        [class]="selectedIncident()!.classifiedAt ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-700 text-slate-400 border border-slate-600'">1</div>
                   <div class="flex-1">
-                    <div class="text-sm font-medium text-white">{{ lang.currentLang === 'et' ? 'Tuvastamine ja klassifitseerimine' : 'Detection & Classification' }}</div>
+                    <div class="text-sm font-medium text-white">{{ lang.t('incident.detection_classification') }}</div>
                     <div class="text-xs text-slate-400">
-                      {{ lang.currentLang === 'et' ? 'Avastatud' : 'Detected' }}: {{ selectedIncident()!.detectedAt | date:'dd.MM.yyyy HH:mm' }}
+                      {{ lang.t('incident.detected') }}: {{ selectedIncident()!.detectedAt | date:'dd.MM.yyyy HH:mm' }}
                       @if (selectedIncident()!.classifiedAt) {
-                        <span class="text-emerald-400"> &mdash; {{ lang.currentLang === 'et' ? 'Klassifitseeritud' : 'Classified' }}: {{ selectedIncident()!.classifiedAt | date:'dd.MM.yyyy HH:mm' }}</span>
+                        <span class="text-emerald-400"> &mdash; {{ lang.t('incident.classified') }}: {{ selectedIncident()!.classifiedAt | date:'dd.MM.yyyy HH:mm' }}</span>
                       }
                     </div>
                   </div>
                   @if (!selectedIncident()!.classifiedAt && selectedIncident()!.reportingStatus === 'DRAFT') {
                     <button (click)="classify()" class="px-3 py-1.5 rounded-lg bg-blue-500/20 text-blue-400 text-xs font-semibold hover:bg-blue-500/30 transition-all">
-                      {{ lang.currentLang === 'et' ? 'Klassifitseeri' : 'Classify' }}
+                      {{ lang.t('incident.classify_btn') }}
                     </button>
                   }
                 </div>
@@ -370,19 +370,19 @@ import { IncidentReport, IncidentStats } from '../models';
                   <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
                        [class]="selectedIncident()!.initialReportSentAt ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-700 text-slate-400 border border-slate-600'">2</div>
                   <div class="flex-1">
-                    <div class="text-sm font-medium text-white">{{ lang.currentLang === 'et' ? 'Esialgne teade (4h)' : 'Initial Notification (4h)' }}</div>
+                    <div class="text-sm font-medium text-white">{{ lang.t('incident.initial_notification') }}</div>
                     <div class="text-xs text-slate-400">
                       @if (selectedIncident()!.initialReportDueAt) {
-                        {{ lang.currentLang === 'et' ? 'T\u00e4htaeg' : 'Due' }}: {{ selectedIncident()!.initialReportDueAt | date:'dd.MM.yyyy HH:mm' }}
+                        {{ lang.t('incident.due') }}: {{ selectedIncident()!.initialReportDueAt | date:'dd.MM.yyyy HH:mm' }}
                       }
                       @if (selectedIncident()!.initialReportSentAt) {
-                        <span class="text-emerald-400"> &mdash; {{ lang.currentLang === 'et' ? 'Saadetud' : 'Sent' }}: {{ selectedIncident()!.initialReportSentAt | date:'dd.MM.yyyy HH:mm' }}</span>
+                        <span class="text-emerald-400"> &mdash; {{ lang.t('incident.sent') }}: {{ selectedIncident()!.initialReportSentAt | date:'dd.MM.yyyy HH:mm' }}</span>
                       }
                     </div>
                   </div>
                   @if (selectedIncident()!.classifiedAt && !selectedIncident()!.initialReportSentAt) {
                     <button (click)="submitReport('initial')" class="px-3 py-1.5 rounded-lg bg-amber-500/20 text-amber-400 text-xs font-semibold hover:bg-amber-500/30 transition-all">
-                      {{ lang.currentLang === 'et' ? 'Esita teade' : 'Submit Report' }}
+                      {{ lang.t('incident.submit_report') }}
                     </button>
                   }
                 </div>
@@ -392,19 +392,19 @@ import { IncidentReport, IncidentStats } from '../models';
                   <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
                        [class]="selectedIncident()!.intermediateReportSentAt ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-700 text-slate-400 border border-slate-600'">3</div>
                   <div class="flex-1">
-                    <div class="text-sm font-medium text-white">{{ lang.currentLang === 'et' ? 'Vahearuanne (72h)' : 'Intermediate Report (72h)' }}</div>
+                    <div class="text-sm font-medium text-white">{{ lang.t('incident.intermediate_report') }}</div>
                     <div class="text-xs text-slate-400">
                       @if (selectedIncident()!.intermediateReportDueAt) {
-                        {{ lang.currentLang === 'et' ? 'T\u00e4htaeg' : 'Due' }}: {{ selectedIncident()!.intermediateReportDueAt | date:'dd.MM.yyyy HH:mm' }}
+                        {{ lang.t('incident.due') }}: {{ selectedIncident()!.intermediateReportDueAt | date:'dd.MM.yyyy HH:mm' }}
                       }
                       @if (selectedIncident()!.intermediateReportSentAt) {
-                        <span class="text-emerald-400"> &mdash; {{ lang.currentLang === 'et' ? 'Saadetud' : 'Sent' }}: {{ selectedIncident()!.intermediateReportSentAt | date:'dd.MM.yyyy HH:mm' }}</span>
+                        <span class="text-emerald-400"> &mdash; {{ lang.t('incident.sent') }}: {{ selectedIncident()!.intermediateReportSentAt | date:'dd.MM.yyyy HH:mm' }}</span>
                       }
                     </div>
                   </div>
                   @if (selectedIncident()!.initialReportSentAt && !selectedIncident()!.intermediateReportSentAt) {
                     <button (click)="submitReport('intermediate')" class="px-3 py-1.5 rounded-lg bg-amber-500/20 text-amber-400 text-xs font-semibold hover:bg-amber-500/30 transition-all">
-                      {{ lang.currentLang === 'et' ? 'Esita aruanne' : 'Submit Report' }}
+                      {{ lang.t('incident.submit_report') }}
                     </button>
                   }
                 </div>
@@ -414,19 +414,19 @@ import { IncidentReport, IncidentStats } from '../models';
                   <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
                        [class]="selectedIncident()!.finalReportSentAt ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-700 text-slate-400 border border-slate-600'">4</div>
                   <div class="flex-1">
-                    <div class="text-sm font-medium text-white">{{ lang.currentLang === 'et' ? 'L\u00f5pparuanne (1 kuu)' : 'Final Report (1 month)' }}</div>
+                    <div class="text-sm font-medium text-white">{{ lang.t('incident.final_report') }}</div>
                     <div class="text-xs text-slate-400">
                       @if (selectedIncident()!.finalReportDueAt) {
-                        {{ lang.currentLang === 'et' ? 'T\u00e4htaeg' : 'Due' }}: {{ selectedIncident()!.finalReportDueAt | date:'dd.MM.yyyy HH:mm' }}
+                        {{ lang.t('incident.due') }}: {{ selectedIncident()!.finalReportDueAt | date:'dd.MM.yyyy HH:mm' }}
                       }
                       @if (selectedIncident()!.finalReportSentAt) {
-                        <span class="text-emerald-400"> &mdash; {{ lang.currentLang === 'et' ? 'Saadetud' : 'Sent' }}: {{ selectedIncident()!.finalReportSentAt | date:'dd.MM.yyyy HH:mm' }}</span>
+                        <span class="text-emerald-400"> &mdash; {{ lang.t('incident.sent') }}: {{ selectedIncident()!.finalReportSentAt | date:'dd.MM.yyyy HH:mm' }}</span>
                       }
                     </div>
                   </div>
                   @if (selectedIncident()!.resolvedAt && !selectedIncident()!.finalReportSentAt) {
                     <button (click)="submitReport('final')" class="px-3 py-1.5 rounded-lg bg-amber-500/20 text-amber-400 text-xs font-semibold hover:bg-amber-500/30 transition-all">
-                      {{ lang.currentLang === 'et' ? 'Esita aruanne' : 'Submit Report' }}
+                      {{ lang.t('incident.submit_report') }}
                     </button>
                   }
                 </div>
@@ -436,26 +436,26 @@ import { IncidentReport, IncidentStats } from '../models';
             <!-- Incident details -->
             <div class="grid grid-cols-2 gap-4 mb-6">
               <div class="bg-slate-900/50 rounded-lg p-3">
-                <div class="text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'T\u00fc\u00fcp' : 'Type' }}</div>
+                <div class="text-xs text-slate-400 mb-1">{{ lang.t('incident.detail_type') }}</div>
                 <div class="text-sm text-white">{{ getTypeLabel(selectedIncident()!.incidentType) }}</div>
               </div>
               <div class="bg-slate-900/50 rounded-lg p-3">
-                <div class="text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'M\u00f5jutatud kliendid' : 'Clients Affected' }}</div>
+                <div class="text-xs text-slate-400 mb-1">{{ lang.t('incident.clients_affected') }}</div>
                 <div class="text-sm text-white">{{ selectedIncident()!.clientsAffected || '-' }}</div>
               </div>
               <div class="bg-slate-900/50 rounded-lg p-3">
-                <div class="text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Majanduslik m\u00f5ju' : 'Economic Impact' }}</div>
+                <div class="text-xs text-slate-400 mb-1">{{ lang.t('incident.economic_impact_label') }}</div>
                 <div class="text-sm text-white">{{ selectedIncident()!.economicImpact ? '\u20ac' + (selectedIncident()!.economicImpact | number) : '-' }}</div>
               </div>
               <div class="bg-slate-900/50 rounded-lg p-3">
-                <div class="text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Kestus' : 'Duration' }}</div>
+                <div class="text-xs text-slate-400 mb-1">{{ lang.t('incident.duration_label') }}</div>
                 <div class="text-sm text-white">{{ selectedIncident()!.durationMinutes ? selectedIncident()!.durationMinutes + ' min' : '-' }}</div>
               </div>
             </div>
 
             @if (selectedIncident()!.description) {
               <div class="bg-slate-900/50 rounded-xl p-4 mb-6">
-                <div class="text-xs text-slate-400 mb-1">{{ lang.currentLang === 'et' ? 'Kirjeldus' : 'Description' }}</div>
+                <div class="text-xs text-slate-400 mb-1">{{ lang.t('incident.description') }}</div>
                 <div class="text-sm text-slate-300 whitespace-pre-wrap">{{ selectedIncident()!.description }}</div>
               </div>
             }
@@ -464,12 +464,12 @@ import { IncidentReport, IncidentStats } from '../models';
             <div class="flex flex-wrap gap-2">
               @if (!selectedIncident()!.resolvedAt && selectedIncident()!.reportingStatus !== 'CLOSED') {
                 <button (click)="resolveIncident()" class="px-4 py-2 rounded-xl bg-emerald-500/20 text-emerald-400 text-sm font-semibold hover:bg-emerald-500/30 transition-all">
-                  {{ lang.currentLang === 'et' ? 'M\u00e4rgi lahendatuks' : 'Mark Resolved' }}
+                  {{ lang.t('incident.mark_resolved') }}
                 </button>
               }
               @if (selectedIncident()!.reportingStatus === 'FINAL_SENT') {
                 <button (click)="closeIncident()" class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-300 text-sm font-semibold hover:bg-slate-600/50 transition-all">
-                  {{ lang.currentLang === 'et' ? 'Sulge intsident' : 'Close Incident' }}
+                  {{ lang.t('incident.close_incident') }}
                 </button>
               }
             </div>
@@ -482,40 +482,40 @@ import { IncidentReport, IncidentStats } from '../models';
         <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4" (click)="showReportForm.set(null)">
           <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto" (click)="$event.stopPropagation()">
             <h2 class="text-lg font-bold text-white mb-4">
-              {{ showReportForm() === 'initial' ? (lang.currentLang === 'et' ? 'Esialgne teade p\u00e4devale asutusele' : 'Initial Notification to Competent Authority') :
-                 showReportForm() === 'intermediate' ? (lang.currentLang === 'et' ? 'Vahearuanne' : 'Intermediate Report') :
-                 (lang.currentLang === 'et' ? 'L\u00f5pparuanne' : 'Final Report') }}
+              {{ showReportForm() === 'initial' ? lang.t('incident.initial_notification_title') :
+                 showReportForm() === 'intermediate' ? lang.t('incident.intermediate_report_title') :
+                 lang.t('incident.final_report_title') }}
             </h2>
 
             <div class="space-y-4">
               <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.currentLang === 'et' ? 'Kokkuv\u00f5te' : 'Summary' }}</label>
+                <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.t('incident.summary') }}</label>
                 <textarea [(ngModel)]="reportForm.summary" rows="3"
                           class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50"></textarea>
               </div>
               <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.currentLang === 'et' ? 'V\u00f5etud meetmed' : 'Actions Taken' }}</label>
+                <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.t('incident.actions_taken') }}</label>
                 <textarea [(ngModel)]="reportForm.actionsTaken" rows="3"
                           class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50"></textarea>
               </div>
               @if (showReportForm() === 'final') {
                 <div>
-                  <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.currentLang === 'et' ? 'Juurp\u00f5hjus' : 'Root Cause' }}</label>
+                  <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.t('incident.root_cause') }}</label>
                   <textarea [(ngModel)]="reportForm.rootCause" rows="2"
                             class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50"></textarea>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.currentLang === 'et' ? '\u00d5pitunnid' : 'Lessons Learned' }}</label>
+                  <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.t('incident.lessons_learned') }}</label>
                   <textarea [(ngModel)]="reportForm.lessonsLearned" rows="2"
                             class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50"></textarea>
                 </div>
               }
               <div class="flex justify-end gap-3 pt-2">
                 <button (click)="showReportForm.set(null)" class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-300 text-sm">
-                  {{ lang.currentLang === 'et' ? 'T\u00fchista' : 'Cancel' }}
+                  {{ lang.t('incident.cancel') }}
                 </button>
                 <button (click)="sendReport()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-sm font-semibold hover:shadow-lg transition-all">
-                  {{ lang.currentLang === 'et' ? 'Esita aruanne' : 'Submit Report' }}
+                  {{ lang.t('incident.submit_report') }}
                 </button>
               </div>
             </div>
@@ -643,14 +643,13 @@ export class IncidentReportingComponent implements OnInit {
   }
 
   getTypeLabel(type: string): string {
-    const et = this.lang.currentLang === 'et';
     const labels: Record<string, string> = {
-      CYBERATTACK: et ? 'Küberrünnak' : 'Cyberattack',
-      SYSTEM_FAILURE: et ? 'Süsteemi rike' : 'System Failure',
-      DATA_BREACH: et ? 'Andmeleke' : 'Data Breach',
-      THIRD_PARTY_FAILURE: et ? '3. osapoole rike' : 'Third-Party Failure',
-      NATURAL_DISASTER: et ? 'Looduskatastroof' : 'Natural Disaster',
-      OTHER: et ? 'Muu' : 'Other'
+      CYBERATTACK: this.lang.t('incident.type_cyberattack'),
+      SYSTEM_FAILURE: this.lang.t('incident.type_system_failure'),
+      DATA_BREACH: this.lang.t('incident.type_data_breach'),
+      THIRD_PARTY_FAILURE: this.lang.t('incident.type_third_party'),
+      NATURAL_DISASTER: this.lang.t('incident.type_natural_disaster'),
+      OTHER: this.lang.t('incident.type_other')
     };
     return labels[type] || type;
   }
@@ -668,14 +667,13 @@ export class IncidentReportingComponent implements OnInit {
   }
 
   getStatusLabel(status: string): string {
-    const et = this.lang.currentLang === 'et';
     const labels: Record<string, string> = {
-      DRAFT: et ? 'Mustand' : 'Draft',
-      DETECTED: et ? 'Tuvastatud' : 'Detected',
-      INITIAL_SENT: et ? 'Esialgne saadetud' : 'Initial Sent',
-      INTERMEDIATE_SENT: et ? 'Vahearuanne saadetud' : 'Intermediate Sent',
-      FINAL_SENT: et ? 'Lõpparuanne saadetud' : 'Final Sent',
-      CLOSED: et ? 'Suletud' : 'Closed'
+      DRAFT: this.lang.t('incident.status_draft'),
+      DETECTED: this.lang.t('incident.status_detected'),
+      INITIAL_SENT: this.lang.t('incident.status_initial_sent'),
+      INTERMEDIATE_SENT: this.lang.t('incident.status_intermediate_sent'),
+      FINAL_SENT: this.lang.t('incident.status_final_sent'),
+      CLOSED: this.lang.t('incident.status_closed')
     };
     return labels[status] || status;
   }
@@ -690,26 +688,25 @@ export class IncidentReportingComponent implements OnInit {
   }
 
   getNextDeadline(incident: IncidentReport): string | null {
-    const et = this.lang.currentLang === 'et';
     const now = new Date();
 
     if (!incident.initialReportSentAt && incident.initialReportDueAt) {
       const due = new Date(incident.initialReportDueAt);
       const hoursLeft = Math.round((due.getTime() - now.getTime()) / 3600000);
-      return (et ? 'Esialgne teade: ' : 'Initial report: ') +
-        (hoursLeft > 0 ? `${hoursLeft}h ${et ? 'jäänud' : 'remaining'}` : (et ? 'TÄHTAEG ÜLETATUD' : 'OVERDUE'));
+      return this.lang.t('incident.deadline_initial') +
+        (hoursLeft > 0 ? `${hoursLeft}h ${this.lang.t('incident.remaining')}` : this.lang.t('incident.deadline_overdue'));
     }
     if (!incident.intermediateReportSentAt && incident.intermediateReportDueAt) {
       const due = new Date(incident.intermediateReportDueAt);
       const hoursLeft = Math.round((due.getTime() - now.getTime()) / 3600000);
-      return (et ? 'Vahearuanne: ' : 'Intermediate report: ') +
-        (hoursLeft > 0 ? `${hoursLeft}h ${et ? 'jäänud' : 'remaining'}` : (et ? 'TÄHTAEG ÜLETATUD' : 'OVERDUE'));
+      return this.lang.t('incident.deadline_intermediate') +
+        (hoursLeft > 0 ? `${hoursLeft}h ${this.lang.t('incident.remaining')}` : this.lang.t('incident.deadline_overdue'));
     }
     if (!incident.finalReportSentAt && incident.finalReportDueAt) {
       const due = new Date(incident.finalReportDueAt);
       const daysLeft = Math.round((due.getTime() - now.getTime()) / 86400000);
-      return (et ? 'Lõpparuanne: ' : 'Final report: ') +
-        (daysLeft > 0 ? `${daysLeft}d ${et ? 'jäänud' : 'remaining'}` : (et ? 'TÄHTAEG ÜLETATUD' : 'OVERDUE'));
+      return this.lang.t('incident.deadline_final') +
+        (daysLeft > 0 ? `${daysLeft}d ${this.lang.t('incident.remaining')}` : this.lang.t('incident.deadline_overdue'));
     }
     return null;
   }

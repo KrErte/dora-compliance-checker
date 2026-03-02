@@ -126,7 +126,7 @@ interface GlossaryTerm {
                 <span class="text-base mt-0.5 shrink-0" [innerHTML]="ch.icon"></span>
                 <div>
                   <div class="font-medium text-xs">{{ ch.id }}</div>
-                  <div class="text-xs opacity-75">{{ lang.currentLang === 'et' ? ch.name.et : ch.name.en }}</div>
+                  <div class="text-xs opacity-75">{{ l(ch.name.et, ch.name.en) }}</div>
                 </div>
               </button>
               <button (click)="selectChapter(null)"
@@ -148,11 +148,11 @@ interface GlossaryTerm {
                 <div *ngFor="let term of glossaryTerms"
                      class="group relative">
                   <div class="px-2 py-1.5 rounded text-xs text-cyan-400 cursor-help hover:bg-cyan-500/10 transition-colors">
-                    {{ lang.currentLang === 'et' ? term.term.et : term.term.en }}
+                    {{ l(term.term.et, term.term.en) }}
                   </div>
                   <div class="absolute left-0 bottom-full mb-1 w-64 p-3 bg-slate-900 border border-slate-600 rounded-lg shadow-xl text-xs text-slate-300 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 pointer-events-none">
-                    <div class="font-semibold text-white mb-1">{{ lang.currentLang === 'et' ? term.term.et : term.term.en }}</div>
-                    {{ lang.currentLang === 'et' ? term.definition.et : term.definition.en }}
+                    <div class="font-semibold text-white mb-1">{{ l(term.term.et, term.term.en) }}</div>
+                    {{ l(term.definition.et, term.definition.en) }}
                     <div class="absolute left-4 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-600"></div>
                   </div>
                 </div>
@@ -166,9 +166,7 @@ interface GlossaryTerm {
           <!-- Results count -->
           <div class="flex items-center justify-between mb-4">
             <p class="text-sm text-slate-400">
-              {{ lang.currentLang === 'et'
-                ? filteredArticles.length + ' artiklit leitud'
-                : filteredArticles.length + ' articles found' }}
+              {{ filteredArticles.length }} {{ l('artiklit leitud', 'articles found') }}
               <span *ngIf="selectedChapter" class="text-emerald-400"> &mdash; {{ selectedChapter }}</span>
             </p>
             <button *ngIf="expandedArticles.size > 0" (click)="collapseAll()"
@@ -189,7 +187,7 @@ interface GlossaryTerm {
           <div *ngFor="let ch of getVisibleChapters()" class="mb-8">
             <div class="flex items-center gap-2 mb-3 pb-2 border-b border-slate-700/40">
               <span class="text-lg" [innerHTML]="ch.icon"></span>
-              <h2 class="text-base font-semibold text-white">{{ ch.id }}: {{ lang.currentLang === 'et' ? ch.name.et : ch.name.en }}</h2>
+              <h2 class="text-base font-semibold text-white">{{ ch.id }}: {{ l(ch.name.et, ch.name.en) }}</h2>
               <span class="text-xs text-slate-500 ml-1">({{ ch.articles }})</span>
             </div>
 
@@ -218,10 +216,10 @@ interface GlossaryTerm {
                       </span>
                     </div>
                     <h3 class="text-sm font-semibold text-white mt-1.5">
-                      {{ lang.currentLang === 'et' ? article.title.et : article.title.en }}
+                      {{ l(article.title.et, article.title.en) }}
                     </h3>
                     <p *ngIf="!expandedArticles.has(article.number)" class="text-xs text-slate-400 mt-1 line-clamp-2">
-                      {{ lang.currentLang === 'et' ? article.summary.et : article.summary.en }}
+                      {{ l(article.summary.et, article.summary.en) }}
                     </p>
                   </div>
 
@@ -242,7 +240,7 @@ interface GlossaryTerm {
                       {{ lang.t('explorer.plainlanguage_explanation') }}
                     </h4>
                     <p class="text-sm text-slate-300 leading-relaxed">
-                      {{ lang.currentLang === 'et' ? article.summary.et : article.summary.en }}
+                      {{ l(article.summary.et, article.summary.en) }}
                     </p>
                   </div>
 
@@ -252,7 +250,7 @@ interface GlossaryTerm {
                       {{ lang.t('explorer.key_requirements') }}
                     </h4>
                     <ul class="space-y-1.5">
-                      <li *ngFor="let point of (lang.currentLang === 'et' ? article.keyPoints.et : article.keyPoints.en)"
+                      <li *ngFor="let point of la(article.keyPoints.et, article.keyPoints.en)"
                           class="flex items-start gap-2 text-sm text-slate-300">
                         <svg class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
@@ -274,7 +272,7 @@ interface GlossaryTerm {
                     </div>
                     <p class="text-sm text-emerald-300 mt-1">
                       <a [routerLink]="article.toolLink" class="hover:text-emerald-200 underline underline-offset-2 transition-colors">
-                        {{ lang.currentLang === 'et' ? article.toolName!.et : article.toolName!.en }}
+                        {{ l(article.toolName!.et, article.toolName!.en) }}
                       </a>
                     </p>
                   </div>
@@ -311,6 +309,14 @@ interface GlossaryTerm {
 })
 export class DoraExplorerComponent {
   public lang = inject(LangService);
+
+  l(et: string, en: string): string {
+    return this.lang.currentLang === 'et' ? et : en;
+  }
+
+  la(et: any[], en: any[]): any[] {
+    return this.lang.currentLang === 'et' ? et : en;
+  }
 
   searchQuery = '';
   selectedChapter: string | null = null;

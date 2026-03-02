@@ -35,7 +35,7 @@ import { MonitoredContract } from '../models';
             <span class="text-[10px] font-medium text-emerald-400">Live</span>
           </div>
           <span *ngIf="lastUpdated" class="text-[10px] text-slate-500">
-            {{ lang.currentLang === 'et' ? 'Uuendatud' : 'Last updated' }}: {{ lastUpdated | date:'HH:mm:ss' }}
+            {{ lang.t('guardian.last_updated') }}: {{ lastUpdated | date:'HH:mm:ss' }}
           </span>
         </div>
         <div class="flex gap-2">
