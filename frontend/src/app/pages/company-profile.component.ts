@@ -414,7 +414,7 @@ export class CompanyProfileComponent implements OnInit {
           this.searchResults.set([]);
           this.searchQuery = '';
         },
-        error: () => {}
+        error: (e: unknown) => console.error('Failed to load company profile:', e)
       });
   }
 

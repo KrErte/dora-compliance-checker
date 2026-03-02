@@ -563,7 +563,7 @@ export class ContractResultsComponent implements OnInit {
       if (!this.result) return;
       this.api.exportContractExcel(this.result.id).subscribe({
         next: (blob) => this.downloadBlob(blob, 'contract-analysis-report.xlsx'),
-        error: () => {}
+        error: (e: unknown) => console.error('Excel export failed:', e)
       });
     } else {
       this.subscriptionService.showUpgrade('EXCEL_EXPORT');

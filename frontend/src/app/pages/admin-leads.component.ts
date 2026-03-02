@@ -352,7 +352,7 @@ export class AdminLeadsComponent implements OnInit {
   loadStats() {
     this.adminService.getLeadStats().subscribe({
       next: (s) => this.stats.set(s),
-      error: () => {} // silent
+      error: (e: unknown) => console.error('Failed to load lead stats:', e)
     });
   }
 

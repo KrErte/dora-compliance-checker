@@ -165,7 +165,7 @@ export class CertificateComponent implements OnInit {
         this.result = result;
         this.loading = false;
       },
-      error: () => { this.loading = false; }
+      error: (e: unknown) => { console.error('Failed to load certificate data:', e); this.loading = false; }
     });
   }
 

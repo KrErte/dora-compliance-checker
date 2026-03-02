@@ -264,7 +264,7 @@ export class SubscriptionService {
     if (this.hasLegacyPayment() && !this.isPremium()) {
       const payment = JSON.parse(localStorage.getItem('paymentCompleted') || '{}');
       this.verifyCheckout(payment.checkoutId, 'standard').subscribe({
-        error: () => {} // Silent catch — legacy migration, non-critical
+        error: (e: unknown) => console.warn('Legacy payment migration failed:', e)
       });
     }
   }
@@ -293,7 +293,7 @@ export class SubscriptionService {
       sessionId: this.getSessionId(),
       eventData: JSON.stringify({ feature })
     }).subscribe({
-      error: () => {} // Silent catch — analytics tracking, non-critical
+      error: (e: unknown) => console.warn('Paywall tracking failed:', e)
     });
   }
 }

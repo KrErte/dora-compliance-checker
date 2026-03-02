@@ -626,7 +626,7 @@ export class WorkspaceComponent implements OnInit {
         this.currentStep = 2;
         this.loadAuditLogs(id);
       },
-      error: () => {}
+      error: (e: unknown) => console.error('Failed to load project:', e)
     });
   }
 
@@ -640,14 +640,14 @@ export class WorkspaceComponent implements OnInit {
           this.gapDetails = gap.details;
         }
       },
-      error: () => {}
+      error: (e: unknown) => console.error('Failed to load gap details:', e)
     });
   }
 
   loadAuditLogs(projectId: string): void {
     this.http.get<any[]>(`/api/workspace/projects/${projectId}/audit-trail`).subscribe({
       next: (logs) => this.auditLogs = logs,
-      error: () => {}
+      error: (e: unknown) => console.error('Failed to load audit logs:', e)
     });
   }
 

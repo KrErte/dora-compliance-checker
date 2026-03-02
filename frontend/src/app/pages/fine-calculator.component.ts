@@ -725,7 +725,7 @@ export class FineCalculatorComponent implements OnInit {
     };
 
     this.http.post('/api/fine-calculator', data).subscribe({
-      error: () => {} // Silently fail
+      error: (e: unknown) => console.warn('Fine calculator tracking failed:', e)
     });
   }
 

@@ -46,7 +46,7 @@ export class AuthService {
     if (token) {
       this.http.post('/api/auth/logout', {}, {
         headers: { Authorization: `Bearer ${token}` }
-      }).subscribe({ error: () => {} });
+      }).subscribe({ error: (e: unknown) => console.warn('Logout API failed:', e) });
     }
     if (this.isBrowser) {
       localStorage.removeItem(this.TOKEN_KEY);

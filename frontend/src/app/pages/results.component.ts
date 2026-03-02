@@ -884,7 +884,7 @@ export class ResultsComponent implements OnInit {
       if (!this.result) return;
       this.api.exportAssessmentExcel(this.result.id).subscribe({
         next: (blob) => this.downloadBlob(blob, 'assessment-report.xlsx'),
-        error: () => {}
+        error: (e: unknown) => console.error('Excel export failed:', e)
       });
     } else {
       this.subscriptionService.showUpgrade('EXCEL_EXPORT');

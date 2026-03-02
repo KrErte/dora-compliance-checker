@@ -4337,7 +4337,7 @@ Teine AS;DE;Network;Oluline;LEP-002;2024-06-01;2026-05-31`;
   private loadXbrlCompleteness(): void {
     this.api.getRoiCompleteness().subscribe({
       next: (result) => this.roiXbrlCompleteness.set(result),
-      error: () => {} // silently fail if not logged in
+      error: (e: unknown) => console.warn('XBRL completeness load failed:', e)
     });
   }
 

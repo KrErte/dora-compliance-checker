@@ -235,7 +235,7 @@ export class BrandingSettingsComponent implements OnInit, OnDestroy {
         this.logoBlobUrl = URL.createObjectURL(blob);
         this.logoUrl = this.logoBlobUrl;
       },
-      error: () => {}
+      error: (e: unknown) => console.warn('Failed to load logo:', e)
     });
   }
 

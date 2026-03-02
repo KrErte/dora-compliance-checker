@@ -179,7 +179,7 @@ export class TrackingService implements OnDestroy {
 
     this.apiService.trackEvent(event).subscribe({
       next: () => {},
-      error: () => {} // Silently fail
+      error: (e: unknown) => console.warn('Tracking failed:', e)
     });
 
     // Send to Umami

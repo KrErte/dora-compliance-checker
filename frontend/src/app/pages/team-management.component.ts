@@ -394,7 +394,7 @@ export class TeamManagementComponent implements OnInit {
   loadMyInvites() {
     this.api.getMyOrgInvites().subscribe({
       next: (invites) => this.myInvites.set(invites),
-      error: () => {}
+      error: (e: unknown) => console.error('Failed to load invites:', e)
     });
   }
 
@@ -411,7 +411,7 @@ export class TeamManagementComponent implements OnInit {
   loadMembers(orgId: string) {
     this.api.getOrgMembers(orgId).subscribe({
       next: (members) => this.orgMembers.set(members),
-      error: () => {}
+      error: (e: unknown) => console.error('Failed to load members:', e)
     });
   }
 
