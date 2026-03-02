@@ -1,0 +1,24 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /root/dora-compliance-checker
+            git pull origin master
+            docker compose build --no-cache backend frontend
+            docker compose up -d --force-recreate backend frontend
+            sleep 10
+            curl -sf -o /dev/null https://doraaudit.eu && echo "Health OK" || echo "Health FAILED"
