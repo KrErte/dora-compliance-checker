@@ -167,7 +167,7 @@ interface HeatmapCell {
             <div class="flex justify-center pl-6">
               <div class="relative">
                 <!-- Y axis label -->
-                <div class="absolute -left-6 top-1/2 -translate-y-1/2 -rotate-90 text-xs text-slate-500 whitespace-nowrap">M&otilde;ju</div>
+                <div class="absolute -left-6 top-1/2 -translate-y-1/2 -rotate-90 text-xs text-slate-500 whitespace-nowrap">{{ lang.t('results.impact') }}</div>
                 <svg viewBox="0 0 220 220" class="w-full max-w-[200px] sm:max-w-[250px]">
                   <!-- Grid cells -->
                   <g *ngFor="let cell of heatmapCells">
@@ -184,14 +184,14 @@ interface HeatmapCell {
                           [attr.fill]="cell.opacity > 0.5 ? '#fff' : '#94a3b8'">{{ cell.count }}</text>
                   </g>
                   <!-- Axis labels -->
-                  <text x="36" y="215" text-anchor="middle" font-size="8" class="fill-slate-500">Madal</text>
-                  <text x="94" y="215" text-anchor="middle" font-size="8" class="fill-slate-500">Keskmine</text>
-                  <text x="152" y="215" text-anchor="middle" font-size="8" class="fill-slate-500">K&otilde;rge</text>
-                  <text x="94" y="230" text-anchor="middle" font-size="9" class="fill-slate-400">T&otilde;en&auml;osus</text>
+                  <text x="36" y="215" text-anchor="middle" font-size="8" class="fill-slate-500">{{ lang.t('results.low') }}</text>
+                  <text x="94" y="215" text-anchor="middle" font-size="8" class="fill-slate-500">{{ lang.t('results.medium') }}</text>
+                  <text x="152" y="215" text-anchor="middle" font-size="8" class="fill-slate-500">{{ lang.t('results.high') }}</text>
+                  <text x="94" y="230" text-anchor="middle" font-size="9" class="fill-slate-400">{{ lang.t('results.likelihood') }}</text>
 
-                  <text x="-8" y="162" text-anchor="middle" font-size="8" class="fill-slate-500" transform="rotate(-90, -8, 162)">Madal</text>
-                  <text x="-8" y="104" text-anchor="middle" font-size="8" class="fill-slate-500" transform="rotate(-90, -8, 104)">Keskm.</text>
-                  <text x="-8" y="46" text-anchor="middle" font-size="8" class="fill-slate-500" transform="rotate(-90, -8, 46)">K&otilde;rge</text>
+                  <text x="-8" y="162" text-anchor="middle" font-size="8" class="fill-slate-500" transform="rotate(-90, -8, 162)">{{ lang.t('results.low') }}</text>
+                  <text x="-8" y="104" text-anchor="middle" font-size="8" class="fill-slate-500" transform="rotate(-90, -8, 104)">{{ lang.t('results.medium_short') }}</text>
+                  <text x="-8" y="46" text-anchor="middle" font-size="8" class="fill-slate-500" transform="rotate(-90, -8, 46)">{{ lang.t('results.high') }}</text>
                 </svg>
               </div>
             </div>
@@ -199,15 +199,15 @@ interface HeatmapCell {
             <div class="flex items-center justify-center gap-3 mt-3">
               <div class="flex items-center gap-1">
                 <div class="w-3 h-3 rounded bg-emerald-500/40"></div>
-                <span class="text-xs text-slate-500">Madal risk</span>
+                <span class="text-xs text-slate-500">{{ lang.t('results.low_risk') }}</span>
               </div>
               <div class="flex items-center gap-1">
                 <div class="w-3 h-3 rounded bg-amber-500/60"></div>
-                <span class="text-xs text-slate-500">Keskmine</span>
+                <span class="text-xs text-slate-500">{{ lang.t('results.med_risk') }}</span>
               </div>
               <div class="flex items-center gap-1">
                 <div class="w-3 h-3 rounded bg-red-500/80"></div>
-                <span class="text-xs text-slate-500">K&otilde;rge risk</span>
+                <span class="text-xs text-slate-500">{{ lang.t('results.high_risk') }}</span>
               </div>
             </div>
           </div>
@@ -467,7 +467,7 @@ interface HeatmapCell {
             <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
             </svg>
-            Vastavuse tegevuskava
+            {{ lang.t('results.roadmap_title') }}
           </h2>
 
           <div class="relative">
@@ -481,9 +481,9 @@ interface HeatmapCell {
               </div>
               <div class="glass-card p-4">
                 <div class="flex items-center gap-2 mb-3">
-                  <span class="text-xs font-bold text-red-400 uppercase tracking-wider">Faas 1</span>
-                  <span class="text-xs text-slate-500">&middot; Kriitilised puudused</span>
-                  <span class="text-xs px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 ml-auto">0&ndash;3 kuud</span>
+                  <span class="text-xs font-bold text-red-400 uppercase tracking-wider">{{ lang.t('results.phase_1') }}</span>
+                  <span class="text-xs text-slate-500">&middot; {{ lang.t('results.critical_gaps') }}</span>
+                  <span class="text-xs px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/20 ml-auto">{{ lang.t('results.months_0_3') }}</span>
                 </div>
                 <div class="w-full bg-slate-700 rounded-full h-1.5 mb-3">
                   <div class="h-1.5 rounded-full bg-gradient-to-r from-red-500 to-red-400 animate-progress-fill" [style.width.%]="roadmapPhase1Progress"></div>
@@ -507,9 +507,9 @@ interface HeatmapCell {
               </div>
               <div class="glass-card p-4">
                 <div class="flex items-center gap-2 mb-3">
-                  <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">Faas 2</span>
-                  <span class="text-xs text-slate-500">&middot; Olulised parandused</span>
-                  <span class="text-xs px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 ml-auto">3&ndash;6 kuud</span>
+                  <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">{{ lang.t('results.phase_2') }}</span>
+                  <span class="text-xs text-slate-500">&middot; {{ lang.t('results.important_fixes') }}</span>
+                  <span class="text-xs px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 ml-auto">{{ lang.t('results.months_3_6') }}</span>
                 </div>
                 <div class="w-full bg-slate-700 rounded-full h-1.5 mb-3">
                   <div class="h-1.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-400 animate-progress-fill delay-300" [style.width.%]="roadmapPhase2Progress"></div>
@@ -533,9 +533,9 @@ interface HeatmapCell {
               </div>
               <div class="glass-card p-4">
                 <div class="flex items-center gap-2 mb-3">
-                  <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Faas 3</span>
-                  <span class="text-xs text-slate-500">&middot; T&auml;ielik vastavus</span>
-                  <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 ml-auto">6&ndash;12 kuud</span>
+                  <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">{{ lang.t('results.phase_3') }}</span>
+                  <span class="text-xs text-slate-500">&middot; {{ lang.t('results.full_compliance') }}</span>
+                  <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 ml-auto">{{ lang.t('results.months_6_12') }}</span>
                 </div>
                 <div class="w-full bg-slate-700 rounded-full h-1.5 mb-3">
                   <div class="h-1.5 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 animate-progress-fill delay-500" [style.width.%]="roadmapPhase3Progress"></div>
@@ -544,7 +544,7 @@ interface HeatmapCell {
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
-                  <span>Pidev j&auml;relevalve ja regulaarne &uuml;levaatus</span>
+                  <span>{{ lang.t('results.continuous_monitoring') }}</span>
                 </div>
               </div>
             </div>
@@ -636,7 +636,7 @@ interface HeatmapCell {
           <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
           </svg>
-          Detailne &uuml;levaade
+          {{ lang.t('results.detail') }}
         </h2>
 
         <div *ngFor="let qr of result.questionResults; let i = index"
@@ -672,8 +672,8 @@ interface HeatmapCell {
           <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
             <div style="width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#34d399,#22d3ee);display:flex;align-items:center;justify-content:center;color:#0f172a;font-weight:bold;font-size:14px;">D</div>
             <div>
-              <div style="font-size:18px;font-weight:bold;color:#1e293b;">DORA Vastavuskontrolli Aruanne</div>
-              <div style="font-size:11px;color:#64748b;">EU m&auml;&auml;rus 2022/2554 &middot; Artiklid 28&ndash;30</div>
+              <div style="font-size:18px;font-weight:bold;color:#1e293b;">{{ lang.t('results.print_title') }}</div>
+              <div style="font-size:11px;color:#64748b;">{{ lang.t('results.print_subtitle') }}</div>
             </div>
           </div>
           <hr style="border-color:#e2e8f0;margin-bottom:16px;">
@@ -829,7 +829,7 @@ export class ResultsComponent implements OnInit {
         }
       },
       error: () => {
-        this.error = 'Tulemuste laadimine eba\u00f5nnestus.';
+        this.error = this.lang.t('results.load_error');
         this.loading = false;
       }
     });
