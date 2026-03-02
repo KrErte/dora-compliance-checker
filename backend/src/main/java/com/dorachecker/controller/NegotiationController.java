@@ -5,6 +5,8 @@ import com.dorachecker.model.NegotiationResult;
 import com.dorachecker.model.NegotiationResult.NegotiationMessageResult;
 import com.dorachecker.service.NegotiationService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -62,27 +64,23 @@ public class NegotiationController {
 
     @PutMapping("/items/{itemId}/status")
     public ResponseEntity<Void> updateItemStatus(@PathVariable String itemId,
-                                                  @RequestBody Map<String, String> body,
+                                                  @Valid @RequestBody StatusUpdateRequest body,
                                                   Authentication auth) {
-        String status = body.get("status");
-        if (status == null || status.isBlank()) {
-            return ResponseEntity.badRequest().build();
-        }
-        negotiationService.updateItemStatus(itemId, status, getUserId(auth));
+        negotiationService.updateItemStatus(itemId, body.status(), getUserId(auth));
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{id}/messages")
     public ResponseEntity<NegotiationMessageResult> addMessage(@PathVariable String id,
-                                                                @RequestBody Map<String, String> body,
+                                                                @Valid @RequestBody AddMessageRequest body,
                                                                 Authentication auth) {
         NegotiationMessageResult result = negotiationService.addMessage(
                 id,
-                body.get("itemId"),
-                body.getOrDefault("messageType", "NOTE"),
-                body.getOrDefault("direction", "OUTBOUND"),
-                body.get("subject"),
-                body.get("body"),
+                body.itemId(),
+                body.messageType() != null ? body.messageType() : "NOTE",
+                body.direction() != null ? body.direction() : "OUTBOUND",
+                body.subject(),
+                body.body(),
                 getUserId(auth)
         );
         return ResponseEntity.ok(result);
@@ -92,4 +90,16 @@ public class NegotiationController {
     public ResponseEntity<List<NegotiationMessageResult>> getMessages(@PathVariable String id, Authentication auth) {
         return ResponseEntity.ok(negotiationService.getMessages(id, getUserId(auth)));
     }
+
+    public record StatusUpdateRequest(
+        @NotBlank @Size(max = 50) String status
+    ) {}
+
+    public record AddMessageRequest(
+        @Size(max = 100) String itemId,
+        @Size(max = 50) String messageType,
+        @Size(max = 50) String direction,
+        @Size(max = 500) String subject,
+        @Size(max = 10000) String body
+    ) {}
 }

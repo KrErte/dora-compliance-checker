@@ -3,6 +3,7 @@ package com.dorachecker.controller;
 import com.dorachecker.model.ChatRequest;
 import com.dorachecker.model.ChatResponse;
 import com.dorachecker.service.ChatService;
+import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class ChatController {
     }
 
     @PostMapping("/message")
-    public ChatResponse sendMessage(@RequestBody ChatRequest request,
+    public ChatResponse sendMessage(@Valid @RequestBody ChatRequest request,
                                     Authentication authentication,
                                     @RequestHeader(value = "X-Forwarded-For", required = false) String forwardedFor,
                                     @RequestHeader(value = "X-Real-IP", required = false) String realIp,

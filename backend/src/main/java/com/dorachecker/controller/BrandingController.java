@@ -12,6 +12,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -70,12 +75,12 @@ public class BrandingController {
                 "companyName", b.getCompanyName() != null ? b.getCompanyName() : "",
                 "primaryColorHex", b.getPrimaryColorHex() != null ? b.getPrimaryColorHex() : "#22c55e",
                 "hasLogo", b.getLogoPath() != null && !b.getLogoPath().isEmpty(),
-                "updatedAt", b.getUpdatedAt().toString()
+                "updatedAt", b.getUpdatedAt() != null ? b.getUpdatedAt().toString() : ""
         ));
     }
 
     @PutMapping
-    public ResponseEntity<?> updateBranding(@RequestBody Map<String, String> body, Authentication auth) {
+    public ResponseEntity<?> updateBranding(@Valid @RequestBody UpdateBrandingRequest body, Authentication auth) {
         String userId = getUserId(auth);
 
         if (!subscriptionGuard.isPremium(userId, null)) {
@@ -83,16 +88,8 @@ public class BrandingController {
                     .body(Map.of("error", "Premium subscription required"));
         }
 
-        String companyName = body.get("companyName");
-        String primaryColorHex = body.get("primaryColorHex");
-
-        if (companyName == null || companyName.isBlank()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Company name is required"));
-        }
-
-        if (primaryColorHex != null && !primaryColorHex.matches("^#[0-9a-fA-F]{6}$")) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Invalid color hex format"));
-        }
+        String companyName = body.companyName();
+        String primaryColorHex = body.primaryColorHex();
 
         UserBrandingEntity branding = brandingRepository.findByUserId(userId)
                 .orElseGet(() -> {
@@ -269,4 +266,9 @@ public class BrandingController {
             default -> ".bin";
         };
     }
+
+    public record UpdateBrandingRequest(
+        @NotBlank @Size(max = 200) String companyName,
+        @Pattern(regexp = "^#[0-9a-fA-F]{6}$", message = "Invalid color hex format") String primaryColorHex
+    ) {}
 }

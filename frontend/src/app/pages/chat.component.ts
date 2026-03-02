@@ -279,7 +279,7 @@ export class ChatComponent {
 
     if (this.isBrowser) {
       try {
-        const saved = localStorage.getItem('dorabot_page_msgs');
+        const saved = sessionStorage.getItem('dorabot_page_msgs');
         if (saved) {
           const parsed = JSON.parse(saved) as ChatMessage[];
           this.messages.set(parsed.map(m => ({ ...m, timestamp: new Date(m.timestamp) })));
@@ -317,7 +317,7 @@ export class ChatComponent {
     this.rateLimited.set(false);
     this.messagesUsed.set(0);
     this.followups.set([]);
-    if (this.isBrowser) localStorage.removeItem('dorabot_page_msgs');
+    if (this.isBrowser) sessionStorage.removeItem('dorabot_page_msgs');
   }
 
   copyMessage(content: string, index: number) {
@@ -437,7 +437,7 @@ export class ChatComponent {
     if (!this.isBrowser) return;
     try {
       const msgs = this.messages().slice(-30);
-      localStorage.setItem('dorabot_page_msgs', JSON.stringify(msgs));
+      sessionStorage.setItem('dorabot_page_msgs', JSON.stringify(msgs));
     } catch {}
   }
 

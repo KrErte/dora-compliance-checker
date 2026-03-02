@@ -3,6 +3,10 @@ package com.dorachecker.controller;
 import com.dorachecker.model.OrganizationEntity;
 import com.dorachecker.model.OrganizationInviteEntity;
 import com.dorachecker.service.OrganizationService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +29,9 @@ public class OrganizationController {
     }
 
     @PostMapping
-    public ResponseEntity<OrganizationEntity> create(@RequestBody Map<String, String> body, Authentication auth) {
+    public ResponseEntity<OrganizationEntity> create(@Valid @RequestBody CreateOrgRequest body, Authentication auth) {
         OrganizationEntity org = organizationService.create(
-            body.get("name"), body.getOrDefault("description", ""), getUserId(auth));
+            body.name(), body.description() != null ? body.description() : "", getUserId(auth));
         return ResponseEntity.ok(org);
     }
 
@@ -44,8 +48,8 @@ public class OrganizationController {
     }
 
     @PutMapping("/{orgId}")
-    public ResponseEntity<OrganizationEntity> update(@PathVariable String orgId, @RequestBody Map<String, String> body, Authentication auth) {
-        OrganizationEntity org = organizationService.update(orgId, body.get("name"), body.get("description"), getUserId(auth));
+    public ResponseEntity<OrganizationEntity> update(@PathVariable String orgId, @Valid @RequestBody CreateOrgRequest body, Authentication auth) {
+        OrganizationEntity org = organizationService.update(orgId, body.name(), body.description(), getUserId(auth));
         return ResponseEntity.ok(org);
     }
 
@@ -61,9 +65,9 @@ public class OrganizationController {
     }
 
     @PostMapping("/{orgId}/invite")
-    public ResponseEntity<OrganizationInviteEntity> invite(@PathVariable String orgId, @RequestBody Map<String, String> body, Authentication auth) {
+    public ResponseEntity<OrganizationInviteEntity> invite(@PathVariable String orgId, @Valid @RequestBody InviteRequest body, Authentication auth) {
         OrganizationInviteEntity invite = organizationService.invite(
-            orgId, body.get("email"), body.getOrDefault("role", "MEMBER"), getUserId(auth));
+            orgId, body.email(), body.role() != null ? body.role() : "MEMBER", getUserId(auth));
         return ResponseEntity.ok(invite);
     }
 
@@ -91,8 +95,8 @@ public class OrganizationController {
 
     @PutMapping("/{orgId}/members/{memberId}/role")
     public ResponseEntity<Void> updateRole(@PathVariable String orgId, @PathVariable String memberId,
-                                            @RequestBody Map<String, String> body, Authentication auth) {
-        organizationService.updateMemberRole(orgId, memberId, body.get("role"), getUserId(auth));
+                                            @Valid @RequestBody RoleUpdateRequest body, Authentication auth) {
+        organizationService.updateMemberRole(orgId, memberId, body.role(), getUserId(auth));
         return ResponseEntity.ok().build();
     }
 
@@ -107,4 +111,18 @@ public class OrganizationController {
         organizationService.leaveOrganization(orgId, getUserId(auth));
         return ResponseEntity.ok().build();
     }
+
+    public record CreateOrgRequest(
+        @NotBlank @Size(max = 200) String name,
+        @Size(max = 2000) String description
+    ) {}
+
+    public record InviteRequest(
+        @NotBlank @Email @Size(max = 255) String email,
+        @Size(max = 20) String role
+    ) {}
+
+    public record RoleUpdateRequest(
+        @NotBlank @Size(max = 20) String role
+    ) {}
 }
