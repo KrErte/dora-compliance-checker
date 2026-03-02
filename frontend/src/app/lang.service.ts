@@ -3139,6 +3139,112 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; lv?: string; lt?:
   'boardrep.report_approved_by': { et: 'Kinnitaja:', en: 'Approved By:' },
   'boardrep.report_date': { et: 'Kuupäev:', en: 'Date:' },
 
+  // Locale
+  'locale.date_format': { et: 'et-EE', en: 'en-GB' },
+
+  // NIS2 Results PDF
+  'nis2pdf.title_results': { et: 'Vastavushindamise tulemused', en: 'Compliance Assessment Results' },
+  'nis2pdf.title_assessment': { et: 'Vastavushindamine', en: 'Compliance Assessment' },
+  'nis2pdf.risk_low': { et: 'Madal risk', en: 'Low Risk' },
+  'nis2pdf.risk_medium': { et: 'Keskmine risk', en: 'Medium Risk' },
+  'nis2pdf.risk_high': { et: 'Kõrge risk', en: 'High Risk' },
+  'nis2pdf.risk_critical': { et: 'Kriitiline risk', en: 'Critical Risk' },
+  'nis2pdf.domain_scores': { et: 'Domeenide skoorid', en: 'Domain Scores' },
+  'nis2pdf.action_plan': { et: 'Tegevuskava', en: 'Action Plan' },
+  'nis2pdf.estimated_effort': { et: 'Hinnanguline koguaeg', en: 'Estimated total effort' },
+  'nis2pdf.days': { et: 'päeva', en: 'days' },
+  'nis2pdf.col_phase': { et: 'Faas', en: 'Phase' },
+  'nis2pdf.col_priority': { et: 'Prioriteet', en: 'Priority' },
+  'nis2pdf.col_action': { et: 'Tegevus', en: 'Action' },
+  'nis2pdf.col_domain': { et: 'Domeen', en: 'Domain' },
+  'nis2pdf.col_reference': { et: 'Viide', en: 'Reference' },
+  'nis2pdf.col_est': { et: 'Aeg', en: 'Est.' },
+  'nis2pdf.phase_immediate': { et: 'Koheselt', en: 'Immediate' },
+  'nis2pdf.phase_short_term': { et: 'Lühiajaline', en: 'Short-term' },
+  'nis2pdf.phase_medium_term': { et: 'Keskpikk', en: 'Medium-term' },
+  'nis2pdf.references': { et: 'Viited', en: 'References' },
+  'nis2pdf.ref_kyts_name': { et: 'Küberturvalisuse seadus', en: 'Cybersecurity Act' },
+  'nis2pdf.ref_eits_name': { et: 'Eesti infoturbestandard', en: 'Estonian Information Security Standard' },
+  'nis2pdf.ref_cert_name': { et: 'Riigi Infosüsteemi Amet', en: 'Information System Authority' },
+
+  // Contract Results
+  'contractres.level_green': { et: 'KAITSTAV', en: 'DEFENSIBLE' },
+  'contractres.level_yellow': { et: 'OSALISELT KAITSTAV', en: 'PARTIALLY DEFENSIBLE' },
+  'contractres.level_red': { et: 'KAITSMATA', en: 'NOT DEFENSIBLE' },
+  'contractres.status_found': { et: 'LEITUD', en: 'FOUND' },
+  'contractres.status_partial': { et: 'OSALINE', en: 'PARTIAL' },
+  'contractres.status_missing': { et: 'PUUDU', en: 'MISSING' },
+
+  // Contract Analysis PDF
+  'contractpdf.title': { et: 'Lepingu analüüs', en: 'Contract Analysis' },
+  'contractpdf.found': { et: 'Leitud', en: 'Found' },
+  'contractpdf.partial': { et: 'Osaliselt', en: 'Partial' },
+  'contractpdf.missing': { et: 'Puudu', en: 'Missing' },
+  'contractpdf.status_found': { et: 'LEITUD', en: 'FOUND' },
+  'contractpdf.status_partial': { et: 'OSALISELT', en: 'PARTIAL' },
+  'contractpdf.status_missing': { et: 'PUUDU', en: 'MISSING' },
+  'contractpdf.summary': { et: 'Kokkuvõte', en: 'Summary' },
+  'contractpdf.findings': { et: 'Detailsed tulemused', en: 'Detailed Findings' },
+  'contractpdf.recommendation': { et: 'Soovitus', en: 'Recommendation' },
+
+  // Workspace PDF
+  'wkpdf.title': { et: 'Lepingu vastavuse aruanne', en: 'Contract Compliance Report' },
+  'wkpdf.project': { et: 'Projekt', en: 'Project' },
+  'wkpdf.date': { et: 'Kuupäev', en: 'Date' },
+  'wkpdf.compliance_summary': { et: 'Vastavuse kokkuvõte', en: 'Compliance Summary' },
+  'wkpdf.col_regulation': { et: 'Regulatsioon', en: 'Regulation' },
+  'wkpdf.col_compliance': { et: 'Vastavus', en: 'Compliance' },
+  'wkpdf.col_passed': { et: 'Läbitud', en: 'Passed' },
+  'wkpdf.col_failed': { et: 'Puudu', en: 'Failed' },
+  'wkpdf.col_partial': { et: 'Osaline', en: 'Partial' },
+  'wkpdf.details': { et: 'Detailid', en: 'Details' },
+  'wkpdf.col_requirement': { et: 'Nõue', en: 'Requirement' },
+  'wkpdf.col_status': { et: 'Staatus', en: 'Status' },
+  'wkpdf.col_reference': { et: 'Viide', en: 'Reference' },
+
+  // Maturity Model (additional)
+  'maturity.non_existent': { et: 'Puudub', en: 'Non-existent' },
+
+  // DORA Explorer
+  'explorer.severity_critical': { et: 'Kriitiline', en: 'Critical' },
+  'explorer.severity_important': { et: 'Oluline', en: 'Important' },
+  'explorer.severity_informational': { et: 'Informatiivne', en: 'Informational' },
+
+  // Cost Calculator
+  'costcalc.size_small': { et: 'Väike', en: 'Small' },
+  'costcalc.size_medium': { et: 'Keskmine', en: 'Medium' },
+  'costcalc.size_large': { et: 'Suur', en: 'Large' },
+  'costcalc.size_enterprise': { et: 'Suurettevõte', en: 'Enterprise' },
+  'costcalc.sector_banking': { et: 'Pangandus', en: 'Banking' },
+  'costcalc.sector_insurance': { et: 'Kindlustus', en: 'Insurance' },
+  'costcalc.sector_investment': { et: 'Investeerimine', en: 'Investment' },
+  'costcalc.sector_payment': { et: 'Makseteenused', en: 'Payment' },
+  'costcalc.sector_fund': { et: 'Fondihaldus', en: 'Fund Management' },
+  'costcalc.sector_crypto': { et: 'Krüptovarad', en: 'Crypto' },
+  'costcalc.report_title': { et: '=== DORA VASTAVUSE KULUKALKULAATOR ===', en: '=== DORA COMPLIANCE COST CALCULATOR ===' },
+  'costcalc.company_size_label': { et: 'Ettevõtte suurus', en: 'Company size' },
+  'costcalc.sector_label': { et: 'Sektor', en: 'Sector' },
+  'costcalc.revenue_label': { et: 'Aastane käive', en: 'Annual revenue' },
+  'costcalc.providers_label': { et: 'IKT teenusepakkujaid', en: 'ICT providers' },
+  'costcalc.breakdown_title': { et: '--- Kulude jaotus ---', en: '--- Cost Breakdown ---' },
+  'costcalc.onetime': { et: 'Ühekordne investeering', en: 'One-time investment' },
+  'costcalc.annual': { et: 'Aastane kulu', en: 'Annual cost' },
+  'costcalc.per_employee': { et: 'Kulu töötaja kohta', en: 'Cost per employee' },
+  'costcalc.potential_fine_detail': { et: 'Potentsiaalne trahv (DORA Art. 50-51)', en: 'Potential fine (DORA Art. 50-51)' },
+  'costcalc.breakeven': { et: 'Tasuvusperiood', en: 'Break-even period' },
+  'costcalc.generated': { et: 'Genereeritud: DoraAudit.eu', en: 'Generated by: DoraAudit.eu' },
+
+  // Playbook Generator
+  'playbook.org_placeholder': { et: '[Organisatsiooni nimi]', en: '[Organization Name]' },
+  'playbook.download_title': { et: 'INTSIDENDI REAGEERIMISE MÄNGURAAMAT', en: 'INCIDENT RESPONSE PLAYBOOK' },
+  'playbook.org_label': { et: 'Organisatsioon', en: 'Organization' },
+  'playbook.incident_type_label': { et: 'Intsidendi tüüp', en: 'Incident Type' },
+  'playbook.severity_label': { et: 'Kriitilisus', en: 'Severity' },
+  'playbook.generated_label': { et: 'Genereeritud', en: 'Generated' },
+  'playbook.timing_label': { et: 'Ajastus', en: 'Timing' },
+  'playbook.responsible_label': { et: 'Vastutav', en: 'Responsible' },
+  'playbook.notification_title': { et: 'TEAVITUSE MALL', en: 'NOTIFICATION TEMPLATE' },
+
 };
 
 @Injectable({ providedIn: 'root' })

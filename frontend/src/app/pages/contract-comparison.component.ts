@@ -329,7 +329,6 @@ export class ContractComparisonComponent implements OnInit {
 
   exportPdf(): void {
     if (!this.result) return;
-    const isEt = this.lang.currentLang === 'et';
 
     let html = `<!DOCTYPE html><html><head>
       <meta charset="UTF-8">
@@ -378,14 +377,14 @@ export class ContractComparisonComponent implements OnInit {
 
     for (const f of this.result.findings) {
       const clause = getModelClause(f.requirementId);
-      const modelText = clause ? (isEt ? clause.clauseEt : clause.clauseEn) : '';
+      const modelText = clause ? this.lang.l(clause.clauseEt, clause.clauseEn) : '';
       const statusLabel = f.status === 'found' ? this.lang.t('pdf.status_found') :
                           f.status === 'partial' ? this.lang.t('pdf.status_partial') :
                           this.lang.t('pdf.status_missing');
 
       html += `<tr>
         <td>
-          <div class="req-name">${f.requirementId}. ${isEt ? f.requirementEt : f.requirementEn}</div>
+          <div class="req-name">${f.requirementId}. ${this.lang.l(f.requirementEt, f.requirementEn)}</div>
           <div class="req-ref">${f.doraReference}</div>
         </td>
         <td class="quote">${f.quote ? `"${f.quote}"` : `<em>${this.lang.t('pdf.clause_not_found')}</em>`}</td>
@@ -395,7 +394,7 @@ export class ContractComparisonComponent implements OnInit {
     }
 
     html += `</tbody></table>`;
-    html += `<div class="footer">${this.lang.t('pdf.generated')}: ${new Date().toLocaleDateString(isEt ? 'et-EE' : 'en-US')} &middot; DORA Compliance Checker</div>`;
+    html += `<div class="footer">${this.lang.t('pdf.generated')}: ${new Date().toLocaleDateString(this.lang.t('locale.date_format'))} &middot; DORA Compliance Checker</div>`;
     html += `</body></html>`;
 
     const printWindow = window.open('', '_blank');

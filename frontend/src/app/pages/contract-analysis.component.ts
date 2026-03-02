@@ -874,11 +874,11 @@ export class ContractAnalysisComponent implements OnInit {
   downloadPdf() {
     if (!this.result) return;
     const r = this.result;
-    const isEt = this.lang.currentLang === 'et';
 
-    const statusLabel = (s: string) => s === 'found' ? (isEt ? 'LEITUD' : 'FOUND') :
-                                        s === 'partial' ? (isEt ? 'OSALISELT' : 'PARTIAL') :
-                                                          (isEt ? 'PUUDU' : 'MISSING');
+    const statusLabel = (s: string) => {
+      const keyMap: Record<string, string> = { found: 'contractpdf.status_found', partial: 'contractpdf.status_partial' };
+      return this.lang.t(keyMap[s] || 'contractpdf.status_missing');
+    };
 
     let html = `<html><head><meta charset="utf-8"><style>
       body{font-family:Arial,sans-serif;margin:40px;color:#1e293b}
@@ -902,28 +902,28 @@ export class ContractAnalysisComponent implements OnInit {
       .summary{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin:12px 0;font-size:13px;color:#475569}
       @media print{body{margin:20px}}
     </style></head><body>`;
-    html += `<h1>DORA ${isEt ? 'Lepingu anal\u00fc\u00fcs' : 'Contract Analysis'}</h1>`;
+    html += `<h1>DORA ${this.lang.t('contractpdf.title')}</h1>`;
     html += `<div class="meta">${r.companyName} &middot; ${r.contractName} &middot; ${r.fileName}<br>${new Date(r.analysisDate).toLocaleDateString()}</div>`;
     html += `<div class="score ${r.complianceLevel.toLowerCase()}">${r.scorePercentage.toFixed(0)}%</div>`;
     html += `<div class="stats">
-      <div class="stat found"><div class="num">${r.foundCount}</div>${isEt ? 'Leitud' : 'Found'}</div>
-      <div class="stat partial"><div class="num">${r.partialCount}</div>${isEt ? 'Osaliselt' : 'Partial'}</div>
-      <div class="stat missing"><div class="num">${r.missingCount}</div>${isEt ? 'Puudu' : 'Missing'}</div>
+      <div class="stat found"><div class="num">${r.foundCount}</div>${this.lang.t('contractpdf.found')}</div>
+      <div class="stat partial"><div class="num">${r.partialCount}</div>${this.lang.t('contractpdf.partial')}</div>
+      <div class="stat missing"><div class="num">${r.missingCount}</div>${this.lang.t('contractpdf.missing')}</div>
     </div>`;
     if (r.summary) {
-      html += `<div class="summary"><strong>${isEt ? 'Kokkuv\u00f5te' : 'Summary'}:</strong> ${r.summary}</div>`;
+      html += `<div class="summary"><strong>${this.lang.t('contractpdf.summary')}:</strong> ${r.summary}</div>`;
     }
-    html += `<h2>${isEt ? 'Detailsed tulemused' : 'Detailed Findings'}</h2>`;
+    html += `<h2>${this.lang.t('contractpdf.findings')}</h2>`;
     for (const f of r.findings) {
-      const req = isEt ? f.requirementEt : f.requirementEn;
-      const rec = isEt ? f.recommendationEt : f.recommendationEn;
+      const req = this.lang.l(f.requirementEt, f.requirementEn);
+      const rec = this.lang.l(f.recommendationEt, f.recommendationEn);
       html += `<div class="finding">
         <div class="finding-header">
           <span class="finding-title">${f.requirementId}. ${req}<span class="ref">${f.doraReference}</span></span>
           <span class="badge ${f.status}">${statusLabel(f.status)}</span>
         </div>`;
       if (f.quote) html += `<div class="quote">"${f.quote}"</div>`;
-      if (rec) html += `<div class="rec"><strong>${isEt ? 'Soovitus' : 'Recommendation'}:</strong> ${rec}</div>`;
+      if (rec) html += `<div class="rec"><strong>${this.lang.t('contractpdf.recommendation')}:</strong> ${rec}</div>`;
       html += `</div>`;
     }
     html += `</body></html>`;

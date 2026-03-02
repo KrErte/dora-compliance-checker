@@ -166,7 +166,6 @@ export class VendorQuestionnaireListComponent implements OnInit {
 
   ngOnInit() {
     this.load();
-    this.service.stats().subscribe(s => this.stats = s);
   }
 
   load() {

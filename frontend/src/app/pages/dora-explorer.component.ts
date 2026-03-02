@@ -828,12 +828,10 @@ export class DoraExplorerComponent {
   }
 
   getSeverityLabel(severity: string): string {
-    const et = this.lang.currentLang === 'et';
-    switch (severity) {
-      case 'critical': return et ? 'Kriitiline' : 'Critical';
-      case 'important': return et ? 'Oluline' : 'Important';
-      default: return et ? 'Informatiivne' : 'Informational';
-    }
+    const keyMap: Record<string, string> = {
+      critical: 'explorer.severity_critical', important: 'explorer.severity_important'
+    };
+    return this.lang.t(keyMap[severity] || 'explorer.severity_informational');
   }
 }
 

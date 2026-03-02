@@ -685,36 +685,35 @@ export class WorkspaceComponent implements OnInit {
     const { jsPDF } = await import('jspdf');
     const autoTable = (await import('jspdf-autotable')).default;
     const doc = new jsPDF();
-    const isEt = this.lang.currentLang === 'et';
 
     doc.setFontSize(10);
     doc.setTextColor(16, 185, 129);
     doc.text('DoraAudit.eu', 14, 15);
     doc.setFontSize(18);
     doc.setTextColor(30, 41, 59);
-    doc.text(isEt ? 'Lepingu vastavuse aruanne' : 'Contract Compliance Report', 14, 25);
+    doc.text(this.lang.t('wkpdf.title'), 14, 25);
 
     doc.setFontSize(10);
     doc.setTextColor(100, 116, 139);
-    doc.text(`${isEt ? 'Projekt' : 'Project'}: ${this.project.name || 'N/A'}`, 14, 35);
-    doc.text(`${isEt ? 'Kuupäev' : 'Date'}: ${new Date(this.project.createdAt).toLocaleDateString()}`, 14, 41);
+    doc.text(`${this.lang.t('wkpdf.project')}: ${this.project.name || 'N/A'}`, 14, 35);
+    doc.text(`${this.lang.t('wkpdf.date')}: ${new Date(this.project.createdAt).toLocaleDateString()}`, 14, 41);
 
     let y = 50;
 
     if (this.project.gapResults && this.project.gapResults.length > 0) {
       doc.setFontSize(14);
       doc.setTextColor(30, 41, 59);
-      doc.text(isEt ? 'Vastavuse kokkuvõte' : 'Compliance Summary', 14, y);
+      doc.text(this.lang.t('wkpdf.compliance_summary'), 14, y);
       y += 6;
 
       autoTable(doc, {
         startY: y,
         head: [[
-          isEt ? 'Regulatsioon' : 'Regulation',
-          isEt ? 'Vastavus' : 'Compliance',
-          isEt ? 'Läbitud' : 'Passed',
-          isEt ? 'Puudu' : 'Failed',
-          isEt ? 'Osaline' : 'Partial'
+          this.lang.t('wkpdf.col_regulation'),
+          this.lang.t('wkpdf.col_compliance'),
+          this.lang.t('wkpdf.col_passed'),
+          this.lang.t('wkpdf.col_failed'),
+          this.lang.t('wkpdf.col_partial')
         ]],
         body: this.project.gapResults.map(g => [
           g.regulation, `${g.compliancePercentage}%`,
@@ -731,12 +730,12 @@ export class WorkspaceComponent implements OnInit {
           if (y > 250) { doc.addPage(); y = 20; }
           doc.setFontSize(12);
           doc.setTextColor(30, 41, 59);
-          doc.text(`${gap.regulation} — ${isEt ? 'Detailid' : 'Details'}`, 14, y);
+          doc.text(`${gap.regulation} — ${this.lang.t('wkpdf.details')}`, 14, y);
           y += 4;
 
           autoTable(doc, {
             startY: y,
-            head: [['#', isEt ? 'Nõue' : 'Requirement', isEt ? 'Staatus' : 'Status', isEt ? 'Viide' : 'Reference']],
+            head: [['#', this.lang.t('wkpdf.col_requirement'), this.lang.t('wkpdf.col_status'), this.lang.t('wkpdf.col_reference')]],
             body: gap.details.map((d, i) => [
               String(i + 1), d.name, d.status || 'N/A', d.reference || ''
             ]),

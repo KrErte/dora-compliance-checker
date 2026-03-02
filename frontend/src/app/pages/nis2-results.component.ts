@@ -378,14 +378,19 @@ export class Nis2ResultsComponent implements OnInit {
   private generatePrintContent(): string {
     if (!this.result) return '';
     const r = this.result;
-    const isEt = this.lang.currentLang === 'et';
+    const t = (key: string) => this.lang.t(key);
+
+    const riskKeyMap: Record<string, string> = {
+      LOW: 'nis2pdf.risk_low', MEDIUM: 'nis2pdf.risk_medium',
+      HIGH: 'nis2pdf.risk_high', CRITICAL: 'nis2pdf.risk_critical'
+    };
 
     const actionRows = (items: ActionItem[], phase: string) => items.map(a => `
       <tr>
         <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">${phase}</td>
         <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">${a.priority}</td>
-        <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">${isEt ? a.titleEt : a.titleEn}</td>
-        <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">${isEt ? a.domainNameEt : a.domainNameEn}</td>
+        <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">${this.lang.l(a.titleEt, a.titleEn)}</td>
+        <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">${this.lang.l(a.domainNameEt, a.domainNameEn)}</td>
         <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;">${a.reference}</td>
         <td style="padding: 8px; border-bottom: 1px solid #e5e7eb; text-align: right;">${a.estimatedDays}d</td>
       </tr>
@@ -395,7 +400,7 @@ export class Nis2ResultsComponent implements OnInit {
       <!DOCTYPE html>
       <html>
       <head>
-        <title>NIS2 ${isEt ? 'Vastavushindamise tulemused' : 'Compliance Assessment Results'}</title>
+        <title>NIS2 ${t('nis2pdf.title_results')}</title>
         <style>
           body { font-family: Arial, sans-serif; padding: 40px; color: #1f2937; }
           h1 { color: #f59e0b; margin-bottom: 8px; }
@@ -410,53 +415,52 @@ export class Nis2ResultsComponent implements OnInit {
         </style>
       </head>
       <body>
-        <h1>NIS2 ${isEt ? 'Vastavushindamine' : 'Compliance Assessment'}</h1>
-        <p style="color: #6b7280;">${new Date().toLocaleDateString(isEt ? 'et-EE' : 'en-GB')}</p>
+        <h1>NIS2 ${t('nis2pdf.title_assessment')}</h1>
+        <p style="color: #6b7280;">${new Date().toLocaleDateString(t('locale.date_format'))}</p>
 
         <div style="margin: 24px 0;">
           <span class="score">${Math.round(r.overallScore)}</span>
           <span style="font-size: 24px; color: #9ca3af;">/100</span>
           <p class="risk" style="font-size: 18px; margin-top: 8px;">
-            ${isEt ? (r.riskLevel === 'LOW' ? 'Madal risk' : r.riskLevel === 'MEDIUM' ? 'Keskmine risk' : r.riskLevel === 'HIGH' ? 'Kõrge risk' : 'Kriitiline risk')
-                   : (r.riskLevel === 'LOW' ? 'Low Risk' : r.riskLevel === 'MEDIUM' ? 'Medium Risk' : r.riskLevel === 'HIGH' ? 'High Risk' : 'Critical Risk')}
+            ${t(riskKeyMap[r.riskLevel] || 'nis2pdf.risk_critical')}
           </p>
         </div>
 
-        <h2>${isEt ? 'Domeenide skoorid' : 'Domain Scores'}</h2>
+        <h2>${t('nis2pdf.domain_scores')}</h2>
         <div class="domains">
           ${r.domainScores.map(d => `
             <div class="domain">
               <div style="font-size: 24px; font-weight: bold; color: ${d.score >= 80 ? '#10b981' : d.score >= 60 ? '#f59e0b' : '#ef4444'};">${Math.round(d.score)}</div>
-              <div style="font-size: 11px; color: #6b7280;">${isEt ? d.nameEt : d.nameEn}</div>
+              <div style="font-size: 11px; color: #6b7280;">${this.lang.l(d.nameEt, d.nameEn)}</div>
             </div>
           `).join('')}
         </div>
 
-        <h2>${isEt ? 'Tegevuskava' : 'Action Plan'}</h2>
-        <p style="color: #6b7280;">${isEt ? 'Hinnanguline koguaeg' : 'Estimated total effort'}: ~${r.actionPlan.totalEstimatedDays} ${isEt ? 'päeva' : 'days'}</p>
+        <h2>${t('nis2pdf.action_plan')}</h2>
+        <p style="color: #6b7280;">${t('nis2pdf.estimated_effort')}: ~${r.actionPlan.totalEstimatedDays} ${t('nis2pdf.days')}</p>
         <table>
           <thead>
             <tr>
-              <th>${isEt ? 'Faas' : 'Phase'}</th>
-              <th>${isEt ? 'Prioriteet' : 'Priority'}</th>
-              <th>${isEt ? 'Tegevus' : 'Action'}</th>
-              <th>${isEt ? 'Domeen' : 'Domain'}</th>
-              <th>${isEt ? 'Viide' : 'Reference'}</th>
-              <th style="text-align: right;">${isEt ? 'Aeg' : 'Est.'}</th>
+              <th>${t('nis2pdf.col_phase')}</th>
+              <th>${t('nis2pdf.col_priority')}</th>
+              <th>${t('nis2pdf.col_action')}</th>
+              <th>${t('nis2pdf.col_domain')}</th>
+              <th>${t('nis2pdf.col_reference')}</th>
+              <th style="text-align: right;">${t('nis2pdf.col_est')}</th>
             </tr>
           </thead>
           <tbody>
-            ${actionRows(r.actionPlan.immediate, isEt ? 'Koheselt' : 'Immediate')}
-            ${actionRows(r.actionPlan.shortTerm, isEt ? 'Lühiajaline' : 'Short-term')}
-            ${actionRows(r.actionPlan.mediumTerm, isEt ? 'Keskpikk' : 'Medium-term')}
+            ${actionRows(r.actionPlan.immediate, t('nis2pdf.phase_immediate'))}
+            ${actionRows(r.actionPlan.shortTerm, t('nis2pdf.phase_short_term'))}
+            ${actionRows(r.actionPlan.mediumTerm, t('nis2pdf.phase_medium_term'))}
           </tbody>
         </table>
 
         <div class="footer">
-          <p><strong>${isEt ? 'Viited' : 'References'}:</strong></p>
-          <p>KüTS - ${isEt ? 'Küberturvalisuse seadus' : 'Cybersecurity Act'} (ria.ee)</p>
-          <p>E-ITS - ${isEt ? 'Eesti infoturbestandard' : 'Estonian Information Security Standard'} (eits.ria.ee)</p>
-          <p>CERT-EE - ${isEt ? 'Riigi Infosüsteemi Amet' : 'Information System Authority'} (cert.ee)</p>
+          <p><strong>${t('nis2pdf.references')}:</strong></p>
+          <p>KüTS - ${t('nis2pdf.ref_kyts_name')} (ria.ee)</p>
+          <p>E-ITS - ${t('nis2pdf.ref_eits_name')} (eits.ria.ee)</p>
+          <p>CERT-EE - ${t('nis2pdf.ref_cert_name')} (cert.ee)</p>
           <p style="margin-top: 16px;">Generated by DoraAudit.eu</p>
         </div>
       </body>

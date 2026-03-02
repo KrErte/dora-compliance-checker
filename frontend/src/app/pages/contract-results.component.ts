@@ -497,12 +497,10 @@ export class ContractResultsComponent implements OnInit {
 
   get levelLabel(): string {
     if (!this.result) return '';
-    const et = this.lang.currentLang === 'et';
-    switch (this.result.complianceLevel) {
-      case 'GREEN': return et ? 'KAITSTAV' : 'DEFENSIBLE';
-      case 'YELLOW': return et ? 'OSALISELT KAITSTAV' : 'PARTIALLY DEFENSIBLE';
-      case 'RED': return et ? 'KAITSMATA' : 'NOT DEFENSIBLE';
-    }
+    const keyMap: Record<string, string> = {
+      GREEN: 'contractres.level_green', YELLOW: 'contractres.level_yellow', RED: 'contractres.level_red'
+    };
+    return this.lang.t(keyMap[this.result.complianceLevel] || 'contractres.level_red');
   }
 
   get filteredFindings(): ContractFinding[] {
@@ -532,12 +530,10 @@ export class ContractResultsComponent implements OnInit {
   }
 
   statusLabel(status: string): string {
-    const et = this.lang.currentLang === 'et';
-    switch (status) {
-      case 'found': return et ? 'LEITUD' : 'FOUND';
-      case 'partial': return et ? 'OSALINE' : 'PARTIAL';
-      default: return et ? 'PUUDU' : 'MISSING';
-    }
+    const keyMap: Record<string, string> = {
+      found: 'contractres.status_found', partial: 'contractres.status_partial'
+    };
+    return this.lang.t(keyMap[status] || 'contractres.status_missing');
   }
 
   viewComparison() {

@@ -413,40 +413,37 @@ export class PlaybookGeneratorComponent implements OnInit {
   }
 
   getNotificationTemplate(): string {
-    const isEt = this.lang.currentLang === 'et';
-    const org = this.orgName || (isEt ? '[Organisatsiooni nimi]' : '[Organization Name]');
+    const org = this.orgName || this.lang.t('playbook.org_placeholder');
 
-    if (isEt) {
-      return `ESIALGNE INTSIDENDI TEAVITUS
+    const etTemplate = `ESIALGNE INTSIDENDI TEAVITUS
 DORA Art. 19 kohaselt
 
 Saaja: ${this.getAuthorityName()}
-Kuup\u00e4ev: [T\u00e4na]
+Kuupäev: [Täna]
 Saatja: ${org}
 
-1. INTSIDENDI \u00dcLEVAADE
-Intsidendi t\u00fc\u00fcp: ${this.getIncidentTypeLabel(this.incidentType)}
+1. INTSIDENDI ÜLEVAADE
+Intsidendi tüüp: ${this.getIncidentTypeLabel(this.incidentType)}
 Kriitilisus: ${this.getSeverityLabel(this.severity)}
-Avastamise aeg: [Kuup\u00e4ev ja kellaaeg]
-M\u00f5jutatud s\u00fcsteemid: [Loetlege m\u00f5jutatud s\u00fcsteemid]
+Avastamise aeg: [Kuupäev ja kellaaeg]
+Mõjutatud süsteemid: [Loetlege mõjutatud süsteemid]
 
-2. ESIALGNE M\u00d5JUHINNANG
-M\u00f5jutatud teenused: [Kirjeldage m\u00f5jutatud teenuseid]
-M\u00f5jutatud kliendid: [Arv v\u00f5i hinnang]
+2. ESIALGNE MÕJUHINNANG
+Mõjutatud teenused: [Kirjeldage mõjutatud teenuseid]
+Mõjutatud kliendid: [Arv või hinnang]
 Andmete lekkimine: [Jah/Ei - kui jah, siis kirjeldage]
 
-3. V\u00d5ETUD MEETMED
+3. VÕETUD MEETMED
 [Loetlege esialgsed piiramismeetmed]
 
-4. J\u00c4RGMISED SAMMUD
+4. JÄRGMISED SAMMUD
 Vahearuanne esitatakse: [24h jooksul]
 Kontaktisik: [Nimi, telefon, e-post]
 
 ---
-See teavitus on esitatud DORA m\u00e4\u00e4ruse (EU 2022/2554) artikli 19 kohaselt.`;
-    }
+See teavitus on esitatud DORA määruse (EU 2022/2554) artikli 19 kohaselt.`;
 
-    return `INITIAL INCIDENT NOTIFICATION
+    const enTemplate = `INITIAL INCIDENT NOTIFICATION
 Pursuant to DORA Art. 19
 
 To: ${this.getAuthorityName()}
@@ -473,6 +470,8 @@ Contact Person: [Name, Phone, Email]
 
 ---
 This notification is submitted pursuant to DORA Regulation (EU 2022/2554) Article 19.`;
+
+    return this.lang.l(etTemplate, enTemplate);
   }
 
   copyTemplate() {
@@ -497,11 +496,12 @@ This notification is submitted pursuant to DORA Regulation (EU 2022/2554) Articl
   }
 
   generateTextContent(): string {
-    let content = `INCIDENT RESPONSE PLAYBOOK\n`;
-    content += `Organization: ${this.orgName || 'N/A'}\n`;
-    content += `Incident Type: ${this.getIncidentTypeLabel(this.incidentType)}\n`;
-    content += `Severity: ${this.getSeverityLabel(this.severity)}\n`;
-    content += `Generated: ${new Date().toISOString()}\n\n`;
+    const t = (key: string) => this.lang.t(key);
+    let content = `${t('playbook.download_title')}\n`;
+    content += `${t('playbook.org_label')}: ${this.orgName || 'N/A'}\n`;
+    content += `${t('playbook.incident_type_label')}: ${this.getIncidentTypeLabel(this.incidentType)}\n`;
+    content += `${t('playbook.severity_label')}: ${this.getSeverityLabel(this.severity)}\n`;
+    content += `${t('playbook.generated_label')}: ${new Date().toISOString()}\n\n`;
     content += `${'='.repeat(60)}\n\n`;
 
     for (const section of this.playbookSections) {
@@ -511,15 +511,15 @@ This notification is submitted pursuant to DORA Regulation (EU 2022/2554) Articl
         const timing = this.l(item.timingEt, item.timing);
         const responsible = this.l(item.responsibleEt, item.responsible);
         content += `[ ] ${text}\n`;
-        if (timing) content += `    Timing: ${timing}\n`;
-        if (responsible) content += `    Responsible: ${responsible}\n`;
+        if (timing) content += `    ${t('playbook.timing_label')}: ${timing}\n`;
+        if (responsible) content += `    ${t('playbook.responsible_label')}: ${responsible}\n`;
         content += `\n`;
       }
       content += `\n`;
     }
 
     content += `${'='.repeat(60)}\n\n`;
-    content += `NOTIFICATION TEMPLATE\n\n`;
+    content += `${t('playbook.notification_title')}\n\n`;
     content += this.getNotificationTemplate();
 
     return content;

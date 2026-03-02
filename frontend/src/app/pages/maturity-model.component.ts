@@ -186,13 +186,12 @@ export class MaturityModelComponent {
   }
 
   getMaturityLabel(level: number): string {
-    const et = this.lang.currentLang === 'et';
-    if (level >= 4.5) return et ? 'Optimeeritud' : 'Optimised';
-    if (level >= 3.5) return et ? 'Hallatav' : 'Managed';
-    if (level >= 2.5) return et ? 'Defineeritud' : 'Defined';
-    if (level >= 1.5) return et ? 'Arenev' : 'Developing';
-    if (level >= 0.5) return et ? 'Alustav' : 'Initial';
-    return et ? 'Puudub' : 'Non-existent';
+    if (level >= 4.5) return this.lang.t('maturity.optimised');
+    if (level >= 3.5) return this.lang.t('maturity.managed');
+    if (level >= 2.5) return this.lang.t('maturity.defined');
+    if (level >= 1.5) return this.lang.t('maturity.developing');
+    if (level >= 0.5) return this.lang.t('maturity.initial');
+    return this.lang.t('maturity.non_existent');
   }
 
   save() {
