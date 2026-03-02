@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
+import { SubscriptionService } from '../services/subscription.service';
 import { IncidentReport, IncidentStats } from '../models';
 
 @Component({
@@ -472,6 +473,23 @@ import { IncidentReport, IncidentStats } from '../models';
                   {{ lang.t('incident.close_incident') }}
                 </button>
               }
+              <button (click)="exportPdf()" [disabled]="exportingPdf"
+                      class="px-4 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2"
+                      [class]="subscriptionService.canAccess('PDF_EXPORT') ? 'bg-violet-500/20 text-violet-400 hover:bg-violet-500/30' : 'bg-slate-700/50 text-slate-400'">
+                @if (exportingPdf) {
+                  <div class="w-4 h-4 border-2 border-violet-400 border-t-transparent rounded-full animate-spin"></div>
+                } @else {
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                  </svg>
+                }
+                {{ lang.t('incident.export_pdf') }}
+                @if (!subscriptionService.canAccess('PDF_EXPORT')) {
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                  </svg>
+                }
+              </button>
             </div>
           </div>
         </div>
@@ -552,7 +570,9 @@ export class IncidentReportingComponent implements OnInit {
 
   reportForm: any = { summary: '', actionsTaken: '', rootCause: '', lessonsLearned: '' };
 
-  constructor(private api: ApiService, public lang: LangService) {}
+  exportingPdf = false;
+
+  constructor(private api: ApiService, public lang: LangService, public subscriptionService: SubscriptionService) {}
 
   ngOnInit() {
     this.loadData();
@@ -717,6 +737,28 @@ export class IncidentReportingComponent implements OnInit {
     if (!incident.intermediateReportSentAt && incident.intermediateReportDueAt && new Date(incident.intermediateReportDueAt) < now) return true;
     if (!incident.finalReportSentAt && incident.finalReportDueAt && new Date(incident.finalReportDueAt) < now) return true;
     return false;
+  }
+
+  exportPdf() {
+    const id = this.selectedIncident()?.id;
+    if (!id) return;
+    if (!this.subscriptionService.canAccess('PDF_EXPORT')) {
+      window.location.href = '/pricing';
+      return;
+    }
+    this.exportingPdf = true;
+    this.api.exportIncidentPdf(id).subscribe({
+      next: (blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `incident-report-${id.substring(0, 8)}.pdf`;
+        a.click();
+        URL.revokeObjectURL(url);
+        this.exportingPdf = false;
+      },
+      error: () => { this.exportingPdf = false; }
+    });
   }
 
   private resetForm() {

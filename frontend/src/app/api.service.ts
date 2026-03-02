@@ -45,6 +45,10 @@ export class ApiService {
     return this.http.post(`${this.baseUrl}/exports/pdf/contract/${id}`, {}, { responseType: 'blob' });
   }
 
+  exportIncidentPdf(id: string): Observable<Blob> {
+    return this.http.post(`${this.baseUrl}/exports/pdf/incident/${id}`, {}, { responseType: 'blob' });
+  }
+
   exportAssessmentExcel(id: string): Observable<Blob> {
     return this.http.post(`${this.baseUrl}/exports/excel/assessment/${id}`, {}, { responseType: 'blob' });
   }
@@ -142,6 +146,10 @@ export class ApiService {
 
   createIctProvidersBatch(providers: CreateIctProviderRequest[]): Observable<{ imported: number; providers: IctProvider[] }> {
     return this.http.post<{ imported: number; providers: IctProvider[] }>(`${this.baseUrl}/ict-providers/batch`, providers);
+  }
+
+  categorizeIctProvider(id: string, criticality: string, reason: string): Observable<IctProvider> {
+    return this.http.put<IctProvider>(`${this.baseUrl}/ict-providers/${id}/categorize`, { criticality, reason });
   }
 
   deleteIctProvider(id: string): Observable<{ deleted: boolean }> {

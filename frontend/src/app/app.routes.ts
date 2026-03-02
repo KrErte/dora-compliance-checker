@@ -428,6 +428,12 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'DORA Staff Training Quiz', seoDescription: 'Interactive DORA compliance training quiz. Test your team knowledge on ICT risk management, incident reporting, and digital resilience.' }
   },
   {
+    path: 'vendor-categorization',
+    loadComponent: () => import('./pages/vendor-categorization.component').then(m => m.VendorCategorizationComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Vendor Categorization', seoDescription: 'DORA Art. 36-37 ICT vendor criticality classification wizard. Categorize vendors as Critical, Important, or Normal.' }
+  },
+  {
     path: 'policy-generator',
     loadComponent: () => import('./pages/policy-generator.component').then(m => m.PolicyGeneratorComponent),
     // No authGuard - free tool

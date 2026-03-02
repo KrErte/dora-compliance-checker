@@ -2,6 +2,7 @@ package com.dorachecker.controller;
 
 import com.dorachecker.model.AssessmentRepository;
 import com.dorachecker.model.ContractAnalysisRepository;
+import com.dorachecker.model.IncidentReportRepository;
 import com.dorachecker.service.ExcelExportService;
 import com.dorachecker.service.PdfExportService;
 import com.dorachecker.service.SubscriptionGuardService;
@@ -19,6 +20,7 @@ public class ExportController {
     private final SubscriptionGuardService guardService;
     private final AssessmentRepository assessmentRepository;
     private final ContractAnalysisRepository contractAnalysisRepository;
+    private final IncidentReportRepository incidentReportRepository;
     private final PdfExportService pdfExportService;
     private final ExcelExportService excelExportService;
 
@@ -26,12 +28,14 @@ public class ExportController {
             SubscriptionGuardService guardService,
             AssessmentRepository assessmentRepository,
             ContractAnalysisRepository contractAnalysisRepository,
+            IncidentReportRepository incidentReportRepository,
             PdfExportService pdfExportService,
             ExcelExportService excelExportService
     ) {
         this.guardService = guardService;
         this.assessmentRepository = assessmentRepository;
         this.contractAnalysisRepository = contractAnalysisRepository;
+        this.incidentReportRepository = incidentReportRepository;
         this.pdfExportService = pdfExportService;
         this.excelExportService = excelExportService;
     }
@@ -84,6 +88,31 @@ public class ExportController {
 
         byte[] pdfBytes = pdfExportService.generateContractPdf(contract.get());
         return fileResponse(pdfBytes, "contract-analysis-report.pdf", MediaType.APPLICATION_PDF);
+    }
+
+    @PostMapping("/pdf/incident/{id}")
+    public ResponseEntity<?> exportIncidentPdf(
+            @PathVariable String id,
+            @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
+            Authentication authentication
+    ) {
+        String userId = authentication != null ? (String) authentication.getPrincipal() : null;
+
+        if (!guardService.canAccess(userId, sessionId, Feature.PDF_EXPORT)) {
+            return premiumRequiredResponse(Feature.PDF_EXPORT);
+        }
+
+        var incident = incidentReportRepository.findById(id);
+        if (incident.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (userId == null || !userId.equals(incident.get().getUserId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "ACCESS_DENIED"));
+        }
+
+        byte[] pdfBytes = pdfExportService.generateIncidentReportPdf(incident.get());
+        return fileResponse(pdfBytes, "incident-report.pdf", MediaType.APPLICATION_PDF);
     }
 
     @PostMapping("/excel/assessment/{id}")

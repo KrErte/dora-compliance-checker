@@ -83,6 +83,12 @@ public class IctProviderEntity {
     @Column(name = "euid", length = 50)
     private String euid;
 
+    @Column(name = "criticality_reason", length = 2000)
+    private String criticalityReason;
+
+    @Column(name = "categorized_at")
+    private LocalDateTime categorizedAt;
+
     @PrePersist
     protected void onCreate() {
         if (createdAt == null) createdAt = LocalDateTime.now();
@@ -166,4 +172,10 @@ public class IctProviderEntity {
 
     public String getEuid() { return euid; }
     public void setEuid(String euid) { this.euid = euid; }
+
+    public String getCriticalityReason() { return criticalityReason; }
+    public void setCriticalityReason(String criticalityReason) { this.criticalityReason = criticalityReason; }
+
+    public LocalDateTime getCategorizedAt() { return categorizedAt; }
+    public void setCategorizedAt(LocalDateTime categorizedAt) { this.categorizedAt = categorizedAt; }
 }

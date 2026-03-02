@@ -2,6 +2,7 @@ package com.dorachecker.service;
 
 import com.dorachecker.model.AssessmentEntity;
 import com.dorachecker.model.ContractAnalysisEntity;
+import com.dorachecker.model.IncidentReportEntity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.kernel.colors.ColorConstants;
@@ -180,6 +181,167 @@ public class PdfExportService {
             return baos.toByteArray();
         } catch (Exception e) {
             throw new RuntimeException("Failed to generate contract PDF", e);
+        }
+    }
+
+    public byte[] generateIncidentReportPdf(IncidentReportEntity incident) {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            PdfDocument pdf = new PdfDocument(new PdfWriter(baos));
+            Document doc = new Document(pdf);
+
+            // Title
+            doc.add(new Paragraph("DoraAudit.eu")
+                    .setFontSize(10).setFontColor(BRAND_COLOR).setMarginBottom(4));
+            doc.add(new Paragraph("ICT Incident Report — DORA Art. 19")
+                    .setFontSize(22).setBold().setFontColor(ColorConstants.DARK_GRAY));
+            doc.add(new Paragraph(incident.isMajor() ? "MAJOR INCIDENT" : "Incident Report")
+                    .setFontSize(12).setFontColor(incident.isMajor() ? new DeviceRgb(220, 38, 38) : ColorConstants.GRAY)
+                    .setMarginBottom(8));
+
+            // Incident summary table
+            Table summary = new Table(UnitValue.createPercentArray(new float[]{1, 2}))
+                    .useAllAvailableWidth().setMarginBottom(16);
+            addInfoRow(summary, "Incident Title", incident.getIncidentTitle());
+            addInfoRow(summary, "Incident Type", incident.getIncidentType());
+            addInfoRow(summary, "Severity", incident.getSeverityLevel());
+            addInfoRow(summary, "Major Incident (Art. 18)", incident.isMajor() ? "YES" : "NO");
+            addInfoRow(summary, "Reporting Status", incident.getReportingStatus());
+            addInfoRow(summary, "Detected At", incident.getDetectedAt() != null ?
+                    incident.getDetectedAt().format(DATE_FMT) : "N/A");
+            addInfoRow(summary, "Classified At", incident.getClassifiedAt() != null ?
+                    incident.getClassifiedAt().format(DATE_FMT) : "N/A");
+            addInfoRow(summary, "Resolved At", incident.getResolvedAt() != null ?
+                    incident.getResolvedAt().format(DATE_FMT) : "N/A");
+            doc.add(summary);
+
+            // Art. 18 Classification criteria
+            doc.add(new Paragraph("DORA Art. 18 — Classification Criteria")
+                    .setFontSize(16).setBold().setFontColor(ColorConstants.DARK_GRAY).setMarginTop(12));
+
+            Table criteria = new Table(UnitValue.createPercentArray(new float[]{2, 3}))
+                    .useAllAvailableWidth().setFontSize(10).setMarginTop(8);
+            addInfoRow(criteria, "Clients Affected",
+                    incident.getClientsAffected() != null ? String.valueOf(incident.getClientsAffected()) : "N/A");
+            addInfoRow(criteria, "Transactions Affected",
+                    incident.getTransactionsAffected() != null ? String.valueOf(incident.getTransactionsAffected()) : "N/A");
+            addInfoRow(criteria, "Geographical Spread",
+                    incident.getGeographicalSpread() != null ? incident.getGeographicalSpread() : "N/A");
+            addInfoRow(criteria, "Data Loss Type",
+                    incident.getDataLossType() != null ? incident.getDataLossType() : "N/A");
+            addInfoRow(criteria, "Critical Services Affected",
+                    incident.getCriticalServicesAffected() != null ? incident.getCriticalServicesAffected() : "N/A");
+            addInfoRow(criteria, "Economic Impact",
+                    incident.getEconomicImpact() != null ? String.format("€%.2f", incident.getEconomicImpact()) : "N/A");
+            addInfoRow(criteria, "Duration (minutes)",
+                    incident.getDurationMinutes() != null ? String.valueOf(incident.getDurationMinutes()) : "N/A");
+            addInfoRow(criteria, "Reputational Impact",
+                    incident.getReputationalImpact() != null ? incident.getReputationalImpact() : "N/A");
+            doc.add(criteria);
+
+            // Reporting timeline
+            doc.add(new Paragraph("Reporting Timeline")
+                    .setFontSize(16).setBold().setFontColor(ColorConstants.DARK_GRAY).setMarginTop(16));
+
+            Table timeline = new Table(UnitValue.createPercentArray(new float[]{2, 2, 2}))
+                    .useAllAvailableWidth().setFontSize(9).setMarginTop(8);
+            addHeaderCell(timeline, "Report Phase");
+            addHeaderCell(timeline, "Due");
+            addHeaderCell(timeline, "Sent");
+
+            timeline.addCell(new Cell().add(new Paragraph("Initial Notification (4h)").setFontSize(9)).setPadding(4));
+            timeline.addCell(new Cell().add(new Paragraph(incident.getInitialReportDueAt() != null ?
+                    incident.getInitialReportDueAt().format(DATE_FMT) : "—").setFontSize(9)).setPadding(4));
+            timeline.addCell(new Cell().add(new Paragraph(incident.getInitialReportSentAt() != null ?
+                    incident.getInitialReportSentAt().format(DATE_FMT) : "—").setFontSize(9)).setPadding(4));
+
+            timeline.addCell(new Cell().add(new Paragraph("Intermediate Report (72h)").setFontSize(9)).setPadding(4));
+            timeline.addCell(new Cell().add(new Paragraph(incident.getIntermediateReportDueAt() != null ?
+                    incident.getIntermediateReportDueAt().format(DATE_FMT) : "—").setFontSize(9)).setPadding(4));
+            timeline.addCell(new Cell().add(new Paragraph(incident.getIntermediateReportSentAt() != null ?
+                    incident.getIntermediateReportSentAt().format(DATE_FMT) : "—").setFontSize(9)).setPadding(4));
+
+            timeline.addCell(new Cell().add(new Paragraph("Final Report (1 month)").setFontSize(9)).setPadding(4));
+            timeline.addCell(new Cell().add(new Paragraph(incident.getFinalReportDueAt() != null ?
+                    incident.getFinalReportDueAt().format(DATE_FMT) : "—").setFontSize(9)).setPadding(4));
+            timeline.addCell(new Cell().add(new Paragraph(incident.getFinalReportSentAt() != null ?
+                    incident.getFinalReportSentAt().format(DATE_FMT) : "—").setFontSize(9)).setPadding(4));
+
+            doc.add(timeline);
+
+            // Description
+            if (incident.getDescription() != null && !incident.getDescription().isBlank()) {
+                doc.add(new Paragraph("Incident Description")
+                        .setFontSize(14).setBold().setFontColor(ColorConstants.DARK_GRAY).setMarginTop(16));
+                doc.add(new Paragraph(incident.getDescription()).setFontSize(10).setMarginTop(4));
+            }
+
+            // Report contents
+            addReportSection(doc, "Initial Report", incident.getInitialReportJson());
+            addReportSection(doc, "Intermediate Report", incident.getIntermediateReportJson());
+            addReportSection(doc, "Final Report", incident.getFinalReportJson());
+
+            // Root cause & remediation
+            if (incident.getRootCause() != null && !incident.getRootCause().isBlank()) {
+                doc.add(new Paragraph("Root Cause Analysis")
+                        .setFontSize(14).setBold().setFontColor(ColorConstants.DARK_GRAY).setMarginTop(12));
+                doc.add(new Paragraph(incident.getRootCause()).setFontSize(10).setMarginTop(4));
+            }
+            if (incident.getRemediationActions() != null && !incident.getRemediationActions().isBlank()) {
+                doc.add(new Paragraph("Remediation Actions")
+                        .setFontSize(14).setBold().setFontColor(ColorConstants.DARK_GRAY).setMarginTop(12));
+                doc.add(new Paragraph(incident.getRemediationActions()).setFontSize(10).setMarginTop(4));
+            }
+            if (incident.getLessonsLearned() != null && !incident.getLessonsLearned().isBlank()) {
+                doc.add(new Paragraph("Lessons Learned")
+                        .setFontSize(14).setBold().setFontColor(ColorConstants.DARK_GRAY).setMarginTop(12));
+                doc.add(new Paragraph(incident.getLessonsLearned()).setFontSize(10).setMarginTop(4));
+            }
+
+            // Contact information
+            if (incident.getCompetentAuthority() != null || incident.getReportingContactName() != null) {
+                doc.add(new Paragraph("Competent Authority & Contact")
+                        .setFontSize(14).setBold().setFontColor(ColorConstants.DARK_GRAY).setMarginTop(16));
+                Table contact = new Table(UnitValue.createPercentArray(new float[]{1, 2}))
+                        .useAllAvailableWidth().setMarginTop(8);
+                if (incident.getCompetentAuthority() != null)
+                    addInfoRow(contact, "Competent Authority", incident.getCompetentAuthority());
+                if (incident.getReportingContactName() != null)
+                    addInfoRow(contact, "Contact Name", incident.getReportingContactName());
+                if (incident.getReportingContactEmail() != null)
+                    addInfoRow(contact, "Contact Email", incident.getReportingContactEmail());
+                doc.add(contact);
+            }
+
+            // Footer
+            doc.add(new Paragraph(" ").setFontSize(8));
+            doc.add(new Paragraph("Generated by DoraAudit.eu — DORA Compliance Platform")
+                    .setFontSize(8).setFontColor(ColorConstants.GRAY).setTextAlignment(TextAlignment.CENTER));
+
+            doc.close();
+            return baos.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate incident report PDF", e);
+        }
+    }
+
+    private void addReportSection(Document doc, String title, String reportJson) {
+        if (reportJson == null || reportJson.isBlank()) return;
+        try {
+            Map<String, Object> data = objectMapper.readValue(reportJson, new com.fasterxml.jackson.core.type.TypeReference<Map<String, Object>>() {});
+            doc.add(new Paragraph(title)
+                    .setFontSize(14).setBold().setFontColor(ColorConstants.DARK_GRAY).setMarginTop(12));
+            for (Map.Entry<String, Object> entry : data.entrySet()) {
+                String label = entry.getKey().replace("_", " ");
+                label = label.substring(0, 1).toUpperCase() + label.substring(1);
+                String value = entry.getValue() != null ? entry.getValue().toString() : "";
+                if (!value.isBlank()) {
+                    doc.add(new Paragraph(label).setBold().setFontSize(10).setMarginTop(6).setFontColor(ColorConstants.DARK_GRAY));
+                    doc.add(new Paragraph(value).setFontSize(10));
+                }
+            }
+        } catch (Exception e) {
+            doc.add(new Paragraph(title + " (raw data)").setFontSize(10).setBold().setMarginTop(8));
+            doc.add(new Paragraph(reportJson).setFontSize(9));
         }
     }
 

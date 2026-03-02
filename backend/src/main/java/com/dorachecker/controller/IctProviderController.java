@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -172,6 +173,33 @@ public class IctProviderController {
             "providers", created
         ));
     }
+
+    @PutMapping("/{id}/categorize")
+    public ResponseEntity<?> categorizeProvider(
+            @PathVariable String id,
+            @RequestBody CategorizeRequest request,
+            Authentication authentication) {
+        if (authentication == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Not authenticated"));
+        }
+        String userId = (String) authentication.getPrincipal();
+        Optional<IctProviderEntity> opt = providerRepository.findById(id);
+        if (opt.isEmpty() || !opt.get().getUserId().equals(userId)) {
+            return ResponseEntity.status(404).body(Map.of("error", "Provider not found"));
+        }
+        IctProviderEntity provider = opt.get();
+        provider.setCriticality(request.criticality());
+        provider.setCriticalityReason(request.reason());
+        provider.setCategorizedAt(LocalDateTime.now());
+        provider.setCritical("CRITICAL".equalsIgnoreCase(request.criticality()));
+        providerRepository.save(provider);
+        return ResponseEntity.ok(provider);
+    }
+
+    public record CategorizeRequest(
+        String criticality,
+        @jakarta.validation.constraints.Size(max = 2000) String reason
+    ) {}
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProvider(
