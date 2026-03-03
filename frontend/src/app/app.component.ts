@@ -59,56 +59,52 @@ import { ToastService } from './auth/toast.service';
 
         <!-- Desktop nav -->
         <div class="hidden lg:flex items-center gap-1">
-          <!-- Tools mega dropdown (DORA + NIS2 combined) -->
+          <!-- DORA dropdown -->
           <div class="relative nav-dropdown-trigger">
-            <button type="button" (click)="toggleToolsMenu($event)"
+            <button type="button" (click)="toggleMenu('dora', $event)"
                     class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-              </svg>
-              {{ lang.t('nav.tools') }}
-              <svg class="w-3.5 h-3.5 transition-transform" [class.rotate-180]="toolsMenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              DORA
+              <svg class="w-3.5 h-3.5 transition-transform" [class.rotate-180]="doraMenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m6 9 6 6 6-6"/>
               </svg>
             </button>
-            <div *ngIf="toolsMenu" class="absolute left-0 top-full mt-1 w-64 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
-              <a routerLink="/chat" (click)="toolsMenu = false"
+            <div *ngIf="doraMenu" class="absolute left-0 top-full mt-1 w-60 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
+              <a routerLink="/chat" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-emerald-300 hover:bg-emerald-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20 mb-1">
                 <div class="w-5 h-5 rounded bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-[8px] font-bold shrink-0">AI</div>
                 DoraBot
                 <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
-              <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">DORA</p>
-              <a routerLink="/assessment" (click)="toolsMenu = false"
+              <a routerLink="/assessment" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>
                 </svg>
                 {{ lang.t('nav.assessment') }}
               </a>
-              <a routerLink="/contract-analysis" (click)="toolsMenu = false"
+              <a routerLink="/contract-analysis" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>
                 </svg>
                 {{ lang.t('nav.contract') }}
               </a>
-              <a routerLink="/board-risk" (click)="toolsMenu = false"
+              <a routerLink="/board-risk" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-teal-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                 </svg>
                 {{ lang.t('nav.board_risk') }}
               </a>
-              <a routerLink="/fine-calculator" (click)="toolsMenu = false"
+              <a routerLink="/fine-calculator" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
                 </svg>
                 {{ lang.t('nav.fine_calculator') }}
               </a>
-              <a routerLink="/roi" (click)="toolsMenu = false"
+              <a routerLink="/roi" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
@@ -116,65 +112,75 @@ import { ToastService } from './auth/toast.service';
                 {{ lang.t('nav.roi') }}
                 <span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
               </a>
-              <a routerLink="/timeline" (click)="toolsMenu = false"
+              <a routerLink="/timeline" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
                 </svg>
                 {{ lang.t('nav.timeline') }}
               </a>
-              <a routerLink="/vendors" (click)="toolsMenu = false"
+              <a routerLink="/vendors" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>
                 </svg>
                 {{ lang.t('nav.vendors') }}
               </a>
-              <a routerLink="/company-profile" (click)="toolsMenu = false"
+              <a routerLink="/company-profile" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
                 </svg>
                 {{ lang.t('nav.company_profile') }}
               </a>
-              <div class="border-t border-slate-700/30 my-1.5"></div>
-              <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">{{ lang.t('nav.management') }}</p>
-              <a routerLink="/incident-reporting" (click)="toolsMenu = false"
+            </div>
+          </div>
+          <!-- Haldus dropdown -->
+          <div class="relative nav-dropdown-trigger">
+            <button type="button" (click)="toggleMenu('management', $event)"
+                    class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+              {{ lang.t('nav.management') }}
+              <svg class="w-3.5 h-3.5 transition-transform" [class.rotate-180]="managementMenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6"/>
+              </svg>
+            </button>
+            <div *ngIf="managementMenu" class="absolute left-0 top-full mt-1 w-60 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
+              <a routerLink="/incident-reporting" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
                 </svg>
                 {{ lang.t('nav.incidents') }}
               </a>
-              <a routerLink="/remediation" (click)="toolsMenu = false"
+              <a routerLink="/remediation" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
                 </svg>
                 {{ lang.t('nav.remediation') }}
               </a>
-              <a routerLink="/negotiations" (click)="toolsMenu = false"
+              <a routerLink="/negotiations" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                 </svg>
                 {{ lang.t('nav.negotiations') }}
               </a>
-              <a routerLink="/maturity" (click)="toolsMenu = false"
+              <a routerLink="/maturity" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
                 </svg>
                 {{ lang.t('nav.maturity') }}
               </a>
-              <a routerLink="/risk-heatmap" (click)="toolsMenu = false"
+              <a routerLink="/risk-heatmap" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-orange-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
                 </svg>
                 {{ lang.t('nav.risk_heatmap') }}
               </a>
-              <a routerLink="/command-center" (click)="toolsMenu = false"
+              <a routerLink="/command-center" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
@@ -182,9 +188,19 @@ import { ToastService } from './auth/toast.service';
                 {{ lang.t('nav.command_center') }}
                 <span class="text-[9px] bg-cyan-500/20 text-cyan-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
               </a>
-              <div class="border-t border-slate-700/30 my-1.5"></div>
-              <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">{{ lang.t('nav.resources') }}</p>
-              <a routerLink="/dora-explorer" (click)="toolsMenu = false"
+            </div>
+          </div>
+          <!-- Ressursid dropdown -->
+          <div class="relative nav-dropdown-trigger">
+            <button type="button" (click)="toggleMenu('resources', $event)"
+                    class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+              {{ lang.t('nav.resources') }}
+              <svg class="w-3.5 h-3.5 transition-transform" [class.rotate-180]="resourcesMenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6"/>
+              </svg>
+            </button>
+            <div *ngIf="resourcesMenu" class="absolute left-0 top-full mt-1 w-60 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
+              <a routerLink="/dora-explorer" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
@@ -192,7 +208,7 @@ import { ToastService } from './auth/toast.service';
                 {{ lang.t('nav.dora_explorer') }}
                 <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
               </a>
-              <a routerLink="/policy-generator" (click)="toolsMenu = false"
+              <a routerLink="/policy-generator" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/>
@@ -200,35 +216,35 @@ import { ToastService } from './auth/toast.service';
                 {{ lang.t('nav.policy_generator') }}
                 <span class="text-[9px] bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
               </a>
-              <a routerLink="/framework-mapping" (click)="toolsMenu = false"
+              <a routerLink="/framework-mapping" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-blue-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>
                 </svg>
                 {{ lang.t('nav.framework_mapping') }}
               </a>
-              <a routerLink="/cost-calculator" (click)="toolsMenu = false"
+              <a routerLink="/cost-calculator" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-green-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                 </svg>
                 {{ lang.t('nav.cost_calculator') }}
               </a>
-              <a routerLink="/training-quiz" (click)="toolsMenu = false"
+              <a routerLink="/training-quiz" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-pink-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-pink-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
                 </svg>
                 {{ lang.t('nav.training_quiz') }}
               </a>
-              <a routerLink="/incident-decision-tree" (click)="toolsMenu = false"
+              <a routerLink="/incident-decision-tree" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-rose-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/>
                 </svg>
                 {{ lang.t('nav.incident_classifier') }}
               </a>
-              <a routerLink="/board-report" (click)="toolsMenu = false"
+              <a routerLink="/board-report" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-sky-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
@@ -237,14 +253,14 @@ import { ToastService } from './auth/toast.service';
               </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
               <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">NIS2</p>
-              <a routerLink="/nis2/scope-check" (click)="toolsMenu = false"
+              <a routerLink="/nis2/scope-check" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>
                 </svg>
                 {{ lang.t('nav.nis2_scope') }}
               </a>
-              <a routerLink="/nis2/assessment" (click)="toolsMenu = false"
+              <a routerLink="/nis2/assessment" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-orange-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>
@@ -617,7 +633,9 @@ import { ToastService } from './auth/toast.service';
 export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(CookieConsentComponent) cookieConsent?: CookieConsentComponent;
   mobileMenu = false;
-  toolsMenu = false;
+  doraMenu = false;
+  managementMenu = false;
+  resourcesMenu = false;
   userMenu = false;
   showOnboarding = false;
   hideNav = false;
@@ -936,15 +954,22 @@ export class AppComponent implements OnInit, OnDestroy {
     this.document.head.appendChild(xDefault);
   }
 
-  toggleToolsMenu(event: Event) {
+  toggleMenu(menu: 'dora' | 'management' | 'resources', event: Event) {
     event.stopPropagation();
+    const key = (menu + 'Menu') as 'doraMenu' | 'managementMenu' | 'resourcesMenu';
+    const wasOpen = this[key];
+    this.doraMenu = false;
+    this.managementMenu = false;
+    this.resourcesMenu = false;
     this.userMenu = false;
-    this.toolsMenu = !this.toolsMenu;
+    this[key] = !wasOpen;
   }
 
   toggleUserMenu(event: Event) {
     event.stopPropagation();
-    this.toolsMenu = false;
+    this.doraMenu = false;
+    this.managementMenu = false;
+    this.resourcesMenu = false;
     this.userMenu = !this.userMenu;
   }
 
@@ -955,7 +980,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   closeAllMenus() {
-    this.toolsMenu = false;
+    this.doraMenu = false;
+    this.managementMenu = false;
+    this.resourcesMenu = false;
     this.userMenu = false;
   }
 
