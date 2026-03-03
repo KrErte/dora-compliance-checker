@@ -178,16 +178,16 @@ describe('SubscriptionService', () => {
     expect(service.isTrialActive()).toBeFalse();
   });
 
-  it('hasLegacyPayment returns true when paymentCompleted exists', () => {
+  it('hasLegacyPaymentHint returns true when paymentCompleted exists', () => {
     localStorage.setItem('paymentCompleted', JSON.stringify({
       checkoutId: 'legacy-123',
       timestamp: new Date().toISOString()
     }));
 
-    expect(service.hasLegacyPayment()).toBeTrue();
+    expect(service.hasLegacyPaymentHint()).toBeTrue();
   });
 
-  it('hasLegacyPayment returns false when no data', () => {
-    expect(service.hasLegacyPayment()).toBeFalse();
+  it('hasLegacyPaymentHint returns false when no data', () => {
+    expect(service.hasLegacyPaymentHint()).toBeFalse();
   });
 });

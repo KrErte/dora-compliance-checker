@@ -14,4 +14,5 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     Optional<UserEntity> findByEmailVerificationToken(String token);
     Optional<UserEntity> findByRefreshToken(String refreshToken);
     Optional<UserEntity> findByUnsubscribeToken(String unsubscribeToken);
+    long countByRole(UserEntity.Role role);
 }

@@ -99,7 +99,9 @@ public class GuardianController {
     }
 
     @PostMapping("/regulatory-updates")
-    public ResponseEntity<RegulatoryUpdateEntity> addRegulatoryUpdate(@RequestBody Map<String, String> body) {
+    public ResponseEntity<RegulatoryUpdateEntity> addRegulatoryUpdate(@RequestBody Map<String, String> body,
+                                                                       Authentication auth) {
+        // Admin-only — enforced via SecurityConfig .requestMatchers("/api/guardian/regulatory-updates").hasRole("ADMIN")
         String source = body.getOrDefault("source", "MANUAL");
         String title = body.get("title");
         String summary = body.get("summary");

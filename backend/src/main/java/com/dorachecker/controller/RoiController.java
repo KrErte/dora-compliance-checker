@@ -286,8 +286,9 @@ public class RoiController {
         if (!register.getUserId().equals(auth.getPrincipal())) return ResponseEntity.status(403).build();
         try {
             byte[] zip = exportService.exportXbrlCsvZip(register);
-            String lei = register.getEntityLei() != null ? register.getEntityLei() : "UNKNOWN";
-            String fileName = lei + "." + register.getConsolidationScope().name() + "_" + register.getCountry() + "_DORA010100_DORA_" + LocalDate.now() + ".zip";
+            String lei = (register.getEntityLei() != null ? register.getEntityLei() : "UNKNOWN").replaceAll("[^a-zA-Z0-9._-]", "_");
+            String country = (register.getCountry() != null ? register.getCountry() : "EU").replaceAll("[^a-zA-Z0-9]", "");
+            String fileName = lei + "." + register.getConsolidationScope().name() + "_" + country + "_DORA010100_DORA_" + LocalDate.now() + ".zip";
             return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
@@ -305,7 +306,7 @@ public class RoiController {
         try {
             byte[] excel = exportService.exportExcel(register);
             return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"RoI_" + register.getEntityName() + ".xlsx\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"RoI_" + (register.getEntityName() != null ? register.getEntityName().replaceAll("[^a-zA-Z0-9._\\- ]", "_") : "export") + ".xlsx\"")
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(excel);
         } catch (Exception e) {

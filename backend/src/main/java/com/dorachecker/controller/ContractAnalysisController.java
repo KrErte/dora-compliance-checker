@@ -60,6 +60,14 @@ public class ContractAnalysisController {
             return ResponseEntity.badRequest().body(Map.of("error", "Maximum 50 contracts per batch"));
         }
 
+        // Limit individual file sizes to 5MB to prevent resource exhaustion
+        for (MultipartFile file : files) {
+            if (file.getSize() > 5 * 1024 * 1024) {
+                return ResponseEntity.badRequest().body(Map.of(
+                        "error", "File " + file.getOriginalFilename() + " exceeds 5MB limit"));
+            }
+        }
+
         List<Map<String, Object>> results = new ArrayList<>();
         int totalFound = 0, totalPartial = 0, totalMissing = 0;
         double scoreSum = 0;

@@ -46,6 +46,8 @@ public class SsoConfigController {
                                                    Authentication auth) {
         String userId = getUserId(auth);
         if (!isOrgAdmin(orgId, userId)) return ResponseEntity.status(403).build();
+        // Prevent mass assignment: only allow user-editable fields, override internal ones
+        config.setId(null);
         config.setOrganizationId(orgId);
         config.setCreatedBy(userId);
         config.setCreatedAt(LocalDateTime.now());

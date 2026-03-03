@@ -50,6 +50,10 @@ public class ContractAnalysisService {
     public ContractAnalysisResult analyze(String companyName, String contractName, MultipartFile file) {
         String contractText = extractionService.extractText(file);
 
+        if (contractText == null || contractText.isBlank()) {
+            throw new IllegalArgumentException("Could not extract text from the uploaded file");
+        }
+
         if (contractText.length() > MAX_CONTRACT_LENGTH) {
             contractText = contractText.substring(0, MAX_CONTRACT_LENGTH);
         }
@@ -174,9 +178,7 @@ public class ContractAnalysisService {
                     "messages", List.of(Map.of("role", "user", "content", prompt))
             ));
 
-            HttpClient client = HttpClient.newBuilder()
-                    .connectTimeout(Duration.ofSeconds(10))
-                    .build();
+            HttpClient client = HttpClient.newHttpClient();
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://api.anthropic.com/v1/messages"))

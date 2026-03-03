@@ -7,6 +7,7 @@ import com.dorachecker.service.ClaudeApiService.NegotiationEmailItem;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class NegotiationService {
         this.claudeApiService = claudeApiService;
     }
 
+    @Transactional
     public NegotiationResult create(String contractAnalysisId, String vendorType, String userId) {
         ContractAnalysisResult analysis = analysisService.getById(contractAnalysisId);
         if (analysis == null) {
@@ -73,6 +75,7 @@ public class NegotiationService {
         return toResult(negotiation);
     }
 
+    @Transactional
     public NegotiationResult generateStrategy(String negotiationId, String userId) {
         NegotiationEntity negotiation = getNegotiationEntity(negotiationId, userId);
         ContractAnalysisResult analysis = analysisService.getById(negotiation.getContractAnalysisId());
@@ -197,6 +200,7 @@ public class NegotiationService {
         }
     }
 
+    @Transactional
     public void updateItemStatus(String itemId, String newStatus, String userId) {
         NegotiationItemEntity item = itemRepo.findById(itemId)
                 .orElseThrow(() -> new IllegalArgumentException("Punkti ei leitud: " + itemId));

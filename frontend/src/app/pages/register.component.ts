@@ -242,7 +242,7 @@ export class RegisterComponent implements OnInit {
     if (!this.password) {
       this.fieldErrors['password'] = this.lang.t('auth.error_password_required');
       hasErrors = true;
-    } else if (this.password.length < 6) {
+    } else if (this.password.length < 8) {
       this.fieldErrors['password'] = this.lang.t('auth.error_password_short');
       hasErrors = true;
     }

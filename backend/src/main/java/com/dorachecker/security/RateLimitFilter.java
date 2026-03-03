@@ -82,15 +82,24 @@ public class RateLimitFilter implements Filter {
     }
 
     private String getClientIp(HttpServletRequest request) {
-        String xff = request.getHeader("X-Forwarded-For");
-        if (xff != null && !xff.isEmpty()) {
-            return xff.split(",")[0].trim();
+        // Only trust proxy headers if the request comes from a known reverse proxy.
+        // Since we run behind nginx on Docker, remoteAddr will be the Docker gateway.
+        String remoteAddr = request.getRemoteAddr();
+        boolean fromTrustedProxy = remoteAddr != null && (
+                remoteAddr.startsWith("172.") || remoteAddr.startsWith("10.") ||
+                remoteAddr.startsWith("192.168.") || "127.0.0.1".equals(remoteAddr) || "0:0:0:0:0:0:0:1".equals(remoteAddr));
+
+        if (fromTrustedProxy) {
+            String xff = request.getHeader("X-Forwarded-For");
+            if (xff != null && !xff.isEmpty()) {
+                return xff.split(",")[0].trim();
+            }
+            String realIp = request.getHeader("X-Real-IP");
+            if (realIp != null && !realIp.isEmpty()) {
+                return realIp;
+            }
         }
-        String realIp = request.getHeader("X-Real-IP");
-        if (realIp != null && !realIp.isEmpty()) {
-            return realIp;
-        }
-        return request.getRemoteAddr();
+        return remoteAddr;
     }
 
     /**
@@ -117,17 +126,13 @@ public class RateLimitFilter implements Filter {
             this.lastRefill = System.currentTimeMillis();
         }
 
-        boolean tryConsume() {
-            refillIfNeeded();
-            return tokens.getAndUpdate(t -> t > 0 ? t - 1 : 0) > 0;
-        }
-
-        private void refillIfNeeded() {
+        synchronized boolean tryConsume() {
             long now = System.currentTimeMillis();
             if (now - lastRefill > 60_000) {
                 tokens.set(maxTokens);
                 lastRefill = now;
             }
+            return tokens.getAndUpdate(t -> t > 0 ? t - 1 : 0) > 0;
         }
     }
 }

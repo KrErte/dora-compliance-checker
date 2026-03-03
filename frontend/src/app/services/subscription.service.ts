@@ -109,17 +109,20 @@ export class SubscriptionService {
    * Close upgrade modal
    */
   closeUpgradeModal(): void {
+    const feature = this.upgradeModalFeature();
     this.upgradeModalVisible.set(false);
     this.upgradeModalFeature.set(null);
-    this.trackPaywallEvent('paywall_dismissed', this.upgradeModalFeature());
+    this.trackPaywallEvent('paywall_dismissed', feature);
   }
 
   /**
    * Called when user clicks upgrade button in modal
    */
   onUpgradeClick(): void {
-    this.trackPaywallEvent('paywall_upgrade_clicked', this.upgradeModalFeature());
-    this.closeUpgradeModal();
+    const feature = this.upgradeModalFeature();
+    this.trackPaywallEvent('paywall_upgrade_clicked', feature);
+    this.upgradeModalVisible.set(false);
+    this.upgradeModalFeature.set(null);
   }
 
   /**
@@ -218,9 +221,10 @@ export class SubscriptionService {
   }
 
   /**
-   * Check if we have a legacy payment (before subscription system)
+   * Check if we have a legacy payment hint in localStorage.
+   * This is only used to trigger a server-side verification — not for granting access.
    */
-  hasLegacyPayment(): boolean {
+  hasLegacyPaymentHint(): boolean {
     if (!this.isBrowser) return false;
     const payment = localStorage.getItem('paymentCompleted');
     if (!payment) return false;
@@ -261,7 +265,7 @@ export class SubscriptionService {
     }
 
     // Check legacy payment and migrate if needed
-    if (this.hasLegacyPayment() && !this.isPremium()) {
+    if (this.hasLegacyPaymentHint() && !this.isPremium()) {
       const payment = JSON.parse(localStorage.getItem('paymentCompleted') || '{}');
       this.verifyCheckout(payment.checkoutId, 'standard').subscribe({
         error: (e: unknown) => console.warn('Legacy payment migration failed:', e)

@@ -76,7 +76,7 @@ export class VerifyEmailComponent implements OnInit {
       return;
     }
 
-    this.http.get<any>(`/api/auth/verify-email?token=${token}`).subscribe({
+    this.http.get<any>(`/api/auth/verify-email?token=${encodeURIComponent(token)}`).subscribe({
       next: () => this.state = 'success',
       error: () => this.state = 'error'
     });

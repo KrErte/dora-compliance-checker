@@ -37,7 +37,7 @@ import { ToastService } from './auth/toast.service';
         <!-- Desktop nav -->
         <div class="hidden lg:flex items-center gap-1">
           <!-- Tools mega dropdown (DORA + NIS2 combined) -->
-          <div class="relative">
+          <div class="relative nav-dropdown-trigger">
             <button type="button" (click)="toggleToolsMenu($event)"
                     class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
               <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -276,7 +276,7 @@ import { ToastService } from './auth/toast.service';
           <div class="w-px h-5 bg-slate-700/50 mx-1"></div>
           <!-- User avatar / Auth -->
           @if (auth.isLoggedIn()) {
-            <div class="relative">
+            <div class="relative nav-dropdown-trigger">
               <button type="button" (click)="toggleUserMenu($event)"
                       class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-xs font-bold
                              hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-200 hover:scale-105">
@@ -832,14 +832,15 @@ export class AppComponent implements OnInit, OnDestroy {
     const stripped = this.stripLangPrefix(rawPath);
     const path = this.resolvePath(stripped);
     const titleEntry = this.pageTitles[path];
+    const lang = this.lang.currentLang;
     const title = titleEntry
-      ? (this.lang.currentLang === 'et' ? titleEntry.et : titleEntry.en)
+      ? ((titleEntry as any)[lang] || titleEntry.et || titleEntry.en)
       : 'DoraAudit.eu';
     this.titleService.setTitle(title);
 
     // Update meta description
     const descEntry = this.pageDescriptions[path] || this.pageDescriptions['/'];
-    const description = this.lang.currentLang === 'et' ? descEntry.et : descEntry.en;
+    const description = (descEntry as any)[lang] || descEntry.et || descEntry.en;
     this.meta.updateTag({ name: 'description', content: description });
 
     // Update canonical URL — use lang-prefixed path
@@ -886,7 +887,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(el => el.remove());
 
     // Create hreflang tags for en, et, and x-default
-    const langs = ['en', 'et'];
+    const langs = ['en', 'et', 'lv', 'lt'];
     for (const lang of langs) {
       const link = this.document.createElement('link');
       link.setAttribute('rel', 'alternate');
@@ -942,7 +943,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onDocumentClick(event: Event) {
     const target = event.target as HTMLElement;
-    if (!target.closest('.relative')) {
+    if (!target.closest('.nav-dropdown-trigger')) {
       this.closeAllMenus();
     }
   }

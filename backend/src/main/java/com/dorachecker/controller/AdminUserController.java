@@ -108,7 +108,16 @@ public class AdminUserController {
                     }
                     if (updates.containsKey("role")) {
                         try {
-                            user.setRole(UserEntity.Role.valueOf(updates.get("role")));
+                            UserEntity.Role newRole = UserEntity.Role.valueOf(updates.get("role"));
+                            // Prevent removing the last admin
+                            if (user.getRole() == UserEntity.Role.ADMIN && newRole != UserEntity.Role.ADMIN) {
+                                long adminCount = userRepository.countByRole(UserEntity.Role.ADMIN);
+                                if (adminCount <= 1) {
+                                    return ResponseEntity.badRequest()
+                                            .body(Map.of("error", "Cannot remove the last admin"));
+                                }
+                            }
+                            user.setRole(newRole);
                         } catch (IllegalArgumentException e) {
                             return ResponseEntity.badRequest()
                                     .body(Map.of("error", "Invalid role: " + updates.get("role")));

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -54,7 +56,9 @@ public class OAuth2Controller {
 
     // Initiate Google OAuth2 flow
     @GetMapping("/google")
-    public void initiateGoogleAuth(HttpServletResponse response) throws IOException {
+    public void initiateGoogleAuth(HttpServletResponse response, HttpSession session) throws IOException {
+        String state = UUID.randomUUID().toString();
+        session.setAttribute("oauth2_state", state);
         String redirectUri = getBaseUrl() + "/api/auth/oauth2/callback/google";
         String authUrl = UriComponentsBuilder
                 .fromUriString("https://accounts.google.com/o/oauth2/v2/auth")
@@ -63,6 +67,7 @@ public class OAuth2Controller {
                 .queryParam("response_type", "code")
                 .queryParam("scope", "email profile")
                 .queryParam("access_type", "offline")
+                .queryParam("state", state)
                 .build()
                 .toUriString();
         response.sendRedirect(authUrl);
@@ -70,7 +75,9 @@ public class OAuth2Controller {
 
     // Initiate Microsoft OAuth2 flow
     @GetMapping("/microsoft")
-    public void initiateMicrosoftAuth(HttpServletResponse response) throws IOException {
+    public void initiateMicrosoftAuth(HttpServletResponse response, HttpSession session) throws IOException {
+        String state = UUID.randomUUID().toString();
+        session.setAttribute("oauth2_state", state);
         String redirectUri = getBaseUrl() + "/api/auth/oauth2/callback/microsoft";
         String authUrl = UriComponentsBuilder
                 .fromUriString("https://login.microsoftonline.com/common/oauth2/v2.0/authorize")
@@ -79,6 +86,7 @@ public class OAuth2Controller {
                 .queryParam("response_type", "code")
                 .queryParam("scope", "openid email profile")
                 .queryParam("response_mode", "query")
+                .queryParam("state", state)
                 .build()
                 .toUriString();
         response.sendRedirect(authUrl);
@@ -88,9 +96,18 @@ public class OAuth2Controller {
     @GetMapping("/callback/google")
     public void googleCallback(@RequestParam("code") String code,
                                @RequestParam(value = "error", required = false) String error,
+                               @RequestParam(value = "state", required = false) String state,
+                               HttpSession session,
                                HttpServletResponse response) throws IOException {
         if (error != null) {
             response.sendRedirect(frontendUrl + "/login?error=oauth_denied");
+            return;
+        }
+        // Validate CSRF state parameter
+        String expectedState = (String) session.getAttribute("oauth2_state");
+        session.removeAttribute("oauth2_state");
+        if (expectedState == null || !expectedState.equals(state)) {
+            response.sendRedirect(frontendUrl + "/login?error=oauth_state_mismatch");
             return;
         }
 
@@ -125,9 +142,18 @@ public class OAuth2Controller {
     @GetMapping("/callback/microsoft")
     public void microsoftCallback(@RequestParam("code") String code,
                                   @RequestParam(value = "error", required = false) String error,
+                                  @RequestParam(value = "state", required = false) String state,
+                                  HttpSession session,
                                   HttpServletResponse response) throws IOException {
         if (error != null) {
             response.sendRedirect(frontendUrl + "/login?error=oauth_denied");
+            return;
+        }
+        // Validate CSRF state parameter
+        String expectedState = (String) session.getAttribute("oauth2_state");
+        session.removeAttribute("oauth2_state");
+        if (expectedState == null || !expectedState.equals(state)) {
+            response.sendRedirect(frontendUrl + "/login?error=oauth_state_mismatch");
             return;
         }
 
@@ -249,12 +275,19 @@ public class OAuth2Controller {
 
         if (existingUser.isPresent()) {
             UserEntity user = existingUser.get();
-            // Update OAuth provider info if not set
-            if (user.getAuthProvider() == UserEntity.AuthProvider.LOCAL) {
-                user.setAuthProvider(provider);
-                user.setOauthProviderId(providerId);
-                userRepository.save(user);
+            // If user registered with LOCAL auth, do NOT overwrite their auth provider.
+            // They must continue using password login. Only update OAuth ID if already OAuth.
+            if (user.getAuthProvider() == provider) {
+                // Same provider - update provider ID if changed
+                if (providerId != null && !providerId.equals(user.getOauthProviderId())) {
+                    user.setOauthProviderId(providerId);
+                    userRepository.save(user);
+                }
+            } else if (user.getAuthProvider() == UserEntity.AuthProvider.LOCAL) {
+                // LOCAL user trying OAuth - reject to prevent account hijack
+                throw new RuntimeException("Account exists with email/password login. Please use password to sign in.");
             }
+            // If different OAuth provider, just return the existing user without changing provider
 
             return user;
         }

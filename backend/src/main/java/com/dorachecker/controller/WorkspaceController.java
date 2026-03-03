@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.security.core.Authentication;
+
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -45,15 +47,17 @@ public class WorkspaceController {
     }
 
     @PostMapping("/projects")
-    public ResponseEntity<?> createProject(@RequestBody CreateProjectRequest request) {
+    public ResponseEntity<?> createProject(@RequestBody @jakarta.validation.Valid CreateProjectRequest request,
+                                            Authentication auth) {
         try {
+            String email = auth != null ? (String) auth.getName() : request.email();
             WorkspaceProjectEntity project = workspaceService.createProject(
                 request.name(),
-                request.email()
+                email
             );
 
             // Log audit
-            logAudit(project, request.email(), "owner", "created", "Project created: " + request.name(), null);
+            logAudit(project, email, "owner", "created", "Project created: " + request.name(), null);
 
             return ResponseEntity.ok(Map.of(
                 "id", project.getId(),
@@ -69,9 +73,14 @@ public class WorkspaceController {
     }
 
     @GetMapping("/projects/{id}")
-    public ResponseEntity<?> getProject(@PathVariable String id) {
+    public ResponseEntity<?> getProject(@PathVariable String id, Authentication auth) {
         return projectRepository.findById(id)
-            .map(project -> ResponseEntity.ok(buildProjectResponse(project)))
+            .map(project -> {
+                if (!isProjectOwner(project, auth)) {
+                    return ResponseEntity.status(403).body((Object) Map.of("error", "Access denied"));
+                }
+                return ResponseEntity.ok((Object) buildProjectResponse(project));
+            })
             .orElse(ResponseEntity.notFound().build());
     }
 
@@ -80,10 +89,14 @@ public class WorkspaceController {
             @PathVariable String id,
             @RequestParam("file") MultipartFile file,
             @RequestParam(value = "regulations", defaultValue = "DORA_ART30") String regulations,
-            @RequestParam(value = "email", required = false) String email) {
+            @RequestParam(value = "email", required = false) String email,
+            Authentication auth) {
         try {
             WorkspaceProjectEntity project = projectRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Project not found"));
+            if (!isProjectOwner(project, auth)) {
+                return ResponseEntity.status(403).body(Map.of("error", "Access denied"));
+            }
 
             // Extract text from document
             String text = documentService.extractText(file);
@@ -150,10 +163,14 @@ public class WorkspaceController {
     @PostMapping("/projects/{id}/manual-check")
     public ResponseEntity<?> submitManualCheck(
             @PathVariable String id,
-            @RequestBody ManualCheckRequest request) {
+            @RequestBody @jakarta.validation.Valid ManualCheckRequest request,
+            Authentication auth) {
         try {
             WorkspaceProjectEntity project = projectRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Project not found"));
+            if (!isProjectOwner(project, auth)) {
+                return ResponseEntity.status(403).body(Map.of("error", "Access denied"));
+            }
 
             // Create gap result from manual checks
             var checks = workspaceService.getChecksForRegulation(request.regulation());
@@ -205,10 +222,14 @@ public class WorkspaceController {
     @PostMapping("/projects/{id}/review")
     public ResponseEntity<?> submitReview(
             @PathVariable String id,
-            @RequestBody SubmitReviewRequest request) {
+            @RequestBody @jakarta.validation.Valid SubmitReviewRequest request,
+            Authentication auth) {
         try {
             WorkspaceProjectEntity project = projectRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Project not found"));
+            if (!isProjectOwner(project, auth)) {
+                return ResponseEntity.status(403).body(Map.of("error", "Access denied"));
+            }
 
             WorkspaceReviewEntity review = new WorkspaceReviewEntity();
             review.setProject(project);
@@ -234,9 +255,12 @@ public class WorkspaceController {
     }
 
     @GetMapping("/projects/{id}/audit-trail")
-    public ResponseEntity<?> getAuditTrail(@PathVariable String id) {
+    public ResponseEntity<?> getAuditTrail(@PathVariable String id, Authentication auth) {
         return projectRepository.findById(id)
             .map(project -> {
+                if (!isProjectOwner(project, auth)) {
+                    return ResponseEntity.status(403).body((Object) Map.of("error", "Access denied"));
+                }
                 var logs = project.getAuditLogs().stream()
                     .sorted((a, b) -> b.getTimestamp().compareTo(a.getTimestamp()))
                     .map(log -> Map.of(
@@ -254,9 +278,12 @@ public class WorkspaceController {
     }
 
     @GetMapping("/projects/{id}/gap-report")
-    public ResponseEntity<?> getGapReport(@PathVariable String id) {
+    public ResponseEntity<?> getGapReport(@PathVariable String id, Authentication auth) {
         return projectRepository.findById(id)
             .map(project -> {
+                if (!isProjectOwner(project, auth)) {
+                    return ResponseEntity.status(403).body((Object) Map.of("error", "Access denied"));
+                }
                 List<Map<String, Object>> report = new ArrayList<>();
                 for (var gap : project.getGapResults()) {
                     try {
@@ -329,7 +356,8 @@ public class WorkspaceController {
 
                 if ("passed".equals(status)) passed++;
                 else if ("partial".equals(status)) partial++;
-                else failed++;
+                else if ("failed".equals(status)) failed++;
+                // "not_checked" items are not counted as failures
 
                 details.add(Map.of(
                     "id", check.id(),
@@ -370,6 +398,14 @@ public class WorkspaceController {
         }
 
         return gapResult;
+    }
+
+    private boolean isProjectOwner(WorkspaceProjectEntity project, Authentication auth) {
+        if (auth == null) return false;
+        String userId = (String) auth.getPrincipal();
+        String email = auth.getName();
+        // Check if user created the project (by email match)
+        return email != null && email.equals(project.getCreatedBy());
     }
 
     private void updateProjectStatus(WorkspaceProjectEntity project) {

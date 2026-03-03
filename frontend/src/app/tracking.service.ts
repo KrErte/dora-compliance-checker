@@ -51,6 +51,10 @@ export class TrackingService implements OnDestroy {
   // Form tracking
   private formFields = new Map<string, { touched: boolean; filled: boolean; timeSpent: number; focusTime?: number }>();
   private activeFormId: string | null = null;
+  private beforeUnloadListener: (() => void) | null = null;
+  private formFocusListener: ((e: FocusEvent) => void) | null = null;
+  private formBlurListener: ((e: FocusEvent) => void) | null = null;
+  private formSubmitListener: ((e: Event) => void) | null = null;
 
   constructor(private apiService: ApiService) {
     if (this.isBrowser) {
@@ -120,15 +124,33 @@ export class TrackingService implements OnDestroy {
       document.removeEventListener('click', this.clickListener, true);
       this.clickListener = null;
     }
+    if (this.beforeUnloadListener) {
+      window.removeEventListener('beforeunload', this.beforeUnloadListener);
+      this.beforeUnloadListener = null;
+    }
+    if (this.formFocusListener) {
+      document.removeEventListener('focusin', this.formFocusListener as EventListener);
+      this.formFocusListener = null;
+    }
+    if (this.formBlurListener) {
+      document.removeEventListener('focusout', this.formBlurListener as EventListener);
+      this.formBlurListener = null;
+    }
+    if (this.formSubmitListener) {
+      document.removeEventListener('submit', this.formSubmitListener);
+      this.formSubmitListener = null;
+    }
   }
 
   private getOrCreateSessionId(): string {
     const key = 'dora_session_id';
-    let sessionId = sessionStorage.getItem(key);
+    let sessionId = localStorage.getItem(key) || sessionStorage.getItem(key);
     if (!sessionId) {
       sessionId = this.generateSessionId();
-      sessionStorage.setItem(key, sessionId);
     }
+    // Sync both storages to avoid mismatch with SubscriptionService
+    localStorage.setItem(key, sessionId);
+    sessionStorage.setItem(key, sessionId);
     return sessionId;
   }
 
@@ -312,7 +334,7 @@ export class TrackingService implements OnDestroy {
     }, intervalSeconds * 1000);
 
     // Track when user leaves the page
-    window.addEventListener('beforeunload', () => {
+    this.beforeUnloadListener = () => {
       const finalTime = Math.round((Date.now() - this.pageLoadTime) / 1000);
       this.trackEvent('TIME_ON_PAGE', {
         seconds: finalTime,
@@ -320,7 +342,8 @@ export class TrackingService implements OnDestroy {
         page: window.location.pathname,
         final: true
       });
-    });
+    };
+    window.addEventListener('beforeunload', this.beforeUnloadListener);
   }
 
   // ============================================
@@ -332,13 +355,13 @@ export class TrackingService implements OnDestroy {
     this.activeFormId = formId || 'default';
     this.formFields.clear();
 
-    // Use event delegation on document
-    document.addEventListener('focusin', (e) => this.handleFormFocus(e));
-    document.addEventListener('focusout', (e) => this.handleFormBlur(e));
-    document.addEventListener('submit', (e) => this.handleFormSubmit(e));
-
-    // Track form abandonment on page unload
-    window.addEventListener('beforeunload', () => this.handleFormAbandon());
+    // Use event delegation on document — store references for cleanup
+    this.formFocusListener = (e) => this.handleFormFocus(e as FocusEvent);
+    this.formBlurListener = (e) => this.handleFormBlur(e as FocusEvent);
+    this.formSubmitListener = (e) => this.handleFormSubmit(e);
+    document.addEventListener('focusin', this.formFocusListener as EventListener);
+    document.addEventListener('focusout', this.formBlurListener as EventListener);
+    document.addEventListener('submit', this.formSubmitListener);
   }
 
   private handleFormFocus(e: FocusEvent): void {

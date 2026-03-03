@@ -215,14 +215,7 @@ export class PaymentSuccessComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const checkoutId = this.route.snapshot.queryParamMap.get('checkout_id');
-
-    if (checkoutId) {
-      if (typeof localStorage !== 'undefined') localStorage.setItem('paymentCompleted', JSON.stringify({
-        checkoutId: checkoutId,
-        timestamp: new Date().toISOString(),
-        products: ['all']
-      }));
-    }
+    // Payment verification is handled server-side via SubscriptionService.verifyCheckout().
+    // We do NOT store payment status in localStorage from URL params to prevent bypass.
   }
 }

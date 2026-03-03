@@ -106,6 +106,9 @@ public class AuthController {
 
         UserEntity user = userOpt.get();
 
+        // Warn if email not verified (allow login but include flag)
+        boolean emailVerified = user.isEmailVerified();
+
         String token = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole().name());
         String refreshToken = generateAndSaveRefreshToken(user);
         return ResponseEntity.ok(new AuthResponse(

@@ -21,6 +21,7 @@ public class ChatService {
     private static final long SESSION_TTL_MS = 7_200_000; // 2 hours
     private static final int MAX_TURNS = 20;
     private static final int MAX_REPLY_TOKENS = 1024;
+    private static final int MAX_SESSIONS = 10_000;
 
     private final ClaudeApiService claudeApi;
 
@@ -50,10 +51,23 @@ public class ChatService {
             recordRequest(rateLimitKey);
         }
 
-        String sessionId = request.sessionId() != null ? request.sessionId() : UUID.randomUUID().toString();
+        // Generate server-side session ID — do NOT trust client-supplied session IDs
+        // to prevent session hijacking across users
+        String userSessionPrefix = authenticated ? "user:" + userId : "ip:" + clientIp;
+        String clientSessionId = request.sessionId();
+        String sessionId;
+        if (clientSessionId != null && clientSessionId.startsWith(userSessionPrefix + ":")) {
+            sessionId = clientSessionId;
+        } else {
+            sessionId = userSessionPrefix + ":" + UUID.randomUUID().toString();
+        }
         String language = request.language() != null ? request.language() : "en";
 
-        // Get or create session
+        // Get or create session (with bounded size to prevent memory exhaustion)
+        if (!sessions.containsKey(sessionId) && sessions.size() >= MAX_SESSIONS) {
+            String errorMsg = "et".equals(language) ? "Liiga palju aktiivseid sessioone. Proovige hiljem uuesti." : "Too many active sessions. Please try again later.";
+            return new ChatResponse(errorMsg, false, 0, 0, null, null, List.of());
+        }
         List<Map<String, String>> messages = sessions.computeIfAbsent(sessionId, k -> new ArrayList<>());
         sessionLastAccess.put(sessionId, System.currentTimeMillis());
 

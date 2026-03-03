@@ -91,6 +91,12 @@ public class SubscriptionController {
             Authentication authentication
     ) {
         String userId = authentication != null ? (String) authentication.getPrincipal() : null;
+        if (userId == null) {
+            return ResponseEntity.status(401).body(Map.of(
+                    "error", "UNAUTHORIZED",
+                    "message", "Authentication required to verify checkout"
+            ));
+        }
         if (request.checkoutId() == null || request.checkoutId().isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of(
                     "error", "INVALID_CHECKOUT",
@@ -98,11 +104,19 @@ public class SubscriptionController {
             ));
         }
 
-        // For now, trust the frontend verification
-        // In production, you would verify with LemonSqueezy API
+        // Check if this checkoutId was already used (prevent replay)
+        Optional<UserSubscriptionEntity> existingSub = subscriptionRepository.findByLemonSqueezyOrderId(request.checkoutId());
+        if (existingSub.isPresent()) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "error", "CHECKOUT_ALREADY_USED",
+                    "message", "This checkout has already been verified"
+            ));
+        }
+
+        // Map product type to plan — only allow STANDARD from frontend verification.
+        // ENTERPRISE upgrades must be handled via webhook or admin.
         UserSubscriptionEntity.Plan plan = switch (request.productType()) {
             case "standard", "single" -> UserSubscriptionEntity.Plan.STANDARD;
-            case "enterprise", "combo" -> UserSubscriptionEntity.Plan.ENTERPRISE;
             default -> UserSubscriptionEntity.Plan.STANDARD;
         };
 
@@ -111,7 +125,7 @@ public class SubscriptionController {
                 sessionId,
                 plan,
                 request.checkoutId(),
-                null, // No subscription ID for one-time purchases
+                null,
                 null
         );
 

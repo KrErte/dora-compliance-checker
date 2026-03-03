@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.List;
 
 @Service
@@ -24,6 +26,9 @@ public class UserDeletionService {
     private final IctProviderRepository ictProviderRepository;
     private final RoiRegisterRepository roiRegisterRepository;
     private final WorkspaceProjectRepository workspaceProjectRepository;
+    private final IncidentReportRepository incidentReportRepository;
+    private final RemediationItemRepository remediationItemRepository;
+    private final IntegrationConfigRepository integrationConfigRepository;
 
     public UserDeletionService(UserRepository userRepository,
                                ContractAlertRepository contractAlertRepository,
@@ -35,7 +40,10 @@ public class UserDeletionService {
                                UserBrandingRepository userBrandingRepository,
                                IctProviderRepository ictProviderRepository,
                                RoiRegisterRepository roiRegisterRepository,
-                               WorkspaceProjectRepository workspaceProjectRepository) {
+                               WorkspaceProjectRepository workspaceProjectRepository,
+                               IncidentReportRepository incidentReportRepository,
+                               RemediationItemRepository remediationItemRepository,
+                               IntegrationConfigRepository integrationConfigRepository) {
         this.userRepository = userRepository;
         this.contractAlertRepository = contractAlertRepository;
         this.monitoredContractRepository = monitoredContractRepository;
@@ -47,6 +55,9 @@ public class UserDeletionService {
         this.ictProviderRepository = ictProviderRepository;
         this.roiRegisterRepository = roiRegisterRepository;
         this.workspaceProjectRepository = workspaceProjectRepository;
+        this.incidentReportRepository = incidentReportRepository;
+        this.remediationItemRepository = remediationItemRepository;
+        this.integrationConfigRepository = integrationConfigRepository;
     }
 
     @Transactional
@@ -73,7 +84,26 @@ public class UserDeletionService {
         ictProviderRepository.deleteByUserId(userId);
         roiRegisterRepository.deleteByUserId(userId);
 
-        // 4. Delete user account
+        // 4. Delete incident reports, remediation items, integrations
+        incidentReportRepository.deleteAll(incidentReportRepository.findByUserIdOrderByCreatedAtDesc(userId));
+        remediationItemRepository.deleteAll(remediationItemRepository.findByUserIdOrderByCreatedAtDesc(userId));
+        integrationConfigRepository.deleteAll(integrationConfigRepository.findByUserIdOrderByCreatedAtDesc(userId));
+
+        // 5. Delete branding logo files from disk
+        try {
+            Path logoDir = Paths.get("/app/data/branding/logos", userId);
+            if (Files.exists(logoDir)) {
+                try (var files = Files.walk(logoDir)) {
+                    files.sorted(java.util.Comparator.reverseOrder()).forEach(p -> {
+                        try { Files.deleteIfExists(p); } catch (IOException ignored) {}
+                    });
+                }
+            }
+        } catch (IOException e) {
+            log.warn("Failed to delete logo files for userId={}: {}", userId, e.getMessage());
+        }
+
+        // 6. Delete user account
         userRepository.deleteById(userId);
 
         log.info("GDPR deletion completed for userId={}", userId);

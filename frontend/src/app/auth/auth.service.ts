@@ -2,7 +2,7 @@ import { Injectable, Injector, signal, computed, PLATFORM_ID, inject } from '@an
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap, catchError, throwError, switchMap, of, Subject } from 'rxjs';
+import { Observable, tap, catchError, throwError, switchMap, of, ReplaySubject } from 'rxjs';
 import { AuthResponse, AuthUser, LoginRequest, RegisterRequest } from './auth.models';
 import type { SubscriptionService } from '../services/subscription.service';
 
@@ -16,7 +16,7 @@ export class AuthService {
   private readonly USER_KEY = 'dora_user';
 
   private refreshing = false;
-  private refreshSubject = new Subject<string>();
+  private refreshSubject = new ReplaySubject<string>(1);
 
   user = this.currentUser.asReadonly();
   isLoggedIn = computed(() => this.currentUser() !== null);
@@ -82,12 +82,14 @@ export class AuthService {
     return this.http.post<AuthResponse>('/api/auth/refresh', { refreshToken }).pipe(
       tap(res => {
         this.handleAuth(res);
-        this.refreshing = false;
         this.refreshSubject.next(res.token);
+        this.refreshing = false;
+        this.refreshSubject = new ReplaySubject<string>(1);
       }),
       switchMap(res => of(res.token)),
       catchError(err => {
         this.refreshing = false;
+        this.refreshSubject = new ReplaySubject<string>(1);
         this.logout();
         return throwError(() => err);
       })
@@ -126,6 +128,7 @@ export class AuthService {
       email: res.email,
       fullName: res.fullName,
       role: res.role,
+      accountTier: res.accountTier,
       trialEndsAt: res.trialEndsAt
     };
     if (this.isBrowser) localStorage.setItem(this.USER_KEY, JSON.stringify(user));
@@ -138,7 +141,7 @@ export class AuthService {
     import('../services/subscription.service').then(m => {
       const sub = this.injector.get(m.SubscriptionService);
       sub.refreshStatus();
-    });
+    }).catch(err => console.warn('Failed to load SubscriptionService:', err));
   }
 
   private loadFromStorage(): void {
