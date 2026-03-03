@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, effect, Inject, PLATFORM_ID, ChangeDetectorRef, afterNextRender, ViewChild } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { Subscription, filter, skip } from 'rxjs';
 import { toObservable, takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -22,7 +22,30 @@ import { ToastService } from './auth/toast.service';
   },
   template: `
     <a class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-teal-500 focus:text-white focus:px-4 focus:py-2 focus:rounded" href="#main-content">{{ lang.t('nav.skip_link') }}</a>
-    <nav ngSkipHydration class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50" [attr.aria-label]="lang.t('nav.main_nav')">
+
+    <!-- Minimal top bar for focused pages (wizard, welcome) -->
+    <nav *ngIf="hideNav" class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50">
+      <div class="max-w-5xl mx-auto px-3 sm:px-4 py-3 flex items-center justify-between">
+        <a routerLink="/" class="flex items-center gap-3 group">
+          <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs
+                      group-hover:shadow-lg group-hover:shadow-emerald-500/25 transition-all duration-300 group-hover:scale-105">
+            DA
+          </div>
+          <span class="text-lg font-bold gradient-text leading-tight">
+            {{ lang.t('nav.brand') }}
+          </span>
+        </a>
+        <a routerLink="/dashboard"
+           class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
+          </svg>
+          {{ lang.t('wizard.back_to_dashboard') }}
+        </a>
+      </div>
+    </nav>
+
+    <nav *ngIf="!hideNav" ngSkipHydration class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50" [attr.aria-label]="lang.t('nav.main_nav')">
       <div class="max-w-5xl mx-auto px-3 sm:px-4 py-3 flex items-center justify-between">
         <a routerLink="/" class="flex items-center gap-3 group">
           <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs
@@ -499,10 +522,10 @@ import { ToastService } from './auth/toast.service';
         </div>
       </div>
     </nav>
-    <main id="main-content" class="max-w-5xl mx-auto px-3 sm:px-4 py-6 sm:py-8">
+    <main id="main-content" [class]="hideNav ? 'max-w-5xl mx-auto px-3 sm:px-4 py-6 sm:py-8 min-h-screen' : 'max-w-5xl mx-auto px-3 sm:px-4 py-6 sm:py-8'">
       <router-outlet />
     </main>
-    <footer class="border-t border-slate-800 mt-16 py-10">
+    <footer *ngIf="!hideNav" class="border-t border-slate-800 mt-16 py-10">
       <div class="max-w-5xl mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <!-- Brand -->
@@ -597,6 +620,7 @@ export class AppComponent implements OnInit, OnDestroy {
   toolsMenu = false;
   userMenu = false;
   showOnboarding = false;
+  hideNav = false;
   private routerSub?: Subscription;
   isBrowser: boolean;
 
@@ -755,6 +779,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private trackingService: TrackingService,
     public subscriptionService: SubscriptionService,
     public toast: ToastService,
+    private activatedRoute: ActivatedRoute,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) platformId: Object,
     private cdr: ChangeDetectorRef
@@ -786,15 +811,22 @@ export class AppComponent implements OnInit, OnDestroy {
       this.updatePageTitle(event.urlAfterRedirects);
       this.updateHreflangTags(event.urlAfterRedirects);
       this.closeAllMenus();
+      // Check route data for hideNav flag
+      let route = this.activatedRoute.firstChild;
+      while (route?.firstChild) route = route.firstChild;
+      this.hideNav = !!route?.snapshot.data['hideNav'];
       // Track page view on navigation
       if (this.isBrowser) {
         this.trackingService.trackPageView(event.urlAfterRedirects);
       }
     });
 
-    // Set initial title and hreflang
+    // Set initial title, hreflang, and hideNav
     this.updatePageTitle(this.router.url);
     this.updateHreflangTags(this.router.url);
+    let initRoute = this.activatedRoute.firstChild;
+    while (initRoute?.firstChild) initRoute = initRoute.firstChild;
+    this.hideNav = !!initRoute?.snapshot.data['hideNav'];
 
     // Initialize tracking only if user has already given consent
     if (this.isBrowser && this.trackingService.hasConsent()) {

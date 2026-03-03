@@ -42,3 +42,15 @@ export const guestGuard: CanActivateFn = () => {
   // Redirect logged-in users to dashboard
   return router.createUrlTree(['/dashboard']);
 };
+
+export const welcomeGuard: CanActivateFn = () => {
+  const router = inject(Router);
+
+  if (isPlatformBrowser(inject(PLATFORM_ID))) {
+    const history = JSON.parse(localStorage.getItem('dora_history') || '[]');
+    if (history.length > 0) {
+      return router.createUrlTree(['/dashboard']);
+    }
+  }
+  return true;
+};

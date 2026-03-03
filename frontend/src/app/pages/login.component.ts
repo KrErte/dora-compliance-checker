@@ -194,7 +194,12 @@ export class LoginComponent implements OnInit {
         this.loading = false;
         const returnUrl = sessionStorage.getItem('dora_returnUrl');
         sessionStorage.removeItem('dora_returnUrl');
-        this.router.navigateByUrl(returnUrl || '/dashboard');
+        if (returnUrl) {
+          this.router.navigateByUrl(returnUrl);
+        } else {
+          const history = JSON.parse(localStorage.getItem('dora_history') || '[]');
+          this.router.navigateByUrl(history.length > 0 ? '/dashboard' : '/welcome');
+        }
       },
       error: (err) => {
         this.loading = false;

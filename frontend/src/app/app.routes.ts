@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, adminGuard, guestGuard } from './auth/auth.guard';
+import { authGuard, adminGuard, guestGuard, welcomeGuard } from './auth/auth.guard';
 import { langActivateGuard } from './lang.guard';
 
 // DORA Article 30 ICT Contract Compliance Engine
@@ -71,10 +71,28 @@ const coreRoutes: Routes = [
     loadComponent: () => import('./pages/oauth-callback.component').then(m => m.OAuthCallbackComponent)
   },
   {
+    path: 'welcome',
+    loadComponent: () => import('./pages/welcome.component').then(m => m.WelcomeComponent),
+    canActivate: [authGuard, welcomeGuard],
+    data: { seoTitle: 'Welcome', hideNav: true }
+  },
+  {
     path: 'dashboard',
     loadComponent: () => import('./pages/dashboard.component').then(m => m.DashboardComponent),
     canActivate: [authGuard],
     data: { seoTitle: 'Dashboard' }
+  },
+  {
+    path: 'assessment/wizard',
+    loadComponent: () => import('./pages/assessment-wizard.component').then(m => m.AssessmentWizardComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'DORA Assessment Wizard', hideNav: true }
+  },
+  {
+    path: 'assessment/complete',
+    loadComponent: () => import('./pages/assessment-complete.component').then(m => m.AssessmentCompleteComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Assessment Complete', hideNav: true }
   },
   {
     path: 'assessment',

@@ -1841,6 +1841,34 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; lv?: string; lt?:
   'workspace.loading_sample': { et: 'Laadin näidist...', en: 'Loading sample...' },
   'workspace.or_divider': { et: 'või', en: 'or' },
 
+  // Welcome
+  'welcome.heading': { et: 'Alusta DORA vastavushindamist', en: 'Start Your DORA Compliance Assessment' },
+  'welcome.description': { et: 'Hinda oma organisatsiooni DORA vastavust kõigis viies sambas. Hindamine võtab aega umbes 15 minutit ja annab kohese ülevaate teie vastavustasemest.', en: 'Evaluate your organisation\'s DORA compliance across all five pillars. The assessment takes about 15 minutes and provides an instant overview of your compliance level.' },
+  'welcome.cta': { et: 'Alusta hindamist', en: 'Start Assessment' },
+  'welcome.time_estimate': { et: '~15 minutit', en: '~15 minutes' },
+
+  // Wizard
+  'wizard.step': { et: 'Samm', en: 'Step' },
+  'wizard.company_info': { et: 'Ettevõtte andmed', en: 'Company Info' },
+  'wizard.company_desc': { et: 'Sisestage ettevõtte ja lepingu andmed, mille kohta hindamist teete.', en: 'Enter your company and contract details for the assessment.' },
+  'wizard.answered': { et: 'vastatud', en: 'answered' },
+  'wizard.next': { et: 'Edasi', en: 'Next' },
+  'wizard.back': { et: 'Tagasi', en: 'Back' },
+  'wizard.finish': { et: 'Lõpeta hindamine', en: 'Finish Assessment' },
+  'wizard.save_exit': { et: 'Salvesta ja jätka hiljem', en: 'Save & continue later' },
+  'wizard.saved': { et: 'Edenemine salvestatud!', en: 'Progress saved!' },
+  'wizard.back_to_dashboard': { et: 'Tagasi', en: 'Back' },
+
+  // Assessment Complete
+  'complete.heading': { et: 'Hindamine lõpetatud!', en: 'Assessment Complete!' },
+  'complete.company': { et: 'Ettevõte', en: 'Company' },
+  'complete.date': { et: 'Kuupäev', en: 'Date' },
+  'complete.questions': { et: 'Küsimusi', en: 'Questions' },
+  'complete.score': { et: 'Tulemus', en: 'Score' },
+  'complete.view_results': { et: 'Vaata tulemusi', en: 'View Results' },
+  'complete.download_pdf': { et: 'Laadi raport alla', en: 'Download Report' },
+  'complete.go_dashboard': { et: 'Mine töölauale', en: 'Go to Dashboard' },
+
   // Dashboard
   'dashboard.title': { et: 'Juhtpaneel', en: 'Dashboard' },
   'dashboard.assessments_total': { et: 'hindamist kokku', en: 'assessments total' },
