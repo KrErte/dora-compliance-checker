@@ -145,7 +145,7 @@ interface WizardStep {
                       </span>
                       <div class="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200
                                   absolute z-10 bottom-full left-0 mb-2 w-80 p-4 bg-slate-700/95 backdrop-blur
-                                  text-slate-200 text-xs rounded-xl shadow-2xl border border-slate-600/50">
+                                  text-slate-200 text-xs rounded-xl shadow-2xl border border-slate-600/50 pointer-events-none">
                         <div class="font-semibold mb-1 text-emerald-400">{{ q.articleReference }}</div>
                         {{ q.explanation }}
                         <div class="absolute bottom-0 left-4 translate-y-1/2 rotate-45 w-2 h-2 bg-slate-700 border-r border-b border-slate-600/50"></div>
@@ -153,24 +153,27 @@ interface WizardStep {
                     </div>
                   </div>
                 </div>
-                <div class="flex items-center gap-1.5 shrink-0 mt-1">
+                <div class="flex items-center gap-1.5 shrink-0 mt-1 relative z-20">
                   <button type="button"
                           (click)="setAnswer(q.id, 'yes')"
-                          [class]="answers[q.id] === 'yes'
+                          class="cursor-pointer"
+                          [ngClass]="answers[q.id] === 'yes'
                             ? 'px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-emerald-400 text-slate-900 shadow-lg shadow-emerald-500/20 scale-105 transition-all duration-200'
                             : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
                     {{ lang.t('assessment.yes') }}
                   </button>
                   <button type="button"
                           (click)="setAnswer(q.id, 'partial')"
-                          [class]="answers[q.id] === 'partial'
+                          class="cursor-pointer"
+                          [ngClass]="answers[q.id] === 'partial'
                             ? 'px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-amber-500 to-amber-400 text-slate-900 shadow-lg shadow-amber-500/20 scale-105 transition-all duration-200'
                             : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
                     {{ lang.t('assessment.partial') }}
                   </button>
                   <button type="button"
                           (click)="setAnswer(q.id, 'no')"
-                          [class]="answers[q.id] === 'no'
+                          class="cursor-pointer"
+                          [ngClass]="answers[q.id] === 'no'
                             ? 'px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-red-500 to-red-400 text-white shadow-lg shadow-red-500/20 scale-105 transition-all duration-200'
                             : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
                     {{ lang.t('assessment.no') }}
@@ -573,7 +576,7 @@ export class AssessmentWizardComponent implements OnInit {
   }
 
   setAnswer(questionId: number, value: string) {
-    this.answers[questionId] = value;
+    this.answers = { ...this.answers, [questionId]: value };
     this.autoSave();
   }
 
