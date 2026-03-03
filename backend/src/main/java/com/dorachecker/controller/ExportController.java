@@ -5,6 +5,7 @@ import com.dorachecker.model.ContractAnalysisRepository;
 import com.dorachecker.model.IncidentReportRepository;
 import com.dorachecker.service.ExcelExportService;
 import com.dorachecker.service.PdfExportService;
+import com.dorachecker.service.ProfessionalReportService;
 import com.dorachecker.service.SubscriptionGuardService;
 import com.dorachecker.service.SubscriptionGuardService.Feature;
 import org.springframework.http.*;
@@ -23,6 +24,7 @@ public class ExportController {
     private final IncidentReportRepository incidentReportRepository;
     private final PdfExportService pdfExportService;
     private final ExcelExportService excelExportService;
+    private final ProfessionalReportService professionalReportService;
 
     public ExportController(
             SubscriptionGuardService guardService,
@@ -30,7 +32,8 @@ public class ExportController {
             ContractAnalysisRepository contractAnalysisRepository,
             IncidentReportRepository incidentReportRepository,
             PdfExportService pdfExportService,
-            ExcelExportService excelExportService
+            ExcelExportService excelExportService,
+            ProfessionalReportService professionalReportService
     ) {
         this.guardService = guardService;
         this.assessmentRepository = assessmentRepository;
@@ -38,6 +41,7 @@ public class ExportController {
         this.incidentReportRepository = incidentReportRepository;
         this.pdfExportService = pdfExportService;
         this.excelExportService = excelExportService;
+        this.professionalReportService = professionalReportService;
     }
 
     @PostMapping("/pdf/assessment/{id}")
@@ -232,6 +236,35 @@ public class ExportController {
         ));
     }
 
+    @PostMapping("/report/assessment/{id}")
+    public ResponseEntity<?> exportProfessionalReport(
+            @PathVariable String id,
+            @RequestParam(defaultValue = "en") String language,
+            @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
+            Authentication authentication
+    ) {
+        String userId = authentication != null ? (String) authentication.getPrincipal() : null;
+
+        if (!guardService.canAccess(userId, sessionId, Feature.PROFESSIONAL_REPORT)) {
+            return premiumRequiredResponse(Feature.PROFESSIONAL_REPORT);
+        }
+
+        var assessment = assessmentRepository.findById(id);
+        if (assessment.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (!isOwner(userId, sessionId, assessment.get().getUserId(), assessment.get().getSessionId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "ACCESS_DENIED"));
+        }
+
+        byte[] pdfBytes = professionalReportService.generate(assessment.get(), userId, language);
+        String companyName = assessment.get().getCompanyName() != null
+                ? assessment.get().getCompanyName().replaceAll("[^a-zA-Z0-9-_]", "_")
+                : "report";
+        return fileResponse(pdfBytes, "dora-professional-report-" + companyName + ".pdf", MediaType.APPLICATION_PDF);
+    }
+
     private boolean isOwner(String userId, String sessionId, String resourceUserId, String resourceSessionId) {
         if (resourceUserId == null && resourceSessionId == null) {
             return true; // Legacy data without ownership — allow
@@ -260,6 +293,7 @@ public class ExportController {
             case XBRL_EXPORT -> "xBRL-CSV eksport on saadaval ainult Enterprise plaanil";
             case CERTIFICATE -> "Vastavustunnistus on saadaval Standard ja Enterprise plaanidel";
             case ACTION_PLAN_PDF -> "Tegevuskava PDF on saadaval Standard ja Enterprise plaanidel";
+            case PROFESSIONAL_REPORT -> "Professionaalne DORA raport on saadaval Standard ja Enterprise plaanidel";
             default -> "See funktsioon on saadaval tasulisel plaanil";
         };
 

@@ -12,7 +12,8 @@ export type PremiumFeature =
   | 'CERTIFICATE'
   | 'AI_REWRITER'
   | 'ACTION_PLAN_PDF'
-  | 'ROI_EXPORT';
+  | 'ROI_EXPORT'
+  | 'PROFESSIONAL_REPORT';
 
 export interface SubscriptionStatus {
   plan: SubscriptionPlan;
@@ -47,7 +48,8 @@ export class SubscriptionService {
       CERTIFICATE: false,
       AI_REWRITER: false,
       ACTION_PLAN_PDF: false,
-      ROI_EXPORT: false
+      ROI_EXPORT: false,
+      PROFESSIONAL_REPORT: false
     }
   });
 
@@ -160,7 +162,8 @@ export class SubscriptionService {
           CERTIFICATE: false,
           AI_REWRITER: false,
           ACTION_PLAN_PDF: false,
-          ROI_EXPORT: false
+          ROI_EXPORT: false,
+          PROFESSIONAL_REPORT: false
         }
       }))
     ).subscribe(status => {
@@ -215,6 +218,11 @@ export class SubscriptionService {
         title: 'Register of Information eksport',
         description: 'Ekspordi ICT pakkujate register EBA nõutud formaadis (CSV/PDF)',
         price: '€499/kuu (Enterprise)'
+      },
+      PROFESSIONAL_REPORT: {
+        title: 'Professionaalne DORA raport',
+        description: 'Genereeri regulaatorile valmis 10-15 lk raport koos tegevuskava, 5 samba analüüsi ja metoodikaga',
+        price: 'Alates €29/kuu'
       }
     };
     return messages[feature];

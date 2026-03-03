@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -137,14 +138,15 @@ public class SubscriptionController {
     }
 
     private Map<String, Boolean> getFeatureAccess(String userId, String sessionId) {
-        return Map.of(
-                "PDF_EXPORT", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.PDF_EXPORT),
-                "EXCEL_EXPORT", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.EXCEL_EXPORT),
-                "XBRL_EXPORT", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.XBRL_EXPORT),
-                "CERTIFICATE", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.CERTIFICATE),
-                "AI_REWRITER", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.AI_REWRITER),
-                "ACTION_PLAN_PDF", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.ACTION_PLAN_PDF)
-        );
+        Map<String, Boolean> features = new HashMap<>();
+        features.put("PDF_EXPORT", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.PDF_EXPORT));
+        features.put("EXCEL_EXPORT", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.EXCEL_EXPORT));
+        features.put("XBRL_EXPORT", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.XBRL_EXPORT));
+        features.put("CERTIFICATE", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.CERTIFICATE));
+        features.put("AI_REWRITER", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.AI_REWRITER));
+        features.put("ACTION_PLAN_PDF", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.ACTION_PLAN_PDF));
+        features.put("PROFESSIONAL_REPORT", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.PROFESSIONAL_REPORT));
+        return features;
     }
 
     private String getFeatureMessage(SubscriptionGuardService.Feature feature) {
@@ -157,6 +159,7 @@ public class SubscriptionController {
             case HISTORICAL_COMPARISON -> "Ajalooliste hindamiste võrdlus on saadaval Enterprise plaanil";
             case EMAIL_NOTIFICATIONS -> "E-posti teavitused on saadaval Standard ja Enterprise plaanidel";
             case ACTION_PLAN_PDF -> "Tegevuskava PDF on saadaval Standard ja Enterprise plaanidel";
+            case PROFESSIONAL_REPORT -> "Professionaalne DORA raport on saadaval Standard ja Enterprise plaanidel";
         };
     }
 

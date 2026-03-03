@@ -21,7 +21,7 @@ import { LangService } from '../lang.service';
   `
 })
 export class PremiumBadgeComponent {
-  @Input() feature: 'PDF_EXPORT' | 'EXCEL_EXPORT' | 'XBRL_EXPORT' | 'CERTIFICATE' | 'AI_REWRITER' | 'ACTION_PLAN_PDF' = 'PDF_EXPORT';
+  @Input() feature: 'PDF_EXPORT' | 'EXCEL_EXPORT' | 'XBRL_EXPORT' | 'CERTIFICATE' | 'AI_REWRITER' | 'ACTION_PLAN_PDF' | 'PROFESSIONAL_REPORT' = 'PDF_EXPORT';
   lang = inject(LangService);
 
   constructor(public subscriptionService: SubscriptionService) {}

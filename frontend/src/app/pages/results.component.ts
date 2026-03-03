@@ -402,6 +402,58 @@ interface HeatmapCell {
           </div>
         </div>
 
+        <!-- Professional Report Card -->
+        <div *ngIf="emailCaptured" class="glass-card p-6 mb-8 border-indigo-500/30 bg-gradient-to-br from-violet-500/10 to-indigo-500/10 animate-fade-in-up delay-550">
+          <div class="flex flex-col sm:flex-row items-center gap-5">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500/30 to-indigo-500/30 flex items-center justify-center shrink-0">
+              <svg class="w-7 h-7 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" fill="currentColor" opacity="0.3"/>
+              </svg>
+            </div>
+            <div class="flex-1 text-center sm:text-left">
+              <h3 class="text-lg font-semibold text-slate-200 mb-1">{{ lang.t('results.professional_report_title') }}</h3>
+              <p class="text-sm text-slate-400">{{ lang.t('results.professional_report_desc') }}</p>
+            </div>
+            <div class="flex items-center gap-3 shrink-0">
+              <!-- Language toggle -->
+              <div class="flex rounded-lg overflow-hidden border border-slate-600/50">
+                <button type="button" (click)="reportLanguage = 'et'"
+                        class="px-3 py-2 text-xs font-medium transition-colors"
+                        [class]="reportLanguage === 'et' ? 'bg-indigo-500 text-white' : 'bg-slate-800/50 text-slate-400 hover:text-slate-200'">
+                  ET
+                </button>
+                <button type="button" (click)="reportLanguage = 'en'"
+                        class="px-3 py-2 text-xs font-medium transition-colors"
+                        [class]="reportLanguage === 'en' ? 'bg-indigo-500 text-white' : 'bg-slate-800/50 text-slate-400 hover:text-slate-200'">
+                  EN
+                </button>
+              </div>
+              <button type="button" (click)="handleProfessionalReportClick()"
+                      [disabled]="reportGenerating"
+                      class="px-6 py-3 rounded-xl font-semibold text-sm whitespace-nowrap
+                             bg-gradient-to-r from-violet-500 to-indigo-500 text-white
+                             hover:from-violet-400 hover:to-indigo-400 hover:shadow-lg hover:shadow-violet-500/25
+                             disabled:opacity-50 disabled:cursor-not-allowed transition-all
+                             flex items-center gap-2"
+                      [class.opacity-80]="!subscriptionService.canAccess('PROFESSIONAL_REPORT')">
+                <svg *ngIf="!reportGenerating && !subscriptionService.canAccess('PROFESSIONAL_REPORT')" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+                <svg *ngIf="reportGenerating" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+                <svg *ngIf="!reportGenerating && subscriptionService.canAccess('PROFESSIONAL_REPORT')" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                {{ reportGenerating ? lang.t('results.professional_report_generating') : lang.t('results.professional_report_download') }}
+                <app-premium-badge feature="PROFESSIONAL_REPORT"></app-premium-badge>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- Premium: Direct PDF download banner -->
         <div *ngIf="emailCaptured && subscriptionService.canAccess('PDF_EXPORT')" class="glass-card p-6 mb-8 border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 animate-fade-in-up delay-600">
           <div class="flex flex-col sm:flex-row items-center gap-5">
@@ -775,6 +827,10 @@ export class ResultsComponent implements OnInit {
   benchmark: BenchmarkData | null = null;
   benchmarkLoading = false;
 
+  // Professional report
+  reportGenerating = false;
+  reportLanguage = 'et';
+
   // Email gate
   email = '';
   emailCaptured = false;
@@ -889,6 +945,29 @@ export class ResultsComponent implements OnInit {
     } else {
       this.subscriptionService.showUpgrade('EXCEL_EXPORT');
     }
+  }
+
+  handleProfessionalReportClick() {
+    if (this.subscriptionService.canAccess('PROFESSIONAL_REPORT')) {
+      this.exportProfessionalReport();
+    } else {
+      this.subscriptionService.showUpgrade('PROFESSIONAL_REPORT');
+    }
+  }
+
+  exportProfessionalReport() {
+    if (!this.result || this.reportGenerating) return;
+    this.reportGenerating = true;
+    this.api.exportProfessionalReport(this.result.id, this.reportLanguage).subscribe({
+      next: (blob) => {
+        this.downloadBlob(blob, `dora-professional-report-${this.result!.companyName || 'report'}.pdf`);
+        this.reportGenerating = false;
+      },
+      error: (e: unknown) => {
+        console.error('Professional report export failed:', e);
+        this.reportGenerating = false;
+      }
+    });
   }
 
   private downloadBlob(blob: Blob, filename: string) {

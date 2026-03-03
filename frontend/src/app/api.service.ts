@@ -53,6 +53,10 @@ export class ApiService {
     return this.http.post(`${this.baseUrl}/exports/excel/assessment/${id}`, {}, { responseType: 'blob' });
   }
 
+  exportProfessionalReport(id: string, language: string): Observable<Blob> {
+    return this.http.post(`${this.baseUrl}/exports/report/assessment/${id}?language=${language}`, {}, { responseType: 'blob' });
+  }
+
   exportContractExcel(id: string): Observable<Blob> {
     return this.http.post(`${this.baseUrl}/exports/excel/contract/${id}`, {}, { responseType: 'blob' });
   }

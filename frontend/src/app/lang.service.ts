@@ -793,6 +793,12 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; lv?: string; lt?:
   'results.continuous_monitoring': { et: 'Pidev j\u00e4relevalve ja regulaarne \u00fclevaatus', en: 'Continuous monitoring and regular review' },
   'results.print_title': { et: 'DORA Vastavuskontrolli Aruanne', en: 'DORA Compliance Audit Report' },
   'results.print_subtitle': { et: 'EU m\u00e4\u00e4rus 2022/2554 \u00b7 Artiklid 28\u201330', en: 'EU Regulation 2022/2554 \u00b7 Articles 28\u201330' },
+  'results.professional_report_title': { et: 'Professionaalne DORA vastavusraport', en: 'Professional DORA Compliance Report' },
+  'results.professional_report_desc': { et: '10-15 lk regulaatorile valmis raport koos tegevuskava ja 5 samba anal\u00fc\u00fcsiga', en: '10-15 page regulator-ready report with action plan and 5 pillar analysis' },
+  'results.professional_report_download': { et: 'Genereeri raport', en: 'Generate Report' },
+  'results.professional_report_generating': { et: 'Genereerimine...', en: 'Generating...' },
+  'results.professional_report_language': { et: 'Raporti keel', en: 'Report language' },
+  'results.professional_report_success': { et: 'Professionaalne raport allalaetud!', en: 'Professional report downloaded!' },
 
   // History
   'history.title': { et: 'Hindamiste ajalugu', en: 'Assessment History' },

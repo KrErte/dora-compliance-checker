@@ -19,7 +19,8 @@ public class SubscriptionGuardService {
         AI_REWRITER,
         HISTORICAL_COMPARISON,
         EMAIL_NOTIFICATIONS,
-        ACTION_PLAN_PDF
+        ACTION_PLAN_PDF,
+        PROFESSIONAL_REPORT
     }
 
     private final UserSubscriptionRepository subscriptionRepository;
@@ -44,7 +45,7 @@ public class SubscriptionGuardService {
             if (sub.getPlan() == UserSubscriptionEntity.Plan.STANDARD) {
                 return switch (feature) {
                     case PDF_EXPORT, EXCEL_EXPORT, CERTIFICATE, ACTION_PLAN_PDF,
-                         EMAIL_NOTIFICATIONS -> true;
+                         EMAIL_NOTIFICATIONS, PROFESSIONAL_REPORT -> true;
                     case XBRL_EXPORT, AI_REWRITER, HISTORICAL_COMPARISON -> false;
                 };
             }
@@ -63,7 +64,7 @@ public class SubscriptionGuardService {
             if (user.isPresent() && user.get().isTrialValid()) {
                 return switch (feature) {
                     case PDF_EXPORT, EXCEL_EXPORT, CERTIFICATE, ACTION_PLAN_PDF,
-                         EMAIL_NOTIFICATIONS -> true;
+                         EMAIL_NOTIFICATIONS, PROFESSIONAL_REPORT -> true;
                     case XBRL_EXPORT, AI_REWRITER, HISTORICAL_COMPARISON -> false;
                 };
             }
