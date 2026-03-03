@@ -3279,6 +3279,23 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; lv?: string; lt?:
   'playbook.responsible_label': { et: 'Vastutav', en: 'Responsible' },
   'playbook.notification_title': { et: 'TEAVITUSE MALL', en: 'NOTIFICATION TEMPLATE' },
 
+  // Getting Started Checklist
+  'checklist.title': { et: 'Alusta siit', en: 'Getting Started' },
+  'checklist.subtitle': { et: 'Tutvuge DORA vastavuse tööriistadega', en: 'Explore the DORA compliance toolkit' },
+  'checklist.progress': { et: 'Edenemine', en: 'Progress' },
+  'checklist.dismiss': { et: 'Peida', en: 'Dismiss' },
+  'checklist.item_assessment': { et: 'Tee esimene DORA hindamine', en: 'Complete first DORA assessment' },
+  'checklist.item_assessment_desc': { et: 'Hinda oma IKT-lepingu vastavust DORA nõuetele', en: 'Evaluate your ICT contract against DORA requirements' },
+  'checklist.item_results': { et: 'Vaata hindamise tulemusi', en: 'Review assessment results' },
+  'checklist.item_results_desc': { et: 'Analüüsi oma vastavuse taset ja puudujääke', en: 'Analyze your compliance level and gaps' },
+  'checklist.item_contract': { et: 'Analüüsi IKT lepingut', en: 'Analyze an ICT contract' },
+  'checklist.item_contract_desc': { et: 'Laadi üles leping AI-põhiseks analüüsiks', en: 'Upload a contract for AI-powered analysis' },
+  'checklist.item_explore': { et: 'Tutvu DORA regulatsiooniga', en: 'Explore DORA regulations' },
+  'checklist.item_explore_desc': { et: 'Sirvi DORA artikleid ja nõudeid', en: 'Browse DORA articles and requirements' },
+  'checklist.item_report': { et: 'Lae alla vastavusraport', en: 'Download a compliance report' },
+  'checklist.item_report_desc': { et: 'Ekspordi professionaalne PDF vastavusraport', en: 'Export a professional PDF compliance report' },
+  'checklist.all_done_title': { et: 'Kõik tehtud!', en: 'All done!' },
+
 };
 
 @Injectable({ providedIn: 'root' })

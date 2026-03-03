@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LangService } from '../lang.service';
 import { SubscriptionService } from '../services/subscription.service';
+import { ChecklistService } from '../services/checklist.service';
+import { GettingStartedChecklistComponent } from '../components/getting-started-checklist.component';
 
 interface HistoryEntry {
   id: string;
@@ -40,7 +42,7 @@ interface ChartPoint {
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, GettingStartedChecklistComponent],
   template: `
     <div class="max-w-6xl mx-auto">
 
@@ -70,6 +72,9 @@ interface ChartPoint {
           </a>
         </div>
       </div>
+
+      <!-- Getting Started Checklist -->
+      <app-getting-started-checklist />
 
       <!-- Header -->
       <div class="flex items-center justify-between mb-10 animate-fade-in-up">
@@ -556,6 +561,7 @@ interface ChartPoint {
 export class DashboardComponent implements OnInit {
   lang = inject(LangService);
   subService = inject(SubscriptionService);
+  checklist = inject(ChecklistService);
 
   history: HistoryEntry[] = [];
   leaderboard: LeaderboardEntry[] = [];
@@ -581,6 +587,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.loadHistory();
+    this.checklist.detectExistingProgress();
     this.buildLeaderboard();
     this.buildPillarData();
     this.buildTrendChart();

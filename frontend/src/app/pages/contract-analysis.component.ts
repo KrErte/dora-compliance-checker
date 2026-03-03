@@ -7,6 +7,7 @@ import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
 import { AuthService } from '../auth/auth.service';
 import { SubscriptionService } from '../services/subscription.service';
+import { ChecklistService } from '../services/checklist.service';
 import { PaywallService } from '../services/paywall.service';
 import { PAYMENT_CONFIG } from '../config/payment.config';
 import { ContractAnalysisResult } from '../models';
@@ -665,7 +666,8 @@ export class ContractAnalysisComponent implements OnInit {
     public subscriptionService: SubscriptionService,
     private route: ActivatedRoute,
     public paywall: PaywallService,
-    private titleService: Title
+    private titleService: Title,
+    private checklistService: ChecklistService
   ) {}
 
   ngOnInit() {
@@ -820,6 +822,7 @@ export class ContractAnalysisComponent implements OnInit {
           this.result = res;
           this.analyzing = false;
           this.cacheResult(res, fileName);
+          this.checklistService.markComplete('analyze_contract');
         },
         error: () => {
           this.error = 'Analysis failed';

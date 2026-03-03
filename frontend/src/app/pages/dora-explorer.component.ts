@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { LangService } from '../lang.service';
+import { ChecklistService } from '../services/checklist.service';
 
 interface DoraArticle {
   number: string;
@@ -307,8 +308,13 @@ interface GlossaryTerm {
     </div>
   `
 })
-export class DoraExplorerComponent {
+export class DoraExplorerComponent implements OnInit {
   public lang = inject(LangService);
+  private checklist = inject(ChecklistService);
+
+  ngOnInit() {
+    this.checklist.markComplete('explore_dora');
+  }
 
   l(et: string, en: string): string {
     return this.lang.l(et, en);

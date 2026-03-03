@@ -7,6 +7,7 @@ import { ApiService, BenchmarkData } from '../api.service';
 import { LangService } from '../lang.service';
 import { AssessmentResult, CATEGORY_LABELS, PillarScore, calculatePillarScores } from '../models';
 import { SubscriptionService } from '../services/subscription.service';
+import { ChecklistService } from '../services/checklist.service';
 import { UpgradeModalComponent } from '../components/upgrade-modal.component';
 import { PremiumBadgeComponent } from '../components/premium-badge.component';
 
@@ -850,7 +851,8 @@ export class ResultsComponent implements OnInit {
     private renderer: Renderer2,
     private http: HttpClient,
     public lang: LangService,
-    public subscriptionService: SubscriptionService
+    public subscriptionService: SubscriptionService,
+    private checklistService: ChecklistService
   ) {}
 
   ngOnInit() {
@@ -917,12 +919,17 @@ export class ResultsComponent implements OnInit {
       if (history.length > 50) history.pop();
       localStorage.setItem('dora_history', JSON.stringify(history));
     }
+    this.checklistService.markComplete('first_assessment');
+    this.checklistService.markComplete('view_results');
   }
 
   exportPdf() {
     if (!this.result) return;
     this.api.exportAssessmentPdf(this.result.id).subscribe({
-      next: (blob) => this.downloadBlob(blob, 'assessment-report.pdf'),
+      next: (blob) => {
+        this.downloadBlob(blob, 'assessment-report.pdf');
+        this.checklistService.markComplete('download_report');
+      },
       error: () => window.print()
     });
   }
