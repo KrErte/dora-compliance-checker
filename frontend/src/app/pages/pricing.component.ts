@@ -431,7 +431,7 @@ export class PricingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('Hinnakiri — DORA ja NIS2 hindamine | DoraAudit.eu');
+    this.titleService.setTitle(this.lang.t('title.pricing'));
   }
 
   get currentPlan(): string {

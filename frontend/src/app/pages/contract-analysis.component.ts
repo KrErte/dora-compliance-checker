@@ -116,7 +116,7 @@ import { ContractAnalysisResult } from '../models';
             <div class="flex items-center justify-between">
               <div>
                 <p class="text-xs text-slate-500">DORA Art. 30 {{ lang.t('contract.preview_report') }}</p>
-                <p class="text-sm font-medium text-slate-300">OÜ Näidis Finants — IKT pilveteenuse leping</p>
+                <p class="text-sm font-medium text-slate-300">{{ lang.t('contract.demo_preview') }}</p>
               </div>
               <div class="text-right">
                 <div class="text-2xl font-bold text-amber-400">62%</div>
@@ -671,7 +671,7 @@ export class ContractAnalysisComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.titleService.setTitle('DORA lepinguanalüüs — Art. 30 vastavus | DoraAudit.eu');
+    this.titleService.setTitle(this.lang.t('title.contract_analysis'));
 
     // Premium/Enterprise users skip the email gate entirely
     if (!this.subscriptionService.shouldShowEmailGate()) {
@@ -737,9 +737,9 @@ export class ContractAnalysisComponent implements OnInit {
     this.loadingSample = true;
     this.api.getSampleContract().subscribe({
       next: (blob) => {
-        this.selectedFile = new File([blob], 'sample_ikt_leping.pdf', { type: 'application/pdf' });
-        this.companyName = 'OÜ Näidis Finants';
-        this.contractName = 'IKT pilveteenuse leping 2025';
+        this.selectedFile = new File([blob], this.lang.t('contract.demo_filename'), { type: 'application/pdf' });
+        this.companyName = this.lang.t('contract.demo_company');
+        this.contractName = this.lang.t('contract.demo_contract');
         this.isSampleFile = true;
         this.loadingSample = false;
       },

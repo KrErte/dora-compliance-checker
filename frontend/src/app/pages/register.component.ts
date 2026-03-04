@@ -213,7 +213,7 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('Registreeru | DoraAudit.eu');
+    this.titleService.setTitle(this.lang.t('title.register'));
   }
 
   onRegister() {

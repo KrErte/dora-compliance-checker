@@ -4098,7 +4098,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
 
   private processFile(file: File): void {
     if (!file.name.endsWith('.csv')) {
-      this.csvErrors.set(['Fail peab olema CSV formaadis']);
+      this.csvErrors.set([this.lang.t('sc.csv_must_be_csv')]);
       return;
     }
 
@@ -4113,7 +4113,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   private parseCSV(content: string): void {
     const lines = content.split('\n').filter(l => l.trim());
     if (lines.length < 2) {
-      this.csvErrors.set(['CSV fail peab sisaldama päist ja vähemalt ühte andmerida']);
+      this.csvErrors.set([this.lang.t('sc.csv_must_have_rows')]);
       return;
     }
 
@@ -4122,7 +4122,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     const missingHeaders = requiredHeaders.filter(h => !headers.includes(h));
 
     if (missingHeaders.length > 0) {
-      this.csvErrors.set([`Puuduvad kohustuslikud veerud: ${missingHeaders.join(', ')}`]);
+      this.csvErrors.set([`${this.lang.t('sc.csv_missing_columns')}: ${missingHeaders.join(', ')}`]);
       return;
     }
 
@@ -4145,27 +4145,27 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
 
       // Validate row
       if (!row.name) {
-        row.errors.push('Nimi puudub');
+        row.errors.push(this.lang.t('sc.csv_err_name_missing'));
       }
       if (!row.country) {
-        row.errors.push('Riik puudub');
+        row.errors.push(this.lang.t('sc.csv_err_country_missing'));
       } else if (!this.isValidCountry(row.country)) {
-        row.errors.push('Tundmatu riigikood');
+        row.errors.push(this.lang.t('sc.csv_err_country_unknown'));
       }
       if (!row.type) {
-        row.errors.push('Teenuse tüüp puudub');
+        row.errors.push(this.lang.t('sc.csv_err_type_missing'));
       } else if (!this.serviceTypeOptions.includes(row.type)) {
-        row.errors.push('Tundmatu teenuse tüüp');
+        row.errors.push(this.lang.t('sc.csv_err_type_unknown'));
       }
       if (!row.criticality) {
-        row.errors.push('Kriitilisus puudub');
+        row.errors.push(this.lang.t('sc.csv_err_criticality_missing'));
       } else if (!['Kriitiline', 'Oluline', 'Tavaline'].includes(row.criticality)) {
-        row.errors.push('Kriitilisus peab olema: Kriitiline, Oluline või Tavaline');
+        row.errors.push(this.lang.t('sc.csv_err_criticality_invalid'));
       }
 
       row.valid = row.errors.length === 0;
       if (!row.valid) {
-        errors.push(`Rida ${i + 1}: ${row.errors.join(', ')}`);
+        errors.push(`${this.lang.t('sc.csv_row_error')} ${i + 1}: ${row.errors.join(', ')}`);
       }
 
       rows.push(row);
@@ -4187,7 +4187,7 @@ Teine AS;DE;Network;Oluline;LEP-002;2024-06-01;2026-05-31`;
     const blob = new Blob([template], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = 'pakkujate_mall.csv';
+    link.download = 'ict_providers_template.csv';
     link.click();
     URL.revokeObjectURL(link.href);
   }

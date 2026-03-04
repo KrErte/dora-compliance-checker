@@ -460,7 +460,7 @@ export class AssessmentWizardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.titleService.setTitle('DORA hindamisviisard | DoraAudit.eu');
+    this.titleService.setTitle(this.lang.t('title.wizard'));
     this.loadDraft();
     this.api.getQuestions().subscribe({
       next: (questions) => {

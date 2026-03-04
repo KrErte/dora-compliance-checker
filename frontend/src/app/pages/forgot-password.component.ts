@@ -101,7 +101,7 @@ export class ForgotPasswordComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('Parooli taastamine | DoraAudit.eu');
+    this.titleService.setTitle(this.lang.t('title.forgot_password'));
   }
 
   onSubmit() {

@@ -127,7 +127,7 @@ export class ResetPasswordComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('Parooli taastamine | DoraAudit.eu');
+    this.titleService.setTitle(this.lang.t('title.forgot_password'));
     this.token = this.route.snapshot.queryParamMap.get('token') || '';
     if (!this.token) {
       this.invalidToken = true;

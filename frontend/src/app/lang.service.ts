@@ -3366,6 +3366,59 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; lv?: string; lt?:
   'sc.type_label': { et: 'Tüüp:', en: 'Type:' },
   'sc.risk_score_label': { et: 'Riskiskoor:', en: 'Risk score:' },
 
+  // Supply Chain - CSV validation errors
+  'sc.csv_must_be_csv': { et: 'Fail peab olema CSV formaadis', en: 'File must be in CSV format' },
+  'sc.csv_must_have_rows': { et: 'CSV fail peab sisaldama päist ja vähemalt ühte andmerida', en: 'CSV file must contain a header and at least one data row' },
+  'sc.csv_missing_columns': { et: 'Puuduvad kohustuslikud veerud', en: 'Missing required columns' },
+  'sc.csv_err_name_missing': { et: 'Nimi puudub', en: 'Name missing' },
+  'sc.csv_err_country_missing': { et: 'Riik puudub', en: 'Country missing' },
+  'sc.csv_err_country_unknown': { et: 'Tundmatu riigikood', en: 'Unknown country code' },
+  'sc.csv_err_type_missing': { et: 'Teenuse tüüp puudub', en: 'Service type missing' },
+  'sc.csv_err_type_unknown': { et: 'Tundmatu teenuse tüüp', en: 'Unknown service type' },
+  'sc.csv_err_criticality_missing': { et: 'Kriitilisus puudub', en: 'Criticality missing' },
+  'sc.csv_err_criticality_invalid': { et: 'Kriitilisus peab olema: Kriitiline, Oluline või Tavaline', en: 'Criticality must be: Critical, Important or Normal' },
+  'sc.csv_row_error': { et: 'Rida', en: 'Row' },
+
+  // RoI PDF export
+  'roi_pdf.title': { et: 'Teaberegister', en: 'Register of Information' },
+  'roi_pdf.subtitle': { et: 'IKT kolmandate osapoolte teenusepakkujate kokkuvõte', en: 'ICT Third-Party Service Providers Summary' },
+  'roi_pdf.company': { et: 'Ettevõte', en: 'Company' },
+  'roi_pdf.date': { et: 'Kuupäev', en: 'Date' },
+  'roi_pdf.total_providers': { et: 'ICT pakkujaid kokku', en: 'Total ICT providers' },
+  'roi_pdf.critical': { et: 'Kriitilised', en: 'Critical' },
+  'roi_pdf.important': { et: 'Olulised', en: 'Important' },
+  'roi_pdf.with_exit_strategy': { et: 'Exit strateegiaga', en: 'With exit strategy' },
+  'roi_pdf.summary': { et: 'Kokkuvõte', en: 'Summary' },
+  'roi_pdf.providers_register': { et: 'ICT Pakkujate Register', en: 'ICT Providers Register' },
+  'roi_pdf.col_provider': { et: 'Pakkuja', en: 'Provider' },
+  'roi_pdf.col_country': { et: 'Riik', en: 'Country' },
+  'roi_pdf.col_service': { et: 'Teenus', en: 'Service' },
+  'roi_pdf.col_criticality': { et: 'Kriitilisus', en: 'Criticality' },
+  'roi_pdf.col_contract_until': { et: 'Leping kuni', en: 'Contract until' },
+  'roi_pdf.col_exit': { et: 'Exit', en: 'Exit' },
+  'roi_pdf.yes': { et: 'Jah', en: 'Yes' },
+  'roi_pdf.no': { et: 'Ei', en: 'No' },
+  'roi_pdf.generated': { et: 'Genereeritud', en: 'Generated' },
+  'roi_pdf.page': { et: 'Leht', en: 'Page' },
+  'roi_pdf.summary_text': { et: 'Teie organisatsioonil on {total} ICT teenusepakkujat, millest {critical} on kriitilised ja {important} olulised. {exitCount} pakkujal on dokumenteeritud exit strateegia. {subCount} pakkujat kasutavad allhankijaid.', en: 'Your organization has {total} ICT service providers, of which {critical} are critical and {important} are important. {exitCount} providers have a documented exit strategy. {subCount} providers use subcontractors.' },
+
+  // Page titles
+  'title.assessment': { et: 'DORA vastavushindamine — 37 küsimust | DoraAudit.eu', en: 'DORA Compliance Assessment — 37 Questions | DoraAudit.eu' },
+  'title.wizard': { et: 'DORA hindamisviisard | DoraAudit.eu', en: 'DORA Assessment Wizard | DoraAudit.eu' },
+  'title.contract_analysis': { et: 'DORA lepinguanalüüs — Art. 30 vastavus | DoraAudit.eu', en: 'DORA Contract Analysis — Art. 30 Compliance | DoraAudit.eu' },
+  'title.login': { et: 'Logi sisse | DoraAudit.eu', en: 'Log In | DoraAudit.eu' },
+  'title.register': { et: 'Registreeru | DoraAudit.eu', en: 'Register | DoraAudit.eu' },
+  'title.forgot_password': { et: 'Parooli taastamine | DoraAudit.eu', en: 'Password Recovery | DoraAudit.eu' },
+  'title.methodology': { et: 'Metoodika — DORA hindamise alused | DoraAudit.eu', en: 'Methodology — DORA Assessment Fundamentals | DoraAudit.eu' },
+  'title.nis2_scope': { et: 'NIS2 Scope Check — Kontrolli kas NIS2 kohaldub | DoraAudit.eu', en: 'NIS2 Scope Check — Check If NIS2 Applies | DoraAudit.eu' },
+  'title.pricing': { et: 'Hinnakiri — DORA ja NIS2 hindamine | DoraAudit.eu', en: 'Pricing — DORA and NIS2 Assessment | DoraAudit.eu' },
+
+  // Contract analysis demo
+  'contract.demo_company': { et: 'OÜ Näidis Finants', en: 'Sample Finance Ltd' },
+  'contract.demo_contract': { et: 'IKT pilveteenuse leping 2025', en: 'ICT Cloud Service Agreement 2025' },
+  'contract.demo_preview': { et: 'OÜ Näidis Finants — IKT pilveteenuse leping', en: 'Sample Finance Ltd — ICT cloud service agreement' },
+  'contract.demo_filename': { et: 'sample_ikt_leping.pdf', en: 'sample_ict_contract.pdf' },
+
 };
 
 @Injectable({ providedIn: 'root' })

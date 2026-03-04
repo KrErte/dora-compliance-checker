@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { PdfBrandingHelper } from './pdf-branding.helper';
+import { LangService } from '../lang.service';
 
 export interface RoiVendor {
   id: string;
@@ -20,6 +21,7 @@ export interface RoiVendor {
 
 @Injectable({ providedIn: 'root' })
 export class RoiExportService {
+  private readonly lang = inject(LangService);
 
   constructor(private pdfBranding: PdfBrandingHelper) {}
 
@@ -87,11 +89,11 @@ export class RoiExportService {
     // Header
     doc.setFontSize(20);
     doc.setTextColor(cr, cg, cb);
-    doc.text('Register of Information', 14, 20);
+    doc.text(this.lang.t('roi_pdf.title'), 14, 20);
 
     doc.setFontSize(12);
     doc.setTextColor(100, 116, 139); // Slate gray
-    doc.text('ICT Third-Party Service Providers Summary', 14, 28);
+    doc.text(this.lang.t('roi_pdf.subtitle'), 14, 28);
 
     // Company info box
     doc.setFillColor(248, 250, 252);
@@ -99,9 +101,9 @@ export class RoiExportService {
 
     doc.setFontSize(10);
     doc.setTextColor(30, 41, 59);
-    doc.text(`Ettevote: ${companyName}`, 20, 45);
-    doc.text(`Kuupaev: ${new Date().toLocaleDateString('et-EE')}`, 20, 52);
-    doc.text(`ICT pakkujaid kokku: ${vendors.length}`, 20, 59);
+    doc.text(`${this.lang.t('roi_pdf.company')}: ${companyName}`, 20, 45);
+    doc.text(`${this.lang.t('roi_pdf.date')}: ${new Date().toLocaleDateString(this.lang.lang() === 'et' ? 'et-EE' : 'en-GB')}`, 20, 52);
+    doc.text(`${this.lang.t('roi_pdf.total_providers')}: ${vendors.length}`, 20, 59);
 
     // Statistics
     const critical = vendors.filter(v => v.criticality === 'critical').length;
@@ -109,21 +111,23 @@ export class RoiExportService {
     const withExitStrategy = vendors.filter(v => v.hasExitStrategy).length;
     const withSubcontractors = vendors.filter(v => v.subcontractors.length > 0).length;
 
-    doc.text(`Kriitilised: ${critical}`, pageWidth / 2 + 10, 45);
-    doc.text(`Olulised: ${important}`, pageWidth / 2 + 10, 52);
-    doc.text(`Exit strateegiaga: ${withExitStrategy}/${vendors.length}`, pageWidth / 2 + 10, 59);
+    doc.text(`${this.lang.t('roi_pdf.critical')}: ${critical}`, pageWidth / 2 + 10, 45);
+    doc.text(`${this.lang.t('roi_pdf.important')}: ${important}`, pageWidth / 2 + 10, 52);
+    doc.text(`${this.lang.t('roi_pdf.with_exit_strategy')}: ${withExitStrategy}/${vendors.length}`, pageWidth / 2 + 10, 59);
 
     // Risk summary
     doc.setFontSize(12);
     doc.setTextColor(30, 41, 59);
-    doc.text('Kokkuvote', 14, 78);
+    doc.text(this.lang.t('roi_pdf.summary'), 14, 78);
 
     doc.setFontSize(9);
     doc.setTextColor(100, 116, 139);
-    const summaryText = `Teie organisatsioonil on ${vendors.length} ICT teenusepakkujat, ` +
-      `millest ${critical} on kriitilised ja ${important} olulised. ` +
-      `${withExitStrategy} pakkujal on dokumenteeritud exit strateegia. ` +
-      `${withSubcontractors} pakkujat kasutavad allhankijaid.`;
+    const summaryText = this.lang.t('roi_pdf.summary_text')
+      .replace('{total}', String(vendors.length))
+      .replace('{critical}', String(critical))
+      .replace('{important}', String(important))
+      .replace('{exitCount}', String(withExitStrategy))
+      .replace('{subCount}', String(withSubcontractors));
 
     const splitSummary = doc.splitTextToSize(summaryText, pageWidth - 28);
     doc.text(splitSummary, 14, 86);
@@ -131,18 +135,18 @@ export class RoiExportService {
     // Providers table
     doc.setFontSize(12);
     doc.setTextColor(30, 41, 59);
-    doc.text('ICT Pakkujate Register', 14, 105);
+    doc.text(this.lang.t('roi_pdf.providers_register'), 14, 105);
 
     autoTable(doc, {
       startY: 110,
-      head: [['Pakkuja', 'Riik', 'Teenus', 'Kriitilisus', 'Leping kuni', 'Exit']],
+      head: [[this.lang.t('roi_pdf.col_provider'), this.lang.t('roi_pdf.col_country'), this.lang.t('roi_pdf.col_service'), this.lang.t('roi_pdf.col_criticality'), this.lang.t('roi_pdf.col_contract_until'), this.lang.t('roi_pdf.col_exit')]],
       body: vendors.map(v => [
         v.name,
         v.countryCode || '-',
         this.truncate(v.type, 15),
         this.translateCriticality(v.criticality),
         v.contractEnd || '-',
-        v.hasExitStrategy ? 'Jah' : 'Ei'
+        v.hasExitStrategy ? this.lang.t('roi_pdf.yes') : this.lang.t('roi_pdf.no')
       ]),
       theme: 'striped',
       headStyles: {
@@ -174,7 +178,7 @@ export class RoiExportService {
       doc.setFontSize(8);
       doc.setTextColor(148, 163, 184);
       doc.text(
-        `Genereeritud ${brandName} | ${new Date().toISOString().split('T')[0]} | Leht ${i}/${pageCount}`,
+        `${this.lang.t('roi_pdf.generated')} ${brandName} | ${new Date().toISOString().split('T')[0]} | ${this.lang.t('roi_pdf.page')} ${i}/${pageCount}`,
         14,
         doc.internal.pageSize.getHeight() - 10
       );
@@ -203,9 +207,9 @@ export class RoiExportService {
 
   private translateCriticality(criticality: string): string {
     const translations: Record<string, string> = {
-      'critical': 'Kriitiline',
-      'important': 'Oluline',
-      'normal': 'Tavaline'
+      'critical': this.lang.t('sc.criticality_critical'),
+      'important': this.lang.t('sc.criticality_important'),
+      'normal': this.lang.t('sc.criticality_normal')
     };
     return translations[criticality] || criticality;
   }

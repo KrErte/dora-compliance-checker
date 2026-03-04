@@ -623,7 +623,7 @@ export class Nis2ScopeCheckComponent implements OnInit {
   allSectors = [...this.essentialSectors, ...this.importantSectors];
 
   ngOnInit(): void {
-    this.titleService.setTitle('NIS2 Scope Check — Kontrolli kas NIS2 kohaldub | DoraAudit.eu');
+    this.titleService.setTitle(this.lang.t('title.nis2_scope'));
     this.route.queryParams.subscribe(params => {
       if (params['demo'] === 'true') {
         this.isDemoMode = true;

@@ -149,6 +149,6 @@ export class MethodologyComponent implements OnInit {
   constructor(public lang: LangService, private titleService: Title) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('Metoodika — DORA hindamise alused | DoraAudit.eu');
+    this.titleService.setTitle(this.lang.t('title.methodology'));
   }
 }

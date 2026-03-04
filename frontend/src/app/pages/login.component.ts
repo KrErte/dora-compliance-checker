@@ -156,7 +156,7 @@ export class LoginComponent implements OnInit {
   constructor(public lang: LangService, private auth: AuthService, private router: Router, private titleService: Title) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('Logi sisse | DoraAudit.eu');
+    this.titleService.setTitle(this.lang.t('title.login'));
   }
 
   private triggerShake() {

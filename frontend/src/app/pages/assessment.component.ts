@@ -159,7 +159,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
               <div class="flex-1">
                 <p class="text-slate-200 mb-1.5">
                   <span class="text-slate-500 text-sm mr-2">{{ getGlobalIndex(gi, i) }}.</span>
-                  {{ q.questionEt }}
+                  {{ lang.currentLang === 'et' ? q.questionEt : q.questionEn }}
                 </p>
                 <div class="flex items-center gap-2 flex-wrap">
                   <div class="group relative inline-block">
@@ -431,7 +431,7 @@ export class AssessmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.titleService.setTitle('DORA vastavushindamine — 37 küsimust | DoraAudit.eu');
+    this.titleService.setTitle(this.lang.t('title.assessment'));
     const pillar = this.route.snapshot.queryParamMap.get('pillar');
     if (pillar && this.pillarCategories[pillar]) {
       this.scrollToCategory = this.pillarCategories[pillar][0];
