@@ -132,11 +132,11 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
           <div class="main-actions">
             <button class="action-btn primary" (click)="openAddVendorPanel()">
               <span class="btn-icon">+</span>
-              Lisa pakkuja
+              {{ lang.t('sc.add_provider') }}
             </button>
             <button class="action-btn secondary" (click)="openCsvImport()">
               <span class="btn-icon">↑</span>
-              Impordi CSV
+              {{ lang.t('sc.import_csv') }}
             </button>
           </div>
 
@@ -211,8 +211,8 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
           <!-- VENDORS DETAIL VIEW -->
           <div class="detail-view">
             <div class="detail-header">
-              <h2>IKT teenusepakkujad</h2>
-              <span class="detail-count">{{ vendors().length }} pakkujat</span>
+              <h2>{{ lang.t('sc.ict_providers_title') }}</h2>
+              <span class="detail-count">{{ vendors().length }} {{ lang.t('sc.providers_count') }}</span>
             </div>
 
             <!-- Summary Cards -->
@@ -280,26 +280,26 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
             <div class="table-actions">
               <button class="action-btn primary" (click)="openAddVendorPanel()">
                 <span class="btn-icon">+</span>
-                Lisa pakkuja
+                {{ lang.t('sc.add_provider') }}
               </button>
               <button class="action-btn secondary" (click)="openCsvImport()">
                 <span class="btn-icon">↑</span>
-                Impordi CSV
+                {{ lang.t('sc.import_csv') }}
               </button>
               <div class="export-dropdown">
                 <button class="action-btn export" (click)="toggleExportMenu()">
                   <span class="btn-icon">↓</span>
-                  Ekspordi RoI
+                  {{ lang.t('sc.export_roi') }}
                 </button>
                 @if (showExportMenu()) {
                   <div class="export-menu">
                     <button class="export-option" (click)="exportRoiCsv()">
                       <span class="option-icon">📊</span>
-                      CSV (EBA formaat)
+                      {{ lang.t('sc.csv_eba_format') }}
                     </button>
                     <button class="export-option" (click)="exportRoiPdf()">
                       <span class="option-icon">📄</span>
-                      PDF kokkuvote
+                      {{ lang.t('sc.pdf_summary') }}
                     </button>
                     <button class="export-option xbrl-option" (click)="exportRoiXbrlCsv()" [disabled]="isXbrlExporting()">
                       <span class="option-icon">📋</span>
@@ -322,7 +322,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                 class="vendor-search-input-large"
                 [ngModel]="vendorSearchQuery()"
                 (ngModelChange)="onVendorSearchChange($event)"
-                placeholder="Otsi pakkujat nime, riigi või tüübi järgi..."
+                [placeholder]="lang.t('sc.search_placeholder')"
               />
               @if (vendorSearchQuery()) {
                 <button type="button" class="clear-search-btn-large" (click)="clearVendorSearch(); $event.stopPropagation(); $event.preventDefault()">✕</button>
@@ -337,16 +337,16 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
               @if (vendorSearchQuery()) {
                 <div class="section-label">
                   <span class="section-icon">👤</span>
-                  <span>Sinu pakkujad</span>
+                  <span>{{ lang.t('sc.your_providers') }}</span>
                   <span class="section-count">{{ sortedVendors().length }}</span>
                 </div>
               }
               <div class="vendor-table">
                 <div class="table-header">
-                  <span class="col-name">Nimi</span>
-                  <span class="col-country">Riik</span>
-                  <span class="col-type">Tüüp</span>
-                  <span class="col-risk">Risk</span>
+                  <span class="col-name">{{ lang.t('sc.col_name') }}</span>
+                  <span class="col-country">{{ lang.t('sc.col_country') }}</span>
+                  <span class="col-type">{{ lang.t('sc.col_type') }}</span>
+                  <span class="col-risk">{{ lang.t('sc.col_risk') }}</span>
                 </div>
                 @for (vendor of sortedVendors(); track vendor.id) {
                   <div
@@ -373,7 +373,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
               <div class="global-registry-section" [class.primary]="sortedVendors().length === 0">
                 <div class="global-section-header">
                   <span class="section-icon">🌍</span>
-                  <span class="section-title">Leitud globaalsest registrist</span>
+                  <span class="section-title">{{ lang.t('sc.found_in_global') }}</span>
                   <span class="section-count">{{ globalSearchResults().length }}</span>
                 </div>
                 <div class="global-results-grid">
@@ -386,7 +386,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                             <span class="ctpp-badge" title="Critical Third-Party Provider">CTPP</span>
                           }
                           @if (provider.isVerified) {
-                            <span class="verified-badge" title="Kinnitatud">✓</span>
+                            <span class="verified-badge" [title]="lang.t('sc.verified')">✓</span>
                           }
                         </span>
                         <span class="provider-meta">
@@ -394,11 +394,11 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                           {{ provider.country || 'N/A' }} • {{ provider.serviceType || 'N/A' }}
                         </span>
                         @if (provider.usageCount > 0) {
-                          <span class="usage-info">{{ provider.usageCount }} kasutajat</span>
+                          <span class="usage-info">{{ provider.usageCount }} {{ lang.t('sc.users_count') }}</span>
                         }
                       </div>
                       <button class="add-to-chain-btn" (click)="addGlobalProviderToSupplyChain(provider)">
-                        + Lisa tarneahelasse
+                        {{ lang.t('sc.add_to_supply_chain') }}
                       </button>
                     </div>
                   }
@@ -410,8 +410,8 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
             @if (vendorSearchQuery() && sortedVendors().length === 0 && globalSearchResults().length === 0 && !isSearchingGlobal()) {
               <div class="no-results">
                 <span class="no-results-icon">🔍</span>
-                <p>Pakkujat ei leitud</p>
-                <span class="no-results-hint">Proovi teist otsingusõna</span>
+                <p>{{ lang.t('sc.provider_not_found') }}</p>
+                <span class="no-results-hint">{{ lang.t('sc.try_different_search') }}</span>
               </div>
             }
 
@@ -419,13 +419,13 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
             @if (!vendorSearchQuery() && sortedVendors().length === 0) {
               <div class="vendor-table">
                 <div class="table-header">
-                  <span class="col-name">Nimi</span>
-                  <span class="col-country">Riik</span>
-                  <span class="col-type">Tüüp</span>
-                  <span class="col-risk">Risk</span>
+                  <span class="col-name">{{ lang.t('sc.col_name') }}</span>
+                  <span class="col-country">{{ lang.t('sc.col_country') }}</span>
+                  <span class="col-type">{{ lang.t('sc.col_type') }}</span>
+                  <span class="col-risk">{{ lang.t('sc.col_risk') }}</span>
                 </div>
                 <div class="empty-state">
-                  <p>Lisa esimene pakkuja klõpsates "Lisa pakkuja"</p>
+                  <p>{{ lang.t('sc.add_first_hint') }}</p>
                 </div>
               </div>
             }
@@ -441,24 +441,24 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                 </div>
                 <div class="panel-body">
                   <div class="vendor-detail">
-                    <span class="detail-label">Riik:</span>
+                    <span class="detail-label">{{ lang.t('sc.country_label') }}</span>
                     <span>{{ getFlag(selectedVendor()!.countryCode) }} {{ selectedVendor()!.country }}</span>
                   </div>
                   <div class="vendor-detail">
-                    <span class="detail-label">Tüüp:</span>
+                    <span class="detail-label">{{ lang.t('sc.type_label') }}</span>
                     <span>{{ selectedVendor()!.type }}</span>
                   </div>
                   <div class="vendor-detail">
-                    <span class="detail-label">Riskiskoor:</span>
+                    <span class="detail-label">{{ lang.t('sc.risk_score_label') }}</span>
                     <span class="risk-badge large" [class]="getRiskClass(selectedVendor()!.riskScore)">
                       {{ selectedVendor()!.riskScore }}
                     </span>
                   </div>
 
                   <div class="subcontractors-section">
-                    <h4>Allhankijate ahel ({{ selectedVendor()!.subcontractors.length }})</h4>
+                    <h4>{{ lang.t('sc.subcontractors_chain') }} ({{ selectedVendor()!.subcontractors.length }})</h4>
                     @if (selectedVendor()!.subcontractors.length === 0) {
-                      <p class="no-subs">Allhankijaid pole registreeritud.</p>
+                      <p class="no-subs">{{ lang.t('sc.no_subcontractors') }}</p>
                     } @else {
                       <div class="sub-chain">
                         @for (sub of selectedVendor()!.subcontractors; track sub.name; let i = $index) {
@@ -631,13 +631,13 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
           <div class="slide-panel" (click)="closeAddVendorPanel()">
             <div class="panel-content add-vendor-panel" (click)="$event.stopPropagation()">
               <div class="panel-header">
-                <h3>Lisa uus pakkuja</h3>
+                <h3>{{ lang.t('sc.add_new_provider') }}</h3>
                 <button class="close-btn" (click)="closeAddVendorPanel()">✕</button>
               </div>
               <div class="panel-body form-body">
                 <!-- Name (with API autocomplete) -->
                 <div class="form-group">
-                  <label class="form-label">Nimi *</label>
+                  <label class="form-label">{{ lang.t('sc.name_field') }} *</label>
                   <div class="searchable-dropdown" [class.open]="showNameDropdown">
                     <div class="name-input-wrapper">
                       <input
@@ -647,7 +647,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                         (input)="onNameInput()"
                         (focus)="onNameFocus()"
                         (blur)="onNameBlur()"
-                        placeholder="Ettevõtte nimi (nt. Helmes, AWS...)"
+                        [placeholder]="lang.t('sc.company_name_placeholder')"
                       />
                       @if (isSearchingCompany()) {
                         <span class="name-loading-indicator">⏳</span>
@@ -656,7 +656,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                     @if (showNameDropdown && (companySearchResults().length > 0 || filteredProviders.length > 0)) {
                       <div class="dropdown-list company-dropdown">
                         @if (companySearchResults().length > 0) {
-                          <div class="dropdown-section-header">Äriregistrist</div>
+                          <div class="dropdown-section-header">{{ lang.t('sc.from_business_register') }}</div>
                           @for (company of companySearchResults(); track company.registryCode) {
                             <div
                               class="dropdown-item company-item"
@@ -671,7 +671,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                           }
                         }
                         @if (filteredProviders.length > 0) {
-                          <div class="dropdown-section-header">Tuntud pakkujad</div>
+                          <div class="dropdown-section-header">{{ lang.t('sc.known_providers') }}</div>
                           @for (p of filteredProviders; track p) {
                             <div
                               class="dropdown-item"
@@ -688,7 +688,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
 
                 <!-- Country (Searchable) -->
                 <div class="form-group">
-                  <label class="form-label">Riik</label>
+                  <label class="form-label">{{ lang.t('sc.country_field') }}</label>
                   <div class="searchable-dropdown" [class.open]="showCountryDropdown">
                     <div class="search-input-wrapper">
                       <input
@@ -697,7 +697,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                         [(ngModel)]="countrySearch"
                         (focus)="showCountryDropdown = true"
                         (blur)="onCountryBlur()"
-                        placeholder="Otsi riiki..."
+                        [placeholder]="lang.t('sc.search_country_placeholder')"
                       />
                       @if (newVendorForm.country) {
                         <span class="selected-tag">
@@ -718,7 +718,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                           </div>
                         }
                         @if (filteredCountries.length === 0) {
-                          <div class="dropdown-empty">Ei leitud "{{ countrySearch }}"</div>
+                          <div class="dropdown-empty">{{ lang.t('sc.not_found_search') }} "{{ countrySearch }}"</div>
                         }
                       </div>
                     }
@@ -727,7 +727,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
 
                 <!-- Service Type (Searchable) -->
                 <div class="form-group">
-                  <label class="form-label">Teenuse tüüp</label>
+                  <label class="form-label">{{ lang.t('sc.service_type_field') }}</label>
                   <div class="searchable-dropdown" [class.open]="showTypeDropdown">
                     <div class="search-input-wrapper">
                       <input
@@ -736,7 +736,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                         [(ngModel)]="typeSearch"
                         (focus)="showTypeDropdown = true"
                         (blur)="onTypeBlur()"
-                        placeholder="Otsi teenuse tüüpi..."
+                        [placeholder]="lang.t('sc.search_type_placeholder')"
                       />
                       @if (newVendorForm.type) {
                         <span class="selected-tag">
@@ -757,7 +757,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                           </div>
                         }
                         @if (filteredServiceTypes.length === 0) {
-                          <div class="dropdown-empty">Ei leitud "{{ typeSearch }}"</div>
+                          <div class="dropdown-empty">{{ lang.t('sc.not_found_search') }} "{{ typeSearch }}"</div>
                         }
                       </div>
                     }
@@ -766,37 +766,37 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
 
                 <!-- Criticality -->
                 <div class="form-group">
-                  <label class="form-label">Kriitilisus</label>
+                  <label class="form-label">{{ lang.t('sc.criticality_field') }}</label>
                   <div class="radio-group">
                     <label class="radio-item" [class.selected]="newVendorForm.criticality === 'critical'">
                       <input type="radio" name="criticality" value="critical" [(ngModel)]="newVendorForm.criticality" (ngModelChange)="onFormChange()" />
-                      <span class="radio-label critical">Kriitiline</span>
+                      <span class="radio-label critical">{{ lang.t('sc.criticality_critical') }}</span>
                     </label>
                     <label class="radio-item" [class.selected]="newVendorForm.criticality === 'important'">
                       <input type="radio" name="criticality" value="important" [(ngModel)]="newVendorForm.criticality" (ngModelChange)="onFormChange()" />
-                      <span class="radio-label important">Oluline</span>
+                      <span class="radio-label important">{{ lang.t('sc.criticality_important') }}</span>
                     </label>
                     <label class="radio-item" [class.selected]="newVendorForm.criticality === 'normal'">
                       <input type="radio" name="criticality" value="normal" [(ngModel)]="newVendorForm.criticality" (ngModelChange)="onFormChange()" />
-                      <span class="radio-label normal">Tavaline</span>
+                      <span class="radio-label normal">{{ lang.t('sc.criticality_normal') }}</span>
                     </label>
                   </div>
                 </div>
 
                 <!-- Contract Number -->
                 <div class="form-group">
-                  <label class="form-label">Lepingu nr</label>
+                  <label class="form-label">{{ lang.t('sc.contract_number_field') }}</label>
                   <input
                     type="text"
                     class="form-input"
                     [(ngModel)]="newVendorForm.contractNumber"
-                    placeholder="nt. LEP-2024-001"
+                    [placeholder]="lang.t('sc.contract_number_placeholder')"
                   />
                 </div>
 
                 <!-- Contract Validity -->
                 <div class="form-group">
-                  <label class="form-label">Lepingu kehtivus</label>
+                  <label class="form-label">{{ lang.t('sc.contract_validity_field') }}</label>
                   <div class="date-range">
                     <input
                       type="date"
@@ -814,7 +814,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
 
                 <!-- Subcontractors -->
                 <div class="form-group">
-                  <label class="form-label">Allhankijad</label>
+                  <label class="form-label">{{ lang.t('sc.subcontractors_field') }}</label>
                   <div class="subcontractors-input">
                     @for (sub of newVendorForm.subcontractors; track $index; let i = $index) {
                       <div class="sub-input-row">
@@ -822,20 +822,20 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                           type="text"
                           class="form-input"
                           [(ngModel)]="newVendorForm.subcontractors[i].name"
-                          placeholder="Allhankija nimi"
+                          [placeholder]="lang.t('sc.subcontractor_name_placeholder')"
                         />
                         <button class="remove-sub-btn" (click)="removeSubcontractor(i)">✕</button>
                       </div>
                     }
                     <button class="add-sub-btn" (click)="addSubcontractor()">
-                      + Lisa allhankija
+                      {{ lang.t('sc.add_subcontractor') }}
                     </button>
                   </div>
                 </div>
 
                 <!-- Exit Strategy -->
                 <div class="form-group">
-                  <label class="form-label">Exit strateegia</label>
+                  <label class="form-label">{{ lang.t('sc.exit_strategy_field') }}</label>
                   <div class="toggle-group">
                     <label class="toggle-item">
                       <input
@@ -844,14 +844,14 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                         (ngModelChange)="onFormChange()"
                       />
                       <span class="toggle-switch"></span>
-                      <span class="toggle-label">Exit strateegia olemas</span>
+                      <span class="toggle-label">{{ lang.t('sc.exit_strategy_exists') }}</span>
                     </label>
                   </div>
                   @if (newVendorForm.hasExitStrategy) {
                     <textarea
                       class="form-textarea"
                       [(ngModel)]="newVendorForm.exitStrategyDescription"
-                      placeholder="Kirjelda exit strateegiat..."
+                      [placeholder]="lang.t('sc.exit_strategy_placeholder')"
                       rows="3"
                     ></textarea>
                   }
@@ -859,13 +859,13 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
 
                 <!-- Calculated Risk Score -->
                 <div class="form-group">
-                  <label class="form-label">Arvutatud riskiskoor</label>
+                  <label class="form-label">{{ lang.t('sc.calculated_risk_score') }}</label>
                   <div class="calculated-risk">
                     <span class="risk-badge large" [class]="getRiskClass(calculatedRiskScore())">
                       {{ calculatedRiskScore() }}
                     </span>
                     <span class="risk-explanation">
-                      Arvutatakse: riik + kriitilisus + exit strateegia
+                      {{ lang.t('sc.risk_calculation_hint') }}
                     </span>
                   </div>
                 </div>
@@ -879,16 +879,16 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
 
                 <!-- Submit -->
                 <div class="form-actions">
-                  <button class="cancel-btn" (click)="closeAddVendorPanel()">Tühista</button>
+                  <button class="cancel-btn" (click)="closeAddVendorPanel()">{{ lang.t('sc.cancel') }}</button>
                   <button
                     class="submit-btn"
                     [disabled]="!isFormValid() || isLoading()"
                     (click)="submitNewVendor()"
                   >
                     @if (isLoading()) {
-                      Salvestan...
+                      {{ lang.t('sc.saving') }}
                     } @else {
-                      Lisa pakkuja
+                      {{ lang.t('sc.add_provider') }}
                     }
                   </button>
                 </div>
@@ -902,7 +902,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
           <div class="slide-panel csv-modal" (click)="closeCsvImport()">
             <div class="panel-content csv-panel" (click)="$event.stopPropagation()">
               <div class="panel-header">
-                <h3>Impordi pakkujad CSV-st</h3>
+                <h3>{{ lang.t('sc.import_providers_title') }}</h3>
                 <button class="close-btn" (click)="closeCsvImport()">✕</button>
               </div>
               <div class="panel-body">
@@ -917,11 +917,11 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                   >
                     <div class="dropzone-icon">📄</div>
                     <div class="dropzone-text">
-                      Lohista CSV fail siia
+                      {{ lang.t('sc.drag_csv_here') }}
                     </div>
-                    <div class="dropzone-or">või</div>
+                    <div class="dropzone-or">{{ lang.t('sc.or') }}</div>
                     <label class="file-select-btn">
-                      Vali fail
+                      {{ lang.t('sc.choose_file') }}
                       <input
                         type="file"
                         accept=".csv"
@@ -933,27 +933,27 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
 
                   <div class="csv-template">
                     <a href="javascript:void(0)" (click)="downloadTemplate()">
-                      ↓ Lae alla CSV mall
+                      {{ lang.t('sc.download_csv_template') }}
                     </a>
                   </div>
                 } @else {
                   <!-- Preview Table -->
                   <div class="csv-preview">
                     <div class="preview-header">
-                      <h4>Eelvaade ({{ csvPreviewData().length }} rida)</h4>
-                      <button class="reset-btn" (click)="resetCsvImport()">Vali uus fail</button>
+                      <h4>{{ lang.t('sc.preview_rows') }} ({{ csvPreviewData().length }})</h4>
+                      <button class="reset-btn" (click)="resetCsvImport()">{{ lang.t('sc.choose_new_file') }}</button>
                     </div>
 
                     <div class="preview-table-wrapper">
                       <table class="preview-table">
                         <thead>
                           <tr>
-                            <th>Nimi</th>
-                            <th>Riik</th>
-                            <th>Tüüp</th>
-                            <th>Kriitilisus</th>
-                            <th>Leping</th>
-                            <th>Staatus</th>
+                            <th>{{ lang.t('sc.col_name') }}</th>
+                            <th>{{ lang.t('sc.col_country') }}</th>
+                            <th>{{ lang.t('sc.col_type') }}</th>
+                            <th>{{ lang.t('sc.col_criticality') }}</th>
+                            <th>{{ lang.t('sc.col_contract') }}</th>
+                            <th>{{ lang.t('sc.col_status') }}</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -969,7 +969,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                                   <span class="status-ok">✓</span>
                                 } @else {
                                   <span class="status-error" [title]="row.errors.join(', ')">
-                                    ✕ {{ row.errors.length }} viga
+                                    ✕ {{ row.errors.length }} {{ lang.t('sc.error_count') }}
                                   </span>
                                 }
                               </td>
@@ -981,7 +981,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
 
                     @if (csvErrors().length > 0) {
                       <div class="csv-errors">
-                        <div class="errors-header">Vead ({{ csvErrors().length }}):</div>
+                        <div class="errors-header">{{ lang.t('sc.errors_header') }} ({{ csvErrors().length }}):</div>
                         <ul class="errors-list">
                           @for (error of csvErrors(); track $index) {
                             <li>{{ error }}</li>
@@ -991,13 +991,13 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                     }
 
                     <div class="form-actions">
-                      <button class="cancel-btn" (click)="closeCsvImport()">Tühista</button>
+                      <button class="cancel-btn" (click)="closeCsvImport()">{{ lang.t('sc.cancel') }}</button>
                       <button
                         class="submit-btn"
                         [disabled]="!canImportCsv()"
                         (click)="importCsv()"
                       >
-                        Impordi {{ validCsvRows() }} pakkujat
+                        {{ lang.t('sc.import_providers_btn') }} {{ validCsvRows() }} {{ lang.t('sc.providers_count') }}
                       </button>
                     </div>
                   </div>
