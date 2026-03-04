@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, effect, Inject, PLATFORM_ID, ChangeDetectorRef, afterNextRender, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, effect, Inject, PLATFORM_ID, ChangeDetectorRef, afterNextRender, ViewChild, signal } from '@angular/core';
 import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
@@ -12,6 +12,8 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
 import { OnboardingComponent } from './pages/onboarding.component';
 import { ChatWidgetComponent } from './components/chat-widget.component';
 import { ToastService } from './auth/toast.service';
+import { ApiService } from './api.service';
+import { ComplianceAlert } from './models';
 
 @Component({
   selector: 'app-root',
@@ -328,6 +330,76 @@ import { ToastService } from './auth/toast.service';
             </svg>
             {{ lang.currentLang.toUpperCase() }}
           </button>
+          <!-- Notification bell (logged in only) -->
+          @if (auth.isLoggedIn()) {
+            <div class="relative nav-dropdown-trigger">
+              <button type="button" (click)="toggleMenu('notif', $event)"
+                      class="relative w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-rose-400 hover:bg-slate-700/30 transition-all">
+                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                </svg>
+                @if (notifBadge() > 0) {
+                  <span class="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-red-500 text-white text-[9px] font-bold flex items-center justify-center animate-pulse">
+                    {{ notifBadge() > 9 ? '9+' : notifBadge() }}
+                  </span>
+                }
+              </button>
+              <div *ngIf="notifMenu" class="absolute right-0 top-full mt-1 w-80 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 z-50 overflow-hidden">
+                <div class="px-4 py-3 border-b border-slate-700/30 flex items-center justify-between">
+                  <span class="text-sm font-semibold text-white">{{ lang.t('notifications.title') }}</span>
+                  <a routerLink="/notifications" (click)="closeAllMenus()"
+                     class="text-[10px] text-emerald-400 hover:text-emerald-300 font-medium">{{ lang.t('notifications.view_all') }}</a>
+                </div>
+                @if (notifAlerts().length === 0) {
+                  <div class="px-4 py-6 text-center">
+                    <svg class="w-8 h-8 mx-auto text-emerald-400/50 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <p class="text-xs text-slate-400">{{ lang.t('notifications.no_alerts') }}</p>
+                  </div>
+                }
+                @for (alert of notifAlerts().slice(0, 5); track alert.alertKey) {
+                  <a [routerLink]="alert.link" (click)="closeAllMenus()"
+                     class="flex items-start gap-3 px-4 py-3 hover:bg-slate-700/30 transition-colors border-b border-slate-700/20 last:border-0">
+                    <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                         [class]="alert.severity === 'CRITICAL' ? 'bg-red-500/10' : alert.severity === 'WARNING' ? 'bg-amber-500/10' : 'bg-blue-500/10'">
+                      @if (alert.severity === 'CRITICAL') {
+                        <svg class="w-3.5 h-3.5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                        </svg>
+                      } @else if (alert.severity === 'WARNING') {
+                        <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                      } @else {
+                        <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                      }
+                    </div>
+                    <div class="min-w-0 flex-1">
+                      <div class="flex items-center gap-1.5 mb-0.5">
+                        <span class="text-[9px] px-1 py-0.5 rounded font-bold"
+                              [class]="alert.severity === 'CRITICAL' ? 'bg-red-500/10 text-red-400' : alert.severity === 'WARNING' ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-500/10 text-blue-400'">
+                          {{ alert.severity }}
+                        </span>
+                      </div>
+                      <p class="text-xs text-white font-medium truncate">{{ alert.title }}</p>
+                      <p class="text-[10px] text-slate-500 truncate mt-0.5">{{ alert.message }}</p>
+                    </div>
+                  </a>
+                }
+                @if (notifAlerts().length > 5) {
+                  <div class="px-4 py-2 border-t border-slate-700/30 text-center">
+                    <a routerLink="/notifications" (click)="closeAllMenus()"
+                       class="text-xs text-emerald-400 hover:text-emerald-300 font-medium">
+                      +{{ notifAlerts().length - 5 }} {{ lang.t('notifications.more') }}
+                    </a>
+                  </div>
+                }
+              </div>
+            </div>
+          }
           <!-- Separator between lang and user -->
           <div class="w-px h-5 bg-slate-700/50 mx-1"></div>
           <!-- User avatar / Auth -->
@@ -450,6 +522,13 @@ import { ToastService } from './auth/toast.service';
                class="text-sm text-amber-400 hover:text-amber-300 px-3 py-2 rounded-lg hover:bg-amber-500/10 flex items-center justify-between border border-amber-500/20 bg-gradient-to-r from-amber-600/5 to-orange-600/5 mb-1">
               {{ lang.t('nav.audit_readiness') }}
               <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-amber-500/20 text-amber-400 animate-pulse">NEW</span>
+            </a>
+            <a routerLink="/notifications" (click)="mobileMenu = false"
+               class="text-sm text-rose-400 hover:text-rose-300 px-3 py-2 rounded-lg hover:bg-rose-500/10 flex items-center justify-between">
+              {{ lang.t('nav.notifications') }}
+              @if (notifBadge() > 0) {
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-500 text-white min-w-[1.25rem] text-center">{{ notifBadge() }}</span>
+              }
             </a>
             <a routerLink="/command-center" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
@@ -664,8 +743,11 @@ export class AppComponent implements OnInit, OnDestroy {
   managementMenu = false;
   resourcesMenu = false;
   userMenu = false;
+  notifMenu = false;
   showOnboarding = false;
   hideNav = false;
+  notifBadge = signal(0);
+  notifAlerts = signal<ComplianceAlert[]>([]);
   private routerSub?: Subscription;
   isBrowser: boolean;
 
@@ -737,6 +819,7 @@ export class AppComponent implements OnInit, OnDestroy {
     '/vendor-questionnaires': { et: 'Tarnija Küsimustikud | DoraAudit.eu', en: 'Vendor Questionnaires | DoraAudit.eu' },
     '/vendor-survey': { et: 'Tarnija Enesehindamine | DoraAudit.eu', en: 'Vendor Self-Assessment | DoraAudit.eu' },
     '/negotiations': { et: 'Läbirääkimised | DoraAudit.eu', en: 'Negotiations | DoraAudit.eu' },
+    '/notifications': { et: 'Teavituskeskus | DoraAudit.eu', en: 'Notification Center | DoraAudit.eu' },
     '/integrations': { et: 'Integratsioonid | DoraAudit.eu', en: 'Integrations | DoraAudit.eu' },
     '/pillar': { et: 'DORA Samba Detailid | DoraAudit.eu', en: 'DORA Pillar Details | DoraAudit.eu' },
     '/admin/users': { et: 'Admin – Kasutajad | DoraAudit.eu', en: 'Admin – Users | DoraAudit.eu' },
@@ -811,6 +894,7 @@ export class AppComponent implements OnInit, OnDestroy {
     '/vendor-questionnaires': { et: 'Saada DORA vastavuse küsimustikud oma IKT teenusepakkujatele.', en: 'Send DORA compliance questionnaires to your ICT service providers.' },
     '/vendor-survey': { et: 'IKT teenusepakkuja DORA enesehindamise küsimustik.', en: 'ICT service provider DORA self-assessment questionnaire.' },
     '/negotiations': { et: 'Halda DORA lepinguvastavuse läbirääkimisi tarnijatega.', en: 'Manage DORA contract compliance negotiations with vendors.' },
+    '/notifications': { et: 'Reaalajas vastavushoiatused. Jälgi tõendite aegumist, paranduste tähtaegu ja kolmandate osapoolte riske.', en: 'Real-time compliance alerts. Monitor evidence expiry, remediation deadlines, and third-party risks.' },
     '/integrations': { et: 'Ühenda Slack, Microsoft Teams ja webhookid reaalajas DORA teavituste saamiseks.', en: 'Connect Slack, Microsoft Teams, and webhooks for real-time DORA compliance notifications.' },
     '/pillar': { et: 'DORA samba detailne ülevaade ja vastavusnõuded.', en: 'DORA pillar detailed overview and compliance requirements.' },
   };
@@ -825,6 +909,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public subscriptionService: SubscriptionService,
     public toast: ToastService,
     private activatedRoute: ActivatedRoute,
+    private api: ApiService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) platformId: Object,
     private cdr: ChangeDetectorRef
@@ -884,6 +969,21 @@ export class AppComponent implements OnInit, OnDestroy {
         this.showOnboarding = true;
       }
     }
+
+    // Load notification alerts for logged-in users
+    if (this.isBrowser && this.auth.isLoggedIn()) {
+      this.loadNotificationAlerts();
+    }
+  }
+
+  private loadNotificationAlerts() {
+    this.api.getComplianceAlerts().subscribe({
+      next: (alerts) => {
+        this.notifAlerts.set(alerts);
+        this.notifBadge.set(alerts.filter(a => a.severity === 'CRITICAL' || a.severity === 'WARNING').length);
+      },
+      error: () => {}
+    });
   }
 
   ngOnDestroy() {
@@ -981,14 +1081,15 @@ export class AppComponent implements OnInit, OnDestroy {
     this.document.head.appendChild(xDefault);
   }
 
-  toggleMenu(menu: 'dora' | 'management' | 'resources', event: Event) {
+  toggleMenu(menu: 'dora' | 'management' | 'resources' | 'notif', event: Event) {
     event.stopPropagation();
-    const key = (menu + 'Menu') as 'doraMenu' | 'managementMenu' | 'resourcesMenu';
+    const key = (menu + 'Menu') as 'doraMenu' | 'managementMenu' | 'resourcesMenu' | 'notifMenu';
     const wasOpen = this[key];
     this.doraMenu = false;
     this.managementMenu = false;
     this.resourcesMenu = false;
     this.userMenu = false;
+    this.notifMenu = false;
     this[key] = !wasOpen;
   }
 
@@ -997,6 +1098,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.doraMenu = false;
     this.managementMenu = false;
     this.resourcesMenu = false;
+    this.notifMenu = false;
     this.userMenu = !this.userMenu;
   }
 
@@ -1011,6 +1113,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.managementMenu = false;
     this.resourcesMenu = false;
     this.userMenu = false;
+    this.notifMenu = false;
   }
 
   getLangLabel(): string {

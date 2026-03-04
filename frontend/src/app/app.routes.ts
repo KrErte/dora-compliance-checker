@@ -237,6 +237,12 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'Evidence Vault', seoDescription: 'Upload, organize, and link compliance evidence to DORA articles. Track verification status, manage document versions, and export audit-ready ZIP packages.' }
   },
   {
+    path: 'notifications',
+    loadComponent: () => import('./pages/notification-center.component').then(m => m.NotificationCenterComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Notification Center', seoDescription: 'Real-time compliance alerts and notifications. Monitor evidence expiry, remediation deadlines, incident reports, and third-party risks.' }
+  },
+  {
     path: 'deadline-calendar',
     loadComponent: () => import('./pages/deadline-calendar.component').then(m => m.DeadlineCalendarComponent),
     data: { seoTitle: 'DORA Compliance Calendar', seoDescription: 'Personalized DORA compliance deadline calendar. Track RoI submissions, TLPT cycles, contract reviews, and training deadlines.' }

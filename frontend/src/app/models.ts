@@ -300,6 +300,30 @@ export interface OrgInvite {
   expiresAt: string;
 }
 
+// ─── Notifications & Compliance Alerts ──────────────────────────────
+
+export interface ComplianceAlert {
+  severity: 'CRITICAL' | 'WARNING' | 'INFO';
+  category: string;
+  alertKey: string;
+  title: string;
+  message: string;
+  link: string;
+  timestamp: string;
+}
+
+export interface NotificationItem {
+  id: string;
+  userId: string;
+  type: string;
+  title: string;
+  message: string;
+  link: string;
+  severity: string;
+  read: boolean;
+  createdAt: string;
+}
+
 // ─── DORA 5 Pillars: shared category mapping ───────────────────────
 
 export const PILLAR_CATEGORIES: { [pillarId: string]: string[] } = {

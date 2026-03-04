@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DoraQuestion, AssessmentRequest, AssessmentResult, ContractAnalysisResult, NegotiationResult, NegotiationMessageResult, MonitoredContract, ContractAlert, RegulatoryUpdate, IncidentReport, IncidentStats, RemediationItem, RemediationStats, Organization, OrgMember, OrgInvite, EvidenceItem, EvidenceStats, EvidenceCoverage } from './models';
+import { DoraQuestion, AssessmentRequest, AssessmentResult, ContractAnalysisResult, NegotiationResult, NegotiationMessageResult, MonitoredContract, ContractAlert, RegulatoryUpdate, IncidentReport, IncidentStats, RemediationItem, RemediationStats, Organization, OrgMember, OrgInvite, EvidenceItem, EvidenceStats, EvidenceCoverage, ComplianceAlert, NotificationItem } from './models';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -390,6 +390,29 @@ export class ApiService {
   // Audit Readiness
   getAuditReadiness(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/audit-readiness`);
+  }
+
+  // Notifications & Compliance Alerts
+  getNotifications(): Observable<NotificationItem[]> {
+    return this.http.get<NotificationItem[]>(`${this.baseUrl}/notifications`);
+  }
+  getUnreadNotifications(): Observable<NotificationItem[]> {
+    return this.http.get<NotificationItem[]>(`${this.baseUrl}/notifications/unread`);
+  }
+  getUnreadCount(): Observable<{ count: number }> {
+    return this.http.get<{ count: number }>(`${this.baseUrl}/notifications/count`);
+  }
+  markNotificationRead(id: string): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/notifications/${id}/read`, {});
+  }
+  markAllNotificationsRead(): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/notifications/read-all`, {});
+  }
+  getComplianceAlerts(): Observable<ComplianceAlert[]> {
+    return this.http.get<ComplianceAlert[]>(`${this.baseUrl}/notifications/alerts`);
+  }
+  getComplianceAlertCounts(): Observable<{ critical: number; warning: number; info: number; total: number }> {
+    return this.http.get<{ critical: number; warning: number; info: number; total: number }>(`${this.baseUrl}/notifications/alerts/count`);
   }
 }
 

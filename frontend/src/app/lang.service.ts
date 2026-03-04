@@ -1579,6 +1579,26 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; lv?: string; lt?:
   'readiness.pillar_third_party': { et: 'Kolmandad osapooled', en: 'Third-Party' },
   'readiness.pillar_information_sharing': { et: 'Info jagamine', en: 'Info Sharing' },
 
+  // Notification Center
+  'notifications.title': { et: 'Teavituskeskus', en: 'Notification Center' },
+  'notifications.subtitle': { et: 'Reaalajas vastavushoiatused ja teavitused kõigist moodulitest', en: 'Real-time compliance alerts and notifications across all modules' },
+  'notifications.loading': { et: 'Hoiatuste laadimine...', en: 'Loading alerts...' },
+  'notifications.critical': { et: 'Kriitilised', en: 'Critical' },
+  'notifications.warnings': { et: 'Hoiatused', en: 'Warnings' },
+  'notifications.informational': { et: 'Informatiivsed', en: 'Informational' },
+  'notifications.tab_alerts': { et: 'Hoiatused', en: 'Compliance Alerts' },
+  'notifications.tab_history': { et: 'Ajalugu', en: 'History' },
+  'notifications.all_clear': { et: 'Kõik korras!', en: 'All Clear!' },
+  'notifications.no_alerts': { et: 'Aktiivseid vastavushoiatusi pole', en: 'No active compliance alerts' },
+  'notifications.no_history': { et: 'Teavitusi pole', en: 'No notifications' },
+  'notifications.history_empty': { et: 'Teavituste ajalugu on tühi', en: 'Notification history is empty' },
+  'notifications.view': { et: 'Vaata', en: 'View' },
+  'notifications.view_all': { et: 'Vaata kõiki', en: 'View all' },
+  'notifications.more': { et: 'veel', en: 'more' },
+  'notifications.mark_read': { et: 'Märgi loetuks', en: 'Mark as read' },
+  'notifications.mark_all_read': { et: 'Märgi kõik loetuks', en: 'Mark all as read' },
+  'nav.notifications': { et: 'Teavitused', en: 'Notifications' },
+
   // Certificate
   'cert.subtitle': { et: 'DORA Vastavuskontroll', en: 'DORA Compliance Check' },
   'cert.title': { et: 'Vastavustunnistus', en: 'Compliance Certificate' },
