@@ -214,6 +214,22 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'Concentration Risk Analysis', seoDescription: 'DORA Article 29 ICT provider concentration risk analysis. Identify over-reliance on single providers.' }
   },
   {
+    path: 'peer-benchmarking',
+    loadComponent: () => import('./pages/peer-benchmarking.component').then(m => m.PeerBenchmarkingComponent),
+    data: { seoTitle: 'Peer Benchmarking', seoDescription: 'Compare your DORA compliance scores against industry peers. Anonymous benchmarking with radar charts and percentile rankings.' }
+  },
+  {
+    path: 'whatif-simulator',
+    loadComponent: () => import('./pages/whatif-simulator.component').then(m => m.WhatifSimulatorComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'What-If Scenario Simulator', seoDescription: 'Simulate ICT provider failure scenarios. Analyze impact on services, estimate recovery time, and plan mitigations per DORA requirements.' }
+  },
+  {
+    path: 'deadline-calendar',
+    loadComponent: () => import('./pages/deadline-calendar.component').then(m => m.DeadlineCalendarComponent),
+    data: { seoTitle: 'DORA Compliance Calendar', seoDescription: 'Personalized DORA compliance deadline calendar. Track RoI submissions, TLPT cycles, contract reviews, and training deadlines.' }
+  },
+  {
     path: 'training',
     loadComponent: () => import('./pages/training-tracker.component').then(m => m.TrainingTrackerComponent),
     canActivate: [authGuard],

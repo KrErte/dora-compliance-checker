@@ -45,6 +45,7 @@ public class BenchmarkController {
                     "RED", 30
                 ));
                 benchmark.put("industryBenchmarks", getIndustryBenchmarks());
+                benchmark.put("pillarAverages", getPillarAverages());
                 return ResponseEntity.ok(benchmark);
             }
 
@@ -77,6 +78,7 @@ public class BenchmarkController {
 
             // Industry benchmarks (simulated - in production would come from industry data)
             benchmark.put("industryBenchmarks", getIndustryBenchmarks());
+            benchmark.put("pillarAverages", getPillarAverages());
 
         } catch (Exception e) {
             // Fallback to mock data on any error
@@ -94,6 +96,7 @@ public class BenchmarkController {
                 "RED", 30
             ));
             benchmark.put("industryBenchmarks", getIndustryBenchmarks());
+            benchmark.put("pillarAverages", getPillarAverages());
         }
 
         return ResponseEntity.ok(benchmark);
@@ -157,6 +160,16 @@ public class BenchmarkController {
             "payment", Map.of("average", 55.0, "label", "Payment Services"),
             "fintech", Map.of("average", 52.0, "label", "FinTech"),
             "ict_provider", Map.of("average", 71.0, "label", "ICT Providers")
+        );
+    }
+
+    private Map<String, Object> getPillarAverages() {
+        return Map.of(
+            "ICT_RISK_MANAGEMENT", 63.5,
+            "INCIDENT_MANAGEMENT", 58.2,
+            "TESTING", 51.8,
+            "THIRD_PARTY", 66.3,
+            "INFORMATION_SHARING", 47.1
         );
     }
 
