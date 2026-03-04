@@ -26,7 +26,7 @@ import { SubscriptionService } from '../../services/subscription.service';
             <h1 class="text-2xl font-bold text-white mt-1">{{ register?.entityName || lang.t('roi.new_register') }}</h1>
           </div>
           <span class="text-xs px-3 py-1 rounded-full" [class]="register?.status === 'VALID' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-500/20 text-slate-400'">
-            {{ register?.status || 'DRAFT' }}
+            {{ register?.status ? lang.t('roi.status_' + register!.status.toLowerCase()) : lang.t('roi.status_draft') }}
           </span>
         </div>
 
@@ -60,10 +60,10 @@ import { SubscriptionService } from '../../services/subscription.service';
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm text-slate-400 mb-1">{{ lang.t('roi.entity_name') }} *</label>
-                <input type="text" [(ngModel)]="form.entityName" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white" placeholder="AS Näidispank">
+                <input type="text" [(ngModel)]="form.entityName" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white" [placeholder]="lang.t('roi.entity_name_example')">
               </div>
               <div>
-                <label class="block text-sm text-slate-400 mb-1">LEI (20 tähemärki)</label>
+                <label class="block text-sm text-slate-400 mb-1">{{ lang.t('roi.lei_label') }}</label>
                 <div class="flex gap-2">
                   <input type="text" [(ngModel)]="form.entityLei" maxlength="20" class="flex-1 bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white font-mono" placeholder="529900T8BM49AURSDO55">
                   <button (click)="lookupLei(form.entityLei)" class="px-3 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm">GLEIF</button>
@@ -87,13 +87,13 @@ import { SubscriptionService } from '../../services/subscription.service';
               </div>
               <div>
                 <label class="block text-sm text-slate-400 mb-1">{{ lang.t('roi.competent_authority') }}</label>
-                <input type="text" [(ngModel)]="form.competentAuthority" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white" placeholder="Finantsinspektsioon">
+                <input type="text" [(ngModel)]="form.competentAuthority" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white" [placeholder]="lang.t('roi.authority_example')">
               </div>
               <div>
                 <label class="block text-sm text-slate-400 mb-1">{{ lang.t('roi.consolidation_scope') }}</label>
                 <select [(ngModel)]="form.consolidationScope" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white">
-                  <option value="IND">IND — Individual</option>
-                  <option value="CON">CON — Consolidated</option>
+                  <option value="IND">{{ lang.t('roi.scope_ind') }}</option>
+                  <option value="CON">{{ lang.t('roi.scope_con') }}</option>
                 </select>
               </div>
               <div>
@@ -160,7 +160,7 @@ import { SubscriptionService } from '../../services/subscription.service';
                       <button (click)="removeProvider(p.id)" class="text-red-400 hover:text-red-300 text-sm">&#10005;</button>
                     </div>
                     @if (p.ultimateParentName) {
-                      <p class="text-xs text-slate-500 mt-1">Parent: {{ p.ultimateParentName }} ({{ p.ultimateParentCountry }})</p>
+                      <p class="text-xs text-slate-500 mt-1">{{ lang.t('roi.parent') }}: {{ p.ultimateParentName }} ({{ p.ultimateParentCountry }})</p>
                     }
                   </div>
                 }
@@ -173,7 +173,7 @@ import { SubscriptionService } from '../../services/subscription.service';
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <input type="text" [(ngModel)]="newProvider.providerName" placeholder="{{ lang.t('roi.provider_name') }} *" class="bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white">
                 <div class="flex gap-2">
-                  <input type="text" [(ngModel)]="newProvider.providerIdentifier" placeholder="LEI / Identifier" class="flex-1 bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white font-mono">
+                  <input type="text" [(ngModel)]="newProvider.providerIdentifier" [placeholder]="lang.t('roi.lei_identifier')" class="flex-1 bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white font-mono">
                   <button (click)="lookupProviderLei()" class="px-3 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm">GLEIF</button>
                 </div>
                 <select [(ngModel)]="newProvider.providerType" class="bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white">
@@ -218,7 +218,7 @@ import { SubscriptionService } from '../../services/subscription.service';
                       <span class="font-medium text-white">{{ f.functionName }}</span>
                       <span class="text-xs ml-2 px-2 py-0.5 rounded-full"
                             [class]="f.criticalityAssessment === 'Critical' ? 'bg-red-500/20 text-red-400' : (f.criticalityAssessment === 'Important' ? 'bg-amber-500/20 text-amber-400' : 'bg-slate-500/20 text-slate-400')">
-                        {{ f.criticalityAssessment || 'Neither' }}
+                        {{ f.criticalityAssessment || lang.t('roi.neither') }}
                       </span>
                     </div>
                     <button (click)="removeFunction(f.id)" class="text-red-400 hover:text-red-300 text-sm">&#10005;</button>
@@ -271,7 +271,7 @@ import { SubscriptionService } from '../../services/subscription.service';
             <div class="border-t border-slate-700/50 pt-4">
               <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.add_contract') }}</h3>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <input type="text" [(ngModel)]="newContract.contractRefNumber" placeholder="{{ lang.t('roi.contract_ref') }} * (nt ARR-0001)" class="bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                <input type="text" [(ngModel)]="newContract.contractRefNumber" placeholder="{{ lang.t('roi.contract_ref') }} * ({{ lang.t('roi.example_short') }} ARR-0001)" class="bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white">
                 <select [(ngModel)]="newContract.contractType" class="bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white">
                   <option value="">{{ lang.t('roi.contract_type') }}...</option>
                   @for (t of contractTypes; track t.code) {
@@ -316,7 +316,7 @@ import { SubscriptionService } from '../../services/subscription.service';
                   <input type="text" [(ngModel)]="newContractDetail.dataLocationStorage" placeholder="{{ lang.t('roi.data_location_storage') }} (EE)" maxlength="2" class="bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white">
                   <input type="text" [(ngModel)]="newContractDetail.dataLocationProcessing" placeholder="{{ lang.t('roi.data_location_processing') }} (EE)" maxlength="2" class="bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white">
                   <div class="flex items-center gap-3">
-                    <label class="text-sm text-slate-400">Exit {{ lang.t('roi.plan') }}:</label>
+                    <label class="text-sm text-slate-400">{{ lang.t('roi.exit_plan') }}:</label>
                     <input type="checkbox" [(ngModel)]="newContractDetail.exitPlanExists" class="w-4 h-4 accent-emerald-500">
                   </div>
                 </div>
@@ -384,7 +384,7 @@ import { SubscriptionService } from '../../services/subscription.service';
                             [class]="a.riskLevel === 'Critical' ? 'bg-red-500/20 text-red-400' : (a.riskLevel === 'High' ? 'bg-amber-500/20 text-amber-400' : 'bg-emerald-500/20 text-emerald-400')">
                         {{ a.riskLevel }}
                       </span>
-                      <span class="text-xs text-slate-500 ml-2">Exit: {{ a.exitStrategyExists ? 'Jah' : 'Ei' }}</span>
+                      <span class="text-xs text-slate-500 ml-2">Exit: {{ a.exitStrategyExists ? lang.t('roi.yes') : lang.t('roi.no') }}</span>
                     </div>
                     <button (click)="removeAssessment(a.id)" class="text-red-400 hover:text-red-300 text-sm">&#10005;</button>
                   </div>
@@ -465,7 +465,7 @@ import { SubscriptionService } from '../../services/subscription.service';
               <!-- Template Completeness -->
               @if (validationResult.completeness) {
                 <div class="mb-6">
-                  <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.template_completeness') || 'Template Completeness' }}</h3>
+                  <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.template_completeness') }}</h3>
                   <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
                     @for (entry of getCompletenessEntries(); track entry.templateCode) {
                       <div class="bg-slate-800/30 rounded-lg p-3">
@@ -512,11 +512,11 @@ import { SubscriptionService } from '../../services/subscription.service';
               <h3 class="text-sm font-semibold text-slate-400 mb-4">{{ lang.t('roi.export_options') }}</h3>
               <div class="flex flex-wrap gap-3">
                 <button (click)="exportExcel()" class="px-5 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-semibold flex items-center gap-2">
-                  <span>&#128196;</span> Excel (.xlsx)
+                  <span>&#128196;</span> {{ lang.t('roi.export_excel') }}
                 </button>
                 <button (click)="exportXbrlCsv()" class="px-5 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-semibold flex items-center gap-2">
-                  <span>&#128230;</span> xBRL-CSV (.zip)
-                  <span class="text-xs bg-blue-500/30 px-2 py-0.5 rounded-full">Enterprise</span>
+                  <span>&#128230;</span> {{ lang.t('roi.export_xbrl') }}
+                  <span class="text-xs bg-blue-500/30 px-2 py-0.5 rounded-full">{{ lang.t('roi.tier_enterprise') }}</span>
                 </button>
               </div>
             </div>
@@ -565,15 +565,17 @@ export class RoiWizardComponent implements OnInit {
   commonFunctions = COMMON_FUNCTIONS;
   presetProviders = PRESET_PROVIDERS;
 
-  steps = [
-    { num: 1, label: 'Ettevõte' },
-    { num: 2, label: 'Pakkujad' },
-    { num: 3, label: 'Funktsioonid' },
-    { num: 4, label: 'Lepingud' },
-    { num: 5, label: 'Linkimine' },
-    { num: 6, label: 'Hindamine' },
-    { num: 7, label: 'Eksport' }
-  ];
+  get steps() {
+    return [
+      { num: 1, label: this.lang.t('roi.step_entity') },
+      { num: 2, label: this.lang.t('roi.step_providers') },
+      { num: 3, label: this.lang.t('roi.step_functions') },
+      { num: 4, label: this.lang.t('roi.step_contracts') },
+      { num: 5, label: this.lang.t('roi.step_linking') },
+      { num: 6, label: this.lang.t('roi.step_assessment') },
+      { num: 7, label: this.lang.t('roi.step_export') }
+    ];
+  }
 
   // Form data for step 1
   form: any = {

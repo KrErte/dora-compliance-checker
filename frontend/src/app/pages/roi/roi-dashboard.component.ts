@@ -14,8 +14,8 @@ import { RoiService, RoiRegister } from '../../services/roi.service';
         <!-- Header -->
         <div class="flex items-center justify-between mb-8">
           <div>
-            <h1 class="text-3xl font-bold text-white">Register of Information</h1>
-            <p class="text-slate-400 mt-1">DORA Art. 28(3) — ICT kolmandate osapoolte lepingute register</p>
+            <h1 class="text-3xl font-bold text-white">{{ lang.t('roi.page_title') }}</h1>
+            <p class="text-slate-400 mt-1">{{ lang.t('roi.page_subtitle') }}</p>
           </div>
           <a routerLink="/roi/new"
              class="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-xl transition-all">
@@ -83,7 +83,7 @@ import { RoiService, RoiRegister } from '../../services/roi.service';
                   <div class="flex items-center gap-4">
                     <span class="text-xs px-3 py-1 rounded-full"
                           [class]="getStatusClass(reg.status)">
-                      {{ reg.status }}
+                      {{ lang.t('roi.status_' + reg.status.toLowerCase()) }}
                     </span>
                     <div class="text-right">
                       <div class="text-xs text-slate-500">{{ lang.t('roi.updated') }}</div>

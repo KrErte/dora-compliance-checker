@@ -230,6 +230,46 @@ export interface RemediationStats {
   deferred: number;
 }
 
+// ─── Evidence Vault ─────────────────────────────────────────────────
+
+export interface EvidenceItem {
+  id: string;
+  userId: string;
+  title: string;
+  description?: string;
+  category: string;
+  pillar: string;
+  fileName: string;
+  storedFileName: string;
+  fileSize: number;
+  mimeType: string;
+  fileHash?: string;
+  version: number;
+  previousVersionId?: string;
+  status: 'PENDING' | 'VERIFIED' | 'EXPIRED';
+  expiryDate?: string;
+  verifiedBy?: string;
+  verifiedAt?: string;
+  notes?: string;
+  articleNumbers?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface EvidenceStats {
+  total: number;
+  pending: number;
+  verified: number;
+  expired: number;
+}
+
+export interface EvidenceCoverage {
+  articles: { [key: number]: number };
+  covered: number;
+  total: number;
+  percentage: number;
+}
+
 // ─── Organization / Team ────────────────────────────────────────────
 
 export interface Organization {

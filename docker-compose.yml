@@ -78,6 +78,7 @@ services:
         max-file: "3"
     volumes:
       - branding_data:/app/data/branding
+      - evidence_data:/app/data/evidence
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
@@ -193,4 +194,5 @@ volumes:
   caddy_data:
   caddy_config:
   branding_data:
+  evidence_data:
   pg_backups:

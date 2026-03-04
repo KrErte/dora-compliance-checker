@@ -937,7 +937,10 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('DoraAudit.eu — DORA ja NIS2 vastavusplatvorm Baltikumi ettevõtetele');
+    const title = this.lang.currentLang === 'et'
+      ? 'DoraAudit.eu — DORA ja NIS2 vastavusplatvorm Baltikumi ettevõtetele'
+      : 'DoraAudit.eu — DORA & NIS2 Compliance Platform for Baltic Companies';
+    this.titleService.setTitle(title);
     this.loadPublicStats();
 
     // Track page view

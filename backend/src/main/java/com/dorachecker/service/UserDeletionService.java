@@ -29,6 +29,7 @@ public class UserDeletionService {
     private final IncidentReportRepository incidentReportRepository;
     private final RemediationItemRepository remediationItemRepository;
     private final IntegrationConfigRepository integrationConfigRepository;
+    private final EvidenceService evidenceService;
 
     public UserDeletionService(UserRepository userRepository,
                                ContractAlertRepository contractAlertRepository,
@@ -43,7 +44,8 @@ public class UserDeletionService {
                                WorkspaceProjectRepository workspaceProjectRepository,
                                IncidentReportRepository incidentReportRepository,
                                RemediationItemRepository remediationItemRepository,
-                               IntegrationConfigRepository integrationConfigRepository) {
+                               IntegrationConfigRepository integrationConfigRepository,
+                               EvidenceService evidenceService) {
         this.userRepository = userRepository;
         this.contractAlertRepository = contractAlertRepository;
         this.monitoredContractRepository = monitoredContractRepository;
@@ -58,6 +60,7 @@ public class UserDeletionService {
         this.incidentReportRepository = incidentReportRepository;
         this.remediationItemRepository = remediationItemRepository;
         this.integrationConfigRepository = integrationConfigRepository;
+        this.evidenceService = evidenceService;
     }
 
     @Transactional
@@ -89,7 +92,10 @@ public class UserDeletionService {
         remediationItemRepository.deleteAll(remediationItemRepository.findByUserIdOrderByCreatedAtDesc(userId));
         integrationConfigRepository.deleteAll(integrationConfigRepository.findByUserIdOrderByCreatedAtDesc(userId));
 
-        // 5. Delete branding logo files from disk
+        // 5. Delete evidence files + records
+        evidenceService.deleteAllForUser(userId);
+
+        // 6. Delete branding logo files from disk
         try {
             Path logoDir = Paths.get("/app/data/branding/logos", userId);
             if (Files.exists(logoDir)) {
@@ -103,7 +109,7 @@ public class UserDeletionService {
             log.warn("Failed to delete logo files for userId={}: {}", userId, e.getMessage());
         }
 
-        // 6. Delete user account
+        // 7. Delete user account
         userRepository.deleteById(userId);
 
         log.info("GDPR deletion completed for userId={}", userId);

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { VendorQuestionnaireService, VendorQuestionnaire, QuestionnaireQuestion } from '../services/vendor-questionnaire.service';
+import { LangService } from '../lang.service';
 
 @Component({
   selector: 'app-vendor-questionnaire-list',
@@ -13,9 +14,9 @@ import { VendorQuestionnaireService, VendorQuestionnaire, QuestionnaireQuestion 
       <div class="max-w-5xl mx-auto">
         <div class="flex items-center justify-between mb-8">
           <div>
-            <a routerLink="/command-center" class="text-sm text-slate-500 hover:text-emerald-400 transition-colors">&larr; Command Center</a>
-            <h1 class="text-2xl font-bold text-white mt-1">Vendor Self-Assessment</h1>
-            <p class="text-sm text-slate-400 mt-1">Send DORA compliance questionnaires to your ICT service providers</p>
+            <a routerLink="/command-center" class="text-sm text-slate-500 hover:text-emerald-400 transition-colors">&larr; {{ lang.t('vq.back') }}</a>
+            <h1 class="text-2xl font-bold text-white mt-1">{{ lang.t('vq.title') }}</h1>
+            <p class="text-sm text-slate-400 mt-1">{{ lang.t('vq.subtitle') }}</p>
           </div>
         </div>
 
@@ -23,41 +24,41 @@ import { VendorQuestionnaireService, VendorQuestionnaire, QuestionnaireQuestion 
         <div class="grid grid-cols-3 gap-4 mb-8">
           <div class="glass-card p-4 text-center">
             <div class="text-2xl font-bold text-amber-400">{{ stats.pending }}</div>
-            <div class="text-xs text-slate-400">Pending</div>
+            <div class="text-xs text-slate-400">{{ lang.t('vq.pending') }}</div>
           </div>
           <div class="glass-card p-4 text-center">
             <div class="text-2xl font-bold text-blue-400">{{ stats.submitted }}</div>
-            <div class="text-xs text-slate-400">Submitted</div>
+            <div class="text-xs text-slate-400">{{ lang.t('vq.submitted') }}</div>
           </div>
           <div class="glass-card p-4 text-center">
             <div class="text-2xl font-bold text-emerald-400">{{ stats.reviewed }}</div>
-            <div class="text-xs text-slate-400">Reviewed</div>
+            <div class="text-xs text-slate-400">{{ lang.t('vq.reviewed') }}</div>
           </div>
         </div>
 
         <!-- Send new questionnaire -->
         <div class="glass-card p-6 mb-8">
-          <h2 class="text-lg font-semibold text-white mb-4">Send New Questionnaire</h2>
+          <h2 class="text-lg font-semibold text-white mb-4">{{ lang.t('vq.send_new') }}</h2>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label class="block text-sm text-slate-400 mb-1">Vendor Name *</label>
-              <input type="text" [(ngModel)]="newVendorName" placeholder="e.g. Amazon Web Services"
+              <label class="block text-sm text-slate-400 mb-1">{{ lang.t('vq.vendor_name') }}</label>
+              <input type="text" [(ngModel)]="newVendorName" [placeholder]="lang.t('vq.vendor_placeholder')"
                      class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white">
             </div>
             <div>
-              <label class="block text-sm text-slate-400 mb-1">Vendor Email *</label>
+              <label class="block text-sm text-slate-400 mb-1">{{ lang.t('vq.vendor_email') }}</label>
               <input type="email" [(ngModel)]="newVendorEmail" placeholder="vendor@example.com"
                      class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white">
             </div>
             <div class="flex items-end">
               <button (click)="sendQuestionnaire()" [disabled]="!newVendorName || !newVendorEmail || sending"
                       class="w-full px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-semibold disabled:opacity-30 disabled:cursor-not-allowed">
-                {{ sending ? 'Sending...' : 'Send Questionnaire' }}
+                {{ sending ? lang.t('vq.sending') : lang.t('vq.send_btn') }}
               </button>
             </div>
           </div>
           @if (sendSuccess) {
-            <p class="text-sm text-emerald-400 mt-3">Questionnaire sent successfully! The vendor will receive an email invitation.</p>
+            <p class="text-sm text-emerald-400 mt-3">{{ lang.t('vq.send_success') }}</p>
           }
         </div>
 
@@ -74,7 +75,7 @@ import { VendorQuestionnaireService, VendorQuestionnaire, QuestionnaireQuestion 
                     </div>
                     <div>
                       <h3 class="font-medium text-white">{{ q.vendorName }}</h3>
-                      <p class="text-xs text-slate-500">{{ q.vendorEmail }} &middot; Sent {{ q.createdAt | date:'mediumDate' }}</p>
+                      <p class="text-xs text-slate-500">{{ q.vendorEmail }} &middot; {{ lang.t('vq.sent') }} {{ q.createdAt | date:'mediumDate' }}</p>
                     </div>
                   </div>
                   <div class="flex items-center gap-3">
@@ -83,29 +84,29 @@ import { VendorQuestionnaireService, VendorQuestionnaire, QuestionnaireQuestion 
                         <div class="text-lg font-bold" [class]="q.riskScore <= 30 ? 'text-emerald-400' : (q.riskScore <= 60 ? 'text-amber-400' : 'text-red-400')">
                           {{ q.riskScore }}
                         </div>
-                        <div class="text-[10px] text-slate-500">Risk Score</div>
+                        <div class="text-[10px] text-slate-500">{{ lang.t('vq.risk_score') }}</div>
                       </div>
                     }
                     <span class="px-3 py-1 rounded-full text-xs font-medium"
                           [class]="q.status === 'SUBMITTED' ? 'bg-blue-500/20 text-blue-400' : (q.status === 'REVIEWED' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400')">
-                      {{ q.status }}
+                      {{ q.status === 'PENDING' ? lang.t('vq.pending') : (q.status === 'SUBMITTED' ? lang.t('vq.submitted') : lang.t('vq.reviewed')) }}
                     </span>
                     @if (q.status === 'PENDING') {
                       <button (click)="resend(q)" class="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-xs">
-                        Resend
+                        {{ lang.t('vq.resend') }}
                       </button>
                     }
                     @if (q.status === 'SUBMITTED') {
                       <button (click)="viewResponses(q)" class="px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs">
-                        View
+                        {{ lang.t('vq.view') }}
                       </button>
                       <button (click)="markReviewed(q)" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs">
-                        Mark Reviewed
+                        {{ lang.t('vq.mark_reviewed') }}
                       </button>
                     }
                     @if (q.status === 'REVIEWED') {
                       <button (click)="viewResponses(q)" class="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-xs">
-                        View
+                        {{ lang.t('vq.view') }}
                       </button>
                     }
                   </div>
@@ -114,7 +115,7 @@ import { VendorQuestionnaireService, VendorQuestionnaire, QuestionnaireQuestion 
                 <!-- Expanded responses -->
                 @if (expandedId === q.id && q.responses) {
                   <div class="mt-4 pt-4 border-t border-slate-700/50">
-                    <h4 class="text-sm font-semibold text-slate-300 mb-3">Vendor Responses</h4>
+                    <h4 class="text-sm font-semibold text-slate-300 mb-3">{{ lang.t('vq.responses') }}</h4>
                     <div class="space-y-2 max-h-96 overflow-y-auto">
                       @for (r of parseResponses(q.responses); track r.id) {
                         <div class="flex items-start justify-between gap-4 p-3 rounded-lg bg-slate-800/30">
@@ -124,7 +125,7 @@ import { VendorQuestionnaireService, VendorQuestionnaire, QuestionnaireQuestion 
                           </div>
                           <span class="px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap"
                                 [class]="r.answer === 'yes' ? 'bg-emerald-500/20 text-emerald-400' : (r.answer === 'partial' ? 'bg-amber-500/20 text-amber-400' : (r.answer === 'no' ? 'bg-red-500/20 text-red-400' : 'bg-slate-500/20 text-slate-400'))">
-                            {{ r.answer === 'yes' ? 'Yes' : (r.answer === 'partial' ? 'Partial' : (r.answer === 'no' ? 'No' : 'N/A')) }}
+                            {{ r.answer === 'yes' ? lang.t('vq.yes') : (r.answer === 'partial' ? lang.t('vq.partial') : (r.answer === 'no' ? lang.t('vq.no') : lang.t('vq.na'))) }}
                           </span>
                         </div>
                       }
@@ -137,8 +138,8 @@ import { VendorQuestionnaireService, VendorQuestionnaire, QuestionnaireQuestion 
         } @else {
           <div class="glass-card p-8 text-center">
             <div class="text-4xl mb-3 opacity-30">&#128203;</div>
-            <h3 class="text-lg font-semibold text-white mb-2">No questionnaires sent yet</h3>
-            <p class="text-sm text-slate-400">Send your first DORA self-assessment questionnaire to an ICT provider above</p>
+            <h3 class="text-lg font-semibold text-white mb-2">{{ lang.t('vq.empty_title') }}</h3>
+            <p class="text-sm text-slate-400">{{ lang.t('vq.empty_desc') }}</p>
           </div>
         }
       </div>
@@ -162,7 +163,7 @@ export class VendorQuestionnaireListComponent implements OnInit {
   sendSuccess = false;
   expandedId: string | null = null;
 
-  constructor(private service: VendorQuestionnaireService) {}
+  constructor(public lang: LangService, private service: VendorQuestionnaireService) {}
 
   ngOnInit() {
     this.load();

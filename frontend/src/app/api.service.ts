@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DoraQuestion, AssessmentRequest, AssessmentResult, ContractAnalysisResult, NegotiationResult, NegotiationMessageResult, MonitoredContract, ContractAlert, RegulatoryUpdate, IncidentReport, IncidentStats, RemediationItem, RemediationStats, Organization, OrgMember, OrgInvite } from './models';
+import { DoraQuestion, AssessmentRequest, AssessmentResult, ContractAnalysisResult, NegotiationResult, NegotiationMessageResult, MonitoredContract, ContractAlert, RegulatoryUpdate, IncidentReport, IncidentStats, RemediationItem, RemediationStats, Organization, OrgMember, OrgInvite, EvidenceItem, EvidenceStats, EvidenceCoverage } from './models';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -345,6 +345,51 @@ export class ApiService {
   }
   deleteSsoConfig(orgId: string, configId: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/organizations/${orgId}/sso/${configId}`);
+  }
+
+  // Evidence Vault
+  uploadEvidence(formData: FormData): Observable<EvidenceItem> {
+    return this.http.post<EvidenceItem>(`${this.baseUrl}/evidence`, formData);
+  }
+  getEvidence(params?: { pillar?: string; status?: string }): Observable<EvidenceItem[]> {
+    let url = `${this.baseUrl}/evidence`;
+    const qp: string[] = [];
+    if (params?.pillar) qp.push(`pillar=${params.pillar}`);
+    if (params?.status) qp.push(`status=${params.status}`);
+    if (qp.length) url += '?' + qp.join('&');
+    return this.http.get<EvidenceItem[]>(url);
+  }
+  getEvidenceById(id: string): Observable<EvidenceItem> {
+    return this.http.get<EvidenceItem>(`${this.baseUrl}/evidence/${id}`);
+  }
+  updateEvidence(id: string, data: any): Observable<EvidenceItem> {
+    return this.http.put<EvidenceItem>(`${this.baseUrl}/evidence/${id}`, data);
+  }
+  deleteEvidence(id: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/evidence/${id}`);
+  }
+  verifyEvidence(id: string, verifiedBy: string): Observable<EvidenceItem> {
+    return this.http.post<EvidenceItem>(`${this.baseUrl}/evidence/${id}/verify`, { verifiedBy });
+  }
+  uploadEvidenceVersion(id: string, formData: FormData): Observable<EvidenceItem> {
+    return this.http.post<EvidenceItem>(`${this.baseUrl}/evidence/${id}/version`, formData);
+  }
+  downloadEvidence(id: string): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/evidence/${id}/download`, { responseType: 'blob' });
+  }
+  getEvidenceStats(): Observable<EvidenceStats> {
+    return this.http.get<EvidenceStats>(`${this.baseUrl}/evidence/stats`);
+  }
+  getEvidenceCoverage(): Observable<EvidenceCoverage> {
+    return this.http.get<EvidenceCoverage>(`${this.baseUrl}/evidence/coverage`);
+  }
+  exportEvidenceZip(): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/evidence/export`, { responseType: 'blob' });
+  }
+
+  // Audit Readiness
+  getAuditReadiness(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/audit-readiness`);
   }
 }
 

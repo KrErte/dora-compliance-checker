@@ -225,6 +225,18 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'What-If Scenario Simulator', seoDescription: 'Simulate ICT provider failure scenarios. Analyze impact on services, estimate recovery time, and plan mitigations per DORA requirements.' }
   },
   {
+    path: 'audit-readiness',
+    loadComponent: () => import('./pages/audit-readiness.component').then(m => m.AuditReadinessComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Audit Readiness Score', seoDescription: 'Real-time DORA audit readiness score aggregating all compliance modules. Assessment, evidence, remediation, incidents, and third-party risk in one view.' }
+  },
+  {
+    path: 'evidence-vault',
+    loadComponent: () => import('./pages/evidence-vault.component').then(m => m.EvidenceVaultComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Evidence Vault', seoDescription: 'Upload, organize, and link compliance evidence to DORA articles. Track verification status, manage document versions, and export audit-ready ZIP packages.' }
+  },
+  {
     path: 'deadline-calendar',
     loadComponent: () => import('./pages/deadline-calendar.component').then(m => m.DeadlineCalendarComponent),
     data: { seoTitle: 'DORA Compliance Calendar', seoDescription: 'Personalized DORA compliance deadline calendar. Track RoI submissions, TLPT cycles, contract reviews, and training deadlines.' }
