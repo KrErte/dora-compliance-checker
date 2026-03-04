@@ -414,6 +414,14 @@ export class ApiService {
   getComplianceAlertCounts(): Observable<{ critical: number; warning: number; info: number; total: number }> {
     return this.http.get<{ critical: number; warning: number; info: number; total: number }>(`${this.baseUrl}/notifications/alerts/count`);
   }
+
+  // Compliance Activity Timeline
+  getActivityTimeline(limit: number = 50): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/activity?limit=${limit}`);
+  }
+  getActivityStats(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/activity/stats`);
+  }
 }
 
 export interface BenchmarkData {

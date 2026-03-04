@@ -178,6 +178,14 @@ import { ComplianceAlert } from './models';
                 {{ lang.t('nav.evidence_vault') }}
                 <span class="text-[9px] bg-indigo-500/20 text-indigo-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
               </a>
+              <a routerLink="/activity-timeline" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                {{ lang.t('nav.activity_timeline') }}
+                <span class="text-[9px] bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
+              </a>
               <a routerLink="/negotiations" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -544,6 +552,11 @@ import { ComplianceAlert } from './models';
               {{ lang.t('nav.evidence_vault') }}
               <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-indigo-500/20 text-indigo-400">NEW</span>
             </a>
+            <a routerLink="/activity-timeline" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+              {{ lang.t('nav.activity_timeline') }}
+              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400">NEW</span>
+            </a>
             <a routerLink="/negotiations" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.negotiations') }}</a>
             <a routerLink="/maturity" (click)="mobileMenu = false"
@@ -820,6 +833,7 @@ export class AppComponent implements OnInit, OnDestroy {
     '/vendor-survey': { et: 'Tarnija Enesehindamine | DoraAudit.eu', en: 'Vendor Self-Assessment | DoraAudit.eu' },
     '/negotiations': { et: 'Läbirääkimised | DoraAudit.eu', en: 'Negotiations | DoraAudit.eu' },
     '/notifications': { et: 'Teavituskeskus | DoraAudit.eu', en: 'Notification Center | DoraAudit.eu' },
+    '/activity-timeline': { et: 'Tegevuste ajalugu | DoraAudit.eu', en: 'Activity Timeline | DoraAudit.eu' },
     '/integrations': { et: 'Integratsioonid | DoraAudit.eu', en: 'Integrations | DoraAudit.eu' },
     '/pillar': { et: 'DORA Samba Detailid | DoraAudit.eu', en: 'DORA Pillar Details | DoraAudit.eu' },
     '/admin/users': { et: 'Admin – Kasutajad | DoraAudit.eu', en: 'Admin – Users | DoraAudit.eu' },
@@ -895,6 +909,7 @@ export class AppComponent implements OnInit, OnDestroy {
     '/vendor-survey': { et: 'IKT teenusepakkuja DORA enesehindamise küsimustik.', en: 'ICT service provider DORA self-assessment questionnaire.' },
     '/negotiations': { et: 'Halda DORA lepinguvastavuse läbirääkimisi tarnijatega.', en: 'Manage DORA contract compliance negotiations with vendors.' },
     '/notifications': { et: 'Reaalajas vastavushoiatused. Jälgi tõendite aegumist, paranduste tähtaegu ja kolmandate osapoolte riske.', en: 'Real-time compliance alerts. Monitor evidence expiry, remediation deadlines, and third-party risks.' },
+    '/activity-timeline': { et: 'Kronoloogiline auditirada kõigist DORA vastavustegevustest. Jälgi hindamisi, tõendeid, parandusi ja intsidente.', en: 'Chronological audit trail of all DORA compliance activities. Track assessments, evidence, remediation, and incidents.' },
     '/integrations': { et: 'Ühenda Slack, Microsoft Teams ja webhookid reaalajas DORA teavituste saamiseks.', en: 'Connect Slack, Microsoft Teams, and webhooks for real-time DORA compliance notifications.' },
     '/pillar': { et: 'DORA samba detailne ülevaade ja vastavusnõuded.', en: 'DORA pillar detailed overview and compliance requirements.' },
   };

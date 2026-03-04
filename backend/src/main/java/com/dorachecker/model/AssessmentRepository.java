@@ -33,4 +33,6 @@ public interface AssessmentRepository extends JpaRepository<AssessmentEntity, St
 
     @Query("SELECT COUNT(a) FROM AssessmentEntity a WHERE a.scorePercentage < :score")
     Long countBelowScore(double score);
+
+    List<AssessmentEntity> findByUserIdOrderByAssessmentDateDesc(String userId);
 }

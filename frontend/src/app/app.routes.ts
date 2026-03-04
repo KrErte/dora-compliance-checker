@@ -243,6 +243,12 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'Notification Center', seoDescription: 'Real-time compliance alerts and notifications. Monitor evidence expiry, remediation deadlines, incident reports, and third-party risks.' }
   },
   {
+    path: 'activity-timeline',
+    loadComponent: () => import('./pages/compliance-timeline.component').then(m => m.ComplianceTimelineComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Activity Timeline', seoDescription: 'Chronological audit trail of all DORA compliance activities. Track assessments, evidence, remediation, incidents, and provider changes.' }
+  },
+  {
     path: 'deadline-calendar',
     loadComponent: () => import('./pages/deadline-calendar.component').then(m => m.DeadlineCalendarComponent),
     data: { seoTitle: 'DORA Compliance Calendar', seoDescription: 'Personalized DORA compliance deadline calendar. Track RoI submissions, TLPT cycles, contract reviews, and training deadlines.' }
