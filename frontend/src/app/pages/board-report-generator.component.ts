@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { LangService } from '../lang.service';
+import { ApiService } from '../api.service';
+import { forkJoin } from 'rxjs';
 
 type ReportTemplate = 'full' | 'executive' | 'dashboard';
 
@@ -34,6 +36,40 @@ interface PillarScore {
         <p class="text-slate-400 max-w-2xl mx-auto">
           {{ lang.t('boardrep.generate_a_professional_boardready_compl') }}
         </p>
+      </div>
+
+      <!-- Auto-fill Banner -->
+      <div class="bg-gradient-to-r from-cyan-500/10 via-emerald-500/10 to-cyan-500/10 border border-cyan-500/20 rounded-2xl p-5 flex flex-col sm:flex-row items-center gap-4">
+        <div class="flex-1 text-center sm:text-left">
+          <h3 class="text-white font-semibold mb-1">{{ lang.t('boardrep.autofill_title') }}</h3>
+          <p class="text-sm text-slate-400">{{ lang.t('boardrep.autofill_desc') }}</p>
+        </div>
+        <button (click)="autoFillFromPlatform()"
+                [disabled]="autoFillLoading()"
+                class="flex items-center gap-2 px-6 py-2.5 rounded-xl font-medium text-sm transition-all whitespace-nowrap"
+                [class]="autoFillLoading()
+                  ? 'bg-slate-700 text-slate-400 cursor-wait'
+                  : autoFilled()
+                    ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-400'
+                    : 'bg-gradient-to-r from-cyan-500 to-emerald-500 text-white hover:from-cyan-400 hover:to-emerald-400 shadow-lg shadow-cyan-500/25'">
+          @if (autoFillLoading()) {
+            <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+            </svg>
+            {{ lang.t('boardrep.autofill_loading') }}
+          } @else if (autoFilled()) {
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            {{ lang.t('boardrep.autofill_done') }}
+          } @else {
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+            {{ lang.t('boardrep.autofill_btn') }}
+          }
+        </button>
       </div>
 
       <!-- Template Selector -->
@@ -238,6 +274,21 @@ interface PillarScore {
           <div class="sticky top-4">
             <!-- Export Buttons -->
             <div class="flex flex-wrap gap-2 mb-4">
+              <button (click)="exportAsPdf()"
+                      [disabled]="pdfExporting()"
+                      class="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500/20 border border-red-500/30 text-red-400 text-sm font-medium hover:bg-red-500/30 transition-all">
+                @if (pdfExporting()) {
+                  <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                  </svg>
+                } @else {
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                  </svg>
+                }
+                {{ lang.t('boardrep.download_pdf') }}
+              </button>
               <button (click)="exportAsText()"
                       class="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-sm font-medium hover:bg-emerald-500/30 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -577,6 +628,7 @@ interface PillarScore {
 })
 export class BoardReportGeneratorComponent {
   public lang: LangService;
+  private api: ApiService;
 
   // Template selection
   selectedTemplate: ReportTemplate = 'full';
@@ -617,9 +669,352 @@ export class BoardReportGeneratorComponent {
 
   // UI state
   copied = false;
+  autoFillLoading = signal(false);
+  autoFilled = signal(false);
+  pdfExporting = signal(false);
 
-  constructor(langService: LangService) {
+  // Auto-fill data for PDF enrichment
+  private auditData: any = null;
+  private incidentStats: any = null;
+  private remediationStats: any = null;
+  private evidenceStats: any = null;
+  private evidenceCoverage: any = null;
+
+  constructor(langService: LangService, apiService: ApiService) {
     this.lang = langService;
+    this.api = apiService;
+  }
+
+  autoFillFromPlatform(): void {
+    this.autoFillLoading.set(true);
+    this.autoFilled.set(false);
+
+    forkJoin({
+      audit: this.api.getAuditReadiness(),
+      incidents: this.api.getIncidentStats(),
+      remediation: this.api.getRemediationStats(),
+      evidence: this.api.getEvidenceStats(),
+      coverage: this.api.getEvidenceCoverage(),
+      providers: this.api.getIctProviderStats()
+    }).subscribe({
+      next: (data) => {
+        this.auditData = data.audit;
+        this.incidentStats = data.incidents;
+        this.remediationStats = data.remediation;
+        this.evidenceStats = data.evidence;
+        this.evidenceCoverage = data.coverage;
+
+        // Fill overall score from audit readiness
+        if (data.audit?.overallScore != null) {
+          this.overallScore = Math.round(data.audit.overallScore);
+        }
+
+        // Fill pillar scores from audit readiness
+        if (data.audit?.pillars) {
+          const pillarMap: { [key: string]: string } = {
+            ICT_RISK_MANAGEMENT: 'ict_risk',
+            INCIDENT_MANAGEMENT: 'incident',
+            TESTING: 'testing',
+            THIRD_PARTY: 'third_party',
+            INFORMATION_SHARING: 'info_sharing'
+          };
+          for (const [apiKey, localKey] of Object.entries(pillarMap)) {
+            const pillarData = data.audit.pillars[apiKey];
+            const pillar = this.pillarScores.find(p => p.key === localKey);
+            if (pillar && pillarData?.score != null) {
+              pillar.score = Math.round(pillarData.score);
+            }
+          }
+        }
+
+        // Fill incidents
+        if (data.incidents) {
+          this.openIncidents = data.incidents.open || 0;
+        }
+
+        // Fill third-party count
+        if (data.providers) {
+          this.thirdPartyCount = data.providers.total || 0;
+        }
+
+        // Auto-generate risks from audit actions
+        if (data.audit?.actions?.length) {
+          const risks = data.audit.actions
+            .filter((a: any) => a.priority === 'CRITICAL' || a.priority === 'HIGH')
+            .map((a: any) => a.action)
+            .slice(0, 5);
+          if (risks.length) this.keyRisks = risks.join(', ');
+        }
+
+        // Auto-generate planned actions from audit actions
+        if (data.audit?.actions?.length) {
+          const planned = data.audit.actions
+            .map((a: any) => `[${a.priority}] ${a.action} (${a.module})`)
+            .slice(0, 5);
+          if (planned.length) this.plannedActions = planned.join('\n');
+        }
+
+        // Auto-generate completed actions from remediation
+        if (data.remediation?.completed > 0) {
+          const completedItems: string[] = [];
+          completedItems.push(`${data.remediation.completed} remediation items completed`);
+          if (data.evidence?.verified > 0) {
+            completedItems.push(`${data.evidence.verified} evidence documents verified`);
+          }
+          if (data.incidents?.closed > 0) {
+            completedItems.push(`${data.incidents.closed} incidents resolved`);
+          }
+          this.completedActions = completedItems.join('\n');
+        }
+
+        // Set report date to today
+        this.reportDate = new Date().toISOString().split('T')[0];
+
+        // Determine report period
+        const now = new Date();
+        const q = Math.ceil((now.getMonth() + 1) / 3);
+        this.reportPeriod = `Q${q} ${now.getFullYear()}`;
+
+        this.autoFillLoading.set(false);
+        this.autoFilled.set(true);
+      },
+      error: () => {
+        this.autoFillLoading.set(false);
+      }
+    });
+  }
+
+  async exportAsPdf(): Promise<void> {
+    this.pdfExporting.set(true);
+    try {
+      const { jsPDF } = await import('jspdf');
+      const autoTable = (await import('jspdf-autotable')).default;
+
+      const doc = new jsPDF();
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const margin = 14;
+      let y = 20;
+
+      // Brand colors
+      const emerald = [16, 185, 129] as [number, number, number];
+      const darkBg = [15, 23, 42] as [number, number, number];
+
+      // Header bar
+      doc.setFillColor(...emerald);
+      doc.rect(0, 0, pageWidth, 40, 'F');
+      doc.setFontSize(22);
+      doc.setTextColor(255, 255, 255);
+      doc.text('DORA Compliance Report', margin, 18);
+      doc.setFontSize(11);
+      doc.text(this.companyName || 'Company Name', margin, 27);
+      doc.setFontSize(9);
+      doc.text(`${this.reportPeriod}  |  CONFIDENTIAL`, margin, 34);
+      y = 50;
+
+      // Executive Summary
+      doc.setFontSize(14);
+      doc.setTextColor(...emerald);
+      doc.text('Executive Summary', margin, y);
+      y += 7;
+      doc.setFontSize(10);
+      doc.setTextColor(60, 60, 60);
+      const summaryLines = doc.splitTextToSize(this.getExecutiveSummary(), pageWidth - 2 * margin);
+      doc.text(summaryLines, margin, y);
+      y += summaryLines.length * 5 + 8;
+
+      // Overall Score Box
+      doc.setFillColor(245, 245, 245);
+      doc.roundedRect(margin, y, pageWidth - 2 * margin, 28, 3, 3, 'F');
+      doc.setFontSize(10);
+      doc.setTextColor(100, 100, 100);
+      doc.text('Overall Compliance Score', margin + 10, y + 10);
+      doc.setFontSize(28);
+      const sc = this.overallScore;
+      doc.setTextColor(sc >= 75 ? 16 : sc >= 50 ? 217 : 239, sc >= 75 ? 185 : sc >= 50 ? 119 : 68, sc >= 75 ? 129 : sc >= 50 ? 6 : 68);
+      doc.text(`${this.overallScore}%`, margin + 10, y + 23);
+      doc.setFontSize(12);
+      doc.text(this.getScoreLabel(this.overallScore), margin + 50, y + 23);
+      y += 36;
+
+      // Pillar Scores Table
+      doc.setFontSize(14);
+      doc.setTextColor(...emerald);
+      doc.text('DORA Pillar Scores', margin, y);
+      y += 3;
+
+      const pillarRows = this.pillarScores.map(p => [
+        this.lang.l(p.nameEt, p.nameEn),
+        p.articleRef,
+        `${p.score}%`,
+        p.score >= 75 ? 'Good' : p.score >= 50 ? 'Progressing' : 'At Risk'
+      ]);
+
+      autoTable(doc, {
+        startY: y,
+        head: [['Pillar', 'Articles', 'Score', 'Status']],
+        body: pillarRows,
+        theme: 'striped',
+        headStyles: { fillColor: emerald, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 10 },
+        bodyStyles: { fontSize: 9 },
+        columnStyles: {
+          2: { halign: 'center', fontStyle: 'bold' },
+          3: { halign: 'center' }
+        },
+        margin: { left: margin, right: margin }
+      });
+
+      y = (doc as any).lastAutoTable.finalY + 10;
+
+      // Key Metrics
+      if (y > 240) { doc.addPage(); y = 20; }
+      doc.setFontSize(14);
+      doc.setTextColor(...emerald);
+      doc.text('Key Metrics', margin, y);
+      y += 3;
+
+      autoTable(doc, {
+        startY: y,
+        head: [['Metric', 'Value']],
+        body: [
+          ['Open Incidents', String(this.openIncidents)],
+          ['ICT Third-Party Providers', String(this.thirdPartyCount)],
+          ['Budget Utilization', `${this.budgetUtilization}%`]
+        ],
+        theme: 'striped',
+        headStyles: { fillColor: emerald, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 10 },
+        bodyStyles: { fontSize: 9 },
+        margin: { left: margin, right: margin }
+      });
+
+      y = (doc as any).lastAutoTable.finalY + 10;
+
+      // Risk Heat Map
+      if (y > 240) { doc.addPage(); y = 20; }
+      doc.setFontSize(14);
+      doc.setTextColor(...emerald);
+      doc.text('Risk Heat Map', margin, y);
+      y += 3;
+
+      autoTable(doc, {
+        startY: y,
+        head: [['', 'High Impact', 'Low Impact']],
+        body: [
+          ['High Probability', String(this.getHighHighRisks()), String(this.getHighLowRisks())],
+          ['Low Probability', String(this.getLowHighRisks()), String(this.getLowLowRisks())]
+        ],
+        theme: 'grid',
+        headStyles: { fillColor: [100, 100, 100], textColor: [255, 255, 255], fontSize: 9, halign: 'center' },
+        bodyStyles: { fontSize: 9, halign: 'center' },
+        margin: { left: margin, right: margin }
+      });
+
+      y = (doc as any).lastAutoTable.finalY + 10;
+
+      // Key Risks
+      const risks = this.getRisksList();
+      if (risks.length > 0) {
+        if (y > 250) { doc.addPage(); y = 20; }
+        doc.setFontSize(14);
+        doc.setTextColor(239, 68, 68);
+        doc.text('Key Risks', margin, y);
+        y += 7;
+        doc.setFontSize(9);
+        doc.setTextColor(60, 60, 60);
+        for (const risk of risks) {
+          doc.text(`•  ${risk}`, margin + 4, y);
+          y += 5;
+        }
+        y += 5;
+      }
+
+      // Recommendations
+      const recs = this.getRecommendations();
+      if (recs.length > 0) {
+        if (y > 240) { doc.addPage(); y = 20; }
+        doc.setFontSize(14);
+        doc.setTextColor(217, 119, 6);
+        doc.text('Recommendations', margin, y);
+        y += 7;
+        doc.setFontSize(9);
+        doc.setTextColor(60, 60, 60);
+        for (let i = 0; i < recs.length; i++) {
+          const recLines = doc.splitTextToSize(`${i + 1}. ${recs[i]}`, pageWidth - 2 * margin - 4);
+          doc.text(recLines, margin + 4, y);
+          y += recLines.length * 5 + 2;
+        }
+        y += 5;
+      }
+
+      // Completed Actions
+      const completed = this.getCompletedActionsList();
+      if (completed.length > 0) {
+        if (y > 240) { doc.addPage(); y = 20; }
+        doc.setFontSize(14);
+        doc.setTextColor(...emerald);
+        doc.text('Completed Actions', margin, y);
+        y += 7;
+        doc.setFontSize(9);
+        doc.setTextColor(60, 60, 60);
+        for (const action of completed) {
+          doc.text(`✓  ${action}`, margin + 4, y);
+          y += 5;
+        }
+        y += 5;
+      }
+
+      // Planned Actions
+      const planned = this.getPlannedActionsList();
+      if (planned.length > 0) {
+        if (y > 240) { doc.addPage(); y = 20; }
+        doc.setFontSize(14);
+        doc.setTextColor(6, 182, 212);
+        doc.text('Planned Actions', margin, y);
+        y += 7;
+        doc.setFontSize(9);
+        doc.setTextColor(60, 60, 60);
+        for (let i = 0; i < planned.length; i++) {
+          const pLines = doc.splitTextToSize(`${i + 1}. ${planned[i]}`, pageWidth - 2 * margin - 4);
+          doc.text(pLines, margin + 4, y);
+          y += pLines.length * 5 + 2;
+        }
+        y += 5;
+      }
+
+      // Sign-off
+      if (y > 240) { doc.addPage(); y = 20; }
+      doc.setDrawColor(200, 200, 200);
+      doc.line(margin, y, pageWidth - margin, y);
+      y += 8;
+      doc.setFontSize(12);
+      doc.setTextColor(...emerald);
+      doc.text('Sign-off', margin, y);
+      y += 8;
+      doc.setFontSize(9);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Prepared by:   ${this.preparedBy || '________________________'}`, margin, y); y += 6;
+      doc.text(`Approved by:   ${this.approvedBy || '________________________'}`, margin, y); y += 6;
+      doc.text(`Date:          ${this.reportDate || '________________________'}`, margin, y); y += 10;
+
+      // Footer on all pages
+      const totalPages = doc.getNumberOfPages();
+      for (let i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        doc.setFontSize(7);
+        doc.setTextColor(150, 150, 150);
+        doc.text(`DORA Compliance Report  |  ${this.companyName || 'Company'}  |  ${this.reportPeriod}  |  CONFIDENTIAL`, margin, doc.internal.pageSize.getHeight() - 8);
+        doc.text(`Page ${i} of ${totalPages}`, pageWidth - margin - 20, doc.internal.pageSize.getHeight() - 8);
+      }
+
+      // Save
+      const filename = this.companyName
+        ? `DORA_Board_Report_${this.companyName.replace(/\s+/g, '_')}_${this.reportPeriod.replace(/\s+/g, '_')}.pdf`
+        : `DORA_Board_Report_${this.reportPeriod.replace(/\s+/g, '_')}.pdf`;
+      doc.save(filename);
+    } catch (e) {
+      console.error('PDF export error:', e);
+    } finally {
+      this.pdfExporting.set(false);
+    }
   }
 
   getScoreColor(score: number): string {
