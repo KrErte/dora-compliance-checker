@@ -265,7 +265,12 @@ import { ComplianceAlert } from './models';
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/>
                 </svg>
                 {{ lang.t('nav.policy_generator') }}
-                <span class="text-[9px] bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
+              </a>
+              <a routerLink="/ai-policy-writer" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-violet-300 hover:bg-violet-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-violet-600/10 to-purple-600/10 border border-violet-500/20">
+                <div class="w-5 h-5 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-white text-[8px] font-bold shrink-0">AI</div>
+                {{ lang.t('nav.ai_policy_writer') }}
+                <span class="text-[9px] bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <a routerLink="/framework-mapping" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-blue-400 hover:bg-slate-700/30 transition-colors">
@@ -597,6 +602,12 @@ import { ComplianceAlert } from './models';
             </a>
             <a routerLink="/policy-generator" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.policy_generator') }}</a>
+            <a routerLink="/ai-policy-writer" (click)="mobileMenu = false"
+               class="text-sm text-violet-400 hover:text-violet-300 px-3 py-2 rounded-lg hover:bg-violet-500/10 flex items-center gap-2">
+              <div class="w-4 h-4 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
+              {{ lang.t('nav.ai_policy_writer') }}
+              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400">NEW</span>
+            </a>
             <a routerLink="/framework-mapping" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-blue-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.framework_mapping') }}</a>
             <a routerLink="/cost-calculator" (click)="mobileMenu = false"

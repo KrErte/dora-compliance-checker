@@ -1509,6 +1509,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; lv?: string; lt?:
   'nav.resources': { et: 'RESSURSID', en: 'RESOURCES' },
   'nav.dora_explorer': { et: 'DORA Explorer', en: 'DORA Explorer' },
   'nav.policy_generator': { et: 'Poliitika generaator', en: 'Policy Generator' },
+  'nav.ai_policy_writer': { et: 'AI poliitikakirjutaja', en: 'AI Policy Writer' },
   'nav.framework_mapping': { et: 'Raamistike kaardistus', en: 'Framework Mapping' },
   'nav.cost_calculator': { et: 'Kulukalkulaator', en: 'Cost Calculator' },
   'nav.training_quiz': { et: 'Koolitustest', en: 'Training Quiz' },

@@ -340,15 +340,23 @@ const TEMPLATES: PolicyTemplate[] = [
       </div>
 
       <!-- CTA -->
-      <div class="mt-8 p-6 rounded-2xl bg-gradient-to-br from-violet-500/10 to-cyan-500/10 border border-violet-500/20 text-center">
+      <div class="mt-8 p-6 rounded-2xl bg-gradient-to-br from-violet-500/10 to-purple-500/10 border border-violet-500/20 text-center">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-violet-500/20 to-purple-500/20 border border-violet-500/30 text-violet-400 text-xs font-medium mb-3">
+          <div class="w-4 h-4 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-[7px] text-white font-bold">AI</div>
+          Enterprise
+        </div>
         <h3 class="text-lg font-semibold text-white mb-2">
-          {{ lang.t('policy.want_a_more_personalized_policy') }}
+          {{ lang.l('Vaja professionaalsemat, ettevõttespetsiifilist poliitikat?', 'Need a more professional, company-specific policy?') }}
         </h3>
         <p class="text-sm text-slate-400 mb-4">
-          {{ lang.t('policy.start_a_dora_assessment_to_identify_spec') }}
+          {{ lang.l(
+            'Kasuta AI poliitikakirjutajat, et genereerida täielik, sinu ettevõtte andmetele ja hindamise lünkadele kohandatud poliitikaadokument.',
+            'Use the AI Policy Writer to generate a complete policy document tailored to your company details and assessment gaps.'
+          ) }}
         </p>
-        <a routerLink="/assessment" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-cyan-500 text-white hover:from-emerald-400 hover:to-cyan-400 transition-all">
-          {{ lang.t('policy.start_assessment') }}
+        <a routerLink="/ai-policy-writer" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-gradient-to-r from-violet-500 to-purple-500 text-white hover:from-violet-400 hover:to-purple-400 hover:shadow-lg hover:shadow-violet-500/25 transition-all">
+          <div class="w-5 h-5 rounded bg-white/20 flex items-center justify-center text-[8px] font-bold">AI</div>
+          {{ lang.l('Proovi AI poliitikakirjutajat', 'Try AI Policy Writer') }}
         </a>
       </div>
     }

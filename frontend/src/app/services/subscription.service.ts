@@ -13,7 +13,8 @@ export type PremiumFeature =
   | 'AI_REWRITER'
   | 'ACTION_PLAN_PDF'
   | 'ROI_EXPORT'
-  | 'PROFESSIONAL_REPORT';
+  | 'PROFESSIONAL_REPORT'
+  | 'AI_POLICY_WRITER';
 
 export interface SubscriptionStatus {
   plan: SubscriptionPlan;
@@ -49,7 +50,8 @@ export class SubscriptionService {
       AI_REWRITER: false,
       ACTION_PLAN_PDF: false,
       ROI_EXPORT: false,
-      PROFESSIONAL_REPORT: false
+      PROFESSIONAL_REPORT: false,
+      AI_POLICY_WRITER: false
     }
   });
 
@@ -163,7 +165,8 @@ export class SubscriptionService {
           AI_REWRITER: false,
           ACTION_PLAN_PDF: false,
           ROI_EXPORT: false,
-          PROFESSIONAL_REPORT: false
+          PROFESSIONAL_REPORT: false,
+          AI_POLICY_WRITER: false
         }
       }))
     ).subscribe(status => {
@@ -223,6 +226,11 @@ export class SubscriptionService {
         title: 'Professionaalne DORA raport',
         description: 'Genereeri regulaatorile valmis 10-15 lk raport koos tegevuskava, 5 samba analüüsi ja metoodikaga',
         price: 'Alates €29/kuu'
+      },
+      AI_POLICY_WRITER: {
+        title: 'AI poliitikakirjutaja',
+        description: 'Genereeri professionaalsed, ettevõttespetsiifilised DORA poliitikaadokumendid AI abil',
+        price: '€79/kuu'
       }
     };
     return messages[feature];

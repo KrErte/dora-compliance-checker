@@ -134,6 +134,16 @@ public class ClaudeApiService {
     }
 
     /**
+     * Analyze with custom max_tokens for longer responses (e.g., policy documents).
+     */
+    public String analyze(String prompt, int maxTokens) {
+        if (apiKey == null || apiKey.isBlank()) {
+            throw new IllegalStateException("Anthropic API võti on seadistamata.");
+        }
+        return callApi(prompt, maxTokens);
+    }
+
+    /**
      * Assess whether a regulatory update is relevant to DORA Art. 30 requirements.
      * Returns JSON with relevanceScore (0-1), affectedArticles, and status.
      */

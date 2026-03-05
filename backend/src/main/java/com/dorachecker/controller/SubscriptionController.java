@@ -146,6 +146,7 @@ public class SubscriptionController {
         features.put("AI_REWRITER", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.AI_REWRITER));
         features.put("ACTION_PLAN_PDF", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.ACTION_PLAN_PDF));
         features.put("PROFESSIONAL_REPORT", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.PROFESSIONAL_REPORT));
+        features.put("AI_POLICY_WRITER", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.AI_POLICY_WRITER));
         return features;
     }
 
@@ -160,6 +161,7 @@ public class SubscriptionController {
             case EMAIL_NOTIFICATIONS -> "E-posti teavitused on saadaval Standard ja Enterprise plaanidel";
             case ACTION_PLAN_PDF -> "Tegevuskava PDF on saadaval Standard ja Enterprise plaanidel";
             case PROFESSIONAL_REPORT -> "Professionaalne DORA raport on saadaval Standard ja Enterprise plaanidel";
+            case AI_POLICY_WRITER -> "AI poliitikakirjutaja on saadaval ainult Enterprise plaanil";
         };
     }
 

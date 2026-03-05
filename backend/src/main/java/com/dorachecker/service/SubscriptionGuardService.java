@@ -20,7 +20,8 @@ public class SubscriptionGuardService {
         HISTORICAL_COMPARISON,
         EMAIL_NOTIFICATIONS,
         ACTION_PLAN_PDF,
-        PROFESSIONAL_REPORT
+        PROFESSIONAL_REPORT,
+        AI_POLICY_WRITER
     }
 
     private final UserSubscriptionRepository subscriptionRepository;
@@ -46,7 +47,7 @@ public class SubscriptionGuardService {
                 return switch (feature) {
                     case PDF_EXPORT, EXCEL_EXPORT, CERTIFICATE, ACTION_PLAN_PDF,
                          EMAIL_NOTIFICATIONS, PROFESSIONAL_REPORT -> true;
-                    case XBRL_EXPORT, AI_REWRITER, HISTORICAL_COMPARISON -> false;
+                    case XBRL_EXPORT, AI_REWRITER, HISTORICAL_COMPARISON, AI_POLICY_WRITER -> false;
                 };
             }
 
@@ -65,7 +66,7 @@ public class SubscriptionGuardService {
                 return switch (feature) {
                     case PDF_EXPORT, EXCEL_EXPORT, CERTIFICATE, ACTION_PLAN_PDF,
                          EMAIL_NOTIFICATIONS, PROFESSIONAL_REPORT -> true;
-                    case XBRL_EXPORT, AI_REWRITER, HISTORICAL_COMPARISON -> false;
+                    case XBRL_EXPORT, AI_REWRITER, HISTORICAL_COMPARISON, AI_POLICY_WRITER -> false;
                 };
             }
         }

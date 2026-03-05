@@ -516,6 +516,12 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'DORA Policy Document Generator', seoDescription: 'Generate complete DORA-compliant policy documents. ICT risk management, incident response, business continuity, and more.' }
   },
   {
+    path: 'ai-policy-writer',
+    loadComponent: () => import('./pages/ai-policy-writer.component').then(m => m.AiPolicyWriterComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'AI Policy Writer', seoDescription: 'Generate professional, company-specific DORA policy documents using AI. Enterprise feature with assessment gap integration.' }
+  },
+  {
     path: 'chat',
     loadComponent: () => import('./pages/chat.component').then(m => m.ChatComponent),
     // No authGuard - public AI assistant
