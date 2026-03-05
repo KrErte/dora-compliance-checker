@@ -166,7 +166,7 @@ describe('ArticleTrackerComponent', () => {
 
     const article = {
       id: 'art1',
-      number: 1,
+      number: 'Article 1',
       title: 'Subject matter',
       pillar: 'GENERAL',
       status: 'compliant' as const,
@@ -202,7 +202,7 @@ describe('ArticleTrackerComponent', () => {
     tick();
 
     const article = {
-      id: 'art1', number: 1, title: 'Test', pillar: 'GENERAL',
+      id: 'art1', number: 'Article 1', title: 'Test', pillar: 'GENERAL',
       status: 'compliant' as const, evidenceCount: 0, notes: ''
     };
 

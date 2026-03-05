@@ -38,10 +38,10 @@ public class IctAssetMapService {
         }
 
         Map<String, Object> result = new LinkedHashMap<>();
-        result.put("functions", map.functions);
-        result.put("assets", map.assets);
+        result.put("functions", new ArrayList<>(map.functions));
+        result.put("assets", new ArrayList<>(map.assets));
         result.put("providers", providerNodes);
-        result.put("links", map.links);
+        result.put("links", new ArrayList<>(map.links));
         result.put("stats", calculateStats(map, providerNodes));
         return result;
     }

@@ -228,7 +228,19 @@ public class ExamSimulatorService {
                         earned += ((Number) s.scores.get(i).getOrDefault("score", 0)).intValue();
                     }
                 }
-                item.put("percentage", total > 0 ? Math.round(earned * 100.0 / total) : 0);
+                long percentage = total > 0 ? Math.round(earned * 100.0 / total) : 0;
+                item.put("percentage", percentage);
+                item.put("totalQuestions", s.questions.size());
+
+                // Calculate grade
+                String grade;
+                if (percentage >= 90) grade = "A";
+                else if (percentage >= 75) grade = "B";
+                else if (percentage >= 60) grade = "C";
+                else if (percentage >= 40) grade = "D";
+                else grade = "F";
+                item.put("grade", grade);
+
                 history.add(item);
             }
         }
@@ -419,7 +431,8 @@ public class ExamSimulatorService {
             // Parse the JSON response
             JsonNode json = objectMapper.readTree(response);
             Map<String, Object> result = new LinkedHashMap<>();
-            result.put("score", json.has("score") ? json.get("score").asInt() : 0);
+            int rawScore = json.has("score") ? json.get("score").asInt() : 0;
+            result.put("score", Math.max(0, Math.min(rawScore, maxPoints)));
             result.put("maxPoints", maxPoints);
             result.put("feedback", json.has("feedback") ? json.get("feedback").asText() : "Evaluation unavailable.");
             result.put("strengths", parseJsonArray(json, "strengths"));

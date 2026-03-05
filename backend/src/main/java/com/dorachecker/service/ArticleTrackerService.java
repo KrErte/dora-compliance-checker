@@ -147,7 +147,12 @@ public class ArticleTrackerService {
 
     public Map<String, Object> updateArticleStatus(String userId, String articleId, Map<String, Object> data) {
         userArticleData.computeIfAbsent(userId, k -> new ConcurrentHashMap<>());
-        userArticleData.get(userId).put(articleId, data);
+        // Map frontend 'status' field to 'manualStatus' used by buildArticle
+        Map<String, Object> stored = new LinkedHashMap<>(data);
+        if (stored.containsKey("status") && !stored.containsKey("manualStatus")) {
+            stored.put("manualStatus", stored.get("status"));
+        }
+        userArticleData.get(userId).put(articleId, stored);
         return Map.of("success", true, "articleId", articleId);
     }
 
@@ -225,6 +230,8 @@ public class ArticleTrackerService {
 
         article.put("evidenceCount", evidenceCount);
         article.put("notes", userData.getOrDefault("notes", ""));
+        article.put("responsiblePerson", userData.getOrDefault("responsiblePerson", ""));
+        article.put("targetDate", userData.getOrDefault("targetDate", ""));
         return article;
     }
 }

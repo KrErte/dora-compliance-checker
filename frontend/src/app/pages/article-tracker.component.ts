@@ -7,7 +7,7 @@ import { LangService } from '../lang.service';
 
 interface Article {
   id: string;
-  number: number;
+  number: string;
   title: string;
   pillar: string;
   status: 'compliant' | 'partial' | 'non_compliant';

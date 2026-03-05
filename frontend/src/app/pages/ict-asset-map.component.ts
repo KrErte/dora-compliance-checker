@@ -529,6 +529,7 @@ export class IctAssetMapComponent implements OnInit {
   }
 
   addFunction() {
+    if (!this.newFunction.name.trim()) return;
     this.http.post<any>('/api/ict-asset-map/functions', this.newFunction).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (res) => {
         if (res.function) {
@@ -542,6 +543,7 @@ export class IctAssetMapComponent implements OnInit {
   }
 
   addAsset() {
+    if (!this.newAsset.name.trim()) return;
     this.http.post<any>('/api/ict-asset-map/assets', this.newAsset).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (res) => {
         if (res.asset) {
@@ -555,7 +557,7 @@ export class IctAssetMapComponent implements OnInit {
   }
 
   addLink() {
-    if (!this.newLink.sourceId || !this.newLink.targetId) return;
+    if (!this.newLink.sourceId || !this.newLink.targetId || this.newLink.sourceId === this.newLink.targetId) return;
     this.http.post<any>('/api/ict-asset-map/links', this.newLink).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (res) => {
         if (res.link) {
