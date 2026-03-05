@@ -1,14 +1,23 @@
 import { TestBed } from '@angular/core/testing';
 import { PLATFORM_ID } from '@angular/core';
 import { PaywallService } from './paywall.service';
+import { SubscriptionService } from './subscription.service';
 
 describe('PaywallService', () => {
   let service: PaywallService;
+  let mockSubscriptionService: jasmine.SpyObj<SubscriptionService>;
 
   beforeEach(() => {
     localStorage.clear();
+    mockSubscriptionService = jasmine.createSpyObj('SubscriptionService', ['isPremium', 'hasLegacyPaymentHint']);
+    mockSubscriptionService.isPremium.and.returnValue(false);
+    mockSubscriptionService.hasLegacyPaymentHint.and.returnValue(false);
+
     TestBed.configureTestingModule({
-      providers: [{ provide: PLATFORM_ID, useValue: 'browser' }]
+      providers: [
+        { provide: PLATFORM_ID, useValue: 'browser' },
+        { provide: SubscriptionService, useValue: mockSubscriptionService }
+      ]
     });
     service = TestBed.inject(PaywallService);
   });
@@ -19,23 +28,19 @@ describe('PaywallService', () => {
     expect(service.hasAccess()).toBeFalse();
   });
 
-  it('hasAccess returns true when valid payment exists', () => {
-    localStorage.setItem('paymentCompleted', JSON.stringify({
-      checkoutId: 'checkout-123',
-      timestamp: new Date().toISOString(),
-      products: ['standard']
-    }));
-
+  it('hasAccess returns true when subscription is premium', () => {
+    mockSubscriptionService.isPremium.and.returnValue(true);
     expect(service.hasAccess()).toBeTrue();
   });
 
-  it('hasAccess returns false for invalid JSON', () => {
-    localStorage.setItem('paymentCompleted', 'not-json');
-    expect(service.hasAccess()).toBeFalse();
+  it('hasAccess returns true when legacy payment hint exists', () => {
+    mockSubscriptionService.hasLegacyPaymentHint.and.returnValue(true);
+    expect(service.hasAccess()).toBeTrue();
   });
 
-  it('hasAccess returns false when checkoutId is missing', () => {
-    localStorage.setItem('paymentCompleted', JSON.stringify({ timestamp: '2026-01-01' }));
+  it('hasAccess returns false when neither premium nor legacy hint', () => {
+    mockSubscriptionService.isPremium.and.returnValue(false);
+    mockSubscriptionService.hasLegacyPaymentHint.and.returnValue(false);
     expect(service.hasAccess()).toBeFalse();
   });
 

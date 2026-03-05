@@ -16,19 +16,24 @@ describe('LangService', () => {
     expect(['et', 'en']).toContain(service.currentLang);
   });
 
-  it('toggle switches between et and en', () => {
-    const initial = service.currentLang;
-    service.toggle();
-    const toggled = service.currentLang;
-    expect(toggled).not.toBe(initial);
-    expect(['et', 'en']).toContain(toggled);
+  it('toggle cycles through all 4 languages', () => {
+    service.setLang('en');
+    expect(service.currentLang).toBe('en');
 
     service.toggle();
-    expect(service.currentLang).toBe(initial);
+    expect(service.currentLang).toBe('et');
+
+    service.toggle();
+    expect(service.currentLang).toBe('lv');
+
+    service.toggle();
+    expect(service.currentLang).toBe('lt');
+
+    service.toggle();
+    expect(service.currentLang).toBe('en');
   });
 
   it('t() returns translation for known key', () => {
-    // Test with a key we know exists
     const etText = service.t('nav.brand');
     expect(etText).toBeTruthy();
     expect(etText).toBe('DoraAudit.eu');
@@ -40,15 +45,11 @@ describe('LangService', () => {
   });
 
   it('translations work in both languages', () => {
-    // Set to Estonian
-    if (service.currentLang !== 'et') service.toggle();
-    const etText = service.t('nav.history');
-    expect(etText).toBe('Ajalugu');
+    service.setLang('et');
+    expect(service.t('nav.history')).toBe('Ajalugu');
 
-    // Toggle to English
-    service.toggle();
-    const enText = service.t('nav.history');
-    expect(enText).toBe('History');
+    service.setLang('en');
+    expect(service.t('nav.history')).toBe('History');
   });
 
   it('persists language choice to localStorage', () => {
