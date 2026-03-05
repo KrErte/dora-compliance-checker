@@ -529,9 +529,9 @@ export class IctAssetMapComponent implements OnInit {
     return 'text-emerald-400';
   });
 
+  readonly lang = inject(LangService);
+  private readonly http = inject(HttpClient);
   private readonly destroyRef = inject(DestroyRef);
-
-  constructor(public lang: LangService, private http: HttpClient) {}
 
   ngOnInit() {
     this.loadMap();

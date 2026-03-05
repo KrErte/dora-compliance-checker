@@ -65,8 +65,6 @@ public class ExamSimulatorService {
         session.focus = focus;
         session.difficulty = difficulty;
         session.questions = questions;
-        session.answers = new ArrayList<>();
-        session.scores = new ArrayList<>();
         session.startedAt = Instant.now().toString();
 
         sessions.put(sessionKey, session);
@@ -105,9 +103,12 @@ public class ExamSimulatorService {
             return Map.of("error", "Invalid question index");
         }
 
-        // Prevent re-answering an already-answered question
-        if (questionIndex < session.scores.size() && session.scores.get(questionIndex) != null) {
-            return session.scores.get(questionIndex);
+        // Synchronized block: check re-submission, expand lists, store result
+        synchronized (session) {
+            // Prevent re-answering an already-answered question
+            if (questionIndex < session.scores.size() && session.scores.get(questionIndex) != null) {
+                return session.scores.get(questionIndex);
+            }
         }
 
         Map<String, Object> question = session.questions.get(questionIndex);
@@ -116,16 +117,22 @@ public class ExamSimulatorService {
         String keyPoints = (String) question.get("keyPoints");
         int maxPoints = (int) question.getOrDefault("points", 10);
 
-        // Use AI to evaluate the answer
+        // Use AI to evaluate the answer (outside sync block — may be slow)
         Map<String, Object> evaluation = evaluateWithAI(questionText, answer, expectedAnswer, keyPoints, maxPoints);
 
-        // Store answer and score
-        while (session.answers.size() <= questionIndex) {
-            session.answers.add(null);
-            session.scores.add(null);
+        // Store answer and score (synchronized to protect list expansion)
+        synchronized (session) {
+            // Double-check re-submission after AI call
+            if (questionIndex < session.scores.size() && session.scores.get(questionIndex) != null) {
+                return session.scores.get(questionIndex);
+            }
+            while (session.answers.size() <= questionIndex) {
+                session.answers.add(null);
+                session.scores.add(null);
+            }
+            session.answers.set(questionIndex, answer);
+            session.scores.set(questionIndex, evaluation);
         }
-        session.answers.set(questionIndex, answer);
-        session.scores.set(questionIndex, evaluation);
 
         return evaluation;
     }
@@ -137,71 +144,73 @@ public class ExamSimulatorService {
             return Map.of("error", "Exam session not found");
         }
 
-        // Prevent double-completing — return cached result
-        if (session.completedAt != null && session.cachedResult != null) {
-            return session.cachedResult;
-        }
-
-        session.completedAt = Instant.now().toString();
-
-        int totalPoints = 0;
-        int earnedPoints = 0;
-        int answeredCount = 0;
-
-        Map<String, int[]> categoryScores = new LinkedHashMap<>();
-
-        for (int i = 0; i < session.questions.size(); i++) {
-            Map<String, Object> q = session.questions.get(i);
-            int maxPts = (int) q.getOrDefault("points", 10);
-            totalPoints += maxPts;
-            String category = (String) q.getOrDefault("category", "General");
-
-            categoryScores.computeIfAbsent(category, k -> new int[]{0, 0});
-
-            if (i < session.scores.size() && session.scores.get(i) != null) {
-                Map<String, Object> eval = session.scores.get(i);
-                int pts = ((Number) eval.getOrDefault("score", 0)).intValue();
-                earnedPoints += pts;
-                categoryScores.get(category)[0] += pts;
-                answeredCount++;
+        synchronized (session) {
+            // Prevent double-completing — return cached result
+            if (session.completedAt != null && session.cachedResult != null) {
+                return session.cachedResult;
             }
-            categoryScores.get(category)[1] += maxPts;
+
+            session.completedAt = Instant.now().toString();
+
+            int totalPoints = 0;
+            int earnedPoints = 0;
+            int answeredCount = 0;
+
+            Map<String, int[]> categoryScores = new LinkedHashMap<>();
+
+            for (int i = 0; i < session.questions.size(); i++) {
+                Map<String, Object> q = session.questions.get(i);
+                int maxPts = (int) q.getOrDefault("points", 10);
+                totalPoints += maxPts;
+                String category = (String) q.getOrDefault("category", "General");
+
+                categoryScores.computeIfAbsent(category, k -> new int[]{0, 0});
+
+                if (i < session.scores.size() && session.scores.get(i) != null) {
+                    Map<String, Object> eval = session.scores.get(i);
+                    int pts = ((Number) eval.getOrDefault("score", 0)).intValue();
+                    earnedPoints += pts;
+                    categoryScores.get(category)[0] += pts;
+                    answeredCount++;
+                }
+                categoryScores.get(category)[1] += maxPts;
+            }
+
+            double percentage = totalPoints > 0 ? (earnedPoints * 100.0 / totalPoints) : 0;
+
+            String grade = calculateGrade(percentage);
+            String verdict = calculateVerdict(grade);
+
+            List<Map<String, Object>> categoryResults = new ArrayList<>();
+            for (var entry : categoryScores.entrySet()) {
+                Map<String, Object> cr = new LinkedHashMap<>();
+                cr.put("category", entry.getKey());
+                cr.put("earned", entry.getValue()[0]);
+                cr.put("total", entry.getValue()[1]);
+                cr.put("percentage", entry.getValue()[1] > 0
+                        ? Math.round(entry.getValue()[0] * 100.0 / entry.getValue()[1])
+                        : 0);
+                categoryResults.add(cr);
+            }
+
+            Map<String, Object> report = new LinkedHashMap<>();
+            report.put("sessionId", sessionId);
+            report.put("grade", grade);
+            report.put("verdict", verdict);
+            report.put("totalPoints", totalPoints);
+            report.put("earnedPoints", earnedPoints);
+            report.put("percentage", Math.round(percentage));
+            report.put("questionsTotal", session.questions.size());
+            report.put("questionsAnswered", answeredCount);
+            report.put("categoryScores", categoryResults);
+            report.put("focus", session.focus);
+            report.put("difficulty", session.difficulty);
+            report.put("startedAt", session.startedAt);
+            report.put("completedAt", session.completedAt);
+
+            session.cachedResult = report;
+            return report;
         }
-
-        double percentage = totalPoints > 0 ? (earnedPoints * 100.0 / totalPoints) : 0;
-
-        String grade = calculateGrade(percentage);
-        String verdict = calculateVerdict(grade);
-
-        List<Map<String, Object>> categoryResults = new ArrayList<>();
-        for (var entry : categoryScores.entrySet()) {
-            Map<String, Object> cr = new LinkedHashMap<>();
-            cr.put("category", entry.getKey());
-            cr.put("earned", entry.getValue()[0]);
-            cr.put("total", entry.getValue()[1]);
-            cr.put("percentage", entry.getValue()[1] > 0
-                    ? Math.round(entry.getValue()[0] * 100.0 / entry.getValue()[1])
-                    : 0);
-            categoryResults.add(cr);
-        }
-
-        Map<String, Object> report = new LinkedHashMap<>();
-        report.put("sessionId", sessionId);
-        report.put("grade", grade);
-        report.put("verdict", verdict);
-        report.put("totalPoints", totalPoints);
-        report.put("earnedPoints", earnedPoints);
-        report.put("percentage", Math.round(percentage));
-        report.put("questionsTotal", session.questions.size());
-        report.put("questionsAnswered", answeredCount);
-        report.put("categoryScores", categoryResults);
-        report.put("focus", session.focus);
-        report.put("difficulty", session.difficulty);
-        report.put("startedAt", session.startedAt);
-        report.put("completedAt", session.completedAt);
-
-        session.cachedResult = report;
-        return report;
     }
 
     public List<Map<String, Object>> getExamHistory(String userId) {
@@ -364,7 +373,7 @@ public class ExamSimulatorService {
         // Shuffle and limit to 10 questions
         Collections.shuffle(filtered);
         if (filtered.size() > 10) {
-            filtered = filtered.subList(0, 10);
+            filtered = new ArrayList<>(filtered.subList(0, 10));
         }
 
         return filtered;
@@ -513,10 +522,10 @@ public class ExamSimulatorService {
         String focus;
         String difficulty;
         List<Map<String, Object>> questions;
-        List<String> answers;
-        List<Map<String, Object>> scores;
+        List<String> answers = Collections.synchronizedList(new ArrayList<>());
+        List<Map<String, Object>> scores = Collections.synchronizedList(new ArrayList<>());
         String startedAt;
-        String completedAt;
-        Map<String, Object> cachedResult;
+        volatile String completedAt;
+        volatile Map<String, Object> cachedResult;
     }
 }
