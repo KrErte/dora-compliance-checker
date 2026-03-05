@@ -400,8 +400,18 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                 <!-- Next Question Button -->
                 <div class="flex justify-end">
                   <button (click)="nextQuestion()"
-                          class="px-6 py-2.5 rounded-xl font-semibold text-sm bg-gradient-to-r from-violet-600 to-purple-600 text-white hover:from-violet-500 hover:to-purple-500 hover:shadow-lg hover:shadow-violet-500/25 transition-all flex items-center gap-2">
-                    @if (isLastQuestion()) {
+                          [disabled]="completing()"
+                          class="px-6 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center gap-2"
+                          [class]="completing()
+                            ? 'bg-slate-700 text-slate-400 cursor-wait'
+                            : 'bg-gradient-to-r from-violet-600 to-purple-600 text-white hover:from-violet-500 hover:to-purple-500 hover:shadow-lg hover:shadow-violet-500/25'">
+                    @if (completing()) {
+                      <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                      </svg>
+                      Completing...
+                    } @else if (isLastQuestion()) {
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
                       Complete Examination
                     } @else {
@@ -808,38 +818,42 @@ export class ExamSimulatorComponent implements OnInit {
 
   // --- UI Helpers ---
 
+  private scorePct(score: number, max: number): number {
+    return max > 0 ? (score / max) * 100 : 0;
+  }
+
   getQuestionDotClass(index: number): string {
     const feedback = this.feedbackScores().find(f => f.index === index);
     if (!feedback) return 'bg-slate-700/50 border border-slate-600/50 text-slate-500';
-    const pct = (feedback.score / feedback.max) * 100;
+    const pct = this.scorePct(feedback.score, feedback.max);
     if (pct >= 70) return 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-400';
     if (pct >= 40) return 'bg-amber-500/20 border border-amber-500/40 text-amber-400';
     return 'bg-red-500/20 border border-red-500/40 text-red-400';
   }
 
   getFeedbackBannerClass(score: number, max: number): string {
-    const pct = (score / max) * 100;
+    const pct = this.scorePct(score, max);
     if (pct >= 70) return 'bg-emerald-500/5 border-l-emerald-500 border border-emerald-500/15';
     if (pct >= 40) return 'bg-amber-500/5 border-l-amber-500 border border-amber-500/15';
     return 'bg-red-500/5 border-l-red-500 border border-red-500/15';
   }
 
   getFeedbackScoreBg(score: number, max: number): string {
-    const pct = (score / max) * 100;
+    const pct = this.scorePct(score, max);
     if (pct >= 70) return 'bg-emerald-500/20';
     if (pct >= 40) return 'bg-amber-500/20';
     return 'bg-red-500/20';
   }
 
   getFeedbackScoreColor(score: number, max: number): string {
-    const pct = (score / max) * 100;
+    const pct = this.scorePct(score, max);
     if (pct >= 70) return 'text-emerald-400';
     if (pct >= 40) return 'text-amber-400';
     return 'text-red-400';
   }
 
   getScoreLabel(score: number, max: number): string {
-    const pct = (score / max) * 100;
+    const pct = this.scorePct(score, max);
     if (pct >= 90) return 'Excellent Response';
     if (pct >= 70) return 'Good Response';
     if (pct >= 50) return 'Adequate Response';

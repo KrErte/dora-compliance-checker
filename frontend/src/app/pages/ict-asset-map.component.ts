@@ -495,7 +495,7 @@ export class IctAssetMapComponent implements OnInit {
   providers = signal<Provider[]>([]);
   links = signal<MapLink[]>([]);
   riskAnalysis = signal<{ singlePointsOfFailure: RiskItem[]; concentrationRisks: RiskItem[]; unmappedFunctions: RiskItem[]; totalRisks: number; riskLevel: string } | null>(null);
-  loading = signal(false);
+  loading = signal(true);
   error = signal<string | null>(null);
 
   showAddFunction = false;
@@ -540,7 +540,10 @@ export class IctAssetMapComponent implements OnInit {
         this.links.set(data.links || []);
         this.loading.set(false);
       },
-      error: () => this.loading.set(false)
+      error: () => {
+        this.loading.set(false);
+        this.error.set('Failed to load dependency map. Please refresh.');
+      }
     });
   }
 
