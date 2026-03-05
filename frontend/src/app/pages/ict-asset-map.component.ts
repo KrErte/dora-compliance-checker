@@ -70,6 +70,18 @@ interface RiskItem {
         </p>
       </div>
 
+      <!-- Loading State -->
+      @if (loading()) {
+      <div class="flex flex-col items-center gap-3 py-16">
+        <svg class="w-8 h-8 text-cyan-400 animate-spin" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+        </svg>
+        <span class="text-slate-400 text-sm">Loading dependency map...</span>
+      </div>
+      }
+
+      @if (!loading()) {
       <!-- Stats Cards -->
       <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
         <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-4 text-center">
@@ -475,17 +487,7 @@ interface RiskItem {
         </button>
       </div>
       }
-
-      <!-- Loading State -->
-      @if (loading()) {
-      <div class="flex flex-col items-center gap-3 py-16">
-        <svg class="w-8 h-8 text-cyan-400 animate-spin" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-        </svg>
-        <span class="text-slate-400 text-sm">Loading dependency map...</span>
-      </div>
-      }
+      } <!-- end @if (!loading()) -->
     </div>
   `
 })

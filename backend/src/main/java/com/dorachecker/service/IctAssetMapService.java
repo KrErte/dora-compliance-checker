@@ -46,6 +46,8 @@ public class IctAssetMapService {
         return result;
     }
 
+    private static final int MAX_ITEMS_PER_USER = 500;
+
     public Map<String, Object> addBusinessFunction(String userId, Map<String, Object> data) {
         String name = (String) data.getOrDefault("name", "");
         if (name == null || name.trim().isEmpty()) {
@@ -53,6 +55,9 @@ public class IctAssetMapService {
         }
 
         UserAssetMap map = getOrCreateMap(userId);
+        if (map.functions.size() >= MAX_ITEMS_PER_USER) {
+            return Map.of("error", "Maximum number of business functions reached (" + MAX_ITEMS_PER_USER + ")");
+        }
         String id = "func-" + UUID.randomUUID().toString().substring(0, 8);
 
         Map<String, Object> func = new LinkedHashMap<>();
@@ -73,6 +78,9 @@ public class IctAssetMapService {
         }
 
         UserAssetMap map = getOrCreateMap(userId);
+        if (map.assets.size() >= MAX_ITEMS_PER_USER) {
+            return Map.of("error", "Maximum number of ICT assets reached (" + MAX_ITEMS_PER_USER + ")");
+        }
         String id = "asset-" + UUID.randomUUID().toString().substring(0, 8);
 
         Map<String, Object> asset = new LinkedHashMap<>();
@@ -99,6 +107,24 @@ public class IctAssetMapService {
         }
 
         UserAssetMap map = getOrCreateMap(userId);
+        if (map.links.size() >= MAX_ITEMS_PER_USER) {
+            return Map.of("error", "Maximum number of dependency links reached (" + MAX_ITEMS_PER_USER + ")");
+        }
+
+        // Validate source exists (must be a function or asset)
+        List<IctProviderEntity> providers = providerRepo.findByUserIdOrderByCreatedAtDesc(userId);
+        boolean sourceExists = map.functions.stream().anyMatch(f -> sourceId.equals(f.get("id")))
+                || map.assets.stream().anyMatch(a -> sourceId.equals(a.get("id")));
+        boolean targetExists = map.assets.stream().anyMatch(a -> targetId.equals(a.get("id")))
+                || providers.stream().anyMatch(p -> ("provider-" + p.getId()).equals(targetId))
+                || map.functions.stream().anyMatch(f -> targetId.equals(f.get("id")));
+        if (!sourceExists) {
+            return Map.of("error", "Source node not found");
+        }
+        if (!targetExists) {
+            return Map.of("error", "Target node not found");
+        }
+
         String id = "link-" + UUID.randomUUID().toString().substring(0, 8);
 
         Map<String, Object> link = new LinkedHashMap<>();

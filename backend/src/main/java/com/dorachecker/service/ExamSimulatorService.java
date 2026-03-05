@@ -170,24 +170,8 @@ public class ExamSimulatorService {
 
         double percentage = totalPoints > 0 ? (earnedPoints * 100.0 / totalPoints) : 0;
 
-        String grade;
-        String verdict;
-        if (percentage >= 90) {
-            grade = "A";
-            verdict = "Excellent — your organization demonstrates strong DORA readiness. A regulatory examination would likely proceed smoothly.";
-        } else if (percentage >= 75) {
-            grade = "B";
-            verdict = "Good — generally well prepared, but some areas need attention before a regulatory examination.";
-        } else if (percentage >= 60) {
-            grade = "C";
-            verdict = "Adequate — significant gaps exist. Prioritize remediation before any regulatory engagement.";
-        } else if (percentage >= 40) {
-            grade = "D";
-            verdict = "Insufficient — major deficiencies detected. Immediate action required across multiple DORA pillars.";
-        } else {
-            grade = "F";
-            verdict = "Critical — fundamental DORA requirements are not met. Comprehensive remediation program needed.";
-        }
+        String grade = calculateGrade(percentage);
+        String verdict = calculateVerdict(grade);
 
         List<Map<String, Object>> categoryResults = new ArrayList<>();
         for (var entry : categoryScores.entrySet()) {
@@ -243,14 +227,7 @@ public class ExamSimulatorService {
                 item.put("percentage", percentage);
                 item.put("totalQuestions", s.questions.size());
 
-                // Calculate grade
-                String grade;
-                if (percentage >= 90) grade = "A";
-                else if (percentage >= 75) grade = "B";
-                else if (percentage >= 60) grade = "C";
-                else if (percentage >= 40) grade = "D";
-                else grade = "F";
-                item.put("grade", grade);
+                item.put("grade", calculateGrade(percentage));
 
                 history.add(item);
             }
@@ -510,6 +487,24 @@ public class ExamSimulatorService {
         result.put("gaps", gaps);
         result.put("recommendation", "Review DORA Article requirements and ensure your answer covers all key regulatory expectations.");
         return result;
+    }
+
+    private static String calculateGrade(double percentage) {
+        if (percentage >= 90) return "A";
+        if (percentage >= 75) return "B";
+        if (percentage >= 60) return "C";
+        if (percentage >= 40) return "D";
+        return "F";
+    }
+
+    private static String calculateVerdict(String grade) {
+        return switch (grade) {
+            case "A" -> "Excellent — your organization demonstrates strong DORA readiness. A regulatory examination would likely proceed smoothly.";
+            case "B" -> "Good — generally well prepared, but some areas need attention before a regulatory examination.";
+            case "C" -> "Adequate — significant gaps exist. Prioritize remediation before any regulatory engagement.";
+            case "D" -> "Insufficient — major deficiencies detected. Immediate action required across multiple DORA pillars.";
+            default -> "Critical — fundamental DORA requirements are not met. Comprehensive remediation program needed.";
+        };
     }
 
     private static class ExamSession {
