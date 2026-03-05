@@ -37,7 +37,11 @@ public class IctAssetMapController {
     public ResponseEntity<Map<String, Object>> addFunction(
             Authentication auth,
             @RequestBody Map<String, Object> body) {
-        return ResponseEntity.ok(assetMapService.addBusinessFunction(getUserId(auth), body));
+        Map<String, Object> result = assetMapService.addBusinessFunction(getUserId(auth), body);
+        if (result.containsKey("error")) {
+            return ResponseEntity.badRequest().body(result);
+        }
+        return ResponseEntity.ok(result);
     }
 
     /**
@@ -47,7 +51,11 @@ public class IctAssetMapController {
     public ResponseEntity<Map<String, Object>> addAsset(
             Authentication auth,
             @RequestBody Map<String, Object> body) {
-        return ResponseEntity.ok(assetMapService.addIctAsset(getUserId(auth), body));
+        Map<String, Object> result = assetMapService.addIctAsset(getUserId(auth), body);
+        if (result.containsKey("error")) {
+            return ResponseEntity.badRequest().body(result);
+        }
+        return ResponseEntity.ok(result);
     }
 
     /**
@@ -57,7 +65,11 @@ public class IctAssetMapController {
     public ResponseEntity<Map<String, Object>> addLink(
             Authentication auth,
             @RequestBody Map<String, Object> body) {
-        return ResponseEntity.ok(assetMapService.addLink(getUserId(auth), body));
+        Map<String, Object> result = assetMapService.addLink(getUserId(auth), body);
+        if (result.containsKey("error")) {
+            return ResponseEntity.badRequest().body(result);
+        }
+        return ResponseEntity.ok(result);
     }
 
     /**

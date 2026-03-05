@@ -88,8 +88,7 @@ interface RiskItem {
           <div class="text-2xl font-bold text-emerald-400">{{ links().length }}</div>
           <div class="text-xs text-slate-400 mt-1">Dependencies</div>
         </div>
-        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-4 text-center"
-             [class]="'bg-slate-800/50 backdrop-blur border rounded-2xl p-4 text-center ' + riskBorderClass()">
+        <div [class]="'bg-slate-800/50 backdrop-blur border rounded-2xl p-4 text-center ' + riskBorderClass()">
           <div class="text-2xl font-bold" [class]="riskColorClass()">{{ riskAnalysis()?.riskLevel || 'N/A' }}</div>
           <div class="text-xs text-slate-400 mt-1">Risk Level</div>
         </div>
@@ -107,7 +106,7 @@ interface RiskItem {
         </button>
         <button (click)="showAddLink = true"
                 class="px-4 py-2 bg-emerald-500/20 border border-emerald-500/30 rounded-xl text-emerald-400 text-sm font-medium hover:bg-emerald-500/30 transition-all"
-                [disabled]="functions().length === 0 && assets().length === 0">
+                [disabled]="(functions().length === 0 && assets().length === 0) || (assets().length === 0 && providers().length === 0)">
           + Add Dependency Link
         </button>
         <button (click)="loadRiskAnalysis()"
@@ -462,6 +461,21 @@ interface RiskItem {
       </div>
       }
 
+      <!-- Error Banner -->
+      @if (error()) {
+      <div class="bg-red-500/5 border border-red-500/20 rounded-2xl p-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <svg class="w-5 h-5 text-red-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+          <span class="text-sm text-red-400">{{ error() }}</span>
+        </div>
+        <button (click)="error.set(null)" class="text-slate-500 hover:text-white">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      }
+
       <!-- Loading State -->
       @if (loading()) {
       <div class="flex flex-col items-center gap-3 py-16">
@@ -482,6 +496,7 @@ export class IctAssetMapComponent implements OnInit {
   links = signal<MapLink[]>([]);
   riskAnalysis = signal<{ singlePointsOfFailure: RiskItem[]; concentrationRisks: RiskItem[]; unmappedFunctions: RiskItem[]; totalRisks: number; riskLevel: string } | null>(null);
   loading = signal(false);
+  error = signal<string | null>(null);
 
   showAddFunction = false;
   showAddAsset = false;
@@ -531,6 +546,7 @@ export class IctAssetMapComponent implements OnInit {
 
   addFunction() {
     if (!this.newFunction.name.trim()) return;
+    this.error.set(null);
     this.http.post<any>('/api/ict-asset-map/functions', this.newFunction).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (res) => {
         if (res.function) {
@@ -539,12 +555,13 @@ export class IctAssetMapComponent implements OnInit {
         this.showAddFunction = false;
         this.newFunction = { name: '', description: '', criticality: 'NORMAL' };
       },
-      error: () => {}
+      error: (err) => this.error.set(err?.error?.error || 'Failed to add function.')
     });
   }
 
   addAsset() {
     if (!this.newAsset.name.trim()) return;
+    this.error.set(null);
     this.http.post<any>('/api/ict-asset-map/assets', this.newAsset).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (res) => {
         if (res.asset) {
@@ -553,12 +570,13 @@ export class IctAssetMapComponent implements OnInit {
         this.showAddAsset = false;
         this.newAsset = { name: '', description: '', assetType: 'APPLICATION', rtoHours: 24, rpoHours: 4 };
       },
-      error: () => {}
+      error: (err) => this.error.set(err?.error?.error || 'Failed to add asset.')
     });
   }
 
   addLink() {
     if (!this.newLink.sourceId || !this.newLink.targetId || this.newLink.sourceId === this.newLink.targetId) return;
+    this.error.set(null);
     this.http.post<any>('/api/ict-asset-map/links', this.newLink).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (res) => {
         if (res.link) {
@@ -567,7 +585,7 @@ export class IctAssetMapComponent implements OnInit {
         this.showAddLink = false;
         this.newLink = { sourceId: '', targetId: '', label: '', dependency: 'REQUIRED' };
       },
-      error: () => {}
+      error: (err) => this.error.set(err?.error?.error || 'Failed to add link.')
     });
   }
 
@@ -582,36 +600,40 @@ export class IctAssetMapComponent implements OnInit {
   }
 
   deleteFunction(id: string) {
+    this.error.set(null);
     this.http.delete<any>(`/api/ict-asset-map/functions/${id}`).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: () => {
         this.functions.update(fns => fns.filter(f => f.id !== id));
         this.links.update(ls => ls.filter(l => l.sourceId !== id && l.targetId !== id));
       },
-      error: () => {}
+      error: () => this.error.set('Failed to delete function.')
     });
   }
 
   deleteAsset(id: string) {
+    this.error.set(null);
     this.http.delete<any>(`/api/ict-asset-map/assets/${id}`).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: () => {
         this.assets.update(a => a.filter(x => x.id !== id));
         this.links.update(ls => ls.filter(l => l.sourceId !== id && l.targetId !== id));
       },
-      error: () => {}
+      error: () => this.error.set('Failed to delete asset.')
     });
   }
 
   deleteLink(id: string) {
+    this.error.set(null);
     this.http.delete<any>(`/api/ict-asset-map/links/${id}`).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: () => this.links.update(ls => ls.filter(l => l.id !== id)),
-      error: () => {}
+      error: () => this.error.set('Failed to delete link.')
     });
   }
 
   loadRiskAnalysis() {
+    this.error.set(null);
     this.http.get<any>('/api/ict-asset-map/risk-analysis').pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (data) => this.riskAnalysis.set(data),
-      error: () => {}
+      error: () => this.error.set('Failed to load risk analysis.')
     });
   }
 

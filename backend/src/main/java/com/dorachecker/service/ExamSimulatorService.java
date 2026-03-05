@@ -105,6 +105,11 @@ public class ExamSimulatorService {
             return Map.of("error", "Invalid question index");
         }
 
+        // Prevent re-answering an already-answered question
+        if (questionIndex < session.scores.size() && session.scores.get(questionIndex) != null) {
+            return session.scores.get(questionIndex);
+        }
+
         Map<String, Object> question = session.questions.get(questionIndex);
         String questionText = (String) question.get("question");
         String expectedAnswer = (String) question.get("modelAnswer");
@@ -130,6 +135,11 @@ public class ExamSimulatorService {
         ExamSession session = sessions.get(sessionKey);
         if (session == null) {
             return Map.of("error", "Exam session not found");
+        }
+
+        // Prevent double-completing — return cached result
+        if (session.completedAt != null && session.cachedResult != null) {
+            return session.cachedResult;
         }
 
         session.completedAt = Instant.now().toString();
@@ -206,6 +216,7 @@ public class ExamSimulatorService {
         report.put("startedAt", session.startedAt);
         report.put("completedAt", session.completedAt);
 
+        session.cachedResult = report;
         return report;
     }
 
@@ -511,5 +522,6 @@ public class ExamSimulatorService {
         List<Map<String, Object>> scores;
         String startedAt;
         String completedAt;
+        Map<String, Object> cachedResult;
     }
 }

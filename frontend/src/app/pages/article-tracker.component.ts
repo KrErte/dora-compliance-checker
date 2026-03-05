@@ -491,6 +491,8 @@ export class ArticleTrackerComponent implements OnInit {
       next: () => {
         this.saving.set(false);
         this.saveSuccess.set(article.id);
+        // Update snapshot to match saved values so cancel doesn't revert to stale data
+        this.articleSnapshot = { status: article.status, notes: article.notes, responsiblePerson: article.responsiblePerson, targetDate: article.targetDate };
         this.loadData();
         setTimeout(() => this.saveSuccess.set(null), 3000);
       },
