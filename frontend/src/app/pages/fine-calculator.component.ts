@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -491,7 +491,7 @@ interface FineResult {
     }
   `]
 })
-export class FineCalculatorComponent implements OnInit {
+export class FineCalculatorComponent implements OnInit, OnDestroy {
   @ViewChild('resultsSection') resultsSection!: ElementRef;
 
   companyType = '';
@@ -685,20 +685,28 @@ export class FineCalculatorComponent implements OnInit {
     return { monthlyPrice, annualPrice, roiPercent, dailySaving };
   }
 
+  private counterInterval: ReturnType<typeof setInterval> | null = null;
+
+  ngOnDestroy(): void {
+    if (this.counterInterval) clearInterval(this.counterInterval);
+  }
+
   private animateCounter(target: number): void {
+    if (this.counterInterval) clearInterval(this.counterInterval);
     const duration = 2000;
     const steps = 60;
     const stepDuration = duration / steps;
     let currentStep = 0;
 
-    const interval = setInterval(() => {
+    this.counterInterval = setInterval(() => {
       currentStep++;
       const progress = this.easeOutQuad(currentStep / steps);
       this.result!.displayValue = Math.round(target * progress);
 
       if (currentStep >= steps) {
         this.result!.displayValue = target;
-        clearInterval(interval);
+        if (this.counterInterval) clearInterval(this.counterInterval);
+        this.counterInterval = null;
       }
     }, stepDuration);
   }

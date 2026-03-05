@@ -254,6 +254,12 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'DORA Compliance Calendar', seoDescription: 'Personalized DORA compliance deadline calendar. Track RoI submissions, TLPT cycles, contract reviews, and training deadlines.' }
   },
   {
+    path: 'exam-simulator',
+    loadComponent: () => import('./pages/exam-simulator.component').then(m => m.ExamSimulatorComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'DORA Regulatory Examination Simulator', seoDescription: 'AI-powered mock regulatory audit simulating a DORA supervisor examining your organization. Practice with scenario-based questions and receive detailed feedback.' }
+  },
+  {
     path: 'training',
     loadComponent: () => import('./pages/training-tracker.component').then(m => m.TrainingTrackerComponent),
     canActivate: [authGuard],
@@ -276,6 +282,18 @@ const coreRoutes: Routes = [
     loadComponent: () => import('./pages/risk-heatmap.component').then(m => m.RiskHeatmapComponent),
     canActivate: [authGuard],
     data: { seoTitle: 'Risk Heat Map', seoDescription: 'Visual heat map of DORA compliance risks by pillar and category. Identify highest-risk areas at a glance.' }
+  },
+  {
+    path: 'article-tracker',
+    loadComponent: () => import('./pages/article-tracker.component').then(m => m.ArticleTrackerComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'DORA Article Compliance Tracker', seoDescription: 'Article-by-article DORA compliance status tracker. Monitor compliance across all 45 articles with evidence linking.' }
+  },
+  {
+    path: 'ict-asset-map',
+    loadComponent: () => import('./pages/ict-asset-map.component').then(m => m.IctAssetMapComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'ICT Asset & Dependency Map', seoDescription: 'DORA Art. 8 ICT asset inventory and dependency mapping. Identify single points of failure and concentration risks.' }
   },
   {
     path: 'exit-strategies',

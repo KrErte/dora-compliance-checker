@@ -648,6 +648,7 @@ export class BoardRiskComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    if (this.counterInterval) clearInterval(this.counterInterval);
     if (this.isBrowser) {
       document.removeEventListener('click', this.onDocumentClick.bind(this));
     }
@@ -855,20 +856,24 @@ export class BoardRiskComponent implements OnInit, OnDestroy {
     return 'critical';
   }
 
+  private counterInterval: ReturnType<typeof setInterval> | null = null;
+
   private animateCounter(target: number): void {
+    if (this.counterInterval) clearInterval(this.counterInterval);
     const duration = 2000;
     const steps = 60;
     const stepDuration = duration / steps;
     let currentStep = 0;
 
-    const interval = setInterval(() => {
+    this.counterInterval = setInterval(() => {
       currentStep++;
       const progress = this.easeOutQuad(currentStep / steps);
       this.results!.displayValue = Math.round(target * progress);
 
       if (currentStep >= steps) {
         this.results!.displayValue = target;
-        clearInterval(interval);
+        if (this.counterInterval) clearInterval(this.counterInterval);
+        this.counterInterval = null;
       }
     }, stepDuration);
   }

@@ -518,7 +518,8 @@ export class EvidenceVaultComponent implements OnInit {
         a.download = item.fileName;
         a.click();
         URL.revokeObjectURL(url);
-      }
+      },
+      error: () => console.warn('Failed to download file:', item.fileName)
     });
   }
 
@@ -531,7 +532,8 @@ export class EvidenceVaultComponent implements OnInit {
   confirmVerify() {
     if (!this.verifyName) return;
     this.api.verifyEvidence(this.verifyItemId, this.verifyName).subscribe({
-      next: () => { this.showVerify = false; this.loadData(); }
+      next: () => { this.showVerify = false; this.loadData(); },
+      error: () => { this.showVerify = false; }
     });
   }
 
@@ -547,13 +549,17 @@ export class EvidenceVaultComponent implements OnInit {
       const fd = new FormData();
       fd.append('file', input.files[0]);
       this.api.uploadEvidenceVersion(this.versionItemId, fd).subscribe({
-        next: () => { this.loadData(); input.value = ''; }
+        next: () => { this.loadData(); input.value = ''; },
+        error: () => { input.value = ''; }
       });
     }
   }
 
   deleteItem(id: string) {
-    this.api.deleteEvidence(id).subscribe({ next: () => this.loadData() });
+    this.api.deleteEvidence(id).subscribe({
+      next: () => this.loadData(),
+      error: () => console.warn('Failed to delete evidence item:', id)
+    });
   }
 
   exportZip() {
@@ -565,7 +571,8 @@ export class EvidenceVaultComponent implements OnInit {
         a.download = 'evidence-vault-export.zip';
         a.click();
         URL.revokeObjectURL(url);
-      }
+      },
+      error: () => console.warn('Failed to export evidence ZIP')
     });
   }
 

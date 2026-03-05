@@ -247,16 +247,22 @@ export class NotificationCenterComponent implements OnInit {
   }
 
   markRead(id: string) {
-    this.api.markNotificationRead(id).subscribe(() => {
-      this.notifications.update(list => list.map(n => n.id === id ? { ...n, read: true } : n));
-      this.unreadCount.update(c => Math.max(0, c - 1));
+    this.api.markNotificationRead(id).subscribe({
+      next: () => {
+        this.notifications.update(list => list.map(n => n.id === id ? { ...n, read: true } : n));
+        this.unreadCount.update(c => Math.max(0, c - 1));
+      },
+      error: () => {}
     });
   }
 
   markAllRead() {
-    this.api.markAllNotificationsRead().subscribe(() => {
-      this.notifications.update(list => list.map(n => ({ ...n, read: true })));
-      this.unreadCount.set(0);
+    this.api.markAllNotificationsRead().subscribe({
+      next: () => {
+        this.notifications.update(list => list.map(n => ({ ...n, read: true })));
+        this.unreadCount.set(0);
+      },
+      error: () => {}
     });
   }
 
