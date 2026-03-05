@@ -46,6 +46,9 @@ public class ExamSimulatorController {
         if (answer == null || answer.isBlank()) {
             return ResponseEntity.badRequest().body(Map.of("error", "answer is required"));
         }
+        if (answer.length() > 5000) {
+            answer = answer.substring(0, 5000);
+        }
 
         Map<String, Object> result = examService.evaluateAnswer(getUserId(auth), sessionId, questionIndex, answer);
         if (result.containsKey("error")) {

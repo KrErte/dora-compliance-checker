@@ -117,8 +117,9 @@ interface RiskItem {
           + Add ICT Asset
         </button>
         <button (click)="showAddLink = true"
-                class="px-4 py-2 bg-emerald-500/20 border border-emerald-500/30 rounded-xl text-emerald-400 text-sm font-medium hover:bg-emerald-500/30 transition-all"
-                [disabled]="(functions().length === 0 && assets().length === 0) || (assets().length === 0 && providers().length === 0)">
+                class="px-4 py-2 border rounded-xl text-sm font-medium transition-all"
+                [class]="canAddLink() ? 'bg-emerald-500/20 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30' : 'bg-slate-800/30 border-slate-700/30 text-slate-600 cursor-not-allowed'"
+                [disabled]="!canAddLink()">
           + Add Dependency Link
         </button>
         <button (click)="loadRiskAnalysis()"
@@ -278,7 +279,7 @@ interface RiskItem {
                   <p class="text-xs text-slate-400 mt-1">{{ func.description }}</p>
                 }
               </div>
-              <button (click)="confirmDeleteFunction(func)" class="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all">
+              <button (click)="confirmDeleteFunction(func)" class="text-slate-600 hover:text-red-400 sm:opacity-0 sm:group-hover:opacity-100 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
@@ -316,7 +317,7 @@ interface RiskItem {
                   <p class="text-xs text-slate-400 mt-1">{{ asset.description }}</p>
                 }
               </div>
-              <button (click)="confirmDeleteAsset(asset)" class="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all">
+              <button (click)="confirmDeleteAsset(asset)" class="text-slate-600 hover:text-red-400 sm:opacity-0 sm:group-hover:opacity-100 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
@@ -391,7 +392,7 @@ interface RiskItem {
               <svg class="w-3 h-3 text-slate-500" fill="currentColor" viewBox="0 0 24 24"><path d="M5 12h14m-4-4l4 4-4 4"/></svg>
             </div>
             <span class="text-sm text-white flex-shrink-0">{{ getNodeName(link.targetId) }}</span>
-            <button (click)="deleteLink(link.id)" class="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all ml-2">
+            <button (click)="deleteLink(link.id)" class="text-slate-600 hover:text-red-400 sm:opacity-0 sm:group-hover:opacity-100 transition-all ml-2">
               <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
@@ -507,6 +508,10 @@ export class IctAssetMapComponent implements OnInit {
   newFunction = { name: '', description: '', criticality: 'NORMAL' };
   newAsset = { name: '', description: '', assetType: 'APPLICATION', rtoHours: 24, rpoHours: 4 };
   newLink = { sourceId: '', targetId: '', label: '', dependency: 'REQUIRED' };
+
+  canAddLink = computed(() =>
+    (this.functions().length > 0 || this.assets().length > 0) && (this.assets().length > 0 || this.providers().length > 0)
+  );
 
   riskBorderClass = computed(() => {
     const level = this.riskAnalysis()?.riskLevel;

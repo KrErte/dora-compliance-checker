@@ -292,6 +292,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                   <span class="text-xs font-medium text-slate-500 uppercase tracking-wider">Your Response to the Examiner</span>
                   <textarea [(ngModel)]="currentAnswer"
                             rows="6"
+                            maxlength="5000"
                             placeholder="Provide your answer as you would to a DORA regulatory supervisor. Be specific, cite relevant articles and procedures where applicable..."
                             class="mt-2 w-full bg-slate-900/60 border border-slate-600/50 rounded-xl px-4 py-3 text-slate-200 text-sm placeholder-slate-600 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 resize-y transition-all">
                   </textarea>
@@ -299,7 +300,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                 <div class="flex items-center justify-between">
                   <p class="text-xs text-slate-600">
                     @if (currentAnswer.length > 0) {
-                      {{ currentAnswer.length }} characters
+                      {{ currentAnswer.length }} / 5,000 characters
                     } @else {
                       Provide a thorough response for maximum points
                     }
