@@ -214,7 +214,7 @@ interface TrackerData {
 
                         <!-- Article Row -->
                         <div class="px-5 py-4 cursor-pointer flex items-center gap-4"
-                             (click)="toggleArticle(article.id)">
+                             (click)="toggleArticle(article.id, article)">
                           <!-- Article Number -->
                           <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-sm font-mono font-bold"
                                [class]="article.status === 'compliant' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20' :
@@ -314,7 +314,7 @@ interface TrackerData {
 
                             <!-- Action Buttons -->
                             <div class="flex justify-end gap-3 mt-5 pt-4 border-t border-slate-700/30">
-                              <button (click)="expandedArticle = null; $event.stopPropagation()"
+                              <button (click)="cancelArticleEdit(article); $event.stopPropagation()"
                                       class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-300 text-sm hover:bg-slate-700 transition-all">
                                 Cancel
                               </button>
@@ -425,6 +425,7 @@ export class ArticleTrackerComponent implements OnInit {
 
   expandedChapters = new Set<string>();
   expandedArticle: string | null = null;
+  private articleSnapshot: Partial<Article> | null = null;
 
   ngOnInit(): void {
     this.loadData();
@@ -453,8 +454,28 @@ export class ArticleTrackerComponent implements OnInit {
     }
   }
 
-  toggleArticle(articleId: string): void {
-    this.expandedArticle = this.expandedArticle === articleId ? null : articleId;
+  toggleArticle(articleId: string, article?: Article): void {
+    if (this.expandedArticle === articleId) {
+      this.expandedArticle = null;
+      this.articleSnapshot = null;
+    } else {
+      if (article) {
+        this.articleSnapshot = { status: article.status, notes: article.notes, responsiblePerson: article.responsiblePerson, targetDate: article.targetDate };
+      }
+      this.expandedArticle = articleId;
+    }
+    this.saveSuccess.set(null);
+  }
+
+  cancelArticleEdit(article: Article): void {
+    if (this.articleSnapshot) {
+      article.status = this.articleSnapshot.status as Article['status'] ?? article.status;
+      article.notes = this.articleSnapshot.notes ?? article.notes;
+      article.responsiblePerson = this.articleSnapshot.responsiblePerson;
+      article.targetDate = this.articleSnapshot.targetDate;
+    }
+    this.expandedArticle = null;
+    this.articleSnapshot = null;
     this.saveSuccess.set(null);
   }
 

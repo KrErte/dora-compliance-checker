@@ -47,12 +47,17 @@ public class IctAssetMapService {
     }
 
     public Map<String, Object> addBusinessFunction(String userId, Map<String, Object> data) {
+        String name = (String) data.getOrDefault("name", "");
+        if (name == null || name.trim().isEmpty()) {
+            return Map.of("error", "Function name is required");
+        }
+
         UserAssetMap map = getOrCreateMap(userId);
         String id = "func-" + UUID.randomUUID().toString().substring(0, 8);
 
         Map<String, Object> func = new LinkedHashMap<>();
         func.put("id", id);
-        func.put("name", data.getOrDefault("name", "Unnamed Function"));
+        func.put("name", name.trim());
         func.put("description", data.getOrDefault("description", ""));
         func.put("criticality", data.getOrDefault("criticality", "NORMAL"));
         func.put("type", "function");
@@ -62,12 +67,17 @@ public class IctAssetMapService {
     }
 
     public Map<String, Object> addIctAsset(String userId, Map<String, Object> data) {
+        String name = (String) data.getOrDefault("name", "");
+        if (name == null || name.trim().isEmpty()) {
+            return Map.of("error", "Asset name is required");
+        }
+
         UserAssetMap map = getOrCreateMap(userId);
         String id = "asset-" + UUID.randomUUID().toString().substring(0, 8);
 
         Map<String, Object> asset = new LinkedHashMap<>();
         asset.put("id", id);
-        asset.put("name", data.getOrDefault("name", "Unnamed Asset"));
+        asset.put("name", name.trim());
         asset.put("description", data.getOrDefault("description", ""));
         asset.put("assetType", data.getOrDefault("assetType", "APPLICATION"));
         asset.put("rtoHours", data.getOrDefault("rtoHours", 24));
@@ -79,13 +89,22 @@ public class IctAssetMapService {
     }
 
     public Map<String, Object> addLink(String userId, Map<String, Object> data) {
+        String sourceId = (String) data.get("sourceId");
+        String targetId = (String) data.get("targetId");
+        if (sourceId == null || sourceId.isBlank() || targetId == null || targetId.isBlank()) {
+            return Map.of("error", "sourceId and targetId are required");
+        }
+        if (sourceId.equals(targetId)) {
+            return Map.of("error", "sourceId and targetId must be different");
+        }
+
         UserAssetMap map = getOrCreateMap(userId);
         String id = "link-" + UUID.randomUUID().toString().substring(0, 8);
 
         Map<String, Object> link = new LinkedHashMap<>();
         link.put("id", id);
-        link.put("sourceId", data.get("sourceId"));
-        link.put("targetId", data.get("targetId"));
+        link.put("sourceId", sourceId);
+        link.put("targetId", targetId);
         link.put("label", data.getOrDefault("label", ""));
         link.put("dependency", data.getOrDefault("dependency", "REQUIRED"));
         map.links.add(link);

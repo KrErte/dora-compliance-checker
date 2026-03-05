@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
+import { ActivatedRoute } from '@angular/router';
 import { IctAssetMapComponent } from './ict-asset-map.component';
 import { LangService } from '../lang.service';
 
@@ -39,7 +40,8 @@ describe('IctAssetMapComponent', () => {
       imports: [IctAssetMapComponent],
       providers: [
         provideHttpClient(),
-        provideHttpClientTesting()
+        provideHttpClientTesting(),
+        { provide: ActivatedRoute, useValue: {} }
       ]
     }).compileComponents();
 

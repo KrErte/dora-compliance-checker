@@ -1,6 +1,7 @@
 import { Component, OnInit, signal, computed, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpClient } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 import { LangService } from '../lang.service';
 import { FormsModule } from '@angular/forms';
 
@@ -52,7 +53,7 @@ interface RiskItem {
 @Component({
   selector: 'app-ict-asset-map',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   template: `
     <div class="max-w-7xl mx-auto space-y-8">
       <!-- Header -->
@@ -266,7 +267,7 @@ interface RiskItem {
                   <p class="text-xs text-slate-400 mt-1">{{ func.description }}</p>
                 }
               </div>
-              <button (click)="deleteFunction(func.id)" class="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all">
+              <button (click)="confirmDeleteFunction(func)" class="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
@@ -304,7 +305,7 @@ interface RiskItem {
                   <p class="text-xs text-slate-400 mt-1">{{ asset.description }}</p>
                 }
               </div>
-              <button (click)="deleteAsset(asset.id)" class="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all">
+              <button (click)="confirmDeleteAsset(asset)" class="text-slate-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
@@ -353,7 +354,7 @@ interface RiskItem {
           } @empty {
           <div class="text-center py-8 text-slate-500 text-sm">
             No ICT providers registered.<br>
-            <a href="/supply-chain" class="text-cyan-400 hover:underline">Add providers in Supply Chain</a>
+            <a routerLink="/supply-chain" class="text-cyan-400 hover:underline">Add providers in Supply Chain</a>
           </div>
           }
         </div>
@@ -568,6 +569,16 @@ export class IctAssetMapComponent implements OnInit {
       },
       error: () => {}
     });
+  }
+
+  confirmDeleteFunction(func: BusinessFunction) {
+    if (!confirm(`Delete business function "${func.name}"? Associated links will also be removed.`)) return;
+    this.deleteFunction(func.id);
+  }
+
+  confirmDeleteAsset(asset: IctAsset) {
+    if (!confirm(`Delete ICT asset "${asset.name}"? Associated links will also be removed.`)) return;
+    this.deleteAsset(asset.id);
   }
 
   deleteFunction(id: string) {
