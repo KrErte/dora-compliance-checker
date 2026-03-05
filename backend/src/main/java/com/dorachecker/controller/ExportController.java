@@ -266,9 +266,6 @@ public class ExportController {
     }
 
     private boolean isOwner(String userId, String sessionId, String resourceUserId, String resourceSessionId) {
-        if (resourceUserId == null && resourceSessionId == null) {
-            return true; // Legacy data without ownership — allow
-        }
         if (userId != null && userId.equals(resourceUserId)) {
             return true;
         }

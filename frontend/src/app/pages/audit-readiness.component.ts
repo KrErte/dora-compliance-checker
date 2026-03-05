@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
@@ -178,7 +178,7 @@ import { LangService } from '../lang.service';
     :host { display: block; }
   `]
 })
-export class AuditReadinessComponent implements OnInit, AfterViewInit, OnDestroy {
+export class AuditReadinessComponent implements OnInit, OnDestroy {
   private animationInterval: any = null;
   loading = signal(true);
   data = signal<any>(null);
@@ -191,17 +191,14 @@ export class AuditReadinessComponent implements OnInit, AfterViewInit, OnDestroy
       next: (d) => {
         this.data.set(d);
         this.loading.set(false);
+        this.startScoreAnimation(d.overallScore);
       },
       error: () => this.loading.set(false)
     });
   }
 
-  ngAfterViewInit() {
-    // Animate score count-up
+  private startScoreAnimation(target: number) {
     this.animationInterval = setInterval(() => {
-      const d = this.data();
-      if (!d) return;
-      const target = d.overallScore;
       const current = this.animatedScore();
       if (current < target) {
         this.animatedScore.set(Math.min(current + 1, target));
