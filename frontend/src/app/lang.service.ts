@@ -669,6 +669,8 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'landing.faq3_a': { et: 'Lepingu sisu töödeldakse reaalajas ja ei salvestata serverisse. Andmed jäävad sinu brauserisse. Self-hosted variant on saadaval enterprise klientidele.', en: 'Contract content is processed in real-time and not stored on the server. Data stays in your browser. Self-hosted variant is available for enterprise clients.' },
   'landing.faq4_q': { et: 'Kes DoraAudit\'i taga on?', en: 'Who is behind DoraAudit?' },
   'landing.faq4_a': { et: 'Doraaudit, Tallinn. Meeskond kombineerib finantssektori regulatsiooni tundmist ja tarkvara arenduse kogemust.', en: 'Doraaudit, Tallinn. The team combines financial sector regulatory knowledge with software development experience.' },
+  'landing.faq5_q': { et: 'Mis on Evidence Gap Analyzer?', en: 'What is the Evidence Gap Analyzer?' },
+  'landing.faq5_a': { et: 'Evidence Gap Analyzer on AI-põhine tööriist, mis analüüsib teie üleslaaditud dokumente (poliitikad, protseduurid, testiaruanded) konkreetsete DORA artiklite nõuete vastu. AI hindab 45 alanõuet 10 artiklist ja annab iga nõude kohta staatuse: leitud, osaline või puudu. Tulemus sisaldab tsitaate dokumendist ja soovitusi puuduste kõrvaldamiseks. Saadaval Enterprise plaanil.', en: 'The Evidence Gap Analyzer is an AI-powered tool that analyzes your uploaded documents (policies, procedures, test reports) against specific DORA article requirements. AI evaluates 45 sub-requirements across 10 articles and provides a status for each: found, partial, or missing. Results include quotes from your document and recommendations for addressing gaps. Available on the Enterprise plan.' },
 
   // Landing - Trust
   'landing.trust_title': { et: 'Loodud Eesti finantssektorile', en: 'Built for Estonian Financial Sector' },
@@ -1675,6 +1677,8 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'pricing.ent_f4': { et: 'Real-time compliance monitoring', en: 'Real-time compliance monitoring' },
   'pricing.ent_f5': { et: 'RoI (Register of Information) generator', en: 'RoI (Register of Information) generator' },
   'pricing.ent_f6': { et: 'Ettevõtte brändinguga PDF raportid', en: 'Custom PDF reports with company branding' },
+  'pricing.ent_f7': { et: 'AI Evidence Gap Analyzer — dokumentide analüüs DORA artiklite vastu', en: 'AI Evidence Gap Analyzer — document analysis against DORA articles' },
+  'pricing.ent_f8': { et: 'AI poliitikakirjutaja — DORA-le vastavad IKT poliitikad', en: 'AI Policy Writer — DORA-compliant ICT policies' },
   'pricing.ent_cta': { et: 'Alusta Enterprise', en: 'Start Enterprise' },
   'pricing.lawyer_ent': { et: 'Juristi topelt-audit: ~€2,500-5,000', en: 'Lawyer dual audit: ~€2,500-5,000' },
 
@@ -1696,6 +1700,8 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'pricing.feat_realtime': { et: 'Real-time monitoring', en: 'Real-time monitoring' },
   'pricing.feat_roi': { et: 'RoI generator', en: 'RoI generator' },
   'pricing.feat_branding': { et: 'Ettevõtte brändinguga raportid', en: 'Company branded reports' },
+  'pricing.feat_gap_analyzer': { et: 'AI Evidence Gap Analyzer', en: 'AI Evidence Gap Analyzer' },
+  'pricing.feat_policy_writer': { et: 'AI poliitikakirjutaja', en: 'AI Policy Writer' },
 
   // Pricing - Why DoraAudit comparison
   'pricing.why_title': { et: 'Miks DoraAudit?', en: 'Why DoraAudit?' },

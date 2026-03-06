@@ -300,6 +300,18 @@ import { SubscriptionService } from '../services/subscription.service';
               </svg>
               <span class="text-slate-300">{{ lang.t('pricing.ent_f6') }}</span>
             </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-teal-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.ent_f7') }}</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <svg class="w-4 h-4 text-teal-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="text-slate-300">{{ lang.t('pricing.ent_f8') }}</span>
+            </li>
           </ul>
 
           <a [href]="paymentConfig.lemonsqueezy.products.enterprise?.checkoutUrl || '#'"
@@ -381,8 +393,22 @@ import { SubscriptionService } from '../services/subscription.service';
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-emerald-400">✓</td>
               </tr>
-              <tr>
+              <tr class="border-b border-slate-800/50">
                 <td class="py-3 px-4">{{ lang.t('pricing.feat_branding') }}</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-emerald-400">✓</td>
+              </tr>
+              <tr class="border-b border-slate-800/50">
+                <td class="py-3 px-4">{{ lang.t('pricing.feat_gap_analyzer') }}</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-slate-600">—</td>
+                <td class="text-center py-3 px-2 text-emerald-400">✓</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4">{{ lang.t('pricing.feat_policy_writer') }}</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>

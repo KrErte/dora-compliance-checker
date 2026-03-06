@@ -139,10 +139,10 @@ interface DoraRequirement {
             <div class="text-3xl md:text-4xl font-extrabold text-emerald-400 mb-1">64</div>
             <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_articles') }}</div>
           </div>
-          <!-- Art. 30 requirements -->
+          <!-- AI-analyzed sub-requirements -->
           <div class="text-center">
-            <div class="text-3xl md:text-4xl font-extrabold text-cyan-400 mb-1">30+</div>
-            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_art30') }}</div>
+            <div class="text-3xl md:text-4xl font-extrabold text-cyan-400 mb-1">45</div>
+            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.l('AI-Analyzed Sub-Requirements', 'AI-analüüsitud alanõuet') }}</div>
           </div>
           <!-- Analysis time -->
           <div class="text-center">
@@ -616,6 +616,20 @@ interface DoraRequirement {
             </button>
             <div *ngIf="expandedFaq === 3" class="px-6 pb-4 text-sm text-slate-400 animate-slide-down">
               {{ lang.t('landing.faq4_a') }}
+            </div>
+          </div>
+
+          <!-- FAQ 5: Gap Analyzer -->
+          <div class="glass-card rounded-xl border border-slate-700/50 overflow-hidden">
+            <button (click)="toggleFaq(4)"
+                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+              <span class="font-medium text-slate-200">{{ lang.t('landing.faq5_q') }}</span>
+              <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+            <div *ngIf="expandedFaq === 4" class="px-6 pb-4 text-sm text-slate-400 animate-slide-down">
+              {{ lang.t('landing.faq5_a') }}
             </div>
           </div>
         </div>
