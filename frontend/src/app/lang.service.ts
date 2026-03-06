@@ -1632,6 +1632,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'notfound.nis2_scope': { et: 'NIS2 kohalduvuskontroll', en: 'NIS2 Scope Check' },
   'notfound.dora_assessment': { et: 'DORA hindamine', en: 'DORA Assessment' },
   'notfound.board_risk': { et: 'Juhatuse riskikalkulaator', en: 'Board Risk Calculator' },
+  'notfound.try_pages': { et: 'Proovi neid lehti:', en: 'Try these pages:' },
 
   // Pricing page
   'nav.pricing': { et: 'Hinnakiri', en: 'Pricing' },
@@ -2309,6 +2310,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'explorer.start_assessment': { et: 'Alusta hindamist', en: 'Start Assessment' },
   'explorer.analyze_contract': { et: 'Anal\u00fc\u00fcsi lepingut', en: 'Analyze Contract' },
   'explorer.search_placeholder': { et: 'Otsi artiklite, n\u00f5uete v\u00f5i m\u00e4rks\u00f5nade j\u00e4rgi...', en: 'Search articles, requirements, or keywords...' },
+  'explorer.search_articles_requirements_or_keywords': { et: 'Otsi artiklite, n\u00f5uete v\u00f5i m\u00e4rks\u00f5nade j\u00e4rgi...', en: 'Search articles, requirements, or keywords...' },
 
   // Framework Mapping
   'fwmap.free_tool': { et: 'Tasuta t\u00f6\u00f6riist', en: 'Free Tool' },
