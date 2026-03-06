@@ -340,9 +340,9 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
 
   // Landing - Hero
   'landing.title': { et: 'Sinu IKT-leping ei vasta DORA nõuetele. Me näitame, kus täpselt.', en: 'Your ICT contract doesn\'t meet DORA requirements. We show you exactly where.' },
-  'landing.subtitle': { et: '8 DORA Art. 30 nõuet · 5 minuti analüüs · PDF raport juhatusele. Ilma juristita.', en: '8 DORA Art. 30 requirements · 5-minute analysis · PDF report for the board. No lawyer needed.' },
+  'landing.subtitle': { et: 'DORA kehtib alates jaanuar 2025. Kontrolli oma IKT-lepingut 8 Art. 30 nõude vastu · 5 minutiga · PDF raport juhatusele.', en: 'DORA is in force since January 2025. Check your ICT contract against 8 Art. 30 requirements · 5 minutes · PDF report for the board.' },
   'landing.hero_desc': { et: 'Kontrollige oma IKT-lepingute vastavust DORA artikkel 30 nõuetele enne auditit.', en: 'Check your ICT contract compliance with DORA Article 30 requirements before audit.' },
-  'landing.cta_free_check': { et: 'Kontrolli tasuta', en: 'Check for free' },
+  'landing.cta_free_check': { et: 'Analüüsi oma lepingut tasuta', en: 'Analyze your contract free' },
   'landing.cta_try_demo': { et: 'Proovi demoga', en: 'Try with demo' },
   'landing.cta_view_demo': { et: 'Vaata demo tulemust', en: 'View demo result' },
   'landing.cta_try_sample': { et: 'Proovi näidislepinguga', en: 'Try with sample contract' },
@@ -367,7 +367,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'landing.trust_eu': { et: 'EL andmekeskused', en: 'EU Data Centers' },
   'landing.final_cta_badge': { et: 'Alusta 30 sekundiga', en: 'Start in 30 seconds' },
   'landing.view_pricing': { et: 'Vaata hindu', en: 'View Pricing' },
-  'landing.trust_no_cc': { et: 'Krediitkaart pole vajalik', en: 'No credit card required' },
+  'landing.trust_no_cc': { et: 'Registreerimine pole vajalik', en: 'No signup required' },
   'landing.trust_instant': { et: 'Kohesed tulemused', en: 'Instant results' },
   'landing.trust_pdf': { et: 'PDF raport kaasas', en: 'PDF report included' },
 
@@ -2856,9 +2856,9 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'team.organization_name': { et: 'Organisatsiooni nimi', en: 'Organization name' },
   'team.optional_description': { et: 'Valikuline kirjeldus', en: 'Optional description' },
   'team.aria_remove_member': { et: 'Eemalda liige', en: 'Remove member' },
-  'vendor.crowdsourced_data': { et: 'Kogukonna andmed', en: 'Crowdsourced Data' },
+  'vendor.crowdsourced_data': { et: 'Tööstuse viiteandmed', en: 'Industry Reference Data' },
   'vendor.ict_vendor_risk_database': { et: 'ICT teenusepakkujate riskiandmebaas', en: 'ICT Vendor Risk Database' },
-  'vendor.anonymized_dora_compliance_data_for_ict': { et: 'Anonümiseeritud DORA vastavusandmed ICT teenusepakkujate kohta, mis on kogutud kogukonna hindamistest.', en: 'Anonymized DORA compliance data for ICT service providers, aggregated from community assessments.' },
+  'vendor.anonymized_dora_compliance_data_for_ict': { et: 'DORA vastavuse viiteandmed peamiste ICT teenusepakkujate kohta, põhinedes avalikul informatsioonil ja regulatiivsetel nõuetel.', en: 'DORA compliance reference data for major ICT service providers, based on public information and regulatory requirements.' },
   'vendor.this_is_a_demo_database_with_sample_data': { et: 'See on demo andmebaas n\u00e4itlike andmetega. Tegelikud andmed kogunevad kasutajate hindamistest.', en: 'This is a demo database with sample data. Real data will be aggregated from user assessments.' },
   'vendor.vendors': { et: 'Teenusepakkujat', en: 'Vendors' },
   'vendor.assessments': { et: 'Hindamist', en: 'Assessments' },
