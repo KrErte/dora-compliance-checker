@@ -729,7 +729,8 @@ import { ComplianceAlert } from './models';
               <a routerLink="/board-risk" class="text-xs text-slate-500 hover:text-teal-400 transition-colors">{{ lang.t('nav.board_risk') }}</a>
               <a routerLink="/fine-calculator" class="text-xs text-slate-500 hover:text-red-400 transition-colors">{{ lang.t('nav.fine_calculator') }}</a>
               <a routerLink="/vendors" class="text-xs text-slate-500 hover:text-violet-400 transition-colors">{{ lang.t('nav.vendors') }}</a>
-              <a routerLink="/roi" class="text-xs text-slate-500 hover:text-amber-400 transition-colors">{{ lang.t('nav.roi') }}</a>
+              <a routerLink="/dora-explorer" class="text-xs text-slate-500 hover:text-cyan-400 transition-colors">{{ lang.t('nav.explorer') }}</a>
+              <a routerLink="/framework-mapping" class="text-xs text-slate-500 hover:text-teal-400 transition-colors">{{ lang.t('nav.mapping') }}</a>
             </div>
           </div>
 

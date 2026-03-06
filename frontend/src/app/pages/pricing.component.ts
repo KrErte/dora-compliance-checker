@@ -30,6 +30,13 @@ import { SubscriptionService } from '../services/subscription.service';
         <p class="text-slate-400 text-lg max-w-2xl mx-auto">
           {{ lang.t('pricing.subtitle') }}
         </p>
+        <!-- Trial banner -->
+        <div class="mt-6 inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-emerald-500/10 border border-emerald-500/30">
+          <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span class="text-sm font-medium text-emerald-300">{{ lang.l('Registreeru ja proovi kõiki funktsioone 14 päeva tasuta', 'Register and try all features free for 14 days') }}</span>
+        </div>
       </div>
 
       <!-- Why DoraAudit Comparison -->
@@ -130,6 +137,12 @@ import { SubscriptionService } from '../services/subscription.service';
               <span class="text-3xl font-extrabold text-cyan-400">€149</span>
               <span class="text-slate-500 text-sm">/ {{ lang.t('pricing.month') }}</span>
             </div>
+            <div class="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+              <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span class="text-[11px] font-medium text-emerald-400">{{ lang.l('14 päeva tasuta', '14 days free') }}</span>
+            </div>
           </div>
 
           <ul class="space-y-2.5 mb-6 flex-1 text-sm">
@@ -168,7 +181,10 @@ import { SubscriptionService } from '../services/subscription.service';
             {{ lang.t('pricing.pro_cta') }}
           </a>
 
-          <div class="mt-3 pt-3 border-t border-slate-700/50 text-center">
+          <a routerLink="/register" class="block mt-2 text-center text-xs text-emerald-400 hover:text-emerald-300 transition-colors">
+            {{ lang.l('Proovi enne 14 päeva tasuta', 'Try 14 days free first') }}
+          </a>
+          <div class="mt-2 pt-3 border-t border-slate-700/50 text-center">
             <p class="text-xs text-slate-500">{{ lang.t('pricing.lawyer_pro') }}</p>
           </div>
         </div>
@@ -193,6 +209,12 @@ import { SubscriptionService } from '../services/subscription.service';
             <div class="flex items-baseline gap-1">
               <span class="text-3xl font-extrabold score-counter">€299</span>
               <span class="text-slate-500 text-sm">/ {{ lang.t('pricing.month') }}</span>
+            </div>
+            <div class="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+              <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span class="text-[11px] font-medium text-emerald-400">{{ lang.l('14 päeva tasuta', '14 days free') }}</span>
             </div>
           </div>
 
@@ -238,7 +260,10 @@ import { SubscriptionService } from '../services/subscription.service';
             {{ lang.t('pricing.biz_cta') }}
           </a>
 
-          <div class="mt-3 pt-3 border-t border-slate-700/50 text-center">
+          <a routerLink="/register" class="block mt-2 text-center text-xs text-emerald-400 hover:text-emerald-300 transition-colors">
+            {{ lang.l('Proovi enne 14 päeva tasuta', 'Try 14 days free first') }}
+          </a>
+          <div class="mt-2 pt-3 border-t border-slate-700/50 text-center">
             <p class="text-xs text-slate-500">{{ lang.t('pricing.lawyer_biz') }}</p>
           </div>
         </div>

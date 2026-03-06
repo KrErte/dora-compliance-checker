@@ -14,11 +14,34 @@ import { AuthService } from '../auth/auth.service';
     <div class="min-h-[60vh] flex items-center justify-center">
       <div class="w-full max-w-md">
         <!-- Trial Banner -->
-        <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 border border-emerald-500/30">
-          <div class="flex items-center gap-3">
-            <span class="text-3xl">🚀</span>
+        <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-500/30">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center shrink-0">
+              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
             <div>
-              <p class="text-sm text-emerald-300">{{ lang.t('landing.trial_desc') }}</p>
+              <p class="text-sm font-semibold text-emerald-300">{{ lang.l('14 päeva tasuta prooviaeg', '14-day free trial') }}</p>
+              <p class="text-xs text-slate-400">{{ lang.l('Krediitkaarti pole vaja', 'No credit card required') }}</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs text-slate-400">
+            <div class="flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              {{ lang.l('AI lepinguanalüüs', 'AI contract analysis') }}
+            </div>
+            <div class="flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              {{ lang.l('PDF/Excel eksport', 'PDF/Excel export') }}
+            </div>
+            <div class="flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              {{ lang.l('Vastavussertifikaat', 'Compliance certificate') }}
+            </div>
+            <div class="flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              {{ lang.l('Tegevuskava', 'Action plan') }}
             </div>
           </div>
         </div>
