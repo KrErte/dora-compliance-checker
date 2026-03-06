@@ -77,7 +77,7 @@ interface GlossaryTerm {
           type="text"
           [(ngModel)]="searchQuery"
           (ngModelChange)="onSearch()"
-          [placeholder]="lang.t('explorer.search_articles_requirements_or_keywords')"
+          [placeholder]="lang.t('explorer.search_placeholder')"
           class="w-full pl-12 pr-4 py-3.5 bg-slate-800/80 border border-slate-600/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all text-sm"
         />
         <div *ngIf="searchQuery" class="absolute inset-y-0 right-0 pr-4 flex items-center">
