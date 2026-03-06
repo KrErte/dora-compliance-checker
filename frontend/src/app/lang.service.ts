@@ -1,10 +1,10 @@
 import { Injectable, signal } from '@angular/core';
 
-export type Lang = 'et' | 'en' | 'lv' | 'lt';
+export type Lang = 'et' | 'en';
 
 const GEOLOCATION_API = 'https://ipapi.co/json/';
 
-const TRANSLATIONS: { [key: string]: { et: string; en: string; lv?: string; lt?: string } } = {
+const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: string } } = {
   // Nav
   'nav.history': { et: 'Ajalugu', en: 'History', lv: 'V\u0113sture', lt: 'Istorija' },
   'nav.assessment': { et: 'Hindamine', en: 'Assessment', lv: 'Nov\u0113rt\u0113jums', lt: 'Vertinimas' },
@@ -2246,7 +2246,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; lv?: string; lt?:
   'landing.ai_desc': { et: 'Meie tehis\u00e4rul p\u00f5hinev assistent tunneb DORA regulatsiooni l\u00e4bi ja l\u00e4bi. K\u00fcsige artiklite, n\u00f5uete v\u00f5i vastavusn\u00f5uete kohta \u2014 saate kohese vastuse.', en: 'Our AI assistant knows DORA regulation inside out. Ask about articles, requirements, or compliance obligations \u2014 get an instant answer.', lv: 'M\u016bsu MI asistents piln\u012bb\u0101 p\u0101rzina DORA regul\u0113jumu. Jaut\u0101jiet par pantiem, pras\u012bb\u0101m vai atbilst\u012bbas pien\u0101kumiem.', lt: 'M\u016bs\u0173 DI asistentas puikiai i\u0161mano DORA reglament\u0105. Klauskite apie straipsnius, reikalavimus ar atitikties prievoles.' },
   'landing.ai_f1': { et: 'Vastab k\u00fcsimustele k\u00f5igi 64 DORA artikli kohta', en: 'Answers questions about all 64 DORA articles', lv: 'Atbild uz jaut\u0101jumiem par visiem 64 DORA pantiem', lt: 'Atsako \u012f klausimus apie visus 64 DORA straipsnius' },
   'landing.ai_f2': { et: 'Soovitab \u00f5iget platvormi t\u00f6\u00f6riista', en: 'Recommends the right platform tool', lv: 'Iesaka pareizo platformas r\u012bku', lt: 'Rekomenduoja tinkam\u0105 platformos \u012frank\u012f' },
-  'landing.ai_f3': { et: 'T\u00f6\u00f6tab eesti, inglise, l\u00e4ti ja leedu keeles', en: 'Works in Estonian, English, Latvian, and Lithuanian', lv: 'Darbojas igau\u0146u, ang\u013Cu, latvie\u0161u un lietuvie\u0161u valod\u0101', lt: 'Veikia estiškai, angliškai, latviškai ir lietuviškai' },
+  'landing.ai_f3': { et: 'T\u00f6\u00f6tab eesti ja inglise keeles', en: 'Works in Estonian and English' },
   'landing.ai_cta': { et: 'Proovi DoraBot\u2019i', en: 'Try DoraBot', lv: 'Izm\u0113\u0123iniet DoraBot', lt: 'I\u0161bandykite DoraBot' },
   'landing.ai_q': { et: 'Mida peab IKT-leping sisaldama?', en: 'What must an ICT contract include?', lv: 'Ko j\u0101ietver IKT l\u012bgum\u0101?', lt: 'K\u0105 turi apimti IKT sutartis?' },
   'landing.ai_a': { et: 'DORA Art. 30 n\u00f5uab 22 kohustuslikku klauslit: teenuste kirjeldus, andmet\u00f6\u00f6tluse asukohad, SLA-d, intsidentide raporteerimine, auditeerimis\u00f5igused, v\u00e4ljumisstrateegia...', en: 'DORA Art. 30 requires 22 mandatory clauses: service descriptions, data processing locations, SLAs, incident reporting, audit rights, exit strategies...', lv: 'DORA 30. pants prasa 22 oblig\u0101tus noteikumus: pakalpojumu apraksti, datu apstr\u0101des vietas, SLA, incidentu zi\u0146o\u0161ana, audita ties\u012bbas, izejas strat\u0113\u0123ijas...', lt: 'DORA 30 str. reikalauja 22 privalom\u0173 s\u0105lyg\u0173: paslaug\u0173 apra\u0161ymai, duomen\u0173 tvarkymo vietos, SLA, incident\u0173 ataskaitos, audito teis\u0117s, pasitraukimo strategijos...' },
@@ -3777,7 +3777,7 @@ export class LangService {
     if (typeof localStorage !== 'undefined') {
       // v2 key - ignores old auto-detected preferences
       const stored = localStorage.getItem('user-lang-choice') as Lang;
-      if (stored === 'et' || stored === 'en' || stored === 'lv' || stored === 'lt') {
+      if (stored === 'et' || stored === 'en') {
         return stored;
       }
     }
@@ -3797,7 +3797,7 @@ export class LangService {
       const data = await response.json();
       // If user is in Baltic states, switch to local language
       if (!this.getStoredLang()) {
-        const countryLangMap: Record<string, Lang> = { 'EE': 'et', 'LV': 'lv', 'LT': 'lt' };
+        const countryLangMap: Record<string, Lang> = { 'EE': 'et' };
         const detectedLang = countryLangMap[data.country_code];
         if (detectedLang) {
           this.langSignal.set(detectedLang);
@@ -3813,7 +3813,7 @@ export class LangService {
     return this.langSignal();
   }
 
-  private static readonly LANG_CYCLE: Lang[] = ['en', 'et', 'lv', 'lt'];
+  private static readonly LANG_CYCLE: Lang[] = ['en', 'et'];
 
   toggle() {
     const current = this.langSignal();
@@ -3831,9 +3831,7 @@ export class LangService {
   get availableLanguages(): { code: Lang; label: string }[] {
     return [
       { code: 'en', label: 'English' },
-      { code: 'et', label: 'Eesti' },
-      { code: 'lv', label: 'Latvie\u0161u' },
-      { code: 'lt', label: 'Lietuvi\u0173' }
+      { code: 'et', label: 'Eesti' }
     ];
   }
 

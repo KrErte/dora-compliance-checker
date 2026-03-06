@@ -249,62 +249,44 @@ export class ChatWidgetComponent {
 
   /** Page-aware contextual greeting shown when widget opens on specific pages */
   contextGreeting = computed(() => {
-    const clean = this.currentPath.replace(/^\/(en|et|lv|lt)\//, '/').replace(/^\/(en|et|lv|lt)$/, '/');
+    const clean = this.currentPath.replace(/^\/(en|et)\//, '/').replace(/^\/(en|et)$/, '/');
     const l = this.lang.lang();
     const greetings: Record<string, Record<string, string>> = {
       '/assessment': {
         en: 'I see you\'re checking compliance. I can help explain any assessment question or DORA requirement.',
-        et: 'N\u00e4en, et kontrollid vastavust. Saan aidata selgitada hindamisk\u00fcsimusi v\u00f5i DORA n\u00f5udeid.',
-        lv: 'Redzu, ka p\u0101rbaud\u0101t atbilst\u012bbu. Varu pal\u012bdz\u0113t izskaidrot nov\u0113rt\u0113juma jaut\u0101jumus.',
-        lt: 'Matau, kad tikrinate atitikt\u012f. Galiu pad\u0117ti paai\u0161kinti vertinimo klausimus.'
+        et: 'N\u00e4en, et kontrollid vastavust. Saan aidata selgitada hindamisk\u00fcsimusi v\u00f5i DORA n\u00f5udeid.'
       },
       '/contract-analysis': {
         en: 'Need help with your ICT contract? I know Art. 30 requirements inside out.',
-        et: 'Vajad abi IKT-lepinguga? Tunnen Art. 30 n\u00f5udeid p\u00f5hjalikult.',
-        lv: 'Vajadz\u012bga pal\u012bdz\u012bba ar IKT l\u012bgumu? Es labi p\u0101rzinu 30. panta pras\u012bbas.',
-        lt: 'Reikia pagalbos su IKT sutartimi? Puikiai \u017einau 30 str. reikalavimus.'
+        et: 'Vajad abi IKT-lepinguga? Tunnen Art. 30 n\u00f5udeid p\u00f5hjalikult.'
       },
       '/incident-reporting': {
         en: 'Reporting an incident? I can guide you through classification and reporting timeline.',
-        et: 'Raporteerid intsidenti? Saan juhendada klassifitseerimise ja ajakava osas.',
-        lv: 'Zi\u0146ojat par incidentu? Varu pal\u012bdz\u0113t ar klasifik\u0101ciju un termi\u0146iem.',
-        lt: 'Prane\u0161ate apie incident\u0105? Galiu pad\u0117ti su klasifikavimu ir terminais.'
+        et: 'Raporteerid intsidenti? Saan juhendada klassifitseerimise ja ajakava osas.'
       },
       '/tlpt': {
         en: 'Working on TLPT? I can explain threat-led penetration testing under Art. 26-27.',
-        et: 'T\u00f6\u00f6tad TLPT-ga? Saan selgitada Art. 26-27 l\u00e4bistustestimise n\u00f5udeid.',
-        lv: 'Str\u0101d\u0101jat ar TLPT? Varu izskaidrot 26.-27. panta test\u0113\u0161anas pras\u012bbas.',
-        lt: 'Dirbate su TLPT? Galiu paai\u0161kinti 26-27 str. testavimo reikalavimus.'
+        et: 'T\u00f6\u00f6tad TLPT-ga? Saan selgitada Art. 26-27 l\u00e4bistustestimise n\u00f5udeid.'
       },
       '/roi': {
         en: 'Building your Register of Information? I can help with Art. 28 and XBRL templates.',
-        et: 'Koostad teaberegistrit? Saan aidata Art. 28 ja XBRL mallidega.',
-        lv: 'Veidojat inform\u0101cijas re\u0123istru? Varu pal\u012bdz\u0113t ar 28. pantu un XBRL.',
-        lt: 'Kuriate informacijos registr\u0105? Galiu pad\u0117ti su 28 str. ir XBRL.'
+        et: 'Koostad teaberegistrit? Saan aidata Art. 28 ja XBRL mallidega.'
       },
       '/dora-explorer': {
         en: 'Exploring DORA articles? Ask me about any specific article or requirement.',
-        et: 'Uurid DORA artikleid? K\u00fcsi konkreetse artikli v\u00f5i n\u00f5ude kohta.',
-        lv: 'P\u0113t\u0101t DORA pantus? Jaut\u0101jiet par jebkuru pantu vai pras\u012bbu.',
-        lt: 'Nar\u0161ote DORA straipsnius? Klauskite apie bet kur\u012f straipsn\u012f.'
+        et: 'Uurid DORA artikleid? K\u00fcsi konkreetse artikli v\u00f5i n\u00f5ude kohta.'
       },
       '/training-quiz': {
         en: 'Taking the training quiz? I can explain any DORA concept you find tricky.',
-        et: 'Teed koolitustesti? Saan selgitada keerulisi DORA m\u00f5isteid.',
-        lv: 'K\u0101rtojat viktor\u012bnu? Varu izskaidrot sare\u017e\u0123\u012btus j\u0113dzienus.',
-        lt: 'Laikote viktorin\u0105? Galiu paai\u0161kinti sud\u0117tingas s\u0105vokas.'
+        et: 'Teed koolitustesti? Saan selgitada keerulisi DORA m\u00f5isteid.'
       },
       '/concentration-risk': {
         en: 'Analyzing concentration risk? I can help with Art. 29 provider dependency assessment.',
-        et: 'Anal\u00fc\u00fcsid kontsentreerumisriski? Saan aidata Art. 29 s\u00f5ltuvuse hindamisega.',
-        lv: 'Analiz\u0113jat koncentr\u0101cijas risku? Varu pal\u012bdz\u0113t ar 29. panta nov\u0113rt\u0113jumu.',
-        lt: 'Analizuojate koncentracijos rizik\u0105? Galiu pad\u0117ti su 29 str. vertinimu.'
+        et: 'Anal\u00fc\u00fcsid kontsentreerumisriski? Saan aidata Art. 29 s\u00f5ltuvuse hindamisega.'
       },
       '/framework-mapping': {
         en: 'Mapping frameworks? I can explain how DORA relates to ISO 27001, NIS2, and GDPR.',
-        et: 'Kaardistad raamistikke? Saan selgitada DORA seost ISO 27001, NIS2 ja GDPR-iga.',
-        lv: 'Kart\u0113jat ietvarus? Varu izskaidrot DORA saist\u012bbu ar ISO 27001, NIS2 un GDPR.',
-        lt: 'Lyginate sistemas? Galiu paai\u0161kinti DORA ry\u0161\u012f su ISO 27001, NIS2 ir GDPR.'
+        et: 'Kaardistad raamistikke? Saan selgitada DORA seost ISO 27001, NIS2 ja GDPR-iga.'
       }
     };
     const g = greetings[clean];
@@ -315,38 +297,28 @@ export class ChatWidgetComponent {
   /** Page-aware quick questions — changes based on which page user is on */
   quickQuestions = computed(() => {
     const l = this.lang.lang();
-    const clean = this.currentPath.replace(/^\/(en|et|lv|lt)\//, '/').replace(/^\/(en|et|lv|lt)$/, '/');
+    const clean = this.currentPath.replace(/^\/(en|et)\//, '/').replace(/^\/(en|et)$/, '/');
 
     const pageQs: Record<string, Record<string, string[]>> = {
       '/assessment': {
         en: ['What are the 5 DORA pillars?', 'How is compliance scored?', 'Which articles cover ICT risk?', 'What does proportionality mean?'],
-        et: ['Millised on DORA 5 sammast?', 'Kuidas vastavust hinnatakse?', 'Millised artiklid k\u00e4sitlevad IKT-riski?', 'Mida t\u00e4hendab proportsionaalsus?'],
-        lv: ['K\u0101di ir DORA 5 p\u012bl\u0101ri?', 'K\u0101 tiek v\u0113rt\u0113ta atbilst\u012bba?', 'Kuri panti aptver IKT risku?', 'Ko noz\u012bm\u0113 proporcionalit\u0101te?'],
-        lt: ['Kokie yra 5 DORA rams\u010diai?', 'Kaip vertinama atitiktis?', 'Kurie straipsniai apima IKT rizik\u0105?', 'K\u0105 rei\u0161kia proporcingumas?']
+        et: ['Millised on DORA 5 sammast?', 'Kuidas vastavust hinnatakse?', 'Millised artiklid k\u00e4sitlevad IKT-riski?', 'Mida t\u00e4hendab proportsionaalsus?']
       },
       '/contract-analysis': {
         en: ['What must Art. 30 contracts include?', 'Subcontracting rules?', 'Exit strategy requirements?', 'Audit rights in ICT contracts?'],
-        et: ['Mida peavad Art. 30 lepingud sisaldama?', 'Allhanke reeglid?', 'V\u00e4ljumisstrateegia n\u00f5uded?', 'Auditi\u00f5igused IKT-lepingutes?'],
-        lv: ['Ko 30. panta l\u012bgumiem j\u0101ietver?', 'Apak\u0161l\u012bgumu noteikumi?', 'Izejas strat\u0113\u0123ijas pras\u012bbas?', 'Audita ties\u012bbas IKT l\u012bgumos?'],
-        lt: ['K\u0105 turi apimti 30 str. sutartys?', 'Subrangos taisykl\u0117s?', 'I\u0161\u0117jimo strategijos reikalavimai?', 'Audito teis\u0117s IKT sutartyse?']
+        et: ['Mida peavad Art. 30 lepingud sisaldama?', 'Allhanke reeglid?', 'V\u00e4ljumisstrateegia n\u00f5uded?', 'Auditi\u00f5igused IKT-lepingutes?']
       },
       '/incident-reporting': {
         en: ['What is a major ICT incident?', 'Reporting timeline under Art. 19?', 'Who to report incidents to?', 'Classification criteria?'],
         et: ['Mis on suur IKT-intsident?', 'Raporteerimise ajakava Art. 19?', 'Kellele intsidente raporteerida?', 'Klassifitseerimise kriteeriumid?'],
-        lv: ['Kas ir nopietns IKT incidents?', 'Zi\u0146o\u0161anas termi\u0146i 19. pants?', 'Kam zi\u0146ot par incidentiem?', 'Klasifik\u0101cijas krit\u0113riji?'],
-        lt: ['Kas yra didelis IKT incidentas?', 'Prane\u0161imo terminai 19 str.?', 'Kam prane\u0161ti apie incidentus?', 'Klasifikavimo kriterijai?']
       },
       '/tlpt': {
         en: ['When is TLPT mandatory?', 'What is TIBER-EU?', 'Who performs TLPT tests?', 'How often must TLPT be done?'],
-        et: ['Millal on TLPT kohustuslik?', 'Mis on TIBER-EU?', 'Kes teostab TLPT teste?', 'Kui tihti tuleb TLPT-d teha?'],
-        lv: ['Kad TLPT ir oblig\u0101ts?', 'Kas ir TIBER-EU?', 'Kas veic TLPT testus?', 'Cik bie\u017ei j\u0101veic TLPT?'],
-        lt: ['Kada TLPT privalomas?', 'Kas yra TIBER-EU?', 'Kas atlieka TLPT testus?', 'Kaip da\u017enai reikia TLPT?']
+        et: ['Millal on TLPT kohustuslik?', 'Mis on TIBER-EU?', 'Kes teostab TLPT teste?', 'Kui tihti tuleb TLPT-d teha?']
       },
       '/concentration-risk': {
         en: ['What is ICT concentration risk?', 'Art. 29 requirements?', 'How to assess provider dependency?', 'Multi-vendor strategies?'],
-        et: ['Mis on IKT kontsentreerumisrisk?', 'Art. 29 n\u00f5uded?', 'Kuidas hinnata teenusepakkuja s\u00f5ltuvust?', 'Mitmepakkuja strateegiad?'],
-        lv: ['Kas ir IKT koncentr\u0101cijas risks?', '29. panta pras\u012bbas?', 'K\u0101 nov\u0113rt\u0113t pakalpojumu sniedz\u0113ja atkar\u012bbu?', 'Daudzu pieg\u0101d\u0101t\u0101ju strat\u0113\u0123ijas?'],
-        lt: ['Kas yra IKT koncentracijos rizika?', '29 str. reikalavimai?', 'Kaip vertinti tiek\u0117jo priklausomyb\u0119?', 'Daugialyp\u0117s tiek\u0117j\u0173 strategijos?']
+        et: ['Mis on IKT kontsentreerumisrisk?', 'Art. 29 n\u00f5uded?', 'Kuidas hinnata teenusepakkuja s\u00f5ltuvust?', 'Mitmepakkuja strateegiad?']
       }
     };
 
@@ -355,9 +327,7 @@ export class ChatWidgetComponent {
 
     const defaults: Record<string, string[]> = {
       en: ['What is DORA and who does it apply to?', 'What must ICT contracts include under Art. 30?', 'How do I report a major ICT incident?', 'What tools does DoraAudit offer?'],
-      et: ['Mis on DORA ja kellele see kehtib?', 'Mida peavad IKT-lepingud sisaldama Art. 30 alusel?', 'Kuidas raporteerida suurt IKT-intsidenti?', 'Milliseid t\u00f6\u00f6riistu DoraAudit pakub?'],
-      lv: ['Kas ir DORA un kam t\u0101 attiecas?', 'Ko IKT l\u012bgumiem j\u0101ietver saska\u0146\u0101 ar 30. pantu?', 'K\u0101 zi\u0146ot par nopietnu IKT incidentu?', 'K\u0101dus r\u012bkus pied\u0101v\u0101 DoraAudit?'],
-      lt: ['Kas yra DORA ir kam ji taikoma?', 'K\u0105 IKT sutartys turi apimti pagal 30 straipsn\u012f?', 'Kaip prane\u0161ti apie didel\u012f IKT incident\u0105?', 'Kokius \u012frankius si\u016blo DoraAudit?']
+      et: ['Mis on DORA ja kellele see kehtib?', 'Mida peavad IKT-lepingud sisaldama Art. 30 alusel?', 'Kuidas raporteerida suurt IKT-intsidenti?', 'Milliseid t\u00f6\u00f6riistu DoraAudit pakub?']
     };
     return defaults[l] || defaults['en'];
   });
@@ -404,7 +374,7 @@ export class ChatWidgetComponent {
   }
 
   private isChatRoute(url: string): boolean {
-    return /\/(chat|en\/chat|et\/chat|lv\/chat|lt\/chat)(\/|$|\?)/.test(url);
+    return /\/(chat|en\/chat|et\/chat)(\/|$|\?)/.test(url);
   }
 
   toggle() {
@@ -492,8 +462,6 @@ export class ChatWidgetComponent {
   private getTypingStatuses(): string[] {
     switch (this.lang.lang()) {
       case 'et': return ['Anal\u00fc\u00fcsin...', 'Kontrollin regulatsiooni...', 'Koostan vastust...'];
-      case 'lv': return ['Analiz\u0113ju...', 'P\u0101rbaudu regul\u0113jumu...', 'Veido atbildi...'];
-      case 'lt': return ['Analizuoju...', 'Tikrinti reglament\u0105...', 'Ruo\u0161iu atsakym\u0105...'];
       default: return ['Analyzing...', 'Checking regulation...', 'Composing answer...'];
     }
   }
@@ -554,8 +522,6 @@ export class ChatWidgetComponent {
   private getErrorMessage(): string {
     switch (this.lang.lang()) {
       case 'et': return 'Vabandust, tehniline viga. Proovige uuesti.';
-      case 'lv': return 'Atvainojiet, tehniska k\u013c\u016bda. M\u0113\u0123iniet v\u0113lreiz.';
-      case 'lt': return 'Atsipra\u0161ome, technin\u0117 klaida. Bandykite dar kart\u0105.';
       default: return 'Sorry, an error occurred. Please try again.';
     }
   }

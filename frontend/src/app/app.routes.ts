@@ -596,7 +596,7 @@ const coreRoutes: Routes = [
   },
 ];
 
-const langRoutes: Routes = ['en', 'et', 'lv', 'lt'].map(lang => ({
+const langRoutes: Routes = ['en', 'et'].map(lang => ({
   path: lang,
   canActivate: [langActivateGuard],
   children: coreRoutes,

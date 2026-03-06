@@ -121,8 +121,6 @@ public class ChatService {
             }
             String errorMsg = switch (language) {
                 case "et" -> "Vabandust, tehniline viga. Palun proovige uuesti.";
-                case "lv" -> "Atvainojiet, tehniska k\u013C\u016Bda. L\u016Bdzu m\u0113\u0123iniet v\u0113lreiz.";
-                case "lt" -> "Atsipra\u0161ome, technin\u0117 klaida. Bandykite dar kart\u0105.";
                 default -> "Sorry, a technical error occurred. Please try again.";
             };
             int used = authenticated ? 0 : countRecentRequests(rateLimitKey);
@@ -134,8 +132,6 @@ public class ChatService {
     private String buildSystemPrompt(String language, String currentPage) {
         String langInstruction = switch (language) {
             case "et" -> "IMPORTANT: Always respond in Estonian (eesti keel). The user's interface is in Estonian.";
-            case "lv" -> "IMPORTANT: Always respond in Latvian (latvie\u0161u valoda). The user's interface is in Latvian.";
-            case "lt" -> "IMPORTANT: Always respond in Lithuanian (lietuvi\u0173 kalba). The user's interface is in Lithuanian.";
             default -> "Respond in English.";
         };
 
@@ -168,7 +164,7 @@ public class ChatService {
 
     private String getPageDescription(String path) {
         // Strip language prefix
-        String clean = path.replaceFirst("^/(en|et|lv|lt)/", "/").replaceFirst("^/(en|et|lv|lt)$", "/");
+        String clean = path.replaceFirst("^/(en|et)/", "/").replaceFirst("^/(en|et)$", "/");
         return switch (clean) {
             case "/", "" -> "Landing Page";
             case "/assessment" -> "DORA Self-Assessment";

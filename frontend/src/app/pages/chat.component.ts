@@ -365,8 +365,6 @@ export class ChatComponent {
   private getTypingStatuses(): string[] {
     switch (this.lang.lang()) {
       case 'et': return ['Anal\u00fc\u00fcsin...', 'Kontrollin regulatsiooni...', 'Koostan vastust...'];
-      case 'lv': return ['Analiz\u0113ju...', 'P\u0101rbaudu regul\u0113jumu...', 'Veido atbildi...'];
-      case 'lt': return ['Analizuoju...', 'Tikrinti reglament\u0105...', 'Ruo\u0161iu atsakym\u0105...'];
       default: return ['Analyzing...', 'Checking regulation...', 'Composing answer...'];
     }
   }
@@ -427,8 +425,6 @@ export class ChatComponent {
   private getErrorMessage(): string {
     switch (this.lang.lang()) {
       case 'et': return 'Vabandust, tehniline viga. Proovige uuesti.';
-      case 'lv': return 'Atvainojiet, tehniska k\u013c\u016bda. M\u0113\u0123iniet v\u0113lreiz.';
-      case 'lt': return 'Atsipra\u0161ome, technin\u0117 klaida. Bandykite dar kart\u0105.';
       default: return 'Sorry, an error occurred. Please try again.';
     }
   }

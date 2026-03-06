@@ -1043,7 +1043,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.routerSub?.unsubscribe();
   }
 
-  private static readonly LANG_PREFIXES = /^\/(?:en|et|lv|lt)(\/|$)/;
+  private static readonly LANG_PREFIXES = /^\/(?:en|et)(\/|$)/;
 
   private stripLangPrefix(path: string): string {
     return path.replace(AppComponent.LANG_PREFIXES, '/');
@@ -1086,7 +1086,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.meta.updateTag({ property: 'og:description', content: description });
     this.meta.updateTag({ property: 'og:url', content: canonicalUrl });
     this.meta.updateTag({ property: 'og:image', content: 'https://doraaudit.eu/assets/og-image.png' });
-    const localeMap: Record<string, string> = { et: 'et_EE', en: 'en_US', lv: 'lv_LV', lt: 'lt_LT' };
+    const localeMap: Record<string, string> = { et: 'et_EE', en: 'en_US' };
     this.meta.updateTag({ property: 'og:locale', content: localeMap[this.lang.currentLang] || 'en_US' });
 
     // Update Twitter Card tags
@@ -1117,7 +1117,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(el => el.remove());
 
     // Create hreflang tags for en, et, and x-default
-    const langs = ['en', 'et', 'lv', 'lt'];
+    const langs = ['en', 'et'];
     for (const lang of langs) {
       const link = this.document.createElement('link');
       link.setAttribute('rel', 'alternate');
