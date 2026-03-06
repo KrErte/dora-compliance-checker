@@ -171,6 +171,9 @@ export class LoginComponent implements OnInit {
     if (!this.email.trim()) {
       this.fieldErrors['email'] = this.lang.t('auth.error_email_required');
       hasErrors = true;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.email)) {
+      this.fieldErrors['email'] = this.lang.t('auth.error_email_invalid');
+      hasErrors = true;
     }
     if (!this.password.trim()) {
       this.fieldErrors['password'] = this.lang.t('auth.error_password_required');
