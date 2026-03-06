@@ -385,7 +385,9 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'landing.social_requirements': { et: 'nõuet', en: 'requirements' },
   'landing.social_base_requirements': { et: 'põhinõuet', en: 'core requirements' },
   'landing.social_articles': { et: 'DORA artiklit kaetud', en: 'DORA articles covered' },
+  'landing.social_art30': { et: 'Art. 30 nõuet kontrollitud', en: 'Art. 30 requirements checked' },
   'landing.social_analysis': { et: 'lepingu analüüs', en: 'contract analysis' },
+  'landing.social_regulations': { et: 'regulatsiooni kaetud', en: 'regulations covered' },
   'landing.social_report': { et: 'raport juhatusele', en: 'report for board' },
   'landing.social_trust': { et: 'Põhineb DORA regulatsiooni ametlikul tekstil • Kooskõlas Finantsinspektsiooni juhistega', en: 'Based on official DORA regulation text • Aligned with Financial Supervisory Authority guidelines' },
 

@@ -47,7 +47,7 @@ public class StatsController {
         long contractAnalysisCount = 0;
 
         try {
-            userCount = userRepository.count();
+            userCount = userRepository.countRealUsers();
         } catch (Exception e) {
             // Table may not exist, return 0
         }

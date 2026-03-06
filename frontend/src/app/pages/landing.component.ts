@@ -134,29 +134,25 @@ interface DoraRequirement {
     <div class="py-8 px-4 bg-gradient-to-b from-slate-800/60 to-slate-900/60 border-y border-slate-700/30">
       <div class="max-w-4xl mx-auto">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-          <!-- Dynamic: Total checks -->
+          <!-- DORA articles covered -->
           <div class="text-center">
-            <div class="text-3xl md:text-4xl font-extrabold text-emerald-400 mb-1">
-              {{ publicStats ? publicStats.totalChecks + '+' : '...' }}
-            </div>
-            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_checks_done') }}</div>
-          </div>
-          <!-- Dynamic: Companies -->
-          <div class="text-center">
-            <div class="text-3xl md:text-4xl font-extrabold text-cyan-400 mb-1">
-              {{ publicStats ? publicStats.userCount + '+' : '...' }}
-            </div>
-            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_companies') }}</div>
-          </div>
-          <!-- Static: DORA articles covered -->
-          <div class="text-center">
-            <div class="text-3xl md:text-4xl font-extrabold text-teal-400 mb-1">64</div>
+            <div class="text-3xl md:text-4xl font-extrabold text-emerald-400 mb-1">64</div>
             <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_articles') }}</div>
           </div>
-          <!-- Static: Analysis time -->
+          <!-- Art. 30 requirements -->
           <div class="text-center">
-            <div class="text-3xl md:text-4xl font-extrabold text-violet-400 mb-1">5 min</div>
+            <div class="text-3xl md:text-4xl font-extrabold text-cyan-400 mb-1">30+</div>
+            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_art30') }}</div>
+          </div>
+          <!-- Analysis time -->
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-extrabold text-teal-400 mb-1">5 min</div>
             <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_analysis') }}</div>
+          </div>
+          <!-- Regulations -->
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-extrabold text-violet-400 mb-1">4</div>
+            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_regulations') }}</div>
           </div>
         </div>
       </div>
