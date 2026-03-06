@@ -264,7 +264,7 @@ interface PillarHealth {
         <div class="flex-1 text-center md:text-left">
           <h3 class="text-lg font-bold text-white mb-1">DORA Trust Seal</h3>
           <p class="text-sm text-slate-400">
-            {{ lang.t('cmdcenter.add_a_dora_compliance_badge_to_your_webs') }}
+            {{ lang.t('cmdcenter.seal_desc') }}
           </p>
         </div>
         <a routerLink="/trust-seal" class="px-6 py-2.5 rounded-lg text-sm font-semibold bg-gradient-to-r from-emerald-500 to-cyan-500 text-white hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all whitespace-nowrap">

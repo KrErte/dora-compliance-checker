@@ -41,7 +41,7 @@ interface FrameworkMapping {
           {{ lang.t('fwmap.multiframework_compliance_mapping') }}
         </h1>
         <p class="text-slate-400 max-w-3xl mx-auto">
-          {{ lang.t('fwmap.see_how_dora_maps_to_iso_27001_nis2_gdpr') }}
+          {{ lang.t('fwmap.see_how_dora_maps') }}
         </p>
       </div>
 
@@ -130,7 +130,7 @@ interface FrameworkMapping {
           {{ lang.t('fwmap.coverage_calculator') }}
         </h2>
         <p class="text-sm text-slate-400 mb-5">
-          {{ lang.t('fwmap.select_frameworks_your_organization_alre') }}
+          {{ lang.t('fwmap.select_frameworks_desc') }}
         </p>
 
         <div class="flex flex-wrap gap-3 mb-6">
@@ -161,7 +161,7 @@ interface FrameworkMapping {
           <div class="bg-slate-900/60 rounded-xl p-5 border border-slate-700/30">
             <div class="flex items-center justify-between mb-3">
               <span class="text-sm text-slate-300">
-                {{ lang.t('fwmap.dora_coverage_from_existing_certificatio') }}
+                {{ lang.t('fwmap.dora_coverage_existing') }}
               </span>
               <span class="text-2xl font-bold" [class]="coveragePercent >= 70 ? 'text-emerald-400' : coveragePercent >= 40 ? 'text-amber-400' : 'text-red-400'">
                 {{ coveragePercent }}%
@@ -243,7 +243,7 @@ interface FrameworkMapping {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
           </svg>
           <p class="text-slate-500 text-sm">
-            {{ lang.t('fwmap.select_frameworks_above_to_see_the_cover') }}
+            {{ lang.t('fwmap.select_frameworks_above') }}
           </p>
         </div>
       </div>
@@ -390,10 +390,10 @@ interface FrameworkMapping {
       <!-- CTA -->
       <div class="bg-gradient-to-r from-emerald-900/30 to-cyan-900/30 border border-emerald-500/20 rounded-2xl p-8 text-center">
         <h2 class="text-xl font-bold text-white mb-2">
-          {{ lang.t('fwmap.start_your_dora_compliance_assessment') }}
+          {{ lang.t('fwmap.start_dora_assessment') }}
         </h2>
         <p class="text-slate-400 text-sm mb-5 max-w-xl mx-auto">
-          {{ lang.t('fwmap.now_that_you_know_your_gaps_run_a_full_d') }}
+          {{ lang.t('fwmap.know_your_gaps') }}
         </p>
         <a routerLink="/assessment" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-colors">
           {{ lang.t('fwmap.start_assessment') }}

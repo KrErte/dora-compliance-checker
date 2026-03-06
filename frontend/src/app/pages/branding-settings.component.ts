@@ -23,7 +23,7 @@ import { SubscriptionService } from '../services/subscription.service';
           {{ lang.t('branding.branding_settings') }}
         </h1>
         <p class="text-slate-400 text-sm mt-1">
-          {{ lang.t('branding.customize_your_company_logo_name_and_col') }}
+          {{ lang.t('branding.customize_desc') }}
         </p>
       </div>
 
@@ -36,7 +36,7 @@ import { SubscriptionService } from '../services/subscription.service';
           {{ lang.t('branding.premium_feature') }}
         </h2>
         <p class="text-slate-400 text-sm mb-4">
-          {{ lang.t('branding.branding_customization_is_available_with') }}
+          {{ lang.t('branding.premium_desc') }}
         </p>
         <a routerLink="/pricing"
            class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold text-sm hover:shadow-lg transition-all">
@@ -71,7 +71,7 @@ import { SubscriptionService } from '../services/subscription.service';
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
             </svg>
             <p class="text-sm text-slate-400 mb-1">
-              {{ lang.t('branding.drag_logo_here_or_click_to_upload') }}
+              {{ lang.t('branding.drag_logo') }}
             </p>
             <p class="text-xs text-slate-500">PNG, JPG, SVG &middot; max 2MB</p>
           </div>
@@ -161,7 +161,7 @@ import { SubscriptionService } from '../services/subscription.service';
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
           </svg>
-          {{ lang.t('branding.branding_settings_saved') }}
+          {{ lang.t('branding.settings_saved') }}
         </div>
         <div *ngIf="saveError" class="fixed bottom-6 right-6 bg-red-500/90 text-white px-5 py-3 rounded-xl shadow-lg text-sm font-medium flex items-center gap-2 z-50 animate-fade-in">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -271,24 +271,24 @@ export class BrandingSettingsComponent implements OnInit, OnDestroy {
     this.logoSuccess = '';
 
     if (file.size > 2 * 1024 * 1024) {
-      this.logoError = this.lang.t('branding.file_is_too_large_max_2mb');
+      this.logoError = this.lang.t('branding.file_too_large');
       return;
     }
 
     const allowed = ['image/png', 'image/jpeg', 'image/svg+xml'];
     if (!allowed.includes(file.type)) {
-      this.logoError = this.lang.t('branding.only_png_jpg_and_svg_files_are_allowed');
+      this.logoError = this.lang.t('branding.only_png_jpg_svg');
       return;
     }
 
     this.brandingService.uploadLogo(file).subscribe({
       next: () => {
-        this.logoSuccess = this.lang.t('branding.logo_uploaded_successfully');
+        this.logoSuccess = this.lang.t('branding.logo_uploaded');
         this.settings.hasLogo = true;
         this.loadLogoBlob();
       },
       error: (err) => {
-        this.logoError = err.error?.error || (this.lang.t('branding.failed_to_upload_logo'));
+        this.logoError = err.error?.error || (this.lang.t('branding.failed_upload'));
       }
     });
   }
@@ -300,7 +300,7 @@ export class BrandingSettingsComponent implements OnInit, OnDestroy {
         this.logoSuccess = this.lang.t('branding.logo_deleted');
       },
       error: () => {
-        this.logoError = this.lang.t('branding.failed_to_delete_logo');
+        this.logoError = this.lang.t('branding.failed_delete');
       }
     });
   }
@@ -312,12 +312,12 @@ export class BrandingSettingsComponent implements OnInit, OnDestroy {
     this.saveError = '';
 
     if (!this.companyName.trim()) {
-      this.nameError = this.lang.t('branding.company_name_is_required');
+      this.nameError = this.lang.t('branding.name_required');
       return;
     }
 
     if (this.primaryColor && !this.primaryColor.match(/^#[0-9a-fA-F]{6}$/)) {
-      this.colorError = this.lang.t('branding.invalid_color_hex_eg_22c55e');
+      this.colorError = this.lang.t('branding.invalid_color');
       return;
     }
 
@@ -331,7 +331,7 @@ export class BrandingSettingsComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         this.saving = false;
-        this.saveError = err.error?.error || (this.lang.t('branding.failed_to_save'));
+        this.saveError = err.error?.error || (this.lang.t('branding.failed_save'));
         setTimeout(() => this.saveError = '', 4000);
       }
     });

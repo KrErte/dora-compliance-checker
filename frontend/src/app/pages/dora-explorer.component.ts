@@ -180,7 +180,7 @@ interface GlossaryTerm {
           <div *ngIf="filteredArticles.length === 0" class="bg-slate-800/60 border border-slate-700/50 rounded-xl p-12 text-center">
             <svg class="w-12 h-12 text-slate-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <p class="text-slate-400 text-sm">
-              {{ lang.t('explorer.no_articles_found_try_a_different_search') }}
+              {{ lang.t('explorer.no_articles_found') }}
             </p>
           </div>
 
@@ -288,7 +288,7 @@ interface GlossaryTerm {
               {{ lang.t('explorer.ready_to_check_your_compliance') }}
             </h3>
             <p class="text-sm text-slate-400 mb-4 max-w-lg mx-auto">
-              {{ lang.t('explorer.use_our_free_selfassessment_tool_to_find') }}
+              {{ lang.t('explorer.use_our_free_selfassessment_tool') }}
             </p>
             <div class="flex flex-wrap justify-center gap-3">
               <a routerLink="/assessment"

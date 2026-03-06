@@ -41,7 +41,7 @@ interface TlptFinding {
             </div>
             {{ lang.t('tlpt.tlpt_module_art_2627') }}
           </h1>
-          <p class="text-slate-400 text-sm mt-1">{{ lang.t('tlpt.threatled_penetration_testing_planning_t') }}</p>
+          <p class="text-slate-400 text-sm mt-1">{{ lang.t('tlpt.desc') }}</p>
         </div>
         <button (click)="showForm = true" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold text-sm hover:shadow-lg transition-all flex items-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
@@ -53,10 +53,10 @@ interface TlptFinding {
       <div class="bg-cyan-500/5 border border-cyan-500/20 rounded-xl p-5">
         <h3 class="text-sm font-semibold text-cyan-400 mb-2">{{ lang.t('tlpt.dora_art_26_requirements') }}</h3>
         <ul class="text-xs text-slate-300 space-y-1">
-          <li>{{ lang.t('tlpt.u2022_tlpt_must_be_conducted_at_least_ev') }}</li>
-          <li>{{ lang.t('tlpt.u2022_tests_must_cover_live_production_s') }}</li>
-          <li>{{ lang.t('tlpt.u2022_every_third_cycle_must_use_externa') }}</li>
-          <li>{{ lang.t('tlpt.u2022_follow_the_tibereu_framework') }}</li>
+          <li>{{ lang.t('tlpt.must_be_conducted_every_3_years') }}</li>
+          <li>{{ lang.t('tlpt.must_cover_live_production') }}</li>
+          <li>{{ lang.t('tlpt.every_third_external') }}</li>
+          <li>{{ lang.t('tlpt.follow_tiber_eu') }}</li>
         </ul>
       </div>
 
@@ -66,7 +66,7 @@ interface TlptFinding {
           <svg class="w-16 h-16 mx-auto mb-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
           </svg>
-          <p class="text-slate-400">{{ lang.t('tlpt.no_tlpt_tests_planned_yet') }}</p>
+          <p class="text-slate-400">{{ lang.t('tlpt.no_tests_planned') }}</p>
         </div>
       }
 
@@ -120,7 +120,7 @@ interface TlptFinding {
             <div class="space-y-4">
               <input [(ngModel)]="newTest.name" type="text" [placeholder]="lang.t('tlpt.test_name')"
                      class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:outline-none">
-              <textarea [(ngModel)]="newTest.scope" rows="2" [placeholder]="lang.t('tlpt.scope_systems_processes')"
+              <textarea [(ngModel)]="newTest.scope" rows="2" [placeholder]="lang.t('tlpt.scope')"
                         class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:outline-none"></textarea>
               <div class="grid grid-cols-2 gap-4">
                 <select [(ngModel)]="newTest.framework" class="px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none">
@@ -134,7 +134,7 @@ interface TlptFinding {
                   <option value="INTERNAL">{{ lang.t('tlpt.internal') }}</option>
                 </select>
               </div>
-              <input [(ngModel)]="newTest.testerName" type="text" [placeholder]="lang.t('tlpt.tester_namefirm')"
+              <input [(ngModel)]="newTest.testerName" type="text" [placeholder]="lang.t('tlpt.tester_name')"
                      class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none">
               <div class="grid grid-cols-2 gap-4">
                 <div>

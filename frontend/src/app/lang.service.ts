@@ -1428,6 +1428,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'nav.guardian': { et: 'Lepinguvalvur', en: 'Contract Guardian' },
   'guardian.title': { et: 'Lepinguvalvur', en: 'Contract Guardian' },
   'guardian.subtitle': { et: 'Pidev lepingute monitooring regulatiivsete muudatuste vastu.', en: 'Continuous contract monitoring against regulatory changes.' },
+  'guardian.last_updated': { et: 'Viimati uuendatud', en: 'Last updated' },
   'guardian.empty': { et: 'Seiratavaid lepinguid pole. Alustage lepingu anal\u00fc\u00fcsist.', en: 'No monitored contracts. Start with a contract analysis.' },
   'guardian.start_monitoring': { et: 'Alusta seiret', en: 'Start Monitoring' },
   'guardian.monitoring_started': { et: 'Seire alustatud!', en: 'Monitoring started!' },
@@ -2264,6 +2265,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'landing.ai_tool': { et: 'Lepingu kontrollnimekiri', en: 'Contract Checklist', lv: 'L\u012bgumu kontrolsaraksts', lt: 'Sutarties kontrolinis s\u0105ra\u0161as' },
 
   // Quiz
+  'quiz.engb': { et: 'et-EE', en: 'en-GB' },
   'quiz.interactive': { et: 'Interaktiivne', en: 'Interactive' },
   'quiz.dora_staff_training_quiz': { et: 'DORA personali koolituse viktoriin', en: 'DORA Staff Training Quiz' },
   'quiz.dora_article_136_mandates_ict_security_t': { et: 'DORA artikkel 13(6) n\u00f5uab kohustuslikke IKT turbekoolitusi. Testi oma teadmisi ja saa koolitustunnistus.', en: 'DORA Article 13(6) mandates ICT security training. Test your knowledge and earn a training certificate.' },
@@ -2306,6 +2308,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'explorer.informational': { et: 'Informatiivsed', en: 'Informational' },
   'explorer.show_all': { et: 'Kuva k\u00f5ik', en: 'Show All' },
   'explorer.glossary': { et: 'S\u00f5nastik', en: 'Glossary' },
+  'explorer.en': { et: 'et', en: 'en' },
   'explorer.collapse_all': { et: 'Sulge k\u00f5ik', en: 'Collapse All' },
   'explorer.no_articles_found': { et: 'Artikleid ei leitud. Proovi teist otsingut.', en: 'No articles found. Try a different search.' },
   'explorer.plainlanguage_explanation': { et: 'Selgitus lihtsas keeles', en: 'Plain-Language Explanation' },
