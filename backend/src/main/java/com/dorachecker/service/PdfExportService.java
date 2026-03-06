@@ -2,6 +2,7 @@ package com.dorachecker.service;
 
 import com.dorachecker.model.AssessmentEntity;
 import com.dorachecker.model.ContractAnalysisEntity;
+import com.dorachecker.model.GapAnalysisEntity;
 import com.dorachecker.model.IncidentReportEntity;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -372,6 +373,106 @@ public class PdfExportService {
 
         return new Cell().add(new Paragraph(label).setFontSize(9).setFontColor(fg))
                 .setBackgroundColor(bg).setPadding(4);
+    }
+
+    public byte[] generateGapAnalysisPdf(GapAnalysisEntity gap) {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            PdfDocument pdf = new PdfDocument(new PdfWriter(baos));
+            Document doc = new Document(pdf);
+
+            // Title
+            doc.add(new Paragraph("DoraAudit.eu")
+                    .setFontSize(10).setFontColor(BRAND_COLOR).setMarginBottom(4));
+            doc.add(new Paragraph("DORA Evidence Gap Analysis Report")
+                    .setFontSize(22).setBold().setFontColor(ColorConstants.DARK_GRAY));
+            doc.add(new Paragraph(" ").setFontSize(8));
+
+            // Summary table
+            Table summary = new Table(UnitValue.createPercentArray(new float[]{1, 2}))
+                    .useAllAvailableWidth().setMarginBottom(16);
+            addInfoRow(summary, "Document", gap.getDocumentTitle());
+            addInfoRow(summary, "File", gap.getFileName());
+            addInfoRow(summary, "Category", gap.getDocumentCategory());
+            addInfoRow(summary, "Articles Analyzed", gap.getArticleNumbers());
+            addInfoRow(summary, "Date", gap.getAnalysisDate() != null ?
+                    gap.getAnalysisDate().format(DATE_FMT) : "N/A");
+            addInfoRow(summary, "Score", String.format("%.0f%%", gap.getScorePercentage()));
+            addInfoRow(summary, "Compliance Level", gap.getComplianceLevel());
+            addInfoRow(summary, "Total Requirements", String.valueOf(gap.getTotalRequirements()));
+            addInfoRow(summary, "Found", String.valueOf(gap.getFoundCount()));
+            addInfoRow(summary, "Partial", String.valueOf(gap.getPartialCount()));
+            addInfoRow(summary, "Missing", String.valueOf(gap.getMissingCount()));
+            doc.add(summary);
+
+            // Summary text
+            String summaryText = gap.getSummaryEn();
+            if (summaryText == null || summaryText.isBlank()) summaryText = gap.getSummaryEt();
+            if (summaryText != null && !summaryText.isBlank()) {
+                doc.add(new Paragraph("Executive Summary")
+                        .setFontSize(16).setBold().setFontColor(ColorConstants.DARK_GRAY).setMarginTop(12));
+                doc.add(new Paragraph(summaryText).setFontSize(10).setMarginTop(4));
+            }
+
+            // Findings from findingsJson
+            if (gap.getFindingsJson() != null && !gap.getFindingsJson().isBlank()) {
+                doc.add(new Paragraph("Detailed Findings")
+                        .setFontSize(16).setBold().setFontColor(ColorConstants.DARK_GRAY).setMarginTop(12));
+
+                try {
+                    List<Map<String, Object>> findings = objectMapper.readValue(
+                            gap.getFindingsJson(), new TypeReference<>() {});
+
+                    // Group by article
+                    java.util.LinkedHashMap<String, List<Map<String, Object>>> grouped = new java.util.LinkedHashMap<>();
+                    for (Map<String, Object> f : findings) {
+                        String artNum = getString(f, "articleNumber", "?");
+                        grouped.computeIfAbsent("Article " + artNum, k -> new java.util.ArrayList<>()).add(f);
+                    }
+
+                    for (Map.Entry<String, List<Map<String, Object>>> group : grouped.entrySet()) {
+                        doc.add(new Paragraph(group.getKey())
+                                .setFontSize(13).setBold().setFontColor(BRAND_COLOR).setMarginTop(10));
+
+                        Table table = new Table(UnitValue.createPercentArray(new float[]{0.5f, 2.5f, 1, 2, 3}))
+                                .useAllAvailableWidth().setFontSize(8).setMarginTop(4);
+                        addHeaderCell(table, "#");
+                        addHeaderCell(table, "Requirement");
+                        addHeaderCell(table, "Status");
+                        addHeaderCell(table, "Evidence Quote");
+                        addHeaderCell(table, "Recommendation");
+
+                        for (Map<String, Object> f : group.getValue()) {
+                            String reqId = getString(f, "doraReference", getString(f, "requirementId", ""));
+                            String requirement = getString(f, "subRequirementEn",
+                                    getString(f, "subRequirementEt", ""));
+                            String status = getString(f, "status", "");
+                            String quote = getString(f, "quoteFromDocument", "");
+                            String recommendation = getString(f, "recommendationEn",
+                                    getString(f, "recommendationEt", ""));
+
+                            table.addCell(new Cell().add(new Paragraph(reqId).setFontSize(8)).setPadding(3));
+                            table.addCell(new Cell().add(new Paragraph(requirement).setFontSize(8)).setPadding(3));
+                            table.addCell(statusCell(status));
+                            table.addCell(new Cell().add(new Paragraph(quote).setFontSize(8)).setPadding(3));
+                            table.addCell(new Cell().add(new Paragraph(recommendation).setFontSize(8)).setPadding(3));
+                        }
+                        doc.add(table);
+                    }
+                } catch (Exception e) {
+                    doc.add(new Paragraph("Could not parse findings.").setFontSize(10));
+                }
+            }
+
+            // Footer
+            doc.add(new Paragraph(" ").setFontSize(8));
+            doc.add(new Paragraph("Generated by DoraAudit.eu — DORA Compliance Platform")
+                    .setFontSize(8).setFontColor(ColorConstants.GRAY).setTextAlignment(TextAlignment.CENTER));
+
+            doc.close();
+            return baos.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate gap analysis PDF", e);
+        }
     }
 
     private String getString(Map<String, Object> map, String key, String defaultVal) {

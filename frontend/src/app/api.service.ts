@@ -414,6 +414,10 @@ export class ApiService {
     return this.http.post(`${this.baseUrl}/gap-analysis/${id}/sync-tracker`, {});
   }
 
+  exportGapAnalysisPdf(id: string): Observable<Blob> {
+    return this.http.post(`${this.baseUrl}/exports/pdf/gap-analysis/${id}`, {}, { responseType: 'blob' });
+  }
+
   // Audit Readiness
   getAuditReadiness(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/audit-readiness`);

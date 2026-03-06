@@ -1,6 +1,7 @@
 package com.dorachecker.controller;
 
 import com.dorachecker.model.GapAnalysisResult;
+import com.dorachecker.service.ArticleTrackerService;
 import com.dorachecker.service.DoraArticleRequirements;
 import com.dorachecker.service.GapAnalysisService;
 import com.dorachecker.service.SubscriptionGuardService;
@@ -24,11 +25,14 @@ public class GapAnalysisController {
 
     private final GapAnalysisService gapAnalysisService;
     private final SubscriptionGuardService subscriptionGuardService;
+    private final ArticleTrackerService articleTrackerService;
 
     public GapAnalysisController(GapAnalysisService gapAnalysisService,
-                                  SubscriptionGuardService subscriptionGuardService) {
+                                  SubscriptionGuardService subscriptionGuardService,
+                                  ArticleTrackerService articleTrackerService) {
         this.gapAnalysisService = gapAnalysisService;
         this.subscriptionGuardService = subscriptionGuardService;
+        this.articleTrackerService = articleTrackerService;
     }
 
     @PostMapping(value = "/analyze", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -130,7 +134,32 @@ public class GapAnalysisController {
         if (result == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(Map.of("synced", true, "findingsCount", result.findings().size()));
+
+        // Sync each finding to Article Tracker — map gap status to tracker status
+        int synced = 0;
+        for (var finding : result.findings()) {
+            String articleId = "art" + finding.articleNumber();
+            String trackerStatus = switch (finding.status().toLowerCase()) {
+                case "found" -> "compliant";
+                case "partial" -> "partial";
+                case "missing" -> "non_compliant";
+                default -> "non_compliant";
+            };
+
+            Map<String, Object> data = new java.util.LinkedHashMap<>();
+            data.put("status", trackerStatus);
+            data.put("notes", "Gap Analysis: " + finding.subRequirementEn()
+                    + (finding.quoteFromDocument() != null && !finding.quoteFromDocument().isBlank()
+                            ? " | Evidence: " + finding.quoteFromDocument() : ""));
+            articleTrackerService.updateArticleStatus(userId, articleId, data);
+            synced++;
+        }
+
+        return ResponseEntity.ok(Map.of(
+                "synced", true,
+                "findingsCount", result.findings().size(),
+                "articlesSynced", synced
+        ));
     }
 
     private String getArticleNameEt(String articleNumber) {

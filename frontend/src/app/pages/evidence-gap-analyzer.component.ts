@@ -419,6 +419,14 @@ interface ArticleOption {
 
         <!-- Action Buttons -->
         <div class="flex flex-wrap gap-3 mb-12">
+          <button (click)="exportPdf()"
+                  [disabled]="exporting"
+                  class="px-5 py-2.5 rounded-xl text-sm font-medium bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/30 transition-colors flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            {{ exporting ? lang.l('Generating PDF...', 'Genereerin PDF-i...') : lang.l('Export PDF Report', 'Ekspordi PDF raport') }}
+          </button>
           <button (click)="syncToTracker()"
                   [disabled]="syncing"
                   class="px-5 py-2.5 rounded-xl text-sm font-medium bg-purple-500/20 text-purple-400 border border-purple-500/30 hover:bg-purple-500/30 transition-colors flex items-center gap-2">
@@ -478,6 +486,7 @@ export class EvidenceGapAnalyzerComponent implements OnInit {
   // State
   errorMsg = '';
   syncing = false;
+  exporting = false;
 
   ngOnInit() {
     this.isEnterprise = this.sub.currentPlan() === 'ENTERPRISE';
@@ -613,6 +622,23 @@ export class EvidenceGapAnalyzerComponent implements OnInit {
     this.api.syncGapToTracker(this.result.id).subscribe({
       next: () => { this.syncing = false; },
       error: () => { this.syncing = false; }
+    });
+  }
+
+  exportPdf() {
+    if (!this.result || this.exporting) return;
+    this.exporting = true;
+    this.api.exportGapAnalysisPdf(this.result.id).subscribe({
+      next: (blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'gap-analysis-report.pdf';
+        a.click();
+        URL.revokeObjectURL(url);
+        this.exporting = false;
+      },
+      error: () => { this.exporting = false; }
     });
   }
 

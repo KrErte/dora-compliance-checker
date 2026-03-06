@@ -2,6 +2,7 @@ package com.dorachecker.controller;
 
 import com.dorachecker.model.AssessmentRepository;
 import com.dorachecker.model.ContractAnalysisRepository;
+import com.dorachecker.model.GapAnalysisRepository;
 import com.dorachecker.model.IncidentReportRepository;
 import com.dorachecker.service.ExcelExportService;
 import com.dorachecker.service.PdfExportService;
@@ -21,6 +22,7 @@ public class ExportController {
     private final SubscriptionGuardService guardService;
     private final AssessmentRepository assessmentRepository;
     private final ContractAnalysisRepository contractAnalysisRepository;
+    private final GapAnalysisRepository gapAnalysisRepository;
     private final IncidentReportRepository incidentReportRepository;
     private final PdfExportService pdfExportService;
     private final ExcelExportService excelExportService;
@@ -30,6 +32,7 @@ public class ExportController {
             SubscriptionGuardService guardService,
             AssessmentRepository assessmentRepository,
             ContractAnalysisRepository contractAnalysisRepository,
+            GapAnalysisRepository gapAnalysisRepository,
             IncidentReportRepository incidentReportRepository,
             PdfExportService pdfExportService,
             ExcelExportService excelExportService,
@@ -38,6 +41,7 @@ public class ExportController {
         this.guardService = guardService;
         this.assessmentRepository = assessmentRepository;
         this.contractAnalysisRepository = contractAnalysisRepository;
+        this.gapAnalysisRepository = gapAnalysisRepository;
         this.incidentReportRepository = incidentReportRepository;
         this.pdfExportService = pdfExportService;
         this.excelExportService = excelExportService;
@@ -117,6 +121,34 @@ public class ExportController {
 
         byte[] pdfBytes = pdfExportService.generateIncidentReportPdf(incident.get());
         return fileResponse(pdfBytes, "incident-report.pdf", MediaType.APPLICATION_PDF);
+    }
+
+    @PostMapping("/pdf/gap-analysis/{id}")
+    public ResponseEntity<?> exportGapAnalysisPdf(
+            @PathVariable String id,
+            @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
+            Authentication authentication
+    ) {
+        String userId = authentication != null ? (String) authentication.getPrincipal() : null;
+
+        if (!guardService.canAccess(userId, sessionId, Feature.PDF_EXPORT)) {
+            return premiumRequiredResponse(Feature.PDF_EXPORT);
+        }
+
+        var gap = gapAnalysisRepository.findById(id);
+        if (gap.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (userId == null || !userId.equals(gap.get().getUserId())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "ACCESS_DENIED"));
+        }
+
+        byte[] pdfBytes = pdfExportService.generateGapAnalysisPdf(gap.get());
+        String docTitle = gap.get().getDocumentTitle() != null
+                ? gap.get().getDocumentTitle().replaceAll("[^a-zA-Z0-9-_]", "_")
+                : "gap-analysis";
+        return fileResponse(pdfBytes, "gap-analysis-" + docTitle + ".pdf", MediaType.APPLICATION_PDF);
     }
 
     @PostMapping("/excel/assessment/{id}")

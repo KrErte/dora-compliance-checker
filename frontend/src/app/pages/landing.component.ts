@@ -355,6 +355,97 @@ interface DoraRequirement {
       </div>
     </div>
 
+    <!-- AI-Powered Enterprise Tools Showcase -->
+    <div class="py-16 px-4">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 mb-4">
+            <div class="w-4 h-4 rounded bg-gradient-to-br from-teal-400 to-cyan-400 flex items-center justify-center text-slate-900 text-[7px] font-bold">AI</div>
+            <span class="text-xs font-medium text-teal-400 uppercase tracking-wider">{{ lang.l('Enterprise AI Tools', 'Enterprise AI tööriistad') }}</span>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-bold text-slate-100 mb-3">{{ lang.l('AI-Powered Compliance Automation', 'AI-põhine vastavuse automatiseerimine') }}</h2>
+          <p class="text-slate-400 text-sm max-w-lg mx-auto">{{ lang.l('Go beyond basic assessments. Our AI tools analyze your documents, generate policies, and track incidents — all mapped to DORA articles.', 'Minge põhihindamistest kaugemale. Meie AI tööriistad analüüsivad dokumente, genereerivad poliitikaid ja jälgivad intsidente — kõik seotud DORA artiklitega.') }}</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Evidence Gap Analyzer -->
+          <a routerLink="/evidence-gap-analyzer"
+             class="glass-card p-5 rounded-xl border border-teal-500/30 hover:border-teal-400 cursor-pointer transition-all duration-300 hover:bg-teal-500/5 hover:shadow-lg hover:shadow-teal-500/10 group">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center shrink-0 group-hover:bg-teal-500/20 transition-colors">
+                <svg class="w-6 h-6 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="text-sm font-semibold text-slate-200 group-hover:text-teal-300 transition-colors">Evidence Gap Analyzer</h3>
+                  <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-teal-500/20 text-teal-400">NEW</span>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">{{ lang.l('Upload any policy/procedure and AI analyzes it against 45 DORA sub-requirements across 10 articles. Get found/partial/missing status for each.', 'Laadige üles poliitika/protseduur ja AI analüüsib seda 45 DORA alanõude vastu 10 artiklist. Saage leitud/osaline/puudu staatus igaühe kohta.') }}</p>
+              </div>
+            </div>
+          </a>
+
+          <!-- AI Policy Writer -->
+          <a routerLink="/ai-policy-writer"
+             class="glass-card p-5 rounded-xl border border-violet-500/30 hover:border-violet-400 cursor-pointer transition-all duration-300 hover:bg-violet-500/5 hover:shadow-lg hover:shadow-violet-500/10 group">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-violet-500/10 flex items-center justify-center shrink-0 group-hover:bg-violet-500/20 transition-colors">
+                <svg class="w-6 h-6 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="text-sm font-semibold text-slate-200 group-hover:text-violet-300 transition-colors">{{ lang.l('AI Policy Writer', 'AI poliitikakirjutaja') }}</h3>
+                  <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-violet-500/20 text-violet-400">AI</span>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">{{ lang.l('Generate DORA-compliant ICT policies, procedures, and frameworks. AI creates professional documents tailored to your organization.', 'Genereerige DORA-le vastavad IKT poliitikad, protseduurid ja raamistikud. AI loob teie organisatsioonile kohandatud dokumendid.') }}</p>
+              </div>
+            </div>
+          </a>
+
+          <!-- Incident Management -->
+          <a routerLink="/incident-reporting"
+             class="glass-card p-5 rounded-xl border border-amber-500/30 hover:border-amber-400 cursor-pointer transition-all duration-300 hover:bg-amber-500/5 hover:shadow-lg hover:shadow-amber-500/10 group">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0 group-hover:bg-amber-500/20 transition-colors">
+                <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="text-sm font-semibold text-slate-200 group-hover:text-amber-300 transition-colors">{{ lang.l('ICT Incident Management', 'IKT intsidentide haldamine') }}</h3>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">{{ lang.l('Full Art. 17-19 incident lifecycle: classify, track 4h/72h/1mo deadlines, generate regulatory reports, and manage remediation.', 'Täielik Art. 17-19 intsidendi elutsükkel: klassifitseeri, jälgi 4h/72h/1kuu tähtaegu, genereeri regulatiivseid raporteid.') }}</p>
+              </div>
+            </div>
+          </a>
+
+          <!-- xBRL-CSV Export -->
+          <a routerLink="/pricing"
+             class="glass-card p-5 rounded-xl border border-cyan-500/30 hover:border-cyan-400 cursor-pointer transition-all duration-300 hover:bg-cyan-500/5 hover:shadow-lg hover:shadow-cyan-500/10 group">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center shrink-0 group-hover:bg-cyan-500/20 transition-colors">
+                <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="text-sm font-semibold text-slate-200 group-hover:text-cyan-300 transition-colors">{{ lang.l('xBRL-CSV Regulatory Export', 'xBRL-CSV regulatiivne eksport') }}</h3>
+                  <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-cyan-500/20 text-cyan-400">ENT</span>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">{{ lang.l('Export compliance data in xBRL-CSV format for direct submission to financial supervisory authorities. Machine-readable regulatory reporting.', 'Eksportige vastavusandmed xBRL-CSV formaadis otse finantsjärelevalveasutustele esitamiseks.') }}</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
     <!-- DORA 5 Pillars - Enhanced with 3D Effect -->
     <div class="py-16 relative">
       <!-- Background decoration -->
