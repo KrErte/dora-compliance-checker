@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { LangService } from '../lang.service';
@@ -35,8 +35,11 @@ interface OnboardingStep {
             <span class="text-xs text-slate-500">{{ lang.t('onboarding.step') }} {{ currentStep + 1 }} {{ lang.t('onboarding.of') }} {{ steps.length }}</span>
           </div>
           <button type="button" (click)="skip()"
-                  class="text-xs text-slate-500 hover:text-slate-300 transition-colors">
-            {{ lang.t('onboarding.skip') }}
+                  class="w-8 h-8 rounded-lg hover:bg-slate-700/50 flex items-center justify-center transition-colors group"
+                  [attr.aria-label]="lang.t('onboarding.skip')">
+            <svg class="w-5 h-5 text-slate-500 group-hover:text-slate-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
           </button>
         </div>
 
@@ -110,6 +113,9 @@ interface OnboardingStep {
 })
 export class OnboardingComponent {
   @Output() completed = new EventEmitter<void>();
+
+  @HostListener('document:keydown.escape')
+  onEscape() { this.skip(); }
 
   currentStep = 0;
 

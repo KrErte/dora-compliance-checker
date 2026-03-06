@@ -131,41 +131,34 @@ interface DoraRequirement {
     </div>
 
     <!-- Social Proof Bar -->
-    <div class="py-5 px-4 bg-slate-800/50 border-y border-slate-700/50">
+    <div class="py-8 px-4 bg-gradient-to-b from-slate-800/60 to-slate-900/60 border-y border-slate-700/30">
       <div class="max-w-4xl mx-auto">
-        <div class="flex flex-wrap justify-center items-center gap-6 md:gap-10">
-          <!-- Dynamic stats from API -->
-          <ng-container *ngIf="publicStats">
-            <div class="flex items-center gap-2" *ngIf="publicStats.totalChecks > 0">
-              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-              <span class="text-sm text-slate-300"><strong class="text-emerald-400">{{ publicStats.totalChecks }}</strong> {{ lang.t('landing.social_checks_done') }}</span>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          <!-- Dynamic: Total checks -->
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-extrabold text-emerald-400 mb-1">
+              {{ publicStats ? publicStats.totalChecks + '+' : '...' }}
             </div>
-            <div class="flex items-center gap-2" *ngIf="publicStats.userCount > 0">
-              <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-              </svg>
-              <span class="text-sm text-slate-300"><strong class="text-cyan-400">{{ publicStats.userCount }}</strong> {{ lang.t('landing.social_companies') }}</span>
-            </div>
-          </ng-container>
-          <!-- Static capability stats (always shown) -->
-          <div class="flex items-center gap-2">
-            <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-            </svg>
-            <span class="text-sm text-slate-300"><strong class="text-teal-400">8</strong> {{ lang.t('landing.social_base_requirements') }}</span>
+            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_checks_done') }}</div>
           </div>
-          <div class="flex items-center gap-2">
-            <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <span class="text-sm text-slate-300"><strong class="text-violet-400">5 min</strong> {{ lang.t('landing.social_analysis') }}</span>
+          <!-- Dynamic: Companies -->
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-extrabold text-cyan-400 mb-1">
+              {{ publicStats ? publicStats.userCount + '+' : '...' }}
+            </div>
+            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_companies') }}</div>
+          </div>
+          <!-- Static: DORA articles covered -->
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-extrabold text-teal-400 mb-1">64</div>
+            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_articles') }}</div>
+          </div>
+          <!-- Static: Analysis time -->
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-extrabold text-violet-400 mb-1">5 min</div>
+            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_analysis') }}</div>
           </div>
         </div>
-        <p class="text-center text-xs text-slate-500 mt-3">
-          {{ lang.t('landing.social_trust') }}
-        </p>
       </div>
     </div>
 
