@@ -147,6 +147,7 @@ public class SubscriptionController {
         features.put("ACTION_PLAN_PDF", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.ACTION_PLAN_PDF));
         features.put("PROFESSIONAL_REPORT", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.PROFESSIONAL_REPORT));
         features.put("AI_POLICY_WRITER", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.AI_POLICY_WRITER));
+        features.put("EVIDENCE_GAP_ANALYZER", guardService.canAccess(userId, sessionId, SubscriptionGuardService.Feature.EVIDENCE_GAP_ANALYZER));
         return features;
     }
 
@@ -162,6 +163,7 @@ public class SubscriptionController {
             case ACTION_PLAN_PDF -> "Tegevuskava PDF on saadaval Standard ja Enterprise plaanidel";
             case PROFESSIONAL_REPORT -> "Professionaalne DORA raport on saadaval Standard ja Enterprise plaanidel";
             case AI_POLICY_WRITER -> "AI poliitikakirjutaja on saadaval ainult Enterprise plaanil";
+            case EVIDENCE_GAP_ANALYZER -> "Evidence Gap Analyzer on saadaval ainult Enterprise plaanil";
         };
     }
 

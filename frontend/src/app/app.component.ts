@@ -178,6 +178,12 @@ import { ComplianceAlert } from './models';
                 {{ lang.t('nav.evidence_vault') }}
                 <span class="text-[9px] bg-indigo-500/20 text-indigo-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
               </a>
+              <a routerLink="/evidence-gap-analyzer" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-teal-300 hover:bg-teal-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-teal-600/10 to-cyan-600/10 border border-teal-500/20">
+                <div class="w-5 h-5 rounded bg-gradient-to-br from-teal-400 to-cyan-400 flex items-center justify-center text-white text-[8px] font-bold shrink-0">AI</div>
+                {{ lang.t('nav.gap_analyzer') }}
+                <span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full ml-auto">ENT</span>
+              </a>
               <a routerLink="/activity-timeline" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -580,6 +586,12 @@ import { ComplianceAlert } from './models';
                class="text-sm text-slate-400 hover:text-indigo-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
               {{ lang.t('nav.evidence_vault') }}
               <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-indigo-500/20 text-indigo-400">NEW</span>
+            </a>
+            <a routerLink="/evidence-gap-analyzer" (click)="mobileMenu = false"
+               class="text-sm text-teal-400 hover:text-teal-300 px-3 py-2 rounded-lg hover:bg-teal-500/10 flex items-center gap-2">
+              <div class="w-4 h-4 rounded bg-gradient-to-br from-teal-400 to-cyan-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
+              {{ lang.t('nav.gap_analyzer') }}
+              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-amber-500/20 text-amber-400 ml-auto">ENT</span>
             </a>
             <a routerLink="/activity-timeline" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">

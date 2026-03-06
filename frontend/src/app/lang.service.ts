@@ -1508,6 +1508,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'nav.risk_heatmap': { et: 'Riskikaart', en: 'Risk Heatmap' },
   'nav.command_center': { et: 'Juhtimiskeskus', en: 'Command Center' },
   'nav.evidence_vault': { et: 'Tõendihoidla', en: 'Evidence Vault' },
+  'nav.gap_analyzer': { et: 'Lüngaanalüüs', en: 'Gap Analyzer' },
   'nav.audit_readiness': { et: 'Auditivalmidus', en: 'Audit Readiness' },
   'nav.resources': { et: 'RESSURSID', en: 'RESOURCES' },
   'nav.dora_explorer': { et: 'DORA Explorer', en: 'DORA Explorer' },

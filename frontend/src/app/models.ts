@@ -324,6 +324,50 @@ export interface NotificationItem {
   createdAt: string;
 }
 
+// ─── Gap Analysis (Evidence Gap Analyzer) ───────────────────────────
+
+export interface GapFinding {
+  requirementId: number;
+  articleNumber: string;
+  subRequirementEt: string;
+  subRequirementEn: string;
+  status: 'found' | 'partial' | 'missing';
+  quoteFromDocument: string;
+  recommendationEt: string;
+  recommendationEn: string;
+  doraReference: string;
+}
+
+export interface GapAnalysisResult {
+  id: string;
+  userId: string;
+  documentTitle: string;
+  fileName: string;
+  documentCategory: string;
+  articleNumbers: string;
+  analysisDate: string;
+  totalRequirements: number;
+  foundCount: number;
+  missingCount: number;
+  partialCount: number;
+  scorePercentage: number;
+  complianceLevel: 'GREEN' | 'YELLOW' | 'RED';
+  summaryEt: string;
+  summaryEn: string;
+  findings: GapFinding[];
+  linkedEvidenceId?: string;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface SupportedArticle {
+  articleNumber: string;
+  requirementCount: number;
+  firstReference: string;
+  nameEt: string;
+  nameEn: string;
+}
+
 // ─── DORA 5 Pillars: shared category mapping ───────────────────────
 
 export const PILLAR_CATEGORIES: { [pillarId: string]: string[] } = {

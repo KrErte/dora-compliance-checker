@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DoraQuestion, AssessmentRequest, AssessmentResult, ContractAnalysisResult, NegotiationResult, NegotiationMessageResult, MonitoredContract, ContractAlert, RegulatoryUpdate, IncidentReport, IncidentStats, RemediationItem, RemediationStats, Organization, OrgMember, OrgInvite, EvidenceItem, EvidenceStats, EvidenceCoverage, ComplianceAlert, NotificationItem } from './models';
+import { DoraQuestion, AssessmentRequest, AssessmentResult, ContractAnalysisResult, NegotiationResult, NegotiationMessageResult, MonitoredContract, ContractAlert, RegulatoryUpdate, IncidentReport, IncidentStats, RemediationItem, RemediationStats, Organization, OrgMember, OrgInvite, EvidenceItem, EvidenceStats, EvidenceCoverage, ComplianceAlert, NotificationItem, GapAnalysisResult, SupportedArticle } from './models';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -385,6 +385,33 @@ export class ApiService {
   }
   exportEvidenceZip(): Observable<Blob> {
     return this.http.get(`${this.baseUrl}/evidence/export`, { responseType: 'blob' });
+  }
+
+  // Gap Analysis (Evidence Gap Analyzer)
+  analyzeGap(file: File, documentTitle: string, documentCategory: string, articleNumbers: string[]): Observable<GapAnalysisResult> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('documentTitle', documentTitle);
+    formData.append('documentCategory', documentCategory);
+    formData.append('articleNumbers', articleNumbers.join(','));
+    return this.http.post<GapAnalysisResult>(`${this.baseUrl}/gap-analysis/analyze`, formData);
+  }
+  getGapAnalysisHistory(): Observable<GapAnalysisResult[]> {
+    return this.http.get<GapAnalysisResult[]>(`${this.baseUrl}/gap-analysis`);
+  }
+  getGapAnalysis(id: string): Observable<GapAnalysisResult> {
+    return this.http.get<GapAnalysisResult>(`${this.baseUrl}/gap-analysis/${id}`);
+  }
+  getSupportedGapArticles(): Observable<SupportedArticle[]> {
+    return this.http.get<SupportedArticle[]>(`${this.baseUrl}/gap-analysis/supported-articles`);
+  }
+  linkGapToEvidence(id: string, evidenceId: string): Observable<GapAnalysisResult> {
+    const formData = new FormData();
+    formData.append('evidenceId', evidenceId);
+    return this.http.post<GapAnalysisResult>(`${this.baseUrl}/gap-analysis/${id}/link-evidence`, formData);
+  }
+  syncGapToTracker(id: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/gap-analysis/${id}/sync-tracker`, {});
   }
 
   // Audit Readiness

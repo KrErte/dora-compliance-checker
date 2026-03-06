@@ -237,6 +237,12 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'Evidence Vault', seoDescription: 'Upload, organize, and link compliance evidence to DORA articles. Track verification status, manage document versions, and export audit-ready ZIP packages.' }
   },
   {
+    path: 'evidence-gap-analyzer',
+    loadComponent: () => import('./pages/evidence-gap-analyzer.component').then(m => m.EvidenceGapAnalyzerComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Evidence Gap Analyzer', seoDescription: 'AI-powered DORA compliance evidence gap analysis. Upload policy documents and get detailed article-by-article compliance findings.' }
+  },
+  {
     path: 'notifications',
     loadComponent: () => import('./pages/notification-center.component').then(m => m.NotificationCenterComponent),
     canActivate: [authGuard],
