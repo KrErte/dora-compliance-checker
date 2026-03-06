@@ -1,0 +1,16 @@
+{
+  "name": "DoraAudit.eu — DORA & NIS2 Compliance",
+  "short_name": "DoraAudit",
+  "description": "DORA & NIS2 Compliance Platform for European Financial Institutions",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

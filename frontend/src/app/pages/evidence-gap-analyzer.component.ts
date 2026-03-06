@@ -31,18 +31,18 @@ interface ArticleOption {
         </div>
         <h1 class="text-3xl font-bold gradient-text mb-3">Evidence Gap Analyzer</h1>
         <p class="text-slate-400 max-w-xl mx-auto mb-6">
-          {{ lang.l('AI-powered document analysis against specific DORA article requirements. Upload any policy, procedure, or test report and get detailed compliance findings.',
-                     'AI-põhine dokumendi analüüs konkreetsete DORA artiklite nõuete vastu. Laadige üles poliitika, protseduur või testiaruanne ja saage detailsed vastavuse tulemused.') }}
+          {{ lang.l('AI-põhine dokumendi analüüs konkreetsete DORA artiklite nõuete vastu. Laadige üles poliitika, protseduur või testiaruanne ja saage detailsed vastavuse tulemused.',
+                     'AI-powered document analysis against specific DORA article requirements. Upload any policy, procedure, or test report and get detailed compliance findings.') }}
         </p>
         <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm mb-6">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10m9.364-7.364A9 9 0 1112 3a9 9 0 017.364 7.636z"/>
           </svg>
-          {{ lang.l('Enterprise feature — upgrade to access', 'Enterprise funktsioon — uuendage ligipääsuks') }}
+          {{ lang.l('Enterprise funktsioon — uuendage ligipääsuks', 'Enterprise feature — upgrade to access') }}
         </div>
         <div>
           <a routerLink="/pricing" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-cyan-500 text-slate-900 font-semibold hover:from-teal-400 hover:to-cyan-400 transition-all">
-            {{ lang.l('View Plans', 'Vaata plaane') }}
+            {{ lang.l('Vaata plaane', 'View Plans') }}
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
           </a>
         </div>
@@ -60,11 +60,11 @@ interface ArticleOption {
             Evidence Gap Analyzer
           </span>
           <h1 class="text-3xl font-bold gradient-text mb-3">
-            {{ lang.l('Analyze Document Against DORA Requirements', 'Analüüsi dokumenti DORA nõuete vastu') }}
+            {{ lang.l('Analüüsi dokumenti DORA nõuete vastu', 'Analyze Document Against DORA Requirements') }}
           </h1>
           <p class="text-slate-400 max-w-2xl mx-auto">
-            {{ lang.l('Upload a policy, procedure, or compliance document. AI will analyze it against selected DORA articles and identify gaps.',
-                       'Laadige üles poliitika, protseduur või vastavusdokument. AI analüüsib seda valitud DORA artiklite vastu ja tuvastab lüngad.') }}
+            {{ lang.l('Laadige üles poliitika, protseduur või vastavusdokument. AI analüüsib seda valitud DORA artiklite vastu ja tuvastab lüngad.',
+                       'Upload a policy, procedure, or compliance document. AI will analyze it against selected DORA articles and identify gaps.') }}
           </p>
         </div>
 
@@ -72,25 +72,25 @@ interface ArticleOption {
           <!-- Document Title -->
           <div class="glass-card p-6">
             <label class="block text-sm font-medium text-slate-300 mb-2">
-              {{ lang.l('Document Title', 'Dokumendi pealkiri') }}
+              {{ lang.l('Dokumendi pealkiri', 'Document Title') }}
             </label>
             <input type="text" [(ngModel)]="documentTitle"
                    class="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/30 rounded-xl text-slate-200 placeholder-slate-500 focus:outline-none focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/30"
-                   [placeholder]="lang.l('e.g. ICT Risk Management Policy', 'nt IKT riskijuhtimise poliitika')">
+                   [placeholder]="lang.l('nt IKT riskijuhtimise poliitika', 'e.g. ICT Risk Management Policy')">
           </div>
 
           <!-- Document Category -->
           <div class="glass-card p-6">
             <label class="block text-sm font-medium text-slate-300 mb-2">
-              {{ lang.l('Document Category', 'Dokumendi kategooria') }}
+              {{ lang.l('Dokumendi kategooria', 'Document Category') }}
             </label>
             <select [(ngModel)]="documentCategory"
                     class="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/30 rounded-xl text-slate-200 focus:outline-none focus:border-teal-500/50">
-              <option value="POLICY">{{ lang.l('Policy', 'Poliitika') }}</option>
-              <option value="PROCEDURE">{{ lang.l('Procedure', 'Protseduur') }}</option>
-              <option value="TEST_REPORT">{{ lang.l('Test Report', 'Testiaruanne') }}</option>
-              <option value="AUDIT_REPORT">{{ lang.l('Audit Report', 'Auditiaruanne') }}</option>
-              <option value="OTHER">{{ lang.l('Other', 'Muu') }}</option>
+              <option value="POLICY">{{ lang.l('Poliitika', 'Policy') }}</option>
+              <option value="PROCEDURE">{{ lang.l('Protseduur', 'Procedure') }}</option>
+              <option value="TEST_REPORT">{{ lang.l('Testiaruanne', 'Test Report') }}</option>
+              <option value="AUDIT_REPORT">{{ lang.l('Auditiaruanne', 'Audit Report') }}</option>
+              <option value="OTHER">{{ lang.l('Muu', 'Other') }}</option>
             </select>
           </div>
 
@@ -98,17 +98,17 @@ interface ArticleOption {
           <div class="glass-card p-6">
             <div class="flex items-center justify-between mb-4">
               <label class="text-sm font-medium text-slate-300">
-                {{ lang.l('Select DORA Articles to Check', 'Valige kontrollitavad DORA artiklid') }}
+                {{ lang.l('Valige kontrollitavad DORA artiklid', 'Select DORA Articles to Check') }}
               </label>
               <button (click)="toggleAllArticles()" class="text-xs text-teal-400 hover:text-teal-300 transition-colors">
-                {{ allSelected ? lang.l('Deselect All', 'Tühista kõik') : lang.l('Select All', 'Vali kõik') }}
+                {{ allSelected ? lang.l('Tühista kõik', 'Deselect All') : lang.l('Vali kõik', 'Select All') }}
               </button>
             </div>
 
             <!-- Chapter II: ICT Risk Management -->
             <div class="mb-4">
               <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                {{ lang.l('Ch. II — ICT Risk Management', 'Ptk. II — IKT riskijuhtimine') }}
+                {{ lang.l('Ptk. II — IKT riskijuhtimine', 'Ch. II — ICT Risk Management') }}
               </div>
               <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
                 <label *ngFor="let art of getArticlesByChapter('II')"
@@ -117,7 +117,7 @@ interface ArticleOption {
                   <input type="checkbox" [(ngModel)]="art.selected" class="accent-teal-500">
                   <div>
                     <div class="text-sm text-slate-200">Art. {{ art.articleNumber }}</div>
-                    <div class="text-[10px] text-slate-500">{{ lang.l(art.nameEn, art.nameEt) }}</div>
+                    <div class="text-[10px] text-slate-500">{{ lang.l(art.nameEt, art.nameEn) }}</div>
                   </div>
                 </label>
               </div>
@@ -126,7 +126,7 @@ interface ArticleOption {
             <!-- Chapter III: Incident Management -->
             <div class="mb-4">
               <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                {{ lang.l('Ch. III — Incident Management', 'Ptk. III — Intsidentide haldus') }}
+                {{ lang.l('Ptk. III — Intsidentide haldus', 'Ch. III — Incident Management') }}
               </div>
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 <label *ngFor="let art of getArticlesByChapter('III')"
@@ -135,7 +135,7 @@ interface ArticleOption {
                   <input type="checkbox" [(ngModel)]="art.selected" class="accent-teal-500">
                   <div>
                     <div class="text-sm text-slate-200">Art. {{ art.articleNumber }}</div>
-                    <div class="text-[10px] text-slate-500">{{ lang.l(art.nameEn, art.nameEt) }}</div>
+                    <div class="text-[10px] text-slate-500">{{ lang.l(art.nameEt, art.nameEn) }}</div>
                   </div>
                 </label>
               </div>
@@ -144,7 +144,7 @@ interface ArticleOption {
             <!-- Chapter IV: Testing -->
             <div class="mb-4">
               <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                {{ lang.l('Ch. IV — Digital Resilience Testing', 'Ptk. IV — Digitaalse vastupidavuse testimine') }}
+                {{ lang.l('Ptk. IV — Digitaalse vastupidavuse testimine', 'Ch. IV — Digital Resilience Testing') }}
               </div>
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 <label *ngFor="let art of getArticlesByChapter('IV')"
@@ -153,7 +153,7 @@ interface ArticleOption {
                   <input type="checkbox" [(ngModel)]="art.selected" class="accent-teal-500">
                   <div>
                     <div class="text-sm text-slate-200">Art. {{ art.articleNumber }}</div>
-                    <div class="text-[10px] text-slate-500">{{ lang.l(art.nameEn, art.nameEt) }}</div>
+                    <div class="text-[10px] text-slate-500">{{ lang.l(art.nameEt, art.nameEn) }}</div>
                   </div>
                 </label>
               </div>
@@ -162,7 +162,7 @@ interface ArticleOption {
             <!-- Chapter V: Third-Party Risk -->
             <div>
               <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                {{ lang.l('Ch. V — Third-Party Risk', 'Ptk. V — Kolmanda osapoole risk') }}
+                {{ lang.l('Ptk. V — Kolmanda osapoole risk', 'Ch. V — Third-Party Risk') }}
               </div>
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 <label *ngFor="let art of getArticlesByChapter('V')"
@@ -171,22 +171,22 @@ interface ArticleOption {
                   <input type="checkbox" [(ngModel)]="art.selected" class="accent-teal-500">
                   <div>
                     <div class="text-sm text-slate-200">Art. {{ art.articleNumber }}</div>
-                    <div class="text-[10px] text-slate-500">{{ lang.l(art.nameEn, art.nameEt) }}</div>
+                    <div class="text-[10px] text-slate-500">{{ lang.l(art.nameEt, art.nameEn) }}</div>
                   </div>
                 </label>
               </div>
             </div>
 
             <div class="mt-3 text-xs text-slate-500">
-              {{ selectedCount }} {{ lang.l('articles selected', 'artiklit valitud') }}
-              ({{ selectedRequirementCount }} {{ lang.l('requirements', 'nõuet') }})
+              {{ selectedCount }} {{ lang.l('artiklit valitud', 'articles selected') }}
+              ({{ selectedRequirementCount }} {{ lang.l('nõuet', 'requirements') }})
             </div>
           </div>
 
           <!-- File Upload -->
           <div class="glass-card p-6">
             <label class="block text-sm font-medium text-slate-300 mb-3">
-              {{ lang.l('Upload Document', 'Laadi dokument üles') }}
+              {{ lang.l('Laadi dokument üles', 'Upload Document') }}
             </label>
             <div (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
                  (click)="fileInput.click()"
@@ -198,7 +198,7 @@ interface ArticleOption {
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                 </svg>
                 <p class="text-sm text-slate-400">
-                  {{ lang.l('Drag & drop or click to upload', 'Lohistage või klõpsake üleslaadimiseks') }}
+                  {{ lang.l('Lohistage või klõpsake üleslaadimiseks', 'Drag & drop or click to upload') }}
                 </p>
                 <p class="text-xs text-slate-500 mt-1">PDF, DOCX — max 10MB</p>
               </div>
@@ -227,14 +227,14 @@ interface ArticleOption {
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
             </svg>
-            {{ lang.l('Analyze Document', 'Analüüsi dokumenti') }}
+            {{ lang.l('Analüüsi dokumenti', 'Analyze Document') }}
           </button>
         </div>
 
         <!-- History Section -->
         <div *ngIf="history.length > 0" class="mt-16 max-w-3xl mx-auto">
           <h2 class="text-lg font-semibold text-slate-200 mb-4">
-            {{ lang.l('Previous Analyses', 'Varasemad analüüsid') }}
+            {{ lang.l('Varasemad analüüsid', 'Previous Analyses') }}
           </h2>
           <div class="space-y-3">
             <div *ngFor="let item of history" (click)="loadResult(item)"
@@ -280,10 +280,10 @@ interface ArticleOption {
           </div>
         </div>
         <h2 class="text-xl font-bold text-slate-200 mb-2">
-          {{ lang.l('Analyzing document against DORA requirements...', 'Analüüsin dokumenti DORA nõuete vastu...') }}
+          {{ lang.l('Analüüsin dokumenti DORA nõuete vastu...', 'Analyzing document against DORA requirements...') }}
         </h2>
         <p class="text-slate-500 text-sm">
-          {{ lang.l('This may take 30-60 seconds depending on document size', 'See võib võtta 30-60 sekundit sõltuvalt dokumendi suurusest') }}
+          {{ lang.l('See võib võtta 30-60 sekundit sõltuvalt dokumendi suurusest', 'This may take 30-60 seconds depending on document size') }}
         </p>
       </div>
 
@@ -296,7 +296,7 @@ interface ArticleOption {
             <p class="text-sm text-slate-500">{{ result.fileName }} &middot; {{ result.documentCategory }} &middot; {{ result.analysisDate | date:'dd.MM.yyyy HH:mm' }}</p>
           </div>
           <button (click)="resetToUpload()" class="px-4 py-2 rounded-lg text-sm bg-slate-700/50 text-slate-300 border border-slate-600/30 hover:bg-slate-600/50 hover:text-teal-400 transition-colors">
-            {{ lang.l('New Analysis', 'Uus analüüs') }}
+            {{ lang.l('Uus analüüs', 'New Analysis') }}
           </button>
         </div>
 
@@ -334,21 +334,21 @@ interface ArticleOption {
           <!-- Stats -->
           <div class="glass-card p-6 flex flex-col items-center justify-center">
             <div class="text-3xl font-bold text-green-400 mb-1">{{ result.foundCount }}</div>
-            <div class="text-sm text-slate-400">{{ lang.l('Found', 'Leitud') }}</div>
+            <div class="text-sm text-slate-400">{{ lang.l('Leitud', 'Found') }}</div>
             <div class="w-full bg-slate-700/30 rounded-full h-1.5 mt-3">
               <div class="bg-green-400 h-1.5 rounded-full transition-all" [style.width.%]="result.totalRequirements > 0 ? result.foundCount / result.totalRequirements * 100 : 0"></div>
             </div>
           </div>
           <div class="glass-card p-6 flex flex-col items-center justify-center">
             <div class="text-3xl font-bold text-yellow-400 mb-1">{{ result.partialCount }}</div>
-            <div class="text-sm text-slate-400">{{ lang.l('Partial', 'Osaline') }}</div>
+            <div class="text-sm text-slate-400">{{ lang.l('Osaline', 'Partial') }}</div>
             <div class="w-full bg-slate-700/30 rounded-full h-1.5 mt-3">
               <div class="bg-yellow-400 h-1.5 rounded-full transition-all" [style.width.%]="result.totalRequirements > 0 ? result.partialCount / result.totalRequirements * 100 : 0"></div>
             </div>
           </div>
           <div class="glass-card p-6 flex flex-col items-center justify-center">
             <div class="text-3xl font-bold text-red-400 mb-1">{{ result.missingCount }}</div>
-            <div class="text-sm text-slate-400">{{ lang.l('Missing', 'Puudu') }}</div>
+            <div class="text-sm text-slate-400">{{ lang.l('Puudu', 'Missing') }}</div>
             <div class="w-full bg-slate-700/30 rounded-full h-1.5 mt-3">
               <div class="bg-red-400 h-1.5 rounded-full transition-all" [style.width.%]="result.totalRequirements > 0 ? result.missingCount / result.totalRequirements * 100 : 0"></div>
             </div>
@@ -357,19 +357,19 @@ interface ArticleOption {
 
         <!-- Summary -->
         <div class="glass-card p-6 mb-8">
-          <h3 class="text-sm font-semibold text-slate-300 mb-2">{{ lang.l('Summary', 'Kokkuvõte') }}</h3>
-          <p class="text-slate-400 text-sm leading-relaxed">{{ lang.l(result.summaryEn, result.summaryEt) }}</p>
+          <h3 class="text-sm font-semibold text-slate-300 mb-2">{{ lang.l('Kokkuvõte', 'Summary') }}</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">{{ lang.l(result.summaryEt, result.summaryEn) }}</p>
         </div>
 
         <!-- Findings by Article -->
         <div class="space-y-6 mb-8">
-          <h3 class="text-lg font-semibold text-slate-200">{{ lang.l('Detailed Findings', 'Detailsed tulemused') }}</h3>
+          <h3 class="text-lg font-semibold text-slate-200">{{ lang.l('Detailsed tulemused', 'Detailed Findings') }}</h3>
 
           <div *ngFor="let group of groupedFindings" class="glass-card overflow-hidden">
             <div class="px-6 py-4 bg-slate-700/20 border-b border-slate-700/30 flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <span class="px-2.5 py-1 rounded-lg bg-teal-500/20 text-teal-400 text-xs font-bold">Art. {{ group.articleNumber }}</span>
-                <span class="text-sm font-medium text-slate-200">{{ lang.l(group.nameEn, group.nameEt) }}</span>
+                <span class="text-sm font-medium text-slate-200">{{ lang.l(group.nameEt, group.nameEn) }}</span>
               </div>
               <div class="flex items-center gap-1.5 text-xs">
                 <span class="px-1.5 py-0.5 rounded bg-green-500/20 text-green-400">{{ group.foundCount }}</span>
@@ -394,7 +394,7 @@ interface ArticleOption {
                       <span class="text-[10px] text-slate-500 font-mono">{{ finding.doraReference }}</span>
                     </div>
                     <p class="text-sm font-medium text-slate-200">
-                      {{ lang.l(finding.subRequirementEn, finding.subRequirementEt) }}
+                      {{ lang.l(finding.subRequirementEt, finding.subRequirementEn) }}
                     </p>
                   </div>
                 </div>
@@ -409,7 +409,7 @@ interface ArticleOption {
                 <div *ngIf="finding.status !== 'found' && (finding.recommendationEt || finding.recommendationEn)"
                      class="ml-14 mt-2 px-4 py-3 rounded-lg bg-amber-500/5 border-l-2 border-amber-500/30">
                   <p class="text-xs text-amber-300/80">
-                    {{ lang.l(finding.recommendationEn, finding.recommendationEt) }}
+                    {{ lang.l(finding.recommendationEt, finding.recommendationEn) }}
                   </p>
                 </div>
               </div>
@@ -425,7 +425,7 @@ interface ArticleOption {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
-            {{ exporting ? lang.l('Generating PDF...', 'Genereerin PDF-i...') : lang.l('Export PDF Report', 'Ekspordi PDF raport') }}
+            {{ exporting ? lang.l('Genereerin PDF-i...', 'Generating PDF...') : lang.l('Ekspordi PDF raport', 'Export PDF Report') }}
           </button>
           <button (click)="syncToTracker()"
                   [disabled]="syncing"
@@ -433,14 +433,14 @@ interface ArticleOption {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
             </svg>
-            {{ syncing ? lang.l('Syncing...', 'Sünkroniseerin...') : lang.l('Sync to Article Tracker', 'Sünkroniseeri Article Trackeriga') }}
+            {{ syncing ? lang.l('Sünkroniseerin...', 'Syncing...') : lang.l('Sünkroniseeri Article Trackeriga', 'Sync to Article Tracker') }}
           </button>
           <button (click)="resetToUpload()"
                   class="px-5 py-2.5 rounded-xl text-sm font-medium bg-slate-700/50 text-slate-300 border border-slate-600/30 hover:bg-slate-600/50 hover:text-teal-400 transition-colors flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
             </svg>
-            {{ lang.l('New Analysis', 'Uus analüüs') }}
+            {{ lang.l('Uus analüüs', 'New Analysis') }}
           </button>
         </div>
       </div>
@@ -563,11 +563,11 @@ export class EvidenceGapAnalyzerComponent implements OnInit {
   private selectFile(file: File) {
     const name = file.name.toLowerCase();
     if (!name.endsWith('.pdf') && !name.endsWith('.docx')) {
-      this.errorMsg = this.lang.l('Only PDF and DOCX files are supported', 'Toetatud on ainult PDF ja DOCX failid');
+      this.errorMsg = this.lang.l('Toetatud on ainult PDF ja DOCX failid', 'Only PDF and DOCX files are supported');
       return;
     }
     if (file.size > 10 * 1024 * 1024) {
-      this.errorMsg = this.lang.l('File size exceeds 10MB limit', 'Faili suurus ületab 10MB piiri');
+      this.errorMsg = this.lang.l('Faili suurus ületab 10MB piiri', 'File size exceeds 10MB limit');
       return;
     }
     this.selectedFile = file;
@@ -595,7 +595,7 @@ export class EvidenceGapAnalyzerComponent implements OnInit {
         this.loadHistory();
       },
       error: (err) => {
-        this.errorMsg = err.error?.error || this.lang.l('Analysis failed. Please try again.', 'Analüüs ebaõnnestus. Palun proovige uuesti.');
+        this.errorMsg = err.error?.error || this.lang.l('Analüüs ebaõnnestus. Palun proovige uuesti.', 'Analysis failed. Please try again.');
         this.state = 'upload';
       }
     });

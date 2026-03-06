@@ -6,4 +6,9 @@ Disallow: /login
 Disallow: /register
 Disallow: /oauth/
 Disallow: /dashboard
+Disallow: /welcome
+Disallow: /settings/
+Disallow: /admin/
+Disallow: /verify-email
+Disallow: /reset-password
 Sitemap: https://doraaudit.eu/sitemap.xml

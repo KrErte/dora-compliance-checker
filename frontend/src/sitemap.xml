@@ -1,98 +1,186 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Homepage -->
   <url>
     <loc>https://doraaudit.eu/</loc>
-    <lastmod>2026-02-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://doraaudit.eu/"/>
+    <xhtml:link rel="alternate" hreflang="et" href="https://doraaudit.eu/et/"/>
+    <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- Core Tools (high priority) -->
   <url>
-    <loc>https://doraaudit.eu/pricing</loc>
-    <lastmod>2026-02-27</lastmod>
+    <loc>https://doraaudit.eu/assessment</loc>
+    <lastmod>2026-03-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://doraaudit.eu/contract-analysis</loc>
-    <lastmod>2026-02-27</lastmod>
+    <lastmod>2026-03-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://doraaudit.eu/nis2/scope-check</loc>
-    <lastmod>2026-02-27</lastmod>
+    <lastmod>2026-03-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://doraaudit.eu/pricing</loc>
+    <lastmod>2026-03-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://doraaudit.eu/board-risk</loc>
-    <lastmod>2026-02-27</lastmod>
+    <lastmod>2026-03-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://doraaudit.eu/fine-calculator</loc>
-    <lastmod>2026-02-27</lastmod>
+    <lastmod>2026-03-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://doraaudit.eu/dora-explorer</loc>
+    <lastmod>2026-03-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://doraaudit.eu/framework-mapping</loc>
+    <lastmod>2026-03-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://doraaudit.eu/cost-calculator</loc>
+    <lastmod>2026-03-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Resources & Content -->
+  <url>
+    <loc>https://doraaudit.eu/blog</loc>
+    <lastmod>2026-03-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://doraaudit.eu/training-quiz</loc>
+    <lastmod>2026-03-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://doraaudit.eu/policy-generator</loc>
+    <lastmod>2026-03-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://doraaudit.eu/incident-decision-tree</loc>
+    <lastmod>2026-03-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://doraaudit.eu/board-report</loc>
+    <lastmod>2026-03-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://doraaudit.eu/chat</loc>
+    <lastmod>2026-03-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://doraaudit.eu/contract-generator</loc>
-    <lastmod>2026-02-27</lastmod>
+    <lastmod>2026-03-06</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://doraaudit.eu/exam-simulator</loc>
+    <lastmod>2026-03-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Reference Pages -->
   <url>
     <loc>https://doraaudit.eu/company-profile</loc>
-    <lastmod>2026-02-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://doraaudit.eu/playbook</loc>
-    <lastmod>2026-02-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://doraaudit.eu/timeline</loc>
-    <lastmod>2026-02-27</lastmod>
+    <lastmod>2026-03-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://doraaudit.eu/vendors</loc>
-    <lastmod>2026-02-27</lastmod>
+    <lastmod>2026-03-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://doraaudit.eu/timeline</loc>
+    <lastmod>2026-03-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://doraaudit.eu/playbook</loc>
+    <lastmod>2026-03-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://doraaudit.eu/comparison</loc>
-    <lastmod>2026-02-27</lastmod>
+    <lastmod>2026-03-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
+  <!-- NIS2 -->
   <url>
-    <loc>https://doraaudit.eu/methodology</loc>
-    <lastmod>2026-02-27</lastmod>
+    <loc>https://doraaudit.eu/nis2/assessment</loc>
+    <lastmod>2026-03-06</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
+
+  <!-- Company Pages -->
   <url>
     <loc>https://doraaudit.eu/about</loc>
-    <lastmod>2026-02-27</lastmod>
+    <lastmod>2026-03-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://doraaudit.eu/methodology</loc>
+    <lastmod>2026-03-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Legal -->
+  <url>
     <loc>https://doraaudit.eu/privacy</loc>
-    <lastmod>2026-02-27</lastmod>
+    <lastmod>2026-03-06</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://doraaudit.eu/terms</loc>
-    <lastmod>2026-02-27</lastmod>
+    <lastmod>2026-03-06</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>

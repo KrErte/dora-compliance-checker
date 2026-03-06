@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { LangService } from '../lang.service';
 
 @Component({
   selector: 'app-comparison',
@@ -8,53 +9,53 @@ import { RouterLink } from '@angular/router';
   template: `
     <!-- HERO -->
     <section class="hero">
-      <div class="badge">Võrdlus 2026</div>
-      <h1>DORA vastavustööriist:<br><span>milline valida?</span></h1>
-      <p>Objektiivne võrdlus kolme juhtiva DORA compliance platvormi vahel — hind, funktsioonid, sobivus Eesti turule.</p>
+      <div class="badge">{{ lang.l('Võrdlus 2026', 'Comparison 2026') }}</div>
+      <h1>{{ lang.l('DORA vastavustööriist:', 'DORA compliance tool:') }}<br><span>{{ lang.l('milline valida?', 'which one to choose?') }}</span></h1>
+      <p>{{ lang.l('Objektiivne võrdlus kolme juhtiva DORA compliance platvormi vahel — hind, funktsioonid, sobivus Eesti turule.', 'Objective comparison of three leading DORA compliance platforms — price, features, and suitability for the Estonian market.') }}</p>
     </section>
 
     <!-- SEO INTRO -->
     <section class="seo-section">
-      <h2>Miks on DORA vastavustööriist vajalik?</h2>
-      <p>DORA (Digital Operational Resilience Act) jõustus 17. jaanuaril 2025 ja kohaldub kõigile EL-i finantsasutustele — pankadest kindlustuseni, fondidest fintech-ettevõteteni. Mittevastavuse korral võivad trahvid ulatuda kuni 2% aastasest ülemaailmsest käibest.</p>
-      <p>Turule on tekkinud mitmeid compliance tööriistasid, kuid need erinevad hinna, funktsionaalsuse ja lokaliseerituse poolest märkimisväärselt. Allpool võrdleme kolme peamist valikut.</p>
+      <h2>{{ lang.l('Miks on DORA vastavustööriist vajalik?', 'Why is a DORA compliance tool necessary?') }}</h2>
+      <p>{{ lang.l('DORA (Digital Operational Resilience Act) jõustus 17. jaanuaril 2025 ja kohaldub kõigile EL-i finantsasutustele — pankadest kindlustuseni, fondidest fintech-ettevõteteni. Mittevastavuse korral võivad trahvid ulatuda kuni 2% aastasest ülemaailmsest käibest.', 'DORA (Digital Operational Resilience Act) entered into force on January 17, 2025 and applies to all EU financial institutions — from banks to insurance, funds to fintech companies. Non-compliance fines can reach up to 2% of annual global turnover.') }}</p>
+      <p>{{ lang.l('Turule on tekkinud mitmeid compliance tööriistasid, kuid need erinevad hinna, funktsionaalsuse ja lokaliseerituse poolest märkimisväärselt. Allpool võrdleme kolme peamist valikut.', 'Several compliance tools have emerged on the market, but they differ significantly in price, functionality, and localization. Below we compare the three main options.') }}</p>
     </section>
 
     <!-- PRICING -->
     <section class="pricing-strip">
       <div class="price-card">
         <h3>Copla</h3>
-        <div class="tagline">Pan-EU CISO platvorm</div>
+        <div class="tagline">{{ lang.l('Pan-EU CISO platvorm', 'Pan-EU CISO platform') }}</div>
         <div class="price-amount">€375</div>
-        <div class="price-period">/kuu (DORA moodul)</div>
-        <div class="price-annual">~€5,000 esimesel aastal</div>
-        <div class="price-note">+ €499 onboarding tasu<br>Demo booking nõutav</div>
+        <div class="price-period">{{ lang.l('/kuu (DORA moodul)', '/mo (DORA module)') }}</div>
+        <div class="price-annual">{{ lang.l('~€5,000 esimesel aastal', '~€5,000 first year') }}</div>
+        <div class="price-note">{{ lang.l('+ €499 onboarding tasu', '+ €499 onboarding fee') }}<br>{{ lang.l('Demo booking nõutav', 'Demo booking required') }}</div>
       </div>
       <div class="price-card featured">
         <h3>DoraAudit.eu</h3>
-        <div class="tagline">Eesti-spetsiifiline DORA + NIS2</div>
+        <div class="tagline">{{ lang.l('Eesti-spetsiifiline DORA + NIS2', 'Estonia-specific DORA + NIS2') }}</div>
         <div class="price-amount">€149</div>
-        <div class="price-period">/kuu (Professional)</div>
-        <div class="price-annual">€1,788 aastas — säästad 64%</div>
-        <div class="price-note">Onboarding tasuta<br>Kohene iseteenindus, 5 min</div>
+        <div class="price-period">/{{ lang.l('kuu (Professional)', 'mo (Professional)') }}</div>
+        <div class="price-annual">{{ lang.l('€1,788 aastas — säästad 64%', '€1,788/year — save 64%') }}</div>
+        <div class="price-note">{{ lang.l('Onboarding tasuta', 'Free onboarding') }}<br>{{ lang.l('Kohene iseteenindus, 5 min', 'Instant self-service, 5 min') }}</div>
       </div>
       <div class="price-card">
         <h3>DoraRegister.io</h3>
-        <div class="tagline">RoI register tööriist</div>
+        <div class="tagline">{{ lang.l('RoI register tööriist', 'RoI register tool') }}</div>
         <div class="price-amount">€200+</div>
-        <div class="price-period">/kuu (lepingute arvu järgi)</div>
-        <div class="price-annual">€2,400+ aastas</div>
-        <div class="price-note">Ainult RoI fookus<br>Demo booking nõutav</div>
+        <div class="price-period">{{ lang.l('/kuu (lepingute arvu järgi)', '/mo (by contract count)') }}</div>
+        <div class="price-annual">{{ lang.l('€2,400+ aastas', '€2,400+/year') }}</div>
+        <div class="price-note">{{ lang.l('Ainult RoI fookus', 'RoI focus only') }}<br>{{ lang.l('Demo booking nõutav', 'Demo booking required') }}</div>
       </div>
     </section>
 
     <!-- COMPARISON TABLE -->
     <section class="table-wrap">
-      <h2>Funktsioonide võrdlus</h2>
+      <h2>{{ lang.l('Funktsioonide võrdlus', 'Feature Comparison') }}</h2>
       <table>
         <thead>
           <tr>
-            <th>Omadus</th>
+            <th>{{ lang.l('Omadus', 'Feature') }}</th>
             <th>DoraAudit.eu</th>
             <th>Copla</th>
             <th>DoraRegister.io</th>
@@ -62,80 +63,80 @@ import { RouterLink } from '@angular/router';
         </thead>
         <tbody>
           <tr>
-            <td>DORA vastavushindamine</td>
-            <td class="cell-highlight">✓ 37 küsimust + PDF</td>
+            <td>{{ lang.l('DORA vastavushindamine', 'DORA compliance assessment') }}</td>
+            <td class="cell-highlight">{{ lang.l('✓ 37 küsimust + PDF', '✓ 37 questions + PDF') }}</td>
             <td><span class="check">✓</span></td>
             <td><span class="cross">✗</span></td>
           </tr>
           <tr>
-            <td>NIS2 kohalduvuskontroll</td>
-            <td class="cell-highlight">✓ Tasuta</td>
+            <td>{{ lang.l('NIS2 kohalduvuskontroll', 'NIS2 scope check') }}</td>
+            <td class="cell-highlight">{{ lang.l('✓ Tasuta', '✓ Free') }}</td>
             <td><span class="check">✓</span></td>
             <td><span class="cross">✗</span></td>
           </tr>
           <tr>
-            <td>ICT lepinguanalüüs (AI)</td>
-            <td class="cell-highlight">✓ Multi-regulatsioon</td>
+            <td>{{ lang.l('ICT lepinguanalüüs (AI)', 'ICT contract analysis (AI)') }}</td>
+            <td class="cell-highlight">{{ lang.l('✓ Multi-regulatsioon', '✓ Multi-regulation') }}</td>
             <td><span class="cross">✗</span></td>
             <td><span class="cross">✗</span></td>
           </tr>
           <tr>
-            <td>Supply Chain / RoI register</td>
+            <td>Supply Chain / RoI {{ lang.l('register', 'register') }}</td>
             <td><span class="check">✓</span></td>
             <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span> Fookus</td>
+            <td><span class="check">✓</span> {{ lang.l('Fookus', 'Focus') }}</td>
           </tr>
           <tr>
-            <td>Trahvikalkulaator</td>
-            <td class="cell-highlight">✓ Tasuta</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="cross">✗</span></td>
-          </tr>
-          <tr>
-            <td>Juhatuse vastutuse kalkulaator</td>
-            <td class="cell-highlight">✓ Ainulaadne</td>
+            <td>{{ lang.l('Trahvikalkulaator', 'Fine calculator') }}</td>
+            <td class="cell-highlight">{{ lang.l('✓ Tasuta', '✓ Free') }}</td>
             <td><span class="cross">✗</span></td>
             <td><span class="cross">✗</span></td>
           </tr>
           <tr>
-            <td>Sektori benchmark</td>
-            <td class="cell-highlight">✓ Reaalne andmestik</td>
+            <td>{{ lang.l('Juhatuse vastutuse kalkulaator', 'Board liability calculator') }}</td>
+            <td class="cell-highlight">{{ lang.l('✓ Ainulaadne', '✓ Unique') }}</td>
             <td><span class="cross">✗</span></td>
             <td><span class="cross">✗</span></td>
           </tr>
           <tr>
-            <td>xBRL-CSV eksport</td>
-            <td><span class="soon">TULEKUL</span></td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
+            <td>{{ lang.l('Sektori benchmark', 'Sector benchmark') }}</td>
+            <td class="cell-highlight">{{ lang.l('✓ Reaalne andmestik', '✓ Real data') }}</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
           </tr>
           <tr>
-            <td>Task management</td>
-            <td><span class="soon">TULEKUL</span></td>
+            <td>{{ lang.l('xBRL-CSV eksport', 'xBRL-CSV export') }}</td>
+            <td><span class="soon">{{ lang.l('TULEKUL', 'COMING') }}</span></td>
             <td><span class="check">✓</span></td>
             <td><span class="check">✓</span></td>
           </tr>
           <tr>
-            <td>Eesti keel</td>
-            <td class="cell-highlight">✓ Täielik</td>
+            <td>{{ lang.l('Ülesannete haldamine', 'Task management') }}</td>
+            <td><span class="soon">{{ lang.l('TULEKUL', 'COMING') }}</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>{{ lang.l('Eesti keel', 'Estonian language') }}</td>
+            <td class="cell-highlight">{{ lang.l('✓ Täielik', '✓ Full') }}</td>
             <td><span class="cross">✗</span></td>
             <td><span class="cross">✗</span></td>
           </tr>
           <tr>
-            <td>Äriregistri integratsioon</td>
+            <td>{{ lang.l('Äriregistri integratsioon', 'Business registry integration') }}</td>
             <td class="cell-highlight">✓</td>
             <td><span class="cross">✗</span></td>
             <td><span class="cross">✗</span></td>
           </tr>
           <tr>
-            <td>Kohene iseteenindus</td>
-            <td class="cell-highlight">✓ 5 minutit</td>
-            <td><span class="cross">✗</span> Demo nõutav</td>
-            <td><span class="cross">✗</span> Demo nõutav</td>
+            <td>{{ lang.l('Kohene iseteenindus', 'Instant self-service') }}</td>
+            <td class="cell-highlight">{{ lang.l('✓ 5 minutit', '✓ 5 minutes') }}</td>
+            <td><span class="cross">✗</span> {{ lang.l('Demo nõutav', 'Demo required') }}</td>
+            <td><span class="cross">✗</span> {{ lang.l('Demo nõutav', 'Demo required') }}</td>
           </tr>
           <tr>
-            <td>Andmed EL-is</td>
-            <td><span class="check">✓</span> Saksamaa</td>
+            <td>{{ lang.l('Andmed EL-is', 'Data in EU') }}</td>
+            <td><span class="check">✓</span> {{ lang.l('Saksamaa', 'Germany') }}</td>
             <td><span class="check">✓</span></td>
             <td><span class="check">✓</span></td>
           </tr>
@@ -145,21 +146,21 @@ import { RouterLink } from '@angular/router';
 
     <!-- SAVINGS CALCULATOR -->
     <section class="savings">
-      <h2>Kui palju sa säästad DoraAudit.eu-ga?</h2>
-      <div class="context">Võrreldes Copla DORA mooduliga (esimese aasta kulu)</div>
+      <h2>{{ lang.l('Kui palju sa säästad DoraAudit.eu-ga?', 'How much do you save with DoraAudit.eu?') }}</h2>
+      <div class="context">{{ lang.l('Võrreldes Copla DORA mooduliga (esimese aasta kulu)', 'Compared to Copla DORA module (first year cost)') }}</div>
       <div class="big-number">€3,211</div>
-      <div class="context">säästu esimesel aastal</div>
+      <div class="context">{{ lang.l('säästu esimesel aastal', 'saved in the first year') }}</div>
       <div class="savings-grid">
         <div>
           <div class="stat-label">DoraAudit.eu</div>
-          <div class="stat-value green">€1,788/a</div>
+          <div class="stat-value green">€1,788/{{ lang.l('a', 'yr') }}</div>
         </div>
         <div>
           <div class="stat-label">Copla</div>
-          <div class="stat-value red">€4,999/a</div>
+          <div class="stat-value red">€4,999/{{ lang.l('a', 'yr') }}</div>
         </div>
         <div>
-          <div class="stat-label">Sääst</div>
+          <div class="stat-label">{{ lang.l('Sääst', 'Savings') }}</div>
           <div class="stat-value green">64%</div>
         </div>
       </div>
@@ -167,49 +168,49 @@ import { RouterLink } from '@angular/router';
 
     <!-- FAQ SEO SECTION -->
     <section class="faq">
-      <h2>Korduma kippuvad küsimused</h2>
+      <h2>{{ lang.l('Korduma kippuvad küsimused', 'Frequently Asked Questions') }}</h2>
 
       <div class="faq-item">
-        <h3>Kas DoraAudit.eu sobib väikestele fintech-ettevõtetele?</h3>
-        <p>Jah. DoraAudit.eu on loodud just Eesti väikeste ja keskmiste finantsasutuste jaoks. €149/kuu Professional plaan katab kõik DORA hindamise vajadused — ilma konsultandi palkamiseta ja pikka müügiprotsessita.</p>
+        <h3>{{ lang.l('Kas DoraAudit.eu sobib väikestele fintech-ettevõtetele?', 'Is DoraAudit.eu suitable for small fintech companies?') }}</h3>
+        <p>{{ lang.l('Jah. DoraAudit.eu on loodud just Eesti väikeste ja keskmiste finantsasutuste jaoks. €149/kuu Professional plaan katab kõik DORA hindamise vajadused — ilma konsultandi palkamiseta ja pikka müügiprotsessita.', 'Yes. DoraAudit.eu is designed specifically for small and medium Estonian financial institutions. The €149/month Professional plan covers all DORA assessment needs — without hiring consultants or lengthy sales processes.') }}</p>
       </div>
 
       <div class="faq-item">
-        <h3>Mille poolest erineb DoraAudit.eu Copla-st?</h3>
-        <p>Copla on Pan-EU CISO platvorm, mis maksab €4,500+/aastas ja nõuab demo bookingut. DoraAudit.eu on Eesti-spetsiifiline, eestikeelne, 3x odavam ja pakub kohest iseteenindust. Lisaks on DoraAudit.eu-l ainulaadsed tööriistad nagu juhatuse vastutuse kalkulaator ja AI-põhine lepinguanalüüs.</p>
+        <h3>{{ lang.l('Mille poolest erineb DoraAudit.eu Copla-st?', 'How does DoraAudit.eu differ from Copla?') }}</h3>
+        <p>{{ lang.l('Copla on Pan-EU CISO platvorm, mis maksab €4,500+/aastas ja nõuab demo bookingut. DoraAudit.eu on Eesti-spetsiifiline, eestikeelne, 3x odavam ja pakub kohest iseteenindust. Lisaks on DoraAudit.eu-l ainulaadsed tööriistad nagu juhatuse vastutuse kalkulaator ja AI-põhine lepinguanalüüs.', 'Copla is a Pan-EU CISO platform that costs €4,500+/year and requires a demo booking. DoraAudit.eu is Estonia-specific, available in Estonian, 3x cheaper, and offers instant self-service. Additionally, DoraAudit.eu has unique tools like the board liability calculator and AI-powered contract analysis.') }}</p>
       </div>
 
       <div class="faq-item">
-        <h3>Mille poolest erineb DoraAudit.eu DoraRegister.io-st?</h3>
-        <p>DoraRegister.io keskendub ainult DORA Register of Information (RoI) haldamisele. DoraAudit.eu katab kogu DORA vastavuse tsükli — hindamisest lepinguanalüüsini ja tarneahela riskijuhtimiseni. Lisaks pakub DoraAudit.eu NIS2 tööriistasid ja on täielikult eestikeelne.</p>
+        <h3>{{ lang.l('Mille poolest erineb DoraAudit.eu DoraRegister.io-st?', 'How does DoraAudit.eu differ from DoraRegister.io?') }}</h3>
+        <p>{{ lang.l('DoraRegister.io keskendub ainult DORA Register of Information (RoI) haldamisele. DoraAudit.eu katab kogu DORA vastavuse tsükli — hindamisest lepinguanalüüsini ja tarneahela riskijuhtimiseni. Lisaks pakub DoraAudit.eu NIS2 tööriistasid ja on täielikult eestikeelne.', 'DoraRegister.io focuses solely on DORA Register of Information (RoI) management. DoraAudit.eu covers the entire DORA compliance cycle — from assessment to contract analysis and supply chain risk management. It also offers NIS2 tools and is fully available in Estonian.') }}</p>
       </div>
 
       <div class="faq-item">
-        <h3>Kas DoraAudit.eu katab ka NIS2 nõuded?</h3>
-        <p>Jah. Business plaan (€299/kuu) katab nii DORA kui NIS2 ühes kohas. Tasuta NIS2 Scope Checker aitab tuvastada, kas NIS2 sinu ettevõttele kohaldub.</p>
+        <h3>{{ lang.l('Kas DoraAudit.eu katab ka NIS2 nõuded?', 'Does DoraAudit.eu also cover NIS2 requirements?') }}</h3>
+        <p>{{ lang.l('Jah. Business plaan (€299/kuu) katab nii DORA kui NIS2 ühes kohas. Tasuta NIS2 Scope Checker aitab tuvastada, kas NIS2 sinu ettevõttele kohaldub.', 'Yes. The Business plan (€299/month) covers both DORA and NIS2 in one place. The free NIS2 Scope Checker helps determine if NIS2 applies to your company.') }}</p>
       </div>
 
       <div class="faq-item">
-        <h3>Kui kiiresti saan tulemusi?</h3>
-        <p>5 minutit. Registreeru, täida 37-küsimuslik hindamine ja saa koheselt compliance score, riskimaatriks, sektori benchmark ja PDF raport. Pole vaja demo bookingut ega müügikõnesid.</p>
+        <h3>{{ lang.l('Kui kiiresti saan tulemusi?', 'How quickly can I get results?') }}</h3>
+        <p>{{ lang.l('5 minutit. Registreeru, täida 37-küsimuslik hindamine ja saa koheselt compliance score, riskimaatriks, sektori benchmark ja PDF raport. Pole vaja demo bookingut ega müügikõnesid.', '5 minutes. Register, complete the 37-question assessment, and instantly get your compliance score, risk matrix, sector benchmark, and PDF report. No demo booking or sales calls needed.') }}</p>
       </div>
 
       <div class="faq-item">
-        <h3>Kus mu andmed asuvad?</h3>
-        <p>Kõik andmed hoiustatakse Euroopa Liidus (Hetzner, Saksamaa). AES-256 krüpteering, GDPR-kooskõlaline.</p>
+        <h3>{{ lang.l('Kus mu andmed asuvad?', 'Where is my data stored?') }}</h3>
+        <p>{{ lang.l('Kõik andmed hoiustatakse Euroopa Liidus (Hetzner, Saksamaa). AES-256 krüpteering, GDPR-kooskõlaline.', 'All data is stored in the European Union (Hetzner, Germany). AES-256 encryption, GDPR-compliant.') }}</p>
       </div>
     </section>
 
     <!-- CTA -->
     <section class="cta-section">
-      <h2>Alusta DORA hindamist 5 minutiga</h2>
-      <p>Tasuta tööriistadega saad kohe teada, kus su ettevõte DORA ja NIS2 nõuetega seisab.</p>
+      <h2>{{ lang.l('Alusta DORA hindamist 5 minutiga', 'Start your DORA assessment in 5 minutes') }}</h2>
+      <p>{{ lang.l('Tasuta tööriistadega saad kohe teada, kus su ettevõte DORA ja NIS2 nõuetega seisab.', 'With free tools, instantly find out where your company stands with DORA and NIS2 requirements.') }}</p>
       <div class="btn-group">
         <a routerLink="/register" class="btn btn-primary">
-          Alusta tasuta →
+          {{ lang.l('Alusta tasuta →', 'Start free →') }}
         </a>
         <a routerLink="/pricing" class="btn btn-secondary">
-          Vaata plaane
+          {{ lang.l('Vaata plaane', 'View plans') }}
         </a>
       </div>
     </section>
@@ -322,12 +323,11 @@ import { RouterLink } from '@angular/router';
     }
 
     .price-card.featured::before {
-      content: 'PARIM VALIK';
+      content: '★';
       position: absolute;
       top: -12px;
       left: 50%;
       transform: translateX(-50%);
-      font-family: 'DM Mono', monospace;
       font-size: 11px;
       font-weight: 500;
       letter-spacing: 1px;
@@ -605,4 +605,6 @@ import { RouterLink } from '@angular/router';
     }
   `]
 })
-export class ComparisonComponent {}
+export class ComparisonComponent {
+  constructor(public lang: LangService) {}
+}

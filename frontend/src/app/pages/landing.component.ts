@@ -142,7 +142,7 @@ interface DoraRequirement {
           <!-- AI-analyzed sub-requirements -->
           <div class="text-center">
             <div class="text-3xl md:text-4xl font-extrabold text-cyan-400 mb-1">45</div>
-            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.l('AI-Analyzed Sub-Requirements', 'AI-analüüsitud alanõuet') }}</div>
+            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.l('AI-analüüsitud alanõuet', 'AI-Analyzed Sub-Requirements') }}</div>
           </div>
           <!-- Analysis time -->
           <div class="text-center">
@@ -361,10 +361,10 @@ interface DoraRequirement {
         <div class="text-center mb-10">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 mb-4">
             <div class="w-4 h-4 rounded bg-gradient-to-br from-teal-400 to-cyan-400 flex items-center justify-center text-slate-900 text-[7px] font-bold">AI</div>
-            <span class="text-xs font-medium text-teal-400 uppercase tracking-wider">{{ lang.l('Enterprise AI Tools', 'Enterprise AI tööriistad') }}</span>
+            <span class="text-xs font-medium text-teal-400 uppercase tracking-wider">{{ lang.l('Enterprise AI tööriistad', 'Enterprise AI Tools') }}</span>
           </div>
-          <h2 class="text-2xl md:text-3xl font-bold text-slate-100 mb-3">{{ lang.l('AI-Powered Compliance Automation', 'AI-põhine vastavuse automatiseerimine') }}</h2>
-          <p class="text-slate-400 text-sm max-w-lg mx-auto">{{ lang.l('Go beyond basic assessments. Our AI tools analyze your documents, generate policies, and track incidents — all mapped to DORA articles.', 'Minge põhihindamistest kaugemale. Meie AI tööriistad analüüsivad dokumente, genereerivad poliitikaid ja jälgivad intsidente — kõik seotud DORA artiklitega.') }}</p>
+          <h2 class="text-2xl md:text-3xl font-bold text-slate-100 mb-3">{{ lang.l('AI-põhine vastavuse automatiseerimine', 'AI-Powered Compliance Automation') }}</h2>
+          <p class="text-slate-400 text-sm max-w-lg mx-auto">{{ lang.l('Minge põhihindamistest kaugemale. Meie AI tööriistad analüüsivad dokumente, genereerivad poliitikaid ja jälgivad intsidente — kõik seotud DORA artiklitega.', 'Go beyond basic assessments. Our AI tools analyze your documents, generate policies, and track incidents — all mapped to DORA articles.') }}</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -382,7 +382,7 @@ interface DoraRequirement {
                   <h3 class="text-sm font-semibold text-slate-200 group-hover:text-teal-300 transition-colors">Evidence Gap Analyzer</h3>
                   <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-teal-500/20 text-teal-400">NEW</span>
                 </div>
-                <p class="text-xs text-slate-400 leading-relaxed">{{ lang.l('Upload any policy/procedure and AI analyzes it against 45 DORA sub-requirements across 10 articles. Get found/partial/missing status for each.', 'Laadige üles poliitika/protseduur ja AI analüüsib seda 45 DORA alanõude vastu 10 artiklist. Saage leitud/osaline/puudu staatus igaühe kohta.') }}</p>
+                <p class="text-xs text-slate-400 leading-relaxed">{{ lang.l('Laadige üles poliitika/protseduur ja AI analüüsib seda 45 DORA alanõude vastu 10 artiklist. Saage leitud/osaline/puudu staatus igaühe kohta.', 'Upload any policy/procedure and AI analyzes it against 45 DORA sub-requirements across 10 articles. Get found/partial/missing status for each.') }}</p>
               </div>
             </div>
           </a>
@@ -398,10 +398,10 @@ interface DoraRequirement {
               </div>
               <div class="flex-1">
                 <div class="flex items-center gap-2 mb-1">
-                  <h3 class="text-sm font-semibold text-slate-200 group-hover:text-violet-300 transition-colors">{{ lang.l('AI Policy Writer', 'AI poliitikakirjutaja') }}</h3>
+                  <h3 class="text-sm font-semibold text-slate-200 group-hover:text-violet-300 transition-colors">{{ lang.l('AI poliitikakirjutaja', 'AI Policy Writer') }}</h3>
                   <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-violet-500/20 text-violet-400">AI</span>
                 </div>
-                <p class="text-xs text-slate-400 leading-relaxed">{{ lang.l('Generate DORA-compliant ICT policies, procedures, and frameworks. AI creates professional documents tailored to your organization.', 'Genereerige DORA-le vastavad IKT poliitikad, protseduurid ja raamistikud. AI loob teie organisatsioonile kohandatud dokumendid.') }}</p>
+                <p class="text-xs text-slate-400 leading-relaxed">{{ lang.l('Genereerige DORA-le vastavad IKT poliitikad, protseduurid ja raamistikud. AI loob teie organisatsioonile kohandatud dokumendid.', 'Generate DORA-compliant ICT policies, procedures, and frameworks. AI creates professional documents tailored to your organization.') }}</p>
               </div>
             </div>
           </a>
@@ -417,9 +417,9 @@ interface DoraRequirement {
               </div>
               <div class="flex-1">
                 <div class="flex items-center gap-2 mb-1">
-                  <h3 class="text-sm font-semibold text-slate-200 group-hover:text-amber-300 transition-colors">{{ lang.l('ICT Incident Management', 'IKT intsidentide haldamine') }}</h3>
+                  <h3 class="text-sm font-semibold text-slate-200 group-hover:text-amber-300 transition-colors">{{ lang.l('IKT intsidentide haldamine', 'ICT Incident Management') }}</h3>
                 </div>
-                <p class="text-xs text-slate-400 leading-relaxed">{{ lang.l('Full Art. 17-19 incident lifecycle: classify, track 4h/72h/1mo deadlines, generate regulatory reports, and manage remediation.', 'Täielik Art. 17-19 intsidendi elutsükkel: klassifitseeri, jälgi 4h/72h/1kuu tähtaegu, genereeri regulatiivseid raporteid.') }}</p>
+                <p class="text-xs text-slate-400 leading-relaxed">{{ lang.l('Täielik Art. 17-19 intsidendi elutsükkel: klassifitseeri, jälgi 4h/72h/1kuu tähtaegu, genereeri regulatiivseid raporteid.', 'Full Art. 17-19 incident lifecycle: classify, track 4h/72h/1mo deadlines, generate regulatory reports, and manage remediation.') }}</p>
               </div>
             </div>
           </a>
@@ -435,10 +435,10 @@ interface DoraRequirement {
               </div>
               <div class="flex-1">
                 <div class="flex items-center gap-2 mb-1">
-                  <h3 class="text-sm font-semibold text-slate-200 group-hover:text-cyan-300 transition-colors">{{ lang.l('xBRL-CSV Regulatory Export', 'xBRL-CSV regulatiivne eksport') }}</h3>
+                  <h3 class="text-sm font-semibold text-slate-200 group-hover:text-cyan-300 transition-colors">{{ lang.l('xBRL-CSV regulatiivne eksport', 'xBRL-CSV Regulatory Export') }}</h3>
                   <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-cyan-500/20 text-cyan-400">ENT</span>
                 </div>
-                <p class="text-xs text-slate-400 leading-relaxed">{{ lang.l('Export compliance data in xBRL-CSV format for direct submission to financial supervisory authorities. Machine-readable regulatory reporting.', 'Eksportige vastavusandmed xBRL-CSV formaadis otse finantsjärelevalveasutustele esitamiseks.') }}</p>
+                <p class="text-xs text-slate-400 leading-relaxed">{{ lang.l('Eksportige vastavusandmed xBRL-CSV formaadis otse finantsjärelevalveasutustele esitamiseks.', 'Export compliance data in xBRL-CSV format for direct submission to financial supervisory authorities. Machine-readable regulatory reporting.') }}</p>
               </div>
             </div>
           </a>

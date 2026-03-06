@@ -54,7 +54,8 @@
                 "input": "public"
               },
               "src/robots.txt",
-              "src/sitemap.xml"
+              "src/sitemap.xml",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "src/styles.css"
