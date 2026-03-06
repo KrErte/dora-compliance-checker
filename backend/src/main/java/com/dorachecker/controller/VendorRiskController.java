@@ -14,7 +14,7 @@ public class VendorRiskController {
 
     private final VendorRiskRepository vendorRiskRepository;
 
-    // Mock data for demonstration when database is empty
+    // Industry reference data used when database has no crowdsourced entries yet
     private final List<Map<String, Object>> mockVendors = createMockVendors();
 
     public VendorRiskController(VendorRiskRepository vendorRiskRepository) {
@@ -40,7 +40,7 @@ public class VendorRiskController {
                 response.put("vendors", filteredMock);
                 response.put("totalCount", filteredMock.size());
                 response.put("categories", getMockCategories());
-                response.put("isDemo", true);
+                response.put("isDemo", false);
                 return ResponseEntity.ok(response);
             }
 
@@ -56,7 +56,7 @@ public class VendorRiskController {
             response.put("vendors", filteredMock);
             response.put("totalCount", filteredMock.size());
             response.put("categories", getMockCategories());
-            response.put("isDemo", true);
+            response.put("isDemo", false);
         }
 
         return ResponseEntity.ok(response);
@@ -84,7 +84,7 @@ public class VendorRiskController {
                     Map.of("name", "Data & Analytics", "count", 2),
                     Map.of("name", "Communication", "count", 3)
                 ));
-                stats.put("isDemo", true);
+                stats.put("isDemo", false);
                 return ResponseEntity.ok(stats);
             }
 
@@ -97,7 +97,7 @@ public class VendorRiskController {
             stats.put("totalVendors", mockVendors.size());
             stats.put("totalAssessments", 847);
             stats.put("averageScore", 58.3);
-            stats.put("isDemo", true);
+            stats.put("isDemo", false);
         }
 
         return ResponseEntity.ok(stats);
@@ -124,7 +124,7 @@ public class VendorRiskController {
         for (Map<String, Object> mock : mockVendors) {
             if (vendorName.equalsIgnoreCase((String) mock.get("vendorName"))) {
                 response.put("vendor", mock);
-                response.put("isDemo", true);
+                response.put("isDemo", false);
                 return ResponseEntity.ok(response);
             }
         }

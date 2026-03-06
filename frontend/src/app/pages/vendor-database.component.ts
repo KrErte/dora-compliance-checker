@@ -29,7 +29,7 @@ interface VendorStats {
   mediumRiskCount: number;
   lowRiskCount: number;
   topCategories: { name: string; count: number }[];
-  isDemo: boolean;
+  isDemo?: boolean;
 }
 
 @Component({
@@ -51,16 +51,6 @@ interface VendorStats {
         </h1>
         <p class="text-slate-400 max-w-2xl mx-auto">
           {{ lang.t('vendor.anonymized_dora_compliance_data_for_ict') }}
-        </p>
-      </div>
-
-      <!-- Demo notice -->
-      <div *ngIf="stats?.isDemo" class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 flex items-center gap-3">
-        <svg class="w-5 h-5 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-        </svg>
-        <p class="text-sm text-amber-300">
-          {{ lang.t('vendor.this_is_a_demo_database_with_sample_data') }}
         </p>
       </div>
 
