@@ -94,6 +94,37 @@ interface DoraRequirement {
       </div>
     </div>
 
+    <!-- Free Trial CTA Banner -->
+    <div class="py-10 px-4">
+      <div class="max-w-3xl mx-auto">
+        <div class="relative overflow-hidden rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-slate-800/80 to-cyan-500/10 p-8 md:p-10">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+          <div class="relative z-10 flex flex-col md:flex-row items-center gap-6">
+            <div class="flex-1 text-center md:text-left">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 mb-3">
+                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">{{ lang.l('Tasuta prooviaeg', 'Free Trial') }}</span>
+              </div>
+              <h3 class="text-xl md:text-2xl font-bold text-white mb-2">{{ lang.l('Proovi 14 päeva kõiki premium funktsioone', 'Try all premium features for 14 days') }}</h3>
+              <p class="text-sm text-slate-400 mb-1">{{ lang.l('Registreeru ja saa koheselt ligipääs AI lepinguanalüüsile, poliitikageneraatorile, PDF eksportidele ja muule.', 'Sign up and get instant access to AI contract analysis, policy generator, PDF exports, and more.') }}</p>
+              <p class="text-xs text-slate-500">{{ lang.l('Krediitkaarti pole vaja · Tühista igal ajal', 'No credit card required · Cancel anytime') }}</p>
+            </div>
+            <div class="shrink-0">
+              <a routerLink="/register"
+                 class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-900 font-bold text-sm transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 whitespace-nowrap">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+                {{ lang.l('Alusta tasuta proovi', 'Start Free Trial') }}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- How It Works -->
     <div class="py-14 relative">
       <div class="relative z-10">
@@ -169,37 +200,6 @@ interface DoraRequirement {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
           </svg>
           <span class="text-sm font-medium text-emerald-300">{{ lang.t('landing.dora_active_since') || 'DORA on jõus alates 17. jaanuarist 2025' }}</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Free Trial CTA Banner -->
-    <div class="py-10 px-4">
-      <div class="max-w-3xl mx-auto">
-        <div class="relative overflow-hidden rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-slate-800/80 to-cyan-500/10 p-8 md:p-10">
-          <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-          <div class="relative z-10 flex flex-col md:flex-row items-center gap-6">
-            <div class="flex-1 text-center md:text-left">
-              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 mb-3">
-                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">{{ lang.l('Tasuta prooviaeg', 'Free Trial') }}</span>
-              </div>
-              <h3 class="text-xl md:text-2xl font-bold text-white mb-2">{{ lang.l('Proovi 14 päeva kõiki premium funktsioone', 'Try all premium features for 14 days') }}</h3>
-              <p class="text-sm text-slate-400 mb-1">{{ lang.l('Registreeru ja saa koheselt ligipääs AI lepinguanalüüsile, poliitikageneraatorile, PDF eksportidele ja muule.', 'Sign up and get instant access to AI contract analysis, policy generator, PDF exports, and more.') }}</p>
-              <p class="text-xs text-slate-500">{{ lang.l('Krediitkaarti pole vaja · Tühista igal ajal', 'No credit card required · Cancel anytime') }}</p>
-            </div>
-            <div class="shrink-0">
-              <a routerLink="/register"
-                 class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-900 font-bold text-sm transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 whitespace-nowrap">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                </svg>
-                {{ lang.l('Alusta tasuta proovi', 'Start Free Trial') }}
-              </a>
-            </div>
-          </div>
         </div>
       </div>
     </div>
