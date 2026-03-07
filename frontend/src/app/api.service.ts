@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DoraQuestion, AssessmentRequest, AssessmentResult, ContractAnalysisResult, NegotiationResult, NegotiationMessageResult, MonitoredContract, ContractAlert, RegulatoryUpdate, IncidentReport, IncidentStats, RemediationItem, RemediationStats, Organization, OrgMember, OrgInvite, EvidenceItem, EvidenceStats, EvidenceCoverage, ComplianceAlert, NotificationItem, GapAnalysisResult, SupportedArticle, ComplianceProfile } from './models';
+import { DoraQuestion, AssessmentRequest, AssessmentResult, ContractAnalysisResult, NegotiationResult, NegotiationMessageResult, MonitoredContract, ContractAlert, RegulatoryUpdate, IncidentReport, IncidentStats, RemediationItem, RemediationStats, Organization, OrgMember, OrgInvite, EvidenceItem, EvidenceStats, EvidenceCoverage, ComplianceAlert, NotificationItem, GapAnalysisResult, SupportedArticle, ComplianceProfile, UserAlert, AlertDetail } from './models';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -458,6 +458,23 @@ export class ApiService {
   }
   deleteComplianceProfile(): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/v1/compliance-profile`);
+  }
+
+  // Regulatory Alert Feed
+  getUserAlerts(): Observable<UserAlert[]> {
+    return this.http.get<UserAlert[]>(`${this.baseUrl}/v1/alerts`);
+  }
+  getUnreadAlertCount(): Observable<{ count: number }> {
+    return this.http.get<{ count: number }>(`${this.baseUrl}/v1/alerts/unread-count`);
+  }
+  markAlertAsRead(id: string): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/v1/alerts/${id}/read`, {});
+  }
+  markAllAlertsRead(): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/v1/alerts/read-all`, {});
+  }
+  getAlertDetail(id: string): Observable<AlertDetail> {
+    return this.http.get<AlertDetail>(`${this.baseUrl}/v1/alerts/${id}`);
   }
 
   // Compliance Activity Timeline

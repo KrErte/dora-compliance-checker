@@ -385,6 +385,31 @@ export interface ComplianceProfile {
   updatedAt?: string;
 }
 
+// ─── Regulatory Alert Feed ───────────────────────────────────────────
+
+export interface UserAlert {
+  id: string;
+  regulatoryUpdateId: string;
+  title: string;
+  message: string;
+  source: string;
+  severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW' | 'INFO';
+  isRead: boolean;
+  createdAt: string;
+  readAt?: string;
+}
+
+export interface AlertDetail extends UserAlert {
+  impactAnalysis: string;
+  url: string;
+  regulations: string;
+  companyTypes: string;
+  countries: string;
+  affectedArticles: string;
+  relevanceScore: number;
+  publishedDate: string;
+}
+
 // ─── DORA 5 Pillars: shared category mapping ───────────────────────
 
 export const PILLAR_CATEGORIES: { [pillarId: string]: string[] } = {

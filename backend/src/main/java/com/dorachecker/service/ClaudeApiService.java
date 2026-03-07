@@ -318,6 +318,42 @@ public class ClaudeApiService {
         }
     }
 
+    /**
+     * Enrich a regulatory update with AI analysis.
+     * Returns JSON with summary, impactAnalysis, regulations, companyTypes, countries, severity.
+     */
+    public String enrichRegulatoryUpdate(String title, String summary, String source) {
+        if (apiKey == null || apiKey.isBlank()) {
+            throw new IllegalStateException("Anthropic API võti on seadistamata.");
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Sa oled regulatiivse vastavuse ekspert finantssektoris. Analüüsi järgmist regulatiivset uuendust ja koosta struktureeritud kokkuvõte.\n\n");
+        sb.append("PEALKIRI: ").append(title).append("\n");
+        if (summary != null && !summary.isBlank()) {
+            sb.append("KIRJELDUS: ").append(summary).append("\n");
+        }
+        sb.append("ALLIKAS: ").append(source).append("\n\n");
+        sb.append("Vasta JSON formaadis:\n");
+        sb.append("{\n");
+        sb.append("  \"summary\": \"<2-3 lauseline kokkuvõte eesti keeles>\",\n");
+        sb.append("  \"impactAnalysis\": \"<mõjuanalüüs eesti keeles - kuidas see mõjutab finantsettevõtteid>\",\n");
+        sb.append("  \"regulations\": \"<komaga eraldatud mõjutatud regulatsioonid: DORA, NIS2, AI_ACT, CSRD - ainult need, mis on asjakohased>\",\n");
+        sb.append("  \"companyTypes\": \"<komaga eraldatud mõjutatud ettevõttetüübid: BANK, FINTECH, INSURANCE, INVESTMENT_FIRM, ICT_PROVIDER, OTHER>\",\n");
+        sb.append("  \"countries\": \"<komaga eraldatud mõjutatud riigid: EST, LVA, LTU, EU - kasuta EU kui kehtib kogu EL-is>\",\n");
+        sb.append("  \"severity\": \"<CRITICAL | HIGH | MEDIUM | LOW | INFO>\"\n");
+        sb.append("}\n\n");
+        sb.append("REEGLID:\n");
+        sb.append("- severity CRITICAL: kohene tegevus vajalik (uus kohustuslik nõue, tähtaeg läheneb)\n");
+        sb.append("- severity HIGH: oluline muudatus, mis vajab planeerimist\n");
+        sb.append("- severity MEDIUM: väärib tähelepanu, pole kiireloomuline\n");
+        sb.append("- severity LOW: informatiivne, väike mõju\n");
+        sb.append("- severity INFO: üldine teave, pole otsest mõju\n");
+        sb.append("- Vasta AINULT JSON objektiga\n");
+
+        return callApi(sb.toString(), 2048);
+    }
+
     /** DTO for email generation input */
     public record NegotiationEmailItem(String articleReference, String requirementText, String suggestedClause) {}
 

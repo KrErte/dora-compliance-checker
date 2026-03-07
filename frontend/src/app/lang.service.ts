@@ -1608,6 +1608,28 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'notifications.mark_all_read': { et: 'Märgi kõik loetuks', en: 'Mark all as read' },
   'nav.notifications': { et: 'Teavitused', en: 'Notifications' },
 
+  // Regulatory Alert Feed
+  'alerts.title': { et: 'Regulatiivsed hoiatused', en: 'Regulatory Alerts' },
+  'alerts.subtitle': { et: 'Personaalsed hoiatused vastavalt teie vastavusprofiilile', en: 'Personalized alerts based on your compliance profile' },
+  'alerts.mark_all_read': { et: 'Märgi kõik loetuks', en: 'Mark all as read' },
+  'alerts.edit_profile': { et: 'Muuda profiili', en: 'Edit profile' },
+  'alerts.filter_all': { et: 'Kõik', en: 'All' },
+  'alerts.filter_all_status': { et: 'Kõik staatused', en: 'All statuses' },
+  'alerts.unread': { et: 'Lugemata', en: 'Unread' },
+  'alerts.read': { et: 'Loetud', en: 'Read' },
+  'alerts.mark_read': { et: 'Märgi loetuks', en: 'Mark as read' },
+  'alerts.empty_title': { et: 'Hoiatusi pole veel', en: 'No alerts yet' },
+  'alerts.empty_message': { et: 'Seadistage oma vastavusprofiil, et hakata saama regulatiivseid hoiatusi.', en: 'Set up your compliance profile to start receiving regulatory alerts.' },
+  'alerts.setup_profile': { et: 'Seadista profiil', en: 'Set up profile' },
+  'alerts.summary': { et: 'Kokkuvõte', en: 'Summary' },
+  'alerts.impact': { et: 'Mõjuanalüüs', en: 'Impact Analysis' },
+  'alerts.regulations': { et: 'Regulatsioonid', en: 'Regulations' },
+  'alerts.countries': { et: 'Riigid', en: 'Countries' },
+  'alerts.published': { et: 'Avaldatud', en: 'Published' },
+  'alerts.view_source': { et: 'Vaata allikat', en: 'View source' },
+  'alerts.loading_detail': { et: 'Laen detaile...', en: 'Loading details...' },
+  'alerts.no_match': { et: 'Filtritingimustele vastavaid hoiatusi ei leitud', en: 'No alerts match the current filters' },
+
   // Certificate
   'cert.subtitle': { et: 'DORA Vastavuskontroll', en: 'DORA Compliance Check' },
   'cert.title': { et: 'Vastavustunnistus', en: 'Compliance Certificate' },

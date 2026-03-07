@@ -243,6 +243,12 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'Evidence Gap Analyzer', seoDescription: 'AI-powered DORA compliance evidence gap analysis. Upload policy documents and get detailed article-by-article compliance findings.' }
   },
   {
+    path: 'alerts',
+    loadComponent: () => import('./pages/regulatory-alert-feed.component').then(m => m.RegulatoryAlertFeedComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Regulatiivsed hoiatused | DORAaudit', seoDescription: 'Personalized regulatory alerts based on your compliance profile. Monitor DORA, NIS2, and other regulatory changes.' }
+  },
+  {
     path: 'alert-profile',
     loadComponent: () => import('./pages/alert-profile-wizard.component').then(m => m.AlertProfileWizardComponent),
     canActivate: [authGuard],
