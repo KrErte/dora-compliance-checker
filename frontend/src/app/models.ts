@@ -368,6 +368,23 @@ export interface SupportedArticle {
   nameEn: string;
 }
 
+// ─── Compliance Alert Profile ────────────────────────────────────────
+
+export type CompanyType = 'BANK' | 'FINTECH' | 'INSURANCE' | 'INVESTMENT_FIRM' | 'ICT_PROVIDER' | 'OTHER';
+export type AlertFrequency = 'REALTIME' | 'DAILY' | 'WEEKLY';
+
+export interface ComplianceProfile {
+  id: string;
+  companyType: CompanyType;
+  country: string;
+  regulations: string[];
+  alertFrequency: AlertFrequency;
+  alertEmail: boolean;
+  alertDashboard: boolean;
+  createdAt: string;
+  updatedAt?: string;
+}
+
 // ─── DORA 5 Pillars: shared category mapping ───────────────────────
 
 export const PILLAR_CATEGORIES: { [pillarId: string]: string[] } = {

@@ -220,6 +220,14 @@ import { ComplianceAlert } from './models';
                 </svg>
                 {{ lang.t('nav.command_center') }}
               </a>
+              <a routerLink="/alert-profile" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-yellow-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                </svg>
+                {{ lang.t('nav.alerts') }}
+                <span class="text-[9px] bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
+              </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
               <a routerLink="/exam-simulator" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-rose-400 hover:bg-slate-700/30 transition-colors">
@@ -577,6 +585,11 @@ import { ComplianceAlert } from './models';
                class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
               {{ lang.t('nav.command_center') }}
               <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-cyan-500/20 text-cyan-400">NEW</span>
+            </a>
+            <a routerLink="/alert-profile" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-yellow-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+              {{ lang.t('nav.alerts') }}
+              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-yellow-500/20 text-yellow-400 animate-pulse">NEW</span>
             </a>
             <a routerLink="/incident-reporting" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.incidents') }}</a>

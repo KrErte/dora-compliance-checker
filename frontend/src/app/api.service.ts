@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DoraQuestion, AssessmentRequest, AssessmentResult, ContractAnalysisResult, NegotiationResult, NegotiationMessageResult, MonitoredContract, ContractAlert, RegulatoryUpdate, IncidentReport, IncidentStats, RemediationItem, RemediationStats, Organization, OrgMember, OrgInvite, EvidenceItem, EvidenceStats, EvidenceCoverage, ComplianceAlert, NotificationItem, GapAnalysisResult, SupportedArticle } from './models';
+import { DoraQuestion, AssessmentRequest, AssessmentResult, ContractAnalysisResult, NegotiationResult, NegotiationMessageResult, MonitoredContract, ContractAlert, RegulatoryUpdate, IncidentReport, IncidentStats, RemediationItem, RemediationStats, Organization, OrgMember, OrgInvite, EvidenceItem, EvidenceStats, EvidenceCoverage, ComplianceAlert, NotificationItem, GapAnalysisResult, SupportedArticle, ComplianceProfile } from './models';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -444,6 +444,20 @@ export class ApiService {
   }
   getComplianceAlertCounts(): Observable<{ critical: number; warning: number; info: number; total: number }> {
     return this.http.get<{ critical: number; warning: number; info: number; total: number }>(`${this.baseUrl}/notifications/alerts/count`);
+  }
+
+  // Compliance Alert Profile
+  getComplianceProfile(): Observable<ComplianceProfile> {
+    return this.http.get<ComplianceProfile>(`${this.baseUrl}/v1/compliance-profile`);
+  }
+  hasComplianceProfile(): Observable<{ exists: boolean }> {
+    return this.http.get<{ exists: boolean }>(`${this.baseUrl}/v1/compliance-profile/exists`);
+  }
+  saveComplianceProfile(data: any): Observable<ComplianceProfile> {
+    return this.http.post<ComplianceProfile>(`${this.baseUrl}/v1/compliance-profile`, data);
+  }
+  deleteComplianceProfile(): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/v1/compliance-profile`);
   }
 
   // Compliance Activity Timeline

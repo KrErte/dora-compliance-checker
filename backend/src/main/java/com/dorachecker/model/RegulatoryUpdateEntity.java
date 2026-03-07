@@ -36,6 +36,30 @@ public class RegulatoryUpdateEntity {
     @Column(nullable = false)
     private LocalDateTime fetchedAt;
 
+    // Alert system fields (nullable — added for compliance alert matching)
+    private String sourceId;
+    private String externalId;
+
+    @Column(columnDefinition = "TEXT")
+    private String aiSummary;
+
+    @Column(columnDefinition = "TEXT")
+    private String aiImpactAnalysis;
+
+    @Column(columnDefinition = "TEXT")
+    private String regulations;
+
+    @Column(columnDefinition = "TEXT")
+    private String companyTypes;
+
+    @Column(columnDefinition = "TEXT")
+    private String countries;
+
+    private String severity = "INFO";
+
+    @Column(columnDefinition = "TEXT")
+    private String rawContent;
+
     public RegulatoryUpdateEntity() {}
 
     public RegulatoryUpdateEntity(String source, String title, String summary,
@@ -68,4 +92,22 @@ public class RegulatoryUpdateEntity {
     public void setStatus(String status) { this.status = status; }
     public LocalDateTime getFetchedAt() { return fetchedAt; }
     public void setFetchedAt(LocalDateTime fetchedAt) { this.fetchedAt = fetchedAt; }
+    public String getSourceId() { return sourceId; }
+    public void setSourceId(String sourceId) { this.sourceId = sourceId; }
+    public String getExternalId() { return externalId; }
+    public void setExternalId(String externalId) { this.externalId = externalId; }
+    public String getAiSummary() { return aiSummary; }
+    public void setAiSummary(String aiSummary) { this.aiSummary = aiSummary; }
+    public String getAiImpactAnalysis() { return aiImpactAnalysis; }
+    public void setAiImpactAnalysis(String aiImpactAnalysis) { this.aiImpactAnalysis = aiImpactAnalysis; }
+    public String getRegulations() { return regulations; }
+    public void setRegulations(String regulations) { this.regulations = regulations; }
+    public String getCompanyTypes() { return companyTypes; }
+    public void setCompanyTypes(String companyTypes) { this.companyTypes = companyTypes; }
+    public String getCountries() { return countries; }
+    public void setCountries(String countries) { this.countries = countries; }
+    public String getSeverity() { return severity; }
+    public void setSeverity(String severity) { this.severity = severity; }
+    public String getRawContent() { return rawContent; }
+    public void setRawContent(String rawContent) { this.rawContent = rawContent; }
 }

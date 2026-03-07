@@ -243,6 +243,12 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'Evidence Gap Analyzer', seoDescription: 'AI-powered DORA compliance evidence gap analysis. Upload policy documents and get detailed article-by-article compliance findings.' }
   },
   {
+    path: 'alert-profile',
+    loadComponent: () => import('./pages/alert-profile-wizard.component').then(m => m.AlertProfileWizardComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Compliance Alert Profile', seoDescription: 'Set up your compliance monitoring profile. Choose regulations, alert frequency, and notification channels for regulatory updates.' }
+  },
+  {
     path: 'notifications',
     loadComponent: () => import('./pages/notification-center.component').then(m => m.NotificationCenterComponent),
     canActivate: [authGuard],
