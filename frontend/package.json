@@ -24,6 +24,8 @@
     "jspdf-autotable": "^3.8.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "vis-data": "^7.1.9",
+    "vis-network": "^9.1.9",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {

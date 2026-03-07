@@ -225,6 +225,12 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'What-If Scenario Simulator', seoDescription: 'Simulate ICT provider failure scenarios. Analyze impact on services, estimate recovery time, and plan mitigations per DORA requirements.' }
   },
   {
+    path: 'digital-twin',
+    loadComponent: () => import('./pages/digital-twin.component').then(m => m.DigitalTwinComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'ICT Digital Twin', seoDescription: 'Interactive network graph of your ICT environment. Visualize dependencies, run failure simulations, and identify concentration risks and compliance gaps.' }
+  },
+  {
     path: 'audit-readiness',
     loadComponent: () => import('./pages/audit-readiness.component').then(m => m.AuditReadinessComponent),
     canActivate: [authGuard],
