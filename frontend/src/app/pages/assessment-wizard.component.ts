@@ -80,16 +80,24 @@ interface WizardStep {
               <div>
                 <label for="wiz-company" class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.company_name') }} *</label>
                 <input type="text" [(ngModel)]="companyName" id="wiz-company"
-                       class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
+                       class="w-full bg-slate-900/50 border rounded-lg px-4 py-2.5 text-slate-100
                               focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300"
+                       [class]="showStepErrors && !companyName.trim() ? 'border-red-500/50' : 'border-slate-600/50'"
                        [placeholder]="lang.t('assess.example_ltd')">
+                <p *ngIf="showStepErrors && !companyName.trim()" class="mt-1 text-xs text-red-400">
+                  {{ lang.l('Ettevõtte nimi on kohustuslik', 'Company name is required') }}
+                </p>
               </div>
               <div>
                 <label for="wiz-contract" class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.contract_name') }} *</label>
                 <input type="text" [(ngModel)]="contractName" id="wiz-contract"
-                       class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
+                       class="w-full bg-slate-900/50 border rounded-lg px-4 py-2.5 text-slate-100
                               focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300"
+                       [class]="showStepErrors && !contractName.trim() ? 'border-red-500/50' : 'border-slate-600/50'"
                        [placeholder]="lang.t('assess.cloud_service_agreement')">
+                <p *ngIf="showStepErrors && !contractName.trim()" class="mt-1 text-xs text-red-400">
+                  {{ lang.l('Lepingu nimi on kohustuslik', 'Contract name is required') }}
+                </p>
               </div>
               <div>
                 <label for="wiz-sector" class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.sector') }}</label>
@@ -238,10 +246,9 @@ interface WizardStep {
               <div>
                 <!-- Next step -->
                 <button *ngIf="currentStep < totalSteps - 1" type="button" (click)="nextStep()"
-                        [disabled]="!canAdvance"
                         [class]="canAdvance
                           ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-900 font-semibold px-6 py-2 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 flex items-center gap-2 text-sm'
-                          : 'bg-slate-700 text-slate-500 font-semibold px-6 py-2 rounded-lg cursor-not-allowed flex items-center gap-2 text-sm'">
+                          : 'bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-900 font-semibold px-6 py-2 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 flex items-center gap-2 text-sm opacity-80'">
                   {{ lang.t('wizard.next') }}
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
@@ -339,6 +346,7 @@ export class AssessmentWizardComponent implements OnInit {
   submitting = false;
   showConfirmDialog = false;
   showSaveToast = false;
+  showStepErrors = false;
 
   steps: WizardStep[] = [];
   currentStep = 0;
@@ -558,7 +566,11 @@ export class AssessmentWizardComponent implements OnInit {
   }
 
   nextStep() {
-    if (!this.canAdvance) return;
+    if (!this.canAdvance) {
+      this.showStepErrors = true;
+      return;
+    }
+    this.showStepErrors = false;
     if (this.currentStep === 0) {
       this.autoSave();
     }

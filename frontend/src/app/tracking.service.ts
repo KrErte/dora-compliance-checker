@@ -101,6 +101,7 @@ export class TrackingService implements OnDestroy {
     script.defer = true;
     script.src = 'https://umami.doraaudit.eu/script.js';
     script.dataset['websiteId'] = '6f43e0b9-0250-4b71-811e-a9452b59de95';
+    script.onerror = () => {}; // Suppress console errors if analytics fail to load
     document.head.appendChild(script);
   }
 

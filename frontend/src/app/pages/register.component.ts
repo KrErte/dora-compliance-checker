@@ -167,9 +167,10 @@ import { AuthService } from '../auth/auth.service';
             <div class="mb-6">
               <label class="flex items-start gap-3 cursor-pointer group">
                 <input type="checkbox" [(ngModel)]="agreeTerms" name="agreeTerms"
+                       [attr.aria-label]="lang.l('Nõustun kasutustingimuste ja privaatsuspoliitikaga', 'I agree to the Terms of Service and Privacy Policy')"
                        class="mt-0.5 w-4 h-4 rounded border-slate-600 bg-slate-700 text-emerald-500
                               focus:ring-emerald-500/25 focus:ring-offset-0 cursor-pointer">
-                <span class="text-sm text-slate-400 leading-relaxed">
+                <span class="text-sm text-slate-400 leading-relaxed" aria-hidden="true">
                   {{ lang.t('auth.terms_agree') }}
                   <a routerLink="/terms" target="_blank" class="text-emerald-400 hover:text-emerald-300 underline">{{ lang.t('auth.terms_link') }}</a>
                   {{ lang.t('auth.terms_and') }}
