@@ -3208,7 +3208,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     'Core Banking',
     'Payment Processing',
     'Data Analytics',
-    'Muu',
+    'Other',
   ];
 
   // Well-known ICT providers for autocomplete
@@ -3570,9 +3570,9 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
           const loadedVendors: Vendor[] = providers.map(p => ({
             id: p.id,
             name: p.providerName,
-            country: p.providerCountry || 'Määramata',
+            country: p.providerCountry || 'Unspecified',
             countryCode: p.countryCode || 'XX',
-            type: p.serviceType || 'Muu',
+            type: p.serviceType || 'Other',
             riskScore: p.riskScore || 30,
             subcontractors: p.subcontractingInfo ? this.parseSubcontractors(p.subcontractingInfo) : [],
             contractNumber: p.contractNumber,
@@ -3654,7 +3654,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     this.newVendorForm = {
       name: provider.name,
       country: countryMatch?.code || provider.countryCode || '',
-      type: provider.serviceType || 'Muu',
+      type: provider.serviceType || 'Other',
       criticality: provider.isCtpp ? 'critical' : 'normal',
       contractNumber: '',
       contractStart: '',
@@ -3976,9 +3976,9 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
 
     const request: CreateIctProviderRequest = {
       name: this.newVendorForm.name.trim(),
-      country: country?.name || 'Määramata',
+      country: country?.name || 'Unspecified',
       countryCode: this.newVendorForm.country || 'XX',
-      type: this.newVendorForm.type || 'Muu',
+      type: this.newVendorForm.type || 'Other',
       criticality: this.newVendorForm.criticality,
       contractNumber: this.newVendorForm.contractNumber,
       contractStart: this.newVendorForm.contractStart,
@@ -3997,9 +3997,9 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
           const newVendor: Vendor = {
             id: saved.id,
             name: saved.providerName,
-            country: saved.providerCountry || 'Määramata',
+            country: saved.providerCountry || 'Unspecified',
             countryCode: saved.countryCode || 'XX',
-            type: saved.serviceType || 'Muu',
+            type: saved.serviceType || 'Other',
             riskScore: saved.riskScore || this.calculatedRiskScore(),
             subcontractors: subcontractorsJson,
             contractNumber: saved.contractNumber,
@@ -4026,9 +4026,9 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
       const newVendor: Vendor = {
         id: `v${Date.now()}`,
         name: this.newVendorForm.name.trim(),
-        country: country?.name || 'Määramata',
+        country: country?.name || 'Unspecified',
         countryCode: this.newVendorForm.country || 'XX',
-        type: this.newVendorForm.type || 'Muu',
+        type: this.newVendorForm.type || 'Other',
         riskScore: this.calculatedRiskScore(),
         subcontractors: subcontractorsJson,
         contractNumber: this.newVendorForm.contractNumber,
@@ -4234,9 +4234,9 @@ Teine AS;DE;Network;Oluline;LEP-002;2024-06-01;2026-05-31`;
           const newVendors: Vendor[] = result.providers.map(p => ({
             id: p.id,
             name: p.providerName,
-            country: p.providerCountry || 'Määramata',
+            country: p.providerCountry || 'Unspecified',
             countryCode: p.countryCode || 'XX',
-            type: p.serviceType || 'Muu',
+            type: p.serviceType || 'Other',
             riskScore: p.riskScore || 30,
             subcontractors: [],
             contractNumber: p.contractNumber,
@@ -4261,9 +4261,9 @@ Teine AS;DE;Network;Oluline;LEP-002;2024-06-01;2026-05-31`;
       const newVendors: Vendor[] = requests.map((req, index) => ({
         id: `v${Date.now()}-${index}`,
         name: req.name!,
-        country: req.country || 'Määramata',
+        country: req.country || 'Unspecified',
         countryCode: req.countryCode || 'XX',
-        type: req.type || 'Muu',
+        type: req.type || 'Other',
         riskScore: req.riskScore || 30,
         subcontractors: [],
         contractNumber: req.contractNumber,

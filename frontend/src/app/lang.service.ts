@@ -1808,6 +1808,8 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   // Timeline
   'nav.timeline': { et: 'Ajakava', en: 'Timeline' },
   'nav.vendors': { et: 'Teenusepakkujad', en: 'Vendors' },
+  'nav.explorer': { et: 'DORA Explorer', en: 'DORA Explorer' },
+  'nav.mapping': { et: 'Raamistike kaardistus', en: 'Framework Mapping' },
   'nav.supply_chain': { et: 'Supply Chain', en: 'Supply Chain' },
   'nav.dashboard': { et: 'Juhtpaneel', en: 'Dashboard' },
 

@@ -107,7 +107,7 @@ interface DoraRequirement {
                 </svg>
                 <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">{{ lang.l('Tasuta prooviaeg', 'Free Trial') }}</span>
               </div>
-              <h3 class="text-xl md:text-2xl font-bold text-white mb-2">{{ lang.l('Proovi 14 päeva kõiki premium funktsioone', 'Try all premium features for 14 days') }}</h3>
+              <h2 class="text-xl md:text-2xl font-bold text-white mb-2">{{ lang.l('Proovi 14 päeva kõiki premium funktsioone', 'Try all premium features for 14 days') }}</h2>
               <p class="text-sm text-slate-400 mb-1">{{ lang.l('Registreeru ja saa koheselt ligipääs AI lepinguanalüüsile, poliitikageneraatorile, PDF eksportidele ja muule.', 'Sign up and get instant access to AI contract analysis, policy generator, PDF exports, and more.') }}</p>
               <p class="text-xs text-slate-500">{{ lang.l('Krediitkaarti pole vaja · Tühista igal ajal', 'No credit card required · Cancel anytime') }}</p>
             </div>
@@ -529,7 +529,7 @@ interface DoraRequirement {
     <!-- Scope clarification -->
     <div class="py-12">
       <div class="max-w-2xl mx-auto glass-card p-6">
-        <h3 class="text-sm font-semibold text-slate-300 mb-3">{{ lang.t('landing.scope_title') }}</h3>
+        <h2 class="text-sm font-semibold text-slate-300 mb-3">{{ lang.t('landing.scope_title') }}</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <div>
             <p class="text-emerald-400 font-medium mb-2">{{ lang.t('landing.scope_does') }}</p>
