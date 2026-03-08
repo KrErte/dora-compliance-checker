@@ -16,18 +16,12 @@ describe('LangService', () => {
     expect(['et', 'en']).toContain(service.currentLang);
   });
 
-  it('toggle cycles through all 4 languages', () => {
+  it('toggle cycles through both languages', () => {
     service.setLang('en');
     expect(service.currentLang).toBe('en');
 
     service.toggle();
     expect(service.currentLang).toBe('et');
-
-    service.toggle();
-    expect(service.currentLang).toBe('lv');
-
-    service.toggle();
-    expect(service.currentLang).toBe('lt');
 
     service.toggle();
     expect(service.currentLang).toBe('en');

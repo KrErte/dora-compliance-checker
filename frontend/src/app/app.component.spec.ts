@@ -99,8 +99,8 @@ describe('AppComponent — Language Switcher & Avatar Separation', () => {
     // Toggle language again — user menu should close via document click
     // but lang toggle itself doesn't close the menu
     lang.toggle();
-    // With 4-language cycle, second toggle advances to next language, not back
-    expect(lang.currentLang).not.toBe(initialLang);
+    // With 2-language cycle, second toggle returns to initial language
+    expect(lang.currentLang).toBe(initialLang);
   });
 
   // TC2.9 — Mobile lang toggle closes menu
@@ -114,7 +114,7 @@ describe('AppComponent — Language Switcher & Avatar Separation', () => {
     expect(component.mobileMenu).toBeFalse();
   });
 
-  // TC2.10 — Rapid switching (4-language cycle: en → et → lv → lt → en)
+  // TC2.10 — Rapid switching (2-language cycle: en → et → en)
   it('TC2.10: rapid language switching works correctly', () => {
     lang.setLang('en');
     expect(lang.currentLang).toBe('en');
@@ -122,13 +122,7 @@ describe('AppComponent — Language Switcher & Avatar Separation', () => {
     lang.toggle(); // en → et
     expect(lang.currentLang).toBe('et');
 
-    lang.toggle(); // et → lv
-    expect(lang.currentLang).toBe('lv');
-
-    lang.toggle(); // lv → lt
-    expect(lang.currentLang).toBe('lt');
-
-    lang.toggle(); // lt → en (full cycle)
+    lang.toggle(); // et → en (full cycle)
     expect(lang.currentLang).toBe('en');
 
     // Avatar state untouched throughout

@@ -4,9 +4,11 @@ import com.dorachecker.model.AssessmentEntity;
 import com.dorachecker.model.AssessmentRepository;
 import com.dorachecker.model.ContractAnalysisEntity;
 import com.dorachecker.model.ContractAnalysisRepository;
+import com.dorachecker.model.GapAnalysisRepository;
 import com.dorachecker.model.IncidentReportRepository;
 import com.dorachecker.service.ExcelExportService;
 import com.dorachecker.service.PdfExportService;
+import com.dorachecker.service.ProfessionalReportService;
 import com.dorachecker.service.SubscriptionGuardService;
 import com.dorachecker.service.SubscriptionGuardService.Feature;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,9 +32,11 @@ class ExportControllerTest {
     @Mock private SubscriptionGuardService guardService;
     @Mock private AssessmentRepository assessmentRepository;
     @Mock private ContractAnalysisRepository contractAnalysisRepository;
+    @Mock private GapAnalysisRepository gapAnalysisRepository;
     @Mock private IncidentReportRepository incidentReportRepository;
     @Mock private PdfExportService pdfExportService;
     @Mock private ExcelExportService excelExportService;
+    @Mock private ProfessionalReportService professionalReportService;
     @Mock private Authentication authentication;
 
     private ExportController controller;
@@ -41,7 +45,8 @@ class ExportControllerTest {
     void setUp() {
         controller = new ExportController(
                 guardService, assessmentRepository, contractAnalysisRepository,
-                incidentReportRepository, pdfExportService, excelExportService
+                gapAnalysisRepository, incidentReportRepository, pdfExportService,
+                excelExportService, professionalReportService
         );
     }
 
@@ -54,6 +59,7 @@ class ExportControllerTest {
             when(guardService.canAccess("user-1", null, Feature.PDF_EXPORT)).thenReturn(true);
 
             AssessmentEntity assessment = new AssessmentEntity();
+            assessment.setUserId("user-1");
             when(assessmentRepository.findById("a1")).thenReturn(Optional.of(assessment));
             when(pdfExportService.generateAssessmentPdf(assessment)).thenReturn(new byte[]{1, 2, 3});
 
@@ -104,6 +110,7 @@ class ExportControllerTest {
             when(guardService.canAccess("user-1", null, Feature.PDF_EXPORT)).thenReturn(true);
 
             ContractAnalysisEntity contract = new ContractAnalysisEntity();
+            contract.setUserId("user-1");
             when(contractAnalysisRepository.findById("c1")).thenReturn(Optional.of(contract));
             when(pdfExportService.generateContractPdf(contract)).thenReturn(new byte[]{4, 5, 6});
 
@@ -132,6 +139,7 @@ class ExportControllerTest {
             when(guardService.canAccess("user-1", null, Feature.EXCEL_EXPORT)).thenReturn(true);
 
             AssessmentEntity assessment = new AssessmentEntity();
+            assessment.setUserId("user-1");
             when(assessmentRepository.findById("a1")).thenReturn(Optional.of(assessment));
             when(excelExportService.generateAssessmentExcel(assessment)).thenReturn(new byte[]{7, 8});
 
@@ -184,6 +192,7 @@ class ExportControllerTest {
             when(guardService.canAccess(null, "sess-abc", Feature.PDF_EXPORT)).thenReturn(true);
 
             AssessmentEntity assessment = new AssessmentEntity();
+            assessment.setSessionId("sess-abc");
             when(assessmentRepository.findById("a1")).thenReturn(Optional.of(assessment));
             when(pdfExportService.generateAssessmentPdf(assessment)).thenReturn(new byte[]{1});
 

@@ -284,6 +284,12 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'DORA Regulatory Examination Simulator', seoDescription: 'AI-powered mock regulatory audit simulating a DORA supervisor examining your organization. Practice with scenario-based questions and receive detailed feedback.' }
   },
   {
+    path: 'war-room',
+    loadComponent: () => import('./pages/war-room.component').then(m => m.WarRoomComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'DORA Incident War Room', seoDescription: 'Interactive DORA incident response simulation with multi-phase decision trees, cascade effects, and DORA deadline tracking.' }
+  },
+  {
     path: 'training',
     loadComponent: () => import('./pages/training-tracker.component').then(m => m.TrainingTrackerComponent),
     canActivate: [authGuard],
@@ -461,6 +467,12 @@ const coreRoutes: Routes = [
     loadComponent: () => import('./pages/board-report-generator.component').then(m => m.BoardReportGeneratorComponent),
     canActivate: [authGuard],
     data: { seoTitle: 'Board Report Generator', seoDescription: 'Generate professional board-ready DORA compliance reports with one click. Instant executive summaries, pillar dashboards, and recommendations.' }
+  },
+  {
+    path: 'board-presentation',
+    loadComponent: () => import('./pages/board-presentation.component').then(m => m.BoardPresentationComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Board Presentation Mode', seoDescription: 'Cinematic fullscreen DORA compliance presentation for board meetings. Animated gauges, charts, and key metrics.', hideNav: true }
   },
   {
     path: 'fine-calculator',

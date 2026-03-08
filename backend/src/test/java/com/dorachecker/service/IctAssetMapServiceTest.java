@@ -129,9 +129,14 @@ class IctAssetMapServiceTest {
 
         @Test
         void addingLink_returnsSuccess() {
-            Map<String, Object> data = Map.of("sourceId", "func-abc", "targetId", "asset-xyz");
+            Map<String, Object> funcResult = service.addBusinessFunction(USER_ID, Map.of("name", "Test Func"));
+            @SuppressWarnings("unchecked")
+            String funcId = (String) ((Map<String, Object>) funcResult.get("function")).get("id");
+            Map<String, Object> assetResult = service.addIctAsset(USER_ID, Map.of("name", "Test Asset"));
+            @SuppressWarnings("unchecked")
+            String assetId = (String) ((Map<String, Object>) assetResult.get("asset")).get("id");
 
-            Map<String, Object> result = service.addLink(USER_ID, data);
+            Map<String, Object> result = service.addLink(USER_ID, Map.of("sourceId", funcId, "targetId", assetId));
 
             assertThat(result.get("success")).isEqualTo(true);
             @SuppressWarnings("unchecked")
@@ -141,26 +146,36 @@ class IctAssetMapServiceTest {
 
         @Test
         void linkHasCorrectSourceAndTargetIds() {
-            Map<String, Object> data = Map.of(
-                    "sourceId", "func-001",
-                    "targetId", "asset-002",
-                    "label", "depends on"
-            );
+            Map<String, Object> funcResult = service.addBusinessFunction(USER_ID, Map.of("name", "Source Func"));
+            @SuppressWarnings("unchecked")
+            String funcId = (String) ((Map<String, Object>) funcResult.get("function")).get("id");
+            Map<String, Object> assetResult = service.addIctAsset(USER_ID, Map.of("name", "Target Asset"));
+            @SuppressWarnings("unchecked")
+            String assetId = (String) ((Map<String, Object>) assetResult.get("asset")).get("id");
 
-            Map<String, Object> result = service.addLink(USER_ID, data);
+            Map<String, Object> result = service.addLink(USER_ID, Map.of(
+                    "sourceId", funcId,
+                    "targetId", assetId,
+                    "label", "depends on"
+            ));
 
             @SuppressWarnings("unchecked")
             Map<String, Object> link = (Map<String, Object>) result.get("link");
-            assertThat(link.get("sourceId")).isEqualTo("func-001");
-            assertThat(link.get("targetId")).isEqualTo("asset-002");
+            assertThat(link.get("sourceId")).isEqualTo(funcId);
+            assertThat(link.get("targetId")).isEqualTo(assetId);
             assertThat(link.get("label")).isEqualTo("depends on");
         }
 
         @Test
         void defaultDependency_isRequired() {
-            Map<String, Object> data = Map.of("sourceId", "func-a", "targetId", "asset-b");
+            Map<String, Object> funcResult = service.addBusinessFunction(USER_ID, Map.of("name", "Func A"));
+            @SuppressWarnings("unchecked")
+            String funcId = (String) ((Map<String, Object>) funcResult.get("function")).get("id");
+            Map<String, Object> assetResult = service.addIctAsset(USER_ID, Map.of("name", "Asset B"));
+            @SuppressWarnings("unchecked")
+            String assetId = (String) ((Map<String, Object>) assetResult.get("asset")).get("id");
 
-            Map<String, Object> result = service.addLink(USER_ID, data);
+            Map<String, Object> result = service.addLink(USER_ID, Map.of("sourceId", funcId, "targetId", assetId));
 
             @SuppressWarnings("unchecked")
             Map<String, Object> link = (Map<String, Object>) result.get("link");
@@ -293,13 +308,28 @@ class IctAssetMapServiceTest {
             when(providerRepo.findByUserIdOrderByCreatedAtDesc(USER_ID))
                     .thenReturn(Collections.emptyList());
 
+            // Create actual nodes
+            Map<String, Object> funcAResult = service.addBusinessFunction(USER_ID, Map.of("name", "Func A"));
+            @SuppressWarnings("unchecked")
+            String funcAId = (String) ((Map<String, Object>) funcAResult.get("function")).get("id");
+            Map<String, Object> assetBResult = service.addIctAsset(USER_ID, Map.of("name", "Asset B"));
+            @SuppressWarnings("unchecked")
+            String assetBId = (String) ((Map<String, Object>) assetBResult.get("asset")).get("id");
+
+            Map<String, Object> funcCResult = service.addBusinessFunction(USER_ID, Map.of("name", "Func C"));
+            @SuppressWarnings("unchecked")
+            String funcCId = (String) ((Map<String, Object>) funcCResult.get("function")).get("id");
+            Map<String, Object> assetDResult = service.addIctAsset(USER_ID, Map.of("name", "Asset D"));
+            @SuppressWarnings("unchecked")
+            String assetDId = (String) ((Map<String, Object>) assetDResult.get("asset")).get("id");
+
             // Add two links
             Map<String, Object> link1Result = service.addLink(USER_ID,
-                    Map.of("sourceId", "func-a", "targetId", "asset-b"));
+                    Map.of("sourceId", funcAId, "targetId", assetBId));
             @SuppressWarnings("unchecked")
             String link1Id = (String) ((Map<String, Object>) link1Result.get("link")).get("id");
 
-            service.addLink(USER_ID, Map.of("sourceId", "func-c", "targetId", "asset-d"));
+            service.addLink(USER_ID, Map.of("sourceId", funcCId, "targetId", assetDId));
 
             // Delete only the first link
             Map<String, Object> result = service.deleteLink(USER_ID, link1Id);
@@ -309,7 +339,7 @@ class IctAssetMapServiceTest {
             @SuppressWarnings("unchecked")
             List<Map<String, Object>> links = (List<Map<String, Object>>) depMap.get("links");
             assertThat(links).hasSize(1);
-            assertThat(links.get(0).get("sourceId")).isEqualTo("func-c");
+            assertThat(links.get(0).get("sourceId")).isEqualTo(funcCId);
         }
     }
 
@@ -369,12 +399,16 @@ class IctAssetMapServiceTest {
             when(providerRepo.findByUserIdOrderByCreatedAtDesc(USER_ID))
                     .thenReturn(List.of(provider));
 
-            service.addBusinessFunction(USER_ID, Map.of("name", "Func1", "criticality", "CRITICAL"));
+            Map<String, Object> func1Result = service.addBusinessFunction(USER_ID, Map.of("name", "Func1", "criticality", "CRITICAL"));
+            @SuppressWarnings("unchecked")
+            String func1Id = (String) ((Map<String, Object>) func1Result.get("function")).get("id");
             service.addBusinessFunction(USER_ID, Map.of("name", "Func2", "criticality", "NORMAL"));
-            service.addIctAsset(USER_ID, Map.of("name", "Asset1"));
+            Map<String, Object> asset1Result = service.addIctAsset(USER_ID, Map.of("name", "Asset1"));
+            @SuppressWarnings("unchecked")
+            String asset1Id = (String) ((Map<String, Object>) asset1Result.get("asset")).get("id");
             service.addIctAsset(USER_ID, Map.of("name", "Asset2"));
             service.addIctAsset(USER_ID, Map.of("name", "Asset3"));
-            service.addLink(USER_ID, Map.of("sourceId", "func-x", "targetId", "asset-y"));
+            service.addLink(USER_ID, Map.of("sourceId", func1Id, "targetId", asset1Id));
 
             Map<String, Object> depMap = service.getDependencyMap(USER_ID);
             @SuppressWarnings("unchecked")
@@ -488,10 +522,21 @@ class IctAssetMapServiceTest {
 
             String providerNodeId = "provider-prov-aws";
 
+            // Create 3 functions as source nodes
+            Map<String, Object> f1 = service.addBusinessFunction(USER_ID, Map.of("name", "Func 1"));
+            @SuppressWarnings("unchecked")
+            String f1Id = (String) ((Map<String, Object>) f1.get("function")).get("id");
+            Map<String, Object> f2 = service.addBusinessFunction(USER_ID, Map.of("name", "Func 2"));
+            @SuppressWarnings("unchecked")
+            String f2Id = (String) ((Map<String, Object>) f2.get("function")).get("id");
+            Map<String, Object> f3 = service.addBusinessFunction(USER_ID, Map.of("name", "Func 3"));
+            @SuppressWarnings("unchecked")
+            String f3Id = (String) ((Map<String, Object>) f3.get("function")).get("id");
+
             // Create 3 links targeting the same provider
-            service.addLink(USER_ID, Map.of("sourceId", "func-1", "targetId", providerNodeId));
-            service.addLink(USER_ID, Map.of("sourceId", "func-2", "targetId", providerNodeId));
-            service.addLink(USER_ID, Map.of("sourceId", "func-3", "targetId", providerNodeId));
+            service.addLink(USER_ID, Map.of("sourceId", f1Id, "targetId", providerNodeId));
+            service.addLink(USER_ID, Map.of("sourceId", f2Id, "targetId", providerNodeId));
+            service.addLink(USER_ID, Map.of("sourceId", f3Id, "targetId", providerNodeId));
 
             Map<String, Object> risks = service.analyzeRisks(USER_ID);
 

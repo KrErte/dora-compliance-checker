@@ -96,6 +96,16 @@ public class SubscriptionGuardService {
     }
 
     /**
+     * Check if user/session has an Enterprise subscription
+     */
+    public boolean isEnterprise(String userId, String sessionId) {
+        return findSubscription(userId, sessionId)
+                .filter(UserSubscriptionEntity::isPremium)
+                .map(sub -> sub.getPlan() == UserSubscriptionEntity.Plan.ENTERPRISE)
+                .orElse(false);
+    }
+
+    /**
      * Get subscription status for user/session
      */
     public SubscriptionStatus getStatus(String userId, String sessionId) {

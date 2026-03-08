@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -51,6 +52,14 @@ class OAuth2ControllerTest {
     }
 
     // ------------------------------------------------------------------ helpers
+
+    private static final String TEST_STATE = "test-state";
+
+    private MockHttpSession newSession() {
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("oauth2_state", TEST_STATE);
+        return session;
+    }
 
     private UserEntity buildUser(String id, String email, String fullName,
                                  UserEntity.AuthProvider provider) {
@@ -110,7 +119,7 @@ class OAuth2ControllerTest {
         void withError_redirectsToLoginError() throws Exception {
             MockHttpServletResponse response = new MockHttpServletResponse();
 
-            controller.googleCallback("unused-code", "access_denied", response);
+            controller.googleCallback("unused-code", "access_denied", null, new MockHttpSession(), response);
 
             assertThat(response.getRedirectedUrl())
                     .isEqualTo("https://doraaudit.eu/login?error=oauth_denied");
@@ -132,7 +141,7 @@ class OAuth2ControllerTest {
             MockHttpServletResponse response = new MockHttpServletResponse();
 
             // Act
-            controller.googleCallback("auth-code", null, response);
+            controller.googleCallback("auth-code", null, TEST_STATE, newSession(), response);
 
             // Assert
             String redirectUrl = response.getRedirectedUrl();
@@ -154,7 +163,7 @@ class OAuth2ControllerTest {
             MockHttpServletResponse response = new MockHttpServletResponse();
 
             // Act
-            controller.googleCallback("bad-code", null, response);
+            controller.googleCallback("bad-code", null, TEST_STATE, newSession(), response);
 
             // Assert
             assertThat(response.getRedirectedUrl())
@@ -169,38 +178,33 @@ class OAuth2ControllerTest {
     class FindOrCreateOAuthUser {
 
         @Test
-        void existingLocalUser_updatesToGoogleProvider() throws Exception {
-            // Arrange
+        void existingLocalUser_rejectsOAuthToPreventHijack() throws Exception {
+            // Arrange — LOCAL user tries to sign in via Google OAuth
             UserEntity existingUser = buildUser("u1", "local@example.com", "Local User",
                     UserEntity.AuthProvider.LOCAL);
             stubGoogleOAuthFlow("local@example.com", "Local User", "gid-456");
 
             when(userRepository.findByEmail("local@example.com")).thenReturn(Optional.of(existingUser));
-            when(userRepository.save(any(UserEntity.class))).thenReturn(existingUser);
-            when(jwtService.generateToken(anyString(), anyString(), anyString())).thenReturn("jwt");
 
             MockHttpServletResponse response = new MockHttpServletResponse();
 
             // Act
-            controller.googleCallback("code", null, response);
+            controller.googleCallback("code", null, TEST_STATE, newSession(), response);
 
-            // Assert — provider was updated and user was saved
-            ArgumentCaptor<UserEntity> captor = ArgumentCaptor.forClass(UserEntity.class);
-            verify(userRepository, atLeastOnce()).save(captor.capture());
-
-            // The first save updates the provider
-            UserEntity firstSave = captor.getAllValues().get(0);
-            assertThat(firstSave.getAuthProvider()).isEqualTo(UserEntity.AuthProvider.GOOGLE);
-            assertThat(firstSave.getOauthProviderId()).isEqualTo("gid-456");
+            // Assert — redirects to oauth_failed, provider stays LOCAL, no save
+            assertThat(response.getRedirectedUrl())
+                    .isEqualTo("https://doraaudit.eu/login?error=oauth_failed");
+            assertThat(existingUser.getAuthProvider()).isEqualTo(UserEntity.AuthProvider.LOCAL);
+            verify(userRepository, never()).save(any(UserEntity.class));
         }
 
         @Test
-        void existingGoogleUser_returnsWithoutUpdate() throws Exception {
-            // Arrange — user already has GOOGLE provider
+        void existingGoogleUser_returnsWithoutProviderUpdate() throws Exception {
+            // Arrange — user already has GOOGLE provider with same provider ID
             UserEntity existingUser = buildUser("u2", "google@example.com", "Google User",
                     UserEntity.AuthProvider.GOOGLE);
-            existingUser.setOauthProviderId("existing-gid");
-            stubGoogleOAuthFlow("google@example.com", "Google User", "new-gid");
+            existingUser.setOauthProviderId("same-gid");
+            stubGoogleOAuthFlow("google@example.com", "Google User", "same-gid");
 
             when(userRepository.findByEmail("google@example.com")).thenReturn(Optional.of(existingUser));
             when(userRepository.save(any(UserEntity.class))).thenReturn(existingUser);
@@ -209,12 +213,11 @@ class OAuth2ControllerTest {
             MockHttpServletResponse response = new MockHttpServletResponse();
 
             // Act
-            controller.googleCallback("code", null, response);
+            controller.googleCallback("code", null, TEST_STATE, newSession(), response);
 
             // Assert — save is called only once (for the refresh token), not for provider update
             verify(userRepository, times(1)).save(any(UserEntity.class));
-            // Provider id stays as the original
-            assertThat(existingUser.getOauthProviderId()).isEqualTo("existing-gid");
+            assertThat(existingUser.getOauthProviderId()).isEqualTo("same-gid");
         }
 
         @Test
@@ -231,7 +234,7 @@ class OAuth2ControllerTest {
             MockHttpServletResponse response = new MockHttpServletResponse();
 
             // Act
-            controller.googleCallback("code", null, response);
+            controller.googleCallback("code", null, TEST_STATE, newSession(), response);
 
             // Assert
             ArgumentCaptor<UserEntity> captor = ArgumentCaptor.forClass(UserEntity.class);
@@ -256,7 +259,7 @@ class OAuth2ControllerTest {
             MockHttpServletResponse response = new MockHttpServletResponse();
 
             // Act
-            controller.googleCallback("code", null, response);
+            controller.googleCallback("code", null, TEST_STATE, newSession(), response);
 
             // Assert
             ArgumentCaptor<UserEntity> captor = ArgumentCaptor.forClass(UserEntity.class);
@@ -297,7 +300,7 @@ class OAuth2ControllerTest {
             MockHttpServletResponse response = new MockHttpServletResponse();
 
             // Act
-            controller.googleCallback("code", null, response);
+            controller.googleCallback("code", null, TEST_STATE, newSession(), response);
 
             // Assert
             ArgumentCaptor<UserEntity> captor = ArgumentCaptor.forClass(UserEntity.class);
@@ -328,7 +331,7 @@ class OAuth2ControllerTest {
             MockHttpServletResponse response = new MockHttpServletResponse();
 
             // Act
-            controller.googleCallback("code", null, response);
+            controller.googleCallback("code", null, TEST_STATE, newSession(), response);
 
             // Assert — refresh token is a UUID
             assertThat(user.getRefreshToken()).isNotNull();
@@ -350,7 +353,7 @@ class OAuth2ControllerTest {
             MockHttpServletResponse response = new MockHttpServletResponse();
 
             // Act
-            controller.googleCallback("code", null, response);
+            controller.googleCallback("code", null, TEST_STATE, newSession(), response);
 
             // Assert — verify save was called with user that has the refresh token set
             ArgumentCaptor<UserEntity> captor = ArgumentCaptor.forClass(UserEntity.class);
@@ -375,7 +378,7 @@ class OAuth2ControllerTest {
             MockHttpServletResponse response = new MockHttpServletResponse();
 
             // Act
-            controller.googleCallback("code", null, response);
+            controller.googleCallback("code", null, TEST_STATE, newSession(), response);
 
             // Assert — expiration should be ~7 days in the future
             assertThat(user.getRefreshTokenExpiresAt()).isNotNull();
@@ -395,7 +398,7 @@ class OAuth2ControllerTest {
         void withError_redirectsToLoginError() throws Exception {
             MockHttpServletResponse response = new MockHttpServletResponse();
 
-            controller.microsoftCallback("unused-code", "access_denied", response);
+            controller.microsoftCallback("unused-code", "access_denied", null, new MockHttpSession(), response);
 
             assertThat(response.getRedirectedUrl())
                     .isEqualTo("https://doraaudit.eu/login?error=oauth_denied");
@@ -422,7 +425,7 @@ class OAuth2ControllerTest {
             MockHttpServletResponse response = new MockHttpServletResponse();
 
             // Act
-            controller.microsoftCallback("code", null, response);
+            controller.microsoftCallback("code", null, TEST_STATE, newSession(), response);
 
             // Assert
             String redirectUrl = response.getRedirectedUrl();
@@ -464,7 +467,7 @@ class OAuth2ControllerTest {
             MockHttpServletResponse response = new MockHttpServletResponse();
 
             // Act
-            controller.microsoftCallback("code", null, response);
+            controller.microsoftCallback("code", null, TEST_STATE, newSession(), response);
 
             // Assert
             ArgumentCaptor<UserEntity> captor = ArgumentCaptor.forClass(UserEntity.class);
@@ -486,7 +489,7 @@ class OAuth2ControllerTest {
             MockHttpServletResponse response = new MockHttpServletResponse();
 
             // Act
-            controller.microsoftCallback("bad-code", null, response);
+            controller.microsoftCallback("bad-code", null, TEST_STATE, newSession(), response);
 
             // Assert
             assertThat(response.getRedirectedUrl())
