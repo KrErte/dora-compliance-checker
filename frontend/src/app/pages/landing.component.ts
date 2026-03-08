@@ -599,7 +599,7 @@ interface DoraRequirement {
         <div class="space-y-3">
           <!-- FAQ 1 -->
           <div class="glass-card rounded-xl border border-slate-700/50 overflow-hidden">
-            <button (click)="toggleFaq(0)"
+            <button (click)="toggleFaq(0)" [attr.aria-expanded]="expandedFaq === 0"
                     class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-800/30 transition-colors">
               <span class="font-medium text-slate-200">{{ lang.t('landing.faq1_q') }}</span>
               <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -613,7 +613,7 @@ interface DoraRequirement {
 
           <!-- FAQ 2 -->
           <div class="glass-card rounded-xl border border-slate-700/50 overflow-hidden">
-            <button (click)="toggleFaq(1)"
+            <button (click)="toggleFaq(1)" [attr.aria-expanded]="expandedFaq === 1"
                     class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-800/30 transition-colors">
               <span class="font-medium text-slate-200">{{ lang.t('landing.faq2_q') }}</span>
               <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -627,7 +627,7 @@ interface DoraRequirement {
 
           <!-- FAQ 3 -->
           <div class="glass-card rounded-xl border border-slate-700/50 overflow-hidden">
-            <button (click)="toggleFaq(2)"
+            <button (click)="toggleFaq(2)" [attr.aria-expanded]="expandedFaq === 2"
                     class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-800/30 transition-colors">
               <span class="font-medium text-slate-200">{{ lang.t('landing.faq3_q') }}</span>
               <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -641,7 +641,7 @@ interface DoraRequirement {
 
           <!-- FAQ 4 -->
           <div class="glass-card rounded-xl border border-slate-700/50 overflow-hidden">
-            <button (click)="toggleFaq(3)"
+            <button (click)="toggleFaq(3)" [attr.aria-expanded]="expandedFaq === 3"
                     class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-800/30 transition-colors">
               <span class="font-medium text-slate-200">{{ lang.t('landing.faq4_q') }}</span>
               <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -655,7 +655,7 @@ interface DoraRequirement {
 
           <!-- FAQ 5: Gap Analyzer -->
           <div class="glass-card rounded-xl border border-slate-700/50 overflow-hidden">
-            <button (click)="toggleFaq(4)"
+            <button (click)="toggleFaq(4)" [attr.aria-expanded]="expandedFaq === 4"
                     class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-800/30 transition-colors">
               <span class="font-medium text-slate-200">{{ lang.t('landing.faq5_q') }}</span>
               <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -685,7 +685,7 @@ interface DoraRequirement {
               <div class="flex flex-col gap-4">
                 <div>
                   <label for="contact-name" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('auth.full_name') }}</label>
-                  <input type="text" [(ngModel)]="contactName" name="name" id="contact-name"
+                  <input type="text" [(ngModel)]="contactName" name="name" id="contact-name" required
                          [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-200 placeholder-slate-500 focus:outline-none transition-colors ' +
                                   (contactNameError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
                          [placeholder]="lang.t('landing.contact_name_placeholder')">

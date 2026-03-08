@@ -920,6 +920,7 @@ export class BlogComponent implements OnInit {
           this.titleService.setTitle(`${title} | DoraAudit.eu`);
           const desc = this.lang.l(this.selectedArticle.excerpt.et, this.selectedArticle.excerpt.en);
           this.meta.updateTag({ name: 'description', content: desc });
+          this.meta.updateTag({ property: 'article:published_time', content: this.selectedArticle.date });
         }
       } else {
         this.selectedArticle = null;
