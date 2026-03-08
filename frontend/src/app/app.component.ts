@@ -237,6 +237,14 @@ import { ComplianceAlert } from './models';
                 Exam Simulator
                 <span class="text-[9px] bg-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
+              <a routerLink="/war-room" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 9v2m0 4h.01M5.07 19H19a2 2 0 001.73-3l-7-12a2 2 0 00-3.46 0l-7 12A2 2 0 005.07 19z"/>
+                </svg>
+                {{ lang.t('war_room.badge') }}
+                <span class="text-[9px] bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
+              </a>
               <a routerLink="/article-tracker" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-purple-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -890,6 +898,7 @@ export class AppComponent implements OnInit, OnDestroy {
     '/group-entities': { et: 'Grupi Ettevõtted | DoraAudit.eu', en: 'Group Entity Management | DoraAudit.eu' },
     '/command-center': { et: 'Juhtimiskeskus | DoraAudit.eu', en: 'Compliance Command Center | DoraAudit.eu' },
     '/exam-simulator': { et: 'Regulatiivse eksami simulaator | DoraAudit.eu', en: 'Regulatory Examination Simulator | DoraAudit.eu' },
+    '/war-room': { et: 'DORA intsidendi sõjaruum | DoraAudit.eu', en: 'DORA Incident War Room | DoraAudit.eu' },
     '/article-tracker': { et: 'DORA artiklite jälgimine | DoraAudit.eu', en: 'DORA Article Compliance Tracker | DoraAudit.eu' },
     '/ict-asset-map': { et: 'IKT varade kaardistus | DoraAudit.eu', en: 'ICT Asset & Dependency Map | DoraAudit.eu' },
     '/trust-seal': { et: 'DORA Usaldusmärk | DoraAudit.eu', en: 'DORA Trust Seal | DoraAudit.eu' },
