@@ -49,9 +49,9 @@ interface TrackerData {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
               </svg>
             </div>
-            DORA Article Compliance Tracker
+            {{ lang.t('tracker.title') }}
           </h1>
-          <p class="text-slate-400 text-sm mt-1">Article-by-article compliance status for Regulation (EU) 2022/2554</p>
+          <p class="text-slate-400 text-sm mt-1">{{ lang.t('tracker.subtitle') }}</p>
         </div>
       </div>
 
@@ -59,7 +59,7 @@ interface TrackerData {
       @if (loading()) {
         <div class="text-center py-24">
           <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-700 border-t-violet-400 animate-spin"></div>
-          <p class="text-slate-400 text-sm">Loading article tracker...</p>
+          <p class="text-slate-400 text-sm">{{ lang.t('tracker.loading') }}</p>
         </div>
       }
 
@@ -83,10 +83,10 @@ interface TrackerData {
                 </svg>
                 <div class="absolute inset-0 flex flex-col items-center justify-center">
                   <span class="text-5xl font-black text-white">{{ data()!.overallPercentage }}</span>
-                  <span class="text-sm text-slate-400 mt-1">% compliant</span>
+                  <span class="text-sm text-slate-400 mt-1">{{ lang.t('tracker.pct_compliant') }}</span>
                 </div>
               </div>
-              <p class="text-xs text-slate-500">{{ data()!.totalArticles }} articles assessed</p>
+              <p class="text-xs text-slate-500">{{ data()!.totalArticles }} {{ lang.t('tracker.articles_assessed') }}</p>
             </div>
           </div>
 
@@ -102,7 +102,7 @@ interface TrackerData {
                   </svg>
                 </div>
                 <div class="text-4xl font-black text-emerald-400 mb-1">{{ data()!.compliant }}</div>
-                <div class="text-xs text-slate-400 font-medium uppercase tracking-wider">Compliant</div>
+                <div class="text-xs text-slate-400 font-medium uppercase tracking-wider">{{ lang.t('tracker.compliant') }}</div>
               </div>
             </div>
 
@@ -116,7 +116,7 @@ interface TrackerData {
                   </svg>
                 </div>
                 <div class="text-4xl font-black text-amber-400 mb-1">{{ data()!.partial }}</div>
-                <div class="text-xs text-slate-400 font-medium uppercase tracking-wider">Partial</div>
+                <div class="text-xs text-slate-400 font-medium uppercase tracking-wider">{{ lang.t('tracker.partial') }}</div>
               </div>
             </div>
 
@@ -130,7 +130,7 @@ interface TrackerData {
                   </svg>
                 </div>
                 <div class="text-4xl font-black text-red-400 mb-1">{{ data()!.nonCompliant }}</div>
-                <div class="text-xs text-slate-400 font-medium uppercase tracking-wider">Non-Compliant</div>
+                <div class="text-xs text-slate-400 font-medium uppercase tracking-wider">{{ lang.t('tracker.non_compliant') }}</div>
               </div>
             </div>
           </div>
@@ -138,18 +138,18 @@ interface TrackerData {
 
         <!-- Status Legend -->
         <div class="bg-slate-800/30 border border-slate-700/30 rounded-xl px-6 py-3 flex flex-wrap items-center gap-6">
-          <span class="text-xs text-slate-500 font-medium uppercase tracking-wider">Legend:</span>
+          <span class="text-xs text-slate-500 font-medium uppercase tracking-wider">{{ lang.t('tracker.legend') }}</span>
           <div class="flex items-center gap-2">
             <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
-            <span class="text-xs text-slate-400">Compliant - Fully meets DORA requirements</span>
+            <span class="text-xs text-slate-400">{{ lang.t('tracker.legend_compliant') }}</span>
           </div>
           <div class="flex items-center gap-2">
             <div class="w-3 h-3 rounded-full bg-amber-400"></div>
-            <span class="text-xs text-slate-400">Partial - Partially meets requirements, action needed</span>
+            <span class="text-xs text-slate-400">{{ lang.t('tracker.legend_partial') }}</span>
           </div>
           <div class="flex items-center gap-2">
             <div class="w-3 h-3 rounded-full bg-red-400"></div>
-            <span class="text-xs text-slate-400">Non-Compliant - Does not meet requirements</span>
+            <span class="text-xs text-slate-400">{{ lang.t('tracker.legend_non_compliant') }}</span>
           </div>
         </div>
 
@@ -239,7 +239,7 @@ interface TrackerData {
                                   [class]="article.status === 'compliant' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' :
                                            article.status === 'partial' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30' :
                                            'bg-red-500/15 text-red-400 border border-red-500/30'">
-                              {{ article.status === 'compliant' ? 'Compliant' : article.status === 'partial' ? 'Partial' : 'Non-Compliant' }}
+                              {{ article.status === 'compliant' ? lang.t('tracker.compliant') : article.status === 'partial' ? lang.t('tracker.partial') : lang.t('tracker.non_compliant') }}
                             </span>
 
                             <!-- Evidence Count -->
@@ -265,16 +265,16 @@ interface TrackerData {
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                               <!-- Notes -->
                               <div class="md:col-span-2">
-                                <label class="block text-xs font-medium text-slate-400 mb-1.5">Notes</label>
+                                <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('tracker.notes') }}</label>
                                 <textarea [(ngModel)]="article.notes"
                                           rows="3"
-                                          placeholder="Add compliance notes, observations, or action items..."
+                                          [placeholder]="lang.t('tracker.notes_placeholder')"
                                           class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-sm text-white placeholder-slate-600 focus:outline-none focus:border-violet-500/50 resize-none"></textarea>
                               </div>
 
                               <!-- Responsible Person -->
                               <div>
-                                <label class="block text-xs font-medium text-slate-400 mb-1.5">Responsible Person</label>
+                                <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('tracker.responsible') }}</label>
                                 <input [(ngModel)]="article.responsiblePerson"
                                        type="text"
                                        placeholder="e.g. John Smith, CISO"
@@ -283,7 +283,7 @@ interface TrackerData {
 
                               <!-- Target Date -->
                               <div>
-                                <label class="block text-xs font-medium text-slate-400 mb-1.5">Target Compliance Date</label>
+                                <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('tracker.target_date') }}</label>
                                 <input [(ngModel)]="article.targetDate"
                                        type="date"
                                        class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-sm text-white focus:outline-none focus:border-violet-500/50">
@@ -291,23 +291,23 @@ interface TrackerData {
 
                               <!-- Status Override -->
                               <div>
-                                <label class="block text-xs font-medium text-slate-400 mb-1.5">Override Status</label>
+                                <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('tracker.override_status') }}</label>
                                 <select [(ngModel)]="article.status"
                                         class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-sm text-white focus:outline-none focus:border-violet-500/50">
-                                  <option value="compliant">Compliant</option>
-                                  <option value="partial">Partial</option>
-                                  <option value="non_compliant">Non-Compliant</option>
+                                  <option value="compliant">{{ lang.t('tracker.compliant') }}</option>
+                                  <option value="partial">{{ lang.t('tracker.partial') }}</option>
+                                  <option value="non_compliant">{{ lang.t('tracker.non_compliant') }}</option>
                                 </select>
                               </div>
 
                               <!-- Evidence Count (read-only info) -->
                               <div>
-                                <label class="block text-xs font-medium text-slate-400 mb-1.5">Evidence Documents</label>
+                                <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('tracker.evidence') }}</label>
                                 <div class="flex items-center gap-3 px-4 py-2.5 bg-slate-900/30 border border-slate-700/30 rounded-xl">
                                   <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
                                   </svg>
-                                  <span class="text-sm text-white font-medium">{{ article.evidenceCount }} document{{ article.evidenceCount !== 1 ? 's' : '' }} attached</span>
+                                  <span class="text-sm text-white font-medium">{{ article.evidenceCount }} {{ lang.t('tracker.docs_attached') }}</span>
                                 </div>
                               </div>
                             </div>
@@ -316,7 +316,7 @@ interface TrackerData {
                             <div class="flex justify-end gap-3 mt-5 pt-4 border-t border-slate-700/30">
                               <button (click)="cancelArticleEdit(article); $event.stopPropagation()"
                                       class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-300 text-sm hover:bg-slate-700 transition-all">
-                                Cancel
+                                {{ lang.t('ict_map.cancel') }}
                               </button>
                               <button (click)="saveArticle(article); $event.stopPropagation()"
                                       class="px-5 py-2 rounded-xl bg-gradient-to-r from-violet-500 to-indigo-500 text-white text-sm font-semibold hover:shadow-lg hover:shadow-violet-500/25 transition-all flex items-center gap-2"
@@ -329,7 +329,7 @@ interface TrackerData {
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                   </svg>
                                 }
-                                {{ saving() ? 'Saving...' : 'Save Changes' }}
+                                {{ saving() ? lang.t('tracker.saving') : lang.t('tracker.save') }}
                               </button>
                             </div>
 
@@ -339,7 +339,7 @@ interface TrackerData {
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
-                                Changes saved successfully
+                                {{ lang.t('tracker.saved') }}
                               </div>
                             }
                           </div>
@@ -357,22 +357,22 @@ interface TrackerData {
         <div class="bg-slate-800/30 border border-slate-700/30 rounded-2xl p-6">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h3 class="text-sm font-semibold text-white mb-1">Regulation (EU) 2022/2554 — DORA</h3>
-              <p class="text-xs text-slate-500">Digital Operational Resilience Act. Covering {{ data()!.totalArticles }} articles across {{ data()!.chapters.length }} chapters.</p>
+              <h3 class="text-sm font-semibold text-white mb-1">{{ lang.t('tracker.regulation') }}</h3>
+              <p class="text-xs text-slate-500">{{ lang.t('tracker.regulation_desc') }}. {{ lang.t('tracker.covering') }} {{ data()!.totalArticles }} {{ lang.t('tracker.articles') }} {{ lang.t('tracker.across') }} {{ data()!.chapters.length }} {{ lang.t('tracker.chapters') }}.</p>
             </div>
             <div class="flex items-center gap-4">
               <div class="flex items-center gap-6 text-xs text-slate-400">
                 <span class="flex items-center gap-1.5">
                   <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
-                  {{ data()!.compliant }} compliant
+                  {{ data()!.compliant }} {{ lang.t('tracker.compliant').toLowerCase() }}
                 </span>
                 <span class="flex items-center gap-1.5">
                   <div class="w-2 h-2 rounded-full bg-amber-400"></div>
-                  {{ data()!.partial }} partial
+                  {{ data()!.partial }} {{ lang.t('tracker.partial').toLowerCase() }}
                 </span>
                 <span class="flex items-center gap-1.5">
                   <div class="w-2 h-2 rounded-full bg-red-400"></div>
-                  {{ data()!.nonCompliant }} gaps
+                  {{ data()!.nonCompliant }} {{ lang.t('tracker.gaps') }}
                 </span>
               </div>
             </div>
@@ -388,11 +388,11 @@ interface TrackerData {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
             </svg>
           </div>
-          <h3 class="text-lg font-semibold text-white mb-2">Unable to load article tracker</h3>
+          <h3 class="text-lg font-semibold text-white mb-2">{{ lang.t('tracker.unable_load') }}</h3>
           <p class="text-sm text-slate-400 mb-4">{{ error() }}</p>
           <button (click)="loadData()"
                   class="px-5 py-2.5 rounded-xl bg-violet-500/20 text-violet-400 border border-violet-500/30 text-sm font-medium hover:bg-violet-500/30 transition-all">
-            Try Again
+            {{ lang.t('tracker.try_again') }}
           </button>
         </div>
       }
@@ -405,8 +405,8 @@ interface TrackerData {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
           </div>
-          <h3 class="text-lg font-semibold text-white mb-2">No compliance data available</h3>
-          <p class="text-sm text-slate-400">Complete a DORA assessment first to populate article-level compliance tracking.</p>
+          <h3 class="text-lg font-semibold text-white mb-2">{{ lang.t('tracker.no_data') }}</h3>
+          <p class="text-sm text-slate-400">{{ lang.t('tracker.no_data_desc') }}</p>
         </div>
       }
     </div>
@@ -511,18 +511,18 @@ export class ArticleTrackerComponent implements OnInit {
   }
 
   formatPillar(pillar: string): string {
-    const labels: { [key: string]: string } = {
-      ICT_RISK_MANAGEMENT: 'ICT Risk Management',
-      INCIDENT_MANAGEMENT: 'Incident Management',
-      TESTING: 'Digital Resilience Testing',
-      THIRD_PARTY: 'Third-Party Risk',
-      INFORMATION_SHARING: 'Information Sharing',
-      GENERAL: 'General Provisions',
-      GOVERNANCE: 'Governance',
-      OVERSIGHT: 'Oversight Framework',
-      PENALTIES: 'Penalties & Enforcement',
-      TRANSITIONAL: 'Transitional Provisions'
+    const keyMap: { [key: string]: string } = {
+      ICT_RISK_MANAGEMENT: 'tracker.pillar_ict_risk',
+      INCIDENT_MANAGEMENT: 'tracker.pillar_incident',
+      TESTING: 'tracker.pillar_testing',
+      THIRD_PARTY: 'tracker.pillar_third_party',
+      INFORMATION_SHARING: 'tracker.pillar_info_sharing',
+      GENERAL: 'tracker.pillar_general',
+      GOVERNANCE: 'tracker.pillar_governance',
+      OVERSIGHT: 'tracker.pillar_oversight',
+      PENALTIES: 'tracker.pillar_penalties',
+      TRANSITIONAL: 'tracker.pillar_transitional'
     };
-    return labels[pillar] || pillar.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    return keyMap[pillar] ? this.lang.t(keyMap[pillar]) : pillar.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
   }
 }

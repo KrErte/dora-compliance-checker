@@ -174,11 +174,11 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
                     <div class="flex items-center gap-1.5 mt-1">
                       <span class="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase"
                             [class]="getDifficultyBadge(scenario.difficulty)">
-                        {{ scenario.difficulty }}
+                        {{ getDifficultyLabel(scenario.difficulty) }}
                       </span>
                       <span class="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase"
                             [class]="scenario.tier === 'FREE' ? 'bg-emerald-500/15 text-emerald-400' : scenario.tier === 'ENTERPRISE' ? 'bg-purple-500/15 text-purple-400' : 'bg-amber-500/15 text-amber-400'">
-                        {{ scenario.tier }}
+                        {{ getTierLabel(scenario.tier) }}
                       </span>
                     </div>
                   </div>
@@ -606,7 +606,7 @@ export class WarRoomComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.titleService.setTitle('DORA Incident War Room');
+    this.titleService.setTitle(this.lang.t('war_room.title') + ' | DoraAudit.eu');
     this.loadScenarios();
   }
 
@@ -832,13 +832,31 @@ export class WarRoomComponent implements OnInit {
   }
 
   getGradeLabel(grade: string): string {
-    const labels: { [key: string]: string } = {
-      'A': 'Excellent incident response',
-      'B': 'Good incident response',
-      'C': 'Adequate but needs improvement',
-      'D': 'Below expectations',
-      'F': 'Critical deficiencies found'
+    const keyMap: { [key: string]: string } = {
+      'A': 'war_room.grade_a',
+      'B': 'war_room.grade_b',
+      'C': 'war_room.grade_c',
+      'D': 'war_room.grade_d',
+      'F': 'war_room.grade_f'
     };
-    return labels[grade] || '';
+    return keyMap[grade] ? this.lang.t(keyMap[grade]) : '';
+  }
+
+  getDifficultyLabel(difficulty: string): string {
+    const keyMap: { [key: string]: string } = {
+      'HIGH': 'war_room.difficulty_high',
+      'MEDIUM': 'war_room.difficulty_medium',
+      'LOW': 'war_room.difficulty_low'
+    };
+    return keyMap[difficulty] ? this.lang.t(keyMap[difficulty]) : difficulty;
+  }
+
+  getTierLabel(tier: string): string {
+    const keyMap: { [key: string]: string } = {
+      'FREE': 'war_room.tier_free',
+      'STANDARD': 'war_room.tier_standard',
+      'ENTERPRISE': 'war_room.tier_enterprise'
+    };
+    return keyMap[tier] ? this.lang.t(keyMap[tier]) : tier;
   }
 }
