@@ -1,10 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LangService } from '../lang.service';
+import { ApiService } from '../api.service';
 import { SubscriptionService } from '../services/subscription.service';
 import { ChecklistService } from '../services/checklist.service';
 import { GettingStartedChecklistComponent } from '../components/getting-started-checklist.component';
+import { AutopilotInsight, AutopilotCounts } from '../models';
 
 interface HistoryEntry {
   id: string;
@@ -75,6 +77,53 @@ interface ChartPoint {
 
       <!-- Getting Started Checklist -->
       <app-getting-started-checklist />
+
+      <!-- Autopilot Widget (premium only) -->
+      @if (subService.isPremium() && autopilotCounts() && (autopilotCounts()!.total > 0)) {
+        <div class="mb-6 animate-fade-in-up">
+          <div class="bg-slate-800/50 backdrop-blur border border-violet-500/20 rounded-xl p-5">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500/20 to-purple-500/20 border border-violet-500/20 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-sm font-semibold text-white flex items-center gap-2">
+                    {{ lang.t('autopilot.title') }}
+                    @if (autopilotCounts()!.new > 0) {
+                      <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-violet-500 text-white animate-pulse">{{ autopilotCounts()!.new }} {{ lang.t('autopilot.widget_new') }}</span>
+                    }
+                  </h3>
+                  <p class="text-[11px] text-slate-500">{{ autopilotCounts()!.total }} {{ lang.t('autopilot.widget_active') }} · {{ autopilotCounts()!.critical }} {{ lang.t('autopilot.widget_critical') }}</p>
+                </div>
+              </div>
+              <a routerLink="/autopilot" class="text-xs text-violet-400 hover:text-violet-300 font-medium flex items-center gap-1 transition-colors">
+                {{ lang.t('autopilot.widget_view_all') }}
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+            </div>
+            @if (autopilotTop().length > 0) {
+              <div class="space-y-2">
+                @for (insight of autopilotTop(); track insight.id) {
+                  <a [routerLink]="insight.actionLink || '/autopilot'" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-slate-900/40 hover:bg-slate-900/60 border border-slate-700/30 transition-colors group">
+                    <div class="w-1.5 h-8 rounded-full shrink-0" [class]="insight.severity === 'CRITICAL' ? 'bg-red-500' : insight.severity === 'HIGH' ? 'bg-orange-500' : insight.severity === 'MEDIUM' ? 'bg-amber-500' : 'bg-blue-500'"></div>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-xs font-medium text-slate-200 truncate group-hover:text-white">{{ insight.title }}</p>
+                      <p class="text-[10px] text-slate-500 truncate">{{ insight.recommendedAction }}</p>
+                    </div>
+                    <span class="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded shrink-0"
+                      [class]="insight.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-400' : insight.severity === 'HIGH' ? 'bg-orange-500/20 text-orange-400' : insight.severity === 'MEDIUM' ? 'bg-amber-500/20 text-amber-400' : 'bg-blue-500/20 text-blue-400'">
+                      {{ insight.severity }}
+                    </span>
+                  </a>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      }
 
       <!-- Header -->
       <div class="flex items-center justify-between mb-10 animate-fade-in-up">
@@ -560,8 +609,12 @@ interface ChartPoint {
 })
 export class DashboardComponent implements OnInit {
   lang = inject(LangService);
+  private api = inject(ApiService);
   subService = inject(SubscriptionService);
   checklist = inject(ChecklistService);
+
+  autopilotCounts = signal<AutopilotCounts | null>(null);
+  autopilotTop = signal<AutopilotInsight[]>([]);
 
   history: HistoryEntry[] = [];
   leaderboard: LeaderboardEntry[] = [];
@@ -594,6 +647,28 @@ export class DashboardComponent implements OnInit {
     this.buildSparklines();
     this.buildDeficiencies();
     this.lastUpdated = this.formatDate(new Date().toISOString());
+    this.loadAutopilotWidget();
+  }
+
+  private loadAutopilotWidget() {
+    if (!this.subService.isPremium()) return;
+    this.api.getAutopilotCounts().subscribe({
+      next: counts => this.autopilotCounts.set(counts),
+      error: () => {}
+    });
+    this.api.getAutopilotInsights().subscribe({
+      next: insights => {
+        const active = insights
+          .filter(i => i.status === 'NEW' || i.status === 'ACCEPTED')
+          .sort((a, b) => {
+            const order: Record<string, number> = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3 };
+            return (order[a.severity] ?? 4) - (order[b.severity] ?? 4);
+          })
+          .slice(0, 3);
+        this.autopilotTop.set(active);
+      },
+      error: () => {}
+    });
   }
 
   loadHistory() {

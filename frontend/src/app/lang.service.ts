@@ -4095,6 +4095,10 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'autopilot.snooze': { et: 'Lükka edasi', en: 'Snooze' },
   'autopilot.empty_title': { et: 'Kõik korras!', en: 'All clear!' },
   'autopilot.empty_desc': { et: 'Aktiivseid tegutsemissoovitusi ei leitud. Vajutage "Skaneeri kohe", et käivitada uus analüüs.', en: 'No active insights found. Click "Scan Now" to run a fresh analysis.' },
+  'autopilot.widget_new': { et: 'uut', en: 'new' },
+  'autopilot.widget_active': { et: 'aktiivset', en: 'active' },
+  'autopilot.widget_critical': { et: 'kriitilist', en: 'critical' },
+  'autopilot.widget_view_all': { et: 'Vaata kõiki', en: 'View All' },
 
   // ICT Asset Map translations
   'ict_map.title': { et: 'IKT varade ja sõltuvuste kaart', en: 'ICT Asset & Dependency Map' },

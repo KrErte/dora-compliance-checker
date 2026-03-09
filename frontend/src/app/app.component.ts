@@ -161,7 +161,11 @@ import { ComplianceAlert } from './models';
                  class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-violet-300 hover:bg-violet-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-violet-600/10 to-purple-600/10 border border-violet-500/20 mb-1">
                 <div class="w-5 h-5 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-white text-[8px] font-bold shrink-0">AI</div>
                 {{ lang.t('autopilot.nav') }}
-                <span class="text-[9px] bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
+                @if (autopilotBadge() > 0) {
+                  <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-violet-500 text-white min-w-[1.25rem] text-center ml-auto animate-pulse">{{ autopilotBadge() > 9 ? '9+' : autopilotBadge() }}</span>
+                } @else {
+                  <span class="text-[9px] bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded-full ml-auto">NEW</span>
+                }
               </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
               <a routerLink="/incident-reporting" (click)="closeAllMenus()"
@@ -605,7 +609,11 @@ import { ComplianceAlert } from './models';
                class="text-sm text-violet-400 hover:text-violet-300 px-3 py-2 rounded-lg hover:bg-violet-500/10 flex items-center gap-2">
               <div class="w-4 h-4 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
               {{ lang.t('autopilot.nav') }}
-              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400 ml-auto animate-pulse">NEW</span>
+              @if (autopilotBadge() > 0) {
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-violet-500 text-white min-w-[1.25rem] text-center ml-auto animate-pulse">{{ autopilotBadge() }}</span>
+              } @else {
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400 ml-auto">NEW</span>
+              }
             </a>
             <a routerLink="/notifications" (click)="mobileMenu = false"
                class="text-sm text-rose-400 hover:text-rose-300 px-3 py-2 rounded-lg hover:bg-rose-500/10 flex items-center justify-between">
@@ -861,6 +869,7 @@ export class AppComponent implements OnInit, OnDestroy {
   hideNav = false;
   notifBadge = signal(0);
   notifAlerts = signal<ComplianceAlert[]>([]);
+  autopilotBadge = signal(0);
   private routerSub?: Subscription;
   isBrowser: boolean;
 
@@ -1093,6 +1102,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // Load notification alerts for logged-in users
     if (this.isBrowser && this.auth.isLoggedIn()) {
       this.loadNotificationAlerts();
+      this.loadAutopilotBadge();
     }
   }
 
@@ -1102,6 +1112,13 @@ export class AppComponent implements OnInit, OnDestroy {
         this.notifAlerts.set(alerts);
         this.notifBadge.set(alerts.filter(a => a.severity === 'CRITICAL' || a.severity === 'WARNING').length);
       },
+      error: () => {}
+    });
+  }
+
+  private loadAutopilotBadge() {
+    this.api.getAutopilotCounts().subscribe({
+      next: (counts) => this.autopilotBadge.set(counts.new || 0),
       error: () => {}
     });
   }
