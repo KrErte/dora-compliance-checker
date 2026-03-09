@@ -573,7 +573,7 @@ import { ComplianceAlert } from './models';
       </div>
 
       <!-- Mobile menu -->
-      <div *ngIf="mobileMenu" class="lg:hidden border-t border-slate-700/50 bg-slate-800/95 backdrop-blur-xl">
+      <div *ngIf="mobileMenu" class="lg:hidden border-t border-slate-700/50 bg-slate-800/95 backdrop-blur-xl max-h-[calc(100vh-4rem)] overflow-y-auto">
         <div class="px-4 py-3 flex flex-col gap-1">
           <a routerLink="/chat" (click)="mobileMenu = false"
              class="flex items-center gap-2 text-sm text-white px-3 py-2.5 rounded-lg bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20 mb-2">
@@ -581,115 +581,159 @@ import { ComplianceAlert } from './models';
             DoraBot
             <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
           </a>
-          <p class="text-[10px] text-slate-600 px-3 mb-1 font-bold uppercase tracking-wider">DORA</p>
-          <a routerLink="/assessment" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.assessment') }}</a>
-          <a routerLink="/contract-analysis" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.contract') }}</a>
-          <a routerLink="/board-risk" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-teal-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.board_risk') }}</a>
-          <a routerLink="/fine-calculator" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.fine_calculator') }}</a>
-          <a routerLink="/roi" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.roi') }}</a>
-          <a routerLink="/timeline" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.timeline') }}</a>
-          <a routerLink="/vendors" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.vendors') }}</a>
-          <a routerLink="/company-profile" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.company_profile') }}</a>
-          <div class="border-t border-slate-700/50 mt-2 pt-2">
-            <p class="text-[10px] text-slate-600 px-3 mb-1 font-bold uppercase tracking-wider">{{ lang.t('nav.management') }}</p>
-            <a routerLink="/audit-readiness" (click)="mobileMenu = false"
-               class="text-sm text-amber-400 hover:text-amber-300 px-3 py-2 rounded-lg hover:bg-amber-500/10 flex items-center justify-between border border-amber-500/20 bg-gradient-to-r from-amber-600/5 to-orange-600/5 mb-1">
-              {{ lang.t('nav.audit_readiness') }}
-              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-amber-500/20 text-amber-400 animate-pulse">NEW</span>
-            </a>
-            <a routerLink="/autopilot" (click)="mobileMenu = false"
-               class="text-sm text-violet-400 hover:text-violet-300 px-3 py-2 rounded-lg hover:bg-violet-500/10 flex items-center gap-2">
-              <div class="w-4 h-4 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
-              {{ lang.t('autopilot.nav') }}
-              @if (autopilotBadge() > 0) {
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-violet-500 text-white min-w-[1.25rem] text-center ml-auto animate-pulse">{{ autopilotBadge() }}</span>
-              } @else {
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400 ml-auto">NEW</span>
-              }
-            </a>
-            <a routerLink="/notifications" (click)="mobileMenu = false"
-               class="text-sm text-rose-400 hover:text-rose-300 px-3 py-2 rounded-lg hover:bg-rose-500/10 flex items-center justify-between">
-              {{ lang.t('nav.notifications') }}
-              @if (notifBadge() > 0) {
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-500 text-white min-w-[1.25rem] text-center">{{ notifBadge() }}</span>
-              }
-            </a>
-            <a routerLink="/command-center" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-              {{ lang.t('nav.command_center') }}
-              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-cyan-500/20 text-cyan-400">NEW</span>
-            </a>
-            <a routerLink="/alerts" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-yellow-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-              {{ lang.t('nav.alerts') }}
-              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-yellow-500/20 text-yellow-400 animate-pulse">NEW</span>
-            </a>
-            <a routerLink="/incident-reporting" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.incidents') }}</a>
-            <a routerLink="/remediation" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.remediation') }}</a>
-            <a routerLink="/evidence-vault" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-indigo-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-              {{ lang.t('nav.evidence_vault') }}
-              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-indigo-500/20 text-indigo-400">NEW</span>
-            </a>
-            <a routerLink="/evidence-gap-analyzer" (click)="mobileMenu = false"
-               class="text-sm text-teal-400 hover:text-teal-300 px-3 py-2 rounded-lg hover:bg-teal-500/10 flex items-center gap-2">
-              <div class="w-4 h-4 rounded bg-gradient-to-br from-teal-400 to-cyan-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
-              {{ lang.t('nav.gap_analyzer') }}
-              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-amber-500/20 text-amber-400 ml-auto">ENT</span>
-            </a>
-            <a routerLink="/activity-timeline" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-              {{ lang.t('nav.activity_timeline') }}
-              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400">NEW</span>
-            </a>
-            <a routerLink="/negotiations" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.negotiations') }}</a>
-            <a routerLink="/maturity" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.maturity') }}</a>
-            <a routerLink="/risk-heatmap" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.risk_heatmap') }}</a>
-            <a routerLink="/prosecutor" (click)="mobileMenu = false"
-               class="text-sm text-indigo-400 hover:text-indigo-300 px-3 py-2 rounded-lg hover:bg-indigo-500/10 flex items-center gap-2">
-              <div class="w-4 h-4 rounded bg-gradient-to-br from-indigo-400 to-violet-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
-              {{ lang.t('prosecutor.nav') }}
-              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-indigo-500/20 text-indigo-400 ml-auto animate-pulse">NEW</span>
-            </a>
+          <button type="button" (click)="mobileDoraOpen = !mobileDoraOpen"
+                  class="w-full flex items-center justify-between px-3 py-1.5 mb-1">
+            <span class="text-[10px] text-slate-600 font-bold uppercase tracking-wider">DORA</span>
+            <svg class="w-3.5 h-3.5 text-slate-600 transition-transform" [class.rotate-180]="mobileDoraOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </button>
+          <div *ngIf="mobileDoraOpen">
+            <a routerLink="/assessment" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.assessment') }}</a>
+            <a routerLink="/contract-analysis" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.contract') }}</a>
+            <a routerLink="/board-risk" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-teal-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.board_risk') }}</a>
+            <a routerLink="/fine-calculator" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.fine_calculator') }}</a>
+            <a routerLink="/roi" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.roi') }}</a>
+            <a routerLink="/timeline" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.timeline') }}</a>
+            <a routerLink="/vendors" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.vendors') }}</a>
+            <a routerLink="/company-profile" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.company_profile') }}</a>
           </div>
           <div class="border-t border-slate-700/50 mt-2 pt-2">
-            <p class="text-[10px] text-slate-600 px-3 mb-1 font-bold uppercase tracking-wider">{{ lang.t('nav.resources') }}</p>
-            <a routerLink="/dora-explorer" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-              {{ lang.t('nav.dora_explorer') }}
-              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-emerald-500/20 text-emerald-400">NEW</span>
-            </a>
-            <a routerLink="/policy-generator" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.policy_generator') }}</a>
-            <a routerLink="/ai-policy-writer" (click)="mobileMenu = false"
-               class="text-sm text-violet-400 hover:text-violet-300 px-3 py-2 rounded-lg hover:bg-violet-500/10 flex items-center gap-2">
-              <div class="w-4 h-4 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
-              {{ lang.t('nav.ai_policy_writer') }}
-              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400">NEW</span>
-            </a>
-            <a routerLink="/framework-mapping" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-blue-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.framework_mapping') }}</a>
-            <a routerLink="/cost-calculator" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-green-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.cost_calculator') }}</a>
-            <a routerLink="/training-quiz" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-pink-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.training_quiz') }}</a>
-            <a routerLink="/incident-decision-tree" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-rose-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.incident_classifier') }}</a>
-            <a routerLink="/board-report" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-sky-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.board_report') }}</a>
+            <button type="button" (click)="mobileManagementOpen = !mobileManagementOpen"
+                    class="w-full flex items-center justify-between px-3 py-1.5 mb-1">
+              <span class="text-[10px] text-slate-600 font-bold uppercase tracking-wider">{{ lang.t('nav.management') }}</span>
+              <svg class="w-3.5 h-3.5 text-slate-600 transition-transform" [class.rotate-180]="mobileManagementOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6"/>
+              </svg>
+            </button>
+            <div *ngIf="mobileManagementOpen">
+              <a routerLink="/audit-readiness" (click)="mobileMenu = false"
+                 class="text-sm text-amber-400 hover:text-amber-300 px-3 py-2 rounded-lg hover:bg-amber-500/10 flex items-center justify-between border border-amber-500/20 bg-gradient-to-r from-amber-600/5 to-orange-600/5 mb-1">
+                {{ lang.t('nav.audit_readiness') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-amber-500/20 text-amber-400 animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/autopilot" (click)="mobileMenu = false"
+                 class="text-sm text-violet-400 hover:text-violet-300 px-3 py-2 rounded-lg hover:bg-violet-500/10 flex items-center gap-2">
+                <div class="w-4 h-4 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
+                {{ lang.t('autopilot.nav') }}
+                @if (autopilotBadge() > 0) {
+                  <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-violet-500 text-white min-w-[1.25rem] text-center ml-auto animate-pulse">{{ autopilotBadge() }}</span>
+                } @else {
+                  <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400 ml-auto">NEW</span>
+                }
+              </a>
+              <a routerLink="/notifications" (click)="mobileMenu = false"
+                 class="text-sm text-rose-400 hover:text-rose-300 px-3 py-2 rounded-lg hover:bg-rose-500/10 flex items-center justify-between">
+                {{ lang.t('nav.notifications') }}
+                @if (notifBadge() > 0) {
+                  <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-500 text-white min-w-[1.25rem] text-center">{{ notifBadge() }}</span>
+                }
+              </a>
+              <a routerLink="/command-center" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.t('nav.command_center') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-cyan-500/20 text-cyan-400">NEW</span>
+              </a>
+              <a routerLink="/alerts" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-yellow-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.t('nav.alerts') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-yellow-500/20 text-yellow-400 animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/incident-reporting" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.incidents') }}</a>
+              <a routerLink="/remediation" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.remediation') }}</a>
+              <a routerLink="/evidence-vault" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-indigo-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.t('nav.evidence_vault') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-indigo-500/20 text-indigo-400">NEW</span>
+              </a>
+              <a routerLink="/evidence-gap-analyzer" (click)="mobileMenu = false"
+                 class="text-sm text-teal-400 hover:text-teal-300 px-3 py-2 rounded-lg hover:bg-teal-500/10 flex items-center gap-2">
+                <div class="w-4 h-4 rounded bg-gradient-to-br from-teal-400 to-cyan-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
+                {{ lang.t('nav.gap_analyzer') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-amber-500/20 text-amber-400 ml-auto">ENT</span>
+              </a>
+              <a routerLink="/activity-timeline" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.t('nav.activity_timeline') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400">NEW</span>
+              </a>
+              <a routerLink="/negotiations" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.negotiations') }}</a>
+              <a routerLink="/maturity" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.maturity') }}</a>
+              <a routerLink="/risk-heatmap" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.risk_heatmap') }}</a>
+              <a routerLink="/exam-simulator" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-rose-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.t('nav.exam_simulator') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-rose-500/20 text-rose-400 animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/war-room" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.t('nav.war_room') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-red-500/20 text-red-400 animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/article-tracker" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-purple-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.t('nav.article_tracker') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-purple-500/20 text-purple-400 animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/ict-asset-map" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.t('nav.ict_asset_map') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-cyan-500/20 text-cyan-400 animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/prosecutor" (click)="mobileMenu = false"
+                 class="text-sm text-indigo-400 hover:text-indigo-300 px-3 py-2 rounded-lg hover:bg-indigo-500/10 flex items-center gap-2">
+                <div class="w-4 h-4 rounded bg-gradient-to-br from-indigo-400 to-violet-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
+                {{ lang.t('prosecutor.nav') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-indigo-500/20 text-indigo-400 ml-auto animate-pulse">NEW</span>
+              </a>
+            </div>
+          </div>
+          <div class="border-t border-slate-700/50 mt-2 pt-2">
+            <button type="button" (click)="mobileResourcesOpen = !mobileResourcesOpen"
+                    class="w-full flex items-center justify-between px-3 py-1.5 mb-1">
+              <span class="text-[10px] text-slate-600 font-bold uppercase tracking-wider">{{ lang.t('nav.resources') }}</span>
+              <svg class="w-3.5 h-3.5 text-slate-600 transition-transform" [class.rotate-180]="mobileResourcesOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6"/>
+              </svg>
+            </button>
+            <div *ngIf="mobileResourcesOpen">
+              <a routerLink="/dora-explorer" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.t('nav.dora_explorer') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-emerald-500/20 text-emerald-400">NEW</span>
+              </a>
+              <a routerLink="/policy-generator" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.policy_generator') }}</a>
+              <a routerLink="/ai-policy-writer" (click)="mobileMenu = false"
+                 class="text-sm text-violet-400 hover:text-violet-300 px-3 py-2 rounded-lg hover:bg-violet-500/10 flex items-center gap-2">
+                <div class="w-4 h-4 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
+                {{ lang.t('nav.ai_policy_writer') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400">NEW</span>
+              </a>
+              <a routerLink="/framework-mapping" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-blue-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.framework_mapping') }}</a>
+              <a routerLink="/cost-calculator" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-green-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.cost_calculator') }}</a>
+              <a routerLink="/training-quiz" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-pink-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.training_quiz') }}</a>
+              <a routerLink="/incident-decision-tree" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-rose-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.incident_classifier') }}</a>
+              <a routerLink="/board-report" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-sky-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.board_report') }}</a>
+            </div>
           </div>
           <div class="border-t border-slate-700/50 mt-2 pt-2">
             <p class="text-[10px] text-slate-600 px-3 mb-1 font-bold uppercase tracking-wider">NIS2</p>
@@ -860,6 +904,9 @@ import { ComplianceAlert } from './models';
 export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(CookieConsentComponent) cookieConsent?: CookieConsentComponent;
   mobileMenu = false;
+  mobileDoraOpen = false;
+  mobileManagementOpen = true;
+  mobileResourcesOpen = false;
   doraMenu = false;
   managementMenu = false;
   resourcesMenu = false;

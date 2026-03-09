@@ -50,7 +50,7 @@ interface DoraRequirement {
         <div class="flex flex-col items-center gap-4">
           <a routerLink="/contract-analysis"
              class="group inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
-                    text-slate-900 font-bold px-10 py-4 rounded-xl text-lg
+                    text-slate-900 font-bold px-10 py-4 rounded-xl text-lg w-full sm:w-auto justify-center
                     hover:shadow-lg hover:shadow-emerald-500/20 transition-all duration-300">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -60,7 +60,7 @@ interface DoraRequirement {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
           </a>
-          <div class="flex flex-wrap justify-center gap-4 mt-1">
+          <div class="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-3 sm:gap-4 mt-1">
             <a routerLink="/nis2/scope-check"
                class="text-sm text-slate-400 hover:text-amber-400 transition-colors inline-flex items-center gap-1.5 py-1">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -68,7 +68,7 @@ interface DoraRequirement {
               </svg>
               {{ lang.t('landing.cta_nis2_secondary') }}
             </a>
-            <span class="text-slate-700">|</span>
+            <span class="text-slate-700 hidden sm:inline">|</span>
             <a routerLink="/fine-calculator"
                class="text-sm text-slate-400 hover:text-red-400 transition-colors inline-flex items-center gap-1.5 py-1">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,7 +76,7 @@ interface DoraRequirement {
               </svg>
               {{ lang.t('landing.cta_fine_calc') }}
             </a>
-            <span class="text-slate-700">|</span>
+            <span class="text-slate-700 hidden sm:inline">|</span>
             <a routerLink="/timeline"
                class="text-sm text-slate-400 hover:text-cyan-400 transition-colors inline-flex items-center gap-1.5 py-1">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
