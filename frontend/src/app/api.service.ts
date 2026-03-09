@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DoraQuestion, AssessmentRequest, AssessmentResult, ContractAnalysisResult, NegotiationResult, NegotiationMessageResult, MonitoredContract, ContractAlert, RegulatoryUpdate, IncidentReport, IncidentStats, RemediationItem, RemediationStats, Organization, OrgMember, OrgInvite, EvidenceItem, EvidenceStats, EvidenceCoverage, ComplianceAlert, NotificationItem, GapAnalysisResult, SupportedArticle, ComplianceProfile, UserAlert, AlertDetail } from './models';
+import { DoraQuestion, AssessmentRequest, AssessmentResult, ContractAnalysisResult, NegotiationResult, NegotiationMessageResult, MonitoredContract, ContractAlert, RegulatoryUpdate, IncidentReport, IncidentStats, RemediationItem, RemediationStats, Organization, OrgMember, OrgInvite, EvidenceItem, EvidenceStats, EvidenceCoverage, ComplianceAlert, NotificationItem, GapAnalysisResult, SupportedArticle, ComplianceProfile, UserAlert, AlertDetail, AutopilotInsight, AutopilotCounts } from './models';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -483,6 +483,31 @@ export class ApiService {
   }
   getActivityStats(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/activity/stats`);
+  }
+
+  // Autopilot
+  getAutopilotInsights(status?: string, severity?: string): Observable<AutopilotInsight[]> {
+    let params = '';
+    const parts: string[] = [];
+    if (status) parts.push(`status=${status}`);
+    if (severity) parts.push(`severity=${severity}`);
+    if (parts.length) params = '?' + parts.join('&');
+    return this.http.get<AutopilotInsight[]>(`${this.baseUrl}/autopilot/insights${params}`);
+  }
+  getAutopilotCounts(): Observable<AutopilotCounts> {
+    return this.http.get<AutopilotCounts>(`${this.baseUrl}/autopilot/insights/count`);
+  }
+  triggerAutopilotScan(): Observable<AutopilotInsight[]> {
+    return this.http.post<AutopilotInsight[]>(`${this.baseUrl}/autopilot/scan`, {});
+  }
+  acceptAutopilotInsight(id: string): Observable<AutopilotInsight> {
+    return this.http.put<AutopilotInsight>(`${this.baseUrl}/autopilot/insights/${id}/accept`, {});
+  }
+  dismissAutopilotInsight(id: string): Observable<AutopilotInsight> {
+    return this.http.put<AutopilotInsight>(`${this.baseUrl}/autopilot/insights/${id}/dismiss`, {});
+  }
+  snoozeAutopilotInsight(id: string, days: number): Observable<AutopilotInsight> {
+    return this.http.put<AutopilotInsight>(`${this.baseUrl}/autopilot/insights/${id}/snooze`, { days });
   }
 }
 

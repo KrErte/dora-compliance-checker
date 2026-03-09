@@ -237,6 +237,12 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'Audit Readiness Score', seoDescription: 'Real-time DORA audit readiness score aggregating all compliance modules. Assessment, evidence, remediation, incidents, and third-party risk in one view.' }
   },
   {
+    path: 'autopilot',
+    loadComponent: () => import('./pages/autopilot.component').then(m => m.AutopilotComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'DORA Autopilot', seoDescription: 'AI-powered compliance autopilot that analyzes your data and generates actionable insights with one-click remediation.' }
+  },
+  {
     path: 'evidence-vault',
     loadComponent: () => import('./pages/evidence-vault.component').then(m => m.EvidenceVaultComponent),
     canActivate: [authGuard],
@@ -288,6 +294,12 @@ const coreRoutes: Routes = [
     loadComponent: () => import('./pages/war-room.component').then(m => m.WarRoomComponent),
     canActivate: [authGuard],
     data: { seoTitle: 'DORA Incident War Room', seoDescription: 'Interactive DORA incident response simulation with multi-phase decision trees, cascade effects, and DORA deadline tracking.' }
+  },
+  {
+    path: 'prosecutor',
+    loadComponent: () => import('./pages/prosecutor.component').then(m => m.ProsecutorComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'DORA AI Prosecutor | Regulatory Audit Simulator', seoDescription: 'AI-powered mock regulatory audit where an aggressive EU financial regulator interrogates your DORA compliance. Get a prosecution verdict with fine risk score and remediation playbook.' }
   },
   {
     path: 'training',

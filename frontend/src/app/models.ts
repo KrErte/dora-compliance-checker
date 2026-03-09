@@ -445,6 +445,33 @@ export function calculatePillarScores(questionResults: QuestionResult[]): Pillar
 
 // ─── Category labels ────────────────────────────────────────────────
 
+// ─── Autopilot (DORA Compliance Autopilot) ──────────────────────────
+
+export interface AutopilotInsight {
+  id: string;
+  userId: string;
+  insightType: 'EVIDENCE_GAP' | 'ASSESSMENT_DUE' | 'REMEDIATION_OVERDUE' | 'SCORE_DROP' | 'ARTICLE_RISK' | 'EXPIRING_EVIDENCE' | 'QUICK_WIN' | 'TRAINING_GAP';
+  severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
+  title: string;
+  description: string;
+  recommendedAction: string;
+  actionType: 'CREATE_REMEDIATION' | 'RUN_ASSESSMENT' | 'UPLOAD_EVIDENCE' | 'VIEW_MODULE';
+  actionLink: string;
+  status: 'NEW' | 'ACCEPTED' | 'DISMISSED' | 'SNOOZED';
+  snoozeUntil?: string;
+  deduplicationKey: string;
+  metadata?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AutopilotCounts {
+  total: number;
+  new: number;
+  critical: number;
+  accepted: number;
+}
+
 export const CATEGORY_LABELS: { [key: string]: { et: string; en: string } } = {
   SERVICE_LEVEL: { et: 'Teenustaseme nõuded', en: 'Service Level Requirements' },
   EXIT_STRATEGY: { et: 'Väljumisstrateegia', en: 'Exit Strategy' },

@@ -458,6 +458,26 @@ interface DoraRequirement {
             </div>
           </a>
 
+          <!-- AI Prosecutor -->
+          <a routerLink="/prosecutor"
+             class="glass-card p-5 rounded-xl border border-indigo-500/30 hover:border-indigo-400 cursor-pointer transition-all duration-300 hover:bg-indigo-500/5 hover:shadow-lg hover:shadow-indigo-500/10 group">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-indigo-500/10 flex items-center justify-center shrink-0 group-hover:bg-indigo-500/20 transition-colors">
+                <svg class="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 6l9 4 9-4M3 6v10l9 4M3 6l9-4 9 4M21 6v10l-9 4M12 16V6"/>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="text-sm font-semibold text-slate-200 group-hover:text-indigo-300 transition-colors">{{ lang.l('AI prokurör', 'AI Prosecutor') }}</h3>
+                  <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-indigo-500/20 text-indigo-400">AI</span>
+                  <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-red-500/20 text-red-400 animate-pulse">NEW</span>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">{{ lang.l('AI-toega regulatiivne auditi simulatsioon. Agressiivne regulaator uurib teie DORA vastavust ja genereerib kohtuotsuse trahviriskiskooriga.', 'AI-powered mock regulatory audit. An aggressive regulator interrogates your DORA compliance and generates a prosecution verdict with fine risk score.') }}</p>
+              </div>
+            </div>
+          </a>
+
           <!-- xBRL-CSV Export -->
           <a routerLink="/pricing"
              class="glass-card p-5 rounded-xl border border-cyan-500/30 hover:border-cyan-400 cursor-pointer transition-all duration-300 hover:bg-cyan-500/5 hover:shadow-lg hover:shadow-cyan-500/10 group">

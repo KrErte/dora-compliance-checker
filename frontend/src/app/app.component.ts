@@ -157,6 +157,12 @@ import { ComplianceAlert } from './models';
                 {{ lang.t('nav.audit_readiness') }}
                 <span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
+              <a routerLink="/autopilot" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-violet-300 hover:bg-violet-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-violet-600/10 to-purple-600/10 border border-violet-500/20 mb-1">
+                <div class="w-5 h-5 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-white text-[8px] font-bold shrink-0">AI</div>
+                {{ lang.t('autopilot.nav') }}
+                <span class="text-[9px] bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
+              </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
               <a routerLink="/incident-reporting" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
@@ -246,6 +252,15 @@ import { ComplianceAlert } from './models';
                 </svg>
                 {{ lang.t('war_room.badge') }}
                 <span class="text-[9px] bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/prosecutor" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-indigo-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 6l9 4 9-4M3 6v10l9 4M3 6l9-4 9 4M21 6v10l-9 4M12 16V6"/>
+                </svg>
+                {{ lang.t('prosecutor.nav') }}
+                <div class="w-4 h-4 rounded bg-gradient-to-br from-indigo-400 to-violet-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0 ml-auto">AI</div>
+                <span class="text-[9px] bg-indigo-500/20 text-indigo-400 px-1.5 py-0.5 rounded-full animate-pulse">NEW</span>
               </a>
               <a routerLink="/article-tracker" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-purple-400 hover:bg-slate-700/30 transition-colors">
@@ -586,6 +601,12 @@ import { ComplianceAlert } from './models';
               {{ lang.t('nav.audit_readiness') }}
               <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-amber-500/20 text-amber-400 animate-pulse">NEW</span>
             </a>
+            <a routerLink="/autopilot" (click)="mobileMenu = false"
+               class="text-sm text-violet-400 hover:text-violet-300 px-3 py-2 rounded-lg hover:bg-violet-500/10 flex items-center gap-2">
+              <div class="w-4 h-4 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
+              {{ lang.t('autopilot.nav') }}
+              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400 ml-auto animate-pulse">NEW</span>
+            </a>
             <a routerLink="/notifications" (click)="mobileMenu = false"
                class="text-sm text-rose-400 hover:text-rose-300 px-3 py-2 rounded-lg hover:bg-rose-500/10 flex items-center justify-between">
               {{ lang.t('nav.notifications') }}
@@ -629,6 +650,12 @@ import { ComplianceAlert } from './models';
                class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.maturity') }}</a>
             <a routerLink="/risk-heatmap" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.risk_heatmap') }}</a>
+            <a routerLink="/prosecutor" (click)="mobileMenu = false"
+               class="text-sm text-indigo-400 hover:text-indigo-300 px-3 py-2 rounded-lg hover:bg-indigo-500/10 flex items-center gap-2">
+              <div class="w-4 h-4 rounded bg-gradient-to-br from-indigo-400 to-violet-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
+              {{ lang.t('prosecutor.nav') }}
+              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-indigo-500/20 text-indigo-400 ml-auto animate-pulse">NEW</span>
+            </a>
           </div>
           <div class="border-t border-slate-700/50 mt-2 pt-2">
             <p class="text-[10px] text-slate-600 px-3 mb-1 font-bold uppercase tracking-wider">{{ lang.t('nav.resources') }}</p>
