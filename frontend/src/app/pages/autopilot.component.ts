@@ -31,19 +31,34 @@ import { AutopilotInsight, AutopilotCounts } from '../models';
             <p class="text-sm text-slate-400 max-w-xl">{{ lang.t('autopilot.subtitle') }}</p>
           </div>
           @if (sub.isPremium()) {
-            <button (click)="triggerScan()" [disabled]="scanning()"
-              class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2"
-              [class]="scanning() ? 'bg-slate-700 text-slate-400 cursor-not-allowed' : 'bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40'">
-              @if (scanning()) {
-                <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg>
-                {{ lang.t('autopilot.scanning') }}
-              } @else {
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 12a9 9 0 11-6.219-8.56"/>
-                </svg>
-                {{ lang.t('autopilot.scan_now') }}
-              }
-            </button>
+            <div class="flex gap-2">
+              <button (click)="generateComplianceReport()" [disabled]="generatingReport()"
+                class="px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2
+                       bg-slate-800/50 border border-violet-500/30 text-violet-300 hover:border-violet-500/50 hover:bg-slate-800/80 disabled:opacity-50 disabled:cursor-not-allowed">
+                @if (generatingReport()) {
+                  <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg>
+                  {{ lang.t('dashboard.generating_report') }}
+                } @else {
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                  </svg>
+                  {{ lang.t('dashboard.generate_report') }}
+                }
+              </button>
+              <button (click)="triggerScan()" [disabled]="scanning()"
+                class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2"
+                [class]="scanning() ? 'bg-slate-700 text-slate-400 cursor-not-allowed' : 'bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40'">
+                @if (scanning()) {
+                  <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg>
+                  {{ lang.t('autopilot.scanning') }}
+                } @else {
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12a9 9 0 11-6.219-8.56"/>
+                  </svg>
+                  {{ lang.t('autopilot.scan_now') }}
+                }
+              </button>
+            </div>
           }
         </div>
 
@@ -221,6 +236,7 @@ export class AutopilotComponent implements OnInit {
   counts = signal<AutopilotCounts | null>(null);
   loading = signal(true);
   scanning = signal(false);
+  generatingReport = signal(false);
   error = signal('');
 
   activeSeverity = signal('');
@@ -317,6 +333,24 @@ export class AutopilotComponent implements OnInit {
       next: updated => {
         this.insights.update(list => list.map(i => i.id === id ? updated : i));
         this.api.getAutopilotCounts().subscribe({ next: c => this.counts.set(c) });
+      }
+    });
+  }
+
+  generateComplianceReport() {
+    this.generatingReport.set(true);
+    this.api.exportComplianceReport(this.lang.lang()).subscribe({
+      next: (blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'dora-compliance-report.pdf';
+        a.click();
+        URL.revokeObjectURL(url);
+        this.generatingReport.set(false);
+      },
+      error: () => {
+        this.generatingReport.set(false);
       }
     });
   }

@@ -134,6 +134,32 @@ interface ChartPoint {
           <p class="text-slate-500 text-sm mt-1">{{ history.length }} {{ lang.t('dashboard.assessments_total') }} &middot; {{ lang.t('dashboard.last_updated') }}: {{ lastUpdated }}</p>
         </div>
         <div class="flex gap-3">
+          @if (subService.canAccess('COMPLIANCE_REPORT')) {
+            <button (click)="generateComplianceReport()" [disabled]="generatingReport()"
+              class="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500
+                     text-white font-semibold px-5 py-2.5 rounded-lg transition-all duration-300
+                     hover:shadow-lg hover:shadow-violet-500/25 flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+              @if (generatingReport()) {
+                <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg>
+                {{ lang.t('dashboard.generating_report') }}
+              } @else {
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                {{ lang.t('dashboard.generate_report') }}
+              }
+            </button>
+          } @else {
+            <button (click)="subService.showUpgrade('COMPLIANCE_REPORT')"
+              class="bg-slate-800/50 backdrop-blur border border-violet-500/30 text-slate-400 font-semibold
+                     px-5 py-2.5 rounded-lg transition-all duration-300 hover:border-violet-500/50
+                     hover:bg-slate-800/80 flex items-center gap-2 text-sm">
+              <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11V7a5 5 0 0110 0v4"/>
+              </svg>
+              {{ lang.t('dashboard.generate_report') }}
+            </button>
+          }
           <a routerLink="/history"
              class="bg-slate-800/50 backdrop-blur border border-slate-700/50 text-slate-300 font-semibold
                     px-5 py-2.5 rounded-lg transition-all duration-300 hover:border-emerald-500/30
@@ -615,6 +641,7 @@ export class DashboardComponent implements OnInit {
 
   autopilotCounts = signal<AutopilotCounts | null>(null);
   autopilotTop = signal<AutopilotInsight[]>([]);
+  generatingReport = signal(false);
 
   history: HistoryEntry[] = [];
   leaderboard: LeaderboardEntry[] = [];
@@ -668,6 +695,24 @@ export class DashboardComponent implements OnInit {
         this.autopilotTop.set(active);
       },
       error: () => {}
+    });
+  }
+
+  generateComplianceReport() {
+    this.generatingReport.set(true);
+    this.api.exportComplianceReport(this.lang.lang()).subscribe({
+      next: (blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'dora-compliance-report.pdf';
+        a.click();
+        URL.revokeObjectURL(url);
+        this.generatingReport.set(false);
+      },
+      error: () => {
+        this.generatingReport.set(false);
+      }
     });
   }
 

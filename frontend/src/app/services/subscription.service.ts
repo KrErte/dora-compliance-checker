@@ -14,6 +14,7 @@ export type PremiumFeature =
   | 'ACTION_PLAN_PDF'
   | 'ROI_EXPORT'
   | 'PROFESSIONAL_REPORT'
+  | 'COMPLIANCE_REPORT'
   | 'AI_POLICY_WRITER';
 
 export interface SubscriptionStatus {
@@ -51,6 +52,7 @@ export class SubscriptionService {
       ACTION_PLAN_PDF: false,
       ROI_EXPORT: false,
       PROFESSIONAL_REPORT: false,
+      COMPLIANCE_REPORT: false,
       AI_POLICY_WRITER: false
     }
   });
@@ -166,6 +168,7 @@ export class SubscriptionService {
           ACTION_PLAN_PDF: false,
           ROI_EXPORT: false,
           PROFESSIONAL_REPORT: false,
+          COMPLIANCE_REPORT: false,
           AI_POLICY_WRITER: false
         }
       }))
@@ -225,6 +228,11 @@ export class SubscriptionService {
       PROFESSIONAL_REPORT: {
         title: 'Professionaalne DORA raport',
         description: 'Genereeri regulaatorile valmis 10-15 lk raport koos tegevuskava, 5 samba analüüsi ja metoodikaga',
+        price: 'Alates €29/kuu'
+      },
+      COMPLIANCE_REPORT: {
+        title: 'DORA vastavusraport',
+        description: 'Genereeri terviklik PDF vastavusraport kõigi moodulite andmetega juhatusele ja auditoritele',
         price: 'Alates €29/kuu'
       },
       AI_POLICY_WRITER: {

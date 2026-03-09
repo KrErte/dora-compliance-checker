@@ -61,6 +61,10 @@ export class ApiService {
     return this.http.post(`${this.baseUrl}/exports/excel/contract/${id}`, {}, { responseType: 'blob' });
   }
 
+  exportComplianceReport(language: string): Observable<Blob> {
+    return this.http.post(`${this.baseUrl}/exports/report/compliance?language=${language}`, {}, { responseType: 'blob' });
+  }
+
   // Negotiations
   createNegotiation(contractAnalysisId: string, vendorType: string): Observable<NegotiationResult> {
     return this.http.post<NegotiationResult>(`${this.baseUrl}/negotiations`, { contractAnalysisId, vendorType });

@@ -6,6 +6,7 @@ import com.dorachecker.model.GapAnalysisRepository;
 import com.dorachecker.model.IncidentReportRepository;
 import com.dorachecker.service.ExcelExportService;
 import com.dorachecker.service.PdfExportService;
+import com.dorachecker.service.ComplianceReportService;
 import com.dorachecker.service.ProfessionalReportService;
 import com.dorachecker.service.SubscriptionGuardService;
 import com.dorachecker.service.SubscriptionGuardService.Feature;
@@ -27,6 +28,7 @@ public class ExportController {
     private final PdfExportService pdfExportService;
     private final ExcelExportService excelExportService;
     private final ProfessionalReportService professionalReportService;
+    private final ComplianceReportService complianceReportService;
 
     public ExportController(
             SubscriptionGuardService guardService,
@@ -36,7 +38,8 @@ public class ExportController {
             IncidentReportRepository incidentReportRepository,
             PdfExportService pdfExportService,
             ExcelExportService excelExportService,
-            ProfessionalReportService professionalReportService
+            ProfessionalReportService professionalReportService,
+            ComplianceReportService complianceReportService
     ) {
         this.guardService = guardService;
         this.assessmentRepository = assessmentRepository;
@@ -46,6 +49,7 @@ public class ExportController {
         this.pdfExportService = pdfExportService;
         this.excelExportService = excelExportService;
         this.professionalReportService = professionalReportService;
+        this.complianceReportService = complianceReportService;
     }
 
     @PostMapping("/pdf/assessment/{id}")
@@ -297,6 +301,28 @@ public class ExportController {
         return fileResponse(pdfBytes, "dora-professional-report-" + companyName + ".pdf", MediaType.APPLICATION_PDF);
     }
 
+    @PostMapping("/report/compliance")
+    public ResponseEntity<?> exportComplianceReport(
+            @RequestParam(defaultValue = "en") String language,
+            Authentication authentication
+    ) {
+        String userId = authentication != null ? (String) authentication.getPrincipal() : null;
+
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
+                    "error", "UNAUTHORIZED",
+                    "message", "Authentication required to generate compliance report"
+            ));
+        }
+
+        if (!guardService.canAccess(userId, null, Feature.COMPLIANCE_REPORT)) {
+            return premiumRequiredResponse(Feature.COMPLIANCE_REPORT);
+        }
+
+        byte[] pdfBytes = complianceReportService.generate(userId, language);
+        return fileResponse(pdfBytes, "dora-compliance-report.pdf", MediaType.APPLICATION_PDF);
+    }
+
     private boolean isOwner(String userId, String sessionId, String resourceUserId, String resourceSessionId) {
         if (userId != null && userId.equals(resourceUserId)) {
             return true;
@@ -323,6 +349,7 @@ public class ExportController {
             case CERTIFICATE -> "Vastavustunnistus on saadaval Standard ja Enterprise plaanidel";
             case ACTION_PLAN_PDF -> "Tegevuskava PDF on saadaval Standard ja Enterprise plaanidel";
             case PROFESSIONAL_REPORT -> "Professionaalne DORA raport on saadaval Standard ja Enterprise plaanidel";
+            case COMPLIANCE_REPORT -> "DORA vastavusraport on saadaval Standard ja Enterprise plaanidel";
             default -> "See funktsioon on saadaval tasulisel plaanil";
         };
 
