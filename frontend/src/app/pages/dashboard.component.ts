@@ -78,6 +78,109 @@ interface ChartPoint {
       <!-- Getting Started Checklist -->
       <app-getting-started-checklist />
 
+      <!-- Compliance Score Widget -->
+      @if (auditReadiness()) {
+        <div class="mb-6 animate-fade-in-up">
+          <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 border border-emerald-500/20 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-sm font-semibold text-white">{{ lang.l('Vastavuse koondskoor', 'Compliance Score') }}</h3>
+                  <p class="text-[11px] text-slate-500">{{ lang.l('Auditiks valmisolek', 'Audit Readiness Overview') }}</p>
+                </div>
+              </div>
+              <a routerLink="/audit-readiness" class="text-xs text-emerald-400 hover:text-emerald-300 font-medium flex items-center gap-1 transition-colors">
+                {{ lang.l('Vaata detaile', 'View Details') }}
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+            </div>
+            <div class="flex items-center gap-6">
+              <!-- Circular progress ring -->
+              <div class="relative flex-shrink-0">
+                <svg viewBox="0 0 80 80" class="w-20 h-20">
+                  <circle cx="40" cy="40" r="34" fill="none" stroke="rgb(51 65 85)" stroke-width="6"/>
+                  <circle cx="40" cy="40" r="34" fill="none"
+                          [attr.stroke]="auditReadiness().overallScore >= 80 ? '#34d399' : auditReadiness().overallScore >= 60 ? '#fbbf24' : auditReadiness().overallScore >= 40 ? '#f97316' : '#ef4444'"
+                          stroke-width="6" stroke-linecap="round"
+                          [attr.stroke-dasharray]="(auditReadiness().overallScore / 100 * 213.6) + ' 213.6'"
+                          transform="rotate(-90 40 40)"/>
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="text-lg font-bold"
+                        [class]="auditReadiness().overallScore >= 80 ? 'text-emerald-400' : auditReadiness().overallScore >= 60 ? 'text-amber-400' : auditReadiness().overallScore >= 40 ? 'text-orange-400' : 'text-red-400'">
+                    {{ auditReadiness().overallScore }}%
+                  </span>
+                </div>
+              </div>
+              <!-- Module breakdown bars -->
+              <div class="flex-1 space-y-2">
+                @for (mod of auditModules(); track mod.key) {
+                  <div class="flex items-center gap-2">
+                    <span class="text-[10px] text-slate-400 w-24 truncate">{{ mod.label }}</span>
+                    <div class="flex-1 h-2 bg-slate-700/50 rounded-full overflow-hidden">
+                      <div class="h-full rounded-full transition-all duration-500"
+                           [style.width.%]="mod.score"
+                           [class]="mod.score >= 80 ? 'bg-emerald-500' : mod.score >= 60 ? 'bg-amber-500' : mod.score >= 40 ? 'bg-orange-500' : 'bg-red-500'"></div>
+                    </div>
+                    <span class="text-[10px] font-medium w-8 text-right"
+                          [class]="mod.score >= 80 ? 'text-emerald-400' : mod.score >= 60 ? 'text-amber-400' : mod.score >= 40 ? 'text-orange-400' : 'text-red-400'">{{ mod.score }}%</span>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Achievement Badges Widget -->
+      @if (achievements().length > 0) {
+        <div class="mb-6 animate-fade-in-up">
+          <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/20 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-sm font-semibold text-white flex items-center gap-2">
+                    {{ lang.l('Saavutused', 'Achievements') }}
+                    @if (newAchievementCount() > 0) {
+                      <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-amber-500 text-white animate-pulse">{{ newAchievementCount() }} {{ lang.l('uut', 'new') }}</span>
+                    }
+                  </h3>
+                  <p class="text-[11px] text-slate-500">{{ unlockedCount() }}/{{ achievements().length }} {{ lang.l('avatud', 'unlocked') }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="grid grid-cols-5 sm:grid-cols-10 gap-2">
+              @for (badge of achievements(); track badge.key) {
+                <div class="group relative flex flex-col items-center"
+                     (click)="badge.unlocked && !badge.seen && markAchievementSeen(badge.key)">
+                  <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg transition-all"
+                       [class]="badge.unlocked ? 'bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30 shadow-lg shadow-amber-500/10' : 'bg-slate-700/30 border border-slate-700/50 opacity-40'">
+                    {{ getAchievementEmoji(badge.icon) }}
+                  </div>
+                  @if (badge.unlocked && !badge.seen) {
+                    <div class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></div>
+                  }
+                  <!-- Tooltip -->
+                  <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-slate-700 rounded text-[9px] text-white whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-10">
+                    {{ lang.lang() === 'et' ? badge.titleEt : badge.titleEn }}
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      }
+
       <!-- Autopilot Widget (premium only) -->
       @if (subService.isPremium() && autopilotCounts() && (autopilotCounts()!.total > 0)) {
         <div class="mb-6 animate-fade-in-up">
@@ -643,6 +746,15 @@ export class DashboardComponent implements OnInit {
   autopilotTop = signal<AutopilotInsight[]>([]);
   generatingReport = signal(false);
 
+  // Compliance score widget
+  auditReadiness = signal<any>(null);
+  auditModules = signal<{ key: string; label: string; score: number }[]>([]);
+
+  // Achievement badges
+  achievements = signal<any[]>([]);
+  newAchievementCount = signal(0);
+  unlockedCount = signal(0);
+
   history: HistoryEntry[] = [];
   leaderboard: LeaderboardEntry[] = [];
   pillarData: PillarData[] = [];
@@ -675,6 +787,8 @@ export class DashboardComponent implements OnInit {
     this.buildDeficiencies();
     this.lastUpdated = this.formatDate(new Date().toISOString());
     this.loadAutopilotWidget();
+    this.loadAuditReadiness();
+    this.loadAchievements();
   }
 
   private loadAutopilotWidget() {
@@ -939,6 +1053,70 @@ export class DashboardComponent implements OnInit {
       case 'RED': return this.lang.t('dashboard.badge_red');
       default: return '';
     }
+  }
+
+  private loadAuditReadiness() {
+    this.api.getAuditReadiness().subscribe({
+      next: (data) => {
+        this.auditReadiness.set(data);
+        if (data.modules) {
+          const mods = [
+            { key: 'assessment', label: this.lang.l('Hindamine', 'Assessment'), score: data.modules.assessment?.score ?? 0 },
+            { key: 'evidence', label: this.lang.l('Tõendid', 'Evidence'), score: data.modules.evidence?.score ?? 0 },
+            { key: 'remediation', label: this.lang.l('Parandused', 'Remediation'), score: data.modules.remediation?.score ?? 0 },
+            { key: 'incidents', label: this.lang.l('Intsidendid', 'Incidents'), score: data.modules.incidents?.score ?? 0 },
+            { key: 'thirdParty', label: this.lang.l('Kolmandad', 'Third-Party'), score: data.modules.thirdParty?.score ?? 0 },
+          ];
+          this.auditModules.set(mods);
+        }
+      },
+      error: () => {}
+    });
+  }
+
+  private loadAchievements() {
+    // Trigger check first, then load
+    this.api.checkAchievements().subscribe({
+      next: () => {
+        this.api.getAchievements().subscribe({
+          next: (badges) => {
+            this.achievements.set(badges);
+            this.unlockedCount.set(badges.filter((b: any) => b.unlocked).length);
+            this.newAchievementCount.set(badges.filter((b: any) => b.unlocked && !b.seen).length);
+          },
+          error: () => {}
+        });
+      },
+      error: () => {}
+    });
+  }
+
+  markAchievementSeen(key: string) {
+    this.api.markAchievementSeen(key).subscribe({
+      next: () => {
+        const updated = this.achievements().map(b =>
+          b.key === key ? { ...b, seen: true } : b
+        );
+        this.achievements.set(updated);
+        this.newAchievementCount.set(updated.filter((b: any) => b.unlocked && !b.seen).length);
+      }
+    });
+  }
+
+  getAchievementEmoji(icon: string): string {
+    const map: Record<string, string> = {
+      'clipboard-check': '\u{1F4CB}',
+      'file-text': '\u{1F4C4}',
+      'upload': '\u{1F4E4}',
+      'archive': '\u{1F4E6}',
+      'award': '\u{1F3C6}',
+      'shield': '\u{1F6E1}',
+      'check-circle': '\u{2705}',
+      'alert-triangle': '\u{26A0}',
+      'database': '\u{1F5C4}',
+      'star': '\u{2B50}'
+    };
+    return map[icon] || '\u{1F3C5}';
   }
 
   private get dateLocale(): string {

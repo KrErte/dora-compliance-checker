@@ -5,6 +5,7 @@ import com.dorachecker.model.ContractAnalysisRepository;
 import com.dorachecker.model.GapAnalysisRepository;
 import com.dorachecker.model.IncidentReportRepository;
 import com.dorachecker.service.ExcelExportService;
+import com.dorachecker.service.ICalExportService;
 import com.dorachecker.service.PdfExportService;
 import com.dorachecker.service.ComplianceReportService;
 import com.dorachecker.service.ProfessionalReportService;
@@ -29,6 +30,7 @@ public class ExportController {
     private final ExcelExportService excelExportService;
     private final ProfessionalReportService professionalReportService;
     private final ComplianceReportService complianceReportService;
+    private final ICalExportService iCalExportService;
 
     public ExportController(
             SubscriptionGuardService guardService,
@@ -39,7 +41,8 @@ public class ExportController {
             PdfExportService pdfExportService,
             ExcelExportService excelExportService,
             ProfessionalReportService professionalReportService,
-            ComplianceReportService complianceReportService
+            ComplianceReportService complianceReportService,
+            ICalExportService iCalExportService
     ) {
         this.guardService = guardService;
         this.assessmentRepository = assessmentRepository;
@@ -50,6 +53,7 @@ public class ExportController {
         this.excelExportService = excelExportService;
         this.professionalReportService = professionalReportService;
         this.complianceReportService = complianceReportService;
+        this.iCalExportService = iCalExportService;
     }
 
     @PostMapping("/pdf/assessment/{id}")
@@ -323,6 +327,33 @@ public class ExportController {
         return fileResponse(pdfBytes, "dora-compliance-report.pdf", MediaType.APPLICATION_PDF);
     }
 
+    @GetMapping("/ical/deadlines")
+    public ResponseEntity<?> exportIcalDeadlines(
+            Authentication authentication
+    ) {
+        String userId = authentication != null ? (String) authentication.getPrincipal() : null;
+
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
+                    "error", "UNAUTHORIZED",
+                    "message", "Authentication required"
+            ));
+        }
+
+        if (!guardService.canAccess(userId, null, Feature.ICAL_EXPORT)) {
+            return premiumRequiredResponse(Feature.ICAL_EXPORT);
+        }
+
+        String ical = iCalExportService.generateIcal(userId);
+        byte[] bytes = ical.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("text/calendar"));
+        headers.setContentDisposition(ContentDisposition.attachment().filename("dora-deadlines.ics").build());
+        headers.setContentLength(bytes.length);
+        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
+    }
+
     private boolean isOwner(String userId, String sessionId, String resourceUserId, String resourceSessionId) {
         if (userId != null && userId.equals(resourceUserId)) {
             return true;
@@ -350,6 +381,7 @@ public class ExportController {
             case ACTION_PLAN_PDF -> "Tegevuskava PDF on saadaval Standard ja Enterprise plaanidel";
             case PROFESSIONAL_REPORT -> "Professionaalne DORA raport on saadaval Standard ja Enterprise plaanidel";
             case COMPLIANCE_REPORT -> "DORA vastavusraport on saadaval Standard ja Enterprise plaanidel";
+            case ICAL_EXPORT -> "Kalendri eksport on saadaval Standard ja Enterprise plaanidel";
             default -> "See funktsioon on saadaval tasulisel plaanil";
         };
 

@@ -67,6 +67,12 @@ const coreRoutes: Routes = [
     loadComponent: () => import('./pages/verify-email.component').then(m => m.VerifyEmailComponent)
   },
   {
+    path: 'verify/:token',
+    loadComponent: () => import('./pages/verify.component').then(m => m.VerifyComponent),
+    // No authGuard - public verification page
+    data: { seoTitle: 'DORA Trust Seal Verification' }
+  },
+  {
     path: 'oauth/callback',
     loadComponent: () => import('./pages/oauth-callback.component').then(m => m.OAuthCallbackComponent)
   },

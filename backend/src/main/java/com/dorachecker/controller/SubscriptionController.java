@@ -166,6 +166,7 @@ public class SubscriptionController {
             case COMPLIANCE_REPORT -> "DORA vastavusraport on saadaval Standard ja Enterprise plaanidel";
             case AI_POLICY_WRITER -> "AI poliitikakirjutaja on saadaval ainult Enterprise plaanil";
             case EVIDENCE_GAP_ANALYZER -> "Evidence Gap Analyzer on saadaval ainult Enterprise plaanil";
+            case ICAL_EXPORT -> "Kalendri eksport on saadaval Standard ja Enterprise plaanidel";
         };
     }
 

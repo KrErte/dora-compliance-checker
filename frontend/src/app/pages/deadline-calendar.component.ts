@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
+import { ApiService } from '../api.service';
+import { SubscriptionService } from '../services/subscription.service';
 
 interface Deadline {
   id: string;
@@ -23,7 +25,12 @@ interface Deadline {
       <!-- Header -->
       <div class="text-center mb-10">
         <h1 class="text-3xl font-bold text-slate-100 mb-2">{{ lang.t('deadlines.title') }}</h1>
-        <p class="text-slate-400">{{ lang.t('deadlines.subtitle') }}</p>
+        <p class="text-slate-400 mb-4">{{ lang.t('deadlines.subtitle') }}</p>
+        <button (click)="exportIcal()"
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/20">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          {{ lang.l('Ekspordi kalendrisse', 'Export to Calendar') }}
+        </button>
       </div>
 
       <!-- Entity type filter -->
@@ -185,6 +192,8 @@ interface Deadline {
 export class DeadlineCalendarComponent implements OnInit {
   readonly lang = inject(LangService);
   private readonly titleService = inject(Title);
+  private readonly api = inject(ApiService);
+  readonly subService = inject(SubscriptionService);
   readonly Math = Math;
 
   selectedEntityType = signal<string>('ALL');
@@ -293,6 +302,20 @@ export class DeadlineCalendarComponent implements OnInit {
       const ids: string[] = JSON.parse(localStorage.getItem('dora_deadline_completed') || '[]');
       this.completedIds.set(new Set(ids));
     } catch { /* empty */ }
+  }
+
+  exportIcal() {
+    this.api.exportIcalDeadlines().subscribe({
+      next: (blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'dora-deadlines.ics';
+        a.click();
+        URL.revokeObjectURL(url);
+      },
+      error: () => {}
+    });
   }
 
   private saveCompleted(ids: Set<string>) {

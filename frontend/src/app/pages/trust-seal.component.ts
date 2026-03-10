@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { LangService } from '../lang.service';
 import { AuthService } from '../auth/auth.service';
+import { ApiService } from '../api.service';
 
 type SealVariant = 'shield' | 'badge' | 'minimal';
 type SealTheme = 'dark' | 'light' | 'auto';
@@ -324,7 +325,9 @@ export class TrustSealComponent implements OnInit {
     'seal.benefit_auto_updates'
   ];
 
-  constructor(public lang: LangService, public auth: AuthService) {}
+  private sealToken = signal('');
+
+  constructor(public lang: LangService, public auth: AuthService, private api: ApiService) {}
 
   ngOnInit() {
     const history = this.getLocalStorage('assessment-history') || [];
@@ -352,6 +355,25 @@ export class TrustSealComponent implements OnInit {
       lastDate.setFullYear(lastDate.getFullYear() + 1);
       this.sealExpiry.set(lastDate.toISOString().split('T')[0]);
     }
+
+    // Load or generate real seal from backend
+    this.api.getMyTrustSeal().subscribe({
+      next: (seal) => {
+        if (seal.exists) {
+          this.sealToken.set(seal.verificationToken);
+          this.sealExpiry.set(seal.validUntil);
+        } else if (verified) {
+          // Auto-generate seal
+          const companyName = hasAssessment ? (history[history.length - 1].companyName || '') : '';
+          this.api.generateTrustSeal({ companyName, score: lastScore }).subscribe({
+            next: (newSeal) => {
+              this.sealToken.set(newSeal.verificationToken);
+              this.sealExpiry.set(newSeal.validUntil);
+            }
+          });
+        }
+      }
+    });
   }
 
   getSealContainerClass(): string {
@@ -377,6 +399,7 @@ export class TrustSealComponent implements OnInit {
   }
 
   getSealId(): string {
+    if (this.sealToken()) return this.sealToken();
     const email = this.auth.user()?.email || 'demo';
     let hash = 0;
     for (let i = 0; i < email.length; i++) {

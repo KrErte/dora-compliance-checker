@@ -24,13 +24,20 @@ import { RemediationItem, RemediationStats } from '../models';
           </h1>
           <p class="text-slate-400 text-sm mt-1">{{ lang.t('remediation.track_progress_of_dora_compliance_remedi') }}</p>
         </div>
-        <button (click)="showForm = true"
-                class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold text-sm hover:shadow-lg transition-all flex items-center gap-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-          </svg>
-          {{ lang.t('remediation.add_action') }}
-        </button>
+        <div class="flex items-center gap-2">
+          <button (click)="exportIcal()"
+                  class="px-4 py-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-semibold text-sm hover:bg-cyan-500/20 transition-all flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            {{ lang.l('Ekspordi', 'Export iCal') }}
+          </button>
+          <button (click)="showForm = true"
+                  class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold text-sm hover:shadow-lg transition-all flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            {{ lang.t('remediation.add_action') }}
+          </button>
+        </div>
       </div>
 
       <!-- Stats -->
@@ -258,6 +265,20 @@ export class RemediationTrackerComponent implements OnInit {
   deleteItem(id: string) {
     this.api.deleteRemediation(id).subscribe({
       next: () => this.loadData()
+    });
+  }
+
+  exportIcal() {
+    this.api.exportIcalDeadlines().subscribe({
+      next: (blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'dora-deadlines.ics';
+        a.click();
+        URL.revokeObjectURL(url);
+      },
+      error: () => {}
     });
   }
 }

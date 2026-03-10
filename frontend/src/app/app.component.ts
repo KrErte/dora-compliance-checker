@@ -11,13 +11,14 @@ import { SubscriptionService } from './services/subscription.service';
 import { CookieConsentComponent } from './components/cookie-consent/cookie-consent.component';
 import { OnboardingComponent } from './pages/onboarding.component';
 import { ChatWidgetComponent } from './components/chat-widget.component';
+import { PwaInstallPromptComponent } from './components/pwa-install-prompt.component';
 import { ToastService } from './auth/toast.service';
 import { ApiService } from './api.service';
 import { ComplianceAlert } from './models';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, CookieConsentComponent, OnboardingComponent, ChatWidgetComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, CookieConsentComponent, OnboardingComponent, ChatWidgetComponent, PwaInstallPromptComponent],
   host: {
     '(document:click)': 'onDocumentClick($event)',
     '(window:scroll)': 'closeAllMenus()'
@@ -885,6 +886,7 @@ import { ComplianceAlert } from './models';
     }
 
     <app-chat-widget></app-chat-widget>
+    <app-pwa-install-prompt />
 
     <!-- Toast notifications -->
     <div class="fixed top-4 right-4 z-[100] flex flex-col gap-2 max-w-sm" *ngIf="toast.toasts().length > 0">

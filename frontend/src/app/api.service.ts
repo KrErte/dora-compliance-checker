@@ -489,6 +489,33 @@ export class ApiService {
     return this.http.get<any>(`${this.baseUrl}/activity/stats`);
   }
 
+  // iCal Export
+  exportIcalDeadlines(): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/exports/ical/deadlines`, { responseType: 'blob' });
+  }
+
+  // Trust Seal
+  generateTrustSeal(data: { companyName: string; score: number }): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/trust-seal/generate`, data);
+  }
+  getMyTrustSeal(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/trust-seal/mine`);
+  }
+  verifyTrustSeal(token: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/public/verify/${token}`);
+  }
+
+  // Achievements
+  getAchievements(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/achievements`);
+  }
+  checkAchievements(): Observable<{ newlyUnlocked: string[] }> {
+    return this.http.post<{ newlyUnlocked: string[] }>(`${this.baseUrl}/achievements/check`, {});
+  }
+  markAchievementSeen(key: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/achievements/${key}/seen`, {});
+  }
+
   // Autopilot
   getAutopilotInsights(status?: string, severity?: string): Observable<AutopilotInsight[]> {
     let params = '';
