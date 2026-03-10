@@ -6,7 +6,8 @@ import { LangService } from '../../lang.service';
 import {
   RoiService, RoiRegister, RoiProvider, RoiFunction, RoiContract,
   RoiContractDetail, RoiAssessment, RoiSupplyChain, RoiGroupEntity,
-  ValidationResult, ValidationError, TemplateCompleteness, GleifResult,
+  RoiValidationReport, RoiViolation, TemplateSummary, TemplateCompleteness,
+  ValidationHistoryEntry, GleifResult,
   ENTITY_TYPES, CONTRACT_TYPES, ICT_SERVICE_TYPES, CRITICALITY_OPTIONS,
   RISK_LEVELS, PROVIDER_TYPES, COMMON_FUNCTIONS, PRESET_PROVIDERS
 } from '../../services/roi.service';
@@ -34,7 +35,7 @@ import { SubscriptionService } from '../../services/subscription.service';
         <div class="flex items-center gap-1 mb-8 overflow-x-auto pb-2">
           @for (s of steps; track s.num; let i = $index) {
             <button (click)="currentStep = s.num"
-                    class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all"
+                    class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all relative"
                     [class]="currentStep === s.num ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : (s.num < currentStep ? 'bg-slate-800/50 text-slate-400' : 'bg-slate-800/30 text-slate-500')">
               <span class="w-6 h-6 flex items-center justify-center rounded-full text-xs"
                     [class]="s.num < currentStep ? 'bg-emerald-500 text-white' : (currentStep === s.num ? 'bg-emerald-500/30 text-emerald-400' : 'bg-slate-700 text-slate-500')">
@@ -46,6 +47,11 @@ import { SubscriptionService } from '../../services/subscription.service';
                       [class]="getStepCompleteness(s.num) >= 80 ? 'bg-emerald-500/20 text-emerald-400' : (getStepCompleteness(s.num) >= 50 ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400')">
                   {{ getStepCompleteness(s.num) }}%
                 </span>
+              }
+              <!-- Step validation badge -->
+              @if (stepValidationStatus[s.num]) {
+                <span class="absolute -top-1 -right-1 w-3 h-3 rounded-full border-2 border-slate-900"
+                      [class]="stepValidationStatus[s.num] === 'GREEN' ? 'bg-emerald-500' : (stepValidationStatus[s.num] === 'YELLOW' ? 'bg-amber-500' : 'bg-red-500')"></span>
               }
             </button>
           }
@@ -102,7 +108,6 @@ import { SubscriptionService } from '../../services/subscription.service';
               </div>
             </div>
 
-            <!-- Group toggle -->
             <div class="mt-6 pt-6 border-t border-slate-700/50">
               <label class="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox" [(ngModel)]="isGroup" class="w-4 h-4 accent-emerald-500">
@@ -133,7 +138,6 @@ import { SubscriptionService } from '../../services/subscription.service';
           @if (currentStep === 2) {
             <h2 class="text-xl font-semibold text-white mb-6">{{ lang.t('roi.step2_title') }}</h2>
 
-            <!-- Preset providers -->
             <div class="mb-6">
               <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.preset_providers') }}</h3>
               <div class="flex flex-wrap gap-2">
@@ -147,7 +151,6 @@ import { SubscriptionService } from '../../services/subscription.service';
               </div>
             </div>
 
-            <!-- Providers list -->
             @if (register?.providers?.length) {
               <div class="space-y-3 mb-6">
                 @for (p of register!.providers!; track p.id) {
@@ -167,7 +170,6 @@ import { SubscriptionService } from '../../services/subscription.service';
               </div>
             }
 
-            <!-- Add new provider -->
             <div class="border-t border-slate-700/50 pt-4">
               <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.add_provider') }}</h3>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -196,7 +198,6 @@ import { SubscriptionService } from '../../services/subscription.service';
           @if (currentStep === 3) {
             <h2 class="text-xl font-semibold text-white mb-6">{{ lang.t('roi.step3_title') }}</h2>
 
-            <!-- Common functions -->
             <div class="mb-6">
               <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.common_functions') }}</h3>
               <div class="flex flex-wrap gap-2">
@@ -209,7 +210,6 @@ import { SubscriptionService } from '../../services/subscription.service';
               </div>
             </div>
 
-            <!-- Functions list -->
             @if (register?.functions?.length) {
               <div class="space-y-3 mb-6">
                 @for (f of register!.functions!; track f.id) {
@@ -227,7 +227,6 @@ import { SubscriptionService } from '../../services/subscription.service';
               </div>
             }
 
-            <!-- Add new function -->
             <div class="border-t border-slate-700/50 pt-4">
               <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.add_function') }}</h3>
               <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -249,7 +248,6 @@ import { SubscriptionService } from '../../services/subscription.service';
           @if (currentStep === 4) {
             <h2 class="text-xl font-semibold text-white mb-6">{{ lang.t('roi.step4_title') }}</h2>
 
-            <!-- Contracts list -->
             @if (register?.contracts?.length) {
               <div class="space-y-3 mb-6">
                 @for (c of register!.contracts!; track c.id) {
@@ -267,7 +265,6 @@ import { SubscriptionService } from '../../services/subscription.service';
               </div>
             }
 
-            <!-- Add new contract -->
             <div class="border-t border-slate-700/50 pt-4">
               <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.add_contract') }}</h3>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -290,7 +287,6 @@ import { SubscriptionService } from '../../services/subscription.service';
               </button>
             </div>
 
-            <!-- Contract Details (B_02.02) -->
             @if (register?.contracts?.length) {
               <div class="border-t border-slate-700/50 pt-6 mt-6">
                 <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.contract_details') }} (B_02.02)</h3>
@@ -338,7 +334,7 @@ import { SubscriptionService } from '../../services/subscription.service';
             }
           }
 
-          <!-- STEP 5: Linking (auto-fill) -->
+          <!-- STEP 5: Linking -->
           @if (currentStep === 5) {
             <h2 class="text-xl font-semibold text-white mb-4">{{ lang.t('roi.step5_title') }}</h2>
             <p class="text-slate-400 text-sm mb-6">{{ lang.t('roi.step5_desc') }}</p>
@@ -347,7 +343,6 @@ import { SubscriptionService } from '../../services/subscription.service';
               {{ lang.t('roi.auto_fill') }}
             </button>
 
-            <!-- Show linking results -->
             @if (register) {
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="bg-slate-800/30 rounded-lg p-4">
@@ -392,7 +387,6 @@ import { SubscriptionService } from '../../services/subscription.service';
               </div>
             }
 
-            <!-- Add assessment -->
             @if (register?.contracts?.length) {
               <div class="border-t border-slate-700/50 pt-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -425,49 +419,119 @@ import { SubscriptionService } from '../../services/subscription.service';
             }
           }
 
-          <!-- STEP 7: Validate & Export -->
+          <!-- STEP 7: Validate & Export (REDESIGNED) -->
           @if (currentStep === 7) {
             <h2 class="text-xl font-semibold text-white mb-6">{{ lang.t('roi.step7_title') }}</h2>
 
-            <button (click)="runValidation()" class="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-semibold mb-6">
-              {{ lang.t('roi.run_validation') }}
+            <button (click)="runValidation()" class="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-semibold mb-6"
+                    [disabled]="validating">
+              {{ validating ? '...' : lang.t('roi.run_validation') }}
             </button>
 
-            @if (validationResult) {
-              <!-- Summary bar -->
-              <div class="grid grid-cols-3 gap-4 mb-6">
-                <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-4 text-center">
-                  <div class="text-2xl font-bold text-emerald-400">{{ validationResult.passed }}</div>
-                  <div class="text-xs text-slate-400">{{ lang.t('roi.passed') }}</div>
+            @if (validationReport) {
+              <!-- Traffic Light Indicator -->
+              <div class="flex items-center gap-4 mb-6 p-4 rounded-xl"
+                   [class]="validationReport.status === 'GREEN' ? 'bg-emerald-500/10 border border-emerald-500/30' :
+                            (validationReport.status === 'YELLOW' ? 'bg-amber-500/10 border border-amber-500/30' : 'bg-red-500/10 border border-red-500/30')">
+                <div class="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold"
+                     [class]="validationReport.status === 'GREEN' ? 'bg-emerald-500/20 text-emerald-400' :
+                              (validationReport.status === 'YELLOW' ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400')">
+                  {{ validationReport.passRate | number:'1.0-0' }}%
                 </div>
-                <div class="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4 text-center">
-                  <div class="text-2xl font-bold text-amber-400">{{ validationResult.warnings }}</div>
-                  <div class="text-xs text-slate-400">{{ lang.t('roi.warnings') }}</div>
-                </div>
-                <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-4 text-center">
-                  <div class="text-2xl font-bold text-red-400">{{ validationResult.errors }}</div>
-                  <div class="text-xs text-slate-400">{{ lang.t('roi.errors_label') }}</div>
+                <div>
+                  <h3 class="text-lg font-bold"
+                      [class]="validationReport.status === 'GREEN' ? 'text-emerald-400' :
+                               (validationReport.status === 'YELLOW' ? 'text-amber-400' : 'text-red-400')">
+                    {{ lang.t('roi.status_' + validationReport.status.toLowerCase()) }}
+                  </h3>
+                  <p class="text-sm text-slate-400">
+                    {{ validationReport.passed }}/{{ validationReport.totalRules }} {{ lang.t('roi.rules_passed') }}
+                    &middot; {{ validationReport.errors }} {{ lang.t('roi.errors_label') }}
+                    &middot; {{ validationReport.warnings }} {{ lang.t('roi.warnings') }}
+                    @if (validationReport.infos > 0) {
+                      &middot; {{ validationReport.infos }} {{ lang.t('roi.infos_label') }}
+                    }
+                  </p>
                 </div>
               </div>
 
-              <!-- Progress bar -->
-              <div class="mb-6">
-                <div class="flex justify-between text-xs text-slate-400 mb-1">
-                  <span>{{ validationResult.passed }}/{{ validationResult.totalRules }} {{ lang.t('roi.rules_passed') }}</span>
-                  <span>{{ getPassRate() }}%</span>
+              <!-- Summary Grid -->
+              <div class="grid grid-cols-4 gap-3 mb-6">
+                <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-3 text-center">
+                  <div class="text-xl font-bold text-emerald-400">{{ validationReport.passed }}</div>
+                  <div class="text-[10px] text-slate-400">{{ lang.t('roi.passed') }}</div>
                 </div>
-                <div class="w-full bg-slate-800 rounded-full h-2">
-                  <div class="h-2 rounded-full transition-all" [style.width.%]="getPassRate()"
-                       [class]="getPassRate() >= 90 ? 'bg-emerald-500' : (getPassRate() >= 70 ? 'bg-amber-500' : 'bg-red-500')"></div>
+                <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-3 text-center">
+                  <div class="text-xl font-bold text-red-400">{{ validationReport.errors }}</div>
+                  <div class="text-[10px] text-slate-400">{{ lang.t('roi.errors_label') }}</div>
                 </div>
+                <div class="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 text-center">
+                  <div class="text-xl font-bold text-amber-400">{{ validationReport.warnings }}</div>
+                  <div class="text-[10px] text-slate-400">{{ lang.t('roi.warnings') }}</div>
+                </div>
+                <div class="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3 text-center">
+                  <div class="text-xl font-bold text-blue-400">{{ validationReport.infos }}</div>
+                  <div class="text-[10px] text-slate-400">{{ lang.t('roi.infos_label') }}</div>
+                </div>
+              </div>
+
+              <!-- Template-grouped Expandable Sections -->
+              <div class="space-y-2 mb-6">
+                @for (ts of getTemplateSummaryEntries(); track ts.templateCode) {
+                  <div class="border rounded-lg overflow-hidden"
+                       [class]="ts.status === 'GREEN' ? 'border-emerald-500/20' : (ts.status === 'YELLOW' ? 'border-amber-500/20' : 'border-red-500/20')">
+                    <button (click)="toggleTemplateSection(ts.templateCode)"
+                            class="w-full flex items-center justify-between px-4 py-3 bg-slate-800/30 hover:bg-slate-800/50 transition-colors">
+                      <div class="flex items-center gap-3">
+                        <span class="w-3 h-3 rounded-full"
+                              [class]="ts.status === 'GREEN' ? 'bg-emerald-500' : (ts.status === 'YELLOW' ? 'bg-amber-500' : 'bg-red-500')"></span>
+                        <span class="font-mono text-xs text-slate-400">{{ ts.templateCode }}</span>
+                        <span class="text-sm text-white">{{ ts.templateName }}</span>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        @if (ts.errors > 0) {
+                          <span class="text-[10px] px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 font-bold">{{ ts.errors }} ERR</span>
+                        }
+                        @if (ts.warnings > 0) {
+                          <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 font-bold">{{ ts.warnings }} WARN</span>
+                        }
+                        @if (ts.errors === 0 && ts.warnings === 0) {
+                          <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold">PASS</span>
+                        }
+                        <span class="text-slate-500 text-sm">{{ expandedTemplates[ts.templateCode] ? '&#9660;' : '&#9654;' }}</span>
+                      </div>
+                    </button>
+                    @if (expandedTemplates[ts.templateCode]) {
+                      <div class="px-4 py-2 space-y-1.5 bg-slate-900/30">
+                        @for (issue of getIssuesForTemplate(ts.templateCode); track $index) {
+                          <div class="flex items-start gap-3 p-2 rounded-lg cursor-pointer hover:bg-slate-800/50 text-sm"
+                               [class]="issue.severity === 'ERROR' ? 'bg-red-500/5' : (issue.severity === 'WARNING' ? 'bg-amber-500/5' : 'bg-blue-500/5')"
+                               (click)="goToIssueFromReport(issue)">
+                            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded shrink-0"
+                                  [class]="issue.severity === 'ERROR' ? 'bg-red-500/20 text-red-400' : (issue.severity === 'WARNING' ? 'bg-amber-500/20 text-amber-400' : 'bg-blue-500/20 text-blue-400')">
+                              {{ issue.ruleId }}
+                            </span>
+                            <div class="flex-1 min-w-0">
+                              <p class="text-slate-300 truncate">{{ lang.currentLang === 'et' ? issue.messageEt : issue.messageEn }}</p>
+                              <p class="text-[10px] text-slate-500 mt-0.5">{{ issue.templateCode }}.{{ issue.field }}{{ issue.entityRef ? ' — ' + issue.entityRef : '' }}</p>
+                            </div>
+                          </div>
+                        }
+                        @if (getIssuesForTemplate(ts.templateCode).length === 0) {
+                          <p class="text-xs text-emerald-400 py-2">&#10003; {{ lang.t('roi.passed') }}</p>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
               </div>
 
               <!-- Template Completeness -->
-              @if (validationResult.completeness) {
+              @if (validationReport.completeness) {
                 <div class="mb-6">
                   <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.template_completeness') }}</h3>
                   <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    @for (entry of getCompletenessEntries(); track entry.templateCode) {
+                    @for (entry of getReportCompletenessEntries(); track entry.templateCode) {
                       <div class="bg-slate-800/30 rounded-lg p-3">
                         <div class="flex items-center justify-between mb-1">
                           <span class="text-xs font-mono text-slate-400">{{ entry.templateCode }}</span>
@@ -488,33 +552,30 @@ import { SubscriptionService } from '../../services/subscription.service';
                   </div>
                 </div>
               }
-
-              <!-- Issues list -->
-              @if (validationResult.issues.length) {
-                <div class="space-y-2 max-h-96 overflow-y-auto">
-                  @for (issue of validationResult.issues; track $index) {
-                    <div class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-slate-800/50"
-                         [class]="issue.severity === 'ERROR' ? 'bg-red-500/5 border border-red-500/20' : 'bg-amber-500/5 border border-amber-500/20'"
-                         (click)="goToIssue(issue)">
-                      <span class="text-xs font-mono px-2 py-0.5 rounded" [class]="issue.severity === 'ERROR' ? 'bg-red-500/20 text-red-400' : 'bg-amber-500/20 text-amber-400'">{{ issue.ruleCode }}</span>
-                      <div class="flex-1">
-                        <p class="text-sm text-slate-300">{{ issue.message }}</p>
-                        <p class="text-xs text-slate-500 mt-0.5">{{ issue.templateCode }}.{{ issue.field }}</p>
-                      </div>
-                    </div>
-                  }
-                </div>
-              }
             }
 
             <!-- Export buttons -->
             <div class="border-t border-slate-700/50 pt-6 mt-6">
               <h3 class="text-sm font-semibold text-slate-400 mb-4">{{ lang.t('roi.export_options') }}</h3>
+
+              @if (validationReport?.status === 'RED') {
+                <div class="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-sm text-red-400">
+                  {{ lang.t('roi.export_blocked') }}
+                </div>
+              }
+              @if (validationReport?.status === 'YELLOW') {
+                <div class="mb-4 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg text-sm text-amber-400">
+                  {{ lang.t('roi.export_warning') }}
+                </div>
+              }
+
               <div class="flex flex-wrap gap-3">
-                <button (click)="exportExcel()" class="px-5 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-semibold flex items-center gap-2">
+                <button (click)="exportExcel()" class="px-5 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-semibold flex items-center gap-2"
+                        [disabled]="validationReport?.status === 'RED'">
                   <span>&#128196;</span> {{ lang.t('roi.export_excel') }}
                 </button>
-                <button (click)="exportXbrlCsv()" class="px-5 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-semibold flex items-center gap-2">
+                <button (click)="exportXbrlCsv()" class="px-5 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-semibold flex items-center gap-2"
+                        [disabled]="validationReport?.status === 'RED'">
                   <span>&#128230;</span> {{ lang.t('roi.export_xbrl') }}
                   <span class="text-xs bg-blue-500/30 px-2 py-0.5 rounded-full">{{ lang.t('roi.tier_enterprise') }}</span>
                 </button>
@@ -535,6 +596,23 @@ import { SubscriptionService } from '../../services/subscription.service';
           </button>
         </div>
       </div>
+
+      <!-- Floating Pre-check Button (steps 2-6) -->
+      @if (currentStep >= 2 && currentStep <= 6 && register) {
+        <button (click)="runPreCheck()" class="fixed bottom-6 right-6 px-4 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl shadow-lg shadow-blue-500/20 flex items-center gap-2 text-sm font-medium z-50 transition-all"
+                [disabled]="preChecking">
+          @if (preChecking) {
+            <span class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+          } @else {
+            <span>&#9889;</span>
+          }
+          {{ lang.t('roi.run_precheck') }}
+          @if (preCheckResult) {
+            <span class="w-2.5 h-2.5 rounded-full ml-1"
+                  [class]="preCheckResult.status === 'GREEN' ? 'bg-emerald-400' : (preCheckResult.status === 'YELLOW' ? 'bg-amber-400' : 'bg-red-400')"></span>
+          }
+        </button>
+      }
     </div>
   `,
   styles: [`
@@ -552,8 +630,13 @@ export class RoiWizardComponent implements OnInit {
   currentStep = 1;
   isGroup = false;
   leiResult: GleifResult | null = null;
-  validationResult: ValidationResult | null = null;
+  validationReport: RoiValidationReport | null = null;
+  preCheckResult: RoiValidationReport | null = null;
   saving = false;
+  validating = false;
+  preChecking = false;
+  expandedTemplates: { [key: string]: boolean } = {};
+  stepValidationStatus: { [step: number]: string } = {};
 
   // DPM lists
   entityTypes = ENTITY_TYPES;
@@ -577,19 +660,26 @@ export class RoiWizardComponent implements OnInit {
     ];
   }
 
-  // Form data for step 1
   form: any = {
     entityName: '', entityLei: '', country: 'EE', entityType: '',
     competentAuthority: 'Finantsinspektsioon', consolidationScope: 'IND', reportingDate: ''
   };
 
-  // New item forms
   newGroupEntity: any = { entityName: '', lei: '', country: '' };
   newProvider: Partial<RoiProvider> = { providerName: '', providerIdentifier: '', identificationCodeType: 'LEI', countryOfHq: '', providerType: '', currencyOfContract: 'EUR' };
   newFunction: Partial<RoiFunction> = { functionName: '', criticalityAssessment: 'Neither', licensedActivity: '' };
   newContract: Partial<RoiContract> = { contractRefNumber: '', contractType: '', currency: 'EUR' };
   newContractDetail: Partial<RoiContractDetail> = { contractRefNumber: '', ictServiceType: '', functionIdentifier: '', exitPlanExists: false };
   newAssessment: Partial<RoiAssessment> = { contractRefNumber: '', riskLevel: 'Medium', exitStrategyExists: false, alternativeProvidersIdentified: false };
+
+  private stepTemplateMap: Record<number, string[]> = {
+    1: ['B_01'],
+    2: ['B_05'],
+    3: ['B_06'],
+    4: ['B_02'],
+    5: ['B_03', 'B_04'],
+    6: ['B_07']
+  };
 
   constructor(
     public lang: LangService,
@@ -624,6 +714,9 @@ export class RoiWizardComponent implements OnInit {
     if (this.currentStep === 1) {
       this.saveStep1();
     }
+    // Auto-validate step on leaving
+    this.validateStepOnLeave(this.currentStep);
+
     if (this.currentStep === 7) {
       this.router.navigate(['/roi']);
       return;
@@ -632,7 +725,19 @@ export class RoiWizardComponent implements OnInit {
   }
 
   prevStep() {
+    this.validateStepOnLeave(this.currentStep);
     this.currentStep = Math.max(this.currentStep - 1, 1);
+  }
+
+  private validateStepOnLeave(step: number) {
+    if (!this.register) return;
+    const templates = this.stepTemplateMap[step];
+    if (!templates) return;
+    for (const tmpl of templates) {
+      this.roiService.validateTemplate(this.register.id, tmpl).subscribe(report => {
+        this.stepValidationStatus[step] = report.status;
+      });
+    }
   }
 
   private createAndContinue() {
@@ -670,8 +775,7 @@ export class RoiWizardComponent implements OnInit {
     });
   }
 
-  // ── Group entities (B_01.02) ──
-
+  // ── Group entities ──
   addGroupEntity() {
     if (!this.register || !this.newGroupEntity.entityName) return;
     this.newGroupEntity.parentEntityLei = this.form.entityLei;
@@ -688,8 +792,7 @@ export class RoiWizardComponent implements OnInit {
     });
   }
 
-  // ── Providers (B_05.01) ──
-
+  // ── Providers ──
   addProvider() {
     if (!this.register || !this.newProvider.providerName) return;
     this.roiService.addProvider(this.register.id, this.newProvider).subscribe(reg => {
@@ -700,9 +803,7 @@ export class RoiWizardComponent implements OnInit {
 
   addPresetProvider(preset: Partial<RoiProvider>) {
     if (!this.register || this.isProviderAdded(preset.providerName!)) return;
-    this.roiService.addProvider(this.register.id, { ...preset }).subscribe(reg => {
-      this.register = reg;
-    });
+    this.roiService.addProvider(this.register.id, { ...preset }).subscribe(reg => { this.register = reg; });
   }
 
   isProviderAdded(name: string): boolean {
@@ -716,15 +817,12 @@ export class RoiWizardComponent implements OnInit {
     });
   }
 
-  // ── Functions (B_06.01) ──
-
+  // ── Functions ──
   addFunction() {
     if (!this.register || !this.newFunction.functionName) return;
     const funcId = (this.form.entityLei || 'ENTITY') + '_' + this.newFunction.functionName!.replace(/\s+/g, '_').toUpperCase();
     this.roiService.addFunction(this.register.id, {
-      ...this.newFunction,
-      functionIdentifier: funcId,
-      entityLei: this.form.entityLei
+      ...this.newFunction, functionIdentifier: funcId, entityLei: this.form.entityLei
     }).subscribe(reg => {
       this.register = reg;
       this.newFunction = { functionName: '', criticalityAssessment: 'Neither', licensedActivity: '' };
@@ -743,8 +841,7 @@ export class RoiWizardComponent implements OnInit {
     });
   }
 
-  // ── Contracts (B_02.01) ──
-
+  // ── Contracts ──
   addContract() {
     if (!this.register || !this.newContract.contractRefNumber) return;
     this.roiService.addContract(this.register.id, this.newContract).subscribe(reg => {
@@ -759,8 +856,6 @@ export class RoiWizardComponent implements OnInit {
       this.register!.contracts = this.register!.contracts.filter(c => c.id !== id);
     });
   }
-
-  // ── Contract Details (B_02.02) ──
 
   addContractDetail() {
     if (!this.register || !this.newContractDetail.contractRefNumber) return;
@@ -777,17 +872,13 @@ export class RoiWizardComponent implements OnInit {
     });
   }
 
-  // ── Linking (Step 5) ──
-
+  // ── Linking ──
   runAutoFillLinking() {
     if (!this.register) return;
-    this.roiService.autoFillLinking(this.register.id).subscribe(reg => {
-      this.register = reg;
-    });
+    this.roiService.autoFillLinking(this.register.id).subscribe(reg => { this.register = reg; });
   }
 
-  // ── Assessments (B_07.01) ──
-
+  // ── Assessments ──
   addAssessment() {
     if (!this.register || !this.newAssessment.contractRefNumber) return;
     if (!this.newAssessment.assessmentDate) {
@@ -810,23 +901,60 @@ export class RoiWizardComponent implements OnInit {
 
   runValidation() {
     if (!this.register) return;
-    this.roiService.validate(this.register.id).subscribe(result => {
-      this.validationResult = result;
+    this.validating = true;
+    this.roiService.validate(this.register.id).subscribe({
+      next: report => {
+        this.validationReport = report;
+        this.validating = false;
+        // Auto-expand sections with issues
+        for (const ts of this.getTemplateSummaryEntries()) {
+          if (ts.errors > 0 || ts.warnings > 0) {
+            this.expandedTemplates[ts.templateCode] = true;
+          }
+        }
+      },
+      error: () => { this.validating = false; }
     });
   }
 
-  getPassRate(): number {
-    if (!this.validationResult || this.validationResult.totalRules === 0) return 0;
-    return Math.round((this.validationResult.passed / this.validationResult.totalRules) * 100);
+  runPreCheck() {
+    if (!this.register) return;
+    this.preChecking = true;
+    const templates = this.stepTemplateMap[this.currentStep];
+    if (!templates) { this.preChecking = false; return; }
+    this.roiService.validateTemplate(this.register.id, templates[0]).subscribe({
+      next: report => {
+        this.preCheckResult = report;
+        this.stepValidationStatus[this.currentStep] = report.status;
+        this.preChecking = false;
+      },
+      error: () => { this.preChecking = false; }
+    });
   }
 
-  getCompletenessEntries(): TemplateCompleteness[] {
-    if (!this.validationResult?.completeness) return [];
-    return Object.values(this.validationResult.completeness);
+  getTemplateSummaryEntries(): TemplateSummary[] {
+    if (!this.validationReport?.templateSummaries) return [];
+    return Object.values(this.validationReport.templateSummaries)
+      .filter(ts => ts.ruleCount > 0 || ts.errors > 0 || ts.warnings > 0)
+      .sort((a, b) => a.templateCode.localeCompare(b.templateCode));
+  }
+
+  getIssuesForTemplate(templateCode: string): RoiViolation[] {
+    if (!this.validationReport?.issues) return [];
+    return this.validationReport.issues.filter(i => i.templateCode === templateCode);
+  }
+
+  toggleTemplateSection(code: string) {
+    this.expandedTemplates[code] = !this.expandedTemplates[code];
+  }
+
+  getReportCompletenessEntries(): TemplateCompleteness[] {
+    if (!this.validationReport?.completeness) return [];
+    return Object.values(this.validationReport.completeness);
   }
 
   getStepCompleteness(step: number): number {
-    if (!this.validationResult?.completeness) return -1;
+    if (!this.validationReport?.completeness) return -1;
     const stepTemplateMap: Record<number, string[]> = {
       1: ['B_01.01'],
       2: ['B_05.01'],
@@ -838,13 +966,13 @@ export class RoiWizardComponent implements OnInit {
     if (!templates) return -1;
     let totalPct = 0, count = 0;
     for (const code of templates) {
-      const c = this.validationResult.completeness[code];
+      const c = this.validationReport.completeness[code];
       if (c) { totalPct += c.percentage; count++; }
     }
     return count > 0 ? Math.round(totalPct / count) : -1;
   }
 
-  goToIssue(issue: ValidationError) {
+  goToIssueFromReport(issue: RoiViolation) {
     const templateStepMap: Record<string, number> = {
       'B_01.01': 1, 'B_01.02': 1, 'B_01.03': 1,
       'B_05.01': 2, 'B_05.02': 2,
@@ -858,7 +986,6 @@ export class RoiWizardComponent implements OnInit {
   }
 
   // ── Exports ──
-
   exportExcel() {
     if (!this.register) return;
     this.roiService.exportExcel(this.register.id).subscribe(blob => {

@@ -2,6 +2,7 @@ package com.dorachecker.controller;
 
 import com.dorachecker.model.RoiRegisterEntity;
 import com.dorachecker.service.*;
+import com.dorachecker.service.validation.RoiValidationReport;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -273,8 +272,30 @@ public class RoiController {
         RoiRegisterEntity register = roiService.getRegister(id);
         if (register == null) return ResponseEntity.notFound().build();
         if (!register.getUserId().equals(auth.getPrincipal())) return ResponseEntity.status(403).build();
-        RoiValidationService.ValidationResult result = validationService.validate(register);
-        return ResponseEntity.ok(result);
+        RoiValidationReport report = validationService.validate(register);
+        return ResponseEntity.ok(report);
+    }
+
+    @PostMapping("/registers/{id}/validate/{templateCode}")
+    public ResponseEntity<?> validateTemplate(@PathVariable String id, @PathVariable String templateCode, Authentication auth) {
+        RoiRegisterEntity register = roiService.getRegister(id);
+        if (register == null) return ResponseEntity.notFound().build();
+        if (!register.getUserId().equals(auth.getPrincipal())) return ResponseEntity.status(403).build();
+        RoiValidationReport report = validationService.validateTemplate(register, templateCode);
+        return ResponseEntity.ok(report);
+    }
+
+    @GetMapping("/registers/{id}/validation-results")
+    public ResponseEntity<?> getValidationHistory(@PathVariable String id, Authentication auth) {
+        RoiRegisterEntity register = roiService.getRegister(id);
+        if (register == null) return ResponseEntity.notFound().build();
+        if (!register.getUserId().equals(auth.getPrincipal())) return ResponseEntity.status(403).build();
+        return ResponseEntity.ok(validationService.getValidationHistory(id));
+    }
+
+    @GetMapping("/validation-rules")
+    public ResponseEntity<?> getValidationRules() {
+        return ResponseEntity.ok(validationService.getRuleCatalog());
     }
 
     // ── Exports ──

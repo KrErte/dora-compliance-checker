@@ -30,8 +30,17 @@ export class AuthService {
 
   login(request: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>('/api/auth/login', request).pipe(
-      tap(res => this.handleAuth(res))
+      tap(res => {
+        if (!(res as any).requiresTwoFactor) {
+          this.handleAuth(res);
+        }
+      })
     );
+  }
+
+  /** Public method for completing auth after 2FA verification */
+  completeAuth(res: AuthResponse): void {
+    this.handleAuth(res);
   }
 
   register(request: RegisterRequest): Observable<AuthResponse> {

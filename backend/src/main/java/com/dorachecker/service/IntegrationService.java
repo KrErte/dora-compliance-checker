@@ -2,6 +2,8 @@ package com.dorachecker.service;
 
 import com.dorachecker.model.IntegrationConfigEntity;
 import com.dorachecker.model.IntegrationConfigRepository;
+import com.dorachecker.model.WebhookDeliveryEntity;
+import com.dorachecker.model.WebhookDeliveryRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -22,10 +24,13 @@ public class IntegrationService {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     private final IntegrationConfigRepository configRepository;
+    private final WebhookDeliveryRepository deliveryRepository;
     private final WebClient webClient;
 
-    public IntegrationService(IntegrationConfigRepository configRepository) {
+    public IntegrationService(IntegrationConfigRepository configRepository,
+                              WebhookDeliveryRepository deliveryRepository) {
         this.configRepository = configRepository;
+        this.deliveryRepository = deliveryRepository;
         this.webClient = WebClient.builder()
             .codecs(c -> c.defaultCodecs().maxInMemorySize(256 * 1024))
             .build();
@@ -156,6 +161,20 @@ public class IntegrationService {
             "source", "doraaudit"
         );
 
+        String payloadJson;
+        try {
+            payloadJson = mapper.writeValueAsString(payload);
+        } catch (Exception e) {
+            payloadJson = "{}";
+        }
+
+        WebhookDeliveryEntity delivery = new WebhookDeliveryEntity();
+        delivery.setIntegrationId(config.getId());
+        delivery.setUserId(config.getUserId());
+        delivery.setEventType(eventType != null ? eventType.name() : "TEST");
+        delivery.setPayload(payloadJson);
+
+        String finalPayloadJson = payloadJson;
         webClient.post()
             .uri(config.getWebhookUrl())
             .contentType(MediaType.APPLICATION_JSON)
@@ -163,8 +182,20 @@ public class IntegrationService {
             .retrieve()
             .bodyToMono(String.class)
             .subscribe(
-                r -> log.info("Webhook sent: {}", title),
-                e -> log.error("Webhook failed: {}", e.getMessage())
+                r -> {
+                    delivery.setSuccess(true);
+                    delivery.setResponseCode(200);
+                    delivery.setResponseBody(r != null && r.length() > 500 ? r.substring(0, 500) : r);
+                    deliveryRepository.save(delivery);
+                    log.info("Webhook sent: {}", title);
+                },
+                e -> {
+                    delivery.setSuccess(false);
+                    delivery.setResponseBody(e.getMessage());
+                    delivery.setNextRetryAt(LocalDateTime.now().plusMinutes(1));
+                    deliveryRepository.save(delivery);
+                    log.error("Webhook failed: {}", e.getMessage());
+                }
             );
     }
 

@@ -1,12 +1,15 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { LangService } from '../lang.service';
 import { ApiService } from '../api.service';
 import { SubscriptionService } from '../services/subscription.service';
 import { ChecklistService } from '../services/checklist.service';
 import { GettingStartedChecklistComponent } from '../components/getting-started-checklist.component';
 import { AutopilotInsight, AutopilotCounts } from '../models';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 interface HistoryEntry {
   id: string;
@@ -228,6 +231,31 @@ interface ChartPoint {
         </div>
       }
 
+      <!-- Regulatory Updates Widget -->
+      @if (regulatoryCount() > 0) {
+        <div class="mb-6 animate-fade-in-up">
+          <div class="bg-slate-800/50 backdrop-blur border border-amber-500/20 rounded-xl p-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-sm font-semibold text-white">Regulatory Updates</h3>
+                  <p class="text-[11px] text-slate-500">{{ regulatoryCount() }} unacknowledged update(s)</p>
+                </div>
+              </div>
+              <a routerLink="/regulatory-impact" class="text-xs text-amber-400 hover:text-amber-300 font-medium flex items-center gap-1 transition-colors">
+                Review
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      }
+
       <!-- Header -->
       <div class="flex items-center justify-between mb-10 animate-fade-in-up">
         <div>
@@ -263,6 +291,18 @@ interface ChartPoint {
               {{ lang.t('dashboard.generate_report') }}
             </button>
           }
+          <button (click)="downloadDashboardPdf()" [disabled]="generatingDashPdf()"
+            class="bg-slate-700/50 border border-slate-600/50 text-slate-300 font-semibold px-5 py-2.5 rounded-lg transition-all hover:border-cyan-500/30 hover:bg-slate-800/80 flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+            @if (generatingDashPdf()) {
+              <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg>
+              Generating...
+            } @else {
+              <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              Download PDF
+            }
+          </button>
           <a routerLink="/history"
              class="bg-slate-800/50 backdrop-blur border border-slate-700/50 text-slate-300 font-semibold
                     px-5 py-2.5 rounded-lg transition-all duration-300 hover:border-emerald-500/30
@@ -305,6 +345,36 @@ interface ChartPoint {
 
       <!-- Dashboard content (only when data exists) -->
       <ng-container *ngIf="history.length > 0">
+
+        <!-- Proportionality Scope Card -->
+        <div *ngIf="proportionalityScope()" class="mb-6 bg-gradient-to-r from-blue-500/10 via-emerald-500/10 to-purple-500/10 border border-blue-500/20 rounded-xl p-5 animate-fade-in-up">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-sm text-slate-400 mb-1">{{ lang.t('prop.title') }}</h3>
+              <div class="flex items-center gap-3">
+                <span class="text-white font-semibold">{{ proportionalityScope().entityType }}</span>
+                <span class="px-2 py-0.5 rounded-full text-xs font-bold"
+                      [class]="proportionalityScope().sizeCategory === 'MICRO' ? 'bg-blue-500/20 text-blue-400' :
+                               (proportionalityScope().sizeCategory === 'SMALL' ? 'bg-cyan-500/20 text-cyan-400' :
+                               (proportionalityScope().sizeCategory === 'MEDIUM' ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'))">
+                  {{ proportionalityScope().sizeCategory }}
+                </span>
+                <span *ngIf="proportionalityScope().simplifiedRegime" class="px-2 py-0.5 rounded-full text-xs font-bold bg-blue-500/20 text-blue-400">Art. 16</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">
+                {{ proportionalityScope().fullApply }} full &middot;
+                {{ proportionalityScope().simplified }} simplified &middot;
+                {{ proportionalityScope().exempted }} exempt
+                <span *ngIf="proportionalityScope().reductionPercentage > 0" class="text-emerald-400 ml-1">
+                  (-{{ proportionalityScope().reductionPercentage }}%)
+                </span>
+              </p>
+            </div>
+            <a routerLink="/proportionality" class="px-4 py-2 bg-slate-700/50 hover:bg-slate-600/50 text-slate-300 rounded-lg text-sm transition-colors">
+              {{ lang.t('roi.step_export') === 'Export' ? 'View' : 'Vaata' }}
+            </a>
+          </div>
+        </div>
 
         <!-- KPI Cards Row -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -742,9 +812,13 @@ export class DashboardComponent implements OnInit {
   subService = inject(SubscriptionService);
   checklist = inject(ChecklistService);
 
+  private http = inject(HttpClient);
   autopilotCounts = signal<AutopilotCounts | null>(null);
   autopilotTop = signal<AutopilotInsight[]>([]);
+  proportionalityScope = signal<any>(null);
   generatingReport = signal(false);
+  generatingDashPdf = signal(false);
+  regulatoryCount = signal(0);
 
   // Compliance score widget
   auditReadiness = signal<any>(null);
@@ -789,6 +863,15 @@ export class DashboardComponent implements OnInit {
     this.loadAutopilotWidget();
     this.loadAuditReadiness();
     this.loadAchievements();
+    this.loadRegulatoryCount();
+    this.loadProportionalityScope();
+  }
+
+  private loadProportionalityScope() {
+    this.http.get<any>('/api/proportionality/scope').subscribe({
+      next: scope => this.proportionalityScope.set(scope),
+      error: () => {}
+    });
   }
 
   private loadAutopilotWidget() {
@@ -828,6 +911,130 @@ export class DashboardComponent implements OnInit {
         this.generatingReport.set(false);
       }
     });
+  }
+
+  private loadRegulatoryCount() {
+    this.api.getUnacknowledgedCount().subscribe({
+      next: (data) => this.regulatoryCount.set(data.count),
+      error: () => {}
+    });
+  }
+
+  downloadDashboardPdf() {
+    this.generatingDashPdf.set(true);
+    try {
+      const doc = new jsPDF();
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+      // Title
+      doc.setFontSize(20);
+      doc.setTextColor(30, 41, 59);
+      doc.text('DORA Compliance Dashboard Snapshot', 14, 22);
+      doc.setFontSize(10);
+      doc.setTextColor(100, 116, 139);
+      doc.text(`Generated: ${dateStr}`, 14, 30);
+
+      // Divider
+      doc.setDrawColor(203, 213, 225);
+      doc.line(14, 34, 196, 34);
+
+      // Summary Stats
+      doc.setFontSize(14);
+      doc.setTextColor(30, 41, 59);
+      doc.text('Summary Statistics', 14, 44);
+
+      const compliantCount = this.greenCount;
+      const critGaps = this.criticalGapsCount;
+      const avgScoreVal = this.avgScore;
+
+      autoTable(doc, {
+        startY: 48,
+        head: [['Metric', 'Value']],
+        body: [
+          ['Total Assessments', String(this.history.length)],
+          ['Average Score', `${avgScoreVal.toFixed(1)}%`],
+          ['Compliant Companies (GREEN)', String(compliantCount)],
+          ['Critical Gaps (latest)', String(critGaps)],
+        ],
+        theme: 'grid',
+        headStyles: { fillColor: [30, 41, 59], textColor: [255, 255, 255], fontStyle: 'bold' },
+        styles: { fontSize: 10, cellPadding: 4 },
+        columnStyles: { 0: { cellWidth: 100 }, 1: { cellWidth: 60, halign: 'center' } },
+      });
+
+      // Pillar Breakdown
+      const pillarEndY = (doc as any).lastAutoTable?.finalY ?? 90;
+      doc.setFontSize(14);
+      doc.setTextColor(30, 41, 59);
+      doc.text('DORA Pillar Breakdown', 14, pillarEndY + 12);
+
+      const pillarNames: Record<string, string> = {
+        'dashboard.pillar_risk': 'ICT Risk Management',
+        'dashboard.pillar_incidents': 'Incident Management',
+        'dashboard.pillar_testing': 'Digital Operational Resilience Testing',
+        'dashboard.pillar_third_party': 'Third-Party Risk Management',
+        'dashboard.pillar_info': 'Information Sharing',
+      };
+
+      const pillarRows = this.pillarData.map(p => [
+        pillarNames[p.labelKey] || p.labelKey,
+        `${p.percentage.toFixed(1)}%`,
+        p.percentage >= 75 ? 'Compliant' : (p.percentage >= 50 ? 'Partial' : 'Non-Compliant'),
+      ]);
+
+      autoTable(doc, {
+        startY: pillarEndY + 16,
+        head: [['Pillar', 'Score', 'Status']],
+        body: pillarRows,
+        theme: 'grid',
+        headStyles: { fillColor: [30, 41, 59], textColor: [255, 255, 255], fontStyle: 'bold' },
+        styles: { fontSize: 10, cellPadding: 4 },
+        columnStyles: { 0: { cellWidth: 90 }, 1: { cellWidth: 30, halign: 'center' }, 2: { cellWidth: 42, halign: 'center' } },
+      });
+
+      // Top Deficiencies
+      const defEndY = (doc as any).lastAutoTable?.finalY ?? 160;
+      doc.setFontSize(14);
+      doc.setTextColor(30, 41, 59);
+      doc.text('Top Deficiencies', 14, defEndY + 12);
+
+      if (this.deficiencies.length === 0) {
+        doc.setFontSize(10);
+        doc.setTextColor(52, 211, 153);
+        doc.text('All companies are fully compliant. No deficiencies found.', 14, defEndY + 20);
+      } else {
+        const defRows = this.deficiencies.map((d, i) => [
+          String(i + 1),
+          d.companyName,
+          d.contractName,
+          `${d.scorePercentage.toFixed(0)}%`,
+          String(d.totalQuestions - d.compliantCount) + ' gaps',
+        ]);
+
+        autoTable(doc, {
+          startY: defEndY + 16,
+          head: [['#', 'Company', 'Contract', 'Score', 'Gaps']],
+          body: defRows,
+          theme: 'grid',
+          headStyles: { fillColor: [30, 41, 59], textColor: [255, 255, 255], fontStyle: 'bold' },
+          styles: { fontSize: 9, cellPadding: 3 },
+        });
+      }
+
+      // Footer
+      const pageHeight = doc.internal.pageSize.getHeight();
+      doc.setFontSize(8);
+      doc.setTextColor(148, 163, 184);
+      doc.text('Generated by DoraAudit.eu - DORA Compliance Platform', 14, pageHeight - 10);
+      doc.text(dateStr, 196, pageHeight - 10, { align: 'right' });
+
+      doc.save(`dora-dashboard-snapshot-${now.toISOString().slice(0, 10)}.pdf`);
+    } catch (e) {
+      console.error('Dashboard PDF generation failed', e);
+    } finally {
+      this.generatingDashPdf.set(false);
+    }
   }
 
   loadHistory() {

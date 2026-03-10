@@ -24,7 +24,9 @@ public class SubscriptionGuardService {
         COMPLIANCE_REPORT,
         AI_POLICY_WRITER,
         EVIDENCE_GAP_ANALYZER,
-        ICAL_EXPORT
+        ICAL_EXPORT,
+        SCHEDULED_REPORTS,
+        WHITE_LABEL
     }
 
     private final UserSubscriptionRepository subscriptionRepository;
@@ -50,9 +52,9 @@ public class SubscriptionGuardService {
                 return switch (feature) {
                     case PDF_EXPORT, EXCEL_EXPORT, CERTIFICATE, ACTION_PLAN_PDF,
                          EMAIL_NOTIFICATIONS, PROFESSIONAL_REPORT, COMPLIANCE_REPORT,
-                         ICAL_EXPORT -> true;
+                         ICAL_EXPORT, SCHEDULED_REPORTS -> true;
                     case XBRL_EXPORT, AI_REWRITER, HISTORICAL_COMPARISON, AI_POLICY_WRITER,
-                         EVIDENCE_GAP_ANALYZER -> false;
+                         EVIDENCE_GAP_ANALYZER, WHITE_LABEL -> false;
                 };
             }
 
@@ -71,9 +73,9 @@ public class SubscriptionGuardService {
                 return switch (feature) {
                     case PDF_EXPORT, EXCEL_EXPORT, CERTIFICATE, ACTION_PLAN_PDF,
                          EMAIL_NOTIFICATIONS, PROFESSIONAL_REPORT, COMPLIANCE_REPORT,
-                         ICAL_EXPORT -> true;
+                         ICAL_EXPORT, SCHEDULED_REPORTS -> true;
                     case XBRL_EXPORT, AI_REWRITER, HISTORICAL_COMPARISON, AI_POLICY_WRITER,
-                         EVIDENCE_GAP_ANALYZER -> false;
+                         EVIDENCE_GAP_ANALYZER, WHITE_LABEL -> false;
                 };
             }
         }

@@ -8,6 +8,7 @@ import com.dorachecker.security.AuthDtos.RegisterRequest;
 import com.dorachecker.security.JwtService;
 import com.dorachecker.service.ResendEmailService;
 import com.dorachecker.service.UserDeletionService;
+import dev.samstevens.totp.code.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -106,8 +107,73 @@ public class AuthController {
 
         UserEntity user = userOpt.get();
 
+        // 2FA check: if TOTP enabled, return challenge instead of JWT
+        if (user.isTotpEnabled()) {
+            return ResponseEntity.ok(Map.of(
+                "requiresTwoFactor", true,
+                "email", user.getEmail()
+            ));
+        }
+
         // Warn if email not verified (allow login but include flag)
         boolean emailVerified = user.isEmailVerified();
+
+        String token = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole().name());
+        String refreshToken = generateAndSaveRefreshToken(user);
+        return ResponseEntity.ok(new AuthResponse(
+            token,
+            refreshToken,
+            user.getId(),
+            user.getEmail(),
+            user.getFullName(),
+            user.isEarlyAdopter(),
+            user.getEarlyAdopterNumber(),
+            user.getAccountTier().name(),
+            user.getTrialEndsAt(),
+            user.getRole().name()
+        ));
+    }
+
+    @PostMapping("/verify-2fa")
+    public ResponseEntity<?> verify2fa(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        String code = request.get("code");
+        if (email == null || code == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Email and code are required"));
+        }
+
+        Optional<UserEntity> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
+        }
+
+        UserEntity user = userOpt.get();
+        if (!user.isTotpEnabled() || user.getTotpSecret() == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "2FA is not enabled"));
+        }
+
+        // Try TOTP code
+        CodeVerifier verifier = new DefaultCodeVerifier(
+                new DefaultCodeGenerator(), new dev.samstevens.totp.time.SystemTimeProvider());
+        boolean valid = false;
+        try {
+            valid = verifier.isValidCode(user.getTotpSecret(), code);
+        } catch (Exception ignored) {}
+
+        // Try backup code
+        if (!valid && user.getTotpBackupCodes() != null) {
+            java.util.List<String> backupCodes = new java.util.ArrayList<>(java.util.Arrays.asList(user.getTotpBackupCodes().split(",")));
+            if (backupCodes.contains(code.toUpperCase())) {
+                valid = true;
+                backupCodes.remove(code.toUpperCase());
+                user.setTotpBackupCodes(String.join(",", backupCodes));
+                userRepository.save(user);
+            }
+        }
+
+        if (!valid) {
+            return ResponseEntity.status(401).body(Map.of("error", "Invalid 2FA code"));
+        }
 
         String token = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole().name());
         String refreshToken = generateAndSaveRefreshToken(user);

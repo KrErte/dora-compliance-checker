@@ -60,6 +60,11 @@ public class RegulatoryUpdateEntity {
     @Column(columnDefinition = "TEXT")
     private String rawContent;
 
+    @Column(columnDefinition = "TEXT")
+    private String affectedPillars; // JSON array of pillar names
+
+    private LocalDate effectiveDate;
+
     public RegulatoryUpdateEntity() {}
 
     public RegulatoryUpdateEntity(String source, String title, String summary,
@@ -110,4 +115,8 @@ public class RegulatoryUpdateEntity {
     public void setSeverity(String severity) { this.severity = severity; }
     public String getRawContent() { return rawContent; }
     public void setRawContent(String rawContent) { this.rawContent = rawContent; }
+    public String getAffectedPillars() { return affectedPillars; }
+    public void setAffectedPillars(String affectedPillars) { this.affectedPillars = affectedPillars; }
+    public LocalDate getEffectiveDate() { return effectiveDate; }
+    public void setEffectiveDate(LocalDate effectiveDate) { this.effectiveDate = effectiveDate; }
 }

@@ -11,4 +11,8 @@ public interface RegulatoryUpdateRepository extends JpaRepository<RegulatoryUpda
     List<RegulatoryUpdateEntity> findAllByOrderByFetchedAtDesc();
     boolean existsByUrl(String url);
     boolean existsBySourceIdAndExternalId(String sourceId, String externalId);
+
+    List<RegulatoryUpdateEntity> findAllByOrderByPublishedDateDesc();
+
+    List<RegulatoryUpdateEntity> findBySeverityOrderByPublishedDateDesc(String severity);
 }

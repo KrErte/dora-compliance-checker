@@ -167,6 +167,8 @@ public class SubscriptionController {
             case AI_POLICY_WRITER -> "AI poliitikakirjutaja on saadaval ainult Enterprise plaanil";
             case EVIDENCE_GAP_ANALYZER -> "Evidence Gap Analyzer on saadaval ainult Enterprise plaanil";
             case ICAL_EXPORT -> "Kalendri eksport on saadaval Standard ja Enterprise plaanidel";
+            case SCHEDULED_REPORTS -> "Ajastatud aruanded on saadaval Standard ja Enterprise plaanidel";
+            case WHITE_LABEL -> "Kohandatud bränding on saadaval ainult Enterprise plaanil";
         };
     }
 

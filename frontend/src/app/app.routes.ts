@@ -539,6 +539,13 @@ const coreRoutes: Routes = [
     canActivate: [authGuard],
     data: { seoTitle: 'Edit Register Entry' }
   },
+  // Proportionality Assessment — DORA Art. 4
+  {
+    path: 'proportionality',
+    loadComponent: () => import('./pages/proportionality-wizard.component').then(m => m.ProportionalityWizardComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'DORA Proportionality Assessment' }
+  },
   {
     path: 'dora-explorer',
     loadComponent: () => import('./pages/dora-explorer.component').then(m => m.DoraExplorerComponent),
@@ -629,6 +636,30 @@ const coreRoutes: Routes = [
     loadComponent: () => import('./pages/branding-settings.component').then(m => m.BrandingSettingsComponent),
     canActivate: [authGuard],
     data: { seoTitle: 'Branding Settings' }
+  },
+  {
+    path: 'settings/2fa',
+    loadComponent: () => import('./pages/two-factor-setup.component').then(m => m.TwoFactorSetupComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Two-Factor Authentication' }
+  },
+  {
+    path: 'settings/white-label',
+    loadComponent: () => import('./pages/white-label-settings.component').then(m => m.WhiteLabelSettingsComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'White-Label Branding' }
+  },
+  {
+    path: 'scheduled-reports',
+    loadComponent: () => import('./pages/scheduled-reports.component').then(m => m.ScheduledReportsComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Scheduled Reports', seoDescription: 'Schedule automatic compliance report generation. Receive weekly or monthly PDF reports via email.' }
+  },
+  {
+    path: 'regulatory-impact',
+    loadComponent: () => import('./pages/regulatory-impact.component').then(m => m.RegulatoryImpactComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Regulatory Change Impact Analysis', seoDescription: 'Track EU regulatory updates and their impact on your DORA compliance status.' }
   },
   {
     path: 'admin/users',

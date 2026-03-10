@@ -2,6 +2,7 @@ package com.dorachecker.controller;
 
 import com.dorachecker.model.IntegrationConfigEntity;
 import com.dorachecker.model.IntegrationConfigRepository;
+import com.dorachecker.model.WebhookDeliveryRepository;
 import com.dorachecker.service.IntegrationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -17,10 +18,14 @@ public class IntegrationController {
 
     private final IntegrationConfigRepository configRepository;
     private final IntegrationService integrationService;
+    private final WebhookDeliveryRepository deliveryRepository;
 
-    public IntegrationController(IntegrationConfigRepository configRepository, IntegrationService integrationService) {
+    public IntegrationController(IntegrationConfigRepository configRepository,
+                                  IntegrationService integrationService,
+                                  WebhookDeliveryRepository deliveryRepository) {
         this.configRepository = configRepository;
         this.integrationService = integrationService;
+        this.deliveryRepository = deliveryRepository;
     }
 
     @GetMapping
@@ -86,6 +91,17 @@ public class IntegrationController {
                 integrationService.sendTestMessage(config);
                 return ResponseEntity.ok(Map.of("sent", true));
             })
+            .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{id}/deliveries")
+    public ResponseEntity<?> getDeliveries(@PathVariable String id, Authentication authentication) {
+        if (authentication == null) return ResponseEntity.status(401).body(Map.of("error", "Not authenticated"));
+        String userId = (String) authentication.getPrincipal();
+
+        return configRepository.findById(id)
+            .filter(c -> c.getUserId().equals(userId))
+            .map(config -> ResponseEntity.ok(deliveryRepository.findByIntegrationIdOrderByCreatedAtDesc(id)))
             .orElse(ResponseEntity.notFound().build());
     }
 

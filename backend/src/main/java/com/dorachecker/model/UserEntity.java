@@ -67,6 +67,14 @@ public class UserEntity {
 
     private String unsubscribeToken;
 
+    private String totpSecret;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean totpEnabled = false;
+
+    @Column(columnDefinition = "TEXT")
+    private String totpBackupCodes; // comma-separated
+
     public UserEntity() {}
 
     public String getId() { return id; }
@@ -132,4 +140,11 @@ public class UserEntity {
 
     public String getUnsubscribeToken() { return unsubscribeToken; }
     public void setUnsubscribeToken(String unsubscribeToken) { this.unsubscribeToken = unsubscribeToken; }
+
+    public String getTotpSecret() { return totpSecret; }
+    public void setTotpSecret(String totpSecret) { this.totpSecret = totpSecret; }
+    public boolean isTotpEnabled() { return totpEnabled; }
+    public void setTotpEnabled(boolean totpEnabled) { this.totpEnabled = totpEnabled; }
+    public String getTotpBackupCodes() { return totpBackupCodes; }
+    public void setTotpBackupCodes(String totpBackupCodes) { this.totpBackupCodes = totpBackupCodes; }
 }

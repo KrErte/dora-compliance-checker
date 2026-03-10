@@ -5,6 +5,7 @@ import { RouterLink, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 import { AuthService } from '../auth/auth.service';
+import { ApiService } from '../api.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { timeout, catchError, throwError } from 'rxjs';
 
@@ -82,6 +83,38 @@ import { timeout, catchError, throwError } from 'rxjs';
             </div>
           </div>
 
+          @if (requires2fa) {
+            <div class="space-y-4">
+              <div class="text-center mb-4">
+                <div class="w-12 h-12 mx-auto rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center mb-3">
+                  <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                  </svg>
+                </div>
+                <h2 class="text-lg font-bold text-white">{{ lang.l('Kaheastmeline autentimine', 'Two-Factor Authentication') }}</h2>
+                <p class="text-slate-400 text-xs mt-1">{{ lang.l('Sisestage kood oma autentimisrakendusest', 'Enter the code from your authenticator app') }}</p>
+              </div>
+              <input type="text" [(ngModel)]="totpCode" name="totpCode" maxlength="8"
+                     placeholder="000000"
+                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border border-slate-600/50 text-white text-center text-2xl tracking-[0.5em] font-mono placeholder-slate-600 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25"
+                     (keydown.enter)="onVerify2fa()">
+              <button (click)="onVerify2fa()" [disabled]="loading || !totpCode"
+                      class="w-full py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-emerald-500 to-cyan-500 text-white hover:from-emerald-400 hover:to-cyan-400 disabled:opacity-50 transition-all">
+                @if (loading) {
+                  <span class="inline-flex items-center gap-2">
+                    <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                    {{ lang.l('Kinnitamine...', 'Verifying...') }}
+                  </span>
+                } @else {
+                  {{ lang.l('Kinnita', 'Verify') }}
+                }
+              </button>
+              <button (click)="requires2fa = false; error = ''" class="w-full py-2 text-sm text-slate-500 hover:text-slate-400 transition-colors">
+                {{ lang.l('Tagasi', 'Back') }}
+              </button>
+            </div>
+          } @else {
+
           <form (ngSubmit)="onLogin()">
             <div class="mb-5">
               <label for="login-email" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.email') }}</label>
@@ -140,6 +173,8 @@ import { timeout, catchError, throwError } from 'rxjs';
               </a>
             </p>
           </div>
+
+          }
         </div>
       </div>
     </div>
@@ -152,8 +187,11 @@ export class LoginComponent implements OnInit {
   loading = false;
   shakeForm = false;
   fieldErrors: Record<string, string> = {};
+  requires2fa = false;
+  totpCode = '';
+  private twoFaEmail = '';
 
-  constructor(public lang: LangService, private auth: AuthService, private router: Router, private titleService: Title) {}
+  constructor(public lang: LangService, private auth: AuthService, private api: ApiService, private router: Router, private titleService: Title) {}
 
   ngOnInit(): void {
     this.titleService.setTitle(this.lang.t('title.login'));
@@ -193,8 +231,14 @@ export class LoginComponent implements OnInit {
         return throwError(() => err);
       })
     ).subscribe({
-      next: () => {
+      next: (res: any) => {
         this.loading = false;
+        // Check if 2FA is required
+        if (res && res.requiresTwoFactor) {
+          this.requires2fa = true;
+          this.twoFaEmail = res.email || this.email;
+          return;
+        }
         const returnUrl = sessionStorage.getItem('dora_returnUrl');
         sessionStorage.removeItem('dora_returnUrl');
         if (returnUrl) {
@@ -221,6 +265,28 @@ export class LoginComponent implements OnInit {
           // Other errors (400, etc.)
           this.error = this.lang.t('auth.error_invalid');
         }
+      }
+    });
+  }
+
+  onVerify2fa() {
+    if (!this.totpCode) return;
+    this.loading = true;
+    this.error = '';
+    this.api.verify2faLogin(this.twoFaEmail || this.email, this.totpCode).subscribe({
+      next: (res: any) => {
+        this.loading = false;
+        if (res.token) {
+          this.auth.completeAuth(res);
+          const returnUrl = sessionStorage.getItem('dora_returnUrl');
+          sessionStorage.removeItem('dora_returnUrl');
+          this.router.navigateByUrl(returnUrl || '/dashboard');
+        }
+      },
+      error: (err: any) => {
+        this.loading = false;
+        this.triggerShake();
+        this.error = this.lang.l('Vale 2FA kood', 'Invalid 2FA code');
       }
     });
   }

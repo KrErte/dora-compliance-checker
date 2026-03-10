@@ -540,6 +540,100 @@ export class ApiService {
   snoozeAutopilotInsight(id: string, days: number): Observable<AutopilotInsight> {
     return this.http.put<AutopilotInsight>(`${this.baseUrl}/autopilot/insights/${id}/snooze`, { days });
   }
+
+  // ─── Global Search ──────────────────────────────────
+  globalSearch(q: string): Observable<SearchResult[]> {
+    return this.http.get<SearchResult[]>(`${this.baseUrl}/search?q=${encodeURIComponent(q)}`);
+  }
+
+  // ─── Bulk Remediation ───────────────────────────────
+  bulkUpdateRemediationStatus(ids: string[], status: string): Observable<{ updated: number }> {
+    return this.http.put<{ updated: number }>(`${this.baseUrl}/remediation/bulk/status`, { ids, status });
+  }
+  bulkUpdateRemediationPriority(ids: string[], priority: string): Observable<{ updated: number }> {
+    return this.http.put<{ updated: number }>(`${this.baseUrl}/remediation/bulk/priority`, { ids, priority });
+  }
+  bulkDeleteRemediation(ids: string[]): Observable<{ deleted: number }> {
+    return this.http.request<{ deleted: number }>('DELETE', `${this.baseUrl}/remediation/bulk`, { body: { ids } });
+  }
+
+  // ─── CSV Import for Remediation ─────────────────────
+  importRemediationCsv(file: File): Observable<{ imported: number; errors: any[] }> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<{ imported: number; errors: any[] }>(`${this.baseUrl}/remediation/import`, formData);
+  }
+
+  // ─── 2FA ────────────────────────────────────────────
+  setup2fa(): Observable<{ secret: string; qrCodeUrl: string }> {
+    return this.http.post<{ secret: string; qrCodeUrl: string }>(`${this.baseUrl}/2fa/setup`, {});
+  }
+  verify2fa(code: string): Observable<{ enabled: boolean; backupCodes: string[] }> {
+    return this.http.post<{ enabled: boolean; backupCodes: string[] }>(`${this.baseUrl}/2fa/verify`, { code });
+  }
+  disable2fa(code: string): Observable<{ disabled: boolean }> {
+    return this.http.post<{ disabled: boolean }>(`${this.baseUrl}/2fa/disable`, { code });
+  }
+  get2faStatus(): Observable<{ enabled: boolean }> {
+    return this.http.get<{ enabled: boolean }>(`${this.baseUrl}/2fa/status`);
+  }
+  verify2faLogin(email: string, code: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth/verify-2fa`, { email, code });
+  }
+
+  // ─── Scheduled Reports ──────────────────────────────
+  getScheduledReports(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/scheduled-reports`);
+  }
+  createScheduledReport(data: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/scheduled-reports`, data);
+  }
+  updateScheduledReport(id: string, data: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/scheduled-reports/${id}`, data);
+  }
+  deleteScheduledReport(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/scheduled-reports/${id}`);
+  }
+
+  // ─── Webhook Deliveries ─────────────────────────────
+  getWebhookDeliveries(integrationId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/integrations/${integrationId}/deliveries`);
+  }
+
+  // ─── Tenant Branding ────────────────────────────────
+  getTenantBranding(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/tenant-branding`);
+  }
+  updateTenantBranding(formData: FormData): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/tenant-branding`, formData);
+  }
+  getPublicBranding(domain: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/tenant-branding/public/${domain}`);
+  }
+
+  // ─── Regulatory Impact ──────────────────────────────
+  getRegulatoryImpactUpdates(severity?: string): Observable<any[]> {
+    let url = `${this.baseUrl}/regulatory-impact`;
+    if (severity) url += `?severity=${severity}`;
+    return this.http.get<any[]>(url);
+  }
+  getRegulatoryImpactUpdate(id: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/regulatory-impact/${id}`);
+  }
+  acknowledgeRegulatoryUpdate(id: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/regulatory-impact/${id}/acknowledge`, {});
+  }
+  getUnacknowledgedCount(): Observable<{ count: number }> {
+    return this.http.get<{ count: number }>(`${this.baseUrl}/regulatory-impact/unacknowledged-count`);
+  }
+}
+
+export interface SearchResult {
+  type: string;
+  title: string;
+  snippet: string;
+  url: string;
+  date: string;
 }
 
 export interface BenchmarkData {

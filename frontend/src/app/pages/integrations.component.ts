@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { IntegrationService, IntegrationConfig, EventType } from '../services/integration.service';
 import { LangService } from '../lang.service';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-integrations',
@@ -37,6 +38,10 @@ import { LangService } from '../lang.service';
                     </div>
                   </div>
                   <div class="flex items-center gap-2">
+                    <button (click)="toggleDeliveryHistory(config.id)" class="px-3 py-1 rounded-lg text-xs font-medium transition-colors"
+                            [class]="expandedDeliveryId === config.id ? 'bg-indigo-500/20 text-indigo-400' : 'bg-slate-700/50 text-slate-400 hover:text-slate-300'">
+                      {{ expandedDeliveryId === config.id ? 'Hide History' : 'Delivery History' }}
+                    </button>
                     <button (click)="toggleEnabled(config)" class="px-3 py-1 rounded-full text-xs font-medium transition-colors"
                             [class]="config.enabled ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-500/20 text-slate-500'">
                       {{ config.enabled ? lang.t('intg.active') : lang.t('intg.paused') }}
@@ -55,6 +60,62 @@ import { LangService } from '../lang.service';
                   <p class="text-xs mt-2" [class]="testResults[config.id] === 'success' ? 'text-emerald-400' : 'text-red-400'">
                     {{ testResults[config.id] === 'success' ? lang.t('intg.test_success') : lang.t('intg.test_failed') }}
                   </p>
+                }
+
+                <!-- Delivery History Section -->
+                @if (expandedDeliveryId === config.id) {
+                  <div class="mt-4 border-t border-slate-700/50 pt-4">
+                    <div class="flex items-center justify-between mb-3">
+                      <h4 class="text-xs font-semibold text-slate-300 uppercase tracking-wider">Recent Deliveries</h4>
+                      <button (click)="refreshDeliveries(config.id)" class="text-[10px] text-indigo-400 hover:text-indigo-300 transition-colors">
+                        Refresh
+                      </button>
+                    </div>
+                    @if (loadingDeliveries[config.id]) {
+                      <div class="flex items-center justify-center py-6">
+                        <div class="w-5 h-5 border-2 border-indigo-500/30 border-t-indigo-400 rounded-full animate-spin"></div>
+                        <span class="ml-2 text-xs text-slate-500">Loading deliveries...</span>
+                      </div>
+                    } @else if (deliveries[config.id]?.length) {
+                      <div class="space-y-2 max-h-64 overflow-y-auto pr-1 custom-scrollbar">
+                        @for (delivery of deliveries[config.id]; track delivery.id || $index) {
+                          <div class="bg-slate-800/50 border border-slate-700/50 rounded-lg px-3 py-2.5">
+                            <div class="flex items-center justify-between gap-2">
+                              <div class="flex items-center gap-2 min-w-0">
+                                <span class="text-xs font-medium text-white truncate">{{ delivery.eventType }}</span>
+                                <!-- Status badge -->
+                                @if (delivery.success) {
+                                  <span class="flex-shrink-0 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/20 text-emerald-400">
+                                    Success
+                                  </span>
+                                } @else if (!delivery.success && delivery.attemptCount < 3) {
+                                  <span class="flex-shrink-0 px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/20 text-amber-400">
+                                    Retrying
+                                  </span>
+                                } @else {
+                                  <span class="flex-shrink-0 px-2 py-0.5 rounded-full text-[10px] font-medium bg-red-500/20 text-red-400">
+                                    Failed
+                                  </span>
+                                }
+                              </div>
+                              <div class="flex items-center gap-3 flex-shrink-0">
+                                <span class="text-[10px] text-slate-500 font-mono">{{ delivery.responseCode || '---' }}</span>
+                                <span class="text-[10px] text-slate-500">Attempt {{ delivery.attemptCount }}/3</span>
+                              </div>
+                            </div>
+                            <div class="mt-1">
+                              <span class="text-[10px] text-slate-600">{{ delivery.deliveredAt | date:'medium' }}</span>
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    } @else {
+                      <div class="text-center py-6">
+                        <div class="text-2xl opacity-20 mb-1">&#128229;</div>
+                        <p class="text-xs text-slate-600">No deliveries recorded yet</p>
+                      </div>
+                    }
+                  </div>
                 }
               </div>
             }
@@ -148,6 +209,10 @@ import { LangService } from '../lang.service';
       backdrop-filter: blur(12px);
     }
     select option { background: #1e293b; color: #e2e8f0; }
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.3); border-radius: 2px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(100, 116, 139, 0.5); }
   `]
 })
 export class IntegrationsComponent implements OnInit {
@@ -155,6 +220,11 @@ export class IntegrationsComponent implements OnInit {
   eventTypes: EventType[] = [];
   testing: string | null = null;
   testResults: Record<string, string> = {};
+
+  // Delivery history state
+  expandedDeliveryId: string | null = null;
+  deliveries: Record<string, any[]> = {};
+  loadingDeliveries: Record<string, boolean> = {};
 
   newConfig: any = {
     type: 'SLACK',
@@ -165,7 +235,11 @@ export class IntegrationsComponent implements OnInit {
 
   selectedEvents: string[] = [];
 
-  constructor(public lang: LangService, private integrationService: IntegrationService) {}
+  constructor(
+    public lang: LangService,
+    private integrationService: IntegrationService,
+    private apiService: ApiService
+  ) {}
 
   ngOnInit() {
     this.loadIntegrations();
@@ -226,6 +300,35 @@ export class IntegrationsComponent implements OnInit {
   deleteIntegration(config: IntegrationConfig) {
     this.integrationService.delete(config.id).subscribe(() => {
       this.loadIntegrations();
+    });
+  }
+
+  toggleDeliveryHistory(integrationId: string) {
+    if (this.expandedDeliveryId === integrationId) {
+      this.expandedDeliveryId = null;
+    } else {
+      this.expandedDeliveryId = integrationId;
+      if (!this.deliveries[integrationId]) {
+        this.loadDeliveries(integrationId);
+      }
+    }
+  }
+
+  refreshDeliveries(integrationId: string) {
+    this.loadDeliveries(integrationId);
+  }
+
+  private loadDeliveries(integrationId: string) {
+    this.loadingDeliveries[integrationId] = true;
+    this.apiService.getWebhookDeliveries(integrationId).subscribe({
+      next: (data) => {
+        this.deliveries[integrationId] = data;
+        this.loadingDeliveries[integrationId] = false;
+      },
+      error: () => {
+        this.deliveries[integrationId] = [];
+        this.loadingDeliveries[integrationId] = false;
+      }
     });
   }
 }

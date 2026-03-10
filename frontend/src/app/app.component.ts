@@ -12,19 +12,22 @@ import { CookieConsentComponent } from './components/cookie-consent/cookie-conse
 import { OnboardingComponent } from './pages/onboarding.component';
 import { ChatWidgetComponent } from './components/chat-widget.component';
 import { PwaInstallPromptComponent } from './components/pwa-install-prompt.component';
+import { GlobalSearchComponent } from './components/global-search.component';
 import { ToastService } from './auth/toast.service';
 import { ApiService } from './api.service';
 import { ComplianceAlert } from './models';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, CookieConsentComponent, OnboardingComponent, ChatWidgetComponent, PwaInstallPromptComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, CookieConsentComponent, OnboardingComponent, ChatWidgetComponent, PwaInstallPromptComponent, GlobalSearchComponent],
   host: {
     '(document:click)': 'onDocumentClick($event)',
     '(window:scroll)': 'closeAllMenus()'
   },
   template: `
     <a class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-teal-500 focus:text-white focus:px-4 focus:py-2 focus:rounded" href="#main-content">{{ lang.t('nav.skip_link') }}</a>
+
+    <app-global-search />
 
     <!-- Minimal top bar for focused pages (wizard, welcome) -->
     <nav *ngIf="hideNav" class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50">
@@ -136,6 +139,14 @@ import { ComplianceAlert } from './models';
                   <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
                 </svg>
                 {{ lang.t('nav.company_profile') }}
+              </a>
+              <a routerLink="/regulatory-impact" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                {{ lang.l('Regulatiivsed uuendused', 'Regulatory Updates') }}
+                <span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
             </div>
           </div>
@@ -351,6 +362,14 @@ import { ComplianceAlert } from './models';
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
                 </svg>
                 {{ lang.t('nav.board_report') }}
+              </a>
+              <a routerLink="/scheduled-reports" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-teal-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><circle cx="12" cy="16" r="2"/><path d="M12 14v-1"/>
+                </svg>
+                {{ lang.l('Ajastatud aruanded', 'Scheduled Reports') }}
+                <span class="text-[9px] bg-teal-500/20 text-teal-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
               <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">NIS2</p>
@@ -606,6 +625,11 @@ import { ComplianceAlert } from './models';
                class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.vendors') }}</a>
             <a routerLink="/company-profile" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.company_profile') }}</a>
+            <a routerLink="/regulatory-impact" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+              {{ lang.l('Regulatiivsed uuendused', 'Regulatory Updates') }}
+              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-amber-500/20 text-amber-400 animate-pulse">NEW</span>
+            </a>
           </div>
           <div class="border-t border-slate-700/50 mt-2 pt-2">
             <button type="button" (click)="mobileManagementOpen = !mobileManagementOpen"
@@ -734,6 +758,11 @@ import { ComplianceAlert } from './models';
                  class="text-sm text-slate-400 hover:text-rose-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.incident_classifier') }}</a>
               <a routerLink="/board-report" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-sky-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.board_report') }}</a>
+              <a routerLink="/scheduled-reports" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-teal-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.l('Ajastatud aruanded', 'Scheduled Reports') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-teal-500/20 text-teal-400 animate-pulse">NEW</span>
+              </a>
             </div>
           </div>
           <div class="border-t border-slate-700/50 mt-2 pt-2">

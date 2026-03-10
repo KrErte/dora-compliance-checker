@@ -155,12 +155,26 @@ export interface RoiAssessment {
   riskLevel: string;
 }
 
-export interface ValidationError {
-  ruleCode: string;
-  severity: 'ERROR' | 'WARNING';
+export interface RoiViolation {
+  ruleId: string;
+  severity: 'ERROR' | 'WARNING' | 'INFO';
+  category: string;
   templateCode: string;
   field: string;
-  message: string;
+  entityRef: string | null;
+  messageEt: string;
+  messageEn: string;
+}
+
+export interface TemplateSummary {
+  templateCode: string;
+  templateName: string;
+  ruleCount: number;
+  errors: number;
+  warnings: number;
+  infos: number;
+  passed: number;
+  status: 'GREEN' | 'YELLOW' | 'RED';
 }
 
 export interface TemplateCompleteness {
@@ -170,6 +184,43 @@ export interface TemplateCompleteness {
   filledFields: number;
   percentage: number;
   missingFields: string[];
+}
+
+export interface RoiValidationReport {
+  registerId: string;
+  validatedAt: string;
+  status: 'GREEN' | 'YELLOW' | 'RED';
+  totalRules: number;
+  passed: number;
+  errors: number;
+  warnings: number;
+  infos: number;
+  passRate: number;
+  issues: RoiViolation[];
+  templateSummaries: { [key: string]: TemplateSummary };
+  completeness: { [key: string]: TemplateCompleteness };
+}
+
+export interface ValidationHistoryEntry {
+  id: string;
+  registerId: string;
+  validatedAt: string;
+  status: string;
+  totalRules: number;
+  passed: number;
+  errors: number;
+  warnings: number;
+  infos: number;
+  passRate: number;
+}
+
+// Legacy compatibility
+export interface ValidationError {
+  ruleCode: string;
+  severity: 'ERROR' | 'WARNING';
+  templateCode: string;
+  field: string;
+  message: string;
 }
 
 export interface ValidationResult {
@@ -383,8 +434,20 @@ export class RoiService {
   }
 
   // Validation
-  validate(registerId: string): Observable<ValidationResult> {
-    return this.http.post<ValidationResult>(`${this.baseUrl}/registers/${registerId}/validate`, {});
+  validate(registerId: string): Observable<RoiValidationReport> {
+    return this.http.post<RoiValidationReport>(`${this.baseUrl}/registers/${registerId}/validate`, {});
+  }
+
+  validateTemplate(registerId: string, templateCode: string): Observable<RoiValidationReport> {
+    return this.http.post<RoiValidationReport>(`${this.baseUrl}/registers/${registerId}/validate/${templateCode}`, {});
+  }
+
+  getValidationHistory(registerId: string): Observable<ValidationHistoryEntry[]> {
+    return this.http.get<ValidationHistoryEntry[]>(`${this.baseUrl}/registers/${registerId}/validation-results`);
+  }
+
+  getValidationRules(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/validation-rules`);
   }
 
   // Exports
