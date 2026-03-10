@@ -42,18 +42,15 @@ import { Subject, debounceTime, switchMap, of } from 'rxjs';
                 <div class="px-3 pt-3 pb-1">
                   <div class="px-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">{{ group.label }}</div>
                   @for (item of group.items; track item.url + item.title; let i = $index) {
-                    <button (click)="navigate(item.url)"
-                            class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700/50 transition-colors text-left group"
-                            [class.bg-slate-700/30]="selectedIndex() === getGlobalIndex(group, i)">
-                      <div class="w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-bold shrink-0"
-                           [class]="getTypeColor(group.type)">
+                    <div (click)="navigate(item.url)" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700/50 transition-colors text-left group cursor-pointer" [class.bg-slate-700/30]="selectedIndex() === getGlobalIndex(group, i)">
+                      <div class="w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-bold shrink-0" [class]="getTypeColor(group.type)">
                         {{ getTypeIcon(group.type) }}
                       </div>
                       <div class="flex-1 min-w-0">
                         <div class="text-sm text-white truncate">{{ item.title }}</div>
                         <div class="text-[11px] text-slate-500 truncate">{{ item.snippet }}</div>
                       </div>
-                    </button>
+                    </div>
                   }
                 </div>
               }
