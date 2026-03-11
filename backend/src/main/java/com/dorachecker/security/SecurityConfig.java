@@ -66,6 +66,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/roi/gleif/**").permitAll()
                 .requestMatchers("/api/proportionality/entity-types").permitAll()
                 .requestMatchers("/api/chat/**").permitAll()
+                .requestMatchers("/api/bulk-import/**").authenticated()
                 .requestMatchers("/api/guardian/regulatory-updates").hasRole("ADMIN")
                 .requestMatchers("/api/regulatory-impact/admin").hasRole("ADMIN")
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")

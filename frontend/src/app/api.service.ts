@@ -611,6 +611,20 @@ export class ApiService {
     return this.http.get<any>(`${this.baseUrl}/tenant-branding/public/${domain}`);
   }
 
+  // ─── Bulk Import ──────────────────────────────────
+  bulkImportValidate(file: File, entityType: string): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('entityType', entityType);
+    return this.http.post<any>(`${this.baseUrl}/bulk-import/validate`, formData);
+  }
+  bulkImportExecute(body: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/bulk-import/execute`, body);
+  }
+  bulkImportTemplate(entityType: string): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/bulk-import/template/${entityType}`, { responseType: 'blob' });
+  }
+
   // ─── Regulatory Impact ──────────────────────────────
   getRegulatoryImpactUpdates(severity?: string): Observable<any[]> {
     let url = `${this.baseUrl}/regulatory-impact`;

@@ -656,6 +656,12 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'Scheduled Reports', seoDescription: 'Schedule automatic compliance report generation. Receive weekly or monthly PDF reports via email.' }
   },
   {
+    path: 'bulk-import',
+    loadComponent: () => import('./pages/bulk-import.component').then(m => m.BulkImportComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Bulk Import Wizard', seoDescription: 'Import remediation items, ICT assets, vendors, and evidence in bulk via CSV or Excel upload.' }
+  },
+  {
     path: 'regulatory-impact',
     loadComponent: () => import('./pages/regulatory-impact.component').then(m => m.RegulatoryImpactComponent),
     canActivate: [authGuard],

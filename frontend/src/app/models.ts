@@ -489,3 +489,38 @@ export const CATEGORY_LABELS: { [key: string]: { et: string; en: string } } = {
   TESTING: { et: 'Testimine', en: 'Testing' },
   INFORMATION_SHARING: { et: 'Info jagamine', en: 'Information Sharing' }
 };
+
+// Bulk Import DTOs
+export interface BulkImportValidationResult {
+  headers: string[];
+  totalRows: number;
+  suggestedMapping: { [csvColumn: string]: string };
+  templateFields: string[];
+  preview: { [key: string]: string }[];
+  parseErrors: string[];
+  validationErrors: BulkImportError[];
+  isValid: boolean;
+}
+
+export interface BulkImportRow {
+  [key: string]: string;
+}
+
+export interface BulkImportRequest {
+  entityType: string;
+  rows: BulkImportRow[];
+  mapping: { [csvColumn: string]: string };
+}
+
+export interface BulkImportResult {
+  imported: number;
+  skipped: number;
+  total: number;
+  errors: BulkImportError[];
+}
+
+export interface BulkImportError {
+  row: number;
+  column: string;
+  message: string;
+}

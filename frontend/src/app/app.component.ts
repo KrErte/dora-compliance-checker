@@ -15,11 +15,14 @@ import { PwaInstallPromptComponent } from './components/pwa-install-prompt.compo
 import { GlobalSearchComponent } from './components/global-search.component';
 import { ToastService } from './auth/toast.service';
 import { ApiService } from './api.service';
-import { ComplianceAlert } from './models';
+import { ThemeService } from './services/theme.service';
+import { NotificationService } from './services/notification.service';
+import { TourService } from './services/tour.service';
+import { GuidedTourComponent } from './components/guided-tour.component';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, CookieConsentComponent, OnboardingComponent, ChatWidgetComponent, PwaInstallPromptComponent, GlobalSearchComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, CookieConsentComponent, OnboardingComponent, ChatWidgetComponent, PwaInstallPromptComponent, GlobalSearchComponent, GuidedTourComponent],
   host: {
     '(document:click)': 'onDocumentClick($event)',
     '(window:scroll)': 'closeAllMenus()'
@@ -53,7 +56,7 @@ import { ComplianceAlert } from './models';
 
     <nav *ngIf="!hideNav" ngSkipHydration class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50" [attr.aria-label]="lang.t('nav.main_nav')">
       <div class="max-w-5xl mx-auto px-3 sm:px-4 py-3 flex items-center justify-between">
-        <a routerLink="/" class="flex items-center gap-3 group">
+        <a routerLink="/" class="flex items-center gap-3 group tour-target-brand">
           <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs
                       group-hover:shadow-lg group-hover:shadow-emerald-500/25 transition-all duration-300 group-hover:scale-105">
             DA
@@ -419,6 +422,21 @@ import { ComplianceAlert } from './models';
             </a>
           }
           <div class="w-px h-5 bg-slate-700/50 mx-0.5"></div>
+          <!-- Theme toggle -->
+          <button type="button" (click)="themeService.toggle()"
+                  [attr.aria-label]="lang.t('theme.toggle')"
+                  class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-amber-400 hover:bg-slate-700/30 transition-all"
+                  [title]="themeService.isDark() ? lang.t('theme.light') : lang.t('theme.dark')">
+            @if (themeService.isDark()) {
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+              </svg>
+            } @else {
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+              </svg>
+            }
+          </button>
           <!-- Lang toggle (pill with globe icon) -->
           <button type="button" (click)="lang.toggle()"
                   aria-label="Switch language"
@@ -440,19 +458,78 @@ import { ComplianceAlert } from './models';
                 <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                 </svg>
-                @if (notifBadge() > 0) {
+                @if (notificationService.badgeCount() > 0) {
                   <span class="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-red-500 text-white text-[9px] font-bold flex items-center justify-center animate-pulse">
-                    {{ notifBadge() > 9 ? '9+' : notifBadge() }}
+                    {{ notificationService.badgeCount() > 9 ? '9+' : notificationService.badgeCount() }}
                   </span>
                 }
               </button>
               <div *ngIf="notifMenu" class="absolute right-0 top-full mt-1 w-80 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 z-50 overflow-hidden">
                 <div class="px-4 py-3 border-b border-slate-700/30 flex items-center justify-between">
                   <span class="text-sm font-semibold text-white">{{ lang.t('notifications.title') }}</span>
-                  <a routerLink="/notifications" (click)="closeAllMenus()"
-                     class="text-[10px] text-emerald-400 hover:text-emerald-300 font-medium">{{ lang.t('notifications.view_all') }}</a>
+                  <div class="flex items-center gap-2">
+                    @if (notificationService.notifications().length > 0) {
+                      <button type="button" (click)="notificationService.markAllAsRead()" class="text-[10px] text-slate-400 hover:text-slate-300 font-medium">{{ lang.t('notifications.mark_all_read') }}</button>
+                      <span class="text-slate-600">|</span>
+                    }
+                    <a routerLink="/notifications" (click)="closeAllMenus()"
+                       class="text-[10px] text-emerald-400 hover:text-emerald-300 font-medium">{{ lang.t('notifications.view_all') }}</a>
+                  </div>
                 </div>
-                @if (notifAlerts().length === 0) {
+
+                <!-- Compliance alerts section -->
+                @if (notificationService.alerts().length > 0) {
+                  <div class="px-3 pt-2 pb-1">
+                    <p class="px-1 text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">{{ lang.t('notifications.compliance_alerts') }}</p>
+                  </div>
+                  @for (alert of notificationService.alerts().slice(0, 3); track alert.alertKey) {
+                    <a [routerLink]="alert.link" (click)="closeAllMenus()"
+                       class="flex items-start gap-3 px-4 py-2.5 hover:bg-slate-700/30 transition-colors border-b border-slate-700/20 last:border-0">
+                      <div class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                           [class]="alert.severity === 'CRITICAL' ? 'bg-red-500/10' : alert.severity === 'WARNING' ? 'bg-amber-500/10' : 'bg-blue-500/10'">
+                        @if (alert.severity === 'CRITICAL') {
+                          <svg class="w-3 h-3 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.34 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg>
+                        } @else if (alert.severity === 'WARNING') {
+                          <svg class="w-3 h-3 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        } @else {
+                          <svg class="w-3 h-3 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        }
+                      </div>
+                      <div class="min-w-0 flex-1">
+                        <span class="text-[9px] px-1 py-0.5 rounded font-bold"
+                              [class]="alert.severity === 'CRITICAL' ? 'bg-red-500/10 text-red-400' : alert.severity === 'WARNING' ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-500/10 text-blue-400'">
+                          {{ alert.severity }}
+                        </span>
+                        <p class="text-xs text-white font-medium truncate mt-0.5">{{ alert.title }}</p>
+                        <p class="text-[10px] text-slate-500 truncate">{{ alert.message }}</p>
+                      </div>
+                    </a>
+                  }
+                }
+
+                <!-- Recent notifications section -->
+                @if (notificationService.notifications().length > 0) {
+                  <div class="px-3 pt-2 pb-1">
+                    <p class="px-1 text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">{{ lang.t('notifications.recent') }}</p>
+                  </div>
+                  @for (notif of notificationService.notifications().slice(0, 5); track notif.id) {
+                    <div (click)="onNotificationClick(notif)" class="flex items-start gap-3 px-4 py-2.5 hover:bg-slate-700/30 transition-colors cursor-pointer border-b border-slate-700/20 last:border-0">
+                      <div class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 bg-slate-700/50">
+                        <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                      </div>
+                      <div class="min-w-0 flex-1">
+                        <p class="text-xs font-medium truncate" [class]="notif.read ? 'text-slate-400' : 'text-white'">{{ notif.title }}</p>
+                        <p class="text-[10px] text-slate-500 truncate">{{ notif.message }}</p>
+                        <p class="text-[9px] text-slate-600 mt-0.5">{{ notificationService.timeAgo(notif.createdAt) }}</p>
+                      </div>
+                      @if (!notif.read) {
+                        <div class="w-2 h-2 rounded-full bg-emerald-400 shrink-0 mt-1.5"></div>
+                      }
+                    </div>
+                  }
+                }
+
+                @if (notificationService.alerts().length === 0 && notificationService.notifications().length === 0) {
                   <div class="px-4 py-6 text-center">
                     <svg class="w-8 h-8 mx-auto text-emerald-400/50 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -460,45 +537,12 @@ import { ComplianceAlert } from './models';
                     <p class="text-xs text-slate-400">{{ lang.t('notifications.no_alerts') }}</p>
                   </div>
                 }
-                @for (alert of notifAlerts().slice(0, 5); track alert.alertKey) {
-                  <a [routerLink]="alert.link" (click)="closeAllMenus()"
-                     class="flex items-start gap-3 px-4 py-3 hover:bg-slate-700/30 transition-colors border-b border-slate-700/20 last:border-0">
-                    <div class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
-                         [class]="alert.severity === 'CRITICAL' ? 'bg-red-500/10' : alert.severity === 'WARNING' ? 'bg-amber-500/10' : 'bg-blue-500/10'">
-                      @if (alert.severity === 'CRITICAL') {
-                        <svg class="w-3.5 h-3.5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-                        </svg>
-                      } @else if (alert.severity === 'WARNING') {
-                        <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                      } @else {
-                        <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                      }
-                    </div>
-                    <div class="min-w-0 flex-1">
-                      <div class="flex items-center gap-1.5 mb-0.5">
-                        <span class="text-[9px] px-1 py-0.5 rounded font-bold"
-                              [class]="alert.severity === 'CRITICAL' ? 'bg-red-500/10 text-red-400' : alert.severity === 'WARNING' ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-500/10 text-blue-400'">
-                          {{ alert.severity }}
-                        </span>
-                      </div>
-                      <p class="text-xs text-white font-medium truncate">{{ alert.title }}</p>
-                      <p class="text-[10px] text-slate-500 truncate mt-0.5">{{ alert.message }}</p>
-                    </div>
-                  </a>
-                }
-                @if (notifAlerts().length > 5) {
-                  <div class="px-4 py-2 border-t border-slate-700/30 text-center">
-                    <a routerLink="/notifications" (click)="closeAllMenus()"
-                       class="text-xs text-emerald-400 hover:text-emerald-300 font-medium">
-                      +{{ notifAlerts().length - 5 }} {{ lang.t('notifications.more') }}
-                    </a>
-                  </div>
-                }
+
+                <!-- Footer -->
+                <div class="px-4 py-2.5 border-t border-slate-700/30 text-center">
+                  <a routerLink="/notifications" (click)="closeAllMenus()"
+                     class="text-xs text-emerald-400 hover:text-emerald-300 font-medium">{{ lang.t('notifications.view_all') }}</a>
+                </div>
               </div>
             </div>
           }
@@ -658,8 +702,8 @@ import { ComplianceAlert } from './models';
               <a routerLink="/notifications" (click)="mobileMenu = false"
                  class="text-sm text-rose-400 hover:text-rose-300 px-3 py-2 rounded-lg hover:bg-rose-500/10 flex items-center justify-between">
                 {{ lang.t('nav.notifications') }}
-                @if (notifBadge() > 0) {
-                  <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-500 text-white min-w-[1.25rem] text-center">{{ notifBadge() }}</span>
+                @if (notificationService.badgeCount() > 0) {
+                  <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-500 text-white min-w-[1.25rem] text-center">{{ notificationService.badgeCount() }}</span>
                 }
               </a>
               <a routerLink="/command-center" (click)="mobileMenu = false"
@@ -826,7 +870,16 @@ import { ComplianceAlert } from './models';
                  class="text-sm text-white bg-emerald-500/20 px-3 py-2 rounded-lg hover:bg-emerald-500/30 text-center">{{ lang.t('auth.register') }}</a>
             </div>
           }
-          <div class="border-t border-slate-700/50 mt-2 pt-2">
+          <div class="border-t border-slate-700/50 mt-2 pt-2 flex flex-col gap-1">
+            <button type="button" (click)="themeService.toggle(); mobileMenu = false"
+                    class="w-full text-left text-sm text-slate-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
+              @if (themeService.isDark()) {
+                <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+              } @else {
+                <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+              }
+              {{ themeService.isDark() ? lang.t('theme.light') : lang.t('theme.dark') }}
+            </button>
             <button type="button" (click)="lang.toggle(); mobileMenu = false"
                     class="w-full text-left text-sm text-slate-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
               <svg class="w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -916,6 +969,7 @@ import { ComplianceAlert } from './models';
 
     <app-chat-widget></app-chat-widget>
     <app-pwa-install-prompt />
+    <app-guided-tour (completed)="onTourCompleted()" />
 
     <!-- Toast notifications -->
     <div class="fixed top-4 right-4 z-[100] flex flex-col gap-2 max-w-sm" *ngIf="toast.toasts().length > 0">
@@ -945,8 +999,7 @@ export class AppComponent implements OnInit, OnDestroy {
   notifMenu = false;
   showOnboarding = false;
   hideNav = false;
-  notifBadge = signal(0);
-  notifAlerts = signal<ComplianceAlert[]>([]);
+  // notifBadge and notifAlerts moved to NotificationService
   autopilotBadge = signal(0);
   private routerSub?: Subscription;
   isBrowser: boolean;
@@ -1030,6 +1083,7 @@ export class AppComponent implements OnInit, OnDestroy {
     '/pillar': { et: 'DORA Samba Detailid | DoraAudit.eu', en: 'DORA Pillar Details | DoraAudit.eu' },
     '/admin/users': { et: 'Admin – Kasutajad | DoraAudit.eu', en: 'Admin – Users | DoraAudit.eu' },
     '/admin/leads': { et: 'Admin – Kontaktid | DoraAudit.eu', en: 'Admin – Leads | DoraAudit.eu' },
+    '/bulk-import': { et: 'Hulgiimport | DoraAudit.eu', en: 'Bulk Import | DoraAudit.eu' },
   };
 
   private pageDescriptions: { [path: string]: { et: string; en: string } } = {
@@ -1106,6 +1160,8 @@ export class AppComponent implements OnInit, OnDestroy {
     '/pillar': { et: 'DORA samba detailne ülevaade ja vastavusnõuded.', en: 'DORA pillar detailed overview and compliance requirements.' },
   };
 
+  @ViewChild(GuidedTourComponent) guidedTour?: GuidedTourComponent;
+
   constructor(
     public lang: LangService,
     public auth: AuthService,
@@ -1117,6 +1173,9 @@ export class AppComponent implements OnInit, OnDestroy {
     public toast: ToastService,
     private activatedRoute: ActivatedRoute,
     private api: ApiService,
+    public themeService: ThemeService,
+    public notificationService: NotificationService,
+    public tourService: TourService,
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) platformId: Object,
     private cdr: ChangeDetectorRef
@@ -1179,19 +1238,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Load notification alerts for logged-in users
     if (this.isBrowser && this.auth.isLoggedIn()) {
-      this.loadNotificationAlerts();
+      this.notificationService.startPolling();
       this.loadAutopilotBadge();
+      // Auto-start guided tour for first-time users
+      if (!this.tourService.isComplete()) {
+        setTimeout(() => this.guidedTour?.start(), 1500);
+      }
     }
-  }
-
-  private loadNotificationAlerts() {
-    this.api.getComplianceAlerts().subscribe({
-      next: (alerts) => {
-        this.notifAlerts.set(alerts);
-        this.notifBadge.set(alerts.filter(a => a.severity === 'CRITICAL' || a.severity === 'WARNING').length);
-      },
-      error: () => {}
-    });
   }
 
   private loadAutopilotBadge() {
@@ -1337,8 +1390,22 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   restartTour() {
-    if (typeof localStorage !== 'undefined') localStorage.removeItem('onboarding_complete');
-    this.showOnboarding = true;
+    this.tourService.resetTour();
+    this.guidedTour?.start();
+  }
+
+  onTourCompleted() {
+    // Tour finished
+  }
+
+  onNotificationClick(notif: any) {
+    if (!notif.read) {
+      this.notificationService.markAsRead(notif.id);
+    }
+    this.closeAllMenus();
+    if (notif.link) {
+      this.router.navigateByUrl(notif.link);
+    }
   }
 
   openCookieSettings() {
