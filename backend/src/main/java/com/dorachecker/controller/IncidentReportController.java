@@ -108,4 +108,63 @@ public class IncidentReportController {
     public ResponseEntity<Map<String, Object>> stats(Authentication auth) {
         return ResponseEntity.ok(incidentService.getStats(getUserId(auth)));
     }
+
+    // ─── War Room Endpoints ──────────────────────────────
+
+    @PostMapping("/{id}/war-room/activate")
+    public ResponseEntity<IncidentReportEntity> activateWarRoom(@PathVariable String id, Authentication auth) {
+        IncidentReportEntity entity = incidentService.activateWarRoom(id, getUserId(auth));
+        if (entity == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(entity);
+    }
+
+    @PostMapping("/{id}/war-room/close")
+    public ResponseEntity<IncidentReportEntity> closeWarRoom(@PathVariable String id, Authentication auth) {
+        IncidentReportEntity entity = incidentService.closeWarRoom(id, getUserId(auth));
+        if (entity == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(entity);
+    }
+
+    @PostMapping("/{id}/war-room/communication")
+    public ResponseEntity<IncidentReportEntity> addCommunication(@PathVariable String id,
+                                                                    @RequestBody Map<String, Object> body,
+                                                                    Authentication auth) {
+        IncidentReportEntity entity = incidentService.addCommunicationEntry(id, getUserId(auth), body);
+        if (entity == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(entity);
+    }
+
+    @PostMapping("/{id}/war-room/decision")
+    public ResponseEntity<IncidentReportEntity> addDecision(@PathVariable String id,
+                                                              @RequestBody Map<String, Object> body,
+                                                              Authentication auth) {
+        IncidentReportEntity entity = incidentService.addDecisionEntry(id, getUserId(auth), body);
+        if (entity == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(entity);
+    }
+
+    @PutMapping("/{id}/war-room/phase")
+    public ResponseEntity<IncidentReportEntity> updatePhase(@PathVariable String id,
+                                                              @RequestBody Map<String, Object> body,
+                                                              Authentication auth) {
+        String phase = (String) body.get("phase");
+        if (phase == null) return ResponseEntity.badRequest().build();
+        IncidentReportEntity entity = incidentService.updateWarRoomPhase(id, getUserId(auth), phase);
+        if (entity == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(entity);
+    }
+
+    @PutMapping("/{id}/war-room/roles")
+    public ResponseEntity<IncidentReportEntity> updateRoles(@PathVariable String id,
+                                                              @RequestBody Map<String, Object> body,
+                                                              Authentication auth) {
+        try {
+            String rolesJson = new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(body.get("roles"));
+            IncidentReportEntity entity = incidentService.updateWarRoomRoles(id, getUserId(auth), rolesJson);
+            if (entity == null) return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(entity);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

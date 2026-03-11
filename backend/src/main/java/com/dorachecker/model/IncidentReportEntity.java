@@ -85,6 +85,24 @@ public class IncidentReportEntity {
     private String reportingContactName;
     private String reportingContactEmail;
 
+    // --- War Room fields ---
+    @Column(nullable = false)
+    private boolean warRoomActive = false;
+
+    @Column(columnDefinition = "TEXT")
+    private String warRoomRoles; // JSON: {commandLead, techLead, commsLead, legalAdvisor}
+
+    @Column(columnDefinition = "TEXT")
+    private String communicationLog; // JSON array of communication entries
+
+    @Column(columnDefinition = "TEXT")
+    private String decisionLog; // JSON array of decision entries
+
+    private String warRoomPhase; // TRIAGE, CONTAINMENT, INVESTIGATION, REMEDIATION, RECOVERY, REVIEW
+
+    private LocalDateTime warRoomStartedAt;
+    private LocalDateTime warRoomClosedAt;
+
     // --- Audit fields ---
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -198,4 +216,20 @@ public class IncidentReportEntity {
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+    // War Room getters/setters
+    public boolean isWarRoomActive() { return warRoomActive; }
+    public void setWarRoomActive(boolean warRoomActive) { this.warRoomActive = warRoomActive; }
+    public String getWarRoomRoles() { return warRoomRoles; }
+    public void setWarRoomRoles(String warRoomRoles) { this.warRoomRoles = warRoomRoles; }
+    public String getCommunicationLog() { return communicationLog; }
+    public void setCommunicationLog(String communicationLog) { this.communicationLog = communicationLog; }
+    public String getDecisionLog() { return decisionLog; }
+    public void setDecisionLog(String decisionLog) { this.decisionLog = decisionLog; }
+    public String getWarRoomPhase() { return warRoomPhase; }
+    public void setWarRoomPhase(String warRoomPhase) { this.warRoomPhase = warRoomPhase; }
+    public LocalDateTime getWarRoomStartedAt() { return warRoomStartedAt; }
+    public void setWarRoomStartedAt(LocalDateTime warRoomStartedAt) { this.warRoomStartedAt = warRoomStartedAt; }
+    public LocalDateTime getWarRoomClosedAt() { return warRoomClosedAt; }
+    public void setWarRoomClosedAt(LocalDateTime warRoomClosedAt) { this.warRoomClosedAt = warRoomClosedAt; }
 }

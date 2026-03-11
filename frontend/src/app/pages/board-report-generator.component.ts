@@ -312,6 +312,17 @@ interface PillarScore {
                 </svg>
                 {{ lang.t('boardrep.print') }}
               </button>
+              <button (click)="exportBoardPackagePdf()"
+                      [disabled]="packageExporting()"
+                      class="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-violet-500/20 to-purple-500/20 border border-violet-500/30 text-violet-400 text-sm font-medium hover:from-violet-500/30 hover:to-purple-500/30 transition-all">
+                @if (packageExporting()) {
+                  <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                  </svg>
+                }
+                {{ lang.t('boardrep.gen_pdf') }}
+              </button>
             </div>
 
             <!-- Live Report Preview -->
@@ -672,6 +683,7 @@ export class BoardReportGeneratorComponent {
   autoFillLoading = signal(false);
   autoFilled = signal(false);
   pdfExporting = signal(false);
+  packageExporting = signal(false);
 
   // Auto-fill data for PDF enrichment
   private auditData: any = null;
@@ -1308,5 +1320,21 @@ export class BoardReportGeneratorComponent {
 
   printReport(): void {
     window.print();
+  }
+
+  exportBoardPackagePdf(): void {
+    this.packageExporting.set(true);
+    this.api.exportBoardPackagePdf().subscribe({
+      next: (blob: Blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'dora-board-package.pdf';
+        a.click();
+        URL.revokeObjectURL(url);
+        this.packageExporting.set(false);
+      },
+      error: () => this.packageExporting.set(false)
+    });
   }
 }

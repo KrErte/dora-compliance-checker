@@ -23,6 +23,11 @@ ng_out.txt
 ng_err.txt
 questions_test.json
 NUL
+build-*.txt
+test-*.txt
+testresult.txt
+testfile.txt
+*.stackdump
 
 # Deploy artifacts
 deploy.tar

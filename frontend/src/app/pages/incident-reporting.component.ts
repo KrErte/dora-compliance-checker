@@ -1,6 +1,7 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
 import { SubscriptionService } from '../services/subscription.service';
@@ -9,7 +10,7 @@ import { IncidentReport, IncidentStats } from '../models';
 @Component({
   selector: 'app-incident-reporting',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   template: `
     <div class="space-y-8">
       <!-- Header -->
@@ -497,6 +498,13 @@ import { IncidentReport, IncidentStats } from '../models';
                   </svg>
                 }
               </button>
+              <a [routerLink]="'/incident-war-room/' + selectedIncident()!.id"
+                 class="px-4 py-2 rounded-xl bg-gradient-to-r from-red-500/20 to-orange-500/20 text-red-400 text-sm font-semibold hover:from-red-500/30 hover:to-orange-500/30 transition-all flex items-center gap-2 border border-red-500/20">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                </svg>
+                {{ lang.t('warroom.launch_btn') }}
+              </a>
             </div>
           </div>
         </div>

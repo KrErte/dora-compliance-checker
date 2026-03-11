@@ -297,6 +297,31 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 ICT Asset Map
                 <span class="text-[9px] bg-cyan-500/20 text-cyan-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
+              <div class="border-t border-slate-700/30 my-1.5"></div>
+              <a routerLink="/regulatory-radar" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+                </svg>
+                {{ lang.l('Regulatiivne radar', 'Regulatory Radar') }}
+                <span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/third-party-monitor" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-orange-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                {{ lang.l('Kolmanda osapoole monitor', 'Third-Party Monitor') }}
+                <span class="text-[9px] bg-orange-500/20 text-orange-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/compliance-forecast" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-sky-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+                {{ lang.l('Vastavuse prognoos', 'Compliance Forecast') }}
+                <span class="text-[9px] bg-sky-500/20 text-sky-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
+              </a>
             </div>
           </div>
           <!-- Ressursid dropdown -->
@@ -330,6 +355,12 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 <div class="w-5 h-5 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-white text-[8px] font-bold shrink-0">AI</div>
                 {{ lang.t('nav.ai_policy_writer') }}
                 <span class="text-[9px] bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/clause-rewriter" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-emerald-300 hover:bg-emerald-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-emerald-600/10 to-teal-600/10 border border-emerald-500/20">
+                <div class="w-5 h-5 rounded bg-gradient-to-br from-emerald-400 to-teal-400 flex items-center justify-center text-white text-[8px] font-bold shrink-0">AI</div>
+                {{ lang.l('Klausli ümberkirjutaja', 'Clause Rewriter') }}
+                <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <a routerLink="/framework-mapping" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-blue-400 hover:bg-slate-700/30 transition-colors">
@@ -762,6 +793,21 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 {{ lang.t('nav.ict_asset_map') }}
                 <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-cyan-500/20 text-cyan-400 animate-pulse">NEW</span>
               </a>
+              <a routerLink="/regulatory-radar" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.l('Regulatiivne radar', 'Regulatory Radar') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-amber-500/20 text-amber-400 animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/third-party-monitor" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.l('Kolmanda osapoole monitor', 'Third-Party Monitor') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-orange-500/20 text-orange-400 animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/compliance-forecast" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-sky-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.l('Vastavuse prognoos', 'Compliance Forecast') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-sky-500/20 text-sky-400 animate-pulse">NEW</span>
+              </a>
               <a routerLink="/prosecutor" (click)="mobileMenu = false"
                  class="text-sm text-indigo-400 hover:text-indigo-300 px-3 py-2 rounded-lg hover:bg-indigo-500/10 flex items-center gap-2">
                 <div class="w-4 h-4 rounded bg-gradient-to-br from-indigo-400 to-violet-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
@@ -791,6 +837,12 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 <div class="w-4 h-4 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
                 {{ lang.t('nav.ai_policy_writer') }}
                 <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400">NEW</span>
+              </a>
+              <a routerLink="/clause-rewriter" (click)="mobileMenu = false"
+                 class="text-sm text-emerald-400 hover:text-emerald-300 px-3 py-2 rounded-lg hover:bg-emerald-500/10 flex items-center gap-2">
+                <div class="w-4 h-4 rounded bg-gradient-to-br from-emerald-400 to-teal-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
+                {{ lang.l('Klausli ümberkirjutaja', 'Clause Rewriter') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-emerald-500/20 text-emerald-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/framework-mapping" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-blue-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.framework_mapping') }}</a>
@@ -1084,6 +1136,11 @@ export class AppComponent implements OnInit, OnDestroy {
     '/admin/users': { et: 'Admin – Kasutajad | DoraAudit.eu', en: 'Admin – Users | DoraAudit.eu' },
     '/admin/leads': { et: 'Admin – Kontaktid | DoraAudit.eu', en: 'Admin – Leads | DoraAudit.eu' },
     '/bulk-import': { et: 'Hulgiimport | DoraAudit.eu', en: 'Bulk Import | DoraAudit.eu' },
+    '/regulatory-radar': { et: 'Regulatiivne Radar | DoraAudit.eu', en: 'Regulatory Radar | DoraAudit.eu' },
+    '/third-party-monitor': { et: 'Kolmanda Osapoole Monitor | DoraAudit.eu', en: 'Third-Party Monitor | DoraAudit.eu' },
+    '/compliance-forecast': { et: 'Vastavuse Prognoos | DoraAudit.eu', en: 'Compliance Forecast | DoraAudit.eu' },
+    '/clause-rewriter': { et: 'Klausli Ümberkirjutaja | DoraAudit.eu', en: 'Clause Rewriter | DoraAudit.eu' },
+    '/incident-war-room': { et: 'Intsidendi Sõjaruum | DoraAudit.eu', en: 'Incident War Room | DoraAudit.eu' },
   };
 
   private pageDescriptions: { [path: string]: { et: string; en: string } } = {

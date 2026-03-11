@@ -6,6 +6,7 @@ import com.dorachecker.model.GapAnalysisRepository;
 import com.dorachecker.model.IncidentReportRepository;
 import com.dorachecker.service.ExcelExportService;
 import com.dorachecker.service.ICalExportService;
+import com.dorachecker.service.BoardPackageService;
 import com.dorachecker.service.PdfExportService;
 import com.dorachecker.service.ComplianceReportService;
 import com.dorachecker.service.ProfessionalReportService;
@@ -31,6 +32,7 @@ public class ExportController {
     private final ProfessionalReportService professionalReportService;
     private final ComplianceReportService complianceReportService;
     private final ICalExportService iCalExportService;
+    private final BoardPackageService boardPackageService;
 
     public ExportController(
             SubscriptionGuardService guardService,
@@ -42,7 +44,8 @@ public class ExportController {
             ExcelExportService excelExportService,
             ProfessionalReportService professionalReportService,
             ComplianceReportService complianceReportService,
-            ICalExportService iCalExportService
+            ICalExportService iCalExportService,
+            BoardPackageService boardPackageService
     ) {
         this.guardService = guardService;
         this.assessmentRepository = assessmentRepository;
@@ -54,6 +57,7 @@ public class ExportController {
         this.professionalReportService = professionalReportService;
         this.complianceReportService = complianceReportService;
         this.iCalExportService = iCalExportService;
+        this.boardPackageService = boardPackageService;
     }
 
     @PostMapping("/pdf/assessment/{id}")
@@ -370,6 +374,34 @@ public class ExportController {
         headers.setContentDisposition(ContentDisposition.attachment().filename(filename).build());
         headers.setContentLength(data.length);
         return new ResponseEntity<>(data, headers, HttpStatus.OK);
+    }
+
+    // ─── Board Package ──────────────────────────────────
+
+    @GetMapping("/board-package/data")
+    public ResponseEntity<Map<String, Object>> getBoardPackageData(Authentication auth) {
+        String userId = auth != null ? (String) auth.getPrincipal() : null;
+        if (userId == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return ResponseEntity.ok(boardPackageService.getBoardPackageData(userId));
+    }
+
+    @PostMapping("/pdf/board-package")
+    public ResponseEntity<?> exportBoardPackagePdf(
+            @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
+            Authentication auth) {
+        String userId = auth != null ? (String) auth.getPrincipal() : null;
+        if (!guardService.canAccess(userId, sessionId, Feature.PDF_EXPORT)) {
+            return premiumRequiredResponse(Feature.PDF_EXPORT);
+        }
+
+        Map<String, Object> data = boardPackageService.getBoardPackageData(userId);
+        // Generate a simple PDF summary
+        try {
+            byte[] pdf = pdfExportService.generateBoardPackagePdf(data);
+            return fileResponse(pdf, "board-package-report.pdf", MediaType.APPLICATION_PDF);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Map.of("error", "PDF generation failed"));
+        }
     }
 
     private ResponseEntity<Map<String, Object>> premiumRequiredResponse(Feature feature) {

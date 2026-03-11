@@ -189,6 +189,15 @@ export interface IncidentReport {
   competentAuthority?: string;
   reportingContactName?: string;
   reportingContactEmail?: string;
+  // War Room fields
+  warRoomActive?: boolean;
+  warRoomRoles?: string;
+  communicationLog?: string;
+  decisionLog?: string;
+  warRoomPhase?: string;
+  warRoomStartedAt?: string;
+  warRoomClosedAt?: string;
+
   createdAt: string;
   updatedAt: string;
 }

@@ -625,6 +625,69 @@ export class ApiService {
     return this.http.get(`${this.baseUrl}/bulk-import/template/${entityType}`, { responseType: 'blob' });
   }
 
+  // ─── Clause Rewriter ────────────────────────────────
+  rewriteClause(body: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/clause-rewriter/rewrite`, body);
+  }
+  suggestClause(body: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/clause-rewriter/suggest`, body);
+  }
+
+  // ─── Regulatory Radar ─────────────────────────────
+  getRegulatoryRadar(severity?: string, regulation?: string, page: number = 0): Observable<any> {
+    const parts: string[] = [`page=${page}`, 'size=20'];
+    if (severity) parts.push(`severity=${severity}`);
+    if (regulation) parts.push(`regulation=${regulation}`);
+    return this.http.get<any>(`${this.baseUrl}/regulatory-radar?${parts.join('&')}`);
+  }
+  getRegulatoryRadarImpact(id: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/regulatory-radar/impact/${id}`);
+  }
+
+  // ─── Third-Party Monitor ──────────────────────────
+  getThirdPartyDashboard(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/third-party-monitor`);
+  }
+  getConcentrationRisk(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/third-party-monitor/concentration`);
+  }
+
+  // ─── Compliance Forecast (Decay Predictor) ────────
+  getComplianceForecast(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/compliance-forecast`);
+  }
+  getComplianceHealthScore(days: number = 30): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/compliance-forecast/health-score?days=${days}`);
+  }
+
+  // ─── War Room ─────────────────────────────────────
+  activateWarRoom(incidentId: string): Observable<IncidentReport> {
+    return this.http.post<IncidentReport>(`${this.baseUrl}/incidents/${incidentId}/war-room/activate`, {});
+  }
+  closeWarRoom(incidentId: string): Observable<IncidentReport> {
+    return this.http.post<IncidentReport>(`${this.baseUrl}/incidents/${incidentId}/war-room/close`, {});
+  }
+  addWarRoomCommunication(incidentId: string, entry: any): Observable<IncidentReport> {
+    return this.http.post<IncidentReport>(`${this.baseUrl}/incidents/${incidentId}/war-room/communication`, entry);
+  }
+  addWarRoomDecision(incidentId: string, entry: any): Observable<IncidentReport> {
+    return this.http.post<IncidentReport>(`${this.baseUrl}/incidents/${incidentId}/war-room/decision`, entry);
+  }
+  updateWarRoomPhase(incidentId: string, phase: string): Observable<IncidentReport> {
+    return this.http.put<IncidentReport>(`${this.baseUrl}/incidents/${incidentId}/war-room/phase`, { phase });
+  }
+  updateWarRoomRoles(incidentId: string, roles: any): Observable<IncidentReport> {
+    return this.http.put<IncidentReport>(`${this.baseUrl}/incidents/${incidentId}/war-room/roles`, { roles });
+  }
+
+  // ─── Board Package ────────────────────────────────
+  getBoardPackageData(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/exports/board-package/data`);
+  }
+  exportBoardPackagePdf(): Observable<Blob> {
+    return this.http.post(`${this.baseUrl}/exports/pdf/board-package`, {}, { responseType: 'blob' });
+  }
+
   // ─── Regulatory Impact ──────────────────────────────
   getRegulatoryImpactUpdates(severity?: string): Observable<any[]> {
     let url = `${this.baseUrl}/regulatory-impact`;

@@ -6,7 +6,10 @@ import com.dorachecker.model.ContractAnalysisEntity;
 import com.dorachecker.model.ContractAnalysisRepository;
 import com.dorachecker.model.GapAnalysisRepository;
 import com.dorachecker.model.IncidentReportRepository;
+import com.dorachecker.service.BoardPackageService;
+import com.dorachecker.service.ComplianceReportService;
 import com.dorachecker.service.ExcelExportService;
+import com.dorachecker.service.ICalExportService;
 import com.dorachecker.service.PdfExportService;
 import com.dorachecker.service.ProfessionalReportService;
 import com.dorachecker.service.SubscriptionGuardService;
@@ -37,6 +40,9 @@ class ExportControllerTest {
     @Mock private PdfExportService pdfExportService;
     @Mock private ExcelExportService excelExportService;
     @Mock private ProfessionalReportService professionalReportService;
+    @Mock private ComplianceReportService complianceReportService;
+    @Mock private ICalExportService iCalExportService;
+    @Mock private BoardPackageService boardPackageService;
     @Mock private Authentication authentication;
 
     private ExportController controller;
@@ -46,7 +52,8 @@ class ExportControllerTest {
         controller = new ExportController(
                 guardService, assessmentRepository, contractAnalysisRepository,
                 gapAnalysisRepository, incidentReportRepository, pdfExportService,
-                excelExportService, professionalReportService
+                excelExportService, professionalReportService, complianceReportService,
+                iCalExportService, boardPackageService
         );
     }
 

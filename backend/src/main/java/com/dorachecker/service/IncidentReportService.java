@@ -191,6 +191,80 @@ public class IncidentReportService {
         );
     }
 
+    // ─── War Room Methods ──────────────────────────────
+
+    public IncidentReportEntity activateWarRoom(String id, String userId) {
+        IncidentReportEntity entity = getById(id, userId);
+        if (entity == null) return null;
+        entity.setWarRoomActive(true);
+        entity.setWarRoomPhase("TRIAGE");
+        entity.setWarRoomStartedAt(LocalDateTime.now());
+        entity.setCommunicationLog("[]");
+        entity.setDecisionLog("[]");
+        entity.setUpdatedAt(LocalDateTime.now());
+        return repository.save(entity);
+    }
+
+    public IncidentReportEntity closeWarRoom(String id, String userId) {
+        IncidentReportEntity entity = getById(id, userId);
+        if (entity == null) return null;
+        entity.setWarRoomActive(false);
+        entity.setWarRoomPhase("REVIEW");
+        entity.setWarRoomClosedAt(LocalDateTime.now());
+        entity.setUpdatedAt(LocalDateTime.now());
+        return repository.save(entity);
+    }
+
+    public IncidentReportEntity addCommunicationEntry(String id, String userId, Map<String, Object> entry) {
+        IncidentReportEntity entity = getById(id, userId);
+        if (entity == null) return null;
+        try {
+            List<Object> log = entity.getCommunicationLog() != null
+                ? objectMapper.readValue(entity.getCommunicationLog(), List.class)
+                : new java.util.ArrayList<>();
+            entry.put("timestamp", LocalDateTime.now().toString());
+            log.add(entry);
+            entity.setCommunicationLog(objectMapper.writeValueAsString(log));
+        } catch (Exception e) {
+            // ignore parse errors
+        }
+        entity.setUpdatedAt(LocalDateTime.now());
+        return repository.save(entity);
+    }
+
+    public IncidentReportEntity addDecisionEntry(String id, String userId, Map<String, Object> entry) {
+        IncidentReportEntity entity = getById(id, userId);
+        if (entity == null) return null;
+        try {
+            List<Object> log = entity.getDecisionLog() != null
+                ? objectMapper.readValue(entity.getDecisionLog(), List.class)
+                : new java.util.ArrayList<>();
+            entry.put("timestamp", LocalDateTime.now().toString());
+            log.add(entry);
+            entity.setDecisionLog(objectMapper.writeValueAsString(log));
+        } catch (Exception e) {
+            // ignore parse errors
+        }
+        entity.setUpdatedAt(LocalDateTime.now());
+        return repository.save(entity);
+    }
+
+    public IncidentReportEntity updateWarRoomPhase(String id, String userId, String phase) {
+        IncidentReportEntity entity = getById(id, userId);
+        if (entity == null) return null;
+        entity.setWarRoomPhase(phase);
+        entity.setUpdatedAt(LocalDateTime.now());
+        return repository.save(entity);
+    }
+
+    public IncidentReportEntity updateWarRoomRoles(String id, String userId, String rolesJson) {
+        IncidentReportEntity entity = getById(id, userId);
+        if (entity == null) return null;
+        entity.setWarRoomRoles(rolesJson);
+        entity.setUpdatedAt(LocalDateTime.now());
+        return repository.save(entity);
+    }
+
     /**
      * DORA Art. 18 major incident classification.
      * An incident is major if it meets certain thresholds on multiple criteria.

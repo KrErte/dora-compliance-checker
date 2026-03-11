@@ -668,6 +668,36 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'Regulatory Change Impact Analysis', seoDescription: 'Track EU regulatory updates and their impact on your DORA compliance status.' }
   },
   {
+    path: 'clause-rewriter',
+    loadComponent: () => import('./pages/clause-rewriter.component').then(m => m.ClauseRewriterComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'AI Contract Clause Rewriter', seoDescription: 'AI-powered DORA-compliant contract clause rewriting and generation. Get compliance-scored clauses with legal references.' }
+  },
+  {
+    path: 'regulatory-radar',
+    loadComponent: () => import('./pages/regulatory-radar.component').then(m => m.RegulatoryRadarComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Regulatory Radar', seoDescription: 'Live regulatory change feed with AI-powered impact analysis. Monitor DORA, NIS2, and EU regulatory updates affecting your compliance.' }
+  },
+  {
+    path: 'third-party-monitor',
+    loadComponent: () => import('./pages/third-party-monitor.component').then(m => m.ThirdPartyMonitorComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Third-Party Risk Monitor', seoDescription: 'Live ICT third-party risk monitoring dashboard. Track vendor risk scores, concentration risks, and compliance dimensions.' }
+  },
+  {
+    path: 'compliance-forecast',
+    loadComponent: () => import('./pages/compliance-forecast.component').then(m => m.ComplianceForecastComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Compliance Decay Predictor', seoDescription: 'Predict compliance decay with health score forecasting. Track evidence expiry, remediation deadlines, and contract renewals.' }
+  },
+  {
+    path: 'incident-war-room/:id',
+    loadComponent: () => import('./pages/incident-war-room.component').then(m => m.IncidentWarRoomComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Incident War Room', seoDescription: 'Real-time incident response war room with countdown timers, phase management, communication logs, and decision tracking.' }
+  },
+  {
     path: 'admin/users',
     loadComponent: () => import('./pages/admin-users.component').then(m => m.AdminUsersComponent),
     canActivate: [adminGuard],
