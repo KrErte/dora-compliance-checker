@@ -771,6 +771,67 @@ export class ApiService {
   getUnacknowledgedCount(): Observable<{ count: number }> {
     return this.http.get<{ count: number }>(`${this.baseUrl}/regulatory-impact/unacknowledged-count`);
   }
+
+  // ─── Compliance Genome ──────────────────────────────
+  getGenome(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/genome`);
+  }
+  getGenomeHistory(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/genome/history`);
+  }
+  getGenomeComparison(fromId: string, toId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/genome/compare?from=${fromId}&to=${toId}`);
+  }
+
+  // ─── Regulatory Time Machine ────────────────────────
+  getTimeline(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/time-machine`);
+  }
+  getStateAtDate(date: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/time-machine/state?date=${date}`);
+  }
+  whatIfScenario(scenarioId: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/time-machine/whatif`, { scenarioId });
+  }
+
+  // ─── DORA Stress Test ───────────────────────────────
+  getStressExercises(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/stress-test/exercises`);
+  }
+  startStressExercise(scenarioId: string, difficulty: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/stress-test/start`, { scenarioId, difficulty });
+  }
+  getStressEvents(sessionId: string, elapsed: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/stress-test/events/${sessionId}?elapsed=${elapsed}`);
+  }
+  respondToStressEvent(sessionId: string, eventId: string, optionIndex: number, reactionTimeMs: number): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/stress-test/respond`, { sessionId, eventId, optionIndex, reactionTimeMs });
+  }
+  completeStressExercise(sessionId: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/stress-test/complete/${sessionId}`, {});
+  }
+  getStressLeaderboard(scenarioId?: string, difficulty?: string): Observable<any> {
+    let url = `${this.baseUrl}/stress-test/leaderboard`;
+    const params: string[] = [];
+    if (scenarioId) params.push(`scenarioId=${scenarioId}`);
+    if (difficulty) params.push(`difficulty=${difficulty}`);
+    if (params.length) url += '?' + params.join('&');
+    return this.http.get<any>(url);
+  }
+
+  // ─── Compliance Autopsy ─────────────────────────────
+  getAutopsyEvents(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/autopsy/events`);
+  }
+  performAutopsy(failureEventId: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/autopsy/perform`, { failureEventId });
+  }
+  getAutopsyReport(id: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/autopsy/${id}`);
+  }
+  getAutopsyHistory(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/autopsy/history`);
+  }
 }
 
 export interface SearchResult {

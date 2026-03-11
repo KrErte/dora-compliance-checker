@@ -728,6 +728,30 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'Compliance Network', seoDescription: 'Anonymous peer intelligence from DoraAudit users. Industry benchmarks, threat radar, peer comparison, and Baltic compliance heat map.' }
   },
   {
+    path: 'genome',
+    loadComponent: () => import('./pages/compliance-genome.component').then(m => m.ComplianceGenomeComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Compliance Genome', seoDescription: 'Circular bioinformatics-style visualization encoding your entire DORA compliance state as a unique genetic fingerprint.' }
+  },
+  {
+    path: 'time-machine',
+    loadComponent: () => import('./pages/time-machine.component').then(m => m.TimeMachineComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Regulatory Time Machine', seoDescription: 'Interactive time-travel through past, present, and AI-predicted future compliance states with what-if scenarios.' }
+  },
+  {
+    path: 'stress-test',
+    loadComponent: () => import('./pages/stress-test.component').then(m => m.StressTestComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'DORA Stress Test', seoDescription: 'Real-time timed crisis simulator for compliance officers. 5-minute exercises with random events, reaction scoring, and leaderboard.' }
+  },
+  {
+    path: 'autopsy',
+    loadComponent: () => import('./pages/compliance-autopsy.component').then(m => m.ComplianceAutopsyComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Compliance Autopsy', seoDescription: 'Forensic post-mortem tool tracing compliance failures to root causes. Medical-style autopsy report with prevention recommendations.' }
+  },
+  {
     path: 'admin/users',
     loadComponent: () => import('./pages/admin-users.component').then(m => m.AdminUsersComponent),
     canActivate: [adminGuard],
