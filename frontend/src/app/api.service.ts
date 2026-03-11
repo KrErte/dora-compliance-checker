@@ -688,6 +688,74 @@ export class ApiService {
     return this.http.post(`${this.baseUrl}/exports/pdf/board-package`, {}, { responseType: 'blob' });
   }
 
+  // ─── Regulator Portal ──────────────────────────────
+  getRegulatorTokens(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/regulator-portal`);
+  }
+  createRegulatorToken(data: { label: string; expiresAt: string; permissions: string }): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/regulator-portal`, data);
+  }
+  revokeRegulatorToken(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/regulator-portal/${id}`);
+  }
+  getRegulatorPortalData(token: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/public/regulator/${token}`);
+  }
+
+  // ─── Chain Reaction Engine ────────────────────────
+  getChainReactionTriggers(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/chain-reaction/triggers`);
+  }
+  simulateCascade(triggerId: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/chain-reaction/simulate`, { triggerId });
+  }
+  simulateQuickScenario(scenarioId: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/chain-reaction/simulate/scenario`, { scenarioId });
+  }
+
+  // ─── Evidence Harvester ───────────────────────────
+  getSupportedHarvesters(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/evidence-harvester/connectors/supported`);
+  }
+  getUserConnectors(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/evidence-harvester/connectors`);
+  }
+  saveHarvesterConnector(data: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/evidence-harvester/connectors`, data);
+  }
+  deleteHarvesterConnector(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/evidence-harvester/connectors/${id}`);
+  }
+  getHarvestStats(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/evidence-harvester/stats`);
+  }
+  triggerHarvest(connectorId: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/evidence-harvester/connectors/${connectorId}/harvest`, {});
+  }
+
+  // ─── Compliance Network ───────────────────────────
+  getNetworkOptIn(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/compliance-network/opt-in`);
+  }
+  toggleNetworkOptIn(data: { optIn: boolean; sector?: string; country?: string; companySize?: string }): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/compliance-network/opt-in`, data);
+  }
+  getNetworkStats(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/compliance-network/stats`);
+  }
+  getIndustryPulse(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/compliance-network/industry-pulse`);
+  }
+  getThreatRadar(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/compliance-network/threat-radar`);
+  }
+  getPeerComparison(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/compliance-network/peer-comparison`);
+  }
+  getComplianceHeatMap(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/compliance-network/heat-map`);
+  }
+
   // ─── Regulatory Impact ──────────────────────────────
   getRegulatoryImpactUpdates(severity?: string): Observable<any[]> {
     let url = `${this.baseUrl}/regulatory-impact`;

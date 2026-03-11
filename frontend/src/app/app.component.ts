@@ -322,6 +322,39 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 {{ lang.l('Vastavuse prognoos', 'Compliance Forecast') }}
                 <span class="text-[9px] bg-sky-500/20 text-sky-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
+              <div class="border-t border-slate-700/30 my-1.5"></div>
+              <a routerLink="/regulator-portal" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                {{ lang.l('Regulaatori portaal', 'Regulator Portal') }}
+                <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/chain-reaction" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-rose-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
+                {{ lang.l('Doominoefekt', 'Chain Reaction') }}
+                <span class="text-[9px] bg-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/evidence-harvester" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-teal-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                {{ lang.l('Tõendite koguja', 'Evidence Harvester') }}
+                <span class="text-[9px] bg-teal-500/20 text-teal-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/compliance-network" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98"/><path d="M15.41 6.51l-6.82 3.98"/>
+                </svg>
+                {{ lang.l('Vastavusvõrgustik', 'Compliance Network') }}
+                <span class="text-[9px] bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
+              </a>
             </div>
           </div>
           <!-- Ressursid dropdown -->
@@ -808,6 +841,26 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 {{ lang.l('Vastavuse prognoos', 'Compliance Forecast') }}
                 <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-sky-500/20 text-sky-400 animate-pulse">NEW</span>
               </a>
+              <a routerLink="/regulator-portal" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.l('Regulaatori portaal', 'Regulator Portal') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-emerald-500/20 text-emerald-400 animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/chain-reaction" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-rose-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.l('Doominoefekt', 'Chain Reaction') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-rose-500/20 text-rose-400 animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/evidence-harvester" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-teal-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.l('Tõendite koguja', 'Evidence Harvester') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-teal-500/20 text-teal-400 animate-pulse">NEW</span>
+              </a>
+              <a routerLink="/compliance-network" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.l('Vastavusvõrgustik', 'Compliance Network') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400 animate-pulse">NEW</span>
+              </a>
               <a routerLink="/prosecutor" (click)="mobileMenu = false"
                  class="text-sm text-indigo-400 hover:text-indigo-300 px-3 py-2 rounded-lg hover:bg-indigo-500/10 flex items-center gap-2">
                 <div class="w-4 h-4 rounded bg-gradient-to-br from-indigo-400 to-violet-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
@@ -1141,6 +1194,11 @@ export class AppComponent implements OnInit, OnDestroy {
     '/compliance-forecast': { et: 'Vastavuse Prognoos | DoraAudit.eu', en: 'Compliance Forecast | DoraAudit.eu' },
     '/clause-rewriter': { et: 'Klausli Ümberkirjutaja | DoraAudit.eu', en: 'Clause Rewriter | DoraAudit.eu' },
     '/incident-war-room': { et: 'Intsidendi Sõjaruum | DoraAudit.eu', en: 'Incident War Room | DoraAudit.eu' },
+    '/regulator-portal': { et: 'Regulaatori Portaal | DoraAudit.eu', en: 'Regulator Portal | DoraAudit.eu' },
+    '/regulator-view': { et: 'Regulaatori Vaade | DoraAudit.eu', en: 'Regulator Compliance View | DoraAudit.eu' },
+    '/chain-reaction': { et: 'Doominoefekti Mootor | DoraAudit.eu', en: 'Chain Reaction Engine | DoraAudit.eu' },
+    '/evidence-harvester': { et: 'Tõendite Automaatne Kogumine | DoraAudit.eu', en: 'Evidence Auto-Harvester | DoraAudit.eu' },
+    '/compliance-network': { et: 'Vastavusvõrgustik | DoraAudit.eu', en: 'Compliance Network | DoraAudit.eu' },
   };
 
   private pageDescriptions: { [path: string]: { et: string; en: string } } = {
@@ -1215,6 +1273,11 @@ export class AppComponent implements OnInit, OnDestroy {
     '/activity-timeline': { et: 'Kronoloogiline auditirada kõigist DORA vastavustegevustest. Jälgi hindamisi, tõendeid, parandusi ja intsidente.', en: 'Chronological audit trail of all DORA compliance activities. Track assessments, evidence, remediation, and incidents.' },
     '/integrations': { et: 'Ühenda Slack, Microsoft Teams ja webhookid reaalajas DORA teavituste saamiseks.', en: 'Connect Slack, Microsoft Teams, and webhooks for real-time DORA compliance notifications.' },
     '/pillar': { et: 'DORA samba detailne ülevaade ja vastavusnõuded.', en: 'DORA pillar detailed overview and compliance requirements.' },
+    '/regulator-portal': { et: 'Loo turvalisi, ainult-lugemise vastavusportaale regulaatoritele ja audiitoritele.', en: 'Create secure, read-only compliance portals for regulators and auditors via token-based links.' },
+    '/regulator-view': { et: 'Regulaatori vastavusülevaade. Ainult-lugemise juurdepääs hindamistele ja tõenditele.', en: 'Regulator compliance overview. Read-only access to assessments and evidence.' },
+    '/chain-reaction': { et: 'Simuleeri vastavuse kaskaadefekte. Visualiseeri kuidas tarnija rikkumine mõjutab DORA skoori.', en: 'Simulate compliance cascade effects. Visualize how vendor breaches impact your DORA compliance score.' },
+    '/evidence-harvester': { et: 'Ühenda Jira, GitHub, Azure, AWS, Slack ja Confluence tõendite automaatseks kogumiseks.', en: 'Connect Jira, GitHub, Azure, AWS, Slack and Confluence to automatically harvest compliance evidence.' },
+    '/compliance-network': { et: 'Anonüümne kollegiaalne luure DoraAudit kasutajatelt. Tööstuse võrdlus ja Baltikumi soojuskaart.', en: 'Anonymous peer intelligence from DoraAudit users. Industry benchmarks, threat radar, and Baltic heat map.' },
   };
 
   @ViewChild(GuidedTourComponent) guidedTour?: GuidedTourComponent;

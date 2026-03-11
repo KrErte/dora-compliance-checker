@@ -698,6 +698,36 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'Incident War Room', seoDescription: 'Real-time incident response war room with countdown timers, phase management, communication logs, and decision tracking.' }
   },
   {
+    path: 'regulator-portal',
+    loadComponent: () => import('./pages/regulator-portal.component').then(m => m.RegulatorPortalComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Regulator Portal', seoDescription: 'Create secure, read-only compliance portals for regulators and auditors. Share assessment scores, evidence, and vendor data via token-based links.' }
+  },
+  {
+    path: 'regulator-view/:token',
+    loadComponent: () => import('./pages/regulator-view.component').then(m => m.RegulatorViewComponent),
+    // No authGuard - public access via token
+    data: { seoTitle: 'Regulator Compliance View' }
+  },
+  {
+    path: 'chain-reaction',
+    loadComponent: () => import('./pages/chain-reaction.component').then(m => m.ChainReactionComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Chain Reaction Engine', seoDescription: 'Simulate compliance cascade effects. Visualize how vendor breaches, evidence expiry, or regulation changes impact your DORA compliance score.' }
+  },
+  {
+    path: 'evidence-harvester',
+    loadComponent: () => import('./pages/evidence-harvester.component').then(m => m.EvidenceHarvesterComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Evidence Auto-Harvester', seoDescription: 'Connect Jira, GitHub, Azure DevOps, AWS, Slack, Confluence, and Google Drive to automatically harvest compliance evidence.' }
+  },
+  {
+    path: 'compliance-network',
+    loadComponent: () => import('./pages/compliance-network.component').then(m => m.ComplianceNetworkComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Compliance Network', seoDescription: 'Anonymous peer intelligence from DoraAudit users. Industry benchmarks, threat radar, peer comparison, and Baltic compliance heat map.' }
+  },
+  {
     path: 'admin/users',
     loadComponent: () => import('./pages/admin-users.component').then(m => m.AdminUsersComponent),
     canActivate: [adminGuard],
