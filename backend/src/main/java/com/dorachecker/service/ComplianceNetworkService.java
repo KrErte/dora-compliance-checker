@@ -47,7 +47,7 @@ public class ComplianceNetworkService {
     }
 
     public Map<String, Object> getNetworkStats() {
-        long realParticipants = networkOptInRepository.countByOptedIn(true);
+        long realParticipants = networkOptInRepository.countOptedIn();
         long totalParticipants = realParticipants + 47;
 
         Double avgScore = assessmentRepository.findAverageScore();
