@@ -23,10 +23,6 @@ export class ThemeService {
     if (typeof localStorage !== 'undefined') {
       const stored = localStorage.getItem('dora_theme');
       if (stored === 'light' || stored === 'dark') return stored;
-      // Check system preference
-      if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: light)').matches) {
-        return 'light';
-      }
     }
     return 'dark';
   }
