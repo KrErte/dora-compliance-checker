@@ -188,8 +188,20 @@ public class RegulationDataInitializer implements CommandLineRunner {
         createQuestion(infoSharing, "Is significant incident information shared with other financial entities?",
                 "Kas jagatakse olulist intsidendi teavet teiste finantsasutustega?",
                 "DORA Art. 45(3)", 3);
+        createQuestion(infoSharing, "Is the entity a member of a financial sector ISAC?",
+                "Kas asutus on finantssektori ISAC liige?",
+                "DORA Art. 45(1)", 4);
+        createQuestion(infoSharing, "Is there a cooperation process with the NCA for sharing cyber threat intelligence?",
+                "Kas on koostööprotsess riikliku pädeva asutusega küberohuteavet jagamiseks?",
+                "DORA Art. 45(1)(b)", 5);
+        createQuestion(infoSharing, "Are information sharing protocols defined, including anonymization and classification?",
+                "Kas on teabe jagamise protokollid, sh anonümiseerimine ja klassifitseerimine?",
+                "DORA Art. 45(2)(a)", 6);
+        createQuestion(infoSharing, "Does the entity share cyber threat intelligence cross-border with other EU financial entities?",
+                "Kas jagatakse küberohuteavet piiriüleselt teiste EL finantsasutustega?",
+                "DORA Art. 45(3)(b)", 7);
 
-        log.info("RegulationDataInitializer: DORA seeded with 13 domains and 28 questions");
+        log.info("RegulationDataInitializer: DORA seeded with 13 domains and 32 questions");
     }
 
     private void seedNis2() {

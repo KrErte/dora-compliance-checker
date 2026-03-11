@@ -235,6 +235,10 @@ interface HeatmapCell {
                   {{ pillar.percentage | number:'1.0-0' }}%
                 </span>
               </div>
+              <a [routerLink]="pillar.route"
+                 class="inline-block mt-2 text-[10px] text-cyan-400 hover:text-cyan-300 hover:underline transition-colors">
+                {{ lang.t(pillar.ctaKey) }} &rarr;
+              </a>
             </div>
           </div>
         </div>
@@ -383,21 +387,63 @@ interface HeatmapCell {
           </h2>
           <div class="space-y-2">
             <div *ngFor="let item of nonCompliantItems; let i = index"
-                 class="flex items-center gap-3 p-3 bg-slate-800/50 rounded-lg border border-slate-700/30 animate-slide-in-right"
+                 class="bg-slate-800/50 rounded-lg border border-slate-700/30 animate-slide-in-right overflow-hidden"
                  [style.animation-delay]="(i * 80 + 600) + 'ms'">
-              <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shrink-0"
-                   [class]="i < 3 ? 'bg-red-500/15 text-red-400 border border-red-500/20' : 'bg-amber-500/15 text-amber-400 border border-amber-500/20'">
-                {{ i + 1 }}
+              <!-- Header row (clickable) -->
+              <div class="flex items-center gap-3 p-3 cursor-pointer hover:bg-slate-700/20 transition-colors"
+                   (click)="toggleGapExpand(i)">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shrink-0"
+                     [class]="i < 3 ? 'bg-red-500/15 text-red-400 border border-red-500/20' : 'bg-amber-500/15 text-amber-400 border border-amber-500/20'">
+                  {{ i + 1 }}
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm text-slate-200" [class.truncate]="expandedGapIndex !== i">{{ item.question }}</p>
+                  <p class="text-xs text-slate-500">{{ item.articleReference }} &middot; {{ getCategoryLabel(item.category) }}</p>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                  <span class="text-xs px-2 py-0.5 rounded-full"
+                        [class]="i < 3 ? 'bg-red-500/15 text-red-400 border border-red-500/20' : 'bg-amber-500/15 text-amber-400 border border-amber-500/20'">
+                    {{ i < 3 ? lang.t('results.critical') : lang.t('results.important') }}
+                  </span>
+                  <svg class="w-4 h-4 text-slate-500 transition-transform" [class.rotate-180]="expandedGapIndex === i" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                  </svg>
+                </div>
               </div>
-              <div class="flex-1 min-w-0">
-                <p class="text-sm text-slate-200 truncate">{{ item.question }}</p>
-                <p class="text-xs text-slate-500">{{ item.articleReference }} &middot; {{ getCategoryLabel(item.category) }}</p>
-              </div>
-              <div class="shrink-0">
-                <span class="text-xs px-2 py-0.5 rounded-full"
-                      [class]="i < 3 ? 'bg-red-500/15 text-red-400 border border-red-500/20' : 'bg-amber-500/15 text-amber-400 border border-amber-500/20'">
-                  {{ i < 3 ? lang.t('results.critical') : lang.t('results.important') }}
-                </span>
+              <!-- Expanded panel -->
+              <div *ngIf="expandedGapIndex === i" class="px-3 pb-3 space-y-3 animate-fade-in">
+                <div *ngIf="item.explanation" class="bg-gradient-to-r from-slate-700/30 to-transparent rounded-lg p-3 border-l-2 border-slate-500/50">
+                  <p class="text-xs font-semibold text-slate-400 mb-1">{{ lang.t('results.gap_explanation') }}</p>
+                  <p class="text-sm text-slate-300 leading-relaxed">{{ item.explanation }}</p>
+                </div>
+                <div *ngIf="item.recommendation" class="bg-gradient-to-r from-amber-500/5 to-transparent rounded-lg p-3 border-l-2 border-amber-500/50">
+                  <p class="text-xs font-semibold text-amber-400 mb-1">{{ lang.t('results.recommendation') }}</p>
+                  <p class="text-sm text-slate-300 leading-relaxed">{{ item.recommendation }}</p>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-slate-500">{{ lang.t('results.gap_article') }}: {{ item.articleReference }}</span>
+                  <button *ngIf="!remediationCreated[i]" type="button" (click)="trackInRemediation(item, i); $event.stopPropagation()"
+                          [disabled]="remediationCreating[i]"
+                          class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
+                                 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20
+                                 hover:bg-cyan-500/20 hover:border-cyan-500/30 transition-all
+                                 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg *ngIf="!remediationCreating[i]" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    <svg *ngIf="remediationCreating[i]" class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                    </svg>
+                    {{ lang.t('results.track_remediation') }}
+                  </button>
+                  <span *ngIf="remediationCreated[i]" class="flex items-center gap-1.5 text-xs text-emerald-400">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    {{ lang.t('results.tracked') }}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -543,10 +589,15 @@ interface HeatmapCell {
                 </div>
                 <div class="space-y-1.5">
                   <div *ngFor="let item of roadmapPhase1; let i = index"
-                       class="flex items-center gap-2 text-sm animate-slide-in-right"
-                       [style.animation-delay]="(i * 60 + 800) + 'ms'">
-                    <span class="w-5 h-5 rounded bg-red-500/10 flex items-center justify-center text-xs text-red-400 shrink-0">{{ i + 1 }}</span>
-                    <span class="text-slate-300 truncate">{{ item.question }}</span>
+                       class="flex items-center gap-2 text-sm animate-slide-in-right cursor-pointer group"
+                       [style.animation-delay]="(i * 60 + 800) + 'ms'"
+                       (click)="toggleRoadmapItem(item.questionId)">
+                    <input type="checkbox" [checked]="isRoadmapItemCompleted(item.questionId)"
+                           class="w-4 h-4 rounded border-red-500/30 bg-slate-800 text-red-400 focus:ring-red-500/30 shrink-0 cursor-pointer"
+                           (click)="$event.stopPropagation(); toggleRoadmapItem(item.questionId)">
+                    <span class="text-slate-300 truncate transition-all"
+                          [class.line-through]="isRoadmapItemCompleted(item.questionId)"
+                          [class.text-slate-500]="isRoadmapItemCompleted(item.questionId)">{{ item.question }}</span>
                     <span class="text-xs text-slate-600 shrink-0">{{ item.articleReference }}</span>
                   </div>
                 </div>
@@ -569,10 +620,15 @@ interface HeatmapCell {
                 </div>
                 <div class="space-y-1.5">
                   <div *ngFor="let item of roadmapPhase2; let i = index"
-                       class="flex items-center gap-2 text-sm animate-slide-in-right"
-                       [style.animation-delay]="(i * 60 + 1000) + 'ms'">
-                    <span class="w-5 h-5 rounded bg-amber-500/10 flex items-center justify-center text-xs text-amber-400 shrink-0">{{ i + 1 }}</span>
-                    <span class="text-slate-300 truncate">{{ item.question }}</span>
+                       class="flex items-center gap-2 text-sm animate-slide-in-right cursor-pointer group"
+                       [style.animation-delay]="(i * 60 + 1000) + 'ms'"
+                       (click)="toggleRoadmapItem(item.questionId)">
+                    <input type="checkbox" [checked]="isRoadmapItemCompleted(item.questionId)"
+                           class="w-4 h-4 rounded border-amber-500/30 bg-slate-800 text-amber-400 focus:ring-amber-500/30 shrink-0 cursor-pointer"
+                           (click)="$event.stopPropagation(); toggleRoadmapItem(item.questionId)">
+                    <span class="text-slate-300 truncate transition-all"
+                          [class.line-through]="isRoadmapItemCompleted(item.questionId)"
+                          [class.text-slate-500]="isRoadmapItemCompleted(item.questionId)">{{ item.question }}</span>
                     <span class="text-xs text-slate-600 shrink-0">{{ item.articleReference }}</span>
                   </div>
                 </div>
@@ -817,12 +873,18 @@ export class ResultsComponent implements OnInit {
   radarDataPath = '';
   radarDataPoints: { x: number; y: number; value: number }[] = [];
   heatmapCells: HeatmapCell[] = [];
-  nonCompliantItems: { question: string; articleReference: string; category: string }[] = [];
-  roadmapPhase1: { question: string; articleReference: string }[] = [];
-  roadmapPhase2: { question: string; articleReference: string }[] = [];
+  nonCompliantItems: { questionId: number; question: string; articleReference: string; category: string; explanation: string; recommendation: string }[] = [];
+  roadmapPhase1: { questionId: number; question: string; articleReference: string }[] = [];
+  roadmapPhase2: { questionId: number; question: string; articleReference: string }[] = [];
   roadmapPhase1Progress = 0;
   roadmapPhase2Progress = 0;
   roadmapPhase3Progress = 0;
+  roadmapCompletedItems: Set<number> = new Set();
+
+  // Expandable gaps
+  expandedGapIndex: number | null = null;
+  remediationCreating: { [index: number]: boolean } = {};
+  remediationCreated: { [index: number]: boolean } = {};
 
   // Benchmark data
   benchmark: BenchmarkData | null = null;
@@ -837,12 +899,12 @@ export class ResultsComponent implements OnInit {
   emailCaptured = false;
   emailLoading = false;
 
-  doraPillars: { id: string; icon: string; labelKey: string; percentage: number }[] = [
-    { id: 'ICT_RISK_MANAGEMENT', icon: '\u{1F6E1}\uFE0F', labelKey: 'dashboard.pillar_risk', percentage: 0 },
-    { id: 'INCIDENT_MANAGEMENT', icon: '\u{1F4CB}', labelKey: 'dashboard.pillar_incidents', percentage: 0 },
-    { id: 'TESTING', icon: '\u{1F50D}', labelKey: 'dashboard.pillar_testing', percentage: 0 },
-    { id: 'THIRD_PARTY', icon: '\u{1F91D}', labelKey: 'dashboard.pillar_third_party', percentage: 0 },
-    { id: 'INFORMATION_SHARING', icon: '\u{1F4E1}', labelKey: 'dashboard.pillar_info', percentage: 0 }
+  doraPillars: { id: string; icon: string; labelKey: string; percentage: number; route: string; ctaKey: string }[] = [
+    { id: 'ICT_RISK_MANAGEMENT', icon: '\u{1F6E1}\uFE0F', labelKey: 'dashboard.pillar_risk', percentage: 0, route: '/compliance-forecast', ctaKey: 'results.pillar_cta_risk' },
+    { id: 'INCIDENT_MANAGEMENT', icon: '\u{1F4CB}', labelKey: 'dashboard.pillar_incidents', percentage: 0, route: '/incident-reporting', ctaKey: 'results.pillar_cta_incidents' },
+    { id: 'TESTING', icon: '\u{1F50D}', labelKey: 'dashboard.pillar_testing', percentage: 0, route: '/compliance-forecast', ctaKey: 'results.pillar_cta_testing' },
+    { id: 'THIRD_PARTY', icon: '\u{1F91D}', labelKey: 'dashboard.pillar_third_party', percentage: 0, route: '/third-party-monitor', ctaKey: 'results.pillar_cta_third_party' },
+    { id: 'INFORMATION_SHARING', icon: '\u{1F4E1}', labelKey: 'dashboard.pillar_info', percentage: 0, route: '/regulatory-radar', ctaKey: 'results.pillar_cta_info' }
   ];
 
   constructor(
@@ -1148,9 +1210,12 @@ export class ResultsComponent implements OnInit {
     this.nonCompliantItems = this.result.questionResults
       .filter(qr => qr.complianceStatus !== 'yes')
       .map(qr => ({
+        questionId: qr.questionId,
         question: qr.question,
         articleReference: qr.articleReference,
-        category: qr.category
+        category: qr.category,
+        explanation: qr.explanation,
+        recommendation: qr.recommendation
       }));
   }
 
@@ -1158,14 +1223,90 @@ export class ResultsComponent implements OnInit {
     if (!this.result) return;
     const items = this.nonCompliantItems;
     // Split: first 3 are critical (phase 1), rest are important (phase 2)
-    this.roadmapPhase1 = items.slice(0, Math.min(3, items.length));
-    this.roadmapPhase2 = items.slice(3);
-    // Progress = percentage of compliant questions already done
-    const total = this.result.totalQuestions;
-    const done = this.result.compliantCount;
-    this.roadmapPhase1Progress = items.length > 0 ? Math.round((done / total) * 100) : 100;
-    this.roadmapPhase2Progress = items.length > 3 ? Math.round(((done + this.roadmapPhase1.length) / total) * 100) : this.roadmapPhase1Progress;
-    this.roadmapPhase3Progress = 100;
+    this.roadmapPhase1 = items.slice(0, Math.min(3, items.length)).map(i => ({ questionId: i.questionId, question: i.question, articleReference: i.articleReference }));
+    this.roadmapPhase2 = items.slice(3).map(i => ({ questionId: i.questionId, question: i.question, articleReference: i.articleReference }));
+
+    // Load saved progress from localStorage
+    if (typeof localStorage !== 'undefined') {
+      const saved = localStorage.getItem('roadmap-progress-' + this.result.id);
+      if (saved) {
+        try {
+          const arr = JSON.parse(saved) as number[];
+          this.roadmapCompletedItems = new Set(arr);
+        } catch { /* ignore */ }
+      }
+    }
+
+    this.recalcRoadmapProgress();
+  }
+
+  toggleRoadmapItem(questionId: number) {
+    if (this.roadmapCompletedItems.has(questionId)) {
+      this.roadmapCompletedItems.delete(questionId);
+    } else {
+      this.roadmapCompletedItems.add(questionId);
+    }
+    this.saveRoadmapProgress();
+    this.recalcRoadmapProgress();
+  }
+
+  isRoadmapItemCompleted(questionId: number): boolean {
+    return this.roadmapCompletedItems.has(questionId);
+  }
+
+  saveRoadmapProgress() {
+    if (!this.result || typeof localStorage === 'undefined') return;
+    localStorage.setItem('roadmap-progress-' + this.result.id, JSON.stringify([...this.roadmapCompletedItems]));
+  }
+
+  recalcRoadmapProgress() {
+    const phase1Completed = this.roadmapPhase1.filter(i => this.roadmapCompletedItems.has(i.questionId)).length;
+    const phase2Completed = this.roadmapPhase2.filter(i => this.roadmapCompletedItems.has(i.questionId)).length;
+    this.roadmapPhase1Progress = this.roadmapPhase1.length > 0 ? Math.round((phase1Completed / this.roadmapPhase1.length) * 100) : 100;
+    this.roadmapPhase2Progress = this.roadmapPhase2.length > 0 ? Math.round((phase2Completed / this.roadmapPhase2.length) * 100) : 100;
+    this.roadmapPhase3Progress = (this.roadmapPhase1Progress === 100 && this.roadmapPhase2Progress === 100) ? 100 : 0;
+  }
+
+  toggleGapExpand(index: number) {
+    this.expandedGapIndex = this.expandedGapIndex === index ? null : index;
+  }
+
+  trackInRemediation(item: { questionId: number; question: string; articleReference: string; category: string }, index: number) {
+    this.remediationCreating[index] = true;
+    const pillarMap: { [key: string]: string } = {
+      'ICT_RISK_MANAGEMENT': 'ICT Risk Management',
+      'INCIDENT_MANAGEMENT': 'Incident Management',
+      'TESTING': 'Resilience Testing',
+      'THIRD_PARTY': 'Third Party',
+      'INFORMATION_SHARING': 'Information Sharing',
+      'SERVICE_LEVEL': 'Service Level',
+      'EXIT_STRATEGY': 'Exit Strategy',
+      'AUDIT': 'Audit Rights',
+      'INCIDENT': 'Incident Notification',
+      'DATA': 'Data Location',
+      'SUBCONTRACTING': 'Subcontracting',
+      'RISK': 'Risk Management',
+      'LEGAL': 'Legal Terms',
+      'CONTINUITY': 'Business Continuity'
+    };
+    this.api.createRemediation({
+      title: item.question,
+      description: item.articleReference,
+      source: 'ASSESSMENT',
+      sourceId: this.result?.id,
+      pillar: pillarMap[item.category] || item.category,
+      articleReference: item.articleReference,
+      priority: index < 3 ? 'CRITICAL' : 'HIGH',
+      status: 'OPEN'
+    }).subscribe({
+      next: () => {
+        this.remediationCreating[index] = false;
+        this.remediationCreated[index] = true;
+      },
+      error: () => {
+        this.remediationCreating[index] = false;
+      }
+    });
   }
 
   buildPillarScores() {

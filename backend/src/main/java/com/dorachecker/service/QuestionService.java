@@ -310,6 +310,38 @@ public class QuestionService {
                     "DORA Art. 45(3)",
                     "Anonümiseeritud intsidendi teabe jagamine aitab kogu finantssektoril paremini valmistuda sarnasteks rünnakuteks ja tugevdada kollektiivset kaitset.",
                     "Osalege regulaarselt sektoripõhistel intsidendi jagamise kohtumistel ja panustage anonümiseeritud juhtumite andmebaasidesse.",
+                    QuestionCategory.INFORMATION_SHARING),
+
+            new DoraQuestion(38,
+                    "Kas asutus on finantssektori ISAC liige?",
+                    "Is the entity a member of a financial sector ISAC?",
+                    "DORA Art. 45(1)",
+                    "DORA Art. 45(1) nõuab, et finantsasutused osaleksid ametlikes teabevahetuse koostöövormides, nagu ISAC (Information Sharing and Analysis Center), et tugevdada sektoriülest küberkaitset.",
+                    "Liituge finantssektori ISAC-ga ja määrake vastutav isik, kes jälgib ja jagab ohuteabe uuendusi.",
+                    QuestionCategory.INFORMATION_SHARING),
+
+            new DoraQuestion(39,
+                    "Kas on koostööprotsess riikliku pädeva asutusega küberohuteavet jagamiseks?",
+                    "Is there a cooperation process with the NCA for sharing cyber threat intelligence?",
+                    "DORA Art. 45(1)(b)",
+                    "Finantsasutused peavad tegema koostööd riikliku pädeva asutusega (NCA), et jagada küberohuteavet, mis aitab ennetada ja tuvastada süsteemseid ohte finantssektorile.",
+                    "Kehtestage ametlik koostööprotsess Finantsinspektsiooniga küberohuteavet jagamiseks, sh kontaktisikute ja teabevahetuskanalite määramine.",
+                    QuestionCategory.INFORMATION_SHARING),
+
+            new DoraQuestion(40,
+                    "Kas on teabe jagamise protokollid, sh anonümiseerimine ja klassifitseerimine?",
+                    "Are information sharing protocols defined, including anonymization and classification?",
+                    "DORA Art. 45(2)(a)",
+                    "DORA Art. 45(2)(a) nõuab, et teabe jagamise protsessid oleksid struktureeritud, hõlmates andmete anonümiseerimist, klassifitseerimist ja kaitsemeetmeid, et vältida tundliku teabe lekkimist.",
+                    "Määratlege teabe jagamise protokollid, mis hõlmavad andmete klassifitseerimist (TLP), anonümiseerimise reegleid ja vastuvõtjate volitamist.",
+                    QuestionCategory.INFORMATION_SHARING),
+
+            new DoraQuestion(41,
+                    "Kas jagatakse küberohuteavet piiriüleselt teiste EL finantsasutustega?",
+                    "Does the entity share cyber threat intelligence cross-border with other EU financial entities?",
+                    "DORA Art. 45(3)(b)",
+                    "DORA Art. 45(3)(b) julgustab piiriülest küberohuteavet jagamist EL finantsasutuste vahel, et tugevdada kogu liidu finantsstabiilsust ja kollektiivset kaitset.",
+                    "Looge piiriülesed teabevahetuse kanalid teiste EL finantsasutustega, kasutades standardiseeritud formaate (STIX/TAXII) ja osaledes EL-ülestes koostöövormides.",
                     QuestionCategory.INFORMATION_SHARING)
     );
 
