@@ -56,6 +56,7 @@ interface WizardStep {
           <button *ngFor="let s of stepIndicators; let i = index"
                   (click)="goToStep(i)"
                   [disabled]="!canGoToStep(i)"
+                  [title]="s.fullLabel"
                   class="flex items-center gap-1.5 shrink-0 transition-all duration-200"
                   [class]="i === currentStep
                     ? 'px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
@@ -127,8 +128,7 @@ interface WizardStep {
 
           <!-- Questions grouped by category within this pillar -->
           <div *ngFor="let cat of getCurrentCategories(); let ci = index"
-               class="glass-card p-6 mb-4 card-hover animate-fade-in-up"
-               [style.animation-delay]="(ci * 80) + 'ms'">
+               class="glass-card p-6 mb-4 card-hover">
             <h3 class="text-base font-semibold text-emerald-400 mb-1 flex items-center gap-2">
               <span class="w-7 h-7 rounded-lg flex items-center justify-center text-base"
                     [class]="getCategoryIconBg(cat.category)">{{ getCategoryIcon(cat.category) }}</span>
@@ -254,6 +254,11 @@ interface WizardStep {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                   </svg>
                 </button>
+                <!-- Unanswered warning -->
+                <span *ngIf="currentStep === totalSteps - 1 && unansweredCount > 0"
+                      class="text-[11px] text-amber-400 mr-2">
+                  {{ unansweredCount }} {{ lang.l('vastamata', 'unanswered') }}
+                </span>
                 <!-- Final submit -->
                 <button *ngIf="currentStep === totalSteps - 1" type="button" (click)="onSubmit()"
                         [disabled]="!canSubmit || submitting"
@@ -404,13 +409,15 @@ export class AssessmentWizardComponent implements OnInit {
     return this.steps[this.currentStep - 1];
   }
 
-  get stepIndicators(): { shortLabel: string }[] {
-    const indicators = [{ shortLabel: this.lang.currentLang === 'en' ? 'Company' : 'Ettevõte' }];
+  get stepIndicators(): { shortLabel: string; fullLabel: string }[] {
+    const companyFull = this.lang.currentLang === 'en' ? 'Company Info' : 'Ettevõtte andmed';
+    const indicators: { shortLabel: string; fullLabel: string }[] = [
+      { shortLabel: this.lang.currentLang === 'en' ? 'Company' : 'Ettevõte', fullLabel: companyFull }
+    ];
     for (const s of this.steps) {
       const label = this.pillarLabels[s.pillarId];
       const full = label ? this.lang.pick(label) : s.pillarId;
-      // Truncate for mobile
-      indicators.push({ shortLabel: full.length > 18 ? full.slice(0, 16) + '…' : full });
+      indicators.push({ shortLabel: full.length > 18 ? full.slice(0, 16) + '…' : full, fullLabel: full });
     }
     return indicators;
   }
@@ -489,7 +496,9 @@ export class AssessmentWizardComponent implements OnInit {
     this.steps = this.pillarOrder
       .map(pillarId => {
         const categories = PILLAR_CATEGORIES[pillarId] || [];
-        const questions = this.questions.filter(q => categories.includes(q.category));
+        const questions = this.questions
+          .filter(q => categories.includes(q.category))
+          .sort((a, b) => a.id - b.id);
         return { pillarId, categories, questions };
       })
       .filter(s => s.questions.length > 0);
@@ -569,11 +578,10 @@ export class AssessmentWizardComponent implements OnInit {
   }
 
   canGoToStep(stepIndex: number): boolean {
-    // Can go to any previously visited step
-    if (stepIndex <= this.highestVisitedStep) return true;
-    // Can go one step beyond highest visited if current step allows
-    if (stepIndex === this.highestVisitedStep + 1) return this.canAdvance;
-    return false;
+    // Step 0 is company info — always accessible
+    if (stepIndex === 0) return true;
+    // Other steps require company info to be filled
+    return this.companyName.trim() !== '' && this.contractName.trim() !== '';
   }
 
   goToStep(stepIndex: number) {

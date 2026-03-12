@@ -80,13 +80,18 @@ const coreRoutes: Routes = [
     path: 'welcome',
     loadComponent: () => import('./pages/welcome.component').then(m => m.WelcomeComponent),
     canActivate: [authGuard, welcomeGuard],
-    data: { seoTitle: 'Welcome', hideNav: true }
+    data: { seoTitle: 'Welcome', hideNav: true, hideFooter: true }
   },
   {
     path: 'dashboard',
     loadComponent: () => import('./pages/dashboard.component').then(m => m.DashboardComponent),
     canActivate: [authGuard],
     data: { seoTitle: 'Dashboard' }
+  },
+  {
+    path: 'tools',
+    loadComponent: () => import('./pages/tools-hub.component').then(m => m.ToolsHubComponent),
+    data: { seoTitle: 'Tools' }
   },
   {
     path: 'assessment/wizard',
@@ -490,7 +495,7 @@ const coreRoutes: Routes = [
     path: 'board-presentation',
     loadComponent: () => import('./pages/board-presentation.component').then(m => m.BoardPresentationComponent),
     canActivate: [authGuard],
-    data: { seoTitle: 'Board Presentation Mode', seoDescription: 'Cinematic fullscreen DORA compliance presentation for board meetings. Animated gauges, charts, and key metrics.', hideNav: true }
+    data: { seoTitle: 'Board Presentation Mode', seoDescription: 'Cinematic fullscreen DORA compliance presentation for board meetings. Animated gauges, charts, and key metrics.', hideNav: true, hideFooter: true }
   },
   {
     path: 'fine-calculator',

@@ -24,8 +24,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
   selector: 'app-root',
   imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, CookieConsentComponent, OnboardingComponent, ChatWidgetComponent, PwaInstallPromptComponent, GlobalSearchComponent, GuidedTourComponent],
   host: {
-    '(document:click)': 'onDocumentClick($event)',
-    '(window:scroll)': 'closeAllMenus()'
+    '(document:click)': 'onDocumentClick($event)'
   },
   template: `
     <a class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-teal-500 focus:text-white focus:px-4 focus:py-2 focus:rounded" href="#main-content">{{ lang.t('nav.skip_link') }}</a>
@@ -99,13 +98,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 </svg>
                 {{ lang.t('nav.contract') }}
               </a>
-              <a routerLink="/board-risk" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-teal-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                </svg>
-                {{ lang.t('nav.board_risk') }}
-              </a>
               <a routerLink="/fine-calculator" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -113,40 +105,12 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 </svg>
                 {{ lang.t('nav.fine_calculator') }}
               </a>
-              <a routerLink="/roi" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
+              <a routerLink="/dora-explorer" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
                 </svg>
-                {{ lang.t('nav.roi') }}
-              </a>
-              <a routerLink="/timeline" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-                </svg>
-                {{ lang.t('nav.timeline') }}
-              </a>
-              <a routerLink="/vendors" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/>
-                </svg>
-                {{ lang.t('nav.vendors') }}
-              </a>
-              <a routerLink="/company-profile" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-                </svg>
-                {{ lang.t('nav.company_profile') }}
-              </a>
-              <a routerLink="/regulatory-impact" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-                </svg>
-                {{ lang.l('Regulatiivsed uuendused', 'Regulatory Updates') }}
+                {{ lang.t('nav.dora_explorer') }}
               </a>
             </div>
           </div>
@@ -198,242 +162,12 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 </svg>
                 {{ lang.t('nav.evidence_vault') }}
               </a>
-              <a routerLink="/evidence-gap-analyzer" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-teal-300 hover:bg-teal-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-teal-600/10 to-cyan-600/10 border border-teal-500/20">
-                <div class="w-5 h-5 rounded bg-gradient-to-br from-teal-400 to-cyan-400 flex items-center justify-center text-white text-[8px] font-bold shrink-0">AI</div>
-                {{ lang.t('nav.gap_analyzer') }}
-                <span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full ml-auto">ENT</span>
-              </a>
-              <a routerLink="/activity-timeline" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                {{ lang.t('nav.activity_timeline') }}
-              </a>
-              <a routerLink="/negotiations" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                </svg>
-                {{ lang.t('nav.negotiations') }}
-              </a>
-              <a routerLink="/maturity" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
-                </svg>
-                {{ lang.t('nav.maturity') }}
-              </a>
-              <a routerLink="/risk-heatmap" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-orange-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
-                </svg>
-                {{ lang.t('nav.risk_heatmap') }}
-              </a>
-              <a routerLink="/command-center" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
-                </svg>
-                {{ lang.t('nav.command_center') }}
-              </a>
               <a routerLink="/alerts" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-yellow-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                 </svg>
                 {{ lang.t('nav.alerts') }}
-              </a>
-              <div class="border-t border-slate-700/30 my-1.5"></div>
-              <a routerLink="/exam-simulator" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-rose-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
-                </svg>
-                Exam Simulator
-              </a>
-              <a routerLink="/war-room" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 9v2m0 4h.01M5.07 19H19a2 2 0 001.73-3l-7-12a2 2 0 00-3.46 0l-7 12A2 2 0 005.07 19z"/>
-                </svg>
-                {{ lang.t('war_room.badge') }}
-              </a>
-              <a routerLink="/prosecutor" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-indigo-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M3 6l9 4 9-4M3 6v10l9 4M3 6l9-4 9 4M21 6v10l-9 4M12 16V6"/>
-                </svg>
-                {{ lang.t('prosecutor.nav') }}
-                <div class="w-4 h-4 rounded bg-gradient-to-br from-indigo-400 to-violet-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0 ml-auto">AI</div>
-              </a>
-              <a routerLink="/article-tracker" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-purple-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
-                </svg>
-                Article Tracker
-              </a>
-              <a routerLink="/ict-asset-map" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2z"/>
-                </svg>
-                ICT Asset Map
-              </a>
-              <div class="border-t border-slate-700/30 my-1.5"></div>
-              <a routerLink="/regulatory-radar" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
-                </svg>
-                {{ lang.l('Regulatiivne radar', 'Regulatory Radar') }}
-              </a>
-              <a routerLink="/regulatory-translator" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-purple-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
-                </svg>
-                {{ lang.l('Regulatiivne tõlkija', 'Regulatory Translator') }}
-              </a>
-              <a routerLink="/third-party-monitor" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-orange-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-                </svg>
-                {{ lang.l('Kolmanda osapoole monitor', 'Third-Party Monitor') }}
-              </a>
-              <a routerLink="/compliance-forecast" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-sky-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-                </svg>
-                {{ lang.l('Vastavuse prognoos', 'Compliance Forecast') }}
-              </a>
-              <div class="border-t border-slate-700/30 my-1.5"></div>
-              <a routerLink="/regulator-portal" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                </svg>
-                {{ lang.l('Regulaatori portaal', 'Regulator Portal') }}
-              </a>
-              <a routerLink="/chain-reaction" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-rose-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-                </svg>
-                {{ lang.l('Doominoefekt', 'Chain Reaction') }}
-              </a>
-              <a routerLink="/evidence-harvester" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-teal-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-                </svg>
-                {{ lang.l('Tõendite koguja', 'Evidence Harvester') }}
-              </a>
-              <a routerLink="/compliance-network" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98"/><path d="M15.41 6.51l-6.82 3.98"/>
-                </svg>
-                {{ lang.l('Vastavusvõrgustik', 'Compliance Network') }}
-              </a>
-              <div class="border-t border-slate-700/30 my-1.5"></div>
-              <a routerLink="/genome" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/><path d="M12 6v12"/><path d="M8 8c2 1.5 4 1.5 6 0"/><path d="M8 16c2-1.5 4-1.5 6 0"/><path d="M8 12c2 1 4 1 6 0"/>
-                </svg>
-                {{ lang.l('Vastavuse genoom', 'Compliance Genome') }}
-              </a>
-              <a routerLink="/time-machine" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-blue-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/><path d="M2 12h2"/><path d="M20 12h2"/>
-                </svg>
-                {{ lang.l('Regulatiivne ajamasin', 'Time Machine') }}
-              </a>
-              <a routerLink="/stress-test" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-orange-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-                </svg>
-                {{ lang.l('DORA stressitest', 'Stress Test') }}
-              </a>
-              <a routerLink="/autopsy" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-rose-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4.8 2.3A.3.3 0 105 2H4a2 2 0 00-2 2v5a6 6 0 006 6v0a6 6 0 006-6V4a2 2 0 00-2-2h-1a.2.2 0 10.3.3"/><path d="M8 15v1a6 6 0 006 6v0a6 6 0 006-6v-4"/><line x1="2" y1="12" x2="22" y2="12"/>
-                </svg>
-                {{ lang.l('Vastavuse lahkamine', 'Compliance Autopsy') }}
-              </a>
-            </div>
-          </div>
-          <!-- Ressursid dropdown -->
-          <div class="relative nav-dropdown-trigger">
-            <button type="button" (click)="toggleMenu('resources', $event)"
-                    [attr.aria-expanded]="resourcesMenu"
-                    class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              {{ lang.t('nav.resources') }}
-              <svg class="w-3.5 h-3.5 transition-transform" [class.rotate-180]="resourcesMenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m6 9 6 6 6-6"/>
-              </svg>
-            </button>
-            <div *ngIf="resourcesMenu" class="absolute left-0 top-full mt-1 w-60 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
-              <a routerLink="/dora-explorer" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
-                </svg>
-                {{ lang.t('nav.dora_explorer') }}
-              </a>
-              <a routerLink="/policy-generator" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/>
-                </svg>
-                {{ lang.t('nav.policy_generator') }}
-              </a>
-              <a routerLink="/ai-policy-writer" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-violet-300 hover:bg-violet-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-violet-600/10 to-purple-600/10 border border-violet-500/20">
-                <div class="w-5 h-5 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-white text-[8px] font-bold shrink-0">AI</div>
-                {{ lang.t('nav.ai_policy_writer') }}
-              </a>
-              <a routerLink="/clause-rewriter" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-emerald-300 hover:bg-emerald-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-emerald-600/10 to-teal-600/10 border border-emerald-500/20">
-                <div class="w-5 h-5 rounded bg-gradient-to-br from-emerald-400 to-teal-400 flex items-center justify-center text-white text-[8px] font-bold shrink-0">AI</div>
-                {{ lang.l('Klausli ümberkirjutaja', 'Clause Rewriter') }}
-              </a>
-              <a routerLink="/framework-mapping" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-blue-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>
-                </svg>
-                {{ lang.t('nav.framework_mapping') }}
-              </a>
-              <a routerLink="/cost-calculator" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-green-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                </svg>
-                {{ lang.t('nav.cost_calculator') }}
-              </a>
-              <a routerLink="/training-quiz" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-pink-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-pink-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-                </svg>
-                {{ lang.t('nav.training_quiz') }}
-              </a>
-              <a routerLink="/incident-decision-tree" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-rose-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/>
-                </svg>
-                {{ lang.t('nav.incident_classifier') }}
               </a>
               <a routerLink="/board-report" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-sky-400 hover:bg-slate-700/30 transition-colors">
@@ -442,32 +176,21 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 </svg>
                 {{ lang.t('nav.board_report') }}
               </a>
-              <a routerLink="/scheduled-reports" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-teal-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><circle cx="12" cy="16" r="2"/><path d="M12 14v-1"/>
+              <a routerLink="/notifications" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-rose-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                 </svg>
-                {{ lang.l('Ajastatud aruanded', 'Scheduled Reports') }}
-              </a>
-              <div class="border-t border-slate-700/30 my-1.5"></div>
-              <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">NIS2</p>
-              <a routerLink="/nis2/scope-check" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>
-                </svg>
-                {{ lang.t('nav.nis2_scope') }}
-              </a>
-              <a routerLink="/nis2/assessment" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-orange-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>
-                </svg>
-                {{ lang.t('nav.nis2_assessment') }}
+                {{ lang.t('nav.notifications') }}
               </a>
             </div>
           </div>
-          <!-- Lepingud [NEW] -->
+          <!-- Tools -->
+          <a routerLink="/tools" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+            {{ lang.l('Tööriistad', 'Tools') }}
+          </a>
+          <!-- Lepingud -->
           <a routerLink="/workspace" routerLinkActive="nav-link-active"
              class="text-sm text-slate-400 hover:text-violet-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
             {{ lang.t('nav.contracts_short') }}
@@ -730,22 +453,10 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.assessment') }}</a>
             <a routerLink="/contract-analysis" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.contract') }}</a>
-            <a routerLink="/board-risk" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-teal-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.board_risk') }}</a>
             <a routerLink="/fine-calculator" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.fine_calculator') }}</a>
-            <a routerLink="/roi" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.roi') }}</a>
-            <a routerLink="/timeline" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.timeline') }}</a>
-            <a routerLink="/vendors" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.vendors') }}</a>
-            <a routerLink="/company-profile" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.company_profile') }}</a>
-            <a routerLink="/regulatory-impact" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-              {{ lang.l('Regulatiivsed uuendused', 'Regulatory Updates') }}
-            </a>
+            <a routerLink="/dora-explorer" (click)="mobileMenu = false"
+               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.dora_explorer') }}</a>
           </div>
           <div class="border-t border-slate-700/50 mt-2 pt-2">
             <button type="button" (click)="mobileManagementOpen = !mobileManagementOpen"
@@ -768,163 +479,30 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-violet-500 text-white min-w-[1.25rem] text-center ml-auto animate-pulse">{{ autopilotBadge() }}</span>
                 }
               </a>
-              <a routerLink="/notifications" (click)="mobileMenu = false"
-                 class="text-sm text-rose-400 hover:text-rose-300 px-3 py-2 rounded-lg hover:bg-rose-500/10 flex items-center justify-between">
-                {{ lang.t('nav.notifications') }}
-                @if (notificationService.badgeCount() > 0) {
-                  <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-500 text-white min-w-[1.25rem] text-center">{{ notificationService.badgeCount() }}</span>
-                }
-              </a>
-              <a routerLink="/command-center" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.t('nav.command_center') }}
-              </a>
-              <a routerLink="/alerts" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-yellow-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.t('nav.alerts') }}
-              </a>
               <a routerLink="/incident-reporting" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.incidents') }}</a>
               <a routerLink="/remediation" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.remediation') }}</a>
               <a routerLink="/evidence-vault" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-indigo-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.t('nav.evidence_vault') }}
-              </a>
-              <a routerLink="/evidence-gap-analyzer" (click)="mobileMenu = false"
-                 class="text-sm text-teal-400 hover:text-teal-300 px-3 py-2 rounded-lg hover:bg-teal-500/10 flex items-center gap-2">
-                <div class="w-4 h-4 rounded bg-gradient-to-br from-teal-400 to-cyan-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
-                {{ lang.t('nav.gap_analyzer') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-amber-500/20 text-amber-400 ml-auto">ENT</span>
-              </a>
-              <a routerLink="/activity-timeline" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.t('nav.activity_timeline') }}
-              </a>
-              <a routerLink="/negotiations" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.negotiations') }}</a>
-              <a routerLink="/maturity" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.maturity') }}</a>
-              <a routerLink="/risk-heatmap" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.risk_heatmap') }}</a>
-              <a routerLink="/exam-simulator" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-rose-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.t('nav.exam_simulator') }}
-              </a>
-              <a routerLink="/war-room" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.t('nav.war_room') }}
-              </a>
-              <a routerLink="/article-tracker" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-purple-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.t('nav.article_tracker') }}
-              </a>
-              <a routerLink="/ict-asset-map" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.t('nav.ict_asset_map') }}
-              </a>
-              <a routerLink="/regulatory-radar" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.l('Regulatiivne radar', 'Regulatory Radar') }}
-              </a>
-              <a routerLink="/regulatory-translator" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-purple-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.l('Regulatiivne tõlkija', 'Regulatory Translator') }}
-              </a>
-              <a routerLink="/third-party-monitor" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.l('Kolmanda osapoole monitor', 'Third-Party Monitor') }}
-              </a>
-              <a routerLink="/compliance-forecast" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-sky-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.l('Vastavuse prognoos', 'Compliance Forecast') }}
-              </a>
-              <a routerLink="/regulator-portal" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.l('Regulaatori portaal', 'Regulator Portal') }}
-              </a>
-              <a routerLink="/chain-reaction" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-rose-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.l('Doominoefekt', 'Chain Reaction') }}
-              </a>
-              <a routerLink="/evidence-harvester" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-teal-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.l('Tõendite koguja', 'Evidence Harvester') }}
-              </a>
-              <a routerLink="/compliance-network" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.l('Vastavusvõrgustik', 'Compliance Network') }}
-              </a>
-              <a routerLink="/genome" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.l('Vastavuse genoom', 'Compliance Genome') }}
-              </a>
-              <a routerLink="/time-machine" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-blue-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.l('Regulatiivne ajamasin', 'Time Machine') }}
-              </a>
-              <a routerLink="/stress-test" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.l('DORA stressitest', 'Stress Test') }}
-              </a>
-              <a routerLink="/autopsy" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-rose-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.l('Vastavuse lahkamine', 'Compliance Autopsy') }}
-              </a>
-              <a routerLink="/prosecutor" (click)="mobileMenu = false"
-                 class="text-sm text-indigo-400 hover:text-indigo-300 px-3 py-2 rounded-lg hover:bg-indigo-500/10 flex items-center gap-2">
-                <div class="w-4 h-4 rounded bg-gradient-to-br from-indigo-400 to-violet-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
-                {{ lang.t('prosecutor.nav') }}
-              </a>
-            </div>
-          </div>
-          <div class="border-t border-slate-700/50 mt-2 pt-2">
-            <button type="button" (click)="mobileResourcesOpen = !mobileResourcesOpen"
-                    class="w-full flex items-center justify-between px-3 py-1.5 mb-1">
-              <span class="text-[10px] text-slate-600 font-bold uppercase tracking-wider">{{ lang.t('nav.resources') }}</span>
-              <svg class="w-3.5 h-3.5 text-slate-600 transition-transform" [class.rotate-180]="mobileResourcesOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m6 9 6 6 6-6"/>
-              </svg>
-            </button>
-            <div *ngIf="mobileResourcesOpen">
-              <a routerLink="/dora-explorer" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.t('nav.dora_explorer') }}
-              </a>
-              <a routerLink="/policy-generator" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.policy_generator') }}</a>
-              <a routerLink="/ai-policy-writer" (click)="mobileMenu = false"
-                 class="text-sm text-violet-400 hover:text-violet-300 px-3 py-2 rounded-lg hover:bg-violet-500/10 flex items-center gap-2">
-                <div class="w-4 h-4 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
-                {{ lang.t('nav.ai_policy_writer') }}
-              </a>
-              <a routerLink="/clause-rewriter" (click)="mobileMenu = false"
-                 class="text-sm text-emerald-400 hover:text-emerald-300 px-3 py-2 rounded-lg hover:bg-emerald-500/10 flex items-center gap-2">
-                <div class="w-4 h-4 rounded bg-gradient-to-br from-emerald-400 to-teal-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
-                {{ lang.l('Klausli ümberkirjutaja', 'Clause Rewriter') }}
-              </a>
-              <a routerLink="/framework-mapping" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-blue-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.framework_mapping') }}</a>
-              <a routerLink="/cost-calculator" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-green-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.cost_calculator') }}</a>
-              <a routerLink="/training-quiz" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-pink-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.training_quiz') }}</a>
-              <a routerLink="/incident-decision-tree" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-rose-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.incident_classifier') }}</a>
+                 class="text-sm text-slate-400 hover:text-indigo-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.evidence_vault') }}</a>
+              <a routerLink="/alerts" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-yellow-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.alerts') }}</a>
               <a routerLink="/board-report" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-sky-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.board_report') }}</a>
-              <a routerLink="/scheduled-reports" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-teal-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.l('Ajastatud aruanded', 'Scheduled Reports') }}
+              <a routerLink="/notifications" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-rose-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.t('nav.notifications') }}
+                @if (notificationService.badgeCount() > 0) {
+                  <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-500 text-white min-w-[1.25rem] text-center">{{ notificationService.badgeCount() }}</span>
+                }
               </a>
             </div>
           </div>
-          <div class="border-t border-slate-700/50 mt-2 pt-2">
-            <p class="text-[10px] text-slate-600 px-3 mb-1 font-bold uppercase tracking-wider">NIS2</p>
-            <a routerLink="/nis2/scope-check" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.nis2_scope') }}</a>
-            <a routerLink="/nis2/assessment" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.nis2_assessment') }}</a>
+          <div class="border-t border-slate-700/50 mt-2 pt-2 flex flex-col gap-1">
+            <a routerLink="/tools" (click)="mobileMenu = false"
+               class="text-sm text-emerald-400 hover:text-emerald-300 px-3 py-2 rounded-lg hover:bg-emerald-500/10 flex items-center gap-2">
+              {{ lang.l('Kõik tööriistad', 'All Tools') }}
+            </a>
           </div>
           <div class="border-t border-slate-700/50 mt-2 pt-2 flex flex-col gap-1">
             <a routerLink="/workspace" (click)="mobileMenu = false"
@@ -1003,7 +581,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
     <main id="main-content" [class]="hideNav ? 'max-w-5xl mx-auto px-3 sm:px-4 py-6 sm:py-8 min-h-screen' : 'max-w-5xl mx-auto px-3 sm:px-4 py-6 sm:py-8'">
       <router-outlet />
     </main>
-    <footer *ngIf="!hideNav" class="border-t border-slate-800 mt-16 py-10">
+    <footer *ngIf="!hideFooter" class="border-t border-slate-800 mt-16 py-10">
       <div class="max-w-5xl mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <!-- Brand -->
@@ -1100,14 +678,13 @@ export class AppComponent implements OnInit, OnDestroy {
   mobileMenu = false;
   mobileDoraOpen = false;
   mobileManagementOpen = true;
-  mobileResourcesOpen = false;
   doraMenu = false;
   managementMenu = false;
-  resourcesMenu = false;
   userMenu = false;
   notifMenu = false;
   showOnboarding = false;
   hideNav = false;
+  hideFooter = false;
   // notifBadge and notifAlerts moved to NotificationService
   autopilotBadge = signal(0);
   private routerSub?: Subscription;
@@ -1208,6 +785,7 @@ export class AppComponent implements OnInit, OnDestroy {
     '/stress-test': { et: 'DORA Stressitest | DoraAudit.eu', en: 'DORA Stress Test | DoraAudit.eu' },
     '/autopsy': { et: 'Vastavuse Lahkamine | DoraAudit.eu', en: 'Compliance Autopsy | DoraAudit.eu' },
     '/regulatory-translator': { et: 'Regulatiivne Tõlkija | DoraAudit.eu', en: 'Live Regulatory Translator | DoraAudit.eu' },
+    '/tools': { et: 'Tööriistad | DoraAudit.eu', en: 'Tools | DoraAudit.eu' },
   };
 
   private pageDescriptions: { [path: string]: { et: string; en: string } } = {
@@ -1291,6 +869,7 @@ export class AppComponent implements OnInit, OnDestroy {
     '/time-machine': { et: 'Interaktiivne ajareis läbi mineviku, oleviku ja AI-prognoositud tuleviku vastavusseisundite.', en: 'Interactive time-travel through past, present, and AI-predicted future compliance states with what-if scenarios.' },
     '/stress-test': { et: 'Reaalajas ajastatud kriisisimulaator vastavusspetsialistidele. 5-minutilised harjutused juhuslike sündmustega.', en: 'Real-time timed crisis simulator for compliance officers. 5-minute exercises with random events and reaction scoring.' },
     '/autopsy': { et: 'Kohtumeditsiiniline lahkamistööriist, mis jälgib vastavuse tõrkeid nende algpõhjusteni.', en: 'Forensic post-mortem tool tracing compliance failures to root causes with prevention recommendations.' },
+    '/tools': { et: 'Kõik DoraAudit.eu tööriistad ühes kohas. DORA ja NIS2 vastavuskontrolli tööriistade kataloog.', en: 'All DoraAudit.eu tools in one place. Complete catalog of DORA and NIS2 compliance tools.' },
   };
 
   @ViewChild(GuidedTourComponent) guidedTour?: GuidedTourComponent;
@@ -1340,10 +919,11 @@ export class AppComponent implements OnInit, OnDestroy {
       this.updatePageTitle(event.urlAfterRedirects);
       this.updateHreflangTags(event.urlAfterRedirects);
       this.closeAllMenus();
-      // Check route data for hideNav flag
+      // Check route data for hideNav / hideFooter flags
       let route = this.activatedRoute.firstChild;
       while (route?.firstChild) route = route.firstChild;
       this.hideNav = !!route?.snapshot.data['hideNav'];
+      this.hideFooter = !!route?.snapshot.data['hideFooter'];
       // Track page view on navigation
       if (this.isBrowser) {
         this.trackingService.trackPageView(event.urlAfterRedirects);
@@ -1356,6 +936,7 @@ export class AppComponent implements OnInit, OnDestroy {
     let initRoute = this.activatedRoute.firstChild;
     while (initRoute?.firstChild) initRoute = initRoute.firstChild;
     this.hideNav = !!initRoute?.snapshot.data['hideNav'];
+    this.hideFooter = !!initRoute?.snapshot.data['hideFooter'];
 
     // Initialize tracking only if user has already given consent
     if (this.isBrowser && this.trackingService.hasConsent()) {
@@ -1482,13 +1063,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.document.head.appendChild(xDefault);
   }
 
-  toggleMenu(menu: 'dora' | 'management' | 'resources' | 'notif', event: Event) {
+  toggleMenu(menu: 'dora' | 'management' | 'notif', event: Event) {
     event.stopPropagation();
-    const key = (menu + 'Menu') as 'doraMenu' | 'managementMenu' | 'resourcesMenu' | 'notifMenu';
+    const key = (menu + 'Menu') as 'doraMenu' | 'managementMenu' | 'notifMenu';
     const wasOpen = this[key];
     this.doraMenu = false;
     this.managementMenu = false;
-    this.resourcesMenu = false;
     this.userMenu = false;
     this.notifMenu = false;
     this[key] = !wasOpen;
@@ -1498,7 +1078,6 @@ export class AppComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     this.doraMenu = false;
     this.managementMenu = false;
-    this.resourcesMenu = false;
     this.notifMenu = false;
     this.userMenu = !this.userMenu;
   }
@@ -1512,7 +1091,6 @@ export class AppComponent implements OnInit, OnDestroy {
   closeAllMenus() {
     this.doraMenu = false;
     this.managementMenu = false;
-    this.resourcesMenu = false;
     this.userMenu = false;
     this.notifMenu = false;
   }

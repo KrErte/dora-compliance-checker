@@ -714,7 +714,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                             [class.selected]="newVendorForm.country === c.code"
                             (mousedown)="selectCountry(c.code)"
                           >
-                            {{ c.code }} {{ c.name }}
+                            {{ c.code }} {{ lang.currentLang === 'et' ? c.nameEt : c.nameEn }}
                           </div>
                         }
                         @if (filteredCountries.length === 0) {
@@ -3182,19 +3182,19 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
 
   // Dropdown options for form
   countryOptions = [
-    { code: 'EE', name: 'Eesti' },
-    { code: 'LV', name: 'Läti' },
-    { code: 'LT', name: 'Leedu' },
-    { code: 'FI', name: 'Soome' },
-    { code: 'SE', name: 'Rootsi' },
-    { code: 'DE', name: 'Saksamaa' },
-    { code: 'NL', name: 'Holland' },
-    { code: 'IE', name: 'Iirimaa' },
-    { code: 'BE', name: 'Belgia' },
-    { code: 'FR', name: 'Prantsusmaa' },
-    { code: 'US', name: 'USA' },
-    { code: 'GB', name: 'Suurbritannia' },
-    { code: 'CN', name: 'Hiina' },
+    { code: 'EE', nameEt: 'Eesti', nameEn: 'Estonia' },
+    { code: 'LV', nameEt: 'Läti', nameEn: 'Latvia' },
+    { code: 'LT', nameEt: 'Leedu', nameEn: 'Lithuania' },
+    { code: 'FI', nameEt: 'Soome', nameEn: 'Finland' },
+    { code: 'SE', nameEt: 'Rootsi', nameEn: 'Sweden' },
+    { code: 'DE', nameEt: 'Saksamaa', nameEn: 'Germany' },
+    { code: 'NL', nameEt: 'Holland', nameEn: 'Netherlands' },
+    { code: 'IE', nameEt: 'Iirimaa', nameEn: 'Ireland' },
+    { code: 'BE', nameEt: 'Belgia', nameEn: 'Belgium' },
+    { code: 'FR', nameEt: 'Prantsusmaa', nameEn: 'France' },
+    { code: 'US', nameEt: 'USA', nameEn: 'USA' },
+    { code: 'GB', nameEt: 'Suurbritannia', nameEn: 'United Kingdom' },
+    { code: 'CN', nameEt: 'Hiina', nameEn: 'China' },
   ];
 
   serviceTypeOptions = [
@@ -3275,7 +3275,8 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     if (!this.countrySearch) return this.countryOptions;
     const search = this.countrySearch.toLowerCase();
     return this.countryOptions.filter(c =>
-      c.name.toLowerCase().includes(search) ||
+      c.nameEt.toLowerCase().includes(search) ||
+      c.nameEn.toLowerCase().includes(search) ||
       c.code.toLowerCase().includes(search)
     );
   }
@@ -3291,7 +3292,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
   get selectedCountryDisplay(): string {
     if (!this.newVendorForm.country) return '';
     const c = this.countryOptions.find(c => c.code === this.newVendorForm.country);
-    return c ? `${c.code} ${c.name}` : '';
+    return c ? `${c.code} ${this.lang.currentLang === 'et' ? c.nameEt : c.nameEn}` : '';
   }
 
   get filteredProviders() {
@@ -3646,7 +3647,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     // Find the country by code or name to get the proper code
     const countryMatch = this.countries.find(c =>
       c.code === provider.countryCode ||
-      c.name.toLowerCase() === provider.country?.toLowerCase()
+      c.nameEn.toLowerCase() === provider.country?.toLowerCase()
     );
 
     // Pre-fill the add vendor form with global provider data
@@ -3751,7 +3752,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
 
   private getCountryName(code: string): string {
     const country = this.countryOptions.find(c => c.code === code);
-    return country?.name || code;
+    return country ? (this.lang.currentLang === 'et' ? country.nameEt : country.nameEn) : code;
   }
 
   selectCompany(company: CompanySearchResult): void {
@@ -3976,7 +3977,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
 
     const request: CreateIctProviderRequest = {
       name: this.newVendorForm.name.trim(),
-      country: country?.name || 'Unspecified',
+      country: country ? (this.lang.currentLang === 'et' ? country.nameEt : country.nameEn) : 'Unspecified',
       countryCode: this.newVendorForm.country || 'XX',
       type: this.newVendorForm.type || 'Other',
       criticality: this.newVendorForm.criticality,
@@ -4026,7 +4027,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
       const newVendor: Vendor = {
         id: `v${Date.now()}`,
         name: this.newVendorForm.name.trim(),
-        country: country?.name || 'Unspecified',
+        country: country ? (this.lang.currentLang === 'et' ? country.nameEt : country.nameEn) : 'Unspecified',
         countryCode: this.newVendorForm.country || 'XX',
         type: this.newVendorForm.type || 'Other',
         riskScore: this.calculatedRiskScore(),
@@ -4046,7 +4047,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     }
   }
 
-  private findCountry(code: string): { code: string; name: string } | undefined {
+  private findCountry(code: string): { code: string; nameEt: string; nameEn: string } | undefined {
     return this.countryOptions.find(c => c.code === code);
   }
 
@@ -4214,7 +4215,7 @@ Teine AS;DE;Network;Oluline;LEP-002;2024-06-01;2026-05-31`;
 
       return {
         name: row.name,
-        country: country?.name || row.country,
+        country: country ? (this.lang.currentLang === 'et' ? country.nameEt : country.nameEn) : row.country,
         countryCode: row.country,
         type: row.type,
         criticality,

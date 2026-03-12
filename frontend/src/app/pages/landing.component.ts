@@ -448,7 +448,6 @@ interface DoraRequirement {
               <div class="flex-1">
                 <div class="flex items-center gap-2 mb-1">
                   <h3 class="text-sm font-semibold text-slate-200 group-hover:text-teal-300 transition-colors">{{ lang.l('Tõendite lünkaanalüüs', 'Evidence Gap Analyzer') }}</h3>
-                  <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-teal-500/20 text-teal-400">NEW</span>
                 </div>
                 <p class="text-xs text-slate-400 leading-relaxed">{{ lang.l('Laadige üles poliitika/protseduur ja AI analüüsib seda 45 DORA alanõude vastu 10 artiklist. Saage leitud/osaline/puudu staatus igaühe kohta.', 'Upload any policy/procedure and AI analyzes it against 45 DORA sub-requirements across 10 articles. Get found/partial/missing status for each.') }}</p>
               </div>
@@ -505,7 +504,6 @@ interface DoraRequirement {
                 <div class="flex items-center gap-2 mb-1">
                   <h3 class="text-sm font-semibold text-slate-200 group-hover:text-indigo-300 transition-colors">{{ lang.l('AI prokurör', 'AI Prosecutor') }}</h3>
                   <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-indigo-500/20 text-indigo-400">AI</span>
-                  <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-red-500/20 text-red-400 animate-pulse">NEW</span>
                 </div>
                 <p class="text-xs text-slate-400 leading-relaxed">{{ lang.l('AI-toega regulatiivne auditi simulatsioon. Agressiivne regulaator uurib teie DORA vastavust ja genereerib kohtuotsuse trahviriskiskooriga.', 'AI-powered mock regulatory audit. An aggressive regulator interrogates your DORA compliance and generates a prosecution verdict with fine risk score.') }}</p>
               </div>
