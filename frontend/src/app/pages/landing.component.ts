@@ -94,37 +94,6 @@ interface DoraRequirement {
       </div>
     </div>
 
-    <!-- Free Trial CTA Banner -->
-    <div class="py-10 px-4">
-      <div class="max-w-3xl mx-auto">
-        <div class="relative overflow-hidden rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-slate-800/80 to-cyan-500/10 p-8 md:p-10">
-          <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-          <div class="relative z-10 flex flex-col md:flex-row items-center gap-6">
-            <div class="flex-1 text-center md:text-left">
-              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 mb-3">
-                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">{{ lang.l('Tasuta prooviaeg', 'Free Trial') }}</span>
-              </div>
-              <h2 class="text-xl md:text-2xl font-bold text-white mb-2">{{ lang.l('Proovi 14 päeva kõiki premium funktsioone', 'Try all premium features for 14 days') }}</h2>
-              <p class="text-sm text-slate-400 mb-1">{{ lang.l('Registreeru ja saa koheselt ligipääs AI lepinguanalüüsile, poliitikageneraatorile, PDF eksportidele ja muule.', 'Sign up and get instant access to AI contract analysis, policy generator, PDF exports, and more.') }}</p>
-              <p class="text-xs text-slate-500">{{ lang.l('Krediitkaarti pole vaja · Tühista igal ajal', 'No credit card required · Cancel anytime') }}</p>
-            </div>
-            <div class="shrink-0">
-              <a routerLink="/register"
-                 class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-900 font-bold text-sm transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 whitespace-nowrap">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                </svg>
-                {{ lang.l('Alusta tasuta proovi', 'Start Free Trial') }}
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- How It Works -->
     <div class="py-14 relative">
       <div class="relative z-10">
@@ -199,41 +168,6 @@ interface DoraRequirement {
             </div>
             <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_tools') }}</div>
           </div>
-        </div>
-        <!-- Row 2: Platform capability stats (static) -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-          <!-- DORA articles covered -->
-          <div class="text-center">
-            <div class="text-3xl md:text-4xl font-extrabold text-emerald-400 mb-1">64</div>
-            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_articles') }}</div>
-          </div>
-          <!-- AI-analyzed sub-requirements -->
-          <div class="text-center">
-            <div class="text-3xl md:text-4xl font-extrabold text-cyan-400 mb-1">45</div>
-            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.l('AI-analüüsitud alanõuet', 'AI-Analyzed Sub-Requirements') }}</div>
-          </div>
-          <!-- Analysis time -->
-          <div class="text-center">
-            <div class="text-3xl md:text-4xl font-extrabold text-teal-400 mb-1">5 min</div>
-            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_analysis') }}</div>
-          </div>
-          <!-- Regulations -->
-          <div class="text-center">
-            <div class="text-3xl md:text-4xl font-extrabold text-violet-400 mb-1">4</div>
-            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_regulations') }}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- DORA Status Info -->
-    <div class="py-6 px-4">
-      <div class="max-w-2xl mx-auto text-center">
-        <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500/10 border border-emerald-500/30">
-          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-          </svg>
-          <span class="text-sm font-medium text-emerald-300">{{ lang.t('landing.dora_active_since') || 'DORA on jõus alates 17. jaanuarist 2025' }}</span>
         </div>
       </div>
     </div>
@@ -574,71 +508,6 @@ interface DoraRequirement {
               </span>
             </div>
           </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Scope clarification -->
-    <div class="py-12">
-      <div class="max-w-2xl mx-auto glass-card p-6">
-        <h2 class="text-sm font-semibold text-slate-300 mb-3">{{ lang.t('landing.scope_title') }}</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-          <div>
-            <p class="text-emerald-400 font-medium mb-2">{{ lang.t('landing.scope_does') }}</p>
-            <ul class="text-slate-400 space-y-1">
-              <li>• {{ lang.t('landing.scope_does_1') }}</li>
-              <li>• {{ lang.t('landing.scope_does_2') }}</li>
-              <li>• {{ lang.t('landing.scope_does_3') }}</li>
-            </ul>
-          </div>
-          <div>
-            <p class="text-slate-500 font-medium mb-2">{{ lang.t('landing.scope_not') }}</p>
-            <ul class="text-slate-500 space-y-1">
-              <li>• {{ lang.t('landing.scope_not_1') }}</li>
-              <li>• {{ lang.t('landing.scope_not_2') }}</li>
-              <li>• {{ lang.t('landing.scope_not_3') }}</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Trust Badges - Enhanced -->
-    <div class="py-12">
-      <div class="max-w-3xl mx-auto px-4">
-        <div class="grid grid-cols-3 gap-4 sm:gap-6 text-center">
-          <div *ngFor="let badge of trustBadges; let i = index"
-               class="group flex flex-col items-center gap-3 p-4 sm:p-6 rounded-xl glass-card border border-slate-700/30 hover:border-emerald-500/30 transition-all duration-300 cursor-default"
-               [style.animation-delay]="i * 100 + 'ms'">
-            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-slate-800 to-slate-700 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-black/20">
-              <svg class="w-7 h-7" [class]="badge.color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" [attr.d]="badge.icon"/>
-              </svg>
-            </div>
-            <span class="text-xs sm:text-sm text-slate-400 font-medium group-hover:text-slate-300 transition-colors">{{ lang.t(badge.textKey) }}</span>
-          </div>
-        </div>
-
-        <!-- Additional trust indicators -->
-        <div class="mt-8 flex flex-wrap justify-center gap-3">
-          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/30 border border-slate-700/30 text-xs text-slate-500">
-            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-            </svg>
-            {{ lang.t('landing.trust_gdpr') || 'GDPR Compliant' }}
-          </div>
-          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/30 border border-slate-700/30 text-xs text-slate-500">
-            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-            </svg>
-            {{ lang.t('landing.trust_secure') || 'Bank-Level Security' }}
-          </div>
-          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/30 border border-slate-700/30 text-xs text-slate-500">
-            <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            {{ lang.t('landing.trust_eu') || 'EU Data Centers' }}
-          </div>
         </div>
       </div>
     </div>
@@ -1068,12 +937,6 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
     { id: '6', name: '', nameKey: 'landing.req6_name', description: '', descKey: 'landing.req6_desc', checked: false, expanded: false },
     { id: '7', name: '', nameKey: 'landing.req7_name', description: '', descKey: 'landing.req7_desc', checked: true, expanded: false },
     { id: '8', name: '', nameKey: 'landing.req8_name', description: '', descKey: 'landing.req8_desc', checked: false, expanded: false }
-  ];
-
-  trustBadges = [
-    { icon: 'M3 21V5a2 2 0 012-2h14a2 2 0 012 2v16l-7-3.5L3 21z', color: 'text-blue-400', textKey: 'landing.badge_estonian' },
-    { icon: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', color: 'text-cyan-400', textKey: 'landing.badge_ai' },
-    { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', color: 'text-emerald-400', textKey: 'landing.badge_eu' }
   ];
 
   contactName = '';

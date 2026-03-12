@@ -181,7 +181,7 @@ interface ChartPoint {
       }
 
       <!-- Achievement Badges Widget -->
-      @if (achievements().length > 0) {
+      @if (history.length > 0 && achievements().length > 0) {
         <div class="mb-6 animate-fade-in-up">
           <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5">
             <div class="flex items-center justify-between mb-4">
@@ -267,31 +267,6 @@ interface ChartPoint {
                 }
               </div>
             }
-          </div>
-        </div>
-      }
-
-      <!-- Regulatory Updates Widget -->
-      @if (regulatoryCount() > 0) {
-        <div class="mb-6 animate-fade-in-up">
-          <div class="bg-slate-800/50 backdrop-blur border border-amber-500/20 rounded-xl p-4">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
-                  <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-                  </svg>
-                </div>
-                <div>
-                  <h3 class="text-sm font-semibold text-white">Regulatory Updates</h3>
-                  <p class="text-[11px] text-slate-500">{{ regulatoryCount() }} unacknowledged update(s)</p>
-                </div>
-              </div>
-              <a routerLink="/regulatory-impact" class="text-xs text-amber-400 hover:text-amber-300 font-medium flex items-center gap-1 transition-colors">
-                Review
-                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-              </a>
-            </div>
           </div>
         </div>
       }
@@ -858,8 +833,6 @@ export class DashboardComponent implements OnInit {
   proportionalityScope = signal<any>(null);
   generatingReport = signal(false);
   generatingDashPdf = signal(false);
-  regulatoryCount = signal(0);
-
   // Compliance score widget
   auditReadiness = signal<any>(null);
   auditModules = signal<{ key: string; label: string; score: number }[]>([]);
@@ -903,7 +876,6 @@ export class DashboardComponent implements OnInit {
     this.loadAutopilotWidget();
     this.loadAuditReadiness();
     this.loadAchievements();
-    this.loadRegulatoryCount();
     this.loadProportionalityScope();
   }
 
@@ -950,13 +922,6 @@ export class DashboardComponent implements OnInit {
       error: () => {
         this.generatingReport.set(false);
       }
-    });
-  }
-
-  private loadRegulatoryCount() {
-    this.api.getUnacknowledgedCount().subscribe({
-      next: (data) => this.regulatoryCount.set(data.count),
-      error: () => {}
     });
   }
 
