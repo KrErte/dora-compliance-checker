@@ -423,7 +423,7 @@ export interface AlertDetail extends UserAlert {
 
 export const PILLAR_CATEGORIES: { [pillarId: string]: string[] } = {
   ICT_RISK_MANAGEMENT: ['ICT_RISK_MANAGEMENT'],
-  INCIDENT_MANAGEMENT: ['INCIDENT_MANAGEMENT', 'INCIDENT'],
+  INCIDENT_MANAGEMENT: ['INCIDENT_MANAGEMENT'],
   TESTING:             ['TESTING'],
   THIRD_PARTY:         ['SERVICE_LEVEL', 'EXIT_STRATEGY', 'AUDIT', 'INCIDENT',
                         'DATA', 'SUBCONTRACTING', 'RISK', 'LEGAL', 'CONTINUITY'],

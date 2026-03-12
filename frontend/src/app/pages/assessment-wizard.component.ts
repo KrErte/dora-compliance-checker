@@ -119,7 +119,7 @@ interface WizardStep {
               <span class="gradient-text">{{ getPillarLabel(currentPillarStep.pillarId) }}</span>
             </h2>
             <p class="text-slate-500 text-sm">
-              {{ currentPillarStep.questions.length }} {{ lang.t('assessment.questions_count') }}
+              {{ currentPillarStep.questions.length }} {{ pluralizeQuestions(currentPillarStep.questions.length) }}
               &middot;
               {{ getStepAnsweredCount(currentStep - 1) }}/{{ currentPillarStep.questions.length }} {{ lang.t('wizard.answered') }}
             </p>
@@ -136,14 +136,14 @@ interface WizardStep {
               <span *ngIf="isCategoryComplete(cat)"
                     class="ml-auto text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">&#10003;</span>
             </h3>
-            <p class="text-xs text-slate-500 mb-4">{{ cat.questions.length }} {{ lang.t('assessment.questions_count') }}</p>
+            <p class="text-xs text-slate-500 mb-4">{{ cat.questions.length }} {{ pluralizeQuestions(cat.questions.length) }}</p>
 
             <div *ngFor="let q of cat.questions; let qi = index"
                  class="py-4 border-b border-slate-700/50 last:border-b-0">
               <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
                 <div class="flex-1">
                   <p class="text-slate-200 mb-1.5">
-                    <span class="text-slate-500 text-sm mr-2">{{ q.id }}.</span>
+                    <span class="text-slate-500 text-sm mr-2">{{ getQuestionNumber(ci, qi) }}.</span>
                     {{ lang.currentLang === 'en' ? q.questionEn : q.questionEt }}
                   </p>
                   <div class="flex items-center gap-2 flex-wrap">
@@ -350,6 +350,7 @@ export class AssessmentWizardComponent implements OnInit {
 
   steps: WizardStep[] = [];
   currentStep = 0;
+  highestVisitedStep = 0;
 
   // Pillar display order
   private pillarOrder = [
@@ -415,8 +416,9 @@ export class AssessmentWizardComponent implements OnInit {
   }
 
   get progressPercent(): number {
-    if (this.totalSteps <= 1) return 0;
-    return (this.currentStep / (this.totalSteps - 1)) * 100;
+    if (this.totalQuestionCount === 0) return 0;
+    if (this.currentStep === 0) return 0;
+    return (this.answeredCount / this.totalQuestionCount) * 100;
   }
 
   get answeredCount(): number {
@@ -532,6 +534,22 @@ export class AssessmentWizardComponent implements OnInit {
     return Array.from(map.entries()).map(([category, questions]) => ({ category, questions }));
   }
 
+  pluralizeQuestions(count: number): string {
+    if (this.lang.currentLang === 'en') {
+      return count === 1 ? 'question' : 'questions';
+    }
+    return count === 1 ? 'küsimus' : 'küsimust';
+  }
+
+  getQuestionNumber(categoryIndex: number, questionIndex: number): number {
+    const categories = this.getCurrentCategories();
+    let num = 1;
+    for (let i = 0; i < categoryIndex; i++) {
+      num += categories[i].questions.length;
+    }
+    return num + questionIndex;
+  }
+
   isCategoryComplete(cat: { category: string; questions: DoraQuestion[] }): boolean {
     return cat.questions.every(q => this.answers[q.id] !== undefined);
   }
@@ -551,16 +569,19 @@ export class AssessmentWizardComponent implements OnInit {
   }
 
   canGoToStep(stepIndex: number): boolean {
-    // Can always go back to visited steps
-    if (stepIndex <= this.currentStep) return true;
-    // Can go forward if current step allows advancing
-    if (stepIndex === this.currentStep + 1) return this.canAdvance;
+    // Can go to any previously visited step
+    if (stepIndex <= this.highestVisitedStep) return true;
+    // Can go one step beyond highest visited if current step allows
+    if (stepIndex === this.highestVisitedStep + 1) return this.canAdvance;
     return false;
   }
 
   goToStep(stepIndex: number) {
     if (this.canGoToStep(stepIndex)) {
       this.currentStep = stepIndex;
+      if (stepIndex > this.highestVisitedStep) {
+        this.highestVisitedStep = stepIndex;
+      }
       this.scrollToTop();
     }
   }
@@ -576,6 +597,9 @@ export class AssessmentWizardComponent implements OnInit {
     }
     if (this.currentStep < this.totalSteps - 1) {
       this.currentStep++;
+      if (this.currentStep > this.highestVisitedStep) {
+        this.highestVisitedStep = this.currentStep;
+      }
       this.scrollToTop();
     }
   }
@@ -651,6 +675,7 @@ export class AssessmentWizardComponent implements OnInit {
         this.answers = draft.answers || {};
         if (typeof draft.wizardStep === 'number') {
           this.currentStep = draft.wizardStep;
+          this.highestVisitedStep = draft.wizardStep;
         }
       }
     } catch {}

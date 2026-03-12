@@ -83,7 +83,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                  class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-emerald-300 hover:bg-emerald-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20 mb-1">
                 <div class="w-5 h-5 rounded bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-[8px] font-bold shrink-0">AI</div>
                 DoraBot
-                <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
               <a routerLink="/assessment" (click)="closeAllMenus()"
@@ -120,7 +119,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
                 </svg>
                 {{ lang.t('nav.roi') }}
-                <span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
               </a>
               <a routerLink="/timeline" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
@@ -149,7 +147,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
                 </svg>
                 {{ lang.l('Regulatiivsed uuendused', 'Regulatory Updates') }}
-                <span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
             </div>
           </div>
@@ -170,7 +167,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                 </svg>
                 {{ lang.t('nav.audit_readiness') }}
-                <span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <a routerLink="/autopilot" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-violet-300 hover:bg-violet-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-violet-600/10 to-purple-600/10 border border-violet-500/20 mb-1">
@@ -178,8 +174,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 {{ lang.t('autopilot.nav') }}
                 @if (autopilotBadge() > 0) {
                   <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-violet-500 text-white min-w-[1.25rem] text-center ml-auto animate-pulse">{{ autopilotBadge() > 9 ? '9+' : autopilotBadge() }}</span>
-                } @else {
-                  <span class="text-[9px] bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded-full ml-auto">NEW</span>
                 }
               </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
@@ -203,7 +197,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
                 </svg>
                 {{ lang.t('nav.evidence_vault') }}
-                <span class="text-[9px] bg-indigo-500/20 text-indigo-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
               </a>
               <a routerLink="/evidence-gap-analyzer" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-teal-300 hover:bg-teal-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-teal-600/10 to-cyan-600/10 border border-teal-500/20">
@@ -217,7 +210,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
                 {{ lang.t('nav.activity_timeline') }}
-                <span class="text-[9px] bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
               </a>
               <a routerLink="/negotiations" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
@@ -253,7 +245,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                 </svg>
                 {{ lang.t('nav.alerts') }}
-                <span class="text-[9px] bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
               <a routerLink="/exam-simulator" (click)="closeAllMenus()"
@@ -262,7 +253,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
                 </svg>
                 Exam Simulator
-                <span class="text-[9px] bg-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <a routerLink="/war-room" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
@@ -270,7 +260,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M12 9v2m0 4h.01M5.07 19H19a2 2 0 001.73-3l-7-12a2 2 0 00-3.46 0l-7 12A2 2 0 005.07 19z"/>
                 </svg>
                 {{ lang.t('war_room.badge') }}
-                <span class="text-[9px] bg-red-500/20 text-red-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <a routerLink="/prosecutor" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-indigo-400 hover:bg-slate-700/30 transition-colors">
@@ -279,7 +268,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 </svg>
                 {{ lang.t('prosecutor.nav') }}
                 <div class="w-4 h-4 rounded bg-gradient-to-br from-indigo-400 to-violet-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0 ml-auto">AI</div>
-                <span class="text-[9px] bg-indigo-500/20 text-indigo-400 px-1.5 py-0.5 rounded-full animate-pulse">NEW</span>
               </a>
               <a routerLink="/article-tracker" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-purple-400 hover:bg-slate-700/30 transition-colors">
@@ -287,7 +275,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
                 </svg>
                 Article Tracker
-                <span class="text-[9px] bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <a routerLink="/ict-asset-map" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
@@ -295,7 +282,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2z"/>
                 </svg>
                 ICT Asset Map
-                <span class="text-[9px] bg-cyan-500/20 text-cyan-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
               <a routerLink="/regulatory-radar" (click)="closeAllMenus()"
@@ -304,7 +290,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
                 </svg>
                 {{ lang.l('Regulatiivne radar', 'Regulatory Radar') }}
-                <span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <a routerLink="/regulatory-translator" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-purple-400 hover:bg-slate-700/30 transition-colors">
@@ -312,7 +297,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
                 </svg>
                 {{ lang.l('Regulatiivne tõlkija', 'Regulatory Translator') }}
-                <span class="text-[9px] bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <a routerLink="/third-party-monitor" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-orange-400 hover:bg-slate-700/30 transition-colors">
@@ -320,7 +304,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                 </svg>
                 {{ lang.l('Kolmanda osapoole monitor', 'Third-Party Monitor') }}
-                <span class="text-[9px] bg-orange-500/20 text-orange-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <a routerLink="/compliance-forecast" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-sky-400 hover:bg-slate-700/30 transition-colors">
@@ -328,7 +311,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
                 </svg>
                 {{ lang.l('Vastavuse prognoos', 'Compliance Forecast') }}
-                <span class="text-[9px] bg-sky-500/20 text-sky-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
               <a routerLink="/regulator-portal" (click)="closeAllMenus()"
@@ -337,7 +319,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                 </svg>
                 {{ lang.l('Regulaatori portaal', 'Regulator Portal') }}
-                <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <a routerLink="/chain-reaction" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-rose-400 hover:bg-slate-700/30 transition-colors">
@@ -345,7 +326,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
                 </svg>
                 {{ lang.l('Doominoefekt', 'Chain Reaction') }}
-                <span class="text-[9px] bg-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <a routerLink="/evidence-harvester" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-teal-400 hover:bg-slate-700/30 transition-colors">
@@ -353,7 +333,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
                 </svg>
                 {{ lang.l('Tõendite koguja', 'Evidence Harvester') }}
-                <span class="text-[9px] bg-teal-500/20 text-teal-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <a routerLink="/compliance-network" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
@@ -361,7 +340,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98"/><path d="M15.41 6.51l-6.82 3.98"/>
                 </svg>
                 {{ lang.l('Vastavusvõrgustik', 'Compliance Network') }}
-                <span class="text-[9px] bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
               <a routerLink="/genome" (click)="closeAllMenus()"
@@ -370,7 +348,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/><path d="M12 6v12"/><path d="M8 8c2 1.5 4 1.5 6 0"/><path d="M8 16c2-1.5 4-1.5 6 0"/><path d="M8 12c2 1 4 1 6 0"/>
                 </svg>
                 {{ lang.l('Vastavuse genoom', 'Compliance Genome') }}
-                <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <a routerLink="/time-machine" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-blue-400 hover:bg-slate-700/30 transition-colors">
@@ -378,7 +355,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/><path d="M2 12h2"/><path d="M20 12h2"/>
                 </svg>
                 {{ lang.l('Regulatiivne ajamasin', 'Time Machine') }}
-                <span class="text-[9px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <a routerLink="/stress-test" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-orange-400 hover:bg-slate-700/30 transition-colors">
@@ -386,7 +362,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
                 </svg>
                 {{ lang.l('DORA stressitest', 'Stress Test') }}
-                <span class="text-[9px] bg-orange-500/20 text-orange-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <a routerLink="/autopsy" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-rose-400 hover:bg-slate-700/30 transition-colors">
@@ -394,7 +369,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M4.8 2.3A.3.3 0 105 2H4a2 2 0 00-2 2v5a6 6 0 006 6v0a6 6 0 006-6V4a2 2 0 00-2-2h-1a.2.2 0 10.3.3"/><path d="M8 15v1a6 6 0 006 6v0a6 6 0 006-6v-4"/><line x1="2" y1="12" x2="22" y2="12"/>
                 </svg>
                 {{ lang.l('Vastavuse lahkamine', 'Compliance Autopsy') }}
-                <span class="text-[9px] bg-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
             </div>
           </div>
@@ -415,7 +389,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
                 </svg>
                 {{ lang.t('nav.dora_explorer') }}
-                <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full ml-1">NEW</span>
               </a>
               <a routerLink="/policy-generator" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
@@ -428,13 +401,11 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                  class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-violet-300 hover:bg-violet-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-violet-600/10 to-purple-600/10 border border-violet-500/20">
                 <div class="w-5 h-5 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-white text-[8px] font-bold shrink-0">AI</div>
                 {{ lang.t('nav.ai_policy_writer') }}
-                <span class="text-[9px] bg-violet-500/20 text-violet-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <a routerLink="/clause-rewriter" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-emerald-300 hover:bg-emerald-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-emerald-600/10 to-teal-600/10 border border-emerald-500/20">
                 <div class="w-5 h-5 rounded bg-gradient-to-br from-emerald-400 to-teal-400 flex items-center justify-center text-white text-[8px] font-bold shrink-0">AI</div>
                 {{ lang.l('Klausli ümberkirjutaja', 'Clause Rewriter') }}
-                <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <a routerLink="/framework-mapping" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-blue-400 hover:bg-slate-700/30 transition-colors">
@@ -477,7 +448,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><circle cx="12" cy="16" r="2"/><path d="M12 14v-1"/>
                 </svg>
                 {{ lang.l('Ajastatud aruanded', 'Scheduled Reports') }}
-                <span class="text-[9px] bg-teal-500/20 text-teal-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
               <p class="px-4 py-1 text-[10px] font-bold text-slate-500 uppercase tracking-wider">NIS2</p>
@@ -501,7 +471,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
           <a routerLink="/workspace" routerLinkActive="nav-link-active"
              class="text-sm text-slate-400 hover:text-violet-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
             {{ lang.t('nav.contracts_short') }}
-            <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400">{{ lang.t('nav.new_badge') }}</span>
           </a>
           <!-- Tarneahel [PRO] -->
           <a routerLink="/supply-chain" routerLinkActive="nav-link-active"
@@ -748,7 +717,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
              class="flex items-center gap-2 text-sm text-white px-3 py-2.5 rounded-lg bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20 mb-2">
             <div class="w-5 h-5 rounded bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-[8px] font-bold">AI</div>
             DoraBot
-            <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
           </a>
           <button type="button" (click)="mobileDoraOpen = !mobileDoraOpen"
                   class="w-full flex items-center justify-between px-3 py-1.5 mb-1">
@@ -777,7 +745,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
             <a routerLink="/regulatory-impact" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
               {{ lang.l('Regulatiivsed uuendused', 'Regulatory Updates') }}
-              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-amber-500/20 text-amber-400 animate-pulse">NEW</span>
             </a>
           </div>
           <div class="border-t border-slate-700/50 mt-2 pt-2">
@@ -792,7 +759,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
               <a routerLink="/audit-readiness" (click)="mobileMenu = false"
                  class="text-sm text-amber-400 hover:text-amber-300 px-3 py-2 rounded-lg hover:bg-amber-500/10 flex items-center justify-between border border-amber-500/20 bg-gradient-to-r from-amber-600/5 to-orange-600/5 mb-1">
                 {{ lang.t('nav.audit_readiness') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-amber-500/20 text-amber-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/autopilot" (click)="mobileMenu = false"
                  class="text-sm text-violet-400 hover:text-violet-300 px-3 py-2 rounded-lg hover:bg-violet-500/10 flex items-center gap-2">
@@ -800,8 +766,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 {{ lang.t('autopilot.nav') }}
                 @if (autopilotBadge() > 0) {
                   <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-violet-500 text-white min-w-[1.25rem] text-center ml-auto animate-pulse">{{ autopilotBadge() }}</span>
-                } @else {
-                  <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400 ml-auto">NEW</span>
                 }
               </a>
               <a routerLink="/notifications" (click)="mobileMenu = false"
@@ -814,12 +778,10 @@ import { GuidedTourComponent } from './components/guided-tour.component';
               <a routerLink="/command-center" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.t('nav.command_center') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-cyan-500/20 text-cyan-400">NEW</span>
               </a>
               <a routerLink="/alerts" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-yellow-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.t('nav.alerts') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-yellow-500/20 text-yellow-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/incident-reporting" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.incidents') }}</a>
@@ -828,7 +790,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
               <a routerLink="/evidence-vault" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-indigo-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.t('nav.evidence_vault') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-indigo-500/20 text-indigo-400">NEW</span>
               </a>
               <a routerLink="/evidence-gap-analyzer" (click)="mobileMenu = false"
                  class="text-sm text-teal-400 hover:text-teal-300 px-3 py-2 rounded-lg hover:bg-teal-500/10 flex items-center gap-2">
@@ -839,7 +800,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
               <a routerLink="/activity-timeline" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.t('nav.activity_timeline') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400">NEW</span>
               </a>
               <a routerLink="/negotiations" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.negotiations') }}</a>
@@ -850,88 +810,71 @@ import { GuidedTourComponent } from './components/guided-tour.component';
               <a routerLink="/exam-simulator" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-rose-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.t('nav.exam_simulator') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-rose-500/20 text-rose-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/war-room" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.t('nav.war_room') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-red-500/20 text-red-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/article-tracker" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-purple-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.t('nav.article_tracker') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-purple-500/20 text-purple-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/ict-asset-map" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.t('nav.ict_asset_map') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-cyan-500/20 text-cyan-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/regulatory-radar" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.l('Regulatiivne radar', 'Regulatory Radar') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-amber-500/20 text-amber-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/regulatory-translator" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-purple-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.l('Regulatiivne tõlkija', 'Regulatory Translator') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-purple-500/20 text-purple-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/third-party-monitor" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.l('Kolmanda osapoole monitor', 'Third-Party Monitor') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-orange-500/20 text-orange-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/compliance-forecast" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-sky-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.l('Vastavuse prognoos', 'Compliance Forecast') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-sky-500/20 text-sky-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/regulator-portal" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.l('Regulaatori portaal', 'Regulator Portal') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-emerald-500/20 text-emerald-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/chain-reaction" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-rose-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.l('Doominoefekt', 'Chain Reaction') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-rose-500/20 text-rose-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/evidence-harvester" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-teal-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.l('Tõendite koguja', 'Evidence Harvester') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-teal-500/20 text-teal-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/compliance-network" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.l('Vastavusvõrgustik', 'Compliance Network') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/genome" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.l('Vastavuse genoom', 'Compliance Genome') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-emerald-500/20 text-emerald-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/time-machine" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-blue-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.l('Regulatiivne ajamasin', 'Time Machine') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-blue-500/20 text-blue-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/stress-test" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.l('DORA stressitest', 'Stress Test') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-orange-500/20 text-orange-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/autopsy" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-rose-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.l('Vastavuse lahkamine', 'Compliance Autopsy') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-rose-500/20 text-rose-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/prosecutor" (click)="mobileMenu = false"
                  class="text-sm text-indigo-400 hover:text-indigo-300 px-3 py-2 rounded-lg hover:bg-indigo-500/10 flex items-center gap-2">
                 <div class="w-4 h-4 rounded bg-gradient-to-br from-indigo-400 to-violet-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
                 {{ lang.t('prosecutor.nav') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-indigo-500/20 text-indigo-400 ml-auto animate-pulse">NEW</span>
               </a>
             </div>
           </div>
@@ -947,7 +890,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
               <a routerLink="/dora-explorer" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.t('nav.dora_explorer') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-emerald-500/20 text-emerald-400">NEW</span>
               </a>
               <a routerLink="/policy-generator" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.policy_generator') }}</a>
@@ -955,13 +897,11 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                  class="text-sm text-violet-400 hover:text-violet-300 px-3 py-2 rounded-lg hover:bg-violet-500/10 flex items-center gap-2">
                 <div class="w-4 h-4 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
                 {{ lang.t('nav.ai_policy_writer') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400">NEW</span>
               </a>
               <a routerLink="/clause-rewriter" (click)="mobileMenu = false"
                  class="text-sm text-emerald-400 hover:text-emerald-300 px-3 py-2 rounded-lg hover:bg-emerald-500/10 flex items-center gap-2">
                 <div class="w-4 h-4 rounded bg-gradient-to-br from-emerald-400 to-teal-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
                 {{ lang.l('Klausli ümberkirjutaja', 'Clause Rewriter') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-emerald-500/20 text-emerald-400 animate-pulse">NEW</span>
               </a>
               <a routerLink="/framework-mapping" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-blue-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.framework_mapping') }}</a>
@@ -976,7 +916,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
               <a routerLink="/scheduled-reports" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-teal-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.l('Ajastatud aruanded', 'Scheduled Reports') }}
-                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-teal-500/20 text-teal-400 animate-pulse">NEW</span>
               </a>
             </div>
           </div>
@@ -991,7 +930,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
             <a routerLink="/workspace" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
               {{ lang.t('nav.contracts_short') }}
-              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-violet-500/20 text-violet-400">{{ lang.t('nav.new_badge') }}</span>
             </a>
             <a routerLink="/supply-chain" (click)="mobileMenu = false"
                class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
