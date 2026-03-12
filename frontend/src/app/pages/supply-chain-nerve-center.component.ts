@@ -356,7 +356,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                     (click)="selectVendor(vendor)"
                   >
                     <span class="col-name">{{ vendor.name }}</span>
-                    <span class="col-country">{{ getFlag(vendor.countryCode) }} {{ vendor.country }}</span>
+                    <span class="col-country">{{ getFlag(vendor.countryCode) }} {{ getCountryName(vendor.countryCode) || vendor.country }}</span>
                     <span class="col-type">{{ vendor.type }}</span>
                     <span class="col-risk">
                       <span class="risk-badge" [class]="getRiskClass(vendor.riskScore)">
@@ -391,7 +391,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                         </span>
                         <span class="provider-meta">
                           {{ provider.countryCode ? getFlag(provider.countryCode) : '' }}
-                          {{ provider.country || 'N/A' }} • {{ provider.serviceType || 'N/A' }}
+                          {{ getCountryName(provider.countryCode) || provider.country || 'N/A' }} • {{ provider.serviceType || 'N/A' }}
                         </span>
                         @if (provider.usageCount > 0) {
                           <span class="usage-info">{{ provider.usageCount }} {{ lang.t('sc.users_count') }}</span>
@@ -442,7 +442,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
                 <div class="panel-body">
                   <div class="vendor-detail">
                     <span class="detail-label">{{ lang.t('sc.country_label') }}</span>
-                    <span>{{ getFlag(selectedVendor()!.countryCode) }} {{ selectedVendor()!.country }}</span>
+                    <span>{{ getFlag(selectedVendor()!.countryCode) }} {{ getCountryName(selectedVendor()!.countryCode) || selectedVendor()!.country }}</span>
                   </div>
                   <div class="vendor-detail">
                     <span class="detail-label">{{ lang.t('sc.type_label') }}</span>
@@ -3712,7 +3712,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
           const results: CompanySearchResult[] = response.data.slice(0, 8).map((item: any) => ({
             name: item.name || query,
             registryCode: String(item.reg_code || ''),
-            country: 'Eesti',
+            country: this.getCountryName('EE'),
             countryCode: 'EE',
             source: 'ariregister' as const
           }));
@@ -3750,7 +3750,7 @@ export class SupplyChainNerveCenterComponent implements OnInit, OnDestroy {
     );
   }
 
-  private getCountryName(code: string): string {
+  getCountryName(code: string): string {
     const country = this.countryOptions.find(c => c.code === code);
     return country ? (this.lang.currentLang === 'et' ? country.nameEt : country.nameEn) : code;
   }
