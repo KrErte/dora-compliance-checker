@@ -363,8 +363,9 @@ public class ComplianceAutopsyService {
         );
 
         for (int i = 0; i < PILLARS.length; i++) {
+            final int idx = i;
             long pillarEvidence = evidence.stream()
-                .filter(e -> e.getArticleNumbers() != null && e.getArticleNumbers().contains(PILLAR_NAMES[i].substring(0, 3)))
+                .filter(e -> e.getArticleNumbers() != null && e.getArticleNumbers().contains(PILLAR_NAMES[idx].substring(0, 3)))
                 .count();
             // Simplified: count evidence broadly
             long totalForPillar = Math.max(1, evidence.size() / 5 + (i == 0 ? evidence.size() % 5 : 0));

@@ -126,8 +126,7 @@ import { SubscriptionService } from '../services/subscription.service';
                         border-2 border-indigo-400
                         cursor-grab active:cursor-grabbing
                         transition-shadow hover:shadow-indigo-400/30 hover:shadow-xl"
-                 [class.ring-2]="isDragging()"
-                 [class.ring-indigo-400/50]="isDragging()"
+                 [ngClass]="{'ring-2 ring-indigo-400/50': isDragging()}"
                  [style.left.%]="scrubberPosition()">
             </div>
           </div>

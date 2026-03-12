@@ -306,6 +306,14 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 {{ lang.l('Regulatiivne radar', 'Regulatory Radar') }}
                 <span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
               </a>
+              <a routerLink="/regulatory-translator" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-purple-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+                </svg>
+                {{ lang.l('Regulatiivne tõlkija', 'Regulatory Translator') }}
+                <span class="text-[9px] bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded-full ml-auto animate-pulse">NEW</span>
+              </a>
               <a routerLink="/third-party-monitor" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-orange-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-orange-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -864,6 +872,11 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 {{ lang.l('Regulatiivne radar', 'Regulatory Radar') }}
                 <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-amber-500/20 text-amber-400 animate-pulse">NEW</span>
               </a>
+              <a routerLink="/regulatory-translator" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-purple-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.l('Regulatiivne tõlkija', 'Regulatory Translator') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-purple-500/20 text-purple-400 animate-pulse">NEW</span>
+              </a>
               <a routerLink="/third-party-monitor" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-orange-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.l('Kolmanda osapoole monitor', 'Third-Party Monitor') }}
@@ -1256,6 +1269,7 @@ export class AppComponent implements OnInit, OnDestroy {
     '/time-machine': { et: 'Regulatiivne Ajamasin | DoraAudit.eu', en: 'Regulatory Time Machine | DoraAudit.eu' },
     '/stress-test': { et: 'DORA Stressitest | DoraAudit.eu', en: 'DORA Stress Test | DoraAudit.eu' },
     '/autopsy': { et: 'Vastavuse Lahkamine | DoraAudit.eu', en: 'Compliance Autopsy | DoraAudit.eu' },
+    '/regulatory-translator': { et: 'Regulatiivne Tõlkija | DoraAudit.eu', en: 'Live Regulatory Translator | DoraAudit.eu' },
   };
 
   private pageDescriptions: { [path: string]: { et: string; en: string } } = {

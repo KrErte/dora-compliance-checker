@@ -752,6 +752,12 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'Compliance Autopsy', seoDescription: 'Forensic post-mortem tool tracing compliance failures to root causes. Medical-style autopsy report with prevention recommendations.' }
   },
   {
+    path: 'regulatory-translator',
+    loadComponent: () => import('./pages/regulatory-translator.component').then(m => m.RegulatoryTranslatorComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Live Regulatory Translator', seoDescription: 'AI translates regulatory updates into personalized action items based on your specific compliance data, evidence, and providers.' }
+  },
+  {
     path: 'admin/users',
     loadComponent: () => import('./pages/admin-users.component').then(m => m.AdminUsersComponent),
     canActivate: [adminGuard],

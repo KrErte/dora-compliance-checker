@@ -546,8 +546,7 @@ import { SubscriptionService } from '../services/subscription.service';
 
                       <!-- Snapshot card -->
                       <div class="flex-1 bg-slate-900/40 border border-slate-700/30 rounded-xl p-4"
-                        [class.ring-1]="isSnapshotSelected(snap.assessmentId)"
-                        [class.ring-emerald-500/40]="isSnapshotSelected(snap.assessmentId)">
+                        [ngClass]="{'ring-1 ring-emerald-500/40': isSnapshotSelected(snap.assessmentId)}">
                         <div class="flex items-center justify-between mb-3">
                           <div>
                             <div class="text-sm font-semibold text-white">

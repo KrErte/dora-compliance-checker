@@ -832,6 +832,29 @@ export class ApiService {
   getAutopsyHistory(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/autopsy/history`);
   }
+
+  // ─── Regulatory Translator ───────────────────────────
+  getTranslatorUpdates(page: number = 0, size: number = 20): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/regulatory-translator/updates?page=${page}&size=${size}`);
+  }
+  getTranslations(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/regulatory-translator`);
+  }
+  getTranslation(id: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/regulatory-translator/${id}`);
+  }
+  getTranslatorStats(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/regulatory-translator/stats`);
+  }
+  translateUpdate(updateId: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/regulatory-translator/translate`, { updateId });
+  }
+  applyTranslationItems(id: string, itemIndices: number[]): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/regulatory-translator/${id}/apply`, { itemIndices });
+  }
+  dismissTranslation(id: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/regulatory-translator/${id}/dismiss`, {});
+  }
 }
 
 export interface SearchResult {
