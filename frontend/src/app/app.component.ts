@@ -65,55 +65,30 @@ import { GuidedTourComponent } from './components/guided-tour.component';
           </span>
         </a>
 
-        <!-- Desktop nav -->
+        <!-- Desktop nav (unified — no marketing/app split to avoid hydration mismatch) -->
         <div class="hidden lg:flex items-center gap-1">
-          @if (isMarketingPage) {
-            <!-- Marketing nav: simple links for public pages -->
-            <a routerLink="/assessment" routerLinkActive="nav-link-active"
-               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              {{ lang.t('nav.assessment') }}
-            </a>
-            <a routerLink="/tools" routerLinkActive="nav-link-active"
-               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              {{ lang.l('Tööriistad', 'Tools') }}
-            </a>
-            <a routerLink="/pricing" routerLinkActive="nav-link-active"
-               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              {{ lang.t('nav.pricing') }}
-            </a>
-            <a routerLink="/blog" routerLinkActive="nav-link-active"
-               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              {{ lang.t('nav.blog') }}
-            </a>
-            @if (auth.isLoggedIn()) {
-              <a routerLink="/dashboard" routerLinkActive="nav-link-active"
-                 class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-                {{ lang.t('nav.dashboard') }}
-              </a>
-            }
-          } @else {
-            <!-- App nav: logged-in experience (same core items as marketing for consistency) -->
-            @if (auth.isLoggedIn()) {
-              <a routerLink="/dashboard" routerLinkActive="nav-link-active"
-                 class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-                {{ lang.t('nav.dashboard') }}
-              </a>
-            }
-            <a routerLink="/assessment" routerLinkActive="nav-link-active"
-               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              {{ lang.t('nav.assessment') }}
-            </a>
-            <a routerLink="/tools" routerLinkActive="nav-link-active"
-               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              {{ lang.l('Tööriistad', 'Tools') }}
-            </a>
-            <a routerLink="/pricing" routerLinkActive="nav-link-active"
-               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              {{ lang.t('nav.pricing') }}
-            </a>
-          }
-          <!-- More dropdown (app pages only) -->
-          @if (!isMarketingPage) {
+          <a *ngIf="auth.isLoggedIn()" routerLink="/dashboard" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+            {{ lang.t('nav.dashboard') }}
+          </a>
+          <a routerLink="/assessment" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+            {{ lang.t('nav.assessment') }}
+          </a>
+          <a routerLink="/tools" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+            {{ lang.l('Tööriistad', 'Tools') }}
+          </a>
+          <a routerLink="/pricing" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+            {{ lang.t('nav.pricing') }}
+          </a>
+          <a routerLink="/blog" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+            {{ lang.t('nav.blog') }}
+          </a>
+          <!-- More dropdown -->
+          @if (auth.isLoggedIn()) {
           <div class="relative nav-dropdown-trigger">
             <button type="button" (click)="toggleMenu('more', $event)"
                     [attr.aria-expanded]="moreMenu"
@@ -131,14 +106,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 </svg>
                 {{ lang.t('nav.contracts_short') }}
               </a>
-              <a routerLink="/blog" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-                </svg>
-                {{ lang.t('nav.blog') }}
-              </a>
-              <div class="h-px bg-slate-700/50 my-1 mx-3"></div>
               <a routerLink="/chat" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-emerald-300 hover:bg-emerald-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20 mb-1">
                 <div class="w-5 h-5 rounded bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-[8px] font-bold shrink-0">AI</div>
@@ -450,10 +417,12 @@ import { GuidedTourComponent } from './components/guided-tour.component';
           }
           <a routerLink="/assessment" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.assessment') }}</a>
-          <a routerLink="/workspace" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.contracts_short') }}</a>
           <a routerLink="/tools" (click)="mobileMenu = false"
              class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.l('Tööriistad', 'Tools') }}</a>
+          <a routerLink="/pricing" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.pricing') }}</a>
+          <a routerLink="/blog" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.blog') }}</a>
 
           <!-- More section -->
           <div class="border-t border-slate-700/50 mt-2 pt-2">
