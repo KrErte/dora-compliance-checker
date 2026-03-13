@@ -103,11 +103,15 @@ interface WizardStep {
               <div>
                 <label for="wiz-sector" class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.sector') }}</label>
                 <select [(ngModel)]="selectedSector" id="wiz-sector"
-                        class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
-                               focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300 appearance-none">
+                        class="w-full bg-slate-900/50 border rounded-lg px-4 py-2.5 text-slate-100
+                               focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300 appearance-none"
+                        [class]="showStepErrors && !selectedSector ? 'border-red-500/50' : 'border-slate-600/50'">
                   <option value="">{{ lang.t('assessment.select_sector') }}</option>
                   <option *ngFor="let s of sectors" [value]="s.value">{{ lang.l(s.et, s.en) }}</option>
                 </select>
+                <p *ngIf="showStepErrors && !selectedSector" class="mt-1 text-xs text-red-400">
+                  {{ lang.l('Sektor on kohustuslik', 'Sector is required') }}
+                </p>
               </div>
             </div>
           </div>
@@ -194,7 +198,7 @@ interface WizardStep {
         </div>
 
         <!-- Navigation bar -->
-        <div class="sticky bottom-4 mt-8 animate-fade-in-up">
+        <div class="sticky bottom-2 sm:bottom-4 mt-8 mb-2 animate-fade-in-up">
           <div class="bg-slate-800/90 backdrop-blur-md border border-slate-700/50 rounded-xl p-4 shadow-2xl">
 
             <!-- Live score (visible when we have answers) -->
@@ -225,19 +229,6 @@ interface WizardStep {
               </div>
             </div>
 
-            <!-- Auto-save indicator -->
-            <div *ngIf="lastSavedAt" class="flex items-center gap-1.5 mb-3 pb-3 border-b border-slate-700/30">
-              <span *ngIf="showAutoSaveIndicator" class="text-xs text-emerald-400 flex items-center gap-1 animate-fade-in">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                {{ lang.t('wizard.saved_indicator') }}
-              </span>
-              <span *ngIf="!showAutoSaveIndicator" class="text-[11px] text-slate-500">
-                {{ lang.t('wizard.last_saved') }}: {{ formatSaveTime(lastSavedAt) }}
-              </span>
-            </div>
-
             <div class="flex items-center justify-between gap-3">
               <!-- Left: Back + Save -->
               <div class="flex items-center gap-2">
@@ -254,6 +245,13 @@ interface WizardStep {
                                hover:text-slate-300 hover:bg-slate-700/50 transition-all duration-200">
                   {{ lang.t('wizard.save_exit') }}
                 </button>
+                <span *ngIf="lastSavedAt && showAutoSaveIndicator" class="text-[11px] text-emerald-400 flex items-center gap-1 animate-fade-in">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  {{ lang.t('wizard.saved_indicator') }}
+                </span>
+                <span *ngIf="lastSavedAt && !showAutoSaveIndicator" class="text-[10px] text-slate-600 hidden sm:inline">
+                  {{ formatSaveTime(lastSavedAt) }}
+                </span>
               </div>
 
               <!-- Right: Next / Submit -->
@@ -374,20 +372,29 @@ export class AssessmentWizardComponent implements OnInit {
   currentStep = 0;
   highestVisitedStep = 0;
 
-  // Pillar display order
+  // Pillar display order (THIRD_PARTY split into Basics + Advanced)
   private pillarOrder = [
-    'THIRD_PARTY',
+    'THIRD_PARTY_BASICS',
+    'THIRD_PARTY_ADVANCED',
     'ICT_RISK_MANAGEMENT',
     'INCIDENT_MANAGEMENT',
     'TESTING',
     'INFORMATION_SHARING'
   ];
 
+  // Override categories for the split THIRD_PARTY pillars
+  private pillarCategoryOverrides: { [key: string]: string[] } = {
+    THIRD_PARTY_BASICS: ['SERVICE_LEVEL', 'AUDIT', 'EXIT_STRATEGY'],
+    THIRD_PARTY_ADVANCED: ['DATA', 'SUBCONTRACTING', 'RISK', 'CONTINUITY', 'LEGAL']
+  };
+
   private pillarLabels: { [key: string]: { et: string; en: string } } = {
     ICT_RISK_MANAGEMENT: { et: 'IKT riskihaldus', en: 'ICT Risk Management' },
     INCIDENT_MANAGEMENT: { et: 'Intsidentide raporteerimine', en: 'Incident Reporting' },
     TESTING: { et: 'Digitaalse vastupidavuse testimine', en: 'Digital Resilience Testing' },
     THIRD_PARTY: { et: 'Kolmandate osapoolte risk', en: 'Third-party Risk' },
+    THIRD_PARTY_BASICS: { et: 'Kolmandate osapoolte risk: alused', en: 'Third-party Risk: Basics' },
+    THIRD_PARTY_ADVANCED: { et: 'Kolmandate osapoolte risk: edasijõudnud', en: 'Third-party Risk: Advanced' },
     INFORMATION_SHARING: { et: 'Info jagamine', en: 'Information Sharing' }
   };
 
@@ -441,8 +448,10 @@ export class AssessmentWizardComponent implements OnInit {
 
   get progressPercent(): number {
     if (this.totalQuestionCount === 0) return 0;
-    if (this.currentStep === 0) return 0;
-    return (this.answeredCount / this.totalQuestionCount) * 100;
+    // Company Info (step 0) counts as ~10% when filled
+    const companyInfoWeight = (this.currentStep > 0 || (this.companyName.trim() && this.contractName.trim())) ? 10 : 0;
+    const questionProgress = (this.answeredCount / this.totalQuestionCount) * 90;
+    return companyInfoWeight + questionProgress;
   }
 
   get answeredCount(): number {
@@ -482,7 +491,7 @@ export class AssessmentWizardComponent implements OnInit {
 
   get canAdvance(): boolean {
     if (this.currentStep === 0) {
-      return this.companyName.trim() !== '' && this.contractName.trim() !== '';
+      return this.companyName.trim() !== '' && this.contractName.trim() !== '' && this.selectedSector !== '';
     }
     return true; // Allow advancing even with unanswered questions
   }
@@ -512,7 +521,7 @@ export class AssessmentWizardComponent implements OnInit {
   private buildSteps() {
     this.steps = this.pillarOrder
       .map(pillarId => {
-        const categories = PILLAR_CATEGORIES[pillarId] || [];
+        const categories = this.pillarCategoryOverrides[pillarId] || PILLAR_CATEGORIES[pillarId] || [];
         const questions = this.questions
           .filter(q => categories.includes(q.category))
           .sort((a, b) => a.id - b.id);

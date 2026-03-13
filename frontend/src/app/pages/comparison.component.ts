@@ -192,7 +192,7 @@ import { LangService } from '../lang.service';
 
       <div class="faq-item">
         <h3>{{ lang.l('Kui kiiresti saan tulemusi?', 'How quickly can I get results?') }}</h3>
-        <p>{{ lang.l('5 minutit. Registreeru, täida 37-küsimuslik hindamine ja saa koheselt compliance score, riskimaatriks, sektori benchmark ja PDF raport. Pole vaja demo bookingut ega müügikõnesid.', '5 minutes. Register, complete the 37-question assessment, and instantly get your compliance score, risk matrix, sector benchmark, and PDF report. No demo booking or sales calls needed.') }}</p>
+        <p>{{ lang.l('~15 minutit. Registreeru, täida 37-küsimuslik hindamine ja saa koheselt compliance score, riskimaatriks, sektori benchmark ja PDF raport. Pole vaja demo bookingut ega müügikõnesid.', '~15 minutes. Register, complete the 37-question assessment, and instantly get your compliance score, risk matrix, sector benchmark, and PDF report. No demo booking or sales calls needed.') }}</p>
       </div>
 
       <div class="faq-item">
@@ -203,7 +203,7 @@ import { LangService } from '../lang.service';
 
     <!-- CTA -->
     <section class="cta-section">
-      <h2>{{ lang.l('Alusta DORA hindamist 5 minutiga', 'Start your DORA assessment in 5 minutes') }}</h2>
+      <h2>{{ lang.l('Alusta DORA hindamist ~15 minutiga', 'Start your DORA assessment in ~15 minutes') }}</h2>
       <p>{{ lang.l('Tasuta tööriistadega saad kohe teada, kus su ettevõte DORA ja NIS2 nõuetega seisab.', 'With free tools, instantly find out where your company stands with DORA and NIS2 requirements.') }}</p>
       <div class="btn-group">
         <a routerLink="/register" class="btn btn-primary">

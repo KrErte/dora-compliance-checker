@@ -431,6 +431,11 @@ export class AssessmentComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Logged-in users get the full wizard experience
+    if (this.auth.isLoggedIn()) {
+      this.router.navigate(['/assessment/wizard'], { replaceUrl: true });
+      return;
+    }
     this.titleService.setTitle(this.lang.t('title.assessment'));
     const pillar = this.route.snapshot.queryParamMap.get('pillar');
     if (pillar && this.pillarCategories[pillar]) {
@@ -537,6 +542,11 @@ export class AssessmentComponent implements OnInit {
   }
 
   applyScenario(scenario: 'ideal' | 'average' | 'weak') {
+    // Warn if user has existing answers
+    if (this.answeredCount > 0 && !confirm(this.lang.l(
+      'See asendab teie praegused vastused. Kas olete kindel?',
+      'This will replace your current answers. Are you sure?'
+    ))) return;
     // Deterministic answers based on question index for consistency
     // Ideal: 100% yes
     // Average: ~60% yes, ~30% partial, ~10% no

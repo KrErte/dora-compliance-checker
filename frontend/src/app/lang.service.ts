@@ -483,7 +483,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'landing.feat_ai_title': { et: 'Automaatne lepinguaudit', en: 'Automated Contract Audit' },
   'landing.feat_ai_desc': { et: 'Laadige \u00fcles PDF/DOCX ja saage kohene anal\u00fc\u00fcs DORA Art. 30 vastu.', en: 'Upload PDF/DOCX and get instant analysis against DORA Art. 30.' },
   'landing.feat_fast_title': { et: 'Kiire hindamine', en: 'Quick Assessment' },
-  'landing.feat_fast_desc': { et: '37 küsimust katavad 8 DORA Art. 30 põhinõuet. Valmis 5 minutiga.', en: '37 questions cover 8 DORA Art. 30 core requirements. Done in 5 minutes.' },
+  'landing.feat_fast_desc': { et: '37 küsimust katavad 8 DORA Art. 30 põhinõuet. Valmis ~15 minutiga.', en: '37 questions cover 8 DORA Art. 30 core requirements. Done in ~15 minutes.' },
   'landing.feat_radar_title': { et: 'Radardiagramm', en: 'Radar Chart' },
   'landing.feat_radar_desc': { et: 'Visuaalne vastavusprofiil 15 kategooria l\u00f5ikes.', en: 'Visual compliance profile across 15 categories.' },
   'landing.feat_risk_title': { et: 'Riskimaatriks', en: 'Risk Matrix' },

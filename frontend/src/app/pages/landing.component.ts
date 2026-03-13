@@ -60,38 +60,45 @@ interface DoraRequirement {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
           </a>
-          <div class="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-3 sm:gap-4 mt-1">
-            <a routerLink="/nis2/scope-check"
-               class="text-sm text-slate-400 hover:text-amber-400 transition-colors inline-flex items-center gap-1.5 py-1">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-              </svg>
-              {{ lang.t('landing.cta_nis2_secondary') }}
-            </a>
-            <span class="text-slate-700 hidden sm:inline">|</span>
-            <a routerLink="/fine-calculator"
-               class="text-sm text-slate-400 hover:text-red-400 transition-colors inline-flex items-center gap-1.5 py-1">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-              {{ lang.t('landing.cta_fine_calc') }}
-            </a>
-            <span class="text-slate-700 hidden sm:inline">|</span>
-            <a routerLink="/timeline"
-               class="text-sm text-slate-400 hover:text-cyan-400 transition-colors inline-flex items-center gap-1.5 py-1">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-              </svg>
-              {{ lang.t('landing.cta_timeline') || 'Timeline' }}
-            </a>
-          </div>
           <!-- Inline trust signals -->
-          <p class="text-xs text-slate-500 mt-2">
+          <p class="text-xs text-slate-500 mt-1">
             <span class="text-emerald-400 font-medium">{{ lang.l('14 päeva tasuta prooviaeg', '14-day free trial') }}</span>
             · {{ lang.t('landing.trust_no_cc') }} · {{ lang.t('landing.trust_instant') }} · {{ lang.t('landing.trust_pdf') }}
           </p>
         </div>
       </div>
+    </div>
+
+    <!-- Quick links below hero -->
+    <div class="flex flex-wrap justify-center items-center gap-4 sm:gap-6 py-6 border-b border-slate-800/50">
+      <a routerLink="/nis2/scope-check"
+         class="text-sm text-slate-500 hover:text-amber-400 transition-colors inline-flex items-center gap-1.5">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+        </svg>
+        {{ lang.t('landing.cta_nis2_secondary') }}
+      </a>
+      <a routerLink="/fine-calculator"
+         class="text-sm text-slate-500 hover:text-red-400 transition-colors inline-flex items-center gap-1.5">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        {{ lang.t('landing.cta_fine_calc') }}
+      </a>
+      <a routerLink="/timeline"
+         class="text-sm text-slate-500 hover:text-cyan-400 transition-colors inline-flex items-center gap-1.5">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        </svg>
+        {{ lang.t('landing.cta_timeline') || 'Timeline' }}
+      </a>
+      <a routerLink="/assessment"
+         class="text-sm text-slate-500 hover:text-emerald-400 transition-colors inline-flex items-center gap-1.5">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+        {{ lang.t('nav.assessment') }}
+      </a>
     </div>
 
     <!-- How It Works -->

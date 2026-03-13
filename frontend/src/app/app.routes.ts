@@ -10,7 +10,7 @@ const coreRoutes: Routes = [
   {
     path: '',
     loadComponent: () => import('./pages/landing.component').then(m => m.LandingComponent),
-    data: { seoTitle: 'DORA Compliance Platform for Baltic Financial Institutions', seoDescription: 'Automated DORA compliance assessment, ICT contract analysis, and regulatory tools. Free self-assessment for Baltic financial institutions.' }
+    data: { seoTitle: 'DORA Compliance Platform for Baltic Financial Institutions', seoDescription: 'Automated DORA compliance assessment, ICT contract analysis, and regulatory tools. Free self-assessment for Baltic financial institutions.', marketing: true }
   },
   // Redirects for broken/old links
   {
@@ -597,7 +597,7 @@ const coreRoutes: Routes = [
     path: 'blog',
     loadComponent: () => import('./pages/blog.component').then(m => m.BlogComponent),
     // No authGuard - public SEO content
-    data: { seoTitle: 'DORA & NIS2 Blog', seoDescription: 'Practical guides and articles about DORA and NIS2 compliance. ICT contract requirements, incident reporting, register of information, and more.' }
+    data: { seoTitle: 'DORA & NIS2 Blog', seoDescription: 'Practical guides and articles about DORA and NIS2 compliance. ICT contract requirements, incident reporting, register of information, and more.', marketing: true }
   },
   {
     path: 'blog/:slug',
@@ -614,7 +614,7 @@ const coreRoutes: Routes = [
   {
     path: 'pricing',
     loadComponent: () => import('./pages/pricing.component').then(m => m.PricingComponent),
-    data: { seoTitle: 'Pricing', seoDescription: 'DoraAudit pricing plans. Free self-assessment, Professional tier with exports and certificates, Enterprise with custom branding.' }
+    data: { seoTitle: 'Pricing', seoDescription: 'DoraAudit pricing plans. Free self-assessment, Professional tier with exports and certificates, Enterprise with custom branding.', marketing: true }
   },
   {
     path: 'payment/success',
@@ -624,7 +624,7 @@ const coreRoutes: Routes = [
   {
     path: 'about',
     loadComponent: () => import('./pages/about.component').then(m => m.AboutComponent),
-    data: { seoTitle: 'About DoraAudit', seoDescription: 'DoraAudit is a DORA compliance platform built for Baltic financial institutions. Automated assessments, contract analysis, and regulatory tools.' }
+    data: { seoTitle: 'About DoraAudit', seoDescription: 'DoraAudit is a DORA compliance platform built for Baltic financial institutions. Automated assessments, contract analysis, and regulatory tools.', marketing: true }
   },
   {
     path: 'privacy',

@@ -67,29 +67,53 @@ import { GuidedTourComponent } from './components/guided-tour.component';
 
         <!-- Desktop nav -->
         <div class="hidden lg:flex items-center gap-1">
-          <!-- Dashboard (logged in) -->
-          @if (auth.isLoggedIn()) {
-            <a routerLink="/dashboard" routerLinkActive="nav-link-active"
+          @if (isMarketingPage) {
+            <!-- Marketing nav: simple links for public pages -->
+            <a routerLink="/assessment" routerLinkActive="nav-link-active"
                class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              {{ lang.t('nav.dashboard') }}
+              {{ lang.t('nav.assessment') }}
+            </a>
+            <a routerLink="/tools" routerLinkActive="nav-link-active"
+               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+              {{ lang.l('Tööriistad', 'Tools') }}
+            </a>
+            <a routerLink="/pricing" routerLinkActive="nav-link-active"
+               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+              {{ lang.t('nav.pricing') }}
+            </a>
+            <a routerLink="/blog" routerLinkActive="nav-link-active"
+               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+              {{ lang.t('nav.blog') }}
+            </a>
+            @if (auth.isLoggedIn()) {
+              <a routerLink="/dashboard" routerLinkActive="nav-link-active"
+                 class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+                {{ lang.t('nav.dashboard') }}
+              </a>
+            }
+          } @else {
+            <!-- App nav: logged-in experience -->
+            @if (auth.isLoggedIn()) {
+              <a routerLink="/dashboard" routerLinkActive="nav-link-active"
+                 class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+                {{ lang.t('nav.dashboard') }}
+              </a>
+            }
+            <a routerLink="/assessment" routerLinkActive="nav-link-active"
+               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+              {{ lang.t('nav.assessment') }}
+            </a>
+            <a routerLink="/workspace" routerLinkActive="nav-link-active"
+               class="text-sm text-slate-400 hover:text-violet-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+              {{ lang.t('nav.contracts_short') }}
+            </a>
+            <a routerLink="/tools" routerLinkActive="nav-link-active"
+               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+              {{ lang.l('Tööriistad', 'Tools') }}
             </a>
           }
-          <!-- Assessment -->
-          <a routerLink="/assessment" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-            {{ lang.t('nav.assessment') }}
-          </a>
-          <!-- Contracts -->
-          <a routerLink="/workspace" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-violet-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-            {{ lang.t('nav.contracts_short') }}
-          </a>
-          <!-- Tools -->
-          <a routerLink="/tools" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-            {{ lang.l('Tööriistad', 'Tools') }}
-          </a>
-          <!-- More dropdown -->
+          <!-- More dropdown (app pages only) -->
+          @if (!isMarketingPage) {
           <div class="relative nav-dropdown-trigger">
             <button type="button" (click)="toggleMenu('more', $event)"
                     [attr.aria-expanded]="moreMenu"
@@ -99,13 +123,14 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 <path d="m6 9 6 6 6-6"/>
               </svg>
             </button>
-            <div *ngIf="moreMenu" class="absolute left-0 top-full mt-1 w-60 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
+            <div *ngIf="moreMenu" class="absolute left-0 top-full mt-1 w-64 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50 max-h-[calc(100vh-5rem)] overflow-y-auto">
               <a routerLink="/chat" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-emerald-300 hover:bg-emerald-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20 mb-1">
                 <div class="w-5 h-5 rounded bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-[8px] font-bold shrink-0">AI</div>
                 DoraBot
               </a>
-              <div class="border-t border-slate-700/30 my-1.5"></div>
+              <!-- Compliance Management -->
+              <p class="px-4 pt-2 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">{{ lang.l('Vastavuse haldus', 'Compliance') }}</p>
               <a routerLink="/audit-readiness" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -121,13 +146,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-violet-500 text-white min-w-[1.25rem] text-center ml-auto animate-pulse">{{ autopilotBadge() > 9 ? '9+' : autopilotBadge() }}</span>
                 }
               </a>
-              <a routerLink="/incident-reporting" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-                </svg>
-                {{ lang.t('nav.incidents') }}
-              </a>
               <a routerLink="/remediation" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -142,6 +160,22 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 </svg>
                 {{ lang.t('nav.evidence_vault') }}
               </a>
+              <a routerLink="/board-report" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-sky-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
+                </svg>
+                {{ lang.t('nav.board_report') }}
+              </a>
+              <!-- Risk & Incidents -->
+              <p class="px-4 pt-3 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">{{ lang.l('Risk ja intsidendid', 'Risk & Incidents') }}</p>
+              <a routerLink="/incident-reporting" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+                {{ lang.t('nav.incidents') }}
+              </a>
               <a routerLink="/supply-chain" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -150,7 +184,15 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 {{ lang.t('nav.supply_short') }}
                 <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30 ml-auto">PRO</span>
               </a>
-              <div class="border-t border-slate-700/30 my-1.5"></div>
+              <a routerLink="/alerts" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-yellow-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                </svg>
+                {{ lang.t('nav.alerts') }}
+              </a>
+              <!-- Reference -->
+              <p class="px-4 pt-3 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">{{ lang.l('Teave', 'Reference') }}</p>
               <a routerLink="/dora-explorer" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -165,22 +207,9 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 </svg>
                 {{ lang.t('nav.fine_calculator') }}
               </a>
-              <a routerLink="/alerts" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-yellow-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-                </svg>
-                {{ lang.t('nav.alerts') }}
-              </a>
-              <a routerLink="/board-report" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-sky-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
-                </svg>
-                {{ lang.t('nav.board_report') }}
-              </a>
             </div>
           </div>
+          }
           <div class="w-px h-5 bg-slate-700/50 mx-0.5"></div>
           <!-- Theme toggle -->
           <button type="button" (click)="themeService.toggle()"
@@ -420,12 +449,14 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 <path d="m6 9 6 6 6-6"/>
               </svg>
             </button>
-            <div *ngIf="mobileMoreOpen">
+            <div *ngIf="mobileMoreOpen" class="flex flex-col gap-0.5">
               <a routerLink="/chat" (click)="mobileMenu = false"
                  class="flex items-center gap-2 text-sm text-white px-3 py-2.5 rounded-lg bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20 mb-1">
                 <div class="w-5 h-5 rounded bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-[8px] font-bold">AI</div>
                 DoraBot
               </a>
+              <!-- Compliance Management -->
+              <p class="px-3 pt-2 pb-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-600">{{ lang.l('Vastavuse haldus', 'Compliance') }}</p>
               <a routerLink="/audit-readiness" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.audit_readiness') }}</a>
               <a routerLink="/autopilot" (click)="mobileMenu = false"
@@ -436,26 +467,29 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-violet-500 text-white min-w-[1.25rem] text-center ml-auto animate-pulse">{{ autopilotBadge() }}</span>
                 }
               </a>
-              <a routerLink="/incident-reporting" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.incidents') }}</a>
               <a routerLink="/remediation" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.remediation') }}</a>
               <a routerLink="/evidence-vault" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-indigo-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.evidence_vault') }}</a>
+              <a routerLink="/board-report" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-sky-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.board_report') }}</a>
+              <!-- Risk & Incidents -->
+              <p class="px-3 pt-2 pb-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-600">{{ lang.l('Risk ja intsidendid', 'Risk & Incidents') }}</p>
+              <a routerLink="/incident-reporting" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.incidents') }}</a>
               <a routerLink="/supply-chain" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
                 {{ lang.t('nav.supply_short') }}
                 <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30">PRO</span>
               </a>
-              <div class="border-t border-slate-700/30 my-1.5 mx-3"></div>
+              <a routerLink="/alerts" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-yellow-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.alerts') }}</a>
+              <!-- Reference -->
+              <p class="px-3 pt-2 pb-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-600">{{ lang.l('Teave', 'Reference') }}</p>
               <a routerLink="/dora-explorer" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.dora_explorer') }}</a>
               <a routerLink="/fine-calculator" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.fine_calculator') }}</a>
-              <a routerLink="/alerts" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-yellow-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.alerts') }}</a>
-              <a routerLink="/board-report" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-sky-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.board_report') }}</a>
             </div>
           </div>
           @if (auth.isLoggedIn()) {
@@ -620,6 +654,7 @@ export class AppComponent implements OnInit, OnDestroy {
   showOnboarding = false;
   hideNav = false;
   hideFooter = false;
+  isMarketingPage = false;
   // notifBadge and notifAlerts moved to NotificationService
   autopilotBadge = signal(0);
   private routerSub?: Subscription;
@@ -859,6 +894,7 @@ export class AppComponent implements OnInit, OnDestroy {
       while (route?.firstChild) route = route.firstChild;
       this.hideNav = !!route?.snapshot.data['hideNav'];
       this.hideFooter = !!route?.snapshot.data['hideFooter'];
+      this.isMarketingPage = !!route?.snapshot.data['marketing'];
       // Track page view on navigation
       if (this.isBrowser) {
         this.trackingService.trackPageView(event.urlAfterRedirects);
@@ -872,6 +908,7 @@ export class AppComponent implements OnInit, OnDestroy {
     while (initRoute?.firstChild) initRoute = initRoute.firstChild;
     this.hideNav = !!initRoute?.snapshot.data['hideNav'];
     this.hideFooter = !!initRoute?.snapshot.data['hideFooter'];
+    this.isMarketingPage = !!initRoute?.snapshot.data['marketing'];
 
     // Initialize tracking only if user has already given consent
     if (this.isBrowser && this.trackingService.hasConsent()) {
