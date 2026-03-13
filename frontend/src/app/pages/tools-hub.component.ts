@@ -32,7 +32,9 @@ interface ToolCategory {
           <span class="gradient-text">{{ showAll() ? lang.t('tools.all_tools_count') : lang.t('tools.essential') }}</span>
         </h1>
         <p class="text-slate-400 text-sm max-w-2xl">
-          {{ lang.l('Avasta k\u00f5ik DORA vastavuse t\u00f6\u00f6riistad \u00fchest kohast. Vali kategooria ja alusta.', 'Discover all DORA compliance tools in one place. Pick a category and get started.') }}
+          {{ showAll()
+            ? lang.l('Avasta k\u00f5ik DORA vastavuse t\u00f6\u00f6riistad \u00fchest kohast. Vali kategooria ja alusta.', 'Discover all DORA compliance tools in one place. Pick a category and get started.')
+            : lang.l('Alusta siit \u2014 need 5 t\u00f6\u00f6riista katavad DORA vastavuse tuuma.', 'Start here \u2014 these 5 tools cover the core of DORA compliance.') }}
         </p>
       </div>
 

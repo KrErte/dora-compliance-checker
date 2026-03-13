@@ -53,7 +53,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
       </div>
     </nav>
 
-    <nav *ngIf="!hideNav" ngSkipHydration class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50" [attr.aria-label]="lang.t('nav.main_nav')">
+    <nav *ngIf="!hideNav" class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50" [attr.aria-label]="lang.t('nav.main_nav')">
       <div class="max-w-5xl mx-auto px-3 sm:px-4 py-3 flex items-center justify-between">
         <a routerLink="/" class="flex items-center gap-3 group tour-target-brand">
           <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs

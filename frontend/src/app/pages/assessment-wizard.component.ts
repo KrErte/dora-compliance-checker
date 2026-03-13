@@ -52,21 +52,22 @@ interface WizardStep {
         </div>
 
         <!-- Step indicators -->
-        <div class="flex items-center gap-1 mb-8 overflow-x-auto pb-2 animate-fade-in">
+        <div class="flex items-center gap-1.5 mb-8 overflow-x-auto pb-2 animate-fade-in">
           <button *ngFor="let s of stepIndicators; let i = index"
                   (click)="goToStep(i)"
                   [disabled]="!canGoToStep(i)"
                   [title]="s.fullLabel"
-                  class="flex items-center gap-1.5 shrink-0 transition-all duration-200"
+                  class="shrink-0 transition-all duration-200 flex items-center justify-center"
                   [class]="i === currentStep
-                    ? 'px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                    ? 'w-8 h-8 rounded-full text-xs font-bold bg-emerald-500 text-slate-900 shadow-lg shadow-emerald-500/25'
                     : isStepComplete(i)
-                      ? 'px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-700/30 text-emerald-400 border border-slate-700/50 hover:bg-slate-700/50 cursor-pointer'
-                      : 'px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800/50 text-slate-500 border border-slate-700/30'
+                      ? 'w-8 h-8 rounded-full text-xs font-medium bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25 cursor-pointer'
+                      : 'w-8 h-8 rounded-full text-xs font-medium bg-slate-800/50 text-slate-500 border border-slate-700/30'
                          + (canGoToStep(i) ? ' hover:bg-slate-700/50 cursor-pointer' : ' cursor-not-allowed')">
-            <span *ngIf="isStepComplete(i)" class="text-emerald-400">&#10003;</span>
-            <span>{{ s.shortLabel }}</span>
+            <span *ngIf="isStepComplete(i) && i !== currentStep" class="text-emerald-400 text-xs">&#10003;</span>
+            <span *ngIf="!isStepComplete(i) || i === currentStep">{{ s.shortLabel }}</span>
           </button>
+          <span *ngIf="stepIndicators[currentStep]" class="text-xs text-slate-400 ml-2 truncate">{{ stepIndicators[currentStep].fullLabel }}</span>
         </div>
 
         <!-- STEP 0: Company info -->
@@ -436,12 +437,12 @@ export class AssessmentWizardComponent implements OnInit {
   get stepIndicators(): { shortLabel: string; fullLabel: string }[] {
     const companyFull = this.lang.currentLang === 'en' ? 'Company Info' : 'Ettevõtte andmed';
     const indicators: { shortLabel: string; fullLabel: string }[] = [
-      { shortLabel: this.lang.currentLang === 'en' ? 'Company' : 'Ettevõte', fullLabel: companyFull }
+      { shortLabel: '1', fullLabel: companyFull }
     ];
-    for (const s of this.steps) {
-      const label = this.pillarLabels[s.pillarId];
-      const full = label ? this.lang.pick(label) : s.pillarId;
-      indicators.push({ shortLabel: full.length > 18 ? full.slice(0, 16) + '…' : full, fullLabel: full });
+    for (let i = 0; i < this.steps.length; i++) {
+      const label = this.pillarLabels[this.steps[i].pillarId];
+      const full = label ? this.lang.pick(label) : this.steps[i].pillarId;
+      indicators.push({ shortLabel: String(i + 2), fullLabel: full });
     }
     return indicators;
   }

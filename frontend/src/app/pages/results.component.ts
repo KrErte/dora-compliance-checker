@@ -243,6 +243,31 @@ interface HeatmapCell {
           </div>
         </div>
 
+        <!-- Recommended Next Steps (for weak pillars) -->
+        <div *ngIf="weakPillarRecommendations.length > 0" class="bg-gradient-to-br from-amber-900/10 to-slate-800/50 backdrop-blur border border-amber-500/20 rounded-xl p-6 mb-8 animate-fade-in-up delay-420">
+          <h2 class="text-sm font-semibold text-amber-300 mb-3 flex items-center gap-2">
+            <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+            </svg>
+            {{ lang.l('Soovitatud j\u00e4rgmised sammud', 'Recommended Next Steps') }}
+          </h2>
+          <p class="text-xs text-slate-500 mb-4">{{ lang.l('Need t\u00f6\u00f6riistad aitavad parandada teie n\u00f5rgemaid valdkondi.', 'These tools can help improve your weakest areas.') }}</p>
+          <div class="space-y-2">
+            <a *ngFor="let rec of weakPillarRecommendations"
+               [routerLink]="rec.route"
+               class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30 hover:border-amber-500/30 hover:bg-slate-800 transition-all group">
+              <span class="text-lg shrink-0">{{ rec.icon }}</span>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-slate-200 group-hover:text-amber-400 transition-colors">{{ rec.label }}</p>
+                <p class="text-xs text-slate-500">{{ rec.pillarLabel }} &middot; {{ rec.percentage | number:'1.0-0' }}%</p>
+              </div>
+              <svg class="w-4 h-4 text-slate-600 group-hover:text-amber-400 transition-colors shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
         <!-- Industry Benchmark Comparison -->
         <div *ngIf="benchmark" class="bg-gradient-to-br from-indigo-900/20 to-slate-800/50 backdrop-blur border border-indigo-500/20 rounded-xl p-6 mb-8 animate-fade-in-up delay-450">
           <h2 class="text-sm font-semibold text-indigo-300 mb-4 flex items-center gap-2">
@@ -899,6 +924,8 @@ export class ResultsComponent implements OnInit {
   emailCaptured = false;
   emailLoading = false;
 
+  weakPillarRecommendations: { icon: string; label: string; pillarLabel: string; percentage: number; route: string }[] = [];
+
   doraPillars: { id: string; icon: string; labelKey: string; percentage: number; route: string; ctaKey: string }[] = [
     { id: 'ICT_RISK_MANAGEMENT', icon: '\u{1F6E1}\uFE0F', labelKey: 'dashboard.pillar_risk', percentage: 0, route: '/compliance-forecast', ctaKey: 'results.pillar_cta_risk' },
     { id: 'INCIDENT_MANAGEMENT', icon: '\u{1F4CB}', labelKey: 'dashboard.pillar_incidents', percentage: 0, route: '/incident-reporting', ctaKey: 'results.pillar_cta_incidents' },
@@ -1316,6 +1343,28 @@ export class ResultsComponent implements OnInit {
       const match = scores.find(s => s.id === pillar.id);
       if (match) pillar.percentage = match.percentage;
     }
+    this.buildWeakPillarRecommendations();
+  }
+
+  private buildWeakPillarRecommendations() {
+    const toolMap: Record<string, { icon: string; labelEt: string; labelEn: string; route: string }> = {
+      ICT_RISK_MANAGEMENT: { icon: '\u{1F525}', labelEt: 'Riski soojuskaart', labelEn: 'Risk Heatmap', route: '/risk-heatmap' },
+      INCIDENT_MANAGEMENT: { icon: '\u{1F4CB}', labelEt: 'Intsidentidest teavitamine', labelEn: 'Incident Reporting', route: '/incident-reporting' },
+      THIRD_PARTY: { icon: '\u{1F91D}', labelEt: 'Tarnija monitooring', labelEn: 'Supply Chain Monitor', route: '/supply-chain' },
+      TESTING: { icon: '\u{1F50D}', labelEt: 'TLPT testimine', labelEn: 'TLPT Testing', route: '/tlpt' },
+      INFORMATION_SHARING: { icon: '\u{1F4E1}', labelEt: 'Teabe jagamine', labelEn: 'Information Sharing', route: '/info-sharing' }
+    };
+    this.weakPillarRecommendations = this.doraPillars
+      .filter(p => p.percentage < 60 && toolMap[p.id])
+      .sort((a, b) => a.percentage - b.percentage)
+      .slice(0, 3)
+      .map(p => ({
+        icon: toolMap[p.id].icon,
+        label: this.lang.l(toolMap[p.id].labelEt, toolMap[p.id].labelEn),
+        pillarLabel: this.lang.t(p.labelKey),
+        percentage: p.percentage,
+        route: toolMap[p.id].route
+      }));
   }
 
   getPillarCardClass(pct: number): string {

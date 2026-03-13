@@ -31,7 +31,7 @@ interface ChatApiResponse {
   standalone: true,
   imports: [CommonModule, FormsModule, MarkdownPipe],
   template: `
-    @if (isBrowser && !onChatPage()) {
+    @if (isBrowser && !onChatPage() && cookieConsentGiven()) {
       <!-- Floating bubble -->
       @if (!isOpen()) {
         <button (click)="toggle()" [attr.aria-label]="lang.t('chat.open')"
@@ -233,6 +233,7 @@ export class ChatWidgetComponent {
   isBrowser: boolean;
   isOpen = signal(false);
   onChatPage = signal(false);
+  cookieConsentGiven = signal(false);
   messages = signal<ChatMessage[]>([]);
   loading = signal(false);
   rateLimited = signal(false);
@@ -351,6 +352,7 @@ export class ChatWidgetComponent {
     });
 
     if (this.isBrowser) {
+      this.checkCookieConsent();
       try {
         const saved = localStorage.getItem('dorabot_widget_msgs');
         if (saved) {
@@ -358,6 +360,18 @@ export class ChatWidgetComponent {
           this.messages.set(parsed.map(m => ({ ...m, timestamp: new Date(m.timestamp) })));
         }
       } catch {}
+    }
+  }
+
+  private checkCookieConsent() {
+    const consent = localStorage.getItem('cookieConsent');
+    this.cookieConsentGiven.set(consent === 'accepted' || consent === 'declined' || consent === 'true');
+  }
+
+  @HostListener('document:click')
+  onDocumentClick() {
+    if (this.isBrowser && !this.cookieConsentGiven()) {
+      this.checkCookieConsent();
     }
   }
 
