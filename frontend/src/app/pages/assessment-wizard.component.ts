@@ -147,18 +147,19 @@ interface WizardStep {
                     {{ lang.currentLang === 'en' ? q.questionEn : q.questionEt }}
                   </p>
                   <div class="flex items-center gap-2 flex-wrap">
-                    <div class="group relative inline-block">
-                      <span class="text-xs cursor-help border-b border-dashed text-slate-500 border-slate-600 hover:text-emerald-400 transition-colors">
-                        {{ q.articleReference }}
-                      </span>
-                      <div class="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200
-                                  absolute z-10 bottom-full left-0 mb-2 w-80 p-4 bg-slate-700/95 backdrop-blur
-                                  text-slate-200 text-xs rounded-xl shadow-2xl border border-slate-600/50 pointer-events-none">
-                        <div class="font-semibold mb-1 text-emerald-400">{{ q.articleReference }}</div>
-                        {{ q.explanation }}
-                        <div class="absolute bottom-0 left-4 translate-y-1/2 rotate-45 w-2 h-2 bg-slate-700 border-r border-b border-slate-600/50"></div>
-                      </div>
-                    </div>
+                    <span class="text-xs text-slate-500">{{ q.articleReference }}</span>
+                    <button type="button" (click)="toggleExplanation(q.id)"
+                            class="w-5 h-5 rounded-full border flex items-center justify-center text-[10px] font-bold transition-all duration-200 shrink-0"
+                            [class]="expandedExplanations[q.id]
+                              ? 'border-emerald-500/50 text-emerald-400 bg-emerald-500/10'
+                              : 'border-slate-600 text-slate-500 hover:border-slate-500 hover:text-slate-400'">
+                      i
+                    </button>
+                  </div>
+                  <div *ngIf="expandedExplanations[q.id]"
+                       class="mt-2 p-3 bg-slate-700/40 border border-slate-600/30 rounded-lg text-xs text-slate-300 animate-fade-in">
+                    <div class="font-semibold mb-1 text-emerald-400">{{ q.articleReference }}</div>
+                    {{ q.explanation }}
                   </div>
                 </div>
                 <div class="flex items-center gap-1.5 shrink-0 mt-1 relative z-20">
@@ -222,6 +223,19 @@ interface WizardStep {
                   <span class="text-red-400">{{ noCount }} {{ lang.t('assessment.no') }}</span>
                 </div>
               </div>
+            </div>
+
+            <!-- Auto-save indicator -->
+            <div *ngIf="lastSavedAt" class="flex items-center gap-1.5 mb-3 pb-3 border-b border-slate-700/30">
+              <span *ngIf="showAutoSaveIndicator" class="text-xs text-emerald-400 flex items-center gap-1 animate-fade-in">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                {{ lang.t('wizard.saved_indicator') }}
+              </span>
+              <span *ngIf="!showAutoSaveIndicator" class="text-[11px] text-slate-500">
+                {{ lang.t('wizard.last_saved') }}: {{ formatSaveTime(lastSavedAt) }}
+              </span>
             </div>
 
             <div class="flex items-center justify-between gap-3">
@@ -352,6 +366,9 @@ export class AssessmentWizardComponent implements OnInit {
   showConfirmDialog = false;
   showSaveToast = false;
   showStepErrors = false;
+  lastSavedAt = '';
+  showAutoSaveIndicator = false;
+  expandedExplanations: Record<number, boolean> = {};
 
   steps: WizardStep[] = [];
   currentStep = 0;
@@ -662,14 +679,18 @@ export class AssessmentWizardComponent implements OnInit {
 
   private autoSave() {
     if (!isPlatformBrowser(this.platformId)) return;
+    const now = new Date().toISOString();
     localStorage.setItem('dora_assessment_progress', JSON.stringify({
       companyName: this.companyName,
       contractName: this.contractName,
       selectedSector: this.selectedSector,
       answers: this.answers,
       wizardStep: this.currentStep,
-      savedAt: new Date().toISOString()
+      savedAt: now
     }));
+    this.lastSavedAt = now;
+    this.showAutoSaveIndicator = true;
+    setTimeout(() => this.showAutoSaveIndicator = false, 2000);
   }
 
   private loadDraft() {
@@ -681,12 +702,24 @@ export class AssessmentWizardComponent implements OnInit {
         this.contractName = draft.contractName || '';
         this.selectedSector = draft.selectedSector || '';
         this.answers = draft.answers || {};
+        if (draft.savedAt) this.lastSavedAt = draft.savedAt;
         if (typeof draft.wizardStep === 'number') {
           this.currentStep = draft.wizardStep;
           this.highestVisitedStep = draft.wizardStep;
         }
       }
     } catch {}
+  }
+
+  toggleExplanation(id: number) {
+    this.expandedExplanations[id] = !this.expandedExplanations[id];
+  }
+
+  formatSaveTime(iso: string): string {
+    try {
+      const d = new Date(iso);
+      return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } catch { return ''; }
   }
 
   private scrollToTop() {

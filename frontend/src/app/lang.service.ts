@@ -1537,6 +1537,11 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'nav.main_nav': { et: 'Peamine navigatsioon', en: 'Main navigation' },
   'nav.close_menu': { et: 'Sulge menüü', en: 'Close menu' },
   'nav.open_menu': { et: 'Ava menüü', en: 'Open menu' },
+  'nav.more': { et: 'Rohkem', en: 'More' },
+  'tools.essential': { et: 'Olulised', en: 'Essential' },
+  'tools.all_tools_count': { et: 'Kõik tööriistad', en: 'All Tools' },
+  'wizard.saved_indicator': { et: 'Salvestatud', en: 'Saved' },
+  'wizard.last_saved': { et: 'Viimati salvestatud', en: 'Last saved' },
 
   // Evidence Vault
   'evidence.title': { et: 'Tõendihoidla', en: 'Evidence Vault' },

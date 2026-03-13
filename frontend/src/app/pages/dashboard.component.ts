@@ -81,48 +81,8 @@ interface ChartPoint {
       <!-- Getting Started Checklist -->
       <app-getting-started-checklist />
 
-      <!-- Compliance Journey Stepper -->
-      <div class="mb-6 animate-fade-in-up">
-        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5">
-          <div class="flex items-center gap-2.5 mb-4">
-            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 border border-emerald-500/20 flex items-center justify-center">
-              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
-            </div>
-            <div>
-              <h3 class="text-sm font-semibold text-white">{{ lang.l('Vastavuse teekond', 'Compliance Journey') }}</h3>
-              <p class="text-[11px] text-slate-500">{{ lang.l('Jälgi oma edenemist', 'Track your progress') }}</p>
-            </div>
-          </div>
-          <div class="flex items-center justify-between gap-2">
-            @for (step of journeySteps; track step.key; let i = $index; let last = $last) {
-              <a [routerLink]="step.link" class="flex-1 text-center group cursor-pointer">
-                <div class="flex flex-col items-center gap-1.5">
-                  <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-200"
-                       [class]="step.completed
-                         ? 'bg-emerald-500/20 border-2 border-emerald-500 text-emerald-400'
-                         : 'bg-slate-700/50 border-2 border-slate-600 text-slate-400 group-hover:border-slate-500'">
-                    <span *ngIf="step.completed">&#10003;</span>
-                    <span *ngIf="!step.completed">{{ i + 1 }}</span>
-                  </div>
-                  <span class="text-[11px] font-medium transition-colors"
-                        [class]="step.completed ? 'text-emerald-400' : 'text-slate-500 group-hover:text-slate-400'">
-                    {{ lang.l(step.labelEt, step.labelEn) }}
-                  </span>
-                </div>
-              </a>
-              @if (!last) {
-                <div class="flex-shrink-0 w-8 h-0.5 mt-[-18px]"
-                     [class]="step.completed ? 'bg-emerald-500/40' : 'bg-slate-700'"></div>
-              }
-            }
-          </div>
-        </div>
-      </div>
-
       <!-- Compliance Score Widget -->
-      @if (auditReadiness()) {
+      @if (auditReadiness() && history.length > 0) {
         <div class="mb-6 animate-fade-in-up">
           <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5">
             <div class="flex items-center justify-between mb-4">
@@ -1052,20 +1012,6 @@ export class DashboardComponent implements OnInit {
   }
 
   // --- KPI getters ---
-
-  get journeySteps(): { key: string; labelEt: string; labelEn: string; completed: boolean; link: string }[] {
-    const audit = this.auditReadiness();
-    const hasAssessment = this.history.length > 0;
-    const hasResults = hasAssessment && this.history[0].scorePercentage > 0;
-    const hasRemediation = audit?.modules?.remediation?.score > 0;
-    const auditReady = audit?.overallScore >= 80;
-    return [
-      { key: 'assess', labelEt: 'Hindamine', labelEn: 'Assessment', completed: hasAssessment, link: '/assessment' },
-      { key: 'results', labelEt: 'Tulemused', labelEn: 'Review Results', completed: hasResults, link: '/results' },
-      { key: 'remediate', labelEt: 'Parandamine', labelEn: 'Remediation', completed: hasRemediation, link: '/remediation' },
-      { key: 'audit', labelEt: 'Auditiks valmis', labelEn: 'Audit Ready', completed: auditReady, link: '/audit-readiness' },
-    ];
-  }
 
   get avgScore(): number {
     if (this.history.length === 0) return 0;

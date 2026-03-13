@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, signal, computed, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LangService } from '../lang.service';
 
@@ -10,6 +10,7 @@ interface ToolCard {
   descEt: string;
   descEn: string;
   link: string;
+  essential?: boolean;
 }
 
 interface ToolCategory {
@@ -26,16 +27,30 @@ interface ToolCategory {
   imports: [CommonModule, RouterLink],
   template: `
     <div class="max-w-6xl mx-auto">
-      <div class="mb-10 animate-fade-in-up">
+      <div class="mb-6 animate-fade-in-up">
         <h1 class="text-3xl font-bold mb-2">
-          <span class="gradient-text">{{ lang.l('K\u00f5ik t\u00f6\u00f6riistad', 'All Tools') }}</span>
+          <span class="gradient-text">{{ showAll() ? lang.t('tools.all_tools_count') : lang.t('tools.essential') }}</span>
         </h1>
         <p class="text-slate-400 text-sm max-w-2xl">
           {{ lang.l('Avasta k\u00f5ik DORA vastavuse t\u00f6\u00f6riistad \u00fchest kohast. Vali kategooria ja alusta.', 'Discover all DORA compliance tools in one place. Pick a category and get started.') }}
         </p>
       </div>
 
-      @for (cat of categories; track cat.titleEn) {
+      <!-- Essential / All toggle tabs -->
+      <div class="flex items-center gap-1 mb-8 animate-fade-in-up">
+        <button type="button" (click)="setShowAll(false)"
+                class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+                [class]="!showAll() ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:text-slate-300 hover:bg-slate-700/30'">
+          {{ lang.t('tools.essential') }}
+        </button>
+        <button type="button" (click)="setShowAll(true)"
+                class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+                [class]="showAll() ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:text-slate-300 hover:bg-slate-700/30'">
+          {{ lang.t('tools.all_tools_count') }} ({{ totalToolCount }})
+        </button>
+      </div>
+
+      @for (cat of visibleCategories(); track cat.titleEn) {
         <div class="mb-10 animate-fade-in-up">
           <div class="flex items-center gap-2.5 mb-4">
             <span class="text-xl">{{ cat.icon }}</span>
@@ -68,13 +83,41 @@ interface ToolCategory {
 })
 export class ToolsHubComponent {
   lang = inject(LangService);
+  private platformId = inject(PLATFORM_ID);
+
+  showAll = signal(false);
+
+  constructor() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.showAll.set(localStorage.getItem('tools_hub_show_all') === 'true');
+    }
+  }
+
+  setShowAll(val: boolean) {
+    this.showAll.set(val);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('tools_hub_show_all', String(val));
+    }
+  }
+
+  visibleCategories = computed(() => {
+    if (this.showAll()) return this.categories;
+    // Filter to only categories that have essential tools, and within those only essential tools
+    return this.categories
+      .map(cat => ({ ...cat, tools: cat.tools.filter(t => t.essential) }))
+      .filter(cat => cat.tools.length > 0);
+  });
+
+  get totalToolCount(): number {
+    return this.categories.reduce((sum, cat) => sum + cat.tools.length, 0);
+  }
 
   categories: ToolCategory[] = [
     {
       titleEt: 'P\u00f5hivastavus', titleEn: 'Core Compliance', icon: '\u{1F3AF}', color: 'emerald',
       tools: [
-        { icon: '\u{1F4CB}', titleEt: 'DORA hindamine', titleEn: 'DORA Assessment', descEt: 'T\u00e4ishindamine 37 k\u00fcsimusega', descEn: 'Full assessment with 37 questions', link: '/assessment' },
-        { icon: '\u{1F4C4}', titleEt: 'Lepingu anal\u00fc\u00fcs', titleEn: 'Contract Analysis', descEt: 'AI-p\u00f5hine DORA Art. 30 anal\u00fc\u00fcs', descEn: 'AI-powered DORA Art. 30 analysis', link: '/contract-analysis' },
+        { icon: '\u{1F4CB}', titleEt: 'DORA hindamine', titleEn: 'DORA Assessment', descEt: 'T\u00e4ishindamine 37 k\u00fcsimusega', descEn: 'Full assessment with 37 questions', link: '/assessment', essential: true },
+        { icon: '\u{1F4C4}', titleEt: 'Lepingu anal\u00fc\u00fcs', titleEn: 'Contract Analysis', descEt: 'AI-p\u00f5hine DORA Art. 30 anal\u00fc\u00fcs', descEn: 'AI-powered DORA Art. 30 analysis', link: '/contract-analysis', essential: true },
         { icon: '\u{1F4DA}', titleEt: 'DORA Explorer', titleEn: 'DORA Explorer', descEt: 'Interaktiivne regulatsiooni sirvija', descEn: 'Interactive regulation browser', link: '/dora-explorer' },
         { icon: '\u2696\uFE0F', titleEt: 'Proportsionaalsus', titleEn: 'Proportionality', descEt: 'DORA Art. 4 proportsionaalsuse hindamine', descEn: 'DORA Art. 4 proportionality assessment', link: '/proportionality' },
       ]
@@ -82,7 +125,7 @@ export class ToolsHubComponent {
     {
       titleEt: 'AI t\u00f6\u00f6riistad', titleEn: 'AI Tools', icon: '\u{1F916}', color: 'violet',
       tools: [
-        { icon: '\u{1F4AC}', titleEt: 'DoraBot', titleEn: 'DoraBot', descEt: 'AI assistent DORA k\u00fcsimustele', descEn: 'AI assistant for DORA questions', link: '/chat' },
+        { icon: '\u{1F4AC}', titleEt: 'DoraBot', titleEn: 'DoraBot', descEt: 'AI assistent DORA k\u00fcsimustele', descEn: 'AI assistant for DORA questions', link: '/chat', essential: true },
         { icon: '\u{1F52E}', titleEt: 'Autopilot', titleEn: 'Autopilot', descEt: 'AI-p\u00f5hine vastavuse autopiloot', descEn: 'AI-powered compliance autopilot', link: '/autopilot' },
         { icon: '\u{1F4DD}', titleEt: 'AI poliitika kirjutaja', titleEn: 'AI Policy Writer', descEt: 'Genereeri ettev\u00f5ttespetsiifilisi poliitikaid', descEn: 'Generate company-specific policies', link: '/ai-policy-writer' },
         { icon: '\u270D\uFE0F', titleEt: 'Klausli \u00fcmberkirjutaja', titleEn: 'Clause Rewriter', descEt: 'AI-p\u00f5hine lepinguklauslite parandamine', descEn: 'AI-powered contract clause fixing', link: '/clause-rewriter' },
@@ -115,10 +158,10 @@ export class ToolsHubComponent {
     {
       titleEt: 'T\u00f5endid ja aruanded', titleEn: 'Evidence & Reports', icon: '\u{1F4C2}', color: 'indigo',
       tools: [
-        { icon: '\u{1F4E6}', titleEt: 'T\u00f5endite hoidla', titleEn: 'Evidence Vault', descEt: 'T\u00f5endite \u00fcleslaadimine ja haldamine', descEn: 'Upload and manage compliance evidence', link: '/evidence-vault' },
+        { icon: '\u{1F4E6}', titleEt: 'T\u00f5endite hoidla', titleEn: 'Evidence Vault', descEt: 'T\u00f5endite \u00fcleslaadimine ja haldamine', descEn: 'Upload and manage compliance evidence', link: '/evidence-vault', essential: true },
         { icon: '\u{1F50D}', titleEt: 'T\u00f5endite puuduste anal\u00fc\u00fcs', titleEn: 'Evidence Gap Analyzer', descEt: 'AI-p\u00f5hine t\u00f5endite puuduste tuvastamine', descEn: 'AI-powered evidence gap detection', link: '/evidence-gap-analyzer' },
         { icon: '\u{1F4E5}', titleEt: 'T\u00f5endite koguja', titleEn: 'Evidence Harvester', descEt: 'Automaatne t\u00f5endite kogumine Jira, GitHub jm', descEn: 'Auto-harvest from Jira, GitHub etc', link: '/evidence-harvester' },
-        { icon: '\u{1F4D1}', titleEt: 'Juhatuse raport', titleEn: 'Board Report', descEt: 'Professionaalne raport juhatusele', descEn: 'Professional board compliance report', link: '/board-report' },
+        { icon: '\u{1F4D1}', titleEt: 'Juhatuse raport', titleEn: 'Board Report', descEt: 'Professionaalne raport juhatusele', descEn: 'Professional board compliance report', link: '/board-report', essential: true },
         { icon: '\u{1F4C5}', titleEt: 'Ajastatud aruanded', titleEn: 'Scheduled Reports', descEt: 'Automaatsed perioodilised raportid', descEn: 'Automated periodic reports', link: '/scheduled-reports' },
         { icon: '\u{1F3AC}', titleEt: 'Juhatuse esitlus', titleEn: 'Board Presentation', descEt: 'Kinemaatiline t\u00e4isekraan esitlus', descEn: 'Cinematic fullscreen presentation', link: '/board-presentation' },
       ]

@@ -67,80 +67,60 @@ import { GuidedTourComponent } from './components/guided-tour.component';
 
         <!-- Desktop nav -->
         <div class="hidden lg:flex items-center gap-1">
-          <!-- DORA dropdown -->
+          <!-- Dashboard (logged in) -->
+          @if (auth.isLoggedIn()) {
+            <a routerLink="/dashboard" routerLinkActive="nav-link-active"
+               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+              {{ lang.t('nav.dashboard') }}
+            </a>
+          }
+          <!-- Assessment -->
+          <a routerLink="/assessment" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+            {{ lang.t('nav.assessment') }}
+          </a>
+          <!-- Contracts -->
+          <a routerLink="/workspace" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-violet-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+            {{ lang.t('nav.contracts_short') }}
+          </a>
+          <!-- Tools -->
+          <a routerLink="/tools" routerLinkActive="nav-link-active"
+             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+            {{ lang.l('Tööriistad', 'Tools') }}
+          </a>
+          <!-- More dropdown -->
           <div class="relative nav-dropdown-trigger">
-            <button type="button" (click)="toggleMenu('dora', $event)"
-                    [attr.aria-expanded]="doraMenu"
+            <button type="button" (click)="toggleMenu('more', $event)"
+                    [attr.aria-expanded]="moreMenu"
                     class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              DORA
-              <svg class="w-3.5 h-3.5 transition-transform" [class.rotate-180]="doraMenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              {{ lang.t('nav.more') }}
+              <svg class="w-3.5 h-3.5 transition-transform" [class.rotate-180]="moreMenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m6 9 6 6 6-6"/>
               </svg>
             </button>
-            <div *ngIf="doraMenu" class="absolute left-0 top-full mt-1 w-60 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
+            <div *ngIf="moreMenu" class="absolute left-0 top-full mt-1 w-60 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
               <a routerLink="/chat" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-emerald-300 hover:bg-emerald-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20 mb-1">
                 <div class="w-5 h-5 rounded bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-[8px] font-bold shrink-0">AI</div>
                 DoraBot
               </a>
               <div class="border-t border-slate-700/30 my-1.5"></div>
-              <a routerLink="/assessment" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>
-                </svg>
-                {{ lang.t('nav.assessment') }}
-              </a>
-              <a routerLink="/contract-analysis" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>
-                </svg>
-                {{ lang.t('nav.contract') }}
-              </a>
-              <a routerLink="/fine-calculator" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
-                </svg>
-                {{ lang.t('nav.fine_calculator') }}
-              </a>
-              <a routerLink="/dora-explorer" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
-                </svg>
-                {{ lang.t('nav.dora_explorer') }}
-              </a>
-            </div>
-          </div>
-          <!-- Haldus dropdown -->
-          <div class="relative nav-dropdown-trigger">
-            <button type="button" (click)="toggleMenu('management', $event)"
-                    [attr.aria-expanded]="managementMenu"
-                    class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              {{ lang.t('nav.management') }}
-              <svg class="w-3.5 h-3.5 transition-transform" [class.rotate-180]="managementMenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="m6 9 6 6 6-6"/>
-              </svg>
-            </button>
-            <div *ngIf="managementMenu" class="absolute left-0 top-full mt-1 w-60 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
               <a routerLink="/audit-readiness" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-amber-300 hover:bg-amber-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-amber-600/10 to-orange-600/10 border border-amber-500/20 mb-1">
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                 </svg>
                 {{ lang.t('nav.audit_readiness') }}
               </a>
               <a routerLink="/autopilot" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-violet-300 hover:bg-violet-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-violet-600/10 to-purple-600/10 border border-violet-500/20 mb-1">
-                <div class="w-5 h-5 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-white text-[8px] font-bold shrink-0">AI</div>
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
+                <div class="w-4 h-4 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-white text-[7px] font-bold shrink-0">AI</div>
                 {{ lang.t('autopilot.nav') }}
                 @if (autopilotBadge() > 0) {
                   <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-violet-500 text-white min-w-[1.25rem] text-center ml-auto animate-pulse">{{ autopilotBadge() > 9 ? '9+' : autopilotBadge() }}</span>
                 }
               </a>
-              <div class="border-t border-slate-700/30 my-1.5"></div>
               <a routerLink="/incident-reporting" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -162,6 +142,29 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 </svg>
                 {{ lang.t('nav.evidence_vault') }}
               </a>
+              <a routerLink="/supply-chain" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 16v1a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2m5.66 0H14a2 2 0 0 1 2 2v3.34"/><path d="M3 15h12"/><path d="M18 12h4"/><path d="M18 8h4"/>
+                </svg>
+                {{ lang.t('nav.supply_short') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30 ml-auto">PRO</span>
+              </a>
+              <div class="border-t border-slate-700/30 my-1.5"></div>
+              <a routerLink="/dora-explorer" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
+                </svg>
+                {{ lang.t('nav.dora_explorer') }}
+              </a>
+              <a routerLink="/fine-calculator" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
+                </svg>
+                {{ lang.t('nav.fine_calculator') }}
+              </a>
               <a routerLink="/alerts" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-yellow-400 hover:bg-slate-700/30 transition-colors">
                 <svg class="w-4 h-4 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -176,48 +179,8 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 </svg>
                 {{ lang.t('nav.board_report') }}
               </a>
-              <a routerLink="/notifications" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-rose-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-                </svg>
-                {{ lang.t('nav.notifications') }}
-              </a>
             </div>
           </div>
-          <!-- Tools -->
-          <a routerLink="/tools" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-            {{ lang.l('Tööriistad', 'Tools') }}
-          </a>
-          <!-- Lepingud -->
-          <a routerLink="/workspace" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-violet-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-            {{ lang.t('nav.contracts_short') }}
-          </a>
-          <!-- Tarneahel [PRO] -->
-          <a routerLink="/supply-chain" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-cyan-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-            {{ lang.t('nav.supply_short') }}
-            <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30">PRO</span>
-          </a>
-          <!-- Pricing -->
-          <a routerLink="/pricing" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-            {{ lang.t('nav.pricing') }}
-          </a>
-          <!-- Blog -->
-          <a routerLink="/blog" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-            {{ lang.t('nav.blog') }}
-          </a>
-          <!-- Dashboard (logged in only) -->
-          @if (auth.isLoggedIn()) {
-            <a routerLink="/dashboard" routerLinkActive="nav-link-active"
-               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              {{ lang.t('nav.dashboard') }}
-            </a>
-          }
           <div class="w-px h-5 bg-slate-700/50 mx-0.5"></div>
           <!-- Theme toggle -->
           <button type="button" (click)="themeService.toggle()"
@@ -436,43 +399,37 @@ import { GuidedTourComponent } from './components/guided-tour.component';
       <!-- Mobile menu -->
       <div *ngIf="mobileMenu" class="lg:hidden border-t border-slate-700/50 bg-slate-800/95 backdrop-blur-xl max-h-[calc(100vh-4rem)] overflow-y-auto">
         <div class="px-4 py-3 flex flex-col gap-1">
-          <a routerLink="/chat" (click)="mobileMenu = false"
-             class="flex items-center gap-2 text-sm text-white px-3 py-2.5 rounded-lg bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20 mb-2">
-            <div class="w-5 h-5 rounded bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-[8px] font-bold">AI</div>
-            DoraBot
-          </a>
-          <button type="button" (click)="mobileDoraOpen = !mobileDoraOpen"
-                  class="w-full flex items-center justify-between px-3 py-1.5 mb-1">
-            <span class="text-[10px] text-slate-600 font-bold uppercase tracking-wider">DORA</span>
-            <svg class="w-3.5 h-3.5 text-slate-600 transition-transform" [class.rotate-180]="mobileDoraOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m6 9 6 6 6-6"/>
-            </svg>
-          </button>
-          <div *ngIf="mobileDoraOpen">
-            <a routerLink="/assessment" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.assessment') }}</a>
-            <a routerLink="/contract-analysis" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.contract') }}</a>
-            <a routerLink="/fine-calculator" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.fine_calculator') }}</a>
-            <a routerLink="/dora-explorer" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.dora_explorer') }}</a>
-          </div>
+          <!-- Primary nav links -->
+          @if (auth.isLoggedIn()) {
+            <a routerLink="/dashboard" (click)="mobileMenu = false"
+               class="text-sm text-slate-300 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 font-medium">{{ lang.t('nav.dashboard') }}</a>
+          }
+          <a routerLink="/assessment" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.assessment') }}</a>
+          <a routerLink="/workspace" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.contracts_short') }}</a>
+          <a routerLink="/tools" (click)="mobileMenu = false"
+             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.l('Tööriistad', 'Tools') }}</a>
+
+          <!-- More section -->
           <div class="border-t border-slate-700/50 mt-2 pt-2">
-            <button type="button" (click)="mobileManagementOpen = !mobileManagementOpen"
+            <button type="button" (click)="mobileMoreOpen = !mobileMoreOpen"
                     class="w-full flex items-center justify-between px-3 py-1.5 mb-1">
-              <span class="text-[10px] text-slate-600 font-bold uppercase tracking-wider">{{ lang.t('nav.management') }}</span>
-              <svg class="w-3.5 h-3.5 text-slate-600 transition-transform" [class.rotate-180]="mobileManagementOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <span class="text-[10px] text-slate-600 font-bold uppercase tracking-wider">{{ lang.t('nav.more') }}</span>
+              <svg class="w-3.5 h-3.5 text-slate-600 transition-transform" [class.rotate-180]="mobileMoreOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m6 9 6 6 6-6"/>
               </svg>
             </button>
-            <div *ngIf="mobileManagementOpen">
-              <a routerLink="/audit-readiness" (click)="mobileMenu = false"
-                 class="text-sm text-amber-400 hover:text-amber-300 px-3 py-2 rounded-lg hover:bg-amber-500/10 flex items-center justify-between border border-amber-500/20 bg-gradient-to-r from-amber-600/5 to-orange-600/5 mb-1">
-                {{ lang.t('nav.audit_readiness') }}
+            <div *ngIf="mobileMoreOpen">
+              <a routerLink="/chat" (click)="mobileMenu = false"
+                 class="flex items-center gap-2 text-sm text-white px-3 py-2.5 rounded-lg bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20 mb-1">
+                <div class="w-5 h-5 rounded bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-[8px] font-bold">AI</div>
+                DoraBot
               </a>
+              <a routerLink="/audit-readiness" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.audit_readiness') }}</a>
               <a routerLink="/autopilot" (click)="mobileMenu = false"
-                 class="text-sm text-violet-400 hover:text-violet-300 px-3 py-2 rounded-lg hover:bg-violet-500/10 flex items-center gap-2">
+                 class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
                 <div class="w-4 h-4 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
                 {{ lang.t('autopilot.nav') }}
                 @if (autopilotBadge() > 0) {
@@ -485,44 +442,24 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                  class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.remediation') }}</a>
               <a routerLink="/evidence-vault" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-indigo-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.evidence_vault') }}</a>
+              <a routerLink="/supply-chain" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                {{ lang.t('nav.supply_short') }}
+                <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30">PRO</span>
+              </a>
+              <div class="border-t border-slate-700/30 my-1.5 mx-3"></div>
+              <a routerLink="/dora-explorer" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.dora_explorer') }}</a>
+              <a routerLink="/fine-calculator" (click)="mobileMenu = false"
+                 class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.fine_calculator') }}</a>
               <a routerLink="/alerts" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-yellow-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.alerts') }}</a>
               <a routerLink="/board-report" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-sky-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.board_report') }}</a>
-              <a routerLink="/notifications" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-rose-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-                {{ lang.t('nav.notifications') }}
-                @if (notificationService.badgeCount() > 0) {
-                  <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-red-500 text-white min-w-[1.25rem] text-center">{{ notificationService.badgeCount() }}</span>
-                }
-              </a>
             </div>
-          </div>
-          <div class="border-t border-slate-700/50 mt-2 pt-2 flex flex-col gap-1">
-            <a routerLink="/tools" (click)="mobileMenu = false"
-               class="text-sm text-emerald-400 hover:text-emerald-300 px-3 py-2 rounded-lg hover:bg-emerald-500/10 flex items-center gap-2">
-              {{ lang.l('Kõik tööriistad', 'All Tools') }}
-            </a>
-          </div>
-          <div class="border-t border-slate-700/50 mt-2 pt-2 flex flex-col gap-1">
-            <a routerLink="/workspace" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-              {{ lang.t('nav.contracts_short') }}
-            </a>
-            <a routerLink="/supply-chain" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
-              {{ lang.t('nav.supply_short') }}
-              <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30">PRO</span>
-            </a>
-            <a routerLink="/pricing" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.pricing') }}</a>
-            <a routerLink="/blog" (click)="mobileMenu = false"
-               class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.blog') }}</a>
           </div>
           @if (auth.isLoggedIn()) {
             <div class="border-t border-slate-700/50 mt-2 pt-2">
-              <a routerLink="/dashboard" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.dashboard') }}</a>
               @if (subscriptionService.isPremium()) {
                 <a routerLink="/settings/branding" (click)="mobileMenu = false"
                    class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
@@ -676,10 +613,8 @@ import { GuidedTourComponent } from './components/guided-tour.component';
 export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(CookieConsentComponent) cookieConsent?: CookieConsentComponent;
   mobileMenu = false;
-  mobileDoraOpen = false;
-  mobileManagementOpen = true;
-  doraMenu = false;
-  managementMenu = false;
+  mobileMoreOpen = true;
+  moreMenu = false;
   userMenu = false;
   notifMenu = false;
   showOnboarding = false;
@@ -1063,12 +998,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.document.head.appendChild(xDefault);
   }
 
-  toggleMenu(menu: 'dora' | 'management' | 'notif', event: Event) {
+  toggleMenu(menu: 'more' | 'notif', event: Event) {
     event.stopPropagation();
-    const key = (menu + 'Menu') as 'doraMenu' | 'managementMenu' | 'notifMenu';
+    const key = (menu + 'Menu') as 'moreMenu' | 'notifMenu';
     const wasOpen = this[key];
-    this.doraMenu = false;
-    this.managementMenu = false;
+    this.moreMenu = false;
     this.userMenu = false;
     this.notifMenu = false;
     this[key] = !wasOpen;
@@ -1076,8 +1010,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   toggleUserMenu(event: Event) {
     event.stopPropagation();
-    this.doraMenu = false;
-    this.managementMenu = false;
+    this.moreMenu = false;
     this.notifMenu = false;
     this.userMenu = !this.userMenu;
   }
@@ -1089,8 +1022,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   closeAllMenus() {
-    this.doraMenu = false;
-    this.managementMenu = false;
+    this.moreMenu = false;
     this.userMenu = false;
     this.notifMenu = false;
   }
