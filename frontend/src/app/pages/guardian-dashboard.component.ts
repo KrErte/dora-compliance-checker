@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, OnDestroy, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Subscription, interval, switchMap, catchError, of } from 'rxjs';
 import { ApiService } from '../api.service';
@@ -136,9 +136,12 @@ export class GuardianDashboardComponent implements OnInit, OnDestroy {
   lastUpdated: Date | null = null;
   private pollingSub?: Subscription;
 
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   constructor(public lang: LangService, private api: ApiService) {}
 
   ngOnInit() {
+    if (!this.isBrowser) return;
     this.loadContracts();
     this.startPolling();
   }

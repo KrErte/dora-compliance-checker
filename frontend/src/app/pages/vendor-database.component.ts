@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -252,11 +252,15 @@ export class VendorDatabaseComponent implements OnInit {
   sortBy = 'score';
   expandedVendor: string | null = null;
 
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   constructor(public lang: LangService, private http: HttpClient) {}
 
   ngOnInit() {
-    this.loadVendors();
-    this.loadStats();
+    if (this.isBrowser) {
+      this.loadVendors();
+      this.loadStats();
+    }
   }
 
   loadVendors() {

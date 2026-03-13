@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
@@ -77,9 +77,12 @@ export class RegulatoryUpdatesComponent implements OnInit {
   updates: RegulatoryUpdate[] = [];
   loading = true;
 
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   constructor(public lang: LangService, private api: ApiService) {}
 
   ngOnInit() {
+    if (!this.isBrowser) return;
     this.api.getRegulatoryUpdates().subscribe({
       next: (updates) => {
         this.updates = updates;

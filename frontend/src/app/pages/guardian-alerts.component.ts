@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, OnDestroy, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Subscription, interval, switchMap } from 'rxjs';
 import { ApiService } from '../api.service';
@@ -103,9 +103,12 @@ export class GuardianAlertsComponent implements OnInit, OnDestroy {
   filter: 'unread' | 'all' = 'unread';
   private pollingSub?: Subscription;
 
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
   constructor(public lang: LangService, private api: ApiService) {}
 
   ngOnInit() {
+    if (!this.isBrowser) return;
     this.api.getAlerts().subscribe({
       next: (alerts) => {
         this.alerts = alerts;
