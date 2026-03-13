@@ -794,7 +794,7 @@ interface HeatmapCell {
               </div>
               <div *ngIf="qr.complianceStatus !== 'yes'" class="mt-3 bg-gradient-to-r from-amber-500/5 to-transparent rounded-lg p-3 border-l-2 border-amber-500/50">
                 <p class="text-xs font-semibold text-amber-400 mb-1">{{ lang.t('results.recommendation') }}</p>
-                <p class="text-sm text-slate-300 leading-relaxed">{{ qr.recommendation }}</p>
+                <p class="text-sm text-slate-300 leading-relaxed">{{ lang.currentLang === 'et' ? qr.recommendation : (qr.recommendationEn || qr.recommendation) }}</p>
               </div>
             </div>
           </div>
@@ -1238,11 +1238,11 @@ export class ResultsComponent implements OnInit {
       .filter(qr => qr.complianceStatus !== 'yes')
       .map(qr => ({
         questionId: qr.questionId,
-        question: qr.question,
+        question: this.lang.currentLang === 'et' ? qr.question : (qr.questionEn || qr.question),
         articleReference: qr.articleReference,
         category: qr.category,
-        explanation: qr.explanation,
-        recommendation: qr.recommendation
+        explanation: this.lang.currentLang === 'et' ? qr.explanation : (qr.explanationEn || qr.explanation),
+        recommendation: this.lang.currentLang === 'et' ? qr.recommendation : (qr.recommendationEn || qr.recommendation)
       }));
   }
 

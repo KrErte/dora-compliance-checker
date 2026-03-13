@@ -172,7 +172,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
                                 text-slate-200 text-xs rounded-xl shadow-2xl border border-slate-600/50">
                       <div class="font-semibold mb-1" [class]="isExtendedQuestion(q.id) ? 'text-amber-400' : 'text-emerald-400'">{{ q.articleReference }}</div>
                       <div *ngIf="isExtendedQuestion(q.id)" class="text-amber-300/80 text-[10px] mb-2 italic">{{ lang.t('assessment.extended_tooltip') }}</div>
-                      {{ q.explanation }}
+                      {{ lang.currentLang === 'et' ? q.explanation : q.explanationEn }}
                       <div class="absolute bottom-0 left-4 translate-y-1/2 rotate-45 w-2 h-2 bg-slate-700 border-r border-b border-slate-600/50"></div>
                     </div>
                   </div>

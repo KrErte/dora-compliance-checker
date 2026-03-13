@@ -164,7 +164,7 @@ interface WizardStep {
                   <div *ngIf="expandedExplanations[q.id]"
                        class="mt-2 p-3 bg-slate-700/40 border border-slate-600/30 rounded-lg text-xs text-slate-300 animate-fade-in">
                     <div class="font-semibold mb-1 text-emerald-400">{{ q.articleReference }}</div>
-                    {{ q.explanation }}
+                    {{ lang.currentLang === 'et' ? q.explanation : q.explanationEn }}
                   </div>
                 </div>
                 <div class="flex items-center gap-1.5 shrink-0 mt-1 relative z-20">

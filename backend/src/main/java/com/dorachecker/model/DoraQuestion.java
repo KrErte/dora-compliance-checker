@@ -10,7 +10,9 @@ public record DoraQuestion(
         String questionEn,
         String articleReference,
         String explanation,
+        String explanationEn,
         String recommendation,
+        String recommendationEn,
         QuestionCategory category
 ) {
     public enum QuestionCategory {

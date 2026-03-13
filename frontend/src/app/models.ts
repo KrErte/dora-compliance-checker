@@ -4,7 +4,9 @@ export interface DoraQuestion {
   questionEn: string;
   articleReference: string;
   explanation: string;
+  explanationEn: string;
   recommendation: string;
+  recommendationEn: string;
   category: string;
 }
 
@@ -17,11 +19,14 @@ export interface AssessmentRequest {
 export interface QuestionResult {
   questionId: number;
   question: string;
+  questionEn: string;
   complianceStatus: string;
   compliant: boolean;
   articleReference: string;
   explanation: string;
+  explanationEn: string;
   recommendation: string;
+  recommendationEn: string;
   category: string;
 }
 

@@ -15,7 +15,9 @@ public class QuestionService {
                     "Does the contract define the scope and quality of the ICT service?",
                     "DORA Art. 30(2)(a)",
                     "DORA nõuab, et ICT lepingud sisaldaksid selget teenuse kirjeldust, sh ulatust, kvaliteeti ja teenustasemeid. See tagab, et mõlemad pooled mõistavad kohustusi.",
+                    "DORA requires ICT contracts to include a clear service description, including scope, quality, and service levels. This ensures both parties understand their obligations.",
                     "Lisage lepingusse detailne teenuse kirjeldus koos kvaliteedinõuetega.",
+                    "Add a detailed service description with quality requirements to the contract.",
                     QuestionCategory.SERVICE_LEVEL),
 
             new DoraQuestion(2,
@@ -23,7 +25,9 @@ public class QuestionService {
                     "Are there service levels (SLA) with measurable KPIs?",
                     "DORA Art. 30(2)(a)",
                     "Mõõdetavad KPI-d on vajalikud teenuse kvaliteedi jälgimiseks ja lepingu täitmise kontrollimiseks. Ilma nendeta puudub objektiivne alus teenuse hindamiseks.",
+                    "Measurable KPIs are necessary for monitoring service quality and verifying contract performance. Without them, there is no objective basis for evaluating the service.",
                     "Määratlege konkreetsed KPI-d nagu kättesaadavus (%), reageerimisaeg ja lahendusaeg.",
+                    "Define specific KPIs such as availability (%), response time, and resolution time.",
                     QuestionCategory.SERVICE_LEVEL),
 
             new DoraQuestion(3,
@@ -31,7 +35,9 @@ public class QuestionService {
                     "Does the provider notify about incidents within 24 hours?",
                     "DORA Art. 30(2)(e)",
                     "Kiire intsidentidest teavitamine on kriitilise tähtsusega, et finantsasutus saaks õigeaegselt reageerida ja täita oma teavituskohustusi järelevalveasutuste ees.",
+                    "Prompt incident notification is critical so the financial entity can respond in time and fulfil its own reporting obligations to supervisory authorities.",
                     "Lisage lepingusse intsidentidest teavitamise kord koos ajaliste piirangutega.",
+                    "Include an incident notification procedure with time limits in the contract.",
                     QuestionCategory.INCIDENT),
 
             new DoraQuestion(4,
@@ -39,7 +45,9 @@ public class QuestionService {
                     "Does the contract include an audit right clause?",
                     "DORA Art. 30(2)(d)",
                     "Auditeerimisõigus võimaldab finantsasutusel ja järelevalveasutustel kontrollida teenusepakkuja tegevust, turvameetmeid ja lepingu täitmist.",
+                    "Audit rights allow the financial entity and supervisory authorities to verify the provider's operations, security measures, and contract compliance.",
                     "Lisage klausel, mis annab õiguse auditeerida teenusepakkujat, sh kohapealsed kontrollid.",
+                    "Add a clause granting the right to audit the provider, including on-site inspections.",
                     QuestionCategory.AUDIT),
 
             new DoraQuestion(5,
@@ -47,7 +55,9 @@ public class QuestionService {
                     "Is there an exit strategy for contract termination?",
                     "DORA Art. 30(2)(f)",
                     "Exit-strateegia tagab teenuse sujuva ülemineku teisele pakkujale või in-house lahendusele, vältides teenuse katkestusi ja andmete kaotust.",
+                    "An exit strategy ensures a smooth transition to another provider or in-house solution, avoiding service disruptions and data loss.",
                     "Koostage detailne exit-plaan koos ajakava, andmete migratsiooni ja üleminekuperioodiga.",
+                    "Prepare a detailed exit plan including timeline, data migration, and transition period.",
                     QuestionCategory.EXIT_STRATEGY),
 
             new DoraQuestion(6,
@@ -55,7 +65,9 @@ public class QuestionService {
                     "Is the data location defined (EU/non-EU)?",
                     "DORA Art. 30(2)(b)",
                     "Andmete asukoha teadmine on oluline andmekaitse, suveräänsuse ja regulatiivsete nõuete täitmise seisukohalt. EL-välised asukohad võivad tekitada täiendavaid riske.",
+                    "Knowing data location is essential for data protection, sovereignty, and regulatory compliance. Non-EU locations may introduce additional risks.",
                     "Fikseerige lepingus andmete töötlemise ja hoiustamise asukohad ning piirangud.",
+                    "Specify data processing and storage locations and restrictions in the contract.",
                     QuestionCategory.DATA),
 
             new DoraQuestion(7,
@@ -63,7 +75,9 @@ public class QuestionService {
                     "Does the use of subcontractors require consent?",
                     "DORA Art. 30(2)(a)",
                     "Subkontraktorite kontrollimatu kasutamine suurendab tarneahela riske. Finantsasutusel peab olema ülevaade ja kontroll allhankijate üle.",
+                    "Uncontrolled use of subcontractors increases supply chain risks. The financial entity must have oversight and control over subcontractors.",
                     "Nõudke lepingus eelnevat kirjalikku nõusolekut subkontraktorite kaasamiseks.",
+                    "Require prior written consent for engaging subcontractors in the contract.",
                     QuestionCategory.SUBCONTRACTING),
 
             new DoraQuestion(8,
@@ -71,7 +85,9 @@ public class QuestionService {
                     "Is there a data return clause?",
                     "DORA Art. 30(2)(f)",
                     "Andmete tagastamise klausel tagab, et lepingu lõppemisel saab finantsasutus kõik oma andmed tagasi turvalises ja kasutatavas formaadis.",
+                    "A data return clause ensures that upon contract termination, the financial entity receives all its data back in a secure and usable format.",
                     "Määratlege andmete tagastamise formaat, ajakava ja kustutamise kord lepingu lõppemisel.",
+                    "Define the data return format, timeline, and deletion procedure upon contract termination.",
                     QuestionCategory.EXIT_STRATEGY),
 
             new DoraQuestion(9,
@@ -79,7 +95,9 @@ public class QuestionService {
                     "Does the provider follow cybersecurity standards?",
                     "DORA Art. 30(2)(c)",
                     "Küberturvalisuse standardite järgimine (nt ISO 27001, SOC 2) annab kindluse, et teenusepakkuja rakendab piisavaid turvameetmeid.",
+                    "Adherence to cybersecurity standards (e.g., ISO 27001, SOC 2) provides assurance that the provider implements adequate security measures.",
                     "Nõudke tunnustatud turvastandardite sertifikaate ja regulaarset vastavuse tõendamist.",
+                    "Require recognized security standard certifications and regular compliance evidence.",
                     QuestionCategory.RISK),
 
             new DoraQuestion(10,
@@ -87,7 +105,9 @@ public class QuestionService {
                     "Are there disaster recovery requirements?",
                     "DORA Art. 30(2)(c)",
                     "Disaster recovery plaan tagab teenuse taastamise kriisiolukordades. DORA nõuab, et kriitiliste ICT teenuste jaoks oleks olemas taasteplaan.",
+                    "A disaster recovery plan ensures service restoration in crisis situations. DORA requires recovery plans for critical ICT services.",
                     "Lisage lepingusse RTO/RPO nõuded ja regulaarsed taastamistestid.",
+                    "Include RTO/RPO requirements and regular recovery tests in the contract.",
                     QuestionCategory.CONTINUITY),
 
             new DoraQuestion(11,
@@ -95,7 +115,9 @@ public class QuestionService {
                     "Is there a confidentiality obligation?",
                     "DORA Art. 30(2)(b)",
                     "Konfidentsiaalsuskohustus kaitseb finantsasutuse tundlikku teavet ja kliendiandmeid volitamata avaldamise eest.",
+                    "A confidentiality obligation protects the financial entity's sensitive information and client data from unauthorized disclosure.",
                     "Lisage lepingusse konfidentsiaalsusklausel, mis kehtib ka pärast lepingu lõppemist.",
+                    "Add a confidentiality clause to the contract that remains effective after termination.",
                     QuestionCategory.LEGAL),
 
             new DoraQuestion(12,
@@ -103,7 +125,9 @@ public class QuestionService {
                     "Are liability limits defined?",
                     "DORA Art. 30(2)(a)",
                     "Vastutuse piiride selge määratlemine kaitseb finantsasutust ülemääraste riskide eest ja tagab, et teenusepakkuja kannab vastutust oma kohustuste rikkumise eest.",
+                    "Clearly defining liability limits protects the financial entity from excessive risks and ensures the provider is accountable for breaching its obligations.",
                     "Määratlege vastutuse ülem- ja alampiirid ning vastutuse jaotus poolte vahel.",
+                    "Define upper and lower liability limits and the allocation of liability between parties.",
                     QuestionCategory.LEGAL),
 
             new DoraQuestion(13,
@@ -111,7 +135,9 @@ public class QuestionService {
                     "Are regular security tests conducted?",
                     "DORA Art. 30(2)(c)",
                     "Regulaarsed turvatestid (penetratsioonitestid, haavatavuste skaneerimine) on vajalikud turvalisuse taseme hindamiseks ja nõrkuste tuvastamiseks.",
+                    "Regular security tests (penetration tests, vulnerability scanning) are necessary for assessing security levels and identifying weaknesses.",
                     "Nõudke vähemalt iga-aastaseid penetratsiooniteste ja kvartaalseid haavatavuste skaneerimisi.",
+                    "Require at least annual penetration tests and quarterly vulnerability scans.",
                     QuestionCategory.RISK),
 
             new DoraQuestion(14,
@@ -119,7 +145,9 @@ public class QuestionService {
                     "Is there cooperation with financial supervisory authorities?",
                     "DORA Art. 30(2)(d)",
                     "Teenusepakkuja peab olema valmis tegema koostööd finantsjärelevalve asutustega, sh võimaldama juurdepääsu ja auditeid.",
+                    "The provider must be prepared to cooperate with financial supervisory authorities, including granting access and allowing audits.",
                     "Lisage klausel teenusepakkuja kohustusest teha koostööd järelevalveasutustega.",
+                    "Add a clause requiring the provider to cooperate with supervisory authorities.",
                     QuestionCategory.AUDIT),
 
             new DoraQuestion(15,
@@ -127,16 +155,20 @@ public class QuestionService {
                     "Is there a provider insolvency clause?",
                     "DORA Art. 30(2)(f)",
                     "Maksejõuetuse klausel kaitseb finantsasutust olukorras, kus teenusepakkuja muutub maksejõuetuks, tagades teenuse jätkuvuse ja andmete kättesaadavuse.",
+                    "An insolvency clause protects the financial entity in case the provider becomes insolvent, ensuring service continuity and data availability.",
                     "Lisage lepingusse sätted teenuse jätkuvuse ja andmete tagastamise kohta pakkuja maksejõuetuse korral.",
+                    "Add provisions for service continuity and data return in case of provider insolvency.",
                     QuestionCategory.CONTINUITY),
 
-            // Finestmedia värbamisprotsessi probleemidest tulenevad küsimused
+            // Recruitment-related questions
             new DoraQuestion(16,
                     "Kas teenusepakkuja annab kandidaatidele värbamisprotsessis tagasisidet?",
                     "Does the provider give candidates feedback during the recruitment process?",
                     "DORA Art. 30 – personaliriskid",
                     "ICT-teenusepakkuja värbamisprotsessis võib esineda kommunikatsiooniprobleeme, kus kandidaatidele ei anta pärast intervjuud lõplikku tagasisidet. See võib kahjustada tööandja mainet ning raskendada kvalifitseeritud ICT-spetsialistide leidmist.",
+                    "Communication issues may arise in the ICT provider's recruitment process where candidates do not receive final feedback after interviews. This can damage the employer's reputation and make it harder to find qualified ICT specialists.",
                     "Kehtestage värbamisprotsessis kohustuslik tagasisideetapp – iga kandidaat peab saama vastuse hiljemalt 5 tööpäeva jooksul.",
+                    "Establish a mandatory feedback stage in the recruitment process — every candidate must receive a response within 5 business days.",
                     QuestionCategory.RECRUITMENT),
 
             new DoraQuestion(17,
@@ -144,7 +176,9 @@ public class QuestionService {
                     "Does the provider have a remote-adapted onboarding process?",
                     "DORA Art. 30 – personaliriskid",
                     "Kaugtöö tingimustes tuleb sisseelamisprotsess põhjalikult läbi mõelda. Puudulik onboarding suurendab riski, et uued töötajad ei integreeru meeskonda ja teevad kriitilistes süsteemides vigu.",
+                    "In remote work conditions, the onboarding process must be thoroughly planned. Inadequate onboarding increases the risk that new employees fail to integrate and make mistakes in critical systems.",
                     "Töötage välja struktureeritud kaugtöö sisseelamisplaan koos mentori määramisega, regulaarsete kontrollkohtumistega ja selgete esimese 90 päeva eesmärkidega.",
+                    "Develop a structured remote onboarding plan with mentor assignment, regular check-ins, and clear first 90 days goals.",
                     QuestionCategory.RECRUITMENT),
 
             new DoraQuestion(18,
@@ -152,16 +186,20 @@ public class QuestionService {
                     "Is the provider's employee turnover stable?",
                     "DORA Art. 30 – personaliriskid",
                     "Märkimisväärne töötajate arvu kõikumine viitab võimalikele hoidmisprobleemidele. Kõrge voolavus ICT-teenusepakkujas ohustab teenuse kvaliteeti ja teadmiste järjepidevust.",
+                    "Significant employee fluctuation indicates potential retention issues. High turnover at an ICT provider threatens service quality and knowledge continuity.",
                     "Nõudke teenusepakkujalt töötajate voolavuse statistikat ja personali stabiilsusplaani. Lisage lepingusse klausel võtmetöötajate vahetumisest teavitamise kohta.",
+                    "Request employee turnover statistics and a staff stability plan from the provider. Add a clause requiring notification of key personnel changes.",
                     QuestionCategory.RECRUITMENT),
 
-            // Majandusaruannetest tulenevad küsimused
+            // Financial reporting questions
             new DoraQuestion(19,
                     "Kas teenusepakkuja kasumimarginaal on jätkusuutlik?",
                     "Is the provider's profit margin sustainable?",
                     "DORA Art. 30 – finantsriskid",
                     "Äärmiselt õhuke kasumimarginaal (alla 1%) seab kahtluse alla teenusepakkuja pikaajalise jätkusuutlikkuse ja võime investeerida teenuse kvaliteeti.",
+                    "An extremely thin profit margin (below 1%) raises questions about the provider's long-term sustainability and ability to invest in service quality.",
                     "Analüüsige teenusepakkuja viimase 3 aasta finantsaruandeid. Kasumimarginaal alla 3% on hoiatusmärk – kaaluge riskimaandamismeetmeid.",
+                    "Analyze the provider's financial statements for the last 3 years. A profit margin below 3% is a warning sign — consider risk mitigation measures.",
                     QuestionCategory.FINANCIAL_REPORTING),
 
             new DoraQuestion(20,
@@ -169,7 +207,9 @@ public class QuestionService {
                     "Is the provider's working capital positive?",
                     "DORA Art. 30 – finantsriskid",
                     "Negatiivne käibekapital näitab, et lühiajalised kohustused ületavad käibevarasid. See tekitab likviidsusriski ja võib ohustada teenuse osutamise jätkuvust.",
+                    "Negative working capital indicates that short-term liabilities exceed current assets. This creates liquidity risk and may threaten service continuity.",
                     "Nõudke teenusepakkujalt kvartaalseid finantsaruandeid. Negatiivne käibekapital nõuab kohest riskihindamist ja exit-plaani aktiveerimise kaalumist.",
+                    "Request quarterly financial reports from the provider. Negative working capital requires immediate risk assessment and consideration of activating the exit plan.",
                     QuestionCategory.FINANCIAL_REPORTING),
 
             new DoraQuestion(21,
@@ -177,7 +217,9 @@ public class QuestionService {
                     "Has the provider experienced unexpected large losses?",
                     "DORA Art. 30 – finantsriskid",
                     "Ootamatud suured varade mahakandmised viitavad varade ülehindamisele või strateegilistele eksimustele, mis seavad kahtluse alla juhtimise kvaliteedi.",
+                    "Unexpected large asset write-downs indicate asset overvaluation or strategic errors that call into question the quality of management.",
                     "Kontrollige teenusepakkuja viimase 5 aasta kasumiaruandeid erakorraliste kulude osas. Nõudke selgitust suuremate mahakandmiste ja ühekordsete kulude kohta.",
+                    "Review the provider's income statements for the last 5 years for extraordinary expenses. Require explanations for significant write-downs and one-off costs.",
                     QuestionCategory.FINANCIAL_REPORTING),
 
             new DoraQuestion(22,
@@ -185,16 +227,20 @@ public class QuestionService {
                     "Is the provider's liability growth proportional to asset growth?",
                     "DORA Art. 30 – finantsriskid",
                     "Kui kohustused kasvavad varadest kiiremini, suurendab kasvav finantsvõimendus maksejõuetusriski ja võib ohustada teenuse jätkuvust.",
+                    "If liabilities grow faster than assets, increasing financial leverage raises insolvency risk and may threaten service continuity.",
                     "Jälgige teenusepakkuja võlakordaja (kohustused/varad) dünaamikat. Kordaja üle 0,7 on hoiatusmärk – kaaluge täiendavaid garantiisid.",
+                    "Monitor the provider's debt ratio (liabilities/assets) dynamics. A ratio above 0.7 is a warning sign — consider additional guarantees.",
                     QuestionCategory.FINANCIAL_REPORTING),
 
-            // ICT riskihaldus (DORA Art. 5-16)
+            // ICT Risk Management (DORA Art. 5-16)
             new DoraQuestion(23,
                     "Kas on kehtestatud ICT riskihalduse raamistik?",
                     "Is there an ICT risk management framework in place?",
                     "DORA Art. 6(1)",
                     "DORA nõuab finantsasutustelt põhjalikku ICT riskihalduse raamistikku, mis hõlmab strateegiaid, poliitikaid, protseduure ja tööriistu digitaalse tegevuse vastupidavuse tagamiseks.",
+                    "DORA requires financial entities to have a comprehensive ICT risk management framework covering strategies, policies, procedures, and tools to ensure digital operational resilience.",
                     "Kehtestage dokumenteeritud ICT riskihalduse raamistik, mis sisaldab riskide tuvastamist, hindamist, maandamist ja jälgimist.",
+                    "Establish a documented ICT risk management framework that includes risk identification, assessment, mitigation, and monitoring.",
                     QuestionCategory.ICT_RISK_MANAGEMENT),
 
             new DoraQuestion(24,
@@ -202,7 +248,9 @@ public class QuestionService {
                     "Are ICT systems and assets mapped and classified?",
                     "DORA Art. 8(1)",
                     "Finantsasutused peavad tuvastama, klassifitseerima ja dokumenteerima kõik ICT varad, sealhulgas riistvara, tarkvara, andmed ja teenused ning nende omavahelised seosed.",
+                    "Financial entities must identify, classify, and document all ICT assets, including hardware, software, data, and services, as well as their interdependencies.",
                     "Looge ja hoidke ajakohasena ICT varade register koos kriitilisuse klassifikatsiooniga.",
+                    "Create and maintain an up-to-date ICT asset register with criticality classification.",
                     QuestionCategory.ICT_RISK_MANAGEMENT),
 
             new DoraQuestion(25,
@@ -210,7 +258,9 @@ public class QuestionService {
                     "Is there an ICT business continuity policy?",
                     "DORA Art. 11(1)",
                     "DORA nõuab ICT ärijätkuvuse poliitikat, mis tagab kriitiliste funktsioonide toimimise häirete korral, sealhulgas taastamiskavad ja kriisijuhtimise protseduurid.",
+                    "DORA requires an ICT business continuity policy ensuring critical functions remain operational during disruptions, including recovery plans and crisis management procedures.",
                     "Koostage ICT ärijätkuvuse poliitika koos RTO/RPO eesmärkidega ja testige seda vähemalt kord aastas.",
+                    "Develop an ICT business continuity policy with RTO/RPO targets and test it at least annually.",
                     QuestionCategory.ICT_RISK_MANAGEMENT),
 
             new DoraQuestion(26,
@@ -218,16 +268,20 @@ public class QuestionService {
                     "Is there an ICT security policy and access control?",
                     "DORA Art. 9(1)",
                     "Finantsasutused peavad kehtestama ICT turvalisuse poliitika, mis hõlmab juurdepääsukontrolli, krüpteerimist, võrguturvalisust ja andmekaitset.",
+                    "Financial entities must establish an ICT security policy covering access control, encryption, network security, and data protection.",
                     "Rakendage vähimõiguse põhimõtet, mitmefaktorilist autentimist ja regulaarset juurdepääsuõiguste ülevaatust.",
+                    "Implement the principle of least privilege, multi-factor authentication, and regular access rights reviews.",
                     QuestionCategory.ICT_RISK_MANAGEMENT),
 
-            // Intsidentide haldus (DORA Art. 17-23)
+            // Incident Management (DORA Art. 17-23)
             new DoraQuestion(27,
                     "Kas on ICT intsidentide klassifitseerimise protsess?",
                     "Is there an ICT incident classification process?",
                     "DORA Art. 18(1)",
                     "DORA nõuab ICT intsidentide klassifitseerimist raskusastme järgi, kasutades kriteeriume nagu mõjutatud klientide arv, kestus, geograafiline ulatus ja andmekadu.",
+                    "DORA requires ICT incident classification by severity using criteria such as the number of affected clients, duration, geographic spread, and data loss.",
                     "Kehtestage intsidentide klassifitseerimise maatriks koos automaatse eskalatsiooni reeglitega.",
+                    "Establish an incident classification matrix with automatic escalation rules.",
                     QuestionCategory.INCIDENT_MANAGEMENT),
 
             new DoraQuestion(28,
@@ -235,7 +289,9 @@ public class QuestionService {
                     "Is there a major ICT incident notification process?",
                     "DORA Art. 19(1)",
                     "Finantsasutused peavad teavitama pädevat asutust olulistest ICT intsidentidest ettenähtud aja jooksul, esitades esialgse, vahe- ja lõpparuande.",
+                    "Financial entities must notify the competent authority of major ICT incidents within prescribed timeframes, submitting initial, intermediate, and final reports.",
                     "Automatiseerige intsidentide teavitamise protsess: esialgne teade 4h jooksul, vahearuanne 72h jooksul, lõpparuanne 1 kuu jooksul.",
+                    "Automate the incident notification process: initial report within 4h, intermediate report within 72h, final report within 1 month.",
                     QuestionCategory.INCIDENT_MANAGEMENT),
 
             new DoraQuestion(29,
@@ -243,7 +299,9 @@ public class QuestionService {
                     "Are lessons learned from incidents and improvements applied?",
                     "DORA Art. 13(1)",
                     "Pärast iga olulist ICT intsidenti tuleb läbi viia juurpõhjuse analüüs ja rakendada parandavad meetmed kordumise vältimiseks.",
+                    "After every major ICT incident, a root cause analysis must be conducted and corrective measures implemented to prevent recurrence.",
                     "Kehtestage post-mortem protsess, mis hõlmab juurpõhjuse analüüsi, parandavate meetmete plaani ja nende elluviimise jälgimist.",
+                    "Establish a post-mortem process covering root cause analysis, a corrective action plan, and tracking of implementation.",
                     QuestionCategory.INCIDENT_MANAGEMENT),
 
             new DoraQuestion(30,
@@ -251,16 +309,20 @@ public class QuestionService {
                     "Is there a cyber threat detection and response capability?",
                     "DORA Art. 10(1)",
                     "DORA nõuab mehhanisme ebatavaliste tegevuste tuvastamiseks ICT süsteemides, sealhulgas automaatset jälgimist, logide analüüsi ja anomaaliate tuvastamist.",
+                    "DORA requires mechanisms for detecting unusual activities in ICT systems, including automated monitoring, log analysis, and anomaly detection.",
                     "Rakendage SIEM-lahendus, 24/7 monitooring ja automatiseeritud häiresüsteem kriitiliste sündmuste jaoks.",
+                    "Implement a SIEM solution, 24/7 monitoring, and automated alerting for critical events.",
                     QuestionCategory.INCIDENT_MANAGEMENT),
 
-            // Testimine (DORA Art. 24-27)
+            // Testing (DORA Art. 24-27)
             new DoraQuestion(31,
                     "Kas viiakse läbi regulaarseid ICT turvalisuse teste?",
                     "Are regular ICT security tests conducted?",
                     "DORA Art. 24(1)",
                     "DORA nõuab ICT turvalisuse testimise programmi, mis hõlmab haavatavuste skaneerimist, avatud lähtekoodiga tarkvara analüüsi, võrguturvalisuse hindamist ja penetratsiooniteste.",
+                    "DORA requires an ICT security testing programme including vulnerability scanning, open-source software analysis, network security assessments, and penetration tests.",
                     "Koostage iga-aastane testimiskava: kvartaalsed haavatavuste skaneeringud, iga-aastased penetratsioonitestid ja pidev koodi turvaanalüüs.",
+                    "Create an annual testing plan: quarterly vulnerability scans, annual penetration tests, and continuous code security analysis.",
                     QuestionCategory.TESTING),
 
             new DoraQuestion(32,
@@ -268,7 +330,9 @@ public class QuestionService {
                     "Are TLPT (Threat-Led Penetration Tests) conducted for critical ICT systems?",
                     "DORA Art. 26(1)",
                     "Olulised finantsasutused peavad läbima ohupõhise penetratsioonitestimise (TLPT) vähemalt iga 3 aasta järel, kasutades TIBER-EU või samaväärseid raamistikke.",
+                    "Significant financial entities must undergo Threat-Led Penetration Testing (TLPT) at least every 3 years, using TIBER-EU or equivalent frameworks.",
                     "Planeerige TLPT testimine kooskõlas pädevate asutustega. Kaasake sõltumatud Red Team testimise teenusepakkujad.",
+                    "Plan TLPT testing in coordination with competent authorities. Engage independent Red Team testing providers.",
                     QuestionCategory.TESTING),
 
             new DoraQuestion(33,
@@ -276,7 +340,9 @@ public class QuestionService {
                     "Are test results documented and deficiencies remediated?",
                     "DORA Art. 24(5)",
                     "Kõigi ICT turvalisuse testide tulemused tuleb dokumenteerida, puudused klassifitseerida riskitaseme järgi ja koostada paranduskava koos tähtaegadega.",
+                    "All ICT security test results must be documented, deficiencies classified by risk level, and a remediation plan prepared with deadlines.",
                     "Rakendage leitud haavatavuste parandamise SLA: kriitilised 24h, kõrged 7 päeva, keskmised 30 päeva.",
+                    "Apply vulnerability remediation SLAs: critical 24h, high 7 days, medium 30 days.",
                     QuestionCategory.TESTING),
 
             new DoraQuestion(34,
@@ -284,16 +350,20 @@ public class QuestionService {
                     "Are ICT business continuity plans tested regularly?",
                     "DORA Art. 11(6)",
                     "ICT ärijätkuvuse ja taastamise plaane tuleb testida vähemalt kord aastas ning pärast olulisi muudatusi ICT süsteemides.",
+                    "ICT business continuity and recovery plans must be tested at least annually and after significant changes to ICT systems.",
                     "Viige läbi iga-aastased ärijätkuvuse harjutused, sh failover-testid, andmete taastamise testid ja kriisikommunikatsiooni harjutused.",
+                    "Conduct annual business continuity exercises, including failover tests, data recovery tests, and crisis communication drills.",
                     QuestionCategory.TESTING),
 
-            // Info jagamine (DORA Art. 45)
+            // Information Sharing (DORA Art. 45)
             new DoraQuestion(35,
                     "Kas finantsasutus osaleb küberohuteavet jagavas kogukonnas?",
                     "Does the financial entity participate in a cyber threat intelligence sharing community?",
                     "DORA Art. 45(1)",
                     "DORA julgustab finantsasutusi osalema küberohuteavet jagavates kogukondades, et vahetada teavet küberohtude, haavatavuste, kompromissinäitajate ja ründetehnikate kohta.",
+                    "DORA encourages financial entities to participate in cyber threat intelligence sharing communities to exchange information about cyber threats, vulnerabilities, indicators of compromise, and attack techniques.",
                     "Liituge valdkondliku ISAC-ga (Information Sharing and Analysis Center) või samaväärsete koostöövormidega.",
+                    "Join a sector-specific ISAC (Information Sharing and Analysis Center) or equivalent cooperative arrangements.",
                     QuestionCategory.INFORMATION_SHARING),
 
             new DoraQuestion(36,
@@ -301,7 +371,9 @@ public class QuestionService {
                     "Is there a process for receiving and using cyber threat intelligence?",
                     "DORA Art. 45(2)",
                     "Saadud küberohuteavet tuleb analüüsida, valideerida ja integreerida oma ICT riskihalduse protsessidesse, et parandada kaitsemeetmeid ja reageerimiskiirust.",
+                    "Received cyber threat intelligence must be analyzed, validated, and integrated into ICT risk management processes to improve defenses and response speed.",
                     "Kehtestage ohuteabe töötlemise protsess: vastuvõtt, valideerimine, rikastamine, levitamine ja rakendamine kaitsemeetmetesse.",
+                    "Establish a threat intelligence processing workflow: reception, validation, enrichment, dissemination, and application to defense measures.",
                     QuestionCategory.INFORMATION_SHARING),
 
             new DoraQuestion(37,
@@ -309,7 +381,9 @@ public class QuestionService {
                     "Is significant incident information shared with other financial entities?",
                     "DORA Art. 45(3)",
                     "Anonümiseeritud intsidendi teabe jagamine aitab kogu finantssektoril paremini valmistuda sarnasteks rünnakuteks ja tugevdada kollektiivset kaitset.",
+                    "Sharing anonymized incident information helps the entire financial sector better prepare for similar attacks and strengthen collective defense.",
                     "Osalege regulaarselt sektoripõhistel intsidendi jagamise kohtumistel ja panustage anonümiseeritud juhtumite andmebaasidesse.",
+                    "Participate regularly in sector-specific incident sharing meetings and contribute to anonymized case databases.",
                     QuestionCategory.INFORMATION_SHARING),
 
             new DoraQuestion(38,
@@ -317,7 +391,9 @@ public class QuestionService {
                     "Is the entity a member of a financial sector ISAC?",
                     "DORA Art. 45(1)",
                     "DORA Art. 45(1) nõuab, et finantsasutused osaleksid ametlikes teabevahetuse koostöövormides, nagu ISAC (Information Sharing and Analysis Center), et tugevdada sektoriülest küberkaitset.",
+                    "DORA Art. 45(1) requires financial entities to participate in formal information sharing arrangements such as ISACs (Information Sharing and Analysis Centers) to strengthen cross-sector cyber defense.",
                     "Liituge finantssektori ISAC-ga ja määrake vastutav isik, kes jälgib ja jagab ohuteabe uuendusi.",
+                    "Join a financial sector ISAC and appoint a responsible person to monitor and share threat intelligence updates.",
                     QuestionCategory.INFORMATION_SHARING),
 
             new DoraQuestion(39,
@@ -325,7 +401,9 @@ public class QuestionService {
                     "Is there a cooperation process with the NCA for sharing cyber threat intelligence?",
                     "DORA Art. 45(1)(b)",
                     "Finantsasutused peavad tegema koostööd riikliku pädeva asutusega (NCA), et jagada küberohuteavet, mis aitab ennetada ja tuvastada süsteemseid ohte finantssektorile.",
+                    "Financial entities must cooperate with the National Competent Authority (NCA) to share cyber threat intelligence that helps prevent and detect systemic threats to the financial sector.",
                     "Kehtestage ametlik koostööprotsess Finantsinspektsiooniga küberohuteavet jagamiseks, sh kontaktisikute ja teabevahetuskanalite määramine.",
+                    "Establish a formal cooperation process with the Financial Supervisory Authority for sharing cyber threat intelligence, including designated contacts and communication channels.",
                     QuestionCategory.INFORMATION_SHARING),
 
             new DoraQuestion(40,
@@ -333,7 +411,9 @@ public class QuestionService {
                     "Are information sharing protocols defined, including anonymization and classification?",
                     "DORA Art. 45(2)(a)",
                     "DORA Art. 45(2)(a) nõuab, et teabe jagamise protsessid oleksid struktureeritud, hõlmates andmete anonümiseerimist, klassifitseerimist ja kaitsemeetmeid, et vältida tundliku teabe lekkimist.",
+                    "DORA Art. 45(2)(a) requires information sharing processes to be structured, including data anonymization, classification, and safeguards to prevent sensitive information leakage.",
                     "Määratlege teabe jagamise protokollid, mis hõlmavad andmete klassifitseerimist (TLP), anonümiseerimise reegleid ja vastuvõtjate volitamist.",
+                    "Define information sharing protocols covering data classification (TLP), anonymization rules, and recipient authorization.",
                     QuestionCategory.INFORMATION_SHARING),
 
             new DoraQuestion(41,
@@ -341,7 +421,9 @@ public class QuestionService {
                     "Does the entity share cyber threat intelligence cross-border with other EU financial entities?",
                     "DORA Art. 45(3)(b)",
                     "DORA Art. 45(3)(b) julgustab piiriülest küberohuteavet jagamist EL finantsasutuste vahel, et tugevdada kogu liidu finantsstabiilsust ja kollektiivset kaitset.",
+                    "DORA Art. 45(3)(b) encourages cross-border cyber threat intelligence sharing between EU financial entities to strengthen EU-wide financial stability and collective defense.",
                     "Looge piiriülesed teabevahetuse kanalid teiste EL finantsasutustega, kasutades standardiseeritud formaate (STIX/TAXII) ja osaledes EL-ülestes koostöövormides.",
+                    "Establish cross-border information sharing channels with other EU financial entities using standardized formats (STIX/TAXII) and participate in EU-wide cooperative arrangements.",
                     QuestionCategory.INFORMATION_SHARING)
     );
 

@@ -65,11 +65,14 @@ public class AssessmentService {
             questionResults.add(new QuestionResult(
                     q.id(),
                     q.questionEt(),
+                    q.questionEn(),
                     status,
                     compliant,
                     q.articleReference(),
                     q.explanation(),
+                    q.explanationEn(),
                     q.recommendation(),
+                    q.recommendationEn(),
                     q.category().name()
             ));
         }
@@ -172,11 +175,14 @@ public class AssessmentService {
             questionResults.add(new QuestionResult(
                     q.id(),
                     q.questionEt(),
+                    q.questionEn(),
                     status,
                     compliant,
                     q.articleReference(),
                     q.explanation(),
+                    q.explanationEn(),
                     q.recommendation(),
+                    q.recommendationEn(),
                     q.category().name()
             ));
         }

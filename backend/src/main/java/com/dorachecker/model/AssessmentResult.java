@@ -31,11 +31,14 @@ public record AssessmentResult(
     public record QuestionResult(
             int questionId,
             String question,
+            String questionEn,
             String complianceStatus,
             boolean compliant,
             String articleReference,
             String explanation,
+            String explanationEn,
             String recommendation,
+            String recommendationEn,
             String category
     ) {}
 }
