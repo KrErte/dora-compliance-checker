@@ -47,19 +47,19 @@ export class CookieConsentComponent implements OnInit {
   }
 
   acceptCookies(): void {
+    this.showBanner = false;
     if (this.isBrowser) {
       localStorage.setItem('cookieConsent', 'accepted');
       this.trackingService.enableAnalytics();
     }
-    this.showBanner = false;
   }
 
   declineCookies(): void {
+    this.showBanner = false;
     if (this.isBrowser) {
       localStorage.setItem('cookieConsent', 'declined');
       this.trackingService.disableAnalytics();
     }
-    this.showBanner = false;
   }
 
   /** Called from footer "Cookie settings" link */

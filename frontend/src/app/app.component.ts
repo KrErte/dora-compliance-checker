@@ -92,7 +92,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
               </a>
             }
           } @else {
-            <!-- App nav: logged-in experience -->
+            <!-- App nav: logged-in experience (same core items as marketing for consistency) -->
             @if (auth.isLoggedIn()) {
               <a routerLink="/dashboard" routerLinkActive="nav-link-active"
                  class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
@@ -103,13 +103,13 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
               {{ lang.t('nav.assessment') }}
             </a>
-            <a routerLink="/workspace" routerLinkActive="nav-link-active"
-               class="text-sm text-slate-400 hover:text-violet-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
-              {{ lang.t('nav.contracts_short') }}
-            </a>
             <a routerLink="/tools" routerLinkActive="nav-link-active"
                class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
               {{ lang.l('Tööriistad', 'Tools') }}
+            </a>
+            <a routerLink="/pricing" routerLinkActive="nav-link-active"
+               class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+              {{ lang.t('nav.pricing') }}
             </a>
           }
           <!-- More dropdown (app pages only) -->
@@ -124,6 +124,21 @@ import { GuidedTourComponent } from './components/guided-tour.component';
               </svg>
             </button>
             <div *ngIf="moreMenu" class="absolute left-0 top-full mt-1 w-64 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50 max-h-[calc(100vh-5rem)] overflow-y-auto">
+              <a routerLink="/workspace" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
+                </svg>
+                {{ lang.t('nav.contracts_short') }}
+              </a>
+              <a routerLink="/blog" (click)="closeAllMenus()"
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
+                <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                </svg>
+                {{ lang.t('nav.blog') }}
+              </a>
+              <div class="h-px bg-slate-700/50 my-1 mx-3"></div>
               <a routerLink="/chat" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-emerald-300 hover:bg-emerald-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20 mb-1">
                 <div class="w-5 h-5 rounded bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-[8px] font-bold shrink-0">AI</div>
@@ -598,7 +613,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
             <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">{{ lang.t('footer.contact') }}</h4>
             <div class="flex flex-col gap-2 text-xs text-slate-500">
               <a href="mailto:info@doraaudit.eu" class="hover:text-emerald-400 transition-colors">info&#64;doraaudit.eu</a>
-              <p>Doraaudit</p>
+              <p>DoraAudit.eu</p>
               <p>{{ lang.t('footer.location') }}</p>
               <a href="https://www.linkedin.com/in/kristo-erte-52b73918a/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 hover:text-blue-400 transition-colors mt-1">
                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
@@ -612,7 +627,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
 
         <!-- Bottom bar -->
         <div class="border-t border-slate-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p class="text-xs text-slate-600">&copy; 2026 Doraaudit. {{ lang.t('footer.rights') }}</p>
+          <p class="text-xs text-slate-600">&copy; 2026 DoraAudit.eu. {{ lang.t('footer.rights') }}</p>
           <div class="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-center">
             <p class="text-[10px] text-slate-700">{{ lang.t('footer.regulation') }}</p>
             <p class="text-[10px] text-slate-700">{{ lang.t('footer.disclaimer') }}</p>
