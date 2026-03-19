@@ -41,6 +41,12 @@ testem.log
 process-i18n*.mjs
 batch*-keys.txt
 
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/e2e/.auth/
+
 # System files
 .DS_Store
 Thumbs.db
