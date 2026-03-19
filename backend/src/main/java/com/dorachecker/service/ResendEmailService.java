@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -21,14 +22,17 @@ public class ResendEmailService {
     private final String fromEmail;
     private final String toEmail;
     private final boolean enabled;
+    private final EmailTemplateService templateService;
 
     public ResendEmailService(
             @Value("${resend.api-key:}") String apiKey,
             @Value("${resend.from-email}") String fromEmail,
-            @Value("${resend.to-email}") String toEmail) {
+            @Value("${resend.to-email}") String toEmail,
+            EmailTemplateService templateService) {
         this.fromEmail = fromEmail;
         this.toEmail = toEmail;
         this.enabled = apiKey != null && !apiKey.isBlank();
+        this.templateService = templateService;
 
         this.webClient = WebClient.builder()
                 .baseUrl(RESEND_API_URL)
@@ -90,6 +94,39 @@ public class ResendEmailService {
                         response -> log.info("Email sent successfully to: {}", recipientEmail),
                         error -> log.error("Failed to send email to {}: {}", recipientEmail, error.getMessage())
                 );
+    }
+
+    public void sendPasswordResetEmail(String recipientEmail, String resetUrl) {
+        String html = templateService.renderPasswordReset(resetUrl);
+        sendEmail(recipientEmail, "Reset Your Password - DoraAudit", html);
+    }
+
+    public void sendTeamInvitationEmail(String recipientEmail, String inviterName, String organizationName, String acceptUrl) {
+        String html = templateService.renderTeamInvitation(inviterName, organizationName, acceptUrl);
+        sendEmail(recipientEmail, "You're Invited to " + organizationName + " - DoraAudit", html);
+    }
+
+    public void sendTaskAssignmentEmail(String recipientEmail, String taskTitle, String systemName) {
+        String html = templateService.renderTaskAssignment(taskTitle, systemName, getFrontendUrl() + "/dashboard");
+        sendEmail(recipientEmail, "New Task: " + taskTitle + " - DoraAudit", html);
+    }
+
+    public void sendDeadlineAlertEmail(String recipientEmail, String obligationTitle, String systemName, String dueDate, int daysLeft) {
+        String html = templateService.renderDeadlineAlert(obligationTitle, systemName, dueDate, daysLeft, getFrontendUrl() + "/dashboard");
+        String prefix = daysLeft <= 0 ? "OVERDUE: " : "Deadline Alert: ";
+        sendEmail(recipientEmail, prefix + obligationTitle + " - DoraAudit", html);
+    }
+
+    public void sendWeeklyDigestEmail(String recipientEmail, String userName, int totalAssessments,
+                                       int complianceScore, int completedThisWeek, int overdueCount,
+                                       List<String> upcomingDeadlines) {
+        String html = templateService.renderWeeklyDigest(userName, totalAssessments, complianceScore,
+                completedThisWeek, overdueCount, upcomingDeadlines, getFrontendUrl() + "/dashboard");
+        sendEmail(recipientEmail, "Weekly Compliance Digest - DoraAudit", html);
+    }
+
+    private String getFrontendUrl() {
+        return "https://doraaudit.eu";
     }
 
     private String buildEmailHtml(ContactMessage msg) {

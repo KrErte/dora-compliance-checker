@@ -13,15 +13,27 @@ describe('LangService', () => {
   afterEach(() => localStorage.clear());
 
   it('should have a default language', () => {
-    expect(['et', 'en']).toContain(service.currentLang);
+    expect(['et', 'en', 'fi', 'lv', 'lt', 'pl']).toContain(service.currentLang);
   });
 
-  it('toggle cycles through both languages', () => {
+  it('toggle cycles through all languages', () => {
     service.setLang('en');
     expect(service.currentLang).toBe('en');
 
     service.toggle();
     expect(service.currentLang).toBe('et');
+
+    service.toggle();
+    expect(service.currentLang).toBe('fi');
+
+    service.toggle();
+    expect(service.currentLang).toBe('lv');
+
+    service.toggle();
+    expect(service.currentLang).toBe('lt');
+
+    service.toggle();
+    expect(service.currentLang).toBe('pl');
 
     service.toggle();
     expect(service.currentLang).toBe('en');
@@ -50,6 +62,18 @@ describe('LangService', () => {
     service.toggle();
     const stored = localStorage.getItem('user-lang-choice');
     expect(stored).toBeTruthy();
-    expect(['et', 'en']).toContain(stored!);
+    expect(['et', 'en', 'fi', 'lv', 'lt', 'pl']).toContain(stored!);
+  });
+
+  it('setLang works for all supported languages', () => {
+    for (const lang of ['en', 'et', 'fi', 'lv', 'lt', 'pl'] as const) {
+      service.setLang(lang);
+      expect(service.currentLang).toBe(lang);
+    }
+  });
+
+  it('availableLanguages contains all 6 languages', () => {
+    const codes = service.availableLanguages.map(l => l.code);
+    expect(codes).toEqual(['en', 'et', 'fi', 'lv', 'lt', 'pl']);
   });
 });
