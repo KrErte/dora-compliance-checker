@@ -3,7 +3,8 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci --legacy-peer-deps
 COPY . .
-RUN npx ng build --configuration=production
+RUN npx ng build --configuration=production; \
+    test -d dist/frontend/browser && echo "Build output OK" || exit 1
 
 FROM nginx:alpine
 COPY --from=build /app/dist/frontend/browser /usr/share/nginx/html
