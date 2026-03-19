@@ -97,6 +97,7 @@ services:
       - GOOGLE_SEARCH_ENGINE_ID=${GOOGLE_SEARCH_ENGINE_ID:-}
       - RESEND_API_KEY=${RESEND_API_KEY}
       - RESEND_TO_EMAIL=${RESEND_TO_EMAIL:-info@doraaudit.eu}
+      - APP_SEED_ENABLED=true
     depends_on:
       postgres:
         condition: service_healthy
