@@ -762,6 +762,49 @@ const coreRoutes: Routes = [
     canActivate: [authGuard],
     data: { seoTitle: 'Live Regulatory Translator', seoDescription: 'AI translates regulatory updates into personalized action items based on your specific compliance data, evidence, and providers.' }
   },
+  // ==================== AI Act Compliance ====================
+  {
+    path: 'ai-systems',
+    loadComponent: () => import('./pages/ai-system-list.component').then(m => m.AiSystemListComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'AI Systems', seoDescription: 'Manage your AI systems and track EU AI Act compliance status.' }
+  },
+  {
+    path: 'ai-systems/new',
+    loadComponent: () => import('./pages/ai-system-wizard.component').then(m => m.AiSystemWizardComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'Register AI System' }
+  },
+  {
+    path: 'ai-systems/:id',
+    loadComponent: () => import('./pages/ai-system-detail.component').then(m => m.AiSystemDetailComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'AI System Details' }
+  },
+  {
+    path: 'ai-systems/:id/classify',
+    loadComponent: () => import('./pages/ai-act-classifier.component').then(m => m.AiActClassifierComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'AI Act Risk Classification' }
+  },
+  {
+    path: 'ai-systems/:id/documents',
+    loadComponent: () => import('./pages/ai-act-documents.component').then(m => m.AiActDocumentsComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'AI Act Compliance Documents' }
+  },
+  {
+    path: 'ai-act-classifier',
+    loadComponent: () => import('./pages/public-ai-act-classifier.component').then(m => m.PublicAiActClassifierComponent),
+    // No authGuard - free public tool
+    data: { seoTitle: 'EU AI Act Risk Classifier', seoDescription: 'Free EU AI Act risk classification tool. Determine if your AI system is prohibited, high-risk, limited-risk, or minimal-risk.' }
+  },
+  {
+    path: 'gpai-models',
+    loadComponent: () => import('./pages/gpai-list.component').then(m => m.GpaiListComponent),
+    canActivate: [authGuard],
+    data: { seoTitle: 'GPAI Models', seoDescription: 'Manage General Purpose AI models and track Article 53/55 compliance obligations.' }
+  },
   {
     path: 'admin/users',
     loadComponent: () => import('./pages/admin-users.component').then(m => m.AdminUsersComponent),

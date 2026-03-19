@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { LangService } from '../lang.service';
 import { ApiService } from '../api.service';
 import { SubscriptionService } from '../services/subscription.service';
+import { AuthService } from '../auth/auth.service';
 import { ChecklistService } from '../services/checklist.service';
 import { GettingStartedChecklistComponent } from '../components/getting-started-checklist.component';
 import { AutopilotInsight, AutopilotCounts } from '../models';
@@ -227,6 +228,53 @@ interface ChartPoint {
                 }
               </div>
             }
+          </div>
+        </div>
+      }
+
+      <!-- AI Act Systems Widget -->
+      @if (auth.isLoggedIn() && aiSystemStats()) {
+        <div class="mb-6 animate-fade-in-up">
+          <div class="bg-slate-800/50 backdrop-blur border border-blue-500/20 rounded-xl p-5">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/20 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-sm font-semibold text-white">{{ lang.t('dashboard.ai_systems') }}</h3>
+                  <p class="text-[11px] text-slate-500">{{ aiSystemStats()!.total }} {{ lang.t('dashboard.ai_systems_total') }}</p>
+                </div>
+              </div>
+              <a routerLink="/ai-systems" class="text-xs text-blue-400 hover:text-blue-300 font-medium flex items-center gap-1 transition-colors">
+                {{ lang.t('dashboard.manage_ai_systems') }}
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-700/30">
+                <p class="text-[10px] text-red-400 uppercase tracking-wider font-semibold">{{ lang.t('dashboard.risk_unacceptable') }}</p>
+                <p class="text-lg font-bold text-red-400">{{ aiSystemStats()!.unacceptable || 0 }}</p>
+              </div>
+              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-700/30">
+                <p class="text-[10px] text-orange-400 uppercase tracking-wider font-semibold">{{ lang.t('dashboard.risk_high') }}</p>
+                <p class="text-lg font-bold text-orange-400">{{ aiSystemStats()!.high || 0 }}</p>
+              </div>
+              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-700/30">
+                <p class="text-[10px] text-amber-400 uppercase tracking-wider font-semibold">{{ lang.t('dashboard.risk_limited') }}</p>
+                <p class="text-lg font-bold text-amber-400">{{ aiSystemStats()!.limited || 0 }}</p>
+              </div>
+              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-700/30">
+                <p class="text-[10px] text-emerald-400 uppercase tracking-wider font-semibold">{{ lang.t('dashboard.risk_minimal') }}</p>
+                <p class="text-lg font-bold text-emerald-400">{{ aiSystemStats()!.minimal || 0 }}</p>
+              </div>
+              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-700/30">
+                <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">{{ lang.t('dashboard.risk_not_classified') }}</p>
+                <p class="text-lg font-bold text-slate-300">{{ aiSystemStats()!.notClassified || 0 }}</p>
+              </div>
+            </div>
           </div>
         </div>
       }
@@ -786,8 +834,10 @@ export class DashboardComponent implements OnInit {
   private api = inject(ApiService);
   subService = inject(SubscriptionService);
   checklist = inject(ChecklistService);
+  auth = inject(AuthService);
 
   private http = inject(HttpClient);
+  aiSystemStats = signal<any>(null);
   autopilotCounts = signal<AutopilotCounts | null>(null);
   autopilotTop = signal<AutopilotInsight[]>([]);
   proportionalityScope = signal<any>(null);
@@ -837,6 +887,14 @@ export class DashboardComponent implements OnInit {
     this.loadAuditReadiness();
     this.loadAchievements();
     this.loadProportionalityScope();
+
+    // Load AI system stats
+    if (this.auth.isLoggedIn()) {
+      this.api.getAiSystemStats().subscribe({
+        next: (data: any) => this.aiSystemStats.set(data),
+        error: () => {} // silently fail if user has no AI systems
+      });
+    }
   }
 
   private loadProportionalityScope() {

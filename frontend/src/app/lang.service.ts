@@ -1908,6 +1908,9 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'nav.contracts_short': { et: 'Lepingud', en: 'Contracts' },
   'nav.supply_short': { et: 'Tarneahel', en: 'Supply Chain' },
   'nav.my_account': { et: 'Minu konto', en: 'My Account' },
+  'nav.ai_systems': { et: 'AI süsteemid', en: 'AI Systems' },
+  'nav.ai_act_classifier': { et: 'AI Act klassifikaator', en: 'AI Act Classifier' },
+  'nav.gpai_models': { et: 'GPAI mudelid', en: 'GPAI Models' },
 
   // Workspace
   'nav.workspace': { et: 'Lepingu töölaud', en: 'Contract Workspace' },
@@ -2049,6 +2052,22 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'dashboard.badge_green': { et: 'Vastav', en: 'Compliant' },
   'dashboard.badge_yellow': { et: 'Osaliselt', en: 'Partially' },
   'dashboard.badge_red': { et: 'Mittevastav', en: 'Non-compliant' },
+
+  // Dashboard - AI Act
+  'dashboard.ai_systems': { et: 'AI süsteemid', en: 'AI Systems' },
+  'dashboard.ai_systems_total': { et: 'AI süsteemi kokku', en: 'AI systems total' },
+  'dashboard.risk_distribution': { et: 'Riskijaotus', en: 'Risk Distribution' },
+  'dashboard.risk_high': { et: 'Kõrge risk', en: 'High Risk' },
+  'dashboard.risk_limited': { et: 'Piiratud risk', en: 'Limited Risk' },
+  'dashboard.risk_minimal': { et: 'Minimaalne risk', en: 'Minimal Risk' },
+  'dashboard.risk_unacceptable': { et: 'Vastuvõetamatu', en: 'Unacceptable' },
+  'dashboard.risk_not_classified': { et: 'Klassifitseerimata', en: 'Not Classified' },
+  'dashboard.ai_obligations': { et: 'AI Act kohustused', en: 'AI Act Obligations' },
+  'dashboard.obligations_completed': { et: 'täidetud', en: 'completed' },
+  'dashboard.view_ai_systems': { et: 'Vaata AI süsteeme', en: 'View AI Systems' },
+  'dashboard.manage_ai_systems': { et: 'Halda AI süsteeme', en: 'Manage AI Systems' },
+  'dashboard.classify_system': { et: 'Klassifitseeri', en: 'Classify' },
+  'dashboard.try_classifier': { et: 'Proovi klassifikaatorit', en: 'Try Classifier' },
 
   // Onboarding Wizard
   'onboarding.title': { et: 'Tere tulemast DoraAudit\u2019i!', en: 'Welcome to DoraAudit!' },

@@ -855,6 +855,87 @@ export class ApiService {
   dismissTranslation(id: string): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/regulatory-translator/${id}/dismiss`, {});
   }
+
+  // ==================== AI Act ====================
+
+  // AI Systems
+  getAiSystems(params: any = {}): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/ai-systems`, { params });
+  }
+  getAiSystem(id: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/ai-systems/${id}`);
+  }
+  createAiSystem(data: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/ai-systems`, data);
+  }
+  updateAiSystem(id: string, data: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/ai-systems/${id}`, data);
+  }
+  deleteAiSystem(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/ai-systems/${id}`);
+  }
+  getAiSystemStats(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/ai-systems/stats`);
+  }
+
+  // AI Act Classification
+  getClassificationQuestions(aiSystemId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/ai-systems/${aiSystemId}/classification/questions`);
+  }
+  runClassification(aiSystemId: string, answers: Record<string, string>): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/ai-systems/${aiSystemId}/classification/run`, { answers });
+  }
+  getPublicClassificationQuestions(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/public/ai-act/classify/questions`);
+  }
+  runPublicClassification(answers: Record<string, string>): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/public/ai-act/classify`, { answers });
+  }
+
+  // AI Act Obligations
+  getAiActObligations(aiSystemId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/ai-systems/${aiSystemId}/obligations`);
+  }
+  updateAiActObligation(aiSystemId: string, obligationId: string, data: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/ai-systems/${aiSystemId}/obligations/${obligationId}`, data);
+  }
+
+  // GPAI Models
+  getGpaiModels(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/gpai-models`);
+  }
+  createGpaiModel(data: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/gpai-models`, data);
+  }
+  deleteGpaiModel(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/gpai-models/${id}`);
+  }
+  getGpaiObligations(modelId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/gpai-models/${modelId}/obligations`);
+  }
+  updateGpaiObligation(modelId: string, obligationId: string, status: string): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/gpai-models/${modelId}/obligations/${obligationId}`, { status });
+  }
+
+  // AI Act Documents
+  getAiActDocuments(aiSystemId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/ai-systems/${aiSystemId}/documents`);
+  }
+  getAiActDocument(aiSystemId: string, documentId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/ai-systems/${aiSystemId}/documents/${documentId}`);
+  }
+  generateAiActDocument(aiSystemId: string, documentType: string, additionalContext?: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/ai-systems/${aiSystemId}/documents/generate`, { documentType, additionalContext });
+  }
+  updateAiActDocument(aiSystemId: string, documentId: string, data: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/ai-systems/${aiSystemId}/documents/${documentId}`, data);
+  }
+  deleteAiActDocument(aiSystemId: string, documentId: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/ai-systems/${aiSystemId}/documents/${documentId}`);
+  }
+  exportAiActDocumentPdf(aiSystemId: string, documentId: string): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/ai-systems/${aiSystemId}/documents/${documentId}/export/pdf`, { responseType: 'blob' });
+  }
 }
 
 export interface SearchResult {
