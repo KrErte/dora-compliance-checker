@@ -644,7 +644,7 @@ interface HeatmapCell {
                   <div class="h-1.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-400 animate-progress-fill delay-300" [style.width.%]="roadmapPhase2Progress"></div>
                 </div>
                 <div class="space-y-1.5">
-                  <div *ngFor="let item of roadmapPhase2; let i = index"
+                  <div *ngFor="let item of (roadmapPhase2Expanded ? roadmapPhase2 : roadmapPhase2.slice(0, 4)); let i = index"
                        class="flex items-center gap-2 text-sm animate-slide-in-right cursor-pointer group"
                        [style.animation-delay]="(i * 60 + 1000) + 'ms'"
                        (click)="toggleRoadmapItem(item.questionId)">
@@ -656,6 +656,14 @@ interface HeatmapCell {
                           [class.text-slate-500]="isRoadmapItemCompleted(item.questionId)">{{ item.question }}</span>
                     <span class="text-xs text-slate-600 shrink-0">{{ item.articleReference }}</span>
                   </div>
+                  <button *ngIf="roadmapPhase2.length > 4"
+                          (click)="roadmapPhase2Expanded = !roadmapPhase2Expanded"
+                          class="mt-2 text-xs text-amber-400/70 hover:text-amber-400 transition-colors flex items-center gap-1">
+                    <svg class="w-3 h-3 transition-transform" [class.rotate-180]="roadmapPhase2Expanded" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                    {{ roadmapPhase2Expanded ? lang.l('Näita vähem', 'Show less') : lang.l('Näita veel ' + (roadmapPhase2.length - 4) + ' ülesannet', 'Show ' + (roadmapPhase2.length - 4) + ' more tasks') }}
+                  </button>
                 </div>
               </div>
             </div>
@@ -901,6 +909,7 @@ export class ResultsComponent implements OnInit {
   nonCompliantItems: { questionId: number; question: string; articleReference: string; category: string; explanation: string; recommendation: string }[] = [];
   roadmapPhase1: { questionId: number; question: string; articleReference: string }[] = [];
   roadmapPhase2: { questionId: number; question: string; articleReference: string }[] = [];
+  roadmapPhase2Expanded = false;
   roadmapPhase1Progress = 0;
   roadmapPhase2Progress = 0;
   roadmapPhase3Progress = 0;
