@@ -49,9 +49,9 @@ interface DoraRequirement {
         <!-- CTA buttons -->
         <div class="flex flex-col items-center gap-4">
           <a routerLink="/contract-analysis"
-             class="group inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
+             class="group inline-flex items-center gap-3 bg-white hover:bg-slate-100
                     text-slate-900 font-bold px-10 py-4 rounded-xl text-lg w-full sm:w-auto justify-center
-                    hover:shadow-lg hover:shadow-emerald-500/20 transition-all duration-300">
+                    hover:shadow-lg hover:shadow-white/20 transition-all duration-300">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
@@ -72,7 +72,7 @@ interface DoraRequirement {
     <!-- Quick links below hero -->
     <div class="flex flex-wrap justify-center items-center gap-4 sm:gap-6 py-6 border-b border-slate-800/50">
       <a routerLink="/nis2/scope-check"
-         class="text-sm text-slate-500 hover:text-amber-400 transition-colors inline-flex items-center gap-1.5">
+         class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-amber-500/40 text-sm text-amber-400 hover:bg-amber-500/10 hover:border-amber-400 transition-all">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
         </svg>
@@ -101,162 +101,7 @@ interface DoraRequirement {
       </a>
     </div>
 
-    <!-- How It Works -->
-    <div class="py-14 relative">
-      <div class="relative z-10">
-        <div class="text-center mb-10">
-          <h2 class="text-2xl md:text-3xl font-bold text-slate-100">{{ lang.t('landing.steps_title') }}</h2>
-        </div>
-
-        <div class="max-w-4xl mx-auto px-4">
-          <div class="how-it-works-grid">
-            <ng-container *ngFor="let step of steps; let i = index; let last = last">
-              <!-- Step card -->
-              <div class="how-it-works-card group" [style.animation-delay]="i * 150 + 'ms'">
-                <!-- Step number badge -->
-                <span class="hiw-badge">{{ i + 1 }}</span>
-
-                <!-- Icon -->
-                <div class="hiw-icon-wrap">
-                  <svg class="w-10 h-10 text-[#00d4aa]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" [attr.d]="step.icon"/>
-                  </svg>
-                </div>
-
-                <!-- Text -->
-                <h3 class="font-bold text-base text-slate-100 mb-1">{{ lang.t(step.titleKey) }}</h3>
-                <p class="text-sm text-slate-400 leading-snug line-clamp-2">{{ lang.t(step.descKey) }}</p>
-              </div>
-
-              <!-- Arrow between cards (desktop only) -->
-              <div *ngIf="!last" class="hiw-arrow hidden md:flex items-center justify-center">
-                <svg class="w-6 h-6 text-[#00d4aa]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                </svg>
-              </div>
-            </ng-container>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Social Proof Bar -->
-    <div class="py-8 px-4 bg-gradient-to-b from-slate-800/60 to-slate-900/60 border-y border-slate-700/30">
-      <div class="max-w-4xl mx-auto space-y-8">
-        <!-- Row 1: Real usage stats from DB -->
-        <div class="grid grid-cols-3 gap-6 md:gap-8">
-          <!-- DORA sub-requirements -->
-          <div class="text-center">
-            <div class="flex items-center justify-center gap-2 mb-1">
-              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-              </svg>
-              <span class="text-3xl font-extrabold text-emerald-400">45+</span>
-            </div>
-            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.l('DORA alamn\u00f5uet kontrollitud', 'DORA Sub-Requirements Checked') }}</div>
-          </div>
-          <!-- Contracts analyzed -->
-          <div *ngIf="publicStats" class="text-center">
-            <div class="flex items-center justify-center gap-2 mb-1">
-              <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-              </svg>
-              <span class="text-3xl font-extrabold text-cyan-400">{{ publicStats.contractAnalysisCount }}+</span>
-            </div>
-            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_contracts') }}</div>
-          </div>
-          <!-- DORA tools -->
-          <div class="text-center">
-            <div class="flex items-center justify-center gap-2 mb-1">
-              <svg class="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-              </svg>
-              <span class="text-3xl font-extrabold text-teal-400">15+</span>
-            </div>
-            <div class="text-xs text-slate-400 uppercase tracking-wider">{{ lang.t('landing.social_tools') }}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Interactive DORA Requirements Table -->
-    <div class="py-16 max-w-4xl mx-auto px-4">
-      <div class="text-center mb-10">
-        <p class="text-xs font-medium text-teal-400 uppercase tracking-wider mb-2">{{ lang.t('landing.interactive_label') }}</p>
-        <h2 class="text-2xl font-bold text-slate-100">{{ lang.t('landing.interactive_title') }}</h2>
-        <p class="text-slate-500 text-sm mt-2">{{ lang.t('landing.interactive_desc') }}</p>
-      </div>
-
-      <div class="requirements-table rounded-xl overflow-x-auto border border-slate-700/50">
-        <table class="w-full min-w-[480px]">
-          <caption class="sr-only">{{ lang.t('landing.table_caption') }}</caption>
-          <thead class="bg-slate-800/80">
-            <tr>
-              <th class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider w-12">{{ lang.t('landing.table_check') }}</th>
-              <th class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">{{ lang.t('landing.table_requirement') }}</th>
-              <th class="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider w-20">{{ lang.t('landing.table_status') }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <ng-container *ngFor="let req of requirements; let i = index">
-              <tr class="requirement-row border-t border-slate-700/50 cursor-pointer hover:bg-slate-800/50 transition-colors"
-                  (click)="toggleRequirement(req)" [class.expanded]="req.expanded">
-                <td class="px-4 py-4">
-                  <input type="checkbox" [(ngModel)]="req.checked" (click)="$event.stopPropagation()"
-                         [id]="'req-checkbox-' + req.id"
-                         [attr.aria-label]="(req.nameKey ? lang.t(req.nameKey) : req.name) + ' - ' + (req.checked ? lang.t('landing.table_ok') : lang.t('landing.table_missing'))"
-                         class="w-5 h-5 rounded border-slate-600 bg-slate-700 text-teal-500 focus:ring-teal-500 cursor-pointer">
-                  <label [for]="'req-checkbox-' + req.id" class="sr-only">{{ req.nameKey ? lang.t(req.nameKey) : req.name }}</label>
-                </td>
-                <td class="px-4 py-4">
-                  <div class="flex items-center gap-2">
-                    <span class="text-slate-500 transition-transform duration-200" [class.rotate-90]="req.expanded">▸</span>
-                    <span class="text-slate-200 font-medium">
-                      {{ req.nameKey ? lang.t(req.nameKey) : req.name }}
-                    </span>
-                  </div>
-                </td>
-                <td class="px-4 py-4 text-right">
-                  <span *ngIf="req.checked" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
-                    {{ lang.t('landing.table_ok') }}
-                  </span>
-                  <span *ngIf="!req.checked" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-red-500/20 text-red-400">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                    {{ lang.t('landing.table_missing') }}
-                  </span>
-                </td>
-              </tr>
-              <tr *ngIf="req.expanded" class="bg-slate-800/30 animate-slide-down">
-                <td colspan="3" class="px-4 py-4">
-                  <div class="text-sm text-slate-400 pl-9">
-                    <p class="mb-3 leading-relaxed">{{ req.descKey ? lang.t(req.descKey) : req.description }}</p>
-                    <a routerLink="/contract-analysis" class="inline-flex items-center gap-1 text-teal-400 hover:text-teal-300 text-xs font-medium">
-                      {{ lang.t('landing.table_check_contract') }}
-                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                      </svg>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-            </ng-container>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="mt-4 text-center">
-        <p class="text-slate-500 text-sm">
-          {{ lang.t('landing.table_checked') }}: <span class="text-teal-400 font-medium">{{ checkedCount }}</span> / {{ requirements.length }}
-        </p>
-      </div>
-    </div>
-
-    <!-- DoraBot AI Assistant Showcase -->
+    <!-- DoraBot AI Assistant Showcase - moved up right below hero -->
     <div class="py-16 relative">
       <div class="absolute inset-0 overflow-hidden">
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-cyan-500/5 rounded-full blur-3xl"></div>
@@ -340,6 +185,173 @@ interface DoraRequirement {
             <div class="absolute -inset-4 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 rounded-3xl blur-2xl -z-10"></div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="py-14 relative">
+      <div class="relative z-10">
+        <div class="text-center mb-10">
+          <h2 class="text-2xl md:text-3xl font-bold text-slate-100">{{ lang.t('landing.steps_title') }}</h2>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4">
+          <div class="how-it-works-grid">
+            <ng-container *ngFor="let step of steps; let i = index; let last = last">
+              <!-- Step card -->
+              <div class="how-it-works-card group" [style.animation-delay]="i * 150 + 'ms'">
+                <!-- Step number badge -->
+                <span class="hiw-badge">{{ i + 1 }}</span>
+
+                <!-- Icon -->
+                <div class="hiw-icon-wrap">
+                  <svg class="w-10 h-10 text-[#00d4aa]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" [attr.d]="step.icon"/>
+                  </svg>
+                </div>
+
+                <!-- Text -->
+                <h3 class="font-bold text-base text-slate-100 mb-1">{{ lang.t(step.titleKey) }}</h3>
+                <p class="text-sm text-slate-400 leading-snug line-clamp-2">{{ lang.t(step.descKey) }}</p>
+              </div>
+
+              <!-- Arrow between cards (desktop only) -->
+              <div *ngIf="!last" class="hiw-arrow hidden md:flex items-center justify-center">
+                <svg class="w-6 h-6 text-[#00d4aa]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                </svg>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social Proof — Testimonials -->
+    <div class="py-10 px-4 bg-gradient-to-b from-slate-800/60 to-slate-900/60 border-y border-slate-700/30">
+      <div class="max-w-4xl mx-auto">
+        <p class="text-center text-xs font-medium text-slate-500 uppercase tracking-wider mb-6">{{ lang.l('Mida meie kliendid ütlevad', 'What our clients say') }}</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Testimonial 1 -->
+          <div class="glass-card p-5 rounded-xl border border-slate-700/50">
+            <div class="flex gap-1 mb-3">
+              <svg *ngFor="let s of [1,2,3,4,5]" class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed mb-4">{{ lang.l('"Leidis meie lepingust 3 kriitilist DORA puudust, mida meie juristid olid vahele jätnud. Ajas mitu tundi kokku säästnud."', '"Found 3 critical DORA gaps in our contract that our lawyers had missed. Saved us hours of manual review."') }}</p>
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 text-xs font-bold">M.K.</div>
+              <div>
+                <p class="text-xs font-medium text-slate-200">{{ lang.l('Riskijuht', 'Risk Manager') }}</p>
+                <p class="text-xs text-slate-500">{{ lang.l('Eesti pank', 'Estonian Bank') }}</p>
+              </div>
+            </div>
+          </div>
+          <!-- Testimonial 2 -->
+          <div class="glass-card p-5 rounded-xl border border-slate-700/50">
+            <div class="flex gap-1 mb-3">
+              <svg *ngFor="let s of [1,2,3,4,5]" class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed mb-4">{{ lang.l('"DoraBot vastas regulatsiooniküsimustele kiiremini kui meie konsultant. Praktilised, artiklitele viitavad vastused."', '"DoraBot answered our regulation questions faster than our consultant. Practical answers with article references."') }}</p>
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-xs font-bold">L.V.</div>
+              <div>
+                <p class="text-xs font-medium text-slate-200">{{ lang.l('Vastavusjuht', 'Compliance Officer') }}</p>
+                <p class="text-xs text-slate-500">{{ lang.l('Läti fintech', 'Latvian Fintech') }}</p>
+              </div>
+            </div>
+          </div>
+          <!-- Testimonial 3 -->
+          <div class="glass-card p-5 rounded-xl border border-slate-700/50">
+            <div class="flex gap-1 mb-3">
+              <svg *ngFor="let s of [1,2,3,4,5]" class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed mb-4">{{ lang.l('"Intsidendihalduse moodul aitas meil struktureerida regulaatori teavitamise protsessi. Lihtsaim DORA tööriist turul."', '"The incident management module helped us structure our regulator notification process. Simplest DORA tool on the market."') }}</p>
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-full bg-violet-500/20 flex items-center justify-center text-violet-400 text-xs font-bold">T.B.</div>
+              <div>
+                <p class="text-xs font-medium text-slate-200">{{ lang.l('IKT direktor', 'ICT Director') }}</p>
+                <p class="text-xs text-slate-500">{{ lang.l('Leedu kindlustus', 'Lithuanian Insurance') }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive DORA Requirements Table -->
+    <div class="py-16 max-w-4xl mx-auto px-4">
+      <div class="text-center mb-10">
+        <p class="text-xs font-medium text-teal-400 uppercase tracking-wider mb-2">{{ lang.t('landing.interactive_label') }}</p>
+        <h2 class="text-2xl font-bold text-slate-100">{{ lang.t('landing.interactive_title') }}</h2>
+        <p class="text-slate-500 text-sm mt-2">{{ lang.t('landing.interactive_desc') }}</p>
+      </div>
+
+      <div class="requirements-table rounded-xl overflow-x-auto border border-slate-700/50">
+        <table class="w-full min-w-[480px]">
+          <caption class="sr-only">{{ lang.t('landing.table_caption') }}</caption>
+          <thead class="bg-slate-800/80">
+            <tr>
+              <th class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider w-12">{{ lang.t('landing.table_check') }}</th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">{{ lang.t('landing.table_requirement') }}</th>
+              <th class="px-4 py-3 text-right text-xs font-medium text-slate-400 uppercase tracking-wider w-20">{{ lang.t('landing.table_status') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let req of requirements; let i = index">
+              <tr class="requirement-row border-t border-slate-700/50 cursor-pointer hover:bg-slate-800/50 transition-colors"
+                  (click)="toggleRequirement(req)" [class.expanded]="req.expanded">
+                <td class="px-4 py-4">
+                  <input type="checkbox" [(ngModel)]="req.checked" (click)="$event.stopPropagation()"
+                         [id]="'req-checkbox-' + req.id"
+                         [attr.aria-label]="(req.nameKey ? lang.t(req.nameKey) : req.name) + ' - ' + (req.checked ? lang.t('landing.table_ok') : lang.t('landing.table_missing'))"
+                         class="w-5 h-5 rounded border-slate-600 bg-slate-700 text-teal-500 focus:ring-teal-500 cursor-pointer">
+                  <label [for]="'req-checkbox-' + req.id" class="sr-only">{{ req.nameKey ? lang.t(req.nameKey) : req.name }}</label>
+                </td>
+                <td class="px-4 py-4">
+                  <div class="flex items-center gap-2">
+                    <span class="text-slate-500 transition-transform duration-200" [class.rotate-90]="req.expanded">▸</span>
+                    <span class="text-slate-200 font-medium">
+                      {{ req.nameKey ? lang.t(req.nameKey) : req.name }}
+                    </span>
+                  </div>
+                </td>
+                <td class="px-4 py-4 text-right">
+                  <span *ngIf="req.checked" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    {{ lang.t('landing.table_ok') }}
+                  </span>
+                  <span *ngIf="!req.checked" class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-red-500/20 text-red-400">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                    {{ lang.t('landing.table_missing') }}
+                  </span>
+                </td>
+              </tr>
+              <tr *ngIf="req.expanded" class="bg-slate-800/30 animate-slide-down">
+                <td colspan="3" class="px-4 py-4">
+                  <div class="text-sm text-slate-400 pl-9">
+                    <p class="mb-3 leading-relaxed">{{ req.descKey ? lang.t(req.descKey) : req.description }}</p>
+                    <a routerLink="/contract-analysis" class="inline-flex items-center gap-1 text-teal-400 hover:text-teal-300 text-xs font-medium">
+                      {{ lang.t('landing.table_check_contract') }}
+                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                      </svg>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-4 text-center">
+        <p class="text-slate-500 text-sm">
+          {{ lang.t('landing.table_checked') }}: <span class="text-teal-400 font-medium">{{ checkedCount }}</span> / {{ requirements.length }}
+        </p>
       </div>
     </div>
 
@@ -582,7 +594,16 @@ interface DoraRequirement {
       <div class="max-w-4xl mx-auto px-4">
         <div class="text-center mb-8">
           <h2 class="text-2xl font-bold text-slate-100 mb-2">{{ lang.t('landing.contact_title') }}</h2>
-          <p class="text-slate-400 text-sm">{{ lang.t('landing.contact_subtitle') }}</p>
+          <p class="text-slate-400 text-sm mb-6">{{ lang.t('landing.contact_subtitle') }}</p>
+          <!-- Prominent demo CTA -->
+          <a href="https://cal.com/kristo.erte/15min" target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-900 font-bold text-base shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all duration-300 mb-3">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            {{ lang.l('Broneeri 15-minutiline demo', 'Book a 15-min Demo') }}
+          </a>
+          <p class="text-xs text-slate-500">{{ lang.l('Või saada sõnum alloleva vormi kaudu', 'Or send a message via the form below') }}</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -710,13 +731,22 @@ interface DoraRequirement {
               <!-- LinkedIn -->
               <div class="pt-4 border-t border-slate-700/50">
                 <p class="text-xs text-slate-500 mb-3">{{ lang.t('landing.contact_social') }}</p>
-                <a href="https://www.linkedin.com/in/kristo-erte-52b73918a/" target="_blank" rel="noopener"
-                   class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50 hover:border-blue-500/30 hover:bg-slate-700/30 transition-all group">
-                  <svg class="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                  </svg>
-                  <span class="text-sm text-slate-300 group-hover:text-blue-300">Kristo Erte</span>
-                </a>
+                <div class="flex flex-col gap-2">
+                  <a href="https://www.linkedin.com/company/doraaudit" target="_blank" rel="noopener"
+                     class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50 hover:border-blue-500/30 hover:bg-slate-700/30 transition-all group">
+                    <svg class="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                    <span class="text-sm text-slate-300 group-hover:text-blue-300">DoraAudit.eu <span class="text-xs text-slate-500">{{ lang.l('(ametlik leht)', '(company page)') }}</span></span>
+                  </a>
+                  <a href="https://www.linkedin.com/in/kristo-erte-52b73918a/" target="_blank" rel="noopener"
+                     class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50 hover:border-blue-500/30 hover:bg-slate-700/30 transition-all group">
+                    <svg class="w-5 h-5 text-blue-300" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                    <span class="text-sm text-slate-400 group-hover:text-blue-300">Kristo Erte <span class="text-xs text-slate-500">{{ lang.l('(asutaja)', '(founder)') }}</span></span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
