@@ -6,6 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 import { ApiService } from '../api.service';
 import { TrackingService } from '../tracking.service';
+import { AuthService } from '../auth/auth.service';
 import { Subject } from 'rxjs';
 
 interface DoraRequirement {
@@ -22,6 +23,27 @@ interface DoraRequirement {
   selector: 'app-landing',
   imports: [CommonModule, RouterLink, FormsModule],
   template: `
+    <!-- Logged-in banner -->
+    <div *ngIf="auth.isLoggedIn()" class="bg-slate-800/80 border-b border-emerald-500/20 backdrop-blur-xl">
+      <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-2 text-sm text-slate-300">
+          <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+          Logged in as <span class="text-emerald-400 font-medium">{{ auth.user()?.email }}</span>
+        </div>
+        <a routerLink="/dashboard"
+           class="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
+                  text-slate-900 font-semibold px-4 py-1.5 rounded-lg text-sm transition-all duration-300
+                  hover:shadow-lg hover:shadow-emerald-500/25 flex items-center gap-1.5 whitespace-nowrap">
+          Go to Dashboard
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
     <!-- Hero section -->
     <div class="relative overflow-hidden">
       <!-- Subtle gradient background -->
@@ -926,6 +948,7 @@ interface DoraRequirement {
   `]
 })
 export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
+  auth = inject(AuthService);
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private destroy$ = new Subject<void>();
   private promoViewTracked = false;

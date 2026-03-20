@@ -52,6 +52,74 @@ interface ChartPoint {
   template: `
     <div class="max-w-6xl mx-auto">
 
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6 animate-fade-in-up">
+        <div>
+          <h1 class="text-3xl md:text-4xl font-extrabold">
+            <span class="gradient-text">{{ lang.t('dashboard.title') }}</span>
+          </h1>
+          <p class="text-slate-500 text-sm mt-1">{{ history.length }} {{ lang.t('dashboard.assessments_total') }} &middot; {{ lang.t('dashboard.last_updated') }}: {{ lastUpdated }}</p>
+        </div>
+        <div class="flex gap-3">
+          @if (subService.canAccess('COMPLIANCE_REPORT')) {
+            <button (click)="generateComplianceReport()" [disabled]="generatingReport()"
+              class="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500
+                     text-white font-semibold px-5 py-2.5 rounded-lg transition-all duration-300
+                     hover:shadow-lg hover:shadow-violet-500/25 flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+              @if (generatingReport()) {
+                <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg>
+                {{ lang.t('dashboard.generating_report') }}
+              } @else {
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                {{ lang.t('dashboard.generate_report') }}
+              }
+            </button>
+          } @else {
+            <button (click)="subService.showUpgrade('COMPLIANCE_REPORT')"
+              class="bg-slate-800/50 backdrop-blur border border-violet-500/30 text-slate-400 font-semibold
+                     px-5 py-2.5 rounded-lg transition-all duration-300 hover:border-violet-500/50
+                     hover:bg-slate-800/80 flex items-center gap-2 text-sm">
+              <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11V7a5 5 0 0110 0v4"/>
+              </svg>
+              {{ lang.t('dashboard.generate_report') }}
+            </button>
+          }
+          <button (click)="downloadDashboardPdf()" [disabled]="generatingDashPdf()"
+            class="bg-slate-700/50 border border-slate-600/50 text-slate-300 font-semibold px-5 py-2.5 rounded-lg transition-all hover:border-cyan-500/30 hover:bg-slate-800/80 flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+            @if (generatingDashPdf()) {
+              <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg>
+              Generating...
+            } @else {
+              <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              Download PDF
+            }
+          </button>
+          <a routerLink="/history"
+             class="bg-slate-800/50 backdrop-blur border border-slate-700/50 text-slate-300 font-semibold
+                    px-5 py-2.5 rounded-lg transition-all duration-300 hover:border-emerald-500/30
+                    hover:bg-slate-800/80 flex items-center gap-2 text-sm">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            {{ lang.t('dashboard.history') }}
+          </a>
+          <a routerLink="/assessment"
+             class="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
+                    text-slate-900 font-semibold px-5 py-2.5 rounded-lg transition-all duration-300
+                    hover:shadow-lg hover:shadow-emerald-500/25 flex items-center gap-2 text-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            {{ lang.t('dashboard.new_assessment') }}
+          </a>
+        </div>
+      </div>
+
       <!-- Trial Banner -->
       <div *ngIf="subService.isTrialActive()" class="mb-6 animate-fade-in-up">
         <div class="bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-500/30
@@ -278,74 +346,6 @@ interface ChartPoint {
           </div>
         </div>
       }
-
-      <!-- Header -->
-      <div class="flex items-center justify-between mb-10 animate-fade-in-up">
-        <div>
-          <h1 class="text-3xl md:text-4xl font-extrabold">
-            <span class="gradient-text">{{ lang.t('dashboard.title') }}</span>
-          </h1>
-          <p class="text-slate-500 text-sm mt-1">{{ history.length }} {{ lang.t('dashboard.assessments_total') }} &middot; {{ lang.t('dashboard.last_updated') }}: {{ lastUpdated }}</p>
-        </div>
-        <div class="flex gap-3">
-          @if (subService.canAccess('COMPLIANCE_REPORT')) {
-            <button (click)="generateComplianceReport()" [disabled]="generatingReport()"
-              class="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500
-                     text-white font-semibold px-5 py-2.5 rounded-lg transition-all duration-300
-                     hover:shadow-lg hover:shadow-violet-500/25 flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
-              @if (generatingReport()) {
-                <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg>
-                {{ lang.t('dashboard.generating_report') }}
-              } @else {
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                </svg>
-                {{ lang.t('dashboard.generate_report') }}
-              }
-            </button>
-          } @else {
-            <button (click)="subService.showUpgrade('COMPLIANCE_REPORT')"
-              class="bg-slate-800/50 backdrop-blur border border-violet-500/30 text-slate-400 font-semibold
-                     px-5 py-2.5 rounded-lg transition-all duration-300 hover:border-violet-500/50
-                     hover:bg-slate-800/80 flex items-center gap-2 text-sm">
-              <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11V7a5 5 0 0110 0v4"/>
-              </svg>
-              {{ lang.t('dashboard.generate_report') }}
-            </button>
-          }
-          <button (click)="downloadDashboardPdf()" [disabled]="generatingDashPdf()"
-            class="bg-slate-700/50 border border-slate-600/50 text-slate-300 font-semibold px-5 py-2.5 rounded-lg transition-all hover:border-cyan-500/30 hover:bg-slate-800/80 flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
-            @if (generatingDashPdf()) {
-              <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg>
-              Generating...
-            } @else {
-              <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-              </svg>
-              Download PDF
-            }
-          </button>
-          <a routerLink="/history"
-             class="bg-slate-800/50 backdrop-blur border border-slate-700/50 text-slate-300 font-semibold
-                    px-5 py-2.5 rounded-lg transition-all duration-300 hover:border-emerald-500/30
-                    hover:bg-slate-800/80 flex items-center gap-2 text-sm">
-            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            {{ lang.t('dashboard.history') }}
-          </a>
-          <a routerLink="/assessment"
-             class="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
-                    text-slate-900 font-semibold px-5 py-2.5 rounded-lg transition-all duration-300
-                    hover:shadow-lg hover:shadow-emerald-500/25 flex items-center gap-2 text-sm">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
-            {{ lang.t('dashboard.new_assessment') }}
-          </a>
-        </div>
-      </div>
 
       <!-- Empty state -->
       <div *ngIf="history.length === 0" class="text-center py-20 animate-scale-in">

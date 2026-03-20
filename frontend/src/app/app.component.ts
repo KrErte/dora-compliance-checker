@@ -941,8 +941,8 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.isBrowser && this.auth.isLoggedIn()) {
       this.notificationService.startPolling();
       this.loadAutopilotBadge();
-      // Auto-start guided tour for first-time users
-      if (!this.tourService.isComplete()) {
+      // Auto-start guided tour for first-time users — only on /dashboard
+      if (!this.tourService.isComplete() && this.router.url === '/dashboard') {
         setTimeout(() => this.guidedTour?.start(), 1500);
       }
     }
