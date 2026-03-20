@@ -70,7 +70,7 @@ interface DoraRequirement {
 
         <!-- CTA buttons -->
         <div class="flex flex-col items-center gap-4">
-          <a *ngIf="!clientLoggedIn()" routerLink="/contract-analysis"
+          <a [hidden]="clientLoggedIn()" routerLink="/contract-analysis"
              class="group inline-flex items-center gap-3 bg-white hover:bg-slate-100
                     text-slate-900 font-bold px-10 py-4 rounded-xl text-lg w-full sm:w-auto justify-center
                     hover:shadow-lg hover:shadow-white/20 transition-all duration-300">
@@ -82,7 +82,7 @@ interface DoraRequirement {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
           </a>
-          <a *ngIf="clientLoggedIn()" routerLink="/dashboard"
+          <a [hidden]="!clientLoggedIn()" routerLink="/dashboard"
              class="group inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
                     text-white font-bold px-10 py-4 rounded-xl text-lg w-full sm:w-auto justify-center
                     hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300">
@@ -95,11 +95,11 @@ interface DoraRequirement {
             </svg>
           </a>
           <!-- Inline trust signals -->
-          <p *ngIf="!clientLoggedIn()" class="text-xs text-slate-500 mt-1">
+          <p [hidden]="clientLoggedIn()" class="text-xs text-slate-500 mt-1">
             <span class="text-emerald-400 font-medium">{{ lang.l('14 päeva tasuta prooviaeg', '14-day free trial') }}</span>
             · {{ lang.t('landing.trust_no_cc') }} · {{ lang.t('landing.trust_instant') }} · {{ lang.t('landing.trust_pdf') }}
           </p>
-          <p *ngIf="clientLoggedIn()" class="text-xs text-slate-500 mt-1">
+          <p [hidden]="!clientLoggedIn()" class="text-xs text-slate-500 mt-1">
             <span class="text-emerald-400 font-medium">Welcome back</span> · Your assessments are waiting in the dashboard
           </p>
         </div>
