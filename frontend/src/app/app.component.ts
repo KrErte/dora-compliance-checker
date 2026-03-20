@@ -414,6 +414,11 @@ import { GuidedTourComponent } from './components/guided-tour.component';
 
         <!-- Mobile hamburger -->
         <div class="flex items-center gap-2 lg:hidden">
+          @if (auth.isLoggedIn()) {
+            <div class="w-7 h-7 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-[10px] font-bold shrink-0">
+              {{ getUserInitials() }}
+            </div>
+          }
           <button type="button" (click)="mobileMenu = !mobileMenu"
                   [attr.aria-label]="mobileMenu ? lang.t('nav.close_menu') : lang.t('nav.open_menu')"
                   [attr.aria-expanded]="mobileMenu"
