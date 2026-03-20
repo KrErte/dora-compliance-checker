@@ -723,17 +723,17 @@ describe('ExamSimulatorComponent', () => {
     expect(component.getGradeGradientClass('F')).toContain('red');
   });
 
-  it('should return focus label from focusOptions', () => {
-    expect(component.getFocusLabel('all')).toBe('All DORA Pillars');
-    expect(component.getFocusLabel('ict_risk')).toBe('ICT Risk Management');
-    expect(component.getFocusLabel('incident')).toBe('Incident Management');
-    expect(component.getFocusLabel('resilience')).toBe('Digital Resilience Testing');
-    expect(component.getFocusLabel('third_party')).toBe('Third-Party ICT Risk');
-    expect(component.getFocusLabel('info_sharing')).toBe('Information Sharing');
+  it('should return focus label key from focusOptions', () => {
+    expect(component.getFocusLabelKey('all')).toContain('exam.focus');
+    expect(component.getFocusLabelKey('ict_risk')).toContain('exam.focus');
+    expect(component.getFocusLabelKey('incident')).toContain('exam.focus');
+    expect(component.getFocusLabelKey('resilience')).toContain('exam.focus');
+    expect(component.getFocusLabelKey('third_party')).toContain('exam.focus');
+    expect(component.getFocusLabelKey('info_sharing')).toContain('exam.focus');
   });
 
-  it('should return raw value when focus not found in focusOptions', () => {
-    expect(component.getFocusLabel('unknown_focus')).toBe('unknown_focus');
+  it('should return fallback key when focus not found in focusOptions', () => {
+    expect(component.getFocusLabelKey('unknown_focus')).toBe('exam.focus_all');
   });
 
   it('should return correct feedback score background class', () => {

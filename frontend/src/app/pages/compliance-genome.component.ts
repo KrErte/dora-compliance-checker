@@ -794,7 +794,7 @@ import { SubscriptionService } from '../services/subscription.service';
     }
     @for $i from 1 through 80 {
       .gene-node:nth-child(#{$i}) {
-        animation-delay: #{$i * 20}ms;
+        animation-delay: $i * 20ms;
       }
     }
     @keyframes geneFadeIn {

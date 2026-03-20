@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 import { DeadlineCalendarComponent } from './deadline-calendar.component';
 import { LangService } from '../lang.service';
 
@@ -14,7 +15,8 @@ describe('DeadlineCalendarComponent', () => {
     await TestBed.configureTestingModule({
       imports: [DeadlineCalendarComponent],
       providers: [
-        provideRouter([])
+        provideRouter([]),
+        provideHttpClient()
       ]
     }).compileComponents();
 
