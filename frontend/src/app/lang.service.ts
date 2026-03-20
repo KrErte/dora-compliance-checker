@@ -1985,7 +1985,7 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   // Wizard
   'wizard.step': { et: 'Samm', en: 'Step', fi: 'Step', lv: 'Step', lt: 'Step', pl: 'Step' },
   'wizard.company_info': { et: 'Ettevõtte andmed', en: 'Company Info', fi: 'Company Info', lv: 'Company Info', lt: 'Company Info', pl: 'Company Info' },
-  'wizard.company_desc': { et: 'Sisestage ettevõtte ja lepingu andmed, mille kohta hindamist teete.', en: 'Enter your company and contract details for the assessment.', fi: 'Enter your company and contract details for the assessment.', lv: 'Enter your company and contract details for the assessment.', lt: 'Enter your company and contract details for the assessment.', pl: 'Enter your company and contract details for the assessment.' },
+  'wizard.company_desc': { et: 'Sisestage ettevõtte ja lepingu andmed, mille kohta hindamist teete.', en: "Let's start with the basics — tell us about your company and the contract you're evaluating.", fi: "Let's start with the basics — tell us about your company and the contract you're evaluating.", lv: "Let's start with the basics — tell us about your company and the contract you're evaluating.", lt: "Let's start with the basics — tell us about your company and the contract you're evaluating.", pl: "Let's start with the basics — tell us about your company and the contract you're evaluating." },
   'wizard.answered': { et: 'vastatud', en: 'answered', fi: 'answered', lv: 'answered', lt: 'answered', pl: 'answered' },
   'wizard.next': { et: 'Edasi', en: 'Next', fi: 'Next', lv: 'Next', lt: 'Next', pl: 'Next' },
   'wizard.back': { et: 'Tagasi', en: 'Back', fi: 'Back', lv: 'Back', lt: 'Back', pl: 'Back' },

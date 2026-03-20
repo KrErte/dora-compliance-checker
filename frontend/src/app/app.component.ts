@@ -351,7 +351,10 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 {{ getUserInitials() }}
               </button>
               <div *ngIf="userMenu" class="absolute right-0 top-full mt-1 w-48 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
-                <span class="block px-4 py-1.5 text-xs text-slate-500 truncate">{{ auth.user()?.email }}</span>
+                @if (auth.user()?.fullName) {
+                  <span class="block px-4 pt-1.5 text-sm font-semibold text-slate-200 truncate">{{ auth.user()?.fullName }}</span>
+                }
+                <span class="block px-4 py-1 text-xs text-slate-500 truncate">{{ auth.user()?.email }}</span>
                 <div class="border-t border-slate-700/30 my-1"></div>
                 <a routerLink="/dashboard" (click)="userMenu = false"
                    class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">

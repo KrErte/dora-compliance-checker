@@ -56,9 +56,13 @@ interface ChartPoint {
       <div class="flex items-center justify-between mb-6 animate-fade-in-up">
         <div>
           <h1 class="text-3xl md:text-4xl font-extrabold">
-            <span class="gradient-text">{{ lang.t('dashboard.title') }}</span>
+            <span class="gradient-text">{{ greeting() }}</span>
           </h1>
-          <p class="text-slate-500 text-sm mt-1">{{ history.length }} {{ lang.t('dashboard.assessments_total') }} &middot; {{ lang.t('dashboard.last_updated') }}: {{ lastUpdated }}</p>
+          @if (history.length === 0) {
+            <p class="text-slate-500 text-sm mt-1">Your DORA compliance journey starts here 🚀</p>
+          } @else {
+            <p class="text-slate-500 text-sm mt-1">{{ history.length }} {{ lang.t('dashboard.assessments_total') }} &middot; {{ lang.t('dashboard.last_updated') }}: {{ lastUpdated }}</p>
+          }
         </div>
         <div class="flex gap-3">
           @if (subService.canAccess('COMPLIANCE_REPORT')) {
@@ -354,8 +358,8 @@ interface ChartPoint {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
           </svg>
         </div>
-        <h2 class="text-xl font-semibold text-slate-300 mb-2">{{ lang.t('dashboard.no_data') }}</h2>
-        <p class="text-slate-500 mb-8 max-w-md mx-auto">{{ lang.t('dashboard.no_data_desc') }}</p>
+        <h2 class="text-xl font-semibold text-slate-300 mb-2">Nothing to show yet — let's fix that</h2>
+        <p class="text-slate-500 mb-8 max-w-md mx-auto">Run your first DORA assessment and your compliance data will appear here automatically.</p>
         <a routerLink="/assessment"
            class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
                   font-semibold px-8 py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 text-lg">
@@ -846,6 +850,13 @@ export class DashboardComponent implements OnInit {
   // Compliance score widget
   auditReadiness = signal<any>(null);
   auditModules = signal<{ key: string; label: string; score: number }[]>([]);
+
+  greeting(): string {
+    const name = this.auth.user()?.fullName?.split(' ')[0];
+    const hour = new Date().getHours();
+    const timeGreeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+    return name ? `${timeGreeting}, ${name}` : 'Dashboard';
+  }
 
   // Achievement badges
   achievements = signal<any[]>([]);
