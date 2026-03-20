@@ -14,15 +14,18 @@ public class OrganizationService {
     private final OrganizationMemberRepository memberRepository;
     private final OrganizationInviteRepository inviteRepository;
     private final UserRepository userRepository;
+    private final ResendEmailService emailService;
 
     public OrganizationService(OrganizationRepository orgRepository,
                                 OrganizationMemberRepository memberRepository,
                                 OrganizationInviteRepository inviteRepository,
-                                UserRepository userRepository) {
+                                UserRepository userRepository,
+                                ResendEmailService emailService) {
         this.orgRepository = orgRepository;
         this.memberRepository = memberRepository;
         this.inviteRepository = inviteRepository;
         this.userRepository = userRepository;
+        this.emailService = emailService;
     }
 
     @Transactional
@@ -93,7 +96,18 @@ public class OrganizationService {
         OrganizationMemberEntity.OrgRole orgRole = OrganizationMemberEntity.OrgRole.valueOf(role);
         String token = UUID.randomUUID().toString();
         OrganizationInviteEntity invite = new OrganizationInviteEntity(orgId, email, invitedByUserId, orgRole, token);
-        return inviteRepository.save(invite);
+        invite = inviteRepository.save(invite);
+
+        // Send invitation email
+        orgRepository.findById(orgId).ifPresent(org -> {
+            String inviterName = userRepository.findById(invitedByUserId)
+                    .map(u -> u.getFullName() != null ? u.getFullName() : u.getEmail())
+                    .orElse("A team member");
+            String acceptUrl = "https://doraaudit.eu/accept-invite?token=" + token;
+            emailService.sendTeamInvitationEmail(email, inviterName, org.getName(), acceptUrl);
+        });
+
+        return invite;
     }
 
     public List<OrganizationInviteEntity> getPendingInvites(String orgId, String userId) {

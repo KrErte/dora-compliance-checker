@@ -29,4 +29,10 @@ public interface AiActObligationRepository extends JpaRepository<AiActObligation
 
     @Query("SELECT COUNT(o) FROM AiActObligationEntity o WHERE o.userId = :userId AND o.status = 'COMPLETED'")
     long countCompletedByUserId(@Param("userId") String userId);
+
+    @Query("SELECT COUNT(o) FROM AiActObligationEntity o WHERE o.userId = :userId AND o.status = :status")
+    long countByUserIdAndStatus(@Param("userId") String userId, @Param("status") String status);
+
+    @Query("SELECT o FROM AiActObligationEntity o WHERE o.userId = :userId AND o.dueDate IS NOT NULL AND o.status NOT IN ('COMPLETED', 'NOT_APPLICABLE') ORDER BY o.dueDate ASC")
+    java.util.List<AiActObligationEntity> findUpcomingByUserId(@Param("userId") String userId);
 }
