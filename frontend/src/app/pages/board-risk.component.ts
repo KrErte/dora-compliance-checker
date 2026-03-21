@@ -65,11 +65,11 @@ interface RiskCalculationResult {
       </div>
 
       <!-- Main Form Section -->
-      <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 md:p-8 space-y-6">
+      <div class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6 md:p-8 space-y-6">
 
         <!-- Autocomplete Search -->
         <div class="space-y-3">
-          <label class="block text-sm font-medium text-slate-300">
+          <label class="block text-sm font-medium text-slate-600">
             {{ lang.t('board_risk.add_company') }}
           </label>
           <div class="relative">
@@ -85,7 +85,7 @@ interface RiskCalculationResult {
               (focus)="showDropdown = true"
               [placeholder]="lang.t('board_risk.search_placeholder')"
               [disabled]="companies.length >= 10"
-              class="w-full pl-12 pr-4 py-3.5 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white placeholder-slate-500
+              class="w-full pl-12 pr-4 py-3.5 rounded-xl bg-white border border-slate-200 text-white placeholder-slate-500
                      focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20 transition-all
                      disabled:opacity-50 disabled:cursor-not-allowed"
             />
@@ -99,12 +99,12 @@ interface RiskCalculationResult {
 
           <!-- Autocomplete Dropdown -->
           <div *ngIf="showDropdown && autocompleteResults.length > 0"
-               class="absolute z-50 w-full mt-1 max-h-72 overflow-y-auto rounded-xl bg-slate-800 border border-slate-700/50 shadow-xl shadow-black/30">
+               class="absolute z-50 w-full mt-1 max-h-72 overflow-y-auto rounded-xl bg-slate-800 border border-slate-200 shadow-xl">
             <button
               *ngFor="let result of autocompleteResults"
               type="button"
               (click)="selectCompany(result)"
-              class="w-full px-4 py-3 text-left hover:bg-teal-500/10 transition-colors border-b border-slate-700/30 last:border-b-0 group">
+              class="w-full px-4 py-3 text-left hover:bg-teal-500/10 transition-colors border-b border-slate-200 last:border-b-0 group">
               <div class="flex items-center justify-between">
                 <span class="font-medium text-white group-hover:text-teal-400 transition-colors">{{ result.name }}</span>
                 <span class="text-xs text-slate-500 font-mono">{{ result.reg_code }}</span>
@@ -125,13 +125,13 @@ interface RiskCalculationResult {
         <!-- Company Cards -->
         <div *ngIf="companies.length > 0" class="space-y-4">
           <div class="flex items-center justify-between">
-            <h3 class="text-sm font-medium text-slate-300">
+            <h3 class="text-sm font-medium text-slate-600">
               {{ lang.t('board_risk.your_companies') }} ({{ companies.length }})
             </h3>
           </div>
 
           <div *ngFor="let company of companies.controls; let i = index"
-               class="relative bg-slate-900/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-5 space-y-4 group">
+               class="relative bg-white backdrop-blur-sm rounded-xl border border-slate-200 p-5 space-y-4 group">
 
             <!-- Remove button -->
             <button
@@ -144,7 +144,7 @@ interface RiskCalculationResult {
             </button>
 
             <!-- Company Header (locked) -->
-            <div class="flex items-center gap-3 pb-3 border-b border-slate-700/50">
+            <div class="flex items-center gap-3 pb-3 border-b border-slate-200">
               <div class="w-10 h-10 rounded-lg bg-teal-500/10 flex items-center justify-center">
                 <svg class="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
@@ -163,7 +163,7 @@ interface RiskCalculationResult {
                 <label class="block text-xs font-medium text-slate-400">{{ lang.t('board_risk.sector') }} *</label>
                 <select
                   [formControl]="$any(company.get('sector'))"
-                  class="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-600/50 text-white text-sm
+                  class="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-200 text-white text-sm
                          focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20 transition-all">
                   <option value="" disabled>{{ lang.t('board_risk.select_sector') }}</option>
                   <optgroup [label]="lang.t('board_risk.sectors_nis2_essential')">
@@ -192,7 +192,7 @@ interface RiskCalculationResult {
                          class="relative flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all"
                          [class]="company.get('role')?.value === role.value
                            ? 'bg-teal-500/20 border border-teal-500/40 text-teal-400'
-                           : 'bg-slate-800 border border-slate-600/50 text-slate-400 hover:border-slate-500'">
+                           : 'bg-slate-800 border border-slate-200 text-slate-400 hover:border-slate-500'">
                     <input
                       type="radio"
                       [formControl]="$any(company.get('role'))"
@@ -216,7 +216,7 @@ interface RiskCalculationResult {
                          [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   [ngClass]="company.get('employees')?.value !== null && company.get('employees')?.value < 0
                     ? 'border-red-500/50 focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20'
-                    : 'border-slate-600/50 focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20'"
+                    : 'border-slate-200 focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20'"
                 />
                 <p *ngIf="company.get('employees')?.value !== null && company.get('employees')?.value < 0" class="text-xs text-red-400">
                   {{ lang.t('validation.positive_required') }}
@@ -236,7 +236,7 @@ interface RiskCalculationResult {
                            [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     [ngClass]="company.get('revenue')?.value !== null && company.get('revenue')?.value < 0
                       ? 'border-red-500/50 focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20'
-                      : 'border-slate-600/50 focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20'"
+                      : 'border-slate-200 focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20'"
                   />
                   <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 text-sm">EUR</span>
                 </div>
@@ -261,7 +261,7 @@ interface RiskCalculationResult {
             [disabled]="companies.length === 0 || form.invalid"
             class="w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all flex items-center justify-center gap-2
                    disabled:opacity-50 disabled:cursor-not-allowed
-                   bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400
+                   bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-400 hover:to-blue-400
                    text-slate-900 hover:shadow-lg hover:shadow-teal-500/25">
             {{ lang.t('board_risk.calculate_btn') }}
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -313,10 +313,10 @@ interface RiskCalculationResult {
           <h3 class="text-lg font-semibold text-white">{{ lang.t('board_risk.breakdown_title') }}</h3>
 
           <div *ngFor="let company of results.companies"
-               class="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-5 space-y-4">
+               class="bg-white backdrop-blur-sm rounded-xl border border-slate-200 p-5 space-y-4">
 
             <!-- Header -->
-            <div class="flex items-center justify-between pb-3 border-b border-slate-700/50">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-200">
               <div>
                 <div class="font-medium text-white">{{ company.name }}</div>
                 <div class="text-xs text-slate-500 font-mono">{{ company.registryCode }}</div>
@@ -352,7 +352,7 @@ interface RiskCalculationResult {
             </div>
 
             <!-- Personal Liability -->
-            <div class="pt-3 border-t border-slate-700/50">
+            <div class="pt-3 border-t border-slate-200">
               <div class="flex items-center justify-between">
                 <span class="text-sm text-slate-400">{{ lang.t('board_risk.your_liability') }}</span>
                 <span class="text-lg font-bold" [ngClass]="getResultTextClass()">
@@ -362,7 +362,7 @@ interface RiskCalculationResult {
             </div>
 
             <!-- Obligations -->
-            <div class="pt-3 border-t border-slate-700/50 space-y-2">
+            <div class="pt-3 border-t border-slate-200 space-y-2">
               <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">
                 {{ lang.t('board_risk.obligations') }}
               </p>
@@ -380,15 +380,15 @@ interface RiskCalculationResult {
                   {{ lang.t('board_risk.obl_nis2_incident') }}
                 </li>
                 <li *ngIf="company.doraStatus === 'applies'" class="flex items-start gap-2">
-                  <span class="text-emerald-400 mt-0.5">•</span>
+                  <span class="text-blue-600 mt-0.5">•</span>
                   {{ lang.t('board_risk.obl_dora_ict') }}
                 </li>
                 <li *ngIf="company.doraStatus === 'applies'" class="flex items-start gap-2">
-                  <span class="text-emerald-400 mt-0.5">•</span>
+                  <span class="text-blue-600 mt-0.5">•</span>
                   {{ lang.t('board_risk.obl_dora_incident') }}
                 </li>
                 <li *ngIf="company.nis2Status === 'not_applicable' && company.doraStatus === 'not_applicable'"
-                    class="flex items-start gap-2 text-emerald-400">
+                    class="flex items-start gap-2 text-blue-600">
                   <span class="mt-0.5">✓</span>
                   {{ lang.t('board_risk.obl_none') }}
                 </li>
@@ -400,7 +400,7 @@ interface RiskCalculationResult {
         <!-- Accordion Explanations -->
         <div class="space-y-3">
           <div *ngFor="let item of accordionItems; let i = index"
-               class="bg-slate-800/50 rounded-xl border border-slate-700/50 overflow-hidden">
+               class="bg-white rounded-xl border border-slate-200 overflow-hidden">
             <button
               type="button"
               (click)="toggleAccordion(i)"
@@ -426,7 +426,7 @@ interface RiskCalculationResult {
 
           <div class="grid md:grid-cols-3 gap-4">
             <!-- CTA 1 - Highlighted -->
-            <div class="relative bg-slate-800/50 rounded-xl border-2 border-teal-500/50 p-5 space-y-3 animate-pulse-border">
+            <div class="relative bg-white rounded-xl border-2 border-teal-500/50 p-5 space-y-3 animate-pulse-border">
               <div class="text-2xl">📄</div>
               <h4 class="font-semibold text-white">{{ lang.t('board_risk.cta1_title') }}</h4>
               <p class="text-sm text-slate-400">{{ lang.t('board_risk.cta1_desc') }}</p>
@@ -440,7 +440,7 @@ interface RiskCalculationResult {
             </div>
 
             <!-- CTA 2 -->
-            <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-5 space-y-3">
+            <div class="bg-white rounded-xl border border-slate-200 p-5 space-y-3">
               <div class="text-2xl">📊</div>
               <h4 class="font-semibold text-white">{{ lang.t('board_risk.cta2_title') }}</h4>
               <p class="text-sm text-slate-400">{{ lang.t('board_risk.cta2_desc') }}</p>
@@ -454,7 +454,7 @@ interface RiskCalculationResult {
             </div>
 
             <!-- CTA 3 -->
-            <div class="relative bg-slate-800/50 rounded-xl border border-slate-700/50 p-5 space-y-3">
+            <div class="relative bg-white rounded-xl border border-slate-200 p-5 space-y-3">
               <div class="absolute -top-2 -right-2 px-2 py-0.5 rounded-full bg-amber-500 text-[10px] font-bold text-slate-900">
                 {{ lang.t('board_risk.save_badge') }}
               </div>
@@ -477,7 +477,7 @@ interface RiskCalculationResult {
 
       <!-- Info Cards (shown when no results) -->
       <div *ngIf="!results" class="grid md:grid-cols-2 gap-6">
-        <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 space-y-3">
+        <div class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6 space-y-3">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center">
               <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -489,10 +489,10 @@ interface RiskCalculationResult {
           <p class="text-sm text-slate-400 leading-relaxed">{{ lang.t('board_risk.nis2_desc') }}</p>
         </div>
 
-        <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 space-y-3">
+        <div class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6 space-y-3">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
+              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
               </svg>
             </div>
@@ -899,17 +899,17 @@ export class BoardRiskComponent implements OnInit, OnDestroy {
 
   getResultBorderClass(): string {
     switch (this.results?.overallRiskLevel) {
-      case 'low': return 'border-emerald-500/50 bg-emerald-500/5';
+      case 'low': return 'border-blue-500/50 bg-blue-50';
       case 'medium': return 'border-yellow-500/50 bg-yellow-500/5';
       case 'high': return 'border-orange-500/50 bg-orange-500/5';
       case 'critical': return 'border-red-500/50 bg-red-500/5 animate-pulse-border';
-      default: return 'border-slate-700/50';
+      default: return 'border-slate-200';
     }
   }
 
   getResultTextClass(): string {
     switch (this.results?.overallRiskLevel) {
-      case 'low': return 'text-emerald-400';
+      case 'low': return 'text-blue-600';
       case 'medium': return 'text-yellow-400';
       case 'high': return 'text-orange-400';
       case 'critical': return 'text-red-400';
@@ -919,7 +919,7 @@ export class BoardRiskComponent implements OnInit, OnDestroy {
 
   getResultBadgeClass(): string {
     switch (this.results?.overallRiskLevel) {
-      case 'low': return 'bg-emerald-500/20 text-emerald-400';
+      case 'low': return 'bg-blue-100 text-blue-600';
       case 'medium': return 'bg-yellow-500/20 text-yellow-400';
       case 'high': return 'bg-orange-500/20 text-orange-400';
       case 'critical': return 'bg-red-500/20 text-red-400';
@@ -929,7 +929,7 @@ export class BoardRiskComponent implements OnInit, OnDestroy {
 
   getCompanyBadgeClass(level: RiskLevel): string {
     switch (level) {
-      case 'low': return 'bg-emerald-500/20 text-emerald-400';
+      case 'low': return 'bg-blue-100 text-blue-600';
       case 'medium': return 'bg-yellow-500/20 text-yellow-400';
       case 'high': return 'bg-orange-500/20 text-orange-400';
       case 'critical': return 'bg-red-500/20 text-red-400';
@@ -940,7 +940,7 @@ export class BoardRiskComponent implements OnInit, OnDestroy {
     switch (status) {
       case 'essential': return 'text-red-400';
       case 'important': return 'text-orange-400';
-      case 'not_applicable': return 'text-emerald-400';
+      case 'not_applicable': return 'text-blue-600';
     }
   }
 
@@ -948,7 +948,7 @@ export class BoardRiskComponent implements OnInit, OnDestroy {
     switch (status) {
       case 'applies': return 'text-red-400';
       case 'indirect': return 'text-yellow-400';
-      case 'not_applicable': return 'text-emerald-400';
+      case 'not_applicable': return 'text-blue-600';
     }
   }
 }

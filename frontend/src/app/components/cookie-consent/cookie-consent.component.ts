@@ -14,18 +14,18 @@ import { TrackingService } from '../../tracking.service';
          role="dialog"
          aria-label="Cookie consent">
       <div class="px-4 py-4 space-y-3">
-        <p class="text-xs text-slate-300 leading-relaxed">
+        <p class="text-xs text-slate-600 leading-relaxed">
           {{ lang.t('cookie.message') }}
         </p>
         <div class="flex items-center gap-2">
           <button type="button" (click)="declineCookies()"
-                  class="flex-1 px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-500/50 text-slate-200
-                         hover:bg-slate-700/50 transition-all duration-200">
+                  class="flex-1 px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-500/50 text-slate-700
+                         hover:bg-slate-100 transition-all duration-200">
             {{ lang.t('cookie.decline') }}
           </button>
           <button type="button" (click)="acceptCookies()"
-                  class="flex-1 px-3 py-1.5 rounded-lg text-xs font-medium border border-emerald-500/50 text-emerald-400
-                         hover:bg-emerald-500/10 transition-all duration-200">
+                  class="flex-1 px-3 py-1.5 rounded-lg text-xs font-medium border border-blue-500/50 text-blue-600
+                         hover:bg-blue-50 transition-all duration-200">
             {{ lang.t('cookie.accept') }}
           </button>
         </div>

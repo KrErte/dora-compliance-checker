@@ -39,8 +39,8 @@ interface ScheduledReport {
           </p>
         </div>
         <button (click)="showCreateForm.set(true)"
-                class="px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
-                       hover:from-emerald-400 hover:to-cyan-400 transition-all">
+                class="px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white
+                       hover:bg-blue-700 transition-all">
           + New Schedule
         </button>
       </div>
@@ -54,15 +54,15 @@ interface ScheduledReport {
 
       <!-- Empty state -->
       @if (!loading() && reports().length === 0 && !showCreateForm()) {
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
+        <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
           <svg class="w-16 h-16 mx-auto mb-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
           <h3 class="text-lg font-semibold text-white mb-2">No Scheduled Reports</h3>
           <p class="text-sm text-slate-400 mb-4">Create your first scheduled report to automatically receive compliance summaries.</p>
           <button (click)="showCreateForm.set(true)"
-                  class="px-5 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
-                         hover:from-emerald-400 hover:to-cyan-400 transition-all">
+                  class="px-5 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white
+                         hover:bg-blue-700 transition-all">
             Create Schedule
           </button>
         </div>
@@ -70,7 +70,7 @@ interface ScheduledReport {
 
       <!-- Create/Edit Form -->
       @if (showCreateForm()) {
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 space-y-4">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
           <h3 class="text-lg font-semibold text-white">
             {{ editingId ? 'Edit Schedule' : 'New Scheduled Report' }}
           </h3>
@@ -82,8 +82,8 @@ interface ScheduledReport {
               <button (click)="form.reportType = 'COMPLIANCE'"
                       class="flex-1 px-3 py-2.5 rounded-lg text-sm font-medium border transition-all"
                       [ngClass]="form.reportType === 'COMPLIANCE'
-                        ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-400'
-                        : 'border-slate-600/50 text-slate-400 hover:border-slate-500/50'">
+                        ? 'border-blue-500/50 bg-blue-50 text-blue-600'
+                        : 'border-slate-200 text-slate-400 hover:border-slate-500/50'">
                 <span class="block font-bold">Compliance Report</span>
                 <span class="text-xs opacity-70">Full assessment status & gaps</span>
               </button>
@@ -91,7 +91,7 @@ interface ScheduledReport {
                       class="flex-1 px-3 py-2.5 rounded-lg text-sm font-medium border transition-all"
                       [ngClass]="form.reportType === 'EXECUTIVE'
                         ? 'border-blue-500/50 bg-blue-500/10 text-blue-400'
-                        : 'border-slate-600/50 text-slate-400 hover:border-slate-500/50'">
+                        : 'border-slate-200 text-slate-400 hover:border-slate-500/50'">
                 <span class="block font-bold">Executive Summary</span>
                 <span class="text-xs opacity-70">Board-level overview</span>
               </button>
@@ -105,15 +105,15 @@ interface ScheduledReport {
               <button (click)="form.frequency = 'WEEKLY'; form.dayOfMonth = 1"
                       class="flex-1 px-3 py-2 rounded-lg text-sm font-medium border transition-all"
                       [ngClass]="form.frequency === 'WEEKLY'
-                        ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-400'
-                        : 'border-slate-600/50 text-slate-400 hover:border-slate-500/50'">
+                        ? 'border-blue-500/50 bg-blue-50 text-blue-600'
+                        : 'border-slate-200 text-slate-400 hover:border-slate-500/50'">
                 Weekly
               </button>
               <button (click)="form.frequency = 'MONTHLY'; form.dayOfWeek = 1"
                       class="flex-1 px-3 py-2 rounded-lg text-sm font-medium border transition-all"
                       [ngClass]="form.frequency === 'MONTHLY'
-                        ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-400'
-                        : 'border-slate-600/50 text-slate-400 hover:border-slate-500/50'">
+                        ? 'border-blue-500/50 bg-blue-50 text-blue-600'
+                        : 'border-slate-200 text-slate-400 hover:border-slate-500/50'">
                 Monthly
               </button>
             </div>
@@ -124,7 +124,7 @@ interface ScheduledReport {
             <div>
               <label class="block text-xs font-medium text-slate-400 mb-1.5">Day of Week</label>
               <select [(ngModel)]="form.dayOfWeek"
-                      class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-emerald-500/50">
+                      class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50">
                 <option [value]="1">Monday</option>
                 <option [value]="2">Tuesday</option>
                 <option [value]="3">Wednesday</option>
@@ -139,7 +139,7 @@ interface ScheduledReport {
             <div>
               <label class="block text-xs font-medium text-slate-400 mb-1.5">Day of Month</label>
               <select [(ngModel)]="form.dayOfMonth"
-                      class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-emerald-500/50">
+                      class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50">
                 @for (d of daysOfMonth; track d) {
                   <option [value]="d">{{ d }}</option>
                 }
@@ -151,8 +151,8 @@ interface ScheduledReport {
           <div>
             <label class="block text-xs font-medium text-slate-400 mb-1.5">Recipients (comma-separated emails)</label>
             <input [(ngModel)]="recipientsStr" type="text" placeholder="cto@company.com, compliance@company.com"
-                   class="w-full px-4 py-2.5 bg-slate-700/50 border border-slate-600/50 rounded-xl text-sm text-white
-                          placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all">
+                   class="w-full px-4 py-2.5 bg-slate-700/50 border border-slate-200 rounded-xl text-sm text-white
+                          placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/30 transition-all">
             <p class="text-[10px] text-slate-500 mt-1">Separate multiple email addresses with commas.</p>
           </div>
 
@@ -166,8 +166,8 @@ interface ScheduledReport {
               Cancel
             </button>
             <button (click)="saveReport()" [disabled]="saving()"
-                    class="px-5 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
-                           hover:from-emerald-400 hover:to-cyan-400 transition-all disabled:opacity-50">
+                    class="px-5 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white
+                           hover:bg-blue-700 transition-all disabled:opacity-50">
               @if (saving()) {
                 <span class="flex items-center gap-2">
                   <span class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin"></span>
@@ -185,12 +185,12 @@ interface ScheduledReport {
       @if (!loading() && reports().length > 0) {
         <div class="space-y-3">
           @for (report of reports(); track report.id) {
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 hover:border-slate-600/50 transition-all">
+            <div class="bg-white border border-slate-200 rounded-xl p-5 hover:border-slate-200 transition-all">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-4">
                   <div class="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-xs"
                        [ngClass]="report.reportType === 'COMPLIANCE'
-                         ? 'bg-gradient-to-br from-emerald-400 to-cyan-500'
+                         ? 'bg-gradient-to-br from-blue-500 to-blue-500'
                          : 'bg-gradient-to-br from-blue-400 to-indigo-500'">
                     {{ report.reportType === 'COMPLIANCE' ? 'CR' : 'EX' }}
                   </div>
@@ -211,13 +211,13 @@ interface ScheduledReport {
                   <!-- Toggle -->
                   <button (click)="toggleReport(report)"
                           class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-                          [ngClass]="report.enabled ? 'bg-emerald-500' : 'bg-slate-600'">
+                          [ngClass]="report.enabled ? 'bg-blue-600' : 'bg-slate-600'">
                     <span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
                           [ngClass]="report.enabled ? 'translate-x-6' : 'translate-x-1'"></span>
                   </button>
                   <!-- Edit -->
                   <button (click)="editReport(report)"
-                          class="px-2 py-1 text-xs rounded bg-slate-600/30 text-slate-300 hover:bg-slate-600/50 transition-colors">
+                          class="px-2 py-1 text-xs rounded bg-slate-600/30 text-slate-600 hover:bg-slate-100 transition-colors">
                     Edit
                   </button>
                   <!-- Delete -->
@@ -251,7 +251,7 @@ interface ScheduledReport {
 
       <!-- Toast -->
       @if (toast()) {
-        <div class="fixed bottom-6 right-6 bg-emerald-500/90 text-white px-5 py-3 rounded-xl shadow-lg text-sm font-medium z-50">
+        <div class="fixed bottom-6 right-6 bg-blue-600/90 text-white px-5 py-3 rounded-xl shadow-lg text-sm font-medium z-50">
           {{ toast() }}
         </div>
       }

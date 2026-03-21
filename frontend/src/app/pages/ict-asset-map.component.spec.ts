@@ -325,7 +325,7 @@ describe('IctAssetMapComponent', () => {
     expect(component.riskBorderClass()).toContain('yellow');
 
     component.riskAnalysis.set({ singlePointsOfFailure: [], concentrationRisks: [], unmappedFunctions: [], totalRisks: 0, riskLevel: 'LOW' });
-    expect(component.riskBorderClass()).toContain('emerald');
+    expect(component.riskBorderClass()).toContain('blue');
   }));
 
   it('riskColorClass returns correct class for each level', fakeAsync(() => {
@@ -337,7 +337,7 @@ describe('IctAssetMapComponent', () => {
     expect(component.riskColorClass()).toContain('red');
 
     component.riskAnalysis.set({ singlePointsOfFailure: [], concentrationRisks: [], unmappedFunctions: [], totalRisks: 0, riskLevel: 'LOW' });
-    expect(component.riskColorClass()).toContain('emerald');
+    expect(component.riskColorClass()).toContain('blue');
   }));
 
   // === Helper Methods ===

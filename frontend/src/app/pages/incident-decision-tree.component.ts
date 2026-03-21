@@ -33,15 +33,15 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
     <div class="space-y-8 max-w-4xl mx-auto">
 
       <!-- Header -->
-      <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500/10 via-cyan-500/10 to-blue-500/10 border border-emerald-500/20 p-8">
-        <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-emerald-500/5 to-transparent rounded-full -translate-y-1/2 translate-x-1/2"></div>
-        <div class="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-cyan-500/5 to-transparent rounded-full translate-y-1/2 -translate-x-1/2"></div>
+      <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600/10 via-blue-500/10 to-blue-500/10 border border-blue-200 p-8">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-blue-600/5 to-transparent rounded-full -translate-y-1/2 translate-x-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-blue-500/5 to-transparent rounded-full translate-y-1/2 -translate-x-1/2"></div>
         <div class="relative">
           <div class="flex items-center gap-2 mb-3">
-            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-100 text-blue-600 border border-blue-200">
               {{ lang.t('decisiontree.dora_art_18') }}
             </span>
-            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-600/20 text-blue-500 border border-blue-500/30">
               {{ lang.t('decisiontree.free_tool') }}
             </span>
           </div>
@@ -62,7 +62,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
             <span>{{ lang.t('decisiontree.step') }} {{ currentStepIndex() + 1 }} / {{ steps.length }}</span>
           </div>
           <div class="h-2 bg-slate-800 rounded-full overflow-hidden">
-            <div class="h-full bg-gradient-to-r from-emerald-500 to-cyan-500 transition-all duration-500 rounded-full"
+            <div class="h-full bg-blue-600 transition-all duration-500 rounded-full"
                  [style.width.%]="progressPercent()"></div>
           </div>
         </div>
@@ -73,9 +73,9 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
         <!-- Decision path sidebar (breadcrumb) -->
         @if (answers().length > 0) {
           <div class="lg:w-72 shrink-0 order-2 lg:order-1">
-            <div class="bg-slate-800/50 rounded-2xl border border-slate-700/50 p-5 sticky top-24">
-              <h3 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
-                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-white rounded-2xl border border-slate-200 p-5 sticky top-24">
+              <h3 class="text-sm font-semibold text-slate-600 mb-4 flex items-center gap-2">
+                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                 </svg>
                 {{ lang.t('decisiontree.decision_path') }}
@@ -95,7 +95,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                       <div class="min-w-0">
                         <p class="text-[11px] text-slate-500 leading-tight mb-0.5 truncate">{{ answer.question }}</p>
                         <p class="text-xs font-medium leading-tight"
-                           [class]="answer.severity >= 2 ? 'text-red-400' : answer.severity === 1 ? 'text-yellow-400' : 'text-emerald-400'">
+                           [class]="answer.severity >= 2 ? 'text-red-400' : answer.severity === 1 ? 'text-yellow-400' : 'text-blue-600'">
                           {{ answer.answer }}
                         </p>
                       </div>
@@ -121,16 +121,16 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
               </div>
 
               <!-- Severity score -->
-              <div class="mt-4 pt-4 border-t border-slate-700/50">
+              <div class="mt-4 pt-4 border-t border-slate-200">
                 <div class="flex items-center justify-between text-xs">
                   <span class="text-slate-500">{{ lang.t('decisiontree.severity_score') }}</span>
-                  <span class="font-bold" [class]="totalSeverity() >= 10 ? 'text-red-400' : totalSeverity() >= 5 ? 'text-yellow-400' : 'text-emerald-400'">
+                  <span class="font-bold" [class]="totalSeverity() >= 10 ? 'text-red-400' : totalSeverity() >= 5 ? 'text-yellow-400' : 'text-blue-600'">
                     {{ totalSeverity() }} / 24
                   </span>
                 </div>
                 <div class="mt-2 h-1.5 bg-slate-700 rounded-full overflow-hidden">
                   <div class="h-full rounded-full transition-all duration-500"
-                       [class]="totalSeverity() >= 10 ? 'bg-red-500' : totalSeverity() >= 5 ? 'bg-yellow-500' : 'bg-emerald-500'"
+                       [class]="totalSeverity() >= 10 ? 'bg-red-500' : totalSeverity() >= 5 ? 'bg-yellow-500' : 'bg-blue-600'"
                        [style.width.%]="(totalSeverity() / 24) * 100"></div>
                 </div>
               </div>
@@ -143,11 +143,11 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
 
           <!-- Active question -->
           @if (!showResult()) {
-            <div class="bg-slate-800/50 rounded-2xl border border-slate-700/50 p-8 transition-all duration-300">
+            <div class="bg-white rounded-2xl border border-slate-200 p-8 transition-all duration-300">
               <!-- Step indicator -->
               <div class="flex items-center gap-3 mb-6">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 border border-emerald-500/30 flex items-center justify-center">
-                  <span class="text-sm font-bold text-emerald-400">{{ currentStepIndex() + 1 }}</span>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600/20 to-blue-500/20 border border-blue-200 flex items-center justify-center">
+                  <span class="text-sm font-bold text-blue-600">{{ currentStepIndex() + 1 }}</span>
                 </div>
                 <div>
                   <p class="text-[11px] text-slate-500 uppercase tracking-wider font-medium">
@@ -213,7 +213,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
               <!-- Back button -->
               @if (answers().length > 0) {
                 <button type="button" (click)="goBack()"
-                        class="mt-6 flex items-center gap-2 text-sm text-slate-500 hover:text-slate-300 transition-colors">
+                        class="mt-6 flex items-center gap-2 text-sm text-slate-500 hover:text-slate-600 transition-colors">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                   </svg>
@@ -242,7 +242,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.268 16.5c-.77.833.192 2.5 1.732 2.5z"/>
                       </svg>
                     } @else {
-                      <svg class="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                       </svg>
                     }
@@ -282,7 +282,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                 </div>
 
                 <!-- Severity meter -->
-                <div class="bg-slate-900/50 rounded-xl p-4">
+                <div class="bg-white rounded-xl p-4">
                   <div class="flex items-center justify-between text-[11px] text-slate-500 mb-2">
                     <span>{{ lang.t('decisiontree.classification_minor') }}</span>
                     <span>{{ lang.t('decisiontree.classification_significant') }}</span>
@@ -290,12 +290,12 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                   </div>
                   <div class="h-3 bg-slate-800 rounded-full overflow-hidden relative">
                     <div class="absolute inset-0 flex">
-                      <div class="flex-1 bg-emerald-500/20 border-r border-slate-700"></div>
+                      <div class="flex-1 bg-blue-100 border-r border-slate-700"></div>
                       <div class="flex-1 bg-yellow-500/20 border-r border-slate-700"></div>
                       <div class="flex-1 bg-red-500/20"></div>
                     </div>
                     <div class="absolute top-0 left-0 h-full transition-all duration-700 rounded-full"
-                         [class]="totalSeverity() >= 10 ? 'bg-red-500' : totalSeverity() >= 5 ? 'bg-yellow-500' : 'bg-emerald-500'"
+                         [class]="totalSeverity() >= 10 ? 'bg-red-500' : totalSeverity() >= 5 ? 'bg-yellow-500' : 'bg-blue-600'"
                          [style.width.%]="(totalSeverity() / 24) * 100"></div>
                   </div>
                   <div class="flex justify-between mt-1">
@@ -309,7 +309,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
 
               <!-- Reporting timeline (only for major/significant) -->
               @if (classification() === 'MAJOR') {
-                <div class="bg-slate-800/50 rounded-2xl border border-red-500/20 p-6">
+                <div class="bg-white rounded-2xl border border-red-500/20 p-6">
                   <h3 class="text-lg font-bold text-white mb-1 flex items-center gap-2">
                     <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -324,7 +324,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                       <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center justify-center shrink-0">
                         <span class="text-sm font-bold text-red-400">4h</span>
                       </div>
-                      <div class="flex-1 pb-4 border-b border-slate-700/50">
+                      <div class="flex-1 pb-4 border-b border-slate-200">
                         <p class="text-sm font-semibold text-white">{{ lang.t('decisiontree.initial_notification') }}</p>
                         <p class="text-xs text-slate-400 mt-0.5">{{ lang.t('decisiontree.initial_notif_desc') }}</p>
                         <p class="text-[11px] text-red-400/80 mt-1">DORA Art. 19(4)(a)</p>
@@ -335,7 +335,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                       <div class="w-10 h-10 rounded-xl bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center shrink-0">
                         <span class="text-sm font-bold text-yellow-400">72h</span>
                       </div>
-                      <div class="flex-1 pb-4 border-b border-slate-700/50">
+                      <div class="flex-1 pb-4 border-b border-slate-200">
                         <p class="text-sm font-semibold text-white">{{ lang.t('decisiontree.intermediate_report') }}</p>
                         <p class="text-xs text-slate-400 mt-0.5">{{ lang.t('decisiontree.intermediate_report_desc') }}</p>
                         <p class="text-[11px] text-yellow-400/80 mt-1">DORA Art. 19(4)(b)</p>
@@ -343,13 +343,13 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                     </div>
                     <!-- Final report -->
                     <div class="flex items-start gap-4">
-                      <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0">
-                        <span class="text-sm font-bold text-emerald-400">1m</span>
+                      <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center shrink-0">
+                        <span class="text-sm font-bold text-blue-600">1m</span>
                       </div>
                       <div class="flex-1">
                         <p class="text-sm font-semibold text-white">{{ lang.t('decisiontree.final_report') }}</p>
                         <p class="text-xs text-slate-400 mt-0.5">{{ lang.t('decisiontree.final_report_desc') }}</p>
-                        <p class="text-[11px] text-emerald-400/80 mt-1">DORA Art. 19(4)(c)</p>
+                        <p class="text-[11px] text-blue-600/80 mt-1">DORA Art. 19(4)(c)</p>
                       </div>
                     </div>
                   </div>
@@ -357,7 +357,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
               }
 
               @if (classification() === 'SIGNIFICANT') {
-                <div class="bg-slate-800/50 rounded-2xl border border-yellow-500/20 p-6">
+                <div class="bg-white rounded-2xl border border-yellow-500/20 p-6">
                   <h3 class="text-lg font-bold text-white mb-1 flex items-center gap-2">
                     <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
@@ -366,25 +366,25 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                   </h3>
                   <p class="text-xs text-slate-400 mb-4">{{ lang.t('decisiontree.significant_incident_mgmt') }}</p>
                   <ul class="space-y-2">
-                    <li class="flex items-start gap-2 text-sm text-slate-300">
+                    <li class="flex items-start gap-2 text-sm text-slate-600">
                       <svg class="w-4 h-4 text-yellow-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
                       </svg>
                       {{ lang.t('decisiontree.log_internal_monitor') }}
                     </li>
-                    <li class="flex items-start gap-2 text-sm text-slate-300">
+                    <li class="flex items-start gap-2 text-sm text-slate-600">
                       <svg class="w-4 h-4 text-yellow-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
                       </svg>
                       {{ lang.t('decisiontree.monitor_escalation') }}
                     </li>
-                    <li class="flex items-start gap-2 text-sm text-slate-300">
+                    <li class="flex items-start gap-2 text-sm text-slate-600">
                       <svg class="w-4 h-4 text-yellow-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
                       </svg>
                       {{ lang.t('decisiontree.prepare_internal_report') }}
                     </li>
-                    <li class="flex items-start gap-2 text-sm text-slate-300">
+                    <li class="flex items-start gap-2 text-sm text-slate-600">
                       <svg class="w-4 h-4 text-yellow-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
                       </svg>
@@ -395,29 +395,29 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
               }
 
               @if (classification() === 'MINOR') {
-                <div class="bg-slate-800/50 rounded-2xl border border-emerald-500/20 p-6">
+                <div class="bg-white rounded-2xl border border-blue-200 p-6">
                   <h3 class="text-lg font-bold text-white mb-1 flex items-center gap-2">
-                    <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     {{ lang.t('decisiontree.recommended_actions') }}
                   </h3>
                   <p class="text-xs text-slate-400 mb-4">{{ lang.t('decisiontree.minor_incident_mgmt') }}</p>
                   <ul class="space-y-2">
-                    <li class="flex items-start gap-2 text-sm text-slate-300">
-                      <svg class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <li class="flex items-start gap-2 text-sm text-slate-600">
+                      <svg class="w-4 h-4 text-blue-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
                       </svg>
                       {{ lang.t('decisiontree.record_internal_log') }}
                     </li>
-                    <li class="flex items-start gap-2 text-sm text-slate-300">
-                      <svg class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <li class="flex items-start gap-2 text-sm text-slate-600">
+                      <svg class="w-4 h-4 text-blue-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
                       </svg>
                       {{ lang.t('decisiontree.handle_internal_standard') }}
                     </li>
-                    <li class="flex items-start gap-2 text-sm text-slate-300">
-                      <svg class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <li class="flex items-start gap-2 text-sm text-slate-600">
+                      <svg class="w-4 h-4 text-blue-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
                       </svg>
                       {{ lang.t('decisiontree.no_mandatory_reporting') }}
@@ -428,60 +428,60 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
 
               <!-- Initial notification template (major only) -->
               @if (classification() === 'MAJOR') {
-                <div class="bg-slate-800/50 rounded-2xl border border-slate-700/50 p-6">
+                <div class="bg-white rounded-2xl border border-slate-200 p-6">
                   <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                      <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                       </svg>
                       {{ lang.t('decisiontree.initial_notif_template') }}
                     </h3>
                     <button type="button" (click)="copyTemplate()"
-                            class="px-3 py-1.5 rounded-lg text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/20 transition-colors">
+                            class="px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-50 text-blue-500 border border-blue-500/30 hover:bg-blue-600/20 transition-colors">
                       {{ copied() ? lang.t('decisiontree.copied') : lang.t('decisiontree.copy') }}
                     </button>
                   </div>
 
-                  <div class="bg-slate-900/70 rounded-xl p-5 font-mono text-xs text-slate-300 leading-relaxed space-y-3 border border-slate-700/30">
+                  <div class="bg-slate-900/70 rounded-xl p-5 font-mono text-xs text-slate-600 leading-relaxed space-y-3 border border-slate-200">
                     <p class="text-slate-500">// {{ lang.t('decisiontree.template_header') }}</p>
-                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_date') }}:</span> {{ today }}</p>
-                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_incident_type') }}:</span> {{ lang.t('decisiontree.template_ict_incident') }}</p>
-                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_classification') }}:</span> {{ lang.t('decisiontree.template_major_ict') }}</p>
-                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_severity') }}:</span> {{ getSeverityLabel() }} ({{ totalSeverity() }}/24)</p>
+                    <p><span class="text-blue-500">{{ lang.t('decisiontree.template_date') }}:</span> {{ today }}</p>
+                    <p><span class="text-blue-500">{{ lang.t('decisiontree.template_incident_type') }}:</span> {{ lang.t('decisiontree.template_ict_incident') }}</p>
+                    <p><span class="text-blue-500">{{ lang.t('decisiontree.template_classification') }}:</span> {{ lang.t('decisiontree.template_major_ict') }}</p>
+                    <p><span class="text-blue-500">{{ lang.t('decisiontree.template_severity') }}:</span> {{ getSeverityLabel() }} ({{ totalSeverity() }}/24)</p>
                     <p class="text-slate-500">---</p>
-                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_critical_functions') }}:</span> {{ getAnswerValue('critical_functions') }}</p>
-                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_affected_clients') }}:</span> {{ getAnswerValue('clients_affected') }}</p>
-                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_duration') }}:</span> {{ getAnswerValue('duration') }}</p>
-                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_data_loss') }}:</span> {{ getAnswerValue('data_loss') }}</p>
-                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_reputational_impact') }}:</span> {{ getAnswerValue('reputational_impact') }}</p>
-                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_economic_impact') }}:</span> {{ getAnswerValue('economic_impact') }}</p>
-                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_geographical_spread') }}:</span> {{ getAnswerValue('geographical_spread') }}</p>
+                    <p><span class="text-blue-500">{{ lang.t('decisiontree.template_critical_functions') }}:</span> {{ getAnswerValue('critical_functions') }}</p>
+                    <p><span class="text-blue-500">{{ lang.t('decisiontree.template_affected_clients') }}:</span> {{ getAnswerValue('clients_affected') }}</p>
+                    <p><span class="text-blue-500">{{ lang.t('decisiontree.template_duration') }}:</span> {{ getAnswerValue('duration') }}</p>
+                    <p><span class="text-blue-500">{{ lang.t('decisiontree.template_data_loss') }}:</span> {{ getAnswerValue('data_loss') }}</p>
+                    <p><span class="text-blue-500">{{ lang.t('decisiontree.template_reputational_impact') }}:</span> {{ getAnswerValue('reputational_impact') }}</p>
+                    <p><span class="text-blue-500">{{ lang.t('decisiontree.template_economic_impact') }}:</span> {{ getAnswerValue('economic_impact') }}</p>
+                    <p><span class="text-blue-500">{{ lang.t('decisiontree.template_geographical_spread') }}:</span> {{ getAnswerValue('geographical_spread') }}</p>
                     <p class="text-slate-500">---</p>
-                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_legal_basis') }}:</span> DORA Art. 18, 19</p>
-                    <p><span class="text-cyan-400">{{ lang.t('decisiontree.template_deadline') }}:</span> {{ lang.t('decisiontree.template_deadline_value') }}</p>
+                    <p><span class="text-blue-500">{{ lang.t('decisiontree.template_legal_basis') }}:</span> DORA Art. 18, 19</p>
+                    <p><span class="text-blue-500">{{ lang.t('decisiontree.template_deadline') }}:</span> {{ lang.t('decisiontree.template_deadline_value') }}</p>
                   </div>
                 </div>
               }
 
               <!-- Recommended next steps -->
-              <div class="bg-slate-800/50 rounded-2xl border border-slate-700/50 p-6">
+              <div class="bg-white rounded-2xl border border-slate-200 p-6">
                 <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                  <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                   </svg>
                   {{ lang.t('decisiontree.recommended_next_steps') }}
                 </h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <a routerLink="/incident-reporting"
-                     class="p-4 rounded-xl bg-slate-700/30 border border-slate-600/30 hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all group">
+                     class="p-4 rounded-xl bg-slate-700/30 border border-slate-600/30 hover:border-blue-200 hover:bg-blue-50 transition-all group">
                     <div class="flex items-center gap-3">
-                      <div class="w-9 h-9 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
-                        <svg class="w-4.5 h-4.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div class="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                        <svg class="w-4.5 h-4.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
                       </div>
                       <div>
-                        <p class="text-sm font-medium text-white group-hover:text-emerald-300 transition-colors">
+                        <p class="text-sm font-medium text-white group-hover:text-blue-500 transition-colors">
                           {{ lang.t('decisiontree.incident_reporting') }}
                         </p>
                         <p class="text-[11px] text-slate-500">{{ lang.t('decisiontree.start_official_report') }}</p>
@@ -489,16 +489,16 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
                     </div>
                   </a>
                   <a routerLink="/incident-simulator"
-                     class="p-4 rounded-xl bg-slate-700/30 border border-slate-600/30 hover:border-cyan-500/30 hover:bg-cyan-500/5 transition-all group">
+                     class="p-4 rounded-xl bg-slate-700/30 border border-slate-600/30 hover:border-blue-500/30 hover:bg-blue-50 transition-all group">
                     <div class="flex items-center gap-3">
-                      <div class="w-9 h-9 rounded-lg bg-cyan-500/10 flex items-center justify-center shrink-0">
-                        <svg class="w-4.5 h-4.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div class="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                        <svg class="w-4.5 h-4.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                       </div>
                       <div>
-                        <p class="text-sm font-medium text-white group-hover:text-cyan-300 transition-colors">
+                        <p class="text-sm font-medium text-white group-hover:text-blue-400 transition-colors">
                           {{ lang.t('decisiontree.incident_simulator') }}
                         </p>
                         <p class="text-[11px] text-slate-500">{{ lang.t('decisiontree.simulate_response') }}</p>
@@ -543,7 +543,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
               <!-- Reset button -->
               <div class="flex justify-center">
                 <button type="button" (click)="reset()"
-                        class="flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-700/50 border border-slate-600/50 text-sm font-medium text-slate-300 hover:text-white hover:border-slate-500 hover:bg-slate-700 transition-all">
+                        class="flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-700/50 border border-slate-200 text-sm font-medium text-slate-600 hover:text-white hover:border-slate-500 hover:bg-slate-700 transition-all">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                   </svg>
@@ -556,7 +556,7 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
       </div>
 
       <!-- Reference section -->
-      <div class="bg-slate-800/30 rounded-2xl border border-slate-700/30 p-6">
+      <div class="bg-slate-800/30 rounded-2xl border border-slate-200 p-6">
         <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
           <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
@@ -565,34 +565,34 @@ type SeverityLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
         </h3>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-700/20">
-            <h4 class="text-sm font-semibold text-emerald-400 mb-2">DORA Art. 18 -- {{ lang.t('decisiontree.ref_classification') }}</h4>
+          <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-200">
+            <h4 class="text-sm font-semibold text-blue-600 mb-2">DORA Art. 18 -- {{ lang.t('decisiontree.ref_classification') }}</h4>
             <p class="text-xs text-slate-400 leading-relaxed">
               {{ lang.t('decisiontree.ref_art18_desc') }}
             </p>
           </div>
-          <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-700/20">
-            <h4 class="text-sm font-semibold text-cyan-400 mb-2">EBA RTS/ITS -- {{ lang.t('decisiontree.ref_thresholds') }}</h4>
+          <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-200">
+            <h4 class="text-sm font-semibold text-blue-500 mb-2">EBA RTS/ITS -- {{ lang.t('decisiontree.ref_thresholds') }}</h4>
             <p class="text-xs text-slate-400 leading-relaxed">
               {{ lang.t('decisiontree.ref_eba_desc') }}
             </p>
           </div>
-          <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-700/20">
+          <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-200">
             <h4 class="text-sm font-semibold text-purple-400 mb-2">DORA Art. 19 -- {{ lang.t('decisiontree.ref_reporting') }}</h4>
             <p class="text-xs text-slate-400 leading-relaxed">
               {{ lang.t('decisiontree.ref_art19_desc') }}
             </p>
           </div>
-          <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-700/20">
-            <h4 class="text-sm font-semibold text-slate-300 mb-2">{{ lang.t('decisiontree.related_tools') }}</h4>
+          <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-200">
+            <h4 class="text-sm font-semibold text-slate-600 mb-2">{{ lang.t('decisiontree.related_tools') }}</h4>
             <div class="space-y-2">
-              <a routerLink="/incident-reporting" class="flex items-center gap-2 text-xs text-emerald-400 hover:text-emerald-300 transition-colors">
+              <a routerLink="/incident-reporting" class="flex items-center gap-2 text-xs text-blue-600 hover:text-blue-500 transition-colors">
                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                 </svg>
                 {{ lang.t('decisiontree.dora_incident_reporting_tool') }}
               </a>
-              <a routerLink="/incident-simulator" class="flex items-center gap-2 text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
+              <a routerLink="/incident-simulator" class="flex items-center gap-2 text-xs text-blue-500 hover:text-blue-400 transition-colors">
                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                 </svg>
@@ -885,17 +885,17 @@ export class IncidentDecisionTreeComponent {
 
   getOptionClass(severity: number): string {
     switch (severity) {
-      case 0: return 'bg-slate-800/50 border-slate-700/50 hover:border-emerald-500/40 hover:bg-emerald-500/5';
-      case 1: return 'bg-slate-800/50 border-slate-700/50 hover:border-yellow-500/40 hover:bg-yellow-500/5';
-      case 2: return 'bg-slate-800/50 border-slate-700/50 hover:border-orange-500/40 hover:bg-orange-500/5';
-      case 3: return 'bg-slate-800/50 border-slate-700/50 hover:border-red-500/40 hover:bg-red-500/5';
-      default: return 'bg-slate-800/50 border-slate-700/50';
+      case 0: return 'bg-white border-slate-200 hover:border-blue-500/40 hover:bg-blue-50';
+      case 1: return 'bg-white border-slate-200 hover:border-yellow-500/40 hover:bg-yellow-500/5';
+      case 2: return 'bg-white border-slate-200 hover:border-orange-500/40 hover:bg-orange-500/5';
+      case 3: return 'bg-white border-slate-200 hover:border-red-500/40 hover:bg-red-500/5';
+      default: return 'bg-white border-slate-200';
     }
   }
 
   getOptionIconClass(severity: number): string {
     switch (severity) {
-      case 0: return 'bg-emerald-500/10 text-emerald-400';
+      case 0: return 'bg-blue-50 text-blue-600';
       case 1: return 'bg-yellow-500/10 text-yellow-400';
       case 2: return 'bg-orange-500/10 text-orange-400';
       case 3: return 'bg-red-500/10 text-red-400';
@@ -905,7 +905,7 @@ export class IncidentDecisionTreeComponent {
 
   getSeverityDotClass(severity: number): string {
     switch (severity) {
-      case 0: return 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+      case 0: return 'bg-blue-100 text-blue-600 border border-blue-200';
       case 1: return 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30';
       case 2: return 'bg-orange-500/20 text-orange-400 border border-orange-500/30';
       case 3: return 'bg-red-500/20 text-red-400 border border-red-500/30';
@@ -917,7 +917,7 @@ export class IncidentDecisionTreeComponent {
     switch (this.classification()) {
       case 'MAJOR': return 'bg-red-500/20 text-red-400 border border-red-500/30';
       case 'SIGNIFICANT': return 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30';
-      case 'MINOR': return 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+      case 'MINOR': return 'bg-blue-100 text-blue-600 border border-blue-200';
     }
   }
 
@@ -925,7 +925,7 @@ export class IncidentDecisionTreeComponent {
     switch (this.classification()) {
       case 'MAJOR': return 'text-red-400';
       case 'SIGNIFICANT': return 'text-yellow-400';
-      case 'MINOR': return 'text-emerald-400';
+      case 'MINOR': return 'text-blue-600';
     }
   }
 
@@ -933,7 +933,7 @@ export class IncidentDecisionTreeComponent {
     switch (this.classification()) {
       case 'MAJOR': return 'bg-red-500/5 border-red-500/20';
       case 'SIGNIFICANT': return 'bg-yellow-500/5 border-yellow-500/20';
-      case 'MINOR': return 'bg-emerald-500/5 border-emerald-500/20';
+      case 'MINOR': return 'bg-blue-50 border-blue-200';
     }
   }
 
@@ -941,7 +941,7 @@ export class IncidentDecisionTreeComponent {
     switch (this.classification()) {
       case 'MAJOR': return 'bg-red-500/10 border border-red-500/30';
       case 'SIGNIFICANT': return 'bg-yellow-500/10 border border-yellow-500/30';
-      case 'MINOR': return 'bg-emerald-500/10 border border-emerald-500/30';
+      case 'MINOR': return 'bg-blue-50 border border-blue-200';
     }
   }
 
@@ -950,7 +950,7 @@ export class IncidentDecisionTreeComponent {
       case 'CRITICAL': return 'bg-red-500/10 border-red-500/30 text-red-400';
       case 'HIGH': return 'bg-orange-500/10 border-orange-500/30 text-orange-400';
       case 'MEDIUM': return 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400';
-      case 'LOW': return 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400';
+      case 'LOW': return 'bg-blue-50 border-blue-200 text-blue-600';
     }
   }
 
@@ -959,7 +959,7 @@ export class IncidentDecisionTreeComponent {
       case 'CRITICAL': return 'bg-red-400';
       case 'HIGH': return 'bg-orange-400';
       case 'MEDIUM': return 'bg-yellow-400';
-      case 'LOW': return 'bg-emerald-400';
+      case 'LOW': return 'bg-blue-500';
     }
   }
 

@@ -58,7 +58,7 @@ interface Classification {
       <div class="max-w-4xl mx-auto">
         <!-- Header -->
         <div class="mb-8">
-          <a routerLink="/dashboard" class="text-sm text-slate-500 hover:text-emerald-400 transition-colors">&larr; {{ lang.t('prop.back') }}</a>
+          <a routerLink="/dashboard" class="text-sm text-slate-500 hover:text-blue-600 transition-colors">&larr; {{ lang.t('prop.back') }}</a>
           <h1 class="text-2xl font-bold text-white mt-2">{{ lang.t('prop.title') }}</h1>
           <p class="text-slate-400 text-sm mt-1">{{ lang.t('prop.subtitle') }}</p>
         </div>
@@ -68,9 +68,9 @@ interface Classification {
           @for (s of steps; track s.num) {
             <button (click)="goToStep(s.num)"
                     class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all"
-                    [class]="step === s.num ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : (s.num < step ? 'bg-slate-800/50 text-slate-400' : 'bg-slate-800/30 text-slate-500')">
+                    [class]="step === s.num ? 'bg-blue-100 text-blue-600 border border-blue-200' : (s.num < step ? 'bg-white text-slate-400' : 'bg-slate-800/30 text-slate-500')">
               <span class="w-6 h-6 flex items-center justify-center rounded-full text-xs"
-                    [class]="s.num < step ? 'bg-emerald-500 text-white' : (step === s.num ? 'bg-emerald-500/30 text-emerald-400' : 'bg-slate-700 text-slate-500')">
+                    [class]="s.num < step ? 'bg-blue-600 text-white' : (step === s.num ? 'bg-blue-600/30 text-blue-600' : 'bg-slate-700 text-slate-500')">
                 {{ s.num < step ? '&#10003;' : s.num }}
               </span>
               {{ s.label }}
@@ -91,9 +91,9 @@ interface Classification {
                   @for (et of sector.types; track et.code) {
                     <button (click)="form.entityType = et.code"
                             class="flex items-center gap-3 px-4 py-3 rounded-lg border text-left transition-all"
-                            [class]="form.entityType === et.code ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400' : 'border-slate-700 bg-slate-800/30 text-slate-300 hover:border-slate-600'">
+                            [class]="form.entityType === et.code ? 'border-blue-500 bg-blue-50 text-blue-600' : 'border-slate-700 bg-slate-800/30 text-slate-600 hover:border-slate-300'">
                       <span class="w-8 h-8 rounded-lg flex items-center justify-center text-sm"
-                            [class]="form.entityType === et.code ? 'bg-emerald-500/20' : 'bg-slate-700/50'">
+                            [class]="form.entityType === et.code ? 'bg-blue-100' : 'bg-slate-700/50'">
                         {{ getSectorIcon(sector.name) }}
                       </span>
                       <span class="text-sm">{{ et.label }}</span>
@@ -112,31 +112,31 @@ interface Classification {
               <div>
                 <label class="block text-sm text-slate-400 mb-1">{{ lang.t('prop.employees') }}</label>
                 <input type="number" [(ngModel)]="form.employeeCount" min="0"
-                       class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white"
+                       class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white"
                        (ngModelChange)="updateSizeCategory()">
               </div>
               <div>
                 <label class="block text-sm text-slate-400 mb-1">{{ lang.t('prop.revenue') }}</label>
                 <input type="number" [(ngModel)]="form.annualRevenue" min="0"
-                       class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white"
+                       class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white"
                        (ngModelChange)="updateSizeCategory()">
               </div>
               <div>
                 <label class="block text-sm text-slate-400 mb-1">{{ lang.t('prop.total_assets') }}</label>
                 <input type="number" [(ngModel)]="form.totalAssets" min="0"
-                       class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                       class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
               </div>
             </div>
 
             <!-- Auto-calculated size indicator -->
             <div class="p-4 rounded-xl border mb-4"
                  [class]="computedSize === 'MICRO' ? 'border-blue-500/30 bg-blue-500/10' :
-                          (computedSize === 'SMALL' ? 'border-cyan-500/30 bg-cyan-500/10' :
+                          (computedSize === 'SMALL' ? 'border-blue-500/30 bg-blue-50' :
                           (computedSize === 'MEDIUM' ? 'border-amber-500/30 bg-amber-500/10' : 'border-red-500/30 bg-red-500/10'))">
               <div class="flex items-center gap-4">
                 <div class="w-16 h-16 rounded-full flex items-center justify-center text-xl font-bold"
                      [class]="computedSize === 'MICRO' ? 'bg-blue-500/20 text-blue-400' :
-                              (computedSize === 'SMALL' ? 'bg-cyan-500/20 text-cyan-400' :
+                              (computedSize === 'SMALL' ? 'bg-blue-600/20 text-blue-500' :
                               (computedSize === 'MEDIUM' ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'))">
                   {{ computedSize?.charAt(0) }}
                 </div>
@@ -154,7 +154,7 @@ interface Classification {
             <div class="grid grid-cols-4 gap-2 text-center text-xs">
               @for (size of ['MICRO', 'SMALL', 'MEDIUM', 'LARGE']; track size) {
                 <div class="p-2 rounded-lg"
-                     [class]="computedSize === size ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-400' : 'bg-slate-800/30 text-slate-500'">
+                     [class]="computedSize === size ? 'bg-blue-100 border border-blue-200 text-blue-600' : 'bg-slate-800/30 text-slate-500'">
                   <div class="font-bold mb-1">{{ lang.t('prop.size_' + size.toLowerCase()) }}</div>
                   @switch (size) {
                     @case ('MICRO') { <div>&lt;10 empl<br>&lt;2M EUR</div> }
@@ -175,18 +175,18 @@ interface Classification {
               <div>
                 <label class="block text-sm text-slate-400 mb-1">{{ lang.t('prop.ict_systems') }}</label>
                 <input type="number" [(ngModel)]="form.ictSystemCount" min="0"
-                       class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                       class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
               </div>
               <div>
                 <label class="flex items-center gap-3 cursor-pointer">
-                  <input type="checkbox" [(ngModel)]="form.crossBorderOperations" class="w-5 h-5 accent-emerald-500">
-                  <span class="text-sm text-slate-300">{{ lang.t('prop.cross_border') }}</span>
+                  <input type="checkbox" [(ngModel)]="form.crossBorderOperations" class="w-5 h-5 accent-blue-600">
+                  <span class="text-sm text-slate-600">{{ lang.t('prop.cross_border') }}</span>
                 </label>
               </div>
               <div>
                 <label class="flex items-center gap-3 cursor-pointer">
-                  <input type="checkbox" [(ngModel)]="form.ncaDesignated" class="w-5 h-5 accent-emerald-500">
-                  <span class="text-sm text-slate-300">{{ lang.t('prop.nca_significant') }}</span>
+                  <input type="checkbox" [(ngModel)]="form.ncaDesignated" class="w-5 h-5 accent-blue-600">
+                  <span class="text-sm text-slate-600">{{ lang.t('prop.nca_significant') }}</span>
                 </label>
                 <p class="text-xs text-slate-500 mt-1 ml-8">Determines whether TLPT (Art. 26-27) applies to your entity</p>
               </div>
@@ -197,7 +197,7 @@ interface Classification {
               <div class="flex items-center gap-3">
                 <span class="text-sm text-slate-400">Complexity:</span>
                 <span class="px-3 py-1 rounded-full text-sm font-medium"
-                      [class]="computedComplexity === 'SIMPLE' ? 'bg-emerald-500/20 text-emerald-400' :
+                      [class]="computedComplexity === 'SIMPLE' ? 'bg-blue-100 text-blue-600' :
                                (computedComplexity === 'MODERATE' ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400')">
                   {{ computedComplexity }}
                 </span>
@@ -209,7 +209,7 @@ interface Classification {
           @if (step === 4) {
             @if (loading) {
               <div class="text-center py-12">
-                <div class="w-8 h-8 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin mx-auto mb-4"></div>
+                <div class="w-8 h-8 border-2 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4"></div>
                 <p class="text-slate-400">Calculating your DORA scope...</p>
               </div>
             }
@@ -218,7 +218,7 @@ interface Classification {
               <h2 class="text-xl font-semibold text-white mb-6">{{ lang.t('prop.scope_title') }}</h2>
 
               <!-- Classification Summary Card -->
-              <div class="p-5 bg-gradient-to-r from-emerald-500/10 via-blue-500/10 to-purple-500/10 rounded-xl border border-emerald-500/20 mb-6">
+              <div class="p-5 bg-gradient-to-r from-blue-600/10 via-blue-500/10 to-purple-500/10 rounded-xl border border-blue-200 mb-6">
                 <h3 class="text-sm text-slate-400 mb-3">{{ lang.t('prop.classification_summary') }}</h3>
                 <div class="grid grid-cols-3 gap-4">
                   <div>
@@ -247,7 +247,7 @@ interface Classification {
               <!-- Reduction highlight -->
               @if (scope.reductionPercentage > 0) {
                 <div class="text-center py-4 mb-6">
-                  <span class="text-4xl font-bold text-emerald-400">{{ scope.reductionPercentage | number:'1.0-0' }}%</span>
+                  <span class="text-4xl font-bold text-blue-600">{{ scope.reductionPercentage | number:'1.0-0' }}%</span>
                   <span class="text-slate-400 ml-2">{{ lang.t('prop.fewer_requirements') }}</span>
                 </div>
               }
@@ -255,7 +255,7 @@ interface Classification {
               <!-- Article-by-article table -->
               <div class="space-y-2 mb-6">
                 @for (article of scope.articles; track article.articleRange) {
-                  <div class="flex items-center justify-between p-4 bg-slate-800/30 rounded-lg border border-slate-700/50">
+                  <div class="flex items-center justify-between p-4 bg-slate-800/30 rounded-lg border border-slate-200">
                     <div class="flex-1">
                       <div class="flex items-center gap-2">
                         <span class="font-mono text-xs text-slate-400">{{ article.articleRange }}</span>
@@ -264,7 +264,7 @@ interface Classification {
                       <p class="text-xs text-slate-500 mt-1">{{ article.description }}</p>
                     </div>
                     <span class="ml-4 px-3 py-1 rounded-full text-xs font-bold shrink-0"
-                          [class]="article.status === 'FULL' ? 'bg-emerald-500/20 text-emerald-400' :
+                          [class]="article.status === 'FULL' ? 'bg-blue-100 text-blue-600' :
                                    (article.status === 'SIMPLIFIED' ? 'bg-blue-500/20 text-blue-400' :
                                    (article.status === 'EXEMPT' ? 'bg-slate-500/20 text-slate-400' : 'bg-purple-500/20 text-purple-400'))">
                       {{ article.status === 'FULL' ? lang.t('prop.full_apply') :
@@ -277,8 +277,8 @@ interface Classification {
 
               <!-- Summary stats -->
               <div class="grid grid-cols-4 gap-3 mb-6">
-                <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-3 text-center">
-                  <div class="text-xl font-bold text-emerald-400">{{ scope.fullApply }}</div>
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center">
+                  <div class="text-xl font-bold text-blue-600">{{ scope.fullApply }}</div>
                   <div class="text-[10px] text-slate-400">{{ lang.t('prop.full_apply') }}</div>
                 </div>
                 <div class="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3 text-center">
@@ -297,7 +297,7 @@ interface Classification {
 
               <!-- Action buttons -->
               <div class="flex flex-wrap gap-3">
-                <button (click)="applyToAssessment()" class="px-5 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-semibold">
+                <button (click)="applyToAssessment()" class="px-5 py-3 bg-blue-700 hover:bg-blue-600 text-white rounded-lg font-semibold">
                   {{ lang.t('prop.apply_to_assessment') }}
                 </button>
               </div>
@@ -312,7 +312,7 @@ interface Classification {
             &larr; {{ lang.t('roi.prev') }}
           </button>
           <button (click)="nextStep()"
-                  class="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-white rounded-lg font-semibold"
+                  class="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-semibold"
                   [disabled]="step === 1 && !form.entityType">
             {{ step === 4 ? lang.t('roi.finish') : lang.t('roi.next') + ' &rarr;' }}
           </button>

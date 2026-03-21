@@ -168,7 +168,7 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
                     <span class="material-symbols-outlined text-xl" [class]="getDifficultyColor(scenario.difficulty)">{{ scenario.icon }}</span>
                   </div>
                   <div class="min-w-0">
-                    <h3 class="font-bold text-slate-200 text-sm leading-tight">
+                    <h3 class="font-bold text-slate-700 text-sm leading-tight">
                       {{ lang.lang() === 'et' ? scenario.nameEt : scenario.name }}
                     </h3>
                     <div class="flex items-center gap-1.5 mt-1">
@@ -177,7 +177,7 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
                         {{ getDifficultyLabel(scenario.difficulty) }}
                       </span>
                       <span class="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase"
-                            [class]="scenario.tier === 'FREE' ? 'bg-emerald-500/15 text-emerald-400' : scenario.tier === 'ENTERPRISE' ? 'bg-purple-500/15 text-purple-400' : 'bg-amber-500/15 text-amber-400'">
+                            [class]="scenario.tier === 'FREE' ? 'bg-blue-50 text-blue-600' : scenario.tier === 'ENTERPRISE' ? 'bg-purple-500/15 text-purple-400' : 'bg-amber-500/15 text-amber-400'">
                         {{ getTierLabel(scenario.tier) }}
                       </span>
                     </div>
@@ -210,7 +210,7 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
               </div>
               <div>
                 <p class="text-xs text-slate-500 uppercase tracking-wider font-medium">{{ lang.t('war_room.phase') }} {{ (currentPhase()?.phaseIndex ?? 0) + 1 }}/{{ currentPhase()?.totalPhases ?? 4 }}</p>
-                <p class="text-sm font-semibold text-slate-200">
+                <p class="text-sm font-semibold text-slate-700">
                   {{ lang.lang() === 'et' ? currentPhase()?.nameEt : currentPhase()?.name }}
                 </p>
               </div>
@@ -246,11 +246,11 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
           <div class="grid grid-cols-3 gap-2">
             @for (dl of deadlineList(); track dl.key) {
               <div class="flex items-center gap-2 px-2 py-1.5 rounded-lg text-xs"
-                   [class]="dl.status === 'expired' ? 'bg-red-500/10 border border-red-500/20' : dl.remaining <= 30 ? 'bg-amber-500/10 border border-amber-500/20' : 'bg-emerald-500/10 border border-emerald-500/20'">
+                   [class]="dl.status === 'expired' ? 'bg-red-500/10 border border-red-500/20' : dl.remaining <= 30 ? 'bg-amber-500/10 border border-amber-500/20' : 'bg-blue-50 border border-blue-200'">
                 <div class="w-2 h-2 rounded-full shrink-0"
-                     [class]="dl.status === 'expired' ? 'bg-red-500' : dl.remaining <= 30 ? 'bg-amber-500 animate-pulse' : 'bg-emerald-500'"></div>
+                     [class]="dl.status === 'expired' ? 'bg-red-500' : dl.remaining <= 30 ? 'bg-amber-500 animate-pulse' : 'bg-blue-600'"></div>
                 <div class="min-w-0">
-                  <p class="font-medium truncate" [class]="dl.status === 'expired' ? 'text-red-400' : dl.remaining <= 30 ? 'text-amber-400' : 'text-emerald-400'">
+                  <p class="font-medium truncate" [class]="dl.status === 'expired' ? 'text-red-400' : dl.remaining <= 30 ? 'text-amber-400' : 'text-blue-600'">
                     {{ lang.lang() === 'et' ? dl.labelEt : dl.label }}
                   </p>
                   <p class="text-slate-500">
@@ -269,12 +269,12 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
         <!-- Decision Card -->
         @if (screen() === 'simulation' && currentDecision()) {
           <div class="glass-card p-6 mb-4">
-            <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-700/30 mb-5">
+            <div class="bg-white rounded-xl p-5 border border-slate-200 mb-5">
               <div class="flex items-start gap-3">
                 <div class="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center shrink-0 mt-0.5">
                   <span class="material-symbols-outlined text-lg text-red-400">crisis_alert</span>
                 </div>
-                <p class="text-slate-200 leading-relaxed">
+                <p class="text-slate-700 leading-relaxed">
                   {{ lang.lang() === 'et' ? currentDecision()!.promptEt : currentDecision()!.prompt }}
                 </p>
               </div>
@@ -287,14 +287,14 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
                         class="w-full text-left p-4 rounded-xl border transition-all duration-200 flex items-start gap-3"
                         [class]="selectedOption() === opt.index
                           ? 'bg-red-500/10 border-red-500/40 ring-1 ring-red-500/30'
-                          : 'bg-slate-800/50 border-slate-700/50 hover:border-red-500/20 hover:bg-red-500/5'">
+                          : 'bg-white border-slate-200 hover:border-red-500/20 hover:bg-red-500/5'">
                   <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 transition-all"
                        [class]="selectedOption() === opt.index ? 'border-red-500 bg-red-500' : 'border-slate-600'">
                     @if (selectedOption() === opt.index) {
                       <div class="w-2 h-2 rounded-full bg-white"></div>
                     }
                   </div>
-                  <p class="text-sm" [class]="selectedOption() === opt.index ? 'text-red-300 font-medium' : 'text-slate-300'">
+                  <p class="text-sm" [class]="selectedOption() === opt.index ? 'text-red-300 font-medium' : 'text-slate-600'">
                     {{ lang.lang() === 'et' ? opt.textEt : opt.text }}
                   </p>
                 </button>
@@ -445,7 +445,7 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
                 <div class="flex items-center justify-between mb-1.5">
                   <div class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-sm" [class]="cat.color">{{ cat.icon }}</span>
-                    <span class="text-sm font-medium text-slate-300">{{ lang.t(cat.labelKey) }}</span>
+                    <span class="text-sm font-medium text-slate-600">{{ lang.t(cat.labelKey) }}</span>
                   </div>
                   <span class="text-sm font-bold" [class]="cat.color">{{ cat.value }}%</span>
                 </div>
@@ -481,9 +481,9 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
           </h3>
           <div class="space-y-3">
             @for (d of result()!.decisions; track $index; let i = $index) {
-              <div class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/30 border border-slate-700/30">
+              <div class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/30 border border-slate-200">
                 <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold shrink-0"
-                     [class]="d.qualityScore >= 80 ? 'bg-emerald-500/20 text-emerald-400'
+                     [class]="d.qualityScore >= 80 ? 'bg-blue-100 text-blue-600'
                             : d.qualityScore >= 50 ? 'bg-amber-500/20 text-amber-400'
                             : 'bg-red-500/20 text-red-400'">
                   {{ d.qualityScore }}
@@ -492,7 +492,7 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
                   <div class="flex items-center gap-2 mb-0.5">
                     <span class="text-[10px] font-bold uppercase text-slate-500">{{ d.phaseName }}</span>
                   </div>
-                  <p class="text-xs text-slate-300 leading-relaxed">{{ d.optionText }}</p>
+                  <p class="text-xs text-slate-600 leading-relaxed">{{ d.optionText }}</p>
                   <p class="text-xs text-slate-500 mt-1 italic">{{ d.consequence }}</p>
                 </div>
               </div>
@@ -508,7 +508,7 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
             {{ lang.t('war_room.try_again') }}
           </button>
           <button (click)="backToScenarios()"
-                  class="flex-1 py-3 rounded-xl font-bold text-sm transition-all bg-slate-800/50 border border-slate-700/50 text-slate-300 hover:border-red-500/30 hover:bg-red-500/5 flex items-center justify-center gap-2">
+                  class="flex-1 py-3 rounded-xl font-bold text-sm transition-all bg-white border border-slate-200 text-slate-600 hover:border-red-500/30 hover:bg-red-500/5 flex items-center justify-center gap-2">
             <span class="material-symbols-outlined text-lg">arrow_back</span>
             {{ lang.t('war_room.back_to_scenarios') }}
           </button>
@@ -599,7 +599,7 @@ export class WarRoomComponent implements OnInit {
     if (!r) return [];
     return [
       { key: 'dora', labelKey: 'war_room.score_dora', value: r.scores.doraCompliance, icon: 'gavel', color: 'text-blue-400', barClass: 'bg-gradient-to-r from-blue-600 to-blue-400' },
-      { key: 'containment', labelKey: 'war_room.score_containment', value: r.scores.containment, icon: 'shield', color: 'text-emerald-400', barClass: 'bg-gradient-to-r from-emerald-600 to-emerald-400' },
+      { key: 'containment', labelKey: 'war_room.score_containment', value: r.scores.containment, icon: 'shield', color: 'text-blue-600', barClass: 'bg-gradient-to-r from-blue-700 to-blue-400' },
       { key: 'decision', labelKey: 'war_room.score_decision', value: r.scores.decisionQuality, icon: 'psychology', color: 'text-violet-400', barClass: 'bg-gradient-to-r from-violet-600 to-violet-400' },
       { key: 'time', labelKey: 'war_room.score_time', value: r.scores.timeManagement, icon: 'schedule', color: 'text-amber-400', barClass: 'bg-gradient-to-r from-amber-600 to-amber-400' }
     ];
@@ -759,19 +759,19 @@ export class WarRoomComponent implements OnInit {
 
   getDifficultyBg(difficulty: string): string {
     if (difficulty === 'HIGH') return 'bg-red-500/15';
-    if (difficulty === 'LOW') return 'bg-emerald-500/15';
+    if (difficulty === 'LOW') return 'bg-blue-50';
     return 'bg-amber-500/15';
   }
 
   getDifficultyColor(difficulty: string): string {
     if (difficulty === 'HIGH') return 'text-red-400';
-    if (difficulty === 'LOW') return 'text-emerald-400';
+    if (difficulty === 'LOW') return 'text-blue-600';
     return 'text-amber-400';
   }
 
   getDifficultyBadge(difficulty: string): string {
     if (difficulty === 'HIGH') return 'bg-red-500/15 text-red-400';
-    if (difficulty === 'LOW') return 'bg-emerald-500/15 text-emerald-400';
+    if (difficulty === 'LOW') return 'bg-blue-50 text-blue-600';
     return 'bg-amber-500/15 text-amber-400';
   }
 
@@ -786,46 +786,46 @@ export class WarRoomComponent implements OnInit {
   }
 
   getQualityBannerClass(score: number): string {
-    if (score >= 80) return 'bg-emerald-500/10 border-emerald-500';
+    if (score >= 80) return 'bg-blue-50 border-blue-500';
     if (score >= 50) return 'bg-amber-500/10 border-amber-500';
     return 'bg-red-500/10 border-red-500';
   }
 
   getQualityScoreBg(score: number): string {
-    if (score >= 80) return 'bg-emerald-500/20';
+    if (score >= 80) return 'bg-blue-100';
     if (score >= 50) return 'bg-amber-500/20';
     return 'bg-red-500/20';
   }
 
   getQualityScoreColor(score: number): string {
-    if (score >= 80) return 'text-emerald-400';
+    if (score >= 80) return 'text-blue-600';
     if (score >= 50) return 'text-amber-400';
     return 'text-red-400';
   }
 
   getGradeBorderClass(grade: string): string {
-    if (grade === 'A') return 'border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 to-emerald-500/5';
+    if (grade === 'A') return 'border-blue-200 bg-gradient-to-br from-blue-600/10 to-blue-600/5';
     if (grade === 'B') return 'border-blue-500/30 bg-gradient-to-br from-blue-500/10 to-blue-500/5';
     if (grade === 'C') return 'border-amber-500/30 bg-gradient-to-br from-amber-500/10 to-amber-500/5';
     return 'border-red-500/30 bg-gradient-to-br from-red-500/10 to-red-500/5';
   }
 
   getGradeBgClass(grade: string): string {
-    if (grade === 'A') return 'from-emerald-500 to-emerald-700';
+    if (grade === 'A') return 'from-blue-600 to-blue-800';
     if (grade === 'B') return 'from-blue-500 to-blue-700';
     if (grade === 'C') return 'from-amber-500 to-amber-700';
     return 'from-red-500 to-red-700';
   }
 
   getGradeHeroClass(grade: string): string {
-    if (grade === 'A') return 'border-emerald-500/50 bg-emerald-500/10';
+    if (grade === 'A') return 'border-blue-500/50 bg-blue-50';
     if (grade === 'B') return 'border-blue-500/50 bg-blue-500/10';
     if (grade === 'C') return 'border-amber-500/50 bg-amber-500/10';
     return 'border-red-500/50 bg-red-500/10';
   }
 
   getGradeTextClass(grade: string): string {
-    if (grade === 'A') return 'text-emerald-400';
+    if (grade === 'A') return 'text-blue-600';
     if (grade === 'B') return 'text-blue-400';
     if (grade === 'C') return 'text-amber-400';
     return 'text-red-400';

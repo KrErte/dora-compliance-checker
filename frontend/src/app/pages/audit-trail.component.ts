@@ -36,7 +36,7 @@ interface AuditEntry {
       <!-- Summary -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
         @for (cat of categories; track cat.key) {
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
+          <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-white">{{ countByCategory(cat.key) }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.l(cat.labelEt, cat.labelEn) }}</div>
           </div>
@@ -44,12 +44,12 @@ interface AuditEntry {
       </div>
 
       <!-- Trail entries -->
-      <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl overflow-hidden">
+      <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
         <div class="divide-y divide-slate-700/30">
           @for (entry of entries(); track $index) {
             <div class="px-6 py-3 flex items-center gap-4">
               <div class="text-xs text-slate-500 w-36 flex-shrink-0 font-mono">{{ entry.timestamp }}</div>
-              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-700/50 text-slate-300 flex-shrink-0">{{ entry.category }}</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-700/50 text-slate-600 flex-shrink-0">{{ entry.category }}</span>
               <div class="flex-1 text-sm text-white">{{ entry.action }}</div>
               <div class="text-xs text-slate-400 truncate max-w-[200px]">{{ entry.details }}</div>
             </div>

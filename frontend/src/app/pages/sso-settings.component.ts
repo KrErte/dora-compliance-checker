@@ -45,7 +45,7 @@ interface SsoConfig {
 
       <!-- Enterprise gate -->
       @if (!hasEnterprise()) {
-        <div class="bg-slate-800/50 rounded-xl border border-amber-500/30 p-8 text-center">
+        <div class="bg-white rounded-xl border border-amber-500/30 p-8 text-center">
           <div class="w-16 h-16 rounded-full bg-amber-500/10 flex items-center justify-center mx-auto mb-4">
             <svg class="w-8 h-8 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
@@ -62,7 +62,7 @@ interface SsoConfig {
       } @else {
         <!-- Org selector -->
         @if (organizations().length === 0) {
-          <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-8 text-center">
+          <div class="bg-white rounded-xl border border-slate-200 p-8 text-center">
             <p class="text-sm text-slate-400">
               {{ lang.t('sso.first_create_an_organization_in_team_man') }}
             </p>
@@ -73,7 +73,7 @@ interface SsoConfig {
               {{ lang.t('sso.organization') }}:
             </label>
             <select [(ngModel)]="selectedOrgId" (ngModelChange)="onOrgChange()"
-                    class="px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-emerald-500/50">
+                    class="px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50">
               @for (org of organizations(); track org.id) {
                 <option [value]="org.id">{{ org.name }}</option>
               }
@@ -82,11 +82,11 @@ interface SsoConfig {
 
           <!-- Existing SSO configs -->
           @for (config of configs(); track config.id) {
-            <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-5">
+            <div class="bg-white rounded-xl border border-slate-200 p-5">
               <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center gap-3">
                   <div class="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-xs"
-                       [ngClass]="config.type === 'SAML2' ? 'bg-gradient-to-br from-blue-400 to-indigo-500' : 'bg-gradient-to-br from-emerald-400 to-cyan-500'">
+                       [ngClass]="config.type === 'SAML2' ? 'bg-gradient-to-br from-blue-400 to-indigo-500' : 'bg-gradient-to-br from-blue-500 to-blue-500'">
                     {{ config.type === 'SAML2' ? 'SA' : 'OI' }}
                   </div>
                   <div>
@@ -97,14 +97,14 @@ interface SsoConfig {
                 <div class="flex items-center gap-2">
                   <span class="px-2 py-0.5 text-[10px] font-bold rounded"
                         [ngClass]="{
-                          'bg-emerald-500/20 text-emerald-400': config.status === 'ACTIVE',
+                          'bg-blue-100 text-blue-600': config.status === 'ACTIVE',
                           'bg-slate-600/30 text-slate-400': config.status === 'DRAFT',
                           'bg-red-500/20 text-red-400': config.status === 'DISABLED'
                         }">
                     {{ config.status }}
                   </span>
                   <button (click)="editConfig(config)"
-                          class="px-2 py-1 text-xs rounded bg-slate-600/30 text-slate-300 hover:bg-slate-600/50 transition-colors">
+                          class="px-2 py-1 text-xs rounded bg-slate-600/30 text-slate-600 hover:bg-slate-100 transition-colors">
                     {{ lang.t('sso.edit') }}
                   </button>
                 </div>
@@ -114,31 +114,31 @@ interface SsoConfig {
                 @if (config.type === 'SAML2') {
                   <div>
                     <p class="text-[10px] text-slate-500 uppercase">Entity ID</p>
-                    <p class="text-slate-300 truncate">{{ config.entityId || '-' }}</p>
+                    <p class="text-slate-600 truncate">{{ config.entityId || '-' }}</p>
                   </div>
                   <div>
                     <p class="text-[10px] text-slate-500 uppercase">SSO URL</p>
-                    <p class="text-slate-300 truncate">{{ config.ssoUrl || '-' }}</p>
+                    <p class="text-slate-600 truncate">{{ config.ssoUrl || '-' }}</p>
                   </div>
                 } @else {
                   <div>
                     <p class="text-[10px] text-slate-500 uppercase">Issuer URL</p>
-                    <p class="text-slate-300 truncate">{{ config.issuerUrl || '-' }}</p>
+                    <p class="text-slate-600 truncate">{{ config.issuerUrl || '-' }}</p>
                   </div>
                   <div>
                     <p class="text-[10px] text-slate-500 uppercase">Client ID</p>
-                    <p class="text-slate-300 truncate">{{ config.clientId || '-' }}</p>
+                    <p class="text-slate-600 truncate">{{ config.clientId || '-' }}</p>
                   </div>
                 }
                 <div>
                   <p class="text-[10px] text-slate-500 uppercase">
                     {{ lang.t('sso.allowed_domains') }}
                   </p>
-                  <p class="text-slate-300">{{ config.allowedDomains || '-' }}</p>
+                  <p class="text-slate-600">{{ config.allowedDomains || '-' }}</p>
                 </div>
                 <div>
                   <p class="text-[10px] text-slate-500 uppercase">Auto-provision</p>
-                  <p class="text-slate-300">{{ config.autoProvision ? 'Yes' : 'No' }}</p>
+                  <p class="text-slate-600">{{ config.autoProvision ? 'Yes' : 'No' }}</p>
                 </div>
               </div>
             </div>
@@ -146,7 +146,7 @@ interface SsoConfig {
 
           <!-- Add new config -->
           @if (configs().length === 0) {
-            <div class="bg-slate-800/50 rounded-xl border border-dashed border-slate-600/50 p-8 text-center">
+            <div class="bg-white rounded-xl border border-dashed border-slate-200 p-8 text-center">
               <h3 class="text-lg font-semibold text-white mb-3">
                 {{ lang.t('sso.configure_sso') }}
               </h3>
@@ -160,7 +160,7 @@ interface SsoConfig {
                   <span class="text-xs text-slate-500">Okta, Azure AD, ADFS</span>
                 </button>
                 <button (click)="startNewConfig('OIDC')"
-                        class="px-6 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 transition-all">
+                        class="px-6 py-3 rounded-xl bg-blue-50 border border-blue-200 text-blue-600 hover:bg-blue-100 transition-all">
                   <span class="text-lg font-bold block">OIDC</span>
                   <span class="text-xs text-slate-500">Auth0, Keycloak, Cognito</span>
                 </button>
@@ -168,14 +168,14 @@ interface SsoConfig {
             </div>
           } @else {
             <button (click)="startNewConfig('SAML2')"
-                    class="px-4 py-2 text-sm rounded-lg bg-slate-700/30 text-slate-300 hover:bg-slate-700/50 transition-colors">
+                    class="px-4 py-2 text-sm rounded-lg bg-slate-700/30 text-slate-600 hover:bg-slate-100 transition-colors">
               + {{ lang.t('sso.add_sso_configuration') }}
             </button>
           }
 
           <!-- SP metadata info -->
-          <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-5">
-            <h3 class="text-sm font-semibold text-slate-300 mb-3">
+          <div class="bg-white rounded-xl border border-slate-200 p-5">
+            <h3 class="text-sm font-semibold text-slate-600 mb-3">
               {{ lang.t('sso.service_provider_details_sp') }}
             </h3>
             <p class="text-xs text-slate-400 mb-3">
@@ -184,15 +184,15 @@ interface SsoConfig {
             <div class="space-y-2">
               <div class="flex items-center justify-between py-2 px-3 rounded bg-slate-700/20">
                 <span class="text-xs text-slate-500">ACS URL</span>
-                <code class="text-xs text-emerald-400">https://doraaudit.eu/api/auth/sso/callback</code>
+                <code class="text-xs text-blue-600">https://doraaudit.eu/api/auth/sso/callback</code>
               </div>
               <div class="flex items-center justify-between py-2 px-3 rounded bg-slate-700/20">
                 <span class="text-xs text-slate-500">Entity ID</span>
-                <code class="text-xs text-emerald-400">https://doraaudit.eu</code>
+                <code class="text-xs text-blue-600">https://doraaudit.eu</code>
               </div>
               <div class="flex items-center justify-between py-2 px-3 rounded bg-slate-700/20">
                 <span class="text-xs text-slate-500">NameID Format</span>
-                <code class="text-xs text-emerald-400">urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</code>
+                <code class="text-xs text-blue-600">urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</code>
               </div>
             </div>
           </div>
@@ -202,8 +202,8 @@ interface SsoConfig {
       <!-- Edit/Create modal -->
       @if (showModal) {
         <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" (click)="showModal = false">
-          <div class="bg-slate-800 rounded-xl border border-slate-700/50 shadow-xl w-full max-w-lg max-h-[85vh] overflow-y-auto" (click)="$event.stopPropagation()">
-            <div class="p-5 border-b border-slate-700/50">
+          <div class="bg-slate-800 rounded-xl border border-slate-200 shadow-xl w-full max-w-lg max-h-[85vh] overflow-y-auto" (click)="$event.stopPropagation()">
+            <div class="p-5 border-b border-slate-200">
               <h3 class="text-lg font-semibold text-white">
                 {{ form.type === 'SAML2' ? 'SAML 2.0' : 'OIDC' }}
                 {{ lang.t('sso.configuration') }}
@@ -217,11 +217,11 @@ interface SsoConfig {
                 </label>
                 <div class="flex gap-2">
                   <button (click)="form.type = 'SAML2'" class="flex-1 px-3 py-2 rounded-lg text-sm font-medium border transition-all"
-                          [ngClass]="form.type === 'SAML2' ? 'border-blue-500/50 bg-blue-500/10 text-blue-400' : 'border-slate-600/50 text-slate-400 hover:border-slate-500/50'">
+                          [ngClass]="form.type === 'SAML2' ? 'border-blue-500/50 bg-blue-500/10 text-blue-400' : 'border-slate-200 text-slate-400 hover:border-slate-500/50'">
                     SAML 2.0
                   </button>
                   <button (click)="form.type = 'OIDC'" class="flex-1 px-3 py-2 rounded-lg text-sm font-medium border transition-all"
-                          [ngClass]="form.type === 'OIDC' ? 'border-emerald-500/50 bg-emerald-500/10 text-emerald-400' : 'border-slate-600/50 text-slate-400 hover:border-slate-500/50'">
+                          [ngClass]="form.type === 'OIDC' ? 'border-blue-500/50 bg-blue-50 text-blue-600' : 'border-slate-200 text-slate-400 hover:border-slate-500/50'">
                     OpenID Connect
                   </button>
                 </div>
@@ -231,19 +231,19 @@ interface SsoConfig {
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">IdP Entity ID *</label>
                   <input [(ngModel)]="form.entityId" type="text"
-                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50"
+                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50"
                          placeholder="https://idp.example.com/metadata">
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">IdP SSO URL *</label>
                   <input [(ngModel)]="form.ssoUrl" type="text"
-                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50"
+                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50"
                          placeholder="https://idp.example.com/sso/saml">
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">IdP Metadata URL</label>
                   <input [(ngModel)]="form.metadataUrl" type="text"
-                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50"
+                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50"
                          placeholder="https://idp.example.com/metadata.xml">
                 </div>
                 <div>
@@ -251,13 +251,13 @@ interface SsoConfig {
                     {{ lang.t('sso.idp_x509_certificate') }} *
                   </label>
                   <textarea [(ngModel)]="form.certificate" rows="4"
-                            class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-xs text-white font-mono focus:outline-none focus:border-blue-500/50"
+                            class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-xs text-white font-mono focus:outline-none focus:border-blue-500/50"
                             placeholder="-----BEGIN CERTIFICATE-----&#10;MIICpDCCA...&#10;-----END CERTIFICATE-----"></textarea>
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">NameID Format</label>
                   <select [(ngModel)]="form.nameIdFormat"
-                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50">
+                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50">
                     <option value="urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress">Email Address</option>
                     <option value="urn:oasis:names:tc:SAML:2.0:nameid-format:persistent">Persistent</option>
                     <option value="urn:oasis:names:tc:SAML:2.0:nameid-format:transient">Transient</option>
@@ -268,28 +268,28 @@ interface SsoConfig {
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">Issuer URL *</label>
                   <input [(ngModel)]="form.issuerUrl" type="text"
-                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-emerald-500/50"
+                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50"
                          placeholder="https://auth.example.com">
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">Client ID *</label>
                   <input [(ngModel)]="form.clientId" type="text"
-                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-emerald-500/50">
+                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50">
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">Client Secret *</label>
                   <input [(ngModel)]="form.clientSecret" type="password"
-                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-emerald-500/50">
+                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50">
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">Scopes</label>
                   <input [(ngModel)]="form.scopes" type="text"
-                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-emerald-500/50"
+                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50"
                          placeholder="openid email profile">
                 </div>
               }
 
-              <div class="border-t border-slate-700/50 pt-4">
+              <div class="border-t border-slate-200 pt-4">
                 <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
                   {{ lang.t('sso.attribute_mapping') }}
                 </h4>
@@ -299,7 +299,7 @@ interface SsoConfig {
                       {{ lang.t('sso.email_attribute') }}
                     </label>
                     <input [(ngModel)]="form.emailAttribute" type="text"
-                           class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-slate-500/50"
+                           class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-slate-500/50"
                            placeholder="email">
                   </div>
                   <div>
@@ -307,13 +307,13 @@ interface SsoConfig {
                       {{ lang.t('sso.name_attribute') }}
                     </label>
                     <input [(ngModel)]="form.nameAttribute" type="text"
-                           class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-slate-500/50"
+                           class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-slate-500/50"
                            placeholder="displayName">
                   </div>
                 </div>
               </div>
 
-              <div class="border-t border-slate-700/50 pt-4">
+              <div class="border-t border-slate-200 pt-4">
                 <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">
                   {{ lang.t('sso.provisioning') }}
                 </h4>
@@ -322,7 +322,7 @@ interface SsoConfig {
                     {{ lang.t('sso.allowed_domains_20') }}
                   </label>
                   <input [(ngModel)]="form.allowedDomains" type="text"
-                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-slate-500/50"
+                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-slate-500/50"
                          placeholder="example.com, company.eu">
                   <p class="text-[10px] text-slate-500 mt-1">
                     {{ lang.t('sso.commaseparated_domains') }}
@@ -330,21 +330,21 @@ interface SsoConfig {
                 </div>
                 <label class="flex items-center gap-2 cursor-pointer mt-3">
                   <input [(ngModel)]="form.autoProvision" type="checkbox"
-                         class="rounded border-slate-600 bg-slate-700 text-emerald-500 focus:ring-emerald-500/30">
-                  <span class="text-sm text-slate-300">
+                         class="rounded border-slate-600 bg-slate-700 text-blue-600 focus:ring-blue-500/30">
+                  <span class="text-sm text-slate-600">
                     {{ lang.t('sso.autoprovision_users') }}
                   </span>
                 </label>
               </div>
             </div>
-            <div class="p-5 border-t border-slate-700/50 flex justify-end gap-2">
+            <div class="p-5 border-t border-slate-200 flex justify-end gap-2">
               <button (click)="showModal = false"
                       class="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors">
                 {{ lang.t('sso.cancel') }}
               </button>
               <button (click)="saveConfig()"
-                      class="px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
-                             hover:from-emerald-400 hover:to-cyan-400 transition-all">
+                      class="px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white
+                             hover:bg-blue-700 transition-all">
                 {{ lang.t('sso.save') }}
               </button>
             </div>

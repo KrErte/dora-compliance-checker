@@ -33,7 +33,7 @@ interface ClauseSelection {
         @for (l of languages; track l.code) {
           <button type="button" (click)="clauseLang = l.code"
                   class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all"
-                  [class]="clauseLang === l.code ? 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-300' : 'bg-slate-800/50 border border-slate-700/30 text-slate-400 hover:text-slate-300'">
+                  [class]="clauseLang === l.code ? 'bg-blue-100 border border-blue-500/40 text-blue-500' : 'bg-white border border-slate-200 text-slate-400 hover:text-slate-600'">
             <span>{{ l.flag }}</span>
             <span>{{ l.label }}</span>
           </button>
@@ -44,27 +44,27 @@ interface ClauseSelection {
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
         <!-- Left: Clause Selection -->
-        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-6">
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
           <div class="flex items-center justify-between mb-6">
             <h2 class="text-lg font-semibold text-white">{{ lang.t('generator.select_clauses') }}</h2>
             <div class="flex gap-2">
-              <button type="button" (click)="selectAll()" class="text-xs text-emerald-400 hover:text-emerald-300">{{ lang.t('generator.select_all') }}</button>
+              <button type="button" (click)="selectAll()" class="text-xs text-blue-600 hover:text-blue-500">{{ lang.t('generator.select_all') }}</button>
               <span class="text-slate-600">|</span>
-              <button type="button" (click)="selectNone()" class="text-xs text-slate-400 hover:text-slate-300">{{ lang.t('generator.select_none') }}</button>
+              <button type="button" (click)="selectNone()" class="text-xs text-slate-400 hover:text-slate-600">{{ lang.t('generator.select_none') }}</button>
             </div>
           </div>
 
           <div class="space-y-3">
             @for (item of clauseSelections; track item.clause.id) {
               <label class="flex items-start gap-4 p-4 rounded-xl border cursor-pointer transition-all"
-                     [class]="item.selected ? 'bg-emerald-500/10 border-emerald-500/30' : 'bg-slate-700/30 border-slate-600/30 hover:border-slate-500/50'">
-                <input type="checkbox" [(ngModel)]="item.selected" class="mt-1 w-5 h-5 rounded border-slate-500 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-0 bg-slate-700">
+                     [class]="item.selected ? 'bg-blue-50 border-blue-200' : 'bg-slate-700/30 border-slate-600/30 hover:border-slate-500/50'">
+                <input type="checkbox" [(ngModel)]="item.selected" class="mt-1 w-5 h-5 rounded border-slate-500 text-blue-600 focus:ring-blue-500 focus:ring-offset-0 bg-slate-700">
                 <div class="flex-1">
                   <div class="flex items-center gap-2">
-                    <span class="text-sm font-medium" [class]="item.selected ? 'text-emerald-300' : 'text-slate-300'">
+                    <span class="text-sm font-medium" [class]="item.selected ? 'text-blue-500' : 'text-slate-600'">
                       {{ item.clause.id }}. {{ getClauseName(item.clause) }}
                     </span>
-                    <span class="text-xs px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400">{{ item.clause.doraReference }}</span>
+                    <span class="text-xs px-2 py-0.5 rounded bg-blue-600/20 text-blue-500">{{ item.clause.doraReference }}</span>
                   </div>
                   <p class="text-xs text-slate-500 mt-1 line-clamp-2">
                     {{ getClauseText(item.clause) }}
@@ -75,33 +75,33 @@ interface ClauseSelection {
           </div>
 
           <!-- Selection Summary -->
-          <div class="mt-6 pt-4 border-t border-slate-700/50">
+          <div class="mt-6 pt-4 border-t border-slate-200">
             <div class="flex items-center justify-between text-sm">
               <span class="text-slate-400">{{ lang.t('generator.selected') }}:</span>
-              <span class="font-semibold" [class]="selectedCount === 8 ? 'text-emerald-400' : selectedCount > 0 ? 'text-yellow-400' : 'text-red-400'">
+              <span class="font-semibold" [class]="selectedCount === 8 ? 'text-blue-600' : selectedCount > 0 ? 'text-yellow-400' : 'text-red-400'">
                 {{ selectedCount }} / 8 {{ lang.t('generator.clauses') }}
               </span>
             </div>
             <div class="mt-2 h-2 rounded-full bg-slate-700 overflow-hidden">
               <div class="h-full rounded-full transition-all duration-300"
                    [style.width.%]="(selectedCount / 8) * 100"
-                   [class]="selectedCount === 8 ? 'bg-emerald-500' : selectedCount > 0 ? 'bg-yellow-500' : 'bg-red-500'">
+                   [class]="selectedCount === 8 ? 'bg-blue-600' : selectedCount > 0 ? 'bg-yellow-500' : 'bg-red-500'">
               </div>
             </div>
-            <p class="text-xs mt-2" [class]="selectedCount === 8 ? 'text-emerald-400' : 'text-slate-500'">
+            <p class="text-xs mt-2" [class]="selectedCount === 8 ? 'text-blue-600' : 'text-slate-500'">
               {{ selectedCount === 8 ? lang.t('generator.full_compliance') : lang.t('generator.partial_compliance') }}
             </p>
           </div>
         </div>
 
         <!-- Right: Preview -->
-        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-6">
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
           <div class="flex items-center justify-between mb-6">
             <h2 class="text-lg font-semibold text-white">{{ lang.t('generator.preview') }}</h2>
             <div class="flex gap-2">
               <button type="button" (click)="downloadPdf()" [disabled]="selectedCount === 0"
                       class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all
-                             bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-lg hover:shadow-cyan-500/25
+                             bg-gradient-to-r from-blue-500 to-blue-500 text-white hover:shadow-lg hover:shadow-blue-500/25
                              disabled:opacity-50 disabled:cursor-not-allowed">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -115,7 +115,7 @@ interface ClauseSelection {
           <div id="contract-preview" class="bg-white rounded-xl p-6 text-slate-900 max-h-[600px] overflow-y-auto">
             @if (selectedCount === 0) {
               <div class="text-center py-12 text-slate-400">
-                <svg class="w-16 h-16 mx-auto mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-16 h-16 mx-auto mb-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
                 <p class="text-sm">{{ lang.t('generator.empty_preview') }}</p>
@@ -138,7 +138,7 @@ interface ClauseSelection {
                   <div class="pb-4" [class.border-b]="idx < selectedClauses.length - 1" [class.border-slate-200]="idx < selectedClauses.length - 1">
                     <h2 class="text-sm font-bold text-slate-900 uppercase mb-3">
                       {{ idx + 1 }}. {{ getClauseName(item.clause) }}
-                      <span class="text-xs font-normal text-cyan-600 ml-2">{{ item.clause.doraReference }}</span>
+                      <span class="text-xs font-normal text-blue-600 ml-2">{{ item.clause.doraReference }}</span>
                     </h2>
                     <p class="text-sm text-slate-700 leading-relaxed whitespace-pre-line">{{ getClauseText(item.clause) }}</p>
                   </div>
@@ -167,7 +167,7 @@ interface ClauseSelection {
           <div class="mt-6 flex flex-wrap gap-3">
             <button type="button" (click)="analyzeContract()" [disabled]="selectedCount === 0 || analyzing"
                     class="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all
-                           bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 hover:shadow-lg hover:shadow-emerald-500/25
+                           bg-blue-600 text-slate-900 hover:shadow-lg hover:shadow-lg
                            disabled:opacity-50 disabled:cursor-not-allowed">
               @if (analyzing) {
                 <div class="w-5 h-5 border-2 border-slate-900/30 border-t-slate-900 rounded-full animate-spin"></div>

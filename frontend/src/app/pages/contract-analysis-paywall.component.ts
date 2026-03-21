@@ -11,7 +11,7 @@ import { ContractAnalysisResult } from '../models';
   imports: [CommonModule, FormsModule],
   template: `
     <!-- Paywall Modal -->
-    <div *ngIf="showPaywall" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm animate-fade-in">
+    <div *ngIf="showPaywall" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white backdrop-blur-sm animate-fade-in">
       <div class="bg-slate-800 border border-slate-700 rounded-2xl p-8 max-w-md w-full shadow-2xl animate-fade-in-up">
         <div class="text-center">
           <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mx-auto mb-4">
@@ -25,20 +25,20 @@ import { ContractAnalysisResult } from '../models';
           <div class="bg-slate-700/50 rounded-xl p-4 mb-6 text-left">
             <p class="text-xs text-slate-500 uppercase tracking-wide mb-2">{{ lang.t('paywall.includes') }}</p>
             <ul class="space-y-2">
-              <li class="flex items-center gap-2 text-sm text-slate-300">
-                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>
                 {{ lang.t('paywall.feature1') }}
               </li>
-              <li class="flex items-center gap-2 text-sm text-slate-300">
-                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>
                 {{ lang.t('paywall.feature2') }}
               </li>
-              <li class="flex items-center gap-2 text-sm text-slate-300">
-                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <li class="flex items-center gap-2 text-sm text-slate-600">
+                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>
                 {{ lang.t('paywall.feature3') }}
@@ -47,10 +47,10 @@ import { ContractAnalysisResult } from '../models';
           </div>
 
           <a href="mailto:info@doraaudit.eu?subject=DORA%20lepingu%20anal%C3%BC%C3%BCs%20-%20hinnapakkumine"
-             class="block w-full py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 hover:from-emerald-400 hover:to-cyan-400 transition-all mb-3">
+             class="block w-full py-3 rounded-xl font-semibold text-sm bg-blue-600 text-slate-900 hover:bg-blue-700 transition-all mb-3">
             {{ lang.t('paywall.contact') }}
           </a>
-          <button type="button" (click)="showPaywall = false" class="text-sm text-slate-500 hover:text-slate-300 transition-colors">
+          <button type="button" (click)="showPaywall = false" class="text-sm text-slate-500 hover:text-slate-600 transition-colors">
             {{ lang.t('paywall.close') }}
           </button>
         </div>
@@ -65,37 +65,37 @@ import { ContractAnalysisResult } from '../models';
       </div>
 
       <!-- Auto-demo banner -->
-      <div *ngIf="autoDemo && !selectedFile" class="mb-6 rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-5 animate-fade-in">
+      <div *ngIf="autoDemo && !selectedFile" class="mb-6 rounded-xl border border-blue-200 bg-blue-50 p-5 animate-fade-in">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0">
-            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
             </svg>
           </div>
           <div>
-            <p class="text-sm font-semibold text-emerald-300">{{ lang.t('contract.auto_demo_title') }}</p>
+            <p class="text-sm font-semibold text-blue-500">{{ lang.t('contract.auto_demo_title') }}</p>
             <p class="text-xs text-slate-400">{{ lang.t('contract.auto_demo_desc') }}</p>
           </div>
-          <div class="ml-auto w-6 h-6 border-2 border-emerald-400/30 border-t-emerald-400 rounded-full animate-spin"></div>
+          <div class="ml-auto w-6 h-6 border-2 border-blue-400/30 border-t-blue-500 rounded-full animate-spin"></div>
         </div>
       </div>
 
       <!-- DEMO: Load sample contract - FREE -->
-      <div class="glass-card p-5 mb-6 border-emerald-500/30">
+      <div class="glass-card p-5 mb-6 border-blue-200">
         <div class="flex items-center gap-2 mb-3">
-          <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 uppercase">{{ lang.t('paywall.free') }}</span>
+          <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-600 uppercase">{{ lang.t('paywall.free') }}</span>
           <span class="text-xs text-slate-500">Demo</span>
         </div>
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-sm font-medium text-slate-300">{{ lang.t('contract.sample_title') }}</p>
+            <p class="text-sm font-medium text-slate-600">{{ lang.t('contract.sample_title') }}</p>
             <p class="text-xs text-slate-500">{{ lang.t('contract.sample_desc') }}</p>
           </div>
           <div class="flex items-center gap-2">
             <a href="/api/sample/sample-pdf" target="_blank"
                class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
                       bg-slate-500/10 border border-slate-500/30 text-slate-400
-                      hover:bg-slate-500/20 hover:text-slate-300 flex items-center gap-2">
+                      hover:bg-slate-500/20 hover:text-slate-600 flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
               </svg>
@@ -103,14 +103,14 @@ import { ContractAnalysisResult } from '../models';
             </a>
             <button type="button" (click)="loadSampleContract()" [disabled]="loadingSample"
                     class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
-                           bg-emerald-500/20 border border-emerald-500/30 text-emerald-400
-                           hover:bg-emerald-500/30 hover:shadow-lg hover:shadow-emerald-500/10
+                           bg-blue-100 border border-blue-200 text-blue-600
+                           hover:bg-blue-600/30 hover:shadow-lg hover:shadow-md
                            disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
               <svg *ngIf="!loadingSample" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
-              <div *ngIf="loadingSample" class="w-4 h-4 border-2 border-emerald-400/30 border-t-emerald-400 rounded-full animate-spin"></div>
+              <div *ngIf="loadingSample" class="w-4 h-4 border-2 border-blue-400/30 border-t-blue-500 rounded-full animate-spin"></div>
               {{ lang.t('contract.try_demo') }}
             </button>
           </div>
@@ -128,15 +128,15 @@ import { ContractAnalysisResult } from '../models';
           <div>
             <label for="paywall-company" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('contract.company_name') }}</label>
             <input type="text" [(ngModel)]="companyName" id="paywall-company"
-                   class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
-                          focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300"
+                   class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900
+                          focus:border-blue-400 focus:ring-1 focus:ring-blue-500/20 focus:outline-none transition-all duration-300"
                    [placeholder]="lang.t('contract.company_name')">
           </div>
           <div>
             <label for="paywall-contract" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('contract.contract_name') }}</label>
             <input type="text" [(ngModel)]="contractName" id="paywall-contract"
-                   class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
-                          focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300"
+                   class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900
+                          focus:border-blue-400 focus:ring-1 focus:ring-blue-500/20 focus:outline-none transition-all duration-300"
                    [placeholder]="lang.t('contract.contract_name')">
           </div>
         </div>
@@ -149,7 +149,7 @@ import { ContractAnalysisResult } from '../models';
                (dragleave)="onDragLeave($event)"
                (drop)="onDropPaywall($event)"
                [class]="'border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300 ' +
-                        (dragOver ? 'border-amber-400 bg-amber-400/5' : 'border-slate-600/50 hover:border-amber-500/30 hover:bg-slate-800/30')">
+                        (dragOver ? 'border-amber-400 bg-amber-400/5' : 'border-slate-200 hover:border-amber-500/30 hover:bg-slate-800/30')">
             <div>
               <svg class="w-10 h-10 mx-auto mb-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
@@ -170,11 +170,11 @@ import { ContractAnalysisResult } from '../models';
 
     <!-- Loading state -->
     <div *ngIf="analyzing" class="flex flex-col items-center justify-center py-20 animate-fade-in">
-      <div class="w-16 h-16 border-4 border-slate-700 border-t-emerald-400 rounded-full animate-spin mb-6"></div>
-      <h2 class="text-xl font-semibold text-slate-200 mb-2">{{ lang.t('contract.analyzing') }}</h2>
+      <div class="w-16 h-16 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin mb-6"></div>
+      <h2 class="text-xl font-semibold text-slate-700 mb-2">{{ lang.t('contract.analyzing') }}</h2>
       <p class="text-sm text-slate-500 text-center max-w-md">{{ lang.t('contract.ai_note') }}</p>
-      <div class="flex items-center gap-2 mt-4 px-3 py-1.5 rounded-full bg-slate-800/50 border border-slate-700/50">
-        <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+      <div class="flex items-center gap-2 mt-4 px-3 py-1.5 rounded-full bg-white border border-slate-200">
+        <div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
         <span class="text-xs text-slate-400">Claude AI</span>
       </div>
     </div>
@@ -192,8 +192,8 @@ import { ContractAnalysisResult } from '../models';
     <!-- Results -->
     <div *ngIf="result" class="animate-fade-in-up">
       <div class="text-center mb-8">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-4">
-          <span class="text-xs font-medium text-emerald-400">Demo</span>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 mb-4">
+          <span class="text-xs font-medium text-blue-600">Demo</span>
         </div>
         <h1 class="text-2xl font-bold gradient-text mb-1">{{ lang.t('contract.results') }}</h1>
         <p class="text-slate-500 text-sm">{{ result.companyName }} &middot; {{ result.contractName }}</p>
@@ -214,7 +214,7 @@ import { ContractAnalysisResult } from '../models';
             </svg>
             <div class="absolute inset-0 flex flex-col items-center justify-center">
               <span class="text-2xl font-bold"
-                    [class]="result.complianceLevel === 'GREEN' ? 'text-emerald-400' : result.complianceLevel === 'YELLOW' ? 'text-amber-400' : 'text-red-400'">
+                    [class]="result.complianceLevel === 'GREEN' ? 'text-blue-600' : result.complianceLevel === 'YELLOW' ? 'text-amber-400' : 'text-red-400'">
                 {{ result.scorePercentage | number:'1.0-0' }}%
               </span>
             </div>
@@ -222,8 +222,8 @@ import { ContractAnalysisResult } from '../models';
 
           <!-- Stats -->
           <div class="flex-1 grid grid-cols-3 gap-4 w-full">
-            <div class="text-center p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
-              <div class="text-2xl font-bold text-emerald-400">{{ result.foundCount }}</div>
+            <div class="text-center p-3 rounded-lg bg-blue-50 border border-blue-200">
+              <div class="text-2xl font-bold text-blue-600">{{ result.foundCount }}</div>
               <div class="text-xs text-slate-400">{{ lang.t('contract.found') }}</div>
             </div>
             <div class="text-center p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
@@ -240,7 +240,7 @@ import { ContractAnalysisResult } from '../models';
 
       <!-- Summary -->
       <div *ngIf="result.summary" class="glass-card p-5 mb-6">
-        <h3 class="text-sm font-semibold text-slate-300 mb-2">{{ lang.t('contract.summary') }}</h3>
+        <h3 class="text-sm font-semibold text-slate-600 mb-2">{{ lang.t('contract.summary') }}</h3>
         <p class="text-sm text-slate-400 leading-relaxed">{{ result.summary }}</p>
       </div>
 
@@ -250,7 +250,7 @@ import { ContractAnalysisResult } from '../models';
            [style.animation-delay]="(i * 60) + 'ms'">
         <div class="flex items-start gap-3">
           <div [class]="'w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ' +
-                        (finding.status === 'found' ? 'bg-emerald-500/20 text-emerald-400' :
+                        (finding.status === 'found' ? 'bg-blue-100 text-blue-600' :
                          finding.status === 'partial' ? 'bg-amber-500/20 text-amber-400' :
                                                         'bg-red-500/20 text-red-400')">
             <svg *ngIf="finding.status === 'found'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -266,20 +266,20 @@ import { ContractAnalysisResult } from '../models';
 
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2 mb-1">
-              <h3 class="text-sm font-semibold text-slate-200">{{ lang.l(finding.requirementEt, finding.requirementEn) }}</h3>
+              <h3 class="text-sm font-semibold text-slate-700">{{ lang.l(finding.requirementEt, finding.requirementEn) }}</h3>
               <span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-700/50 text-slate-400 shrink-0">
                 {{ finding.doraReference }}
               </span>
             </div>
 
-            <div *ngIf="finding.quote" class="mt-2 pl-3 border-l-2 border-emerald-500/30 bg-emerald-500/5 rounded-r-lg py-2 pr-3">
+            <div *ngIf="finding.quote" class="mt-2 pl-3 border-l-2 border-blue-200 bg-blue-50 rounded-r-lg py-2 pr-3">
               <p class="text-xs text-slate-500 mb-0.5">{{ lang.t('contract.quote') }}</p>
-              <p class="text-xs text-slate-300 italic">"{{ finding.quote }}"</p>
+              <p class="text-xs text-slate-600 italic">"{{ finding.quote }}"</p>
             </div>
 
             <div *ngIf="lang.l(finding.recommendationEt, finding.recommendationEn)" class="mt-2 pl-3 border-l-2 border-amber-500/30 bg-amber-500/5 rounded-r-lg py-2 pr-3">
               <p class="text-xs text-slate-500 mb-0.5">{{ lang.t('contract.recommendation') }}</p>
-              <p class="text-xs text-slate-300">{{ lang.l(finding.recommendationEt, finding.recommendationEn) }}</p>
+              <p class="text-xs text-slate-600">{{ lang.l(finding.recommendationEt, finding.recommendationEn) }}</p>
             </div>
           </div>
         </div>
@@ -300,8 +300,8 @@ import { ContractAnalysisResult } from '../models';
       <!-- Action buttons -->
       <div class="flex items-center justify-center gap-3 mt-8">
         <button type="button" (click)="resetForm()"
-                class="px-6 py-2.5 rounded-lg font-medium text-sm bg-slate-700/50 text-slate-300 border border-slate-600/30
-                       hover:bg-slate-600/50 hover:text-emerald-400 transition-all duration-200">
+                class="px-6 py-2.5 rounded-lg font-medium text-sm bg-slate-700/50 text-slate-600 border border-slate-600/30
+                       hover:bg-slate-100 hover:text-blue-600 transition-all duration-200">
           {{ lang.t('contract.new_analysis') }}
         </button>
       </div>

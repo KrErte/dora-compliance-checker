@@ -19,10 +19,10 @@ import { AssessmentResult } from '../models';
           <svg class="w-24 h-24" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="45" fill="none" stroke="#065f46" stroke-width="3" opacity="0.3"/>
             <circle cx="50" cy="50" r="45" fill="none"
-                    stroke="#34d399" stroke-width="3" stroke-linecap="round"
+                    stroke="#2563eb" stroke-width="3" stroke-linecap="round"
                     stroke-dasharray="282.74" class="animate-draw-circle"/>
             <path d="M30 52 L44 66 L70 38" fill="none"
-                  stroke="#34d399" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
+                  stroke="#2563eb" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"
                   stroke-dasharray="60" stroke-dashoffset="60"
                   class="checkmark-draw"/>
           </svg>
@@ -38,15 +38,15 @@ import { AssessmentResult } from '../models';
           <div class="grid grid-cols-2 gap-4 text-sm">
             <div class="text-left">
               <p class="text-slate-500 text-xs mb-0.5">{{ lang.t('complete.company') }}</p>
-              <p class="text-slate-200 font-medium">{{ result.companyName }}</p>
+              <p class="text-slate-700 font-medium">{{ result.companyName }}</p>
             </div>
             <div class="text-left">
               <p class="text-slate-500 text-xs mb-0.5">{{ lang.t('complete.date') }}</p>
-              <p class="text-slate-200 font-medium">{{ formattedDate }}</p>
+              <p class="text-slate-700 font-medium">{{ formattedDate }}</p>
             </div>
             <div class="text-left">
               <p class="text-slate-500 text-xs mb-0.5">{{ lang.t('complete.questions') }}</p>
-              <p class="text-slate-200 font-medium">{{ result.totalQuestions }}</p>
+              <p class="text-slate-700 font-medium">{{ result.totalQuestions }}</p>
             </div>
             <div class="text-left">
               <p class="text-slate-500 text-xs mb-0.5">{{ lang.t('complete.score') }}</p>
@@ -57,16 +57,16 @@ import { AssessmentResult } from '../models';
 
         <!-- Loading state -->
         <div *ngIf="!result && !error" class="mb-8 animate-fade-in">
-          <div class="inline-block w-6 h-6 border-2 border-slate-700 border-t-emerald-400 rounded-full animate-spin"></div>
+          <div class="inline-block w-6 h-6 border-2 border-slate-700 border-t-blue-500 rounded-full animate-spin"></div>
         </div>
 
         <!-- Action buttons -->
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6 animate-fade-in-up" style="animation-delay: 400ms">
           <a *ngIf="result" [routerLink]="['/results', result.id]"
-             class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500
-                    hover:from-emerald-400 hover:to-cyan-400 text-slate-900 font-bold
+             class="inline-flex items-center gap-2 bg-blue-600
+                    hover:bg-blue-700 text-slate-900 font-bold
                     px-6 py-3 rounded-xl transition-all duration-300
-                    hover:shadow-lg hover:shadow-emerald-500/25 text-sm w-full sm:w-auto justify-center">
+                    hover:shadow-lg hover:shadow-lg text-sm w-full sm:w-auto justify-center">
             {{ lang.t('complete.view_results') }}
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
@@ -74,7 +74,7 @@ import { AssessmentResult } from '../models';
           </a>
           <button *ngIf="result" type="button" (click)="downloadPdf()"
                   [disabled]="downloading"
-                  class="inline-flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-slate-200
+                  class="inline-flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-slate-700
                          font-semibold px-6 py-3 rounded-xl transition-all duration-200 text-sm
                          w-full sm:w-auto justify-center">
             <svg *ngIf="!downloading" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -87,7 +87,7 @@ import { AssessmentResult } from '../models';
 
         <!-- Dashboard link -->
         <a routerLink="/dashboard"
-           class="text-sm text-slate-500 hover:text-emerald-400 transition-colors duration-200 animate-fade-in-up inline-flex items-center gap-1.5"
+           class="text-sm text-slate-500 hover:text-blue-600 transition-colors duration-200 animate-fade-in-up inline-flex items-center gap-1.5"
            style="animation-delay: 500ms">
           {{ lang.t('complete.go_dashboard') }}
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

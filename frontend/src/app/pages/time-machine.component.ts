@@ -36,11 +36,11 @@ import { SubscriptionService } from '../services/subscription.service';
       <!-- ======== LOADING SKELETON ======== -->
       @if (loading()) {
         <div class="space-y-6 animate-pulse">
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 h-32"></div>
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 h-64"></div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 h-32"></div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 h-64"></div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 h-48"></div>
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 h-48"></div>
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 h-48"></div>
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 h-48"></div>
           </div>
         </div>
       }
@@ -48,7 +48,7 @@ import { SubscriptionService } from '../services/subscription.service';
       @if (!loading() && timeline()) {
 
         <!-- ======== TIMELINE SCRUBBER ======== -->
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6">
           <div class="flex items-center justify-between mb-3">
             <span class="text-xs font-medium text-slate-400 uppercase tracking-wider">
               {{ lang.l('Ajajoone navigeerimine', 'Timeline Navigation') }}
@@ -102,7 +102,7 @@ import { SubscriptionService } from '../services/subscription.service';
                  [style.left.%]="nowPosition()">
               <div class="w-0.5 h-8 bg-amber-400/80 -mt-3"></div>
               <div class="flex items-center gap-1 mt-0.5">
-                <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                <div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
                 <span class="text-[10px] font-bold text-amber-300 uppercase whitespace-nowrap">
                   {{ lang.l('PRAEGU', 'NOW') }}
                 </span>
@@ -135,7 +135,7 @@ import { SubscriptionService } from '../services/subscription.service';
           <div class="flex items-center justify-between mt-4">
             <span class="text-xs text-slate-500">
               {{ lang.l('Valitud kuupaev', 'Selected date') }}:
-              <span class="text-slate-300 font-medium">{{ selectedDate() }}</span>
+              <span class="text-slate-600 font-medium">{{ selectedDate() }}</span>
             </span>
             <button (click)="jumpToNow()"
                     class="text-xs text-amber-400 hover:text-amber-300 transition-colors font-medium">
@@ -146,7 +146,7 @@ import { SubscriptionService } from '../services/subscription.service';
 
         <!-- ======== MORPHING DASHBOARD ======== -->
         @if (stateAtDate()) {
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 transition-all duration-500"
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 transition-all duration-500"
                [class.sepia-zone]="currentZone() === 'PAST'"
                [class.present-zone]="currentZone() === 'PRESENT'"
                [class.future-zone]="currentZone() === 'FUTURE'">
@@ -161,11 +161,11 @@ import { SubscriptionService } from '../services/subscription.service';
                   </span>
                 }
                 @if (currentZone() === 'PRESENT') {
-                  <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
-                  <span class="text-sm font-bold text-emerald-300 uppercase tracking-wider">
+                  <div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+                  <span class="text-sm font-bold text-blue-500 uppercase tracking-wider">
                     {{ lang.l('OLEVIK', 'PRESENT') }}
                   </span>
-                  <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30">
+                  <span class="text-[10px] bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full border border-blue-200">
                     Live
                   </span>
                 }
@@ -207,7 +207,7 @@ import { SubscriptionService } from '../services/subscription.service';
                 </svg>
                 <div class="absolute inset-0 flex flex-col items-center justify-center">
                   <span class="text-3xl font-black transition-all duration-500"
-                        [class]="stateAtDate().overallScore >= 80 ? 'text-emerald-400' :
+                        [class]="stateAtDate().overallScore >= 80 ? 'text-blue-600' :
                                  stateAtDate().overallScore >= 50 ? 'text-amber-400' : 'text-red-400'">
                     {{ stateAtDate().overallScore }}
                   </span>
@@ -232,7 +232,7 @@ import { SubscriptionService } from '../services/subscription.service';
                       </svg>
                       <div class="absolute inset-0 flex items-center justify-center">
                         <span class="text-sm font-bold transition-all duration-500"
-                              [class]="pillar.score >= 80 ? 'text-emerald-400' :
+                              [class]="pillar.score >= 80 ? 'text-blue-600' :
                                        pillar.score >= 50 ? 'text-amber-400' : 'text-red-400'">
                           {{ pillar.score }}
                         </span>
@@ -255,7 +255,7 @@ import { SubscriptionService } from '../services/subscription.service';
                 </div>
               </div>
               <div class="bg-slate-900/40 rounded-xl p-3 text-center transition-all duration-500">
-                <div class="text-lg font-bold text-emerald-400">{{ stateAtDate().validEvidence ?? 0 }}</div>
+                <div class="text-lg font-bold text-blue-600">{{ stateAtDate().validEvidence ?? 0 }}</div>
                 <div class="text-[10px] text-slate-500 uppercase">
                   {{ lang.l('Kehtivad', 'Valid') }}
                 </div>
@@ -279,7 +279,7 @@ import { SubscriptionService } from '../services/subscription.service';
         }
 
         <!-- ======== SCORE TRAJECTORY CHART ======== -->
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6">
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-sm font-semibold text-white">
               {{ lang.l('Skoori trajektoor', 'Score Trajectory') }}
@@ -401,7 +401,7 @@ import { SubscriptionService } from '../services/subscription.service';
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
           <!-- What-If Panel (1 col) -->
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+          <div class="bg-white border border-slate-200 rounded-2xl p-6">
             <div class="flex items-center gap-2 mb-4">
               <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -418,15 +418,15 @@ import { SubscriptionService } from '../services/subscription.service';
                 <button (click)="loadScenario('started_6m_ago')"
                         class="w-full text-left px-3 py-2.5 rounded-xl border transition-all duration-200 text-sm"
                         [class]="isScenarioActive('started_6m_ago')
-                          ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300'
-                          : 'bg-slate-900/40 border-slate-700/30 text-slate-300 hover:border-emerald-500/30'">
+                          ? 'bg-blue-50 border-blue-500/40 text-blue-500'
+                          : 'bg-slate-900/40 border-slate-200 text-slate-600 hover:border-blue-200'">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
-                      <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+                      <div class="w-2 h-2 rounded-full bg-blue-500"></div>
                       <span>{{ lang.l('Alustasime 6 kuud tagasi', 'Started 6 Months Ago') }}</span>
                     </div>
                     @if (getScenarioEndScore('started_6m_ago') !== null) {
-                      <span class="text-xs font-bold text-emerald-400">
+                      <span class="text-xs font-bold text-blue-600">
                         {{ getScenarioEndScore('started_6m_ago') }}
                       </span>
                     }
@@ -438,7 +438,7 @@ import { SubscriptionService } from '../services/subscription.service';
                         class="w-full text-left px-3 py-2.5 rounded-xl border transition-all duration-200 text-sm"
                         [class]="isScenarioActive('do_nothing_3m')
                           ? 'bg-red-500/15 border-red-500/40 text-red-300'
-                          : 'bg-slate-900/40 border-slate-700/30 text-slate-300 hover:border-red-500/30'">
+                          : 'bg-slate-900/40 border-slate-200 text-slate-600 hover:border-red-500/30'">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
                       <div class="w-2 h-2 rounded-full bg-red-400"></div>
@@ -457,7 +457,7 @@ import { SubscriptionService } from '../services/subscription.service';
                         class="w-full text-left px-3 py-2.5 rounded-xl border transition-all duration-200 text-sm"
                         [class]="isScenarioActive('double_pace')
                           ? 'bg-purple-500/15 border-purple-500/40 text-purple-300'
-                          : 'bg-slate-900/40 border-slate-700/30 text-slate-300 hover:border-purple-500/30'">
+                          : 'bg-slate-900/40 border-slate-200 text-slate-600 hover:border-purple-500/30'">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
                       <div class="w-2 h-2 rounded-full bg-purple-400"></div>
@@ -476,7 +476,7 @@ import { SubscriptionService } from '../services/subscription.service';
                         class="w-full text-left px-3 py-2.5 rounded-xl border transition-all duration-200 text-sm"
                         [class]="isScenarioActive('regulatory_change')
                           ? 'bg-amber-500/15 border-amber-500/40 text-amber-300'
-                          : 'bg-slate-900/40 border-slate-700/30 text-slate-300 hover:border-amber-500/30'">
+                          : 'bg-slate-900/40 border-slate-200 text-slate-600 hover:border-amber-500/30'">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
                       <div class="w-2 h-2 rounded-full bg-amber-400"></div>
@@ -493,7 +493,7 @@ import { SubscriptionService } from '../services/subscription.service';
 
               @if (scenarios().length > 0) {
                 <button (click)="clearScenarios()"
-                        class="mt-3 text-xs text-slate-500 hover:text-slate-300 transition-colors">
+                        class="mt-3 text-xs text-slate-500 hover:text-slate-600 transition-colors">
                   {{ lang.l('Tuhista stsenaariumid', 'Clear all scenarios') }}
                 </button>
               }
@@ -521,7 +521,7 @@ import { SubscriptionService } from '../services/subscription.service';
           </div>
 
           <!-- Event Feed (2 cols) -->
-          <div class="lg:col-span-2 bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+          <div class="lg:col-span-2 bg-white border border-slate-200 rounded-2xl p-6">
             <div class="flex items-center justify-between mb-4">
               <h2 class="text-sm font-semibold text-white flex items-center gap-2">
                 <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -545,7 +545,7 @@ import { SubscriptionService } from '../services/subscription.service';
 
             <div class="space-y-0 max-h-[400px] overflow-y-auto custom-scrollbar">
               @for (ev of filteredEvents(); track ev.date + ev.type) {
-                <div class="flex gap-3 py-3 border-b border-slate-700/30 last:border-0 transition-all duration-300">
+                <div class="flex gap-3 py-3 border-b border-slate-200 last:border-0 transition-all duration-300">
                   <!-- Vertical timeline line + dot -->
                   <div class="flex flex-col items-center shrink-0">
                     <div class="w-3 h-3 rounded-full border-2"
@@ -561,7 +561,7 @@ import { SubscriptionService } from '../services/subscription.service';
                       </span>
                       <span class="text-[10px] text-slate-500">{{ ev.date }}</span>
                     </div>
-                    <p class="text-sm text-slate-200 truncate">
+                    <p class="text-sm text-slate-700 truncate">
                       {{ lang.l(ev.titleEt || ev.title, ev.title) }}
                     </p>
                     @if (ev.description) {
@@ -572,7 +572,7 @@ import { SubscriptionService } from '../services/subscription.service';
                   @if (ev.score != null) {
                     <div class="shrink-0 text-right">
                       <span class="text-sm font-bold"
-                            [class]="ev.score >= 80 ? 'text-emerald-400' : ev.score >= 50 ? 'text-amber-400' : 'text-red-400'">
+                            [class]="ev.score >= 80 ? 'text-blue-600' : ev.score >= 50 ? 'text-amber-400' : 'text-red-400'">
                         {{ ev.score }}
                       </span>
                     </div>
@@ -1047,7 +1047,7 @@ export class TimeMachineComponent implements OnInit, OnDestroy {
   getEventDotClass(type: string): string {
     switch (type?.toLowerCase()) {
       case 'assessment': return 'bg-sky-400';
-      case 'evidence': return 'bg-emerald-400';
+      case 'evidence': return 'bg-blue-500';
       case 'incident': return 'bg-red-400';
       case 'remediation': return 'bg-amber-400';
       case 'regulatory': return 'bg-purple-400';
@@ -1059,7 +1059,7 @@ export class TimeMachineComponent implements OnInit, OnDestroy {
   getEventFeedDotClass(type: string): string {
     switch (type?.toLowerCase()) {
       case 'assessment': return 'border-sky-400 bg-sky-400/20';
-      case 'evidence': return 'border-emerald-400 bg-emerald-400/20';
+      case 'evidence': return 'border-blue-400 bg-blue-500/20';
       case 'incident': return 'border-red-400 bg-red-400/20';
       case 'remediation': return 'border-amber-400 bg-amber-400/20';
       case 'regulatory': return 'border-purple-400 bg-purple-400/20';
@@ -1071,7 +1071,7 @@ export class TimeMachineComponent implements OnInit, OnDestroy {
   getEventBadgeClass(type: string): string {
     switch (type?.toLowerCase()) {
       case 'assessment': return 'bg-sky-500/15 text-sky-400';
-      case 'evidence': return 'bg-emerald-500/15 text-emerald-400';
+      case 'evidence': return 'bg-blue-50 text-blue-600';
       case 'incident': return 'bg-red-500/15 text-red-400';
       case 'remediation': return 'bg-amber-500/15 text-amber-400';
       case 'regulatory': return 'bg-purple-500/15 text-purple-400';

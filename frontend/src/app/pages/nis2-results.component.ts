@@ -62,7 +62,7 @@ interface AssessmentResult {
             </span>
           </div>
           <div>
-            <h1 class="text-2xl font-bold text-slate-100">{{ lang.t('nis2_results.title') }}</h1>
+            <h1 class="text-2xl font-bold text-slate-900">{{ lang.t('nis2_results.title') }}</h1>
             <p class="text-sm" [class]="getScoreTextClass(result.overallScore)">
               {{ lang.t('nis2_assess.risk_' + result.riskLevel.toLowerCase()) }}
             </p>
@@ -90,17 +90,17 @@ interface AssessmentResult {
 
       <!-- Domain scores (radar-like visualization) -->
       <div class="glass-card p-6 mb-8 animate-fade-in-up">
-        <h2 class="text-lg font-semibold text-slate-200 mb-4">{{ lang.t('nis2_results.domain_scores') }}</h2>
+        <h2 class="text-lg font-semibold text-slate-700 mb-4">{{ lang.t('nis2_results.domain_scores') }}</h2>
         <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
           <div *ngFor="let domain of result.domainScores"
                class="p-3 rounded-xl border transition-all hover:scale-105"
-               [class]="domain.score >= 80 ? 'bg-emerald-500/10 border-emerald-500/30' :
+               [class]="domain.score >= 80 ? 'bg-blue-50 border-blue-200' :
                         domain.score >= 60 ? 'bg-amber-500/10 border-amber-500/30' :
                         domain.score >= 40 ? 'bg-orange-500/10 border-orange-500/30' :
                         'bg-red-500/10 border-red-500/30'">
             <div class="text-center">
               <div class="text-2xl font-bold mb-1"
-                   [class]="domain.score >= 80 ? 'text-emerald-400' :
+                   [class]="domain.score >= 80 ? 'text-blue-600' :
                             domain.score >= 60 ? 'text-amber-400' :
                             domain.score >= 40 ? 'text-orange-400' : 'text-red-400'">
                 {{ domain.score | number:'1.0-0' }}
@@ -116,7 +116,7 @@ interface AssessmentResult {
       <!-- Action Plan -->
       <div class="mb-8 animate-fade-in-up delay-100">
         <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xl font-bold text-slate-100">{{ lang.t('nis2_results.action_plan') }}</h2>
+          <h2 class="text-xl font-bold text-slate-900">{{ lang.t('nis2_results.action_plan') }}</h2>
           <div class="text-sm text-slate-400">
             {{ lang.t('nis2_results.total_effort') }}: <span class="text-amber-400 font-medium">~{{ result.actionPlan.totalEstimatedDays }} {{ lang.t('nis2_results.days') }}</span>
           </div>
@@ -141,13 +141,13 @@ interface AssessmentResult {
             </div>
             <div class="space-y-2 max-h-80 overflow-y-auto">
               <div *ngFor="let action of result.actionPlan.immediate"
-                   class="p-3 rounded-lg bg-slate-800/50 border border-slate-700/50 hover:border-red-500/30 transition-colors">
+                   class="p-3 rounded-lg bg-white border border-slate-200 hover:border-red-500/30 transition-colors">
                 <div class="flex items-start gap-2">
                   <span [class]="getPriorityBadgeClass(action.priority)">
                     {{ action.priority }}
                   </span>
                   <div class="flex-1 min-w-0">
-                    <p class="text-sm text-slate-200">
+                    <p class="text-sm text-slate-700">
                       {{ lang.l(action.titleEt, action.titleEn) }}
                     </p>
                     <p class="text-xs text-slate-500 mt-1">
@@ -185,13 +185,13 @@ interface AssessmentResult {
             </div>
             <div class="space-y-2 max-h-80 overflow-y-auto">
               <div *ngFor="let action of result.actionPlan.shortTerm"
-                   class="p-3 rounded-lg bg-slate-800/50 border border-slate-700/50 hover:border-amber-500/30 transition-colors">
+                   class="p-3 rounded-lg bg-white border border-slate-200 hover:border-amber-500/30 transition-colors">
                 <div class="flex items-start gap-2">
                   <span [class]="getPriorityBadgeClass(action.priority)">
                     {{ action.priority }}
                   </span>
                   <div class="flex-1 min-w-0">
-                    <p class="text-sm text-slate-200">
+                    <p class="text-sm text-slate-700">
                       {{ lang.l(action.titleEt, action.titleEn) }}
                     </p>
                     <p class="text-xs text-slate-500 mt-1">
@@ -213,29 +213,29 @@ interface AssessmentResult {
 
           <!-- Medium-term (6-12 months) -->
           <div class="glass-card p-4">
-            <div class="flex items-center gap-2 mb-4 pb-3 border-b border-emerald-500/20">
-              <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center">
-                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="flex items-center gap-2 mb-4 pb-3 border-b border-blue-200">
+              <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
               </div>
               <div>
-                <h3 class="font-semibold text-emerald-400">{{ lang.t('nis2_results.medium_term') }}</h3>
+                <h3 class="font-semibold text-blue-600">{{ lang.t('nis2_results.medium_term') }}</h3>
                 <p class="text-xs text-slate-500">6-12 {{ lang.t('nis2_results.months') }}</p>
               </div>
-              <span class="ml-auto px-2 py-0.5 rounded-full text-xs bg-emerald-500/20 text-emerald-400">
+              <span class="ml-auto px-2 py-0.5 rounded-full text-xs bg-blue-100 text-blue-600">
                 {{ result.actionPlan.mediumTerm.length }}
               </span>
             </div>
             <div class="space-y-2 max-h-80 overflow-y-auto">
               <div *ngFor="let action of result.actionPlan.mediumTerm"
-                   class="p-3 rounded-lg bg-slate-800/50 border border-slate-700/50 hover:border-emerald-500/30 transition-colors">
+                   class="p-3 rounded-lg bg-white border border-slate-200 hover:border-blue-200 transition-colors">
                 <div class="flex items-start gap-2">
                   <span [class]="getPriorityBadgeClass(action.priority)">
                     {{ action.priority }}
                   </span>
                   <div class="flex-1 min-w-0">
-                    <p class="text-sm text-slate-200">
+                    <p class="text-sm text-slate-700">
                       {{ lang.l(action.titleEt, action.titleEn) }}
                     </p>
                     <p class="text-xs text-slate-500 mt-1">
@@ -259,40 +259,40 @@ interface AssessmentResult {
 
       <!-- Estonian references -->
       <div class="glass-card p-6 animate-fade-in-up delay-200">
-        <h2 class="text-lg font-semibold text-slate-200 mb-4">{{ lang.t('nis2_results.references') }}</h2>
+        <h2 class="text-lg font-semibold text-slate-700 mb-4">{{ lang.t('nis2_results.references') }}</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <a href="https://www.ria.ee/kuberturvalisus/kuberturvalisuse-seadus" target="_blank"
-             class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-amber-500/30 transition-all group">
+             class="p-4 rounded-xl bg-white border border-slate-200 hover:border-amber-500/30 transition-all group">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-lg bg-amber-500/20 flex items-center justify-center shrink-0">
                 <span class="text-lg">&#128220;</span>
               </div>
               <div>
-                <p class="font-medium text-slate-200 group-hover:text-amber-400 transition-colors">KüTS</p>
+                <p class="font-medium text-slate-700 group-hover:text-amber-400 transition-colors">KüTS</p>
                 <p class="text-xs text-slate-500">{{ lang.t('nis2_results.ref_kyts') }}</p>
               </div>
             </div>
           </a>
           <a href="https://eits.ria.ee/" target="_blank"
-             class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-cyan-500/30 transition-all group">
+             class="p-4 rounded-xl bg-white border border-slate-200 hover:border-blue-500/30 transition-all group">
             <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center shrink-0">
+              <div class="w-10 h-10 rounded-lg bg-blue-600/20 flex items-center justify-center shrink-0">
                 <span class="text-lg">&#128736;</span>
               </div>
               <div>
-                <p class="font-medium text-slate-200 group-hover:text-cyan-400 transition-colors">E-ITS</p>
+                <p class="font-medium text-slate-700 group-hover:text-blue-500 transition-colors">E-ITS</p>
                 <p class="text-xs text-slate-500">{{ lang.t('nis2_results.ref_eits') }}</p>
               </div>
             </div>
           </a>
           <a href="https://www.cert.ee/" target="_blank"
-             class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-emerald-500/30 transition-all group">
+             class="p-4 rounded-xl bg-white border border-slate-200 hover:border-blue-200 transition-all group">
             <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0">
+              <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
                 <span class="text-lg">&#128737;</span>
               </div>
               <div>
-                <p class="font-medium text-slate-200 group-hover:text-emerald-400 transition-colors">CERT-EE</p>
+                <p class="font-medium text-slate-700 group-hover:text-blue-600 transition-colors">CERT-EE</p>
                 <p class="text-xs text-slate-500">{{ lang.t('nis2_results.ref_cert') }}</p>
               </div>
             </div>
@@ -303,7 +303,7 @@ interface AssessmentResult {
       <!-- Back button -->
       <div class="mt-8 text-center">
         <button type="button" (click)="goBack()"
-                class="px-6 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-300 hover:bg-slate-600/50 transition-colors">
+                class="px-6 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-600 hover:bg-slate-100 transition-colors">
           {{ lang.t('nis2_results.back') }}
         </button>
       </div>
@@ -336,14 +336,14 @@ export class Nis2ResultsComponent implements OnInit {
   }
 
   getScoreBgClass(score: number): string {
-    if (score >= 80) return 'bg-emerald-500/20';
+    if (score >= 80) return 'bg-blue-100';
     if (score >= 60) return 'bg-amber-500/20';
     if (score >= 40) return 'bg-orange-500/20';
     return 'bg-red-500/20';
   }
 
   getScoreTextClass(score: number): string {
-    if (score >= 80) return 'text-emerald-400';
+    if (score >= 80) return 'text-blue-600';
     if (score >= 60) return 'text-amber-400';
     if (score >= 40) return 'text-orange-400';
     return 'text-red-400';

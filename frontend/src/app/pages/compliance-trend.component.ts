@@ -29,25 +29,25 @@ import { AssessmentResult } from '../models';
       }
 
       @if (!loading() && history().length === 0) {
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
+        <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
           <p class="text-slate-400">{{ lang.t('trend.complete_at_least_2_assessments_to_see_t') }}</p>
         </div>
       }
 
       @if (!loading() && history().length > 0) {
         <!-- Score trend chart (CSS-only bar chart) -->
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6">
           <h2 class="text-lg font-semibold text-white mb-4">{{ lang.t('trend.score_trend') }}</h2>
           <div class="flex items-end gap-2 h-48">
             @for (item of history(); track item.id) {
               <div class="flex-1 flex flex-col items-center gap-1">
                 <span class="text-xs font-bold"
-                      [class]="item.scorePercentage >= 80 ? 'text-emerald-400' : item.scorePercentage >= 50 ? 'text-amber-400' : 'text-red-400'">
+                      [class]="item.scorePercentage >= 80 ? 'text-blue-600' : item.scorePercentage >= 50 ? 'text-amber-400' : 'text-red-400'">
                   {{ item.scorePercentage }}%
                 </span>
                 <div class="w-full rounded-t-lg transition-all"
                      [style.height.%]="item.scorePercentage"
-                     [class]="item.scorePercentage >= 80 ? 'bg-emerald-500/40' : item.scorePercentage >= 50 ? 'bg-amber-500/40' : 'bg-red-500/40'"></div>
+                     [class]="item.scorePercentage >= 80 ? 'bg-blue-600/40' : item.scorePercentage >= 50 ? 'bg-amber-500/40' : 'bg-red-500/40'"></div>
                 <span class="text-[9px] text-slate-500 text-center">{{ item.assessmentDate | date:'dd.MM' }}</span>
               </div>
             }
@@ -57,18 +57,18 @@ import { AssessmentResult } from '../models';
         <!-- Improvement summary -->
         @if (history().length >= 2) {
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 text-center">
+            <div class="bg-white border border-slate-200 rounded-xl p-5 text-center">
               <div class="text-sm text-slate-400 mb-1">{{ lang.t('trend.first_score') }}</div>
               <div class="text-2xl font-bold text-white">{{ history()[history().length - 1].scorePercentage }}%</div>
             </div>
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 text-center">
+            <div class="bg-white border border-slate-200 rounded-xl p-5 text-center">
               <div class="text-sm text-slate-400 mb-1">{{ lang.t('trend.latest_score') }}</div>
               <div class="text-2xl font-bold text-white">{{ history()[0].scorePercentage }}%</div>
             </div>
-            <div class="bg-slate-800/50 border rounded-xl p-5 text-center"
-                 [class]="improvement() > 0 ? 'border-emerald-500/30' : improvement() < 0 ? 'border-red-500/30' : 'border-slate-700/50'">
+            <div class="bg-white border rounded-xl p-5 text-center"
+                 [class]="improvement() > 0 ? 'border-blue-200' : improvement() < 0 ? 'border-red-500/30' : 'border-slate-200'">
               <div class="text-sm text-slate-400 mb-1">{{ lang.t('trend.change') }}</div>
-              <div class="text-2xl font-bold" [class]="improvement() > 0 ? 'text-emerald-400' : improvement() < 0 ? 'text-red-400' : 'text-slate-400'">
+              <div class="text-2xl font-bold" [class]="improvement() > 0 ? 'text-blue-600' : improvement() < 0 ? 'text-red-400' : 'text-slate-400'">
                 {{ improvement() > 0 ? '+' : '' }}{{ improvement() }}%
               </div>
             </div>
@@ -76,20 +76,20 @@ import { AssessmentResult } from '../models';
         }
 
         <!-- Assessment history table -->
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl overflow-hidden">
-          <div class="px-6 py-4 border-b border-slate-700/50">
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+          <div class="px-6 py-4 border-b border-slate-200">
             <h2 class="text-lg font-semibold text-white">{{ lang.t('trend.assessment_history') }}</h2>
           </div>
           <div class="divide-y divide-slate-700/30">
             @for (item of history(); track item.id) {
               <div class="px-6 py-3 flex items-center gap-4">
                 <div class="w-3 h-3 rounded-full flex-shrink-0"
-                     [class]="item.complianceLevel === 'GREEN' ? 'bg-emerald-500' : item.complianceLevel === 'YELLOW' ? 'bg-amber-500' : 'bg-red-500'"></div>
+                     [class]="item.complianceLevel === 'GREEN' ? 'bg-blue-600' : item.complianceLevel === 'YELLOW' ? 'bg-amber-500' : 'bg-red-500'"></div>
                 <div class="flex-1">
                   <div class="text-sm text-white">{{ item.companyName }}</div>
                   <div class="text-xs text-slate-400">{{ item.assessmentDate | date:'dd.MM.yyyy HH:mm' }}</div>
                 </div>
-                <div class="text-sm font-bold" [class]="item.complianceLevel === 'GREEN' ? 'text-emerald-400' : item.complianceLevel === 'YELLOW' ? 'text-amber-400' : 'text-red-400'">
+                <div class="text-sm font-bold" [class]="item.complianceLevel === 'GREEN' ? 'text-blue-600' : item.complianceLevel === 'YELLOW' ? 'text-amber-400' : 'text-red-400'">
                   {{ item.scorePercentage }}%
                 </div>
               </div>

@@ -33,7 +33,7 @@ interface ChatApiResponse {
       <div class="max-w-3xl mx-auto px-4">
         <!-- Header -->
         <div class="text-center mb-8">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-medium mb-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-600 text-xs font-medium mb-4">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
@@ -51,8 +51,8 @@ interface ChatApiResponse {
               <!-- Suggested questions grid -->
               <div class="py-8 space-y-6">
                 <div class="text-center">
-                  <div class="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 border border-emerald-500/30 flex items-center justify-center mb-4">
-                    <svg class="w-10 h-10 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <div class="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-blue-600/20 to-blue-500/20 border border-blue-200 flex items-center justify-center mb-4">
+                    <svg class="w-10 h-10 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                     </svg>
                   </div>
@@ -62,7 +62,7 @@ interface ChatApiResponse {
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg mx-auto">
                   @for (q of suggestedQuestions(); track q) {
                     <button (click)="sendQuickQuestion(q)"
-                            class="text-left px-4 py-3 rounded-xl bg-slate-800 border border-slate-700/50 text-sm text-slate-300 hover:text-emerald-400 hover:border-emerald-500/30 transition-all hover:bg-slate-800/80">
+                            class="text-left px-4 py-3 rounded-xl bg-slate-800 border border-slate-200 text-sm text-slate-600 hover:text-blue-600 hover:border-blue-200 transition-all hover:bg-white">
                       {{ q }}
                     </button>
                   }
@@ -75,20 +75,20 @@ interface ChatApiResponse {
                 <div class="flex gap-3 max-w-[85%]" [class.flex-row-reverse]="msg.role === 'user'">
                   <!-- Avatar -->
                   <div class="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold"
-                       [ngClass]="msg.role === 'user' ? 'bg-emerald-600/20 text-emerald-400 border border-emerald-500/30' : 'bg-gradient-to-br from-emerald-400 to-cyan-400 text-slate-900'">
+                       [ngClass]="msg.role === 'user' ? 'bg-blue-700/20 text-blue-600 border border-blue-200' : 'bg-blue-600 text-slate-900'">
                     {{ msg.role === 'user' ? '?' : 'AI' }}
                   </div>
                   <div>
                     <div class="px-4 py-3 rounded-xl text-sm leading-relaxed"
                          [class.whitespace-pre-wrap]="msg.role === 'user'"
                          [ngClass]="msg.role === 'user'
-                           ? 'bg-emerald-600/20 text-emerald-100 border border-emerald-500/20 rounded-tr-sm'
-                           : 'bg-slate-800 text-slate-200 border border-slate-700/50 rounded-tl-sm'">
+                           ? 'bg-blue-700/20 text-blue-100 border border-blue-200 rounded-tr-sm'
+                           : 'bg-slate-800 text-slate-700 border border-slate-200 rounded-tl-sm'">
                       @if (msg.role === 'user') { {{ msg.content }} }
                       @else {
                         <div [innerHTML]="msg.content | markdown"></div>
                         <div class="flex items-center gap-1 mt-2 -mb-1">
-                          <button (click)="copyMessage(msg.content, $index)" class="p-1 text-slate-600 hover:text-emerald-400 transition-colors rounded" [attr.aria-label]="lang.t('chat.copy')">
+                          <button (click)="copyMessage(msg.content, $index)" class="p-1 text-slate-600 hover:text-blue-600 transition-colors rounded" [attr.aria-label]="lang.t('chat.copy')">
                             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                               @if (copiedIndex() === $index) {
                                 <polyline points="20 6 9 17 4 12"/>
@@ -98,13 +98,13 @@ interface ChatApiResponse {
                             </svg>
                           </button>
                           @if (copiedIndex() === $index) {
-                            <span class="text-[10px] text-emerald-400">{{ lang.t('chat.copied') }}</span>
+                            <span class="text-[10px] text-blue-600">{{ lang.t('chat.copied') }}</span>
                           }
                         </div>
                       }
                       @if (msg.suggestedTool) {
                         <button (click)="navigateToTool(msg.suggestedTool!)"
-                                class="mt-3 flex items-center gap-2 w-full px-3 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs hover:bg-emerald-500/20 transition-colors">
+                                class="mt-3 flex items-center gap-2 w-full px-3 py-2 rounded-lg bg-blue-50 border border-blue-200 text-blue-600 text-xs hover:bg-blue-100 transition-colors">
                           <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
                           </svg>
@@ -122,13 +122,13 @@ interface ChatApiResponse {
 
             @if (loading()) {
               <div class="flex gap-3">
-                <div class="shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-xs font-bold text-slate-900">AI</div>
-                <div class="bg-slate-800 border border-slate-700/50 rounded-xl rounded-tl-sm px-4 py-3">
+                <div class="shrink-0 w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-xs font-bold text-slate-900">AI</div>
+                <div class="bg-slate-800 border border-slate-200 rounded-xl rounded-tl-sm px-4 py-3">
                   <div class="flex items-center gap-2.5">
                     <div class="flex gap-1">
-                      <span class="w-2 h-2 bg-emerald-400 rounded-full animate-bounce [animation-delay:0ms]"></span>
-                      <span class="w-2 h-2 bg-emerald-400 rounded-full animate-bounce [animation-delay:150ms]"></span>
-                      <span class="w-2 h-2 bg-emerald-400 rounded-full animate-bounce [animation-delay:300ms]"></span>
+                      <span class="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:0ms]"></span>
+                      <span class="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:150ms]"></span>
+                      <span class="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:300ms]"></span>
                     </div>
                     <span class="text-xs text-slate-500 animate-pulse">{{ typingStatus() }}</span>
                   </div>
@@ -141,7 +141,7 @@ interface ChatApiResponse {
               <div class="flex flex-wrap gap-2 pl-11">
                 @for (q of followups(); track q) {
                   <button (click)="sendFollowup(q)"
-                          class="text-xs px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 hover:border-emerald-500/40 transition-all">
+                          class="text-xs px-3 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-600 hover:bg-blue-100 hover:border-blue-500/40 transition-all">
                     {{ q }}
                   </button>
                 }
@@ -162,7 +162,7 @@ interface ChatApiResponse {
                 <div class="flex items-center gap-2">
                   <div class="flex gap-0.5">
                     @for (i of limitDots(); track i) {
-                      <span class="w-2 h-2 rounded-full" [ngClass]="i < messagesUsed() ? 'bg-emerald-400' : 'bg-slate-700'"></span>
+                      <span class="w-2 h-2 rounded-full" [ngClass]="i < messagesUsed() ? 'bg-blue-500' : 'bg-slate-700'"></span>
                     }
                   </div>
                   <span class="text-xs text-slate-500">{{ messagesUsed() }}/{{ messagesLimit() }} {{ lang.t('chat.msgs_used') }}</span>
@@ -172,13 +172,13 @@ interface ChatApiResponse {
               }
               <div class="flex items-center gap-3">
                 <button (click)="exportChat()" [disabled]="messages().length === 0"
-                        class="text-xs text-slate-500 hover:text-emerald-400 transition-colors disabled:opacity-30 flex items-center gap-1">
+                        class="text-xs text-slate-500 hover:text-blue-600 transition-colors disabled:opacity-30 flex items-center gap-1">
                   <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
                   </svg>
                   {{ lang.t('chat.export') }}
                 </button>
-                <button (click)="clearHistory()" class="text-xs text-slate-500 hover:text-slate-300 transition-colors">
+                <button (click)="clearHistory()" class="text-xs text-slate-500 hover:text-slate-600 transition-colors">
                   {{ lang.t('chat.clear') }}
                 </button>
               </div>
@@ -186,7 +186,7 @@ interface ChatApiResponse {
           }
 
           <!-- Input -->
-          <div class="px-4 sm:px-6 py-4 border-t border-slate-800 bg-slate-900/80">
+          <div class="px-4 sm:px-6 py-4 border-t border-slate-800 bg-white">
             <form (submit)="send($event)" class="flex gap-3 items-end">
               <textarea
                 [(ngModel)]="inputText"
@@ -195,11 +195,11 @@ interface ChatApiResponse {
                 [disabled]="loading()"
                 (keydown)="onKeydown($event)"
                 rows="1"
-                class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25 disabled:opacity-50 resize-none max-h-32 overflow-y-auto"
+                class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 disabled:opacity-50 resize-none max-h-32 overflow-y-auto"
                 autocomplete="off"
               ></textarea>
               <button type="submit" [disabled]="loading() || !inputText.trim()"
-                      class="px-5 py-3 rounded-xl bg-emerald-600 text-white text-sm font-medium hover:bg-emerald-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 shrink-0">
+                      class="px-5 py-3 rounded-xl bg-blue-700 text-white text-sm font-medium hover:bg-blue-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 shrink-0">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
                 </svg>

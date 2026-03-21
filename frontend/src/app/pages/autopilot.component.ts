@@ -34,7 +34,7 @@ import { AutopilotInsight, AutopilotCounts } from '../models';
             <div class="flex gap-2">
               <button (click)="generateComplianceReport()" [disabled]="generatingReport()"
                 class="px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2
-                       bg-slate-800/50 border border-violet-500/30 text-violet-300 hover:border-violet-500/50 hover:bg-slate-800/80 disabled:opacity-50 disabled:cursor-not-allowed">
+                       bg-white border border-violet-500/30 text-violet-300 hover:border-violet-500/50 hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed">
                 @if (generatingReport()) {
                   <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg>
                   {{ lang.t('dashboard.generating_report') }}
@@ -64,7 +64,7 @@ import { AutopilotInsight, AutopilotCounts } from '../models';
 
         <!-- Premium Gate -->
         @if (!sub.isPremium()) {
-          <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-8 text-center">
+          <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-8 text-center">
             <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500/20 to-purple-500/20 flex items-center justify-center mx-auto mb-4">
               <svg class="w-8 h-8 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
@@ -81,27 +81,27 @@ import { AutopilotInsight, AutopilotCounts } from '../models';
 
           <!-- KPI Cards -->
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4">
+            <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4">
               <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.t('autopilot.kpi_new') }}</p>
               <p class="text-2xl font-bold text-violet-400">{{ counts()?.new || 0 }}</p>
             </div>
-            <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4">
+            <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4">
               <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.t('autopilot.kpi_critical') }}</p>
               <p class="text-2xl font-bold text-red-400">{{ counts()?.critical || 0 }}</p>
             </div>
-            <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4">
+            <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4">
               <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.t('autopilot.kpi_accepted') }}</p>
-              <p class="text-2xl font-bold text-emerald-400">{{ counts()?.accepted || 0 }}</p>
+              <p class="text-2xl font-bold text-blue-600">{{ counts()?.accepted || 0 }}</p>
             </div>
-            <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4">
+            <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4">
               <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.t('autopilot.kpi_total') }}</p>
-              <p class="text-2xl font-bold text-slate-300">{{ counts()?.total || 0 }}</p>
+              <p class="text-2xl font-bold text-slate-600">{{ counts()?.total || 0 }}</p>
             </div>
           </div>
 
           <!-- Filter Bar -->
           <div class="flex flex-wrap items-center gap-2 mb-6">
-            <div class="flex items-center gap-1 bg-slate-800/50 border border-slate-700/50 rounded-lg p-1">
+            <div class="flex items-center gap-1 bg-white border border-slate-200 rounded-lg p-1">
               @for (sev of severityFilters; track sev.value) {
                 <button (click)="activeSeverity.set(sev.value)"
                   class="px-3 py-1.5 text-xs font-medium rounded-md transition-all"
@@ -110,7 +110,7 @@ import { AutopilotInsight, AutopilotCounts } from '../models';
                 </button>
               }
             </div>
-            <div class="flex items-center gap-1 bg-slate-800/50 border border-slate-700/50 rounded-lg p-1">
+            <div class="flex items-center gap-1 bg-white border border-slate-200 rounded-lg p-1">
               <button (click)="showDismissed.set(false)"
                 class="px-3 py-1.5 text-xs font-medium rounded-md transition-all"
                 [class]="!showDismissed() ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'">
@@ -142,7 +142,7 @@ import { AutopilotInsight, AutopilotCounts } from '../models';
           @if (!loading() && filteredInsights().length > 0) {
             <div class="space-y-3">
               @for (insight of filteredInsights(); track insight.id) {
-                <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl overflow-hidden hover:border-slate-600/50 transition-colors">
+                <div class="bg-white backdrop-blur border border-slate-200 rounded-xl overflow-hidden hover:border-slate-200 transition-colors">
                   <div class="flex">
                     <!-- Severity Bar -->
                     <div class="w-1.5 shrink-0" [class]="getSeverityBarClass(insight.severity)"></div>
@@ -188,16 +188,16 @@ import { AutopilotInsight, AutopilotCounts } from '../models';
                             }
                             @if (insight.status === 'NEW') {
                               <button (click)="accept(insight.id)"
-                                class="px-3 py-1.5 text-[11px] font-semibold rounded-lg bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600/30 border border-emerald-500/20 transition-colors whitespace-nowrap">
+                                class="px-3 py-1.5 text-[11px] font-semibold rounded-lg bg-blue-700/20 text-blue-600 hover:bg-blue-700/30 border border-blue-200 transition-colors whitespace-nowrap">
                                 {{ lang.t('autopilot.accept') }}
                               </button>
                             }
                             <button (click)="dismiss(insight.id)"
-                              class="px-3 py-1.5 text-[11px] rounded-lg text-slate-500 hover:text-slate-300 hover:bg-slate-700/50 transition-colors whitespace-nowrap">
+                              class="px-3 py-1.5 text-[11px] rounded-lg text-slate-500 hover:text-slate-600 hover:bg-slate-100 transition-colors whitespace-nowrap">
                               {{ lang.t('autopilot.dismiss') }}
                             </button>
                             <button (click)="snooze(insight.id)"
-                              class="px-3 py-1.5 text-[11px] rounded-lg text-slate-500 hover:text-slate-300 hover:bg-slate-700/50 transition-colors whitespace-nowrap">
+                              class="px-3 py-1.5 text-[11px] rounded-lg text-slate-500 hover:text-slate-600 hover:bg-slate-100 transition-colors whitespace-nowrap">
                               {{ lang.t('autopilot.snooze') }}
                             </button>
                           }
@@ -212,9 +212,9 @@ import { AutopilotInsight, AutopilotCounts } from '../models';
 
           <!-- Empty State -->
           @if (!loading() && filteredInsights().length === 0 && !error()) {
-            <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-12 text-center">
-              <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 flex items-center justify-center mx-auto mb-4">
-                <svg class="w-8 h-8 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-12 text-center">
+              <div class="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
                 </svg>
               </div>

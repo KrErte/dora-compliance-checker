@@ -66,11 +66,11 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
       </div>
 
       <!-- Security Banner -->
-      <div class="max-w-4xl mx-auto p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/20">
+      <div class="max-w-4xl mx-auto p-4 rounded-xl bg-blue-50 border border-blue-200">
         <div class="flex items-center gap-3">
           <div class="flex items-center gap-2">
-            <span class="text-emerald-400">🔐</span>
-            <span class="text-sm text-emerald-400 font-medium">{{ lang.t('workspace.security_eu') }}</span>
+            <span class="text-blue-600">🔐</span>
+            <span class="text-sm text-blue-600 font-medium">{{ lang.t('workspace.security_eu') }}</span>
           </div>
           <span class="text-slate-600">•</span>
           <span class="text-xs text-slate-500">{{ lang.t('workspace.security_delete') }}</span>
@@ -81,7 +81,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
 
       <!-- Step 1: Create Project or Upload -->
       <div *ngIf="currentStep === 1" class="max-w-2xl mx-auto space-y-6">
-        <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 md:p-8">
+        <div class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6 md:p-8">
           <h2 class="text-xl font-semibold text-white mb-6 flex items-center gap-2">
             <span class="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center text-violet-400 font-bold">1</span>
             {{ lang.t('workspace.step1_title') }}
@@ -89,29 +89,29 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
 
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('workspace.project_name') }} <span class="text-slate-500">({{ lang.t('workspace.optional') }})</span></label>
+              <label class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('workspace.project_name') }} <span class="text-slate-500">({{ lang.t('workspace.optional') }})</span></label>
               <input type="text" [(ngModel)]="projectName" [placeholder]="lang.t('workspace.project_name_placeholder')"
-                     class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white
+                     class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-white
                             focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all" />
             </div>
 
             <div *ngIf="!auth.isLoggedIn()">
-              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('workspace.your_email') }}</label>
+              <label class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('workspace.your_email') }}</label>
               <input type="email" [(ngModel)]="userEmail" placeholder="your@email.com"
-                     class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white
+                     class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-white
                             focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all" />
             </div>
 
             <!-- Regulation Selection -->
             <div>
-              <label class="block text-sm font-medium text-slate-300 mb-3">{{ lang.t('workspace.select_regulations') }}</label>
+              <label class="block text-sm font-medium text-slate-600 mb-3">{{ lang.t('workspace.select_regulations') }}</label>
 
               <!-- Select All -->
               <label class="flex items-center gap-2 mb-3 cursor-pointer">
                 <input type="checkbox" [checked]="allRegulationsSelected"
                        (change)="toggleAllRegulations()"
                        class="rounded border-slate-600 bg-slate-800 text-violet-500 focus:ring-violet-500/20" />
-                <span class="text-sm text-slate-300">{{ lang.t('workspace.select_all') }}</span>
+                <span class="text-sm text-slate-600">{{ lang.t('workspace.select_all') }}</span>
               </label>
 
               <div class="grid grid-cols-2 gap-3">
@@ -119,7 +119,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
                        class="relative flex items-start gap-3 p-4 rounded-xl cursor-pointer transition-all"
                        [class]="selectedRegulations.includes(reg.id)
                          ? 'bg-violet-500/10 border-2 border-violet-500/40'
-                         : 'bg-slate-900/30 border border-slate-700/50 hover:border-slate-600'">
+                         : 'bg-slate-900/30 border border-slate-200 hover:border-slate-300'">
                   <input type="checkbox" [checked]="selectedRegulations.includes(reg.id)"
                          (change)="toggleRegulation(reg.id)"
                          class="mt-1 rounded border-slate-600 bg-slate-800 text-violet-500 focus:ring-violet-500/20" />
@@ -134,8 +134,8 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
 
             <!-- File Upload -->
             <div class="pt-4">
-              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('workspace.upload_contract') }}</label>
-              <div class="border-2 border-dashed border-slate-700/50 rounded-xl p-8 text-center hover:border-violet-500/50 transition-colors cursor-pointer"
+              <label class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('workspace.upload_contract') }}</label>
+              <div class="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center hover:border-violet-500/50 transition-colors cursor-pointer"
                    (click)="fileInput.click()"
                    (dragover)="onDragOver($event)"
                    (drop)="onDrop($event)">
@@ -153,17 +153,17 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
               </div>
               <button *ngIf="!selectedFile" type="button" (click)="loadSampleContract()" [disabled]="loadingSample"
                       class="mt-3 w-full py-3 px-4 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2
-                             bg-emerald-500/10 border border-emerald-500/30 text-emerald-400
-                             hover:bg-emerald-500/20 hover:shadow-lg hover:shadow-emerald-500/10
+                             bg-blue-50 border border-blue-200 text-blue-600
+                             hover:bg-blue-100 hover:shadow-lg hover:shadow-md
                              disabled:opacity-50 disabled:cursor-not-allowed">
                 <svg *ngIf="!loadingSample" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
-                <div *ngIf="loadingSample" class="w-4 h-4 border-2 border-emerald-400/30 border-t-emerald-400 rounded-full animate-spin"></div>
+                <div *ngIf="loadingSample" class="w-4 h-4 border-2 border-blue-400/30 border-t-blue-500 rounded-full animate-spin"></div>
                 {{ loadingSample ? lang.t('workspace.loading_sample') : lang.t('workspace.try_sample') }}
               </button>
 
-              <div *ngIf="selectedFile" class="mt-4 p-4 rounded-xl bg-slate-900/30 border border-slate-700/50">
+              <div *ngIf="selectedFile" class="mt-4 p-4 rounded-xl bg-slate-900/30 border border-slate-200">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-3">
                     <span class="text-2xl">📎</span>
@@ -211,7 +211,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
       <div *ngIf="currentStep === 2 && project" class="max-w-5xl mx-auto space-y-6">
 
         <!-- Project Header -->
-        <div class="flex items-center justify-between p-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
+        <div class="flex items-center justify-between p-4 rounded-xl bg-white border border-slate-200">
           <div>
             <h2 class="text-lg font-semibold text-white">{{ project.name }}</h2>
             <p class="text-xs text-slate-500">{{ lang.t('workspace.expires') }}: {{ formatDate(project.expiresAt) }}</p>
@@ -222,7 +222,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
               {{ lang.t('workspace.export_pdf') }}
             </button>
             <button (click)="resetToNewAnalysis()"
-                    class="px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white bg-slate-700/50 hover:bg-slate-600/50 transition-all">
+                    class="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-white bg-slate-700/50 hover:bg-slate-100 transition-all">
               {{ lang.t('workspace.analyze_new_contract') }}
             </button>
             <span class="px-3 py-1 rounded-full text-xs font-medium"
@@ -233,7 +233,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
         </div>
 
         <!-- Overall Compliance Summary -->
-        <div class="p-6 rounded-xl bg-slate-800/50 border border-slate-700/50">
+        <div class="p-6 rounded-xl bg-white border border-slate-200">
           <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg font-semibold text-white">{{ lang.t('workspace.overall_compliance') }}</h3>
             <span class="text-2xl font-bold px-4 py-1 rounded-full"
@@ -252,20 +252,20 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
         </div>
 
         <!-- Role View Selector -->
-        <div class="flex flex-wrap gap-2 p-1 rounded-xl bg-slate-800/50">
+        <div class="flex flex-wrap gap-2 p-1 rounded-xl bg-white">
           <button *ngFor="let role of viewRoles"
                   (click)="currentRole = role.id"
                   class="flex-1 py-2.5 px-4 rounded-lg text-sm font-medium transition-all"
                   [class]="currentRole === role.id
                     ? 'bg-violet-500 text-white shadow-lg'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-700/50'">
+                    : 'text-slate-400 hover:text-white hover:bg-slate-100'">
             <span class="mr-2">{{ role.icon }}</span>
             {{ lang.t('workspace.role_' + role.id) }}
           </button>
         </div>
 
         <!-- Review Progress -->
-        <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
+        <div class="p-4 rounded-xl bg-white border border-slate-200">
           <div class="flex items-center justify-between mb-2">
             <span class="text-sm text-slate-400">{{ lang.t('workspace.review_progress') }}</span>
             <span class="text-sm font-medium text-white">{{ project.reviewProgress }}%</span>
@@ -290,7 +290,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
               </span>
             </div>
             <div class="flex items-center gap-4 text-xs">
-              <span class="text-emerald-400">✓ {{ gap.passed }}</span>
+              <span class="text-blue-600">✓ {{ gap.passed }}</span>
               <span class="text-red-400">✗ {{ gap.failed }}</span>
               <span class="text-amber-400">◐ {{ gap.partial }}</span>
             </div>
@@ -298,7 +298,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
         </div>
 
         <!-- Gap Details Panel -->
-        <div *ngIf="selectedGap && gapDetails" class="p-6 rounded-xl bg-slate-800/50 border border-slate-700/50 space-y-4">
+        <div *ngIf="selectedGap && gapDetails" class="p-6 rounded-xl bg-white border border-slate-200 space-y-4">
           <div class="flex items-center justify-between">
             <h3 class="text-lg font-semibold text-white">{{ getRegulationName(selectedGap.regulation) }} {{ lang.t('workspace.gap_details') }}</h3>
             <button (click)="selectedGap = null" class="p-2 text-slate-500 hover:text-white transition-colors">
@@ -342,7 +342,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
         </div>
 
         <!-- Submit Review Section (Collapsible) -->
-        <div class="rounded-xl bg-slate-800/50 border border-slate-700/50">
+        <div class="rounded-xl bg-white border border-slate-200">
           <button (click)="showReviewForm = !showReviewForm"
                   class="w-full p-6 flex items-center justify-between text-left">
             <h3 class="text-lg font-semibold text-white">{{ lang.t('workspace.add_review') }}</h3>
@@ -356,9 +356,9 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
           <div *ngIf="showReviewForm" class="px-6 pb-6 space-y-4">
             <div class="grid md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('workspace.your_role') }}</label>
+                <label class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('workspace.your_role') }}</label>
                 <select [(ngModel)]="reviewRole"
-                        class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white">
+                        class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-white">
                   <option value="">{{ lang.t('workspace.select_role') }}</option>
                   <option value="account_manager">{{ lang.t('workspace.role_account_manager') }}</option>
                   <option value="technical_lead">{{ lang.t('workspace.role_technical_lead') }}</option>
@@ -367,9 +367,9 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
                 </select>
               </div>
               <div>
-                <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('workspace.review_status') }}</label>
+                <label class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('workspace.review_status') }}</label>
                 <select [(ngModel)]="reviewStatus"
-                        class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white">
+                        class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-white">
                   <option value="">{{ lang.t('workspace.select_status') }}</option>
                   <option value="reviewed">{{ lang.t('workspace.status_reviewed') }}</option>
                   <option value="needs_attention">{{ lang.t('workspace.status_needs_attention') }}</option>
@@ -379,9 +379,9 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('workspace.comments') }}</label>
+              <label class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('workspace.comments') }}</label>
               <textarea [(ngModel)]="reviewComments" rows="3"
-                        class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white resize-none"></textarea>
+                        class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-white resize-none"></textarea>
             </div>
 
             <button (click)="submitReview()"
@@ -395,7 +395,7 @@ type ViewRole = 'overview' | 'technical' | 'business' | 'legal';
         </div>
 
         <!-- Audit Trail (Collapsible) -->
-        <div class="rounded-xl bg-slate-800/50 border border-slate-700/50">
+        <div class="rounded-xl bg-white border border-slate-200">
           <button (click)="showAuditTrail = !showAuditTrail"
                   class="w-full p-6 flex items-center justify-between text-left">
             <div class="flex items-center gap-2">
@@ -823,29 +823,29 @@ export class WorkspaceComponent implements OnInit {
       case 'draft': return 'bg-slate-700/50 text-slate-400';
       case 'analyzed': return 'bg-blue-500/20 text-blue-400';
       case 'in_review': return 'bg-amber-500/20 text-amber-400';
-      case 'completed': return 'bg-emerald-500/20 text-emerald-400';
+      case 'completed': return 'bg-blue-100 text-blue-600';
       default: return 'bg-slate-700/50 text-slate-400';
     }
   }
 
   getGapCardClass(percentage: number): string {
-    if (percentage >= 80) return 'bg-emerald-500/5 border-emerald-500/30 hover:border-emerald-500/50';
+    if (percentage >= 80) return 'bg-blue-50 border-blue-200 hover:border-blue-500/50';
     if (percentage >= 50) return 'bg-amber-500/5 border-amber-500/30 hover:border-amber-500/50';
     return 'bg-red-500/5 border-red-500/30 hover:border-red-500/50';
   }
 
   getComplianceBadgeClass(percentage: number): string {
-    if (percentage >= 80) return 'bg-emerald-500/20 text-emerald-400';
+    if (percentage >= 80) return 'bg-blue-100 text-blue-600';
     if (percentage >= 50) return 'bg-amber-500/20 text-amber-400';
     return 'bg-red-500/20 text-red-400';
   }
 
   getCheckCardClass(status?: string): string {
     switch (status) {
-      case 'passed': return 'bg-emerald-500/5 border-emerald-500/30';
+      case 'passed': return 'bg-blue-50 border-blue-200';
       case 'partial': return 'bg-amber-500/5 border-amber-500/30';
       case 'failed': return 'bg-red-500/5 border-red-500/30';
-      default: return 'bg-slate-800/50 border-slate-700/50';
+      default: return 'bg-white border-slate-200';
     }
   }
 
@@ -862,8 +862,8 @@ export class WorkspaceComponent implements OnInit {
     switch (action) {
       case 'created': return 'bg-violet-400';
       case 'uploaded': return 'bg-blue-400';
-      case 'analyzed': return 'bg-cyan-400';
-      case 'reviewed': return 'bg-emerald-400';
+      case 'analyzed': return 'bg-blue-500';
+      case 'reviewed': return 'bg-blue-500';
       case 'exported': return 'bg-amber-400';
       default: return 'bg-slate-400';
     }

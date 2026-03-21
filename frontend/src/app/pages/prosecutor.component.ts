@@ -129,7 +129,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
         @if (history().length > 0) {
           <div class="flex justify-end mb-6">
             <button (click)="screen.set('history')"
-                    class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800/50 border border-slate-700/50 text-slate-300 text-sm hover:border-indigo-500/30 transition-all">
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-600 text-sm hover:border-indigo-500/30 transition-all">
               <span class="material-symbols-outlined text-base text-indigo-400">history</span>
               {{ lang.t('prosecutor.past_audits') }} ({{ history().length }})
             </button>
@@ -184,12 +184,12 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
                     <span class="material-symbols-outlined text-xl text-indigo-400">{{ scenario.icon }}</span>
                   </div>
                   <div class="min-w-0">
-                    <h3 class="font-bold text-slate-200 text-sm leading-tight">
+                    <h3 class="font-bold text-slate-700 text-sm leading-tight">
                       {{ lang.lang() === 'et' ? scenario.nameEt : scenario.name }}
                     </h3>
                     <div class="flex items-center gap-1.5 mt-1">
                       <span class="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase"
-                            [class]="scenario.tier === 'FREE' ? 'bg-emerald-500/15 text-emerald-400' : scenario.tier === 'ENTERPRISE' ? 'bg-purple-500/15 text-purple-400' : 'bg-amber-500/15 text-amber-400'">
+                            [class]="scenario.tier === 'FREE' ? 'bg-blue-50 text-blue-600' : scenario.tier === 'ENTERPRISE' ? 'bg-purple-500/15 text-purple-400' : 'bg-amber-500/15 text-amber-400'">
                         {{ getTierLabel(scenario.tier) }}
                       </span>
                     </div>
@@ -222,10 +222,10 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
                           class="p-4 rounded-xl border text-left transition-all duration-200"
                           [class]="selectedDifficulty() === diff.id
                             ? 'bg-indigo-500/10 border-indigo-500/40 ring-1 ring-indigo-500/30'
-                            : 'bg-slate-800/50 border-slate-700/50 hover:border-indigo-500/20'">
+                            : 'bg-white border-slate-200 hover:border-indigo-500/20'">
                     <div class="flex items-center gap-2 mb-1">
                       <span class="material-symbols-outlined text-lg" [class]="diff.color">{{ diff.icon }}</span>
-                      <span class="text-sm font-bold text-slate-200">{{ lang.lang() === 'et' ? diff.labelEt : diff.label }}</span>
+                      <span class="text-sm font-bold text-slate-700">{{ lang.lang() === 'et' ? diff.labelEt : diff.label }}</span>
                     </div>
                     <p class="text-xs text-slate-500">{{ diff.questions }} {{ lang.t('prosecutor.questions') }}</p>
                     <p class="text-[10px] text-slate-600 mt-1">{{ lang.lang() === 'et' ? diff.descEt : diff.desc }}</p>
@@ -263,7 +263,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
               </div>
               <div>
                 <p class="text-xs text-slate-500 uppercase tracking-wider font-medium">{{ lang.t('prosecutor.question_label') }} {{ questionsAsked() }}/{{ totalQuestions() }}</p>
-                <p class="text-sm font-semibold text-slate-200">{{ lang.t('prosecutor.audit_in_progress') }}</p>
+                <p class="text-sm font-semibold text-slate-700">{{ lang.t('prosecutor.audit_in_progress') }}</p>
               </div>
             </div>
             <div class="flex items-center gap-3">
@@ -286,18 +286,18 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
         <!-- Assessment of previous answer -->
         @if (currentQuestion()?.assessment) {
           <div class="glass-card p-4 mb-4 border-l-4 animate-fade-in-up"
-               [class]="currentQuestion()!.weaknessFound ? 'border-l-red-500 bg-red-500/5' : 'border-l-emerald-500 bg-emerald-500/5'">
+               [class]="currentQuestion()!.weaknessFound ? 'border-l-red-500 bg-red-500/5' : 'border-l-blue-600 bg-blue-50'">
             <div class="flex items-start gap-3">
               <span class="material-symbols-outlined text-lg mt-0.5"
-                    [class]="currentQuestion()!.weaknessFound ? 'text-red-400' : 'text-emerald-400'">
+                    [class]="currentQuestion()!.weaknessFound ? 'text-red-400' : 'text-blue-600'">
                 {{ currentQuestion()!.weaknessFound ? 'warning' : 'check_circle' }}
               </span>
               <div>
                 <p class="text-xs font-bold uppercase tracking-wider mb-1"
-                   [class]="currentQuestion()!.weaknessFound ? 'text-red-400' : 'text-emerald-400'">
+                   [class]="currentQuestion()!.weaknessFound ? 'text-red-400' : 'text-blue-600'">
                   {{ lang.t('prosecutor.prev_assessment') }}
                 </p>
-                <p class="text-sm text-slate-300 leading-relaxed">
+                <p class="text-sm text-slate-600 leading-relaxed">
                   {{ lang.lang() === 'et' ? currentQuestion()!.assessmentEt : currentQuestion()!.assessment }}
                 </p>
                 @if (currentQuestion()!.weaknessFound && currentQuestion()!.weaknessDetail) {
@@ -317,7 +317,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
 
         <!-- Question Card -->
         <div class="glass-card p-6 mb-4 animate-fade-in-up">
-          <div class="bg-slate-900/50 rounded-xl p-5 border border-indigo-500/20 mb-5">
+          <div class="bg-white rounded-xl p-5 border border-indigo-500/20 mb-5">
             <div class="flex items-start gap-3">
               <div class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center shrink-0 mt-0.5">
                 <span class="material-symbols-outlined text-lg text-indigo-400">record_voice_over</span>
@@ -328,7 +328,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
                     {{ lang.t('prosecutor.follow_up') }}
                   </span>
                 }
-                <p class="text-slate-200 leading-relaxed">
+                <p class="text-slate-700 leading-relaxed">
                   {{ lang.lang() === 'et' ? currentQuestion()?.questionEt : currentQuestion()?.question }}
                 </p>
                 <div class="flex items-center gap-2 mt-3">
@@ -364,7 +364,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
                     [placeholder]="lang.t('prosecutor.answer_placeholder')"
                     rows="6"
                     maxlength="5000"
-                    class="w-full bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 py-3 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/30 resize-none mb-3"></textarea>
+                    class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-700 placeholder-slate-600 focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/30 resize-none mb-3"></textarea>
           <div class="flex items-center justify-between mb-4">
             <p class="text-[10px] text-slate-600">{{ answerText.length }}/5000</p>
           </div>
@@ -403,7 +403,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
             @if (showHistory()) {
               <div class="mt-3 space-y-3">
                 @for (qa of qaHistory(); track qa.questionNumber) {
-                  <div class="rounded-lg bg-slate-800/30 border border-slate-700/30 p-3">
+                  <div class="rounded-lg bg-slate-800/30 border border-slate-200 p-3">
                     <div class="flex items-center gap-2 mb-2">
                       <span class="text-[10px] font-bold text-indigo-400 uppercase">Q{{ qa.questionNumber }}</span>
                       @if (qa.weaknessFound) {
@@ -465,7 +465,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
             </div>
 
             <!-- Penalty Range -->
-            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800/50 border border-slate-700/30 mb-3">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 mb-3">
               <span class="material-symbols-outlined text-sm text-amber-400">euro</span>
               <span class="text-sm font-bold text-amber-300">
                 {{ formatCurrency(verdict()!.penaltyRangeMin) }} — {{ formatCurrency(verdict()!.penaltyRangeMax) }}
@@ -494,7 +494,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
             </h3>
             <div class="space-y-3">
               @for (item of verdict()!.prosecutionBrief; track $index) {
-                <div class="rounded-xl bg-slate-800/30 border border-slate-700/30 p-4">
+                <div class="rounded-xl bg-slate-800/30 border border-slate-200 p-4">
                   <div class="flex items-center gap-2 mb-2">
                     <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase"
                           [class]="getSeverityClass(item.severity)">
@@ -504,7 +504,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
                       {{ item.article }}
                     </span>
                   </div>
-                  <p class="text-sm text-slate-200 font-medium mb-1">
+                  <p class="text-sm text-slate-700 font-medium mb-1">
                     {{ lang.lang() === 'et' ? item.weaknessEt : item.weakness }}
                   </p>
                   <p class="text-xs text-slate-500">
@@ -520,17 +520,17 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
         @if (verdict()!.defensePlaybook.length > 0) {
           <div class="glass-card p-6 mb-6">
             <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-              <span class="material-symbols-outlined text-base text-emerald-400">shield</span>
+              <span class="material-symbols-outlined text-base text-blue-600">shield</span>
               {{ lang.t('prosecutor.defense_playbook') }}
             </h3>
             <div class="space-y-3">
               @for (step of verdict()!.defensePlaybook; track step.step) {
-                <div class="flex items-start gap-3 rounded-xl bg-slate-800/30 border border-slate-700/30 p-4">
+                <div class="flex items-start gap-3 rounded-xl bg-slate-800/30 border border-slate-200 p-4">
                   <div class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center text-sm font-bold text-indigo-400 shrink-0">
                     {{ step.step }}
                   </div>
                   <div class="flex-1 min-w-0">
-                    <p class="text-sm text-slate-200 mb-2">
+                    <p class="text-sm text-slate-700 mb-2">
                       {{ lang.lang() === 'et' ? step.actionEt : step.action }}
                     </p>
                     <div class="flex items-center gap-2 flex-wrap">
@@ -556,15 +556,15 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
         @if (verdict()!.strengths.length > 0) {
           <div class="glass-card p-6 mb-6">
             <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-              <span class="material-symbols-outlined text-base text-emerald-400">thumb_up</span>
+              <span class="material-symbols-outlined text-base text-blue-600">thumb_up</span>
               {{ lang.t('prosecutor.strengths') }}
             </h3>
             <div class="space-y-2">
               @for (s of verdict()!.strengths; track $index) {
-                <div class="flex items-start gap-3 p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
-                  <span class="material-symbols-outlined text-sm text-emerald-400 mt-0.5">check_circle</span>
+                <div class="flex items-start gap-3 p-3 rounded-lg bg-blue-50 border border-blue-200">
+                  <span class="material-symbols-outlined text-sm text-blue-600 mt-0.5">check_circle</span>
                   <div>
-                    <p class="text-sm font-medium text-emerald-300">{{ lang.lang() === 'et' ? s.areaEt : s.area }}</p>
+                    <p class="text-sm font-medium text-blue-500">{{ lang.lang() === 'et' ? s.areaEt : s.area }}</p>
                     <p class="text-xs text-slate-400">{{ lang.lang() === 'et' ? s.detailEt : s.detail }}</p>
                   </div>
                 </div>
@@ -581,7 +581,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
             {{ lang.t('prosecutor.try_again') }}
           </button>
           <button (click)="backToSetup()"
-                  class="flex-1 py-3 rounded-xl font-bold text-sm transition-all bg-slate-800/50 border border-slate-700/50 text-slate-300 hover:border-indigo-500/30 hover:bg-indigo-500/5 flex items-center justify-center gap-2">
+                  class="flex-1 py-3 rounded-xl font-bold text-sm transition-all bg-white border border-slate-200 text-slate-600 hover:border-indigo-500/30 hover:bg-indigo-500/5 flex items-center justify-center gap-2">
             <span class="material-symbols-outlined text-lg">arrow_back</span>
             {{ lang.t('prosecutor.back_to_scenarios') }}
           </button>
@@ -618,7 +618,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
               </div>
               <div class="flex-1 min-w-0">
                 <div class="flex items-center gap-2 mb-1">
-                  <p class="text-sm font-semibold text-slate-200">{{ getScenarioName(entry.scenarioId) }}</p>
+                  <p class="text-sm font-semibold text-slate-700">{{ getScenarioName(entry.scenarioId) }}</p>
                   <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-indigo-500/15 text-indigo-400">
                     {{ getDifficultyLabel(entry.difficulty) }}
                   </span>
@@ -705,7 +705,7 @@ export class ProsecutorComponent implements OnInit {
   });
 
   difficulties = [
-    { id: 'routine_inspection', label: 'Routine Inspection', labelEt: 'Rutiinne kontroll', questions: 6, icon: 'search', color: 'text-emerald-400', desc: 'Fair and direct questions with helpful hints.', descEt: 'Ausad ja otsesed küsimused koos kasulike vihjetega.' },
+    { id: 'routine_inspection', label: 'Routine Inspection', labelEt: 'Rutiinne kontroll', questions: 6, icon: 'search', color: 'text-blue-600', desc: 'Fair and direct questions with helpful hints.', descEt: 'Ausad ja otsesed küsimused koos kasulike vihjetega.' },
     { id: 'focused_review', label: 'Focused Review', labelEt: 'Fokuseeritud ülevaade', questions: 8, icon: 'policy', color: 'text-amber-400', desc: 'Probing questions that follow up on weak points.', descEt: 'Uurivad küsimused, mis jälgivad nõrku kohti.' },
     { id: 'deep_investigation', label: 'Deep Investigation', labelEt: 'Süvauurimine', questions: 10, icon: 'local_fire_department', color: 'text-red-400', desc: 'Aggressive adversarial audit. No mercy, no hints.', descEt: 'Agressiivne vastane audit. Halastust ega vihjeid pole.' }
   ];
@@ -906,7 +906,7 @@ export class ProsecutorComponent implements OnInit {
     if (score >= 80) return 'text-red-400';
     if (score >= 60) return 'text-amber-400';
     if (score >= 40) return 'text-yellow-400';
-    return 'text-emerald-400';
+    return 'text-blue-600';
   }
 
   getSeverityClass(severity: string): string {
@@ -914,7 +914,7 @@ export class ProsecutorComponent implements OnInit {
       case 'CRITICAL': return 'bg-red-500/20 text-red-400';
       case 'HIGH': return 'bg-orange-500/20 text-orange-400';
       case 'MEDIUM': return 'bg-amber-500/20 text-amber-400';
-      case 'LOW': return 'bg-emerald-500/20 text-emerald-400';
+      case 'LOW': return 'bg-blue-100 text-blue-600';
       default: return 'bg-slate-500/20 text-slate-400';
     }
   }
@@ -923,14 +923,14 @@ export class ProsecutorComponent implements OnInit {
     switch (effort) {
       case 'HIGH': return 'bg-red-500/20 text-red-400';
       case 'MEDIUM': return 'bg-amber-500/20 text-amber-400';
-      case 'LOW': return 'bg-emerald-500/20 text-emerald-400';
+      case 'LOW': return 'bg-blue-100 text-blue-600';
       default: return 'bg-slate-500/20 text-slate-400';
     }
   }
 
   getGradeBorderClass(grade: string): string {
     switch (grade) {
-      case 'A': return 'border-emerald-500/30 bg-emerald-500/5';
+      case 'A': return 'border-blue-200 bg-blue-50';
       case 'B': return 'border-blue-500/30 bg-blue-500/5';
       case 'C': return 'border-amber-500/30 bg-amber-500/5';
       case 'D': return 'border-orange-500/30 bg-orange-500/5';
@@ -940,8 +940,8 @@ export class ProsecutorComponent implements OnInit {
 
   getGradeBgClass(grade: string): string {
     switch (grade) {
-      case 'A': return 'from-emerald-500 to-green-500';
-      case 'B': return 'from-blue-500 to-cyan-500';
+      case 'A': return 'from-blue-600 to-green-500';
+      case 'B': return 'from-blue-500 to-blue-500';
       case 'C': return 'from-amber-500 to-yellow-500';
       case 'D': return 'from-orange-500 to-red-500';
       default: return 'from-red-500 to-rose-500';
@@ -950,7 +950,7 @@ export class ProsecutorComponent implements OnInit {
 
   getGradeHeroClass(grade: string): string {
     switch (grade) {
-      case 'A': return 'bg-emerald-500/20 border-emerald-500/50';
+      case 'A': return 'bg-blue-100 border-blue-500/50';
       case 'B': return 'bg-blue-500/20 border-blue-500/50';
       case 'C': return 'bg-amber-500/20 border-amber-500/50';
       case 'D': return 'bg-orange-500/20 border-orange-500/50';
@@ -960,7 +960,7 @@ export class ProsecutorComponent implements OnInit {
 
   getGradeTextClass(grade: string): string {
     switch (grade) {
-      case 'A': return 'text-emerald-400';
+      case 'A': return 'text-blue-600';
       case 'B': return 'text-blue-400';
       case 'C': return 'text-amber-400';
       case 'D': return 'text-orange-400';

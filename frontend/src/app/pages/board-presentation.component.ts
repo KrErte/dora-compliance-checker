@@ -134,7 +134,7 @@ const PILLAR_ID_MAP: Record<string, string> = {
           <h2 class="bp-slide-title">{{ t('bp.slide_score') }}</h2>
           <div class="bp-score-wrap">
             <svg class="bp-gauge" viewBox="0 0 200 200">
-              <circle cx="100" cy="100" r="85" fill="none" stroke="#334155" stroke-width="12"/>
+              <circle cx="100" cy="100" r="85" fill="none" stroke="#e2e8f0" stroke-width="12"/>
               <circle cx="100" cy="100" r="85" fill="none"
                 [attr.stroke]="levelColor()"
                 stroke-width="12"

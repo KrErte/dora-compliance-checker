@@ -43,13 +43,13 @@ interface TenantBranding {
 
       @if (!loading()) {
         <!-- Company Name -->
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 space-y-4">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
           <h2 class="text-lg font-semibold text-white">Company Identity</h2>
 
           <div>
             <label class="block text-xs font-medium text-slate-400 mb-1.5">Company Name</label>
             <input [(ngModel)]="companyName" type="text" placeholder="Your Company Name"
-                   class="w-full px-4 py-2.5 bg-slate-700/50 border border-slate-600/50 rounded-xl text-sm text-white
+                   class="w-full px-4 py-2.5 bg-slate-700/50 border border-slate-200 rounded-xl text-sm text-white
                           placeholder-slate-500 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 transition-all">
           </div>
 
@@ -60,7 +60,7 @@ interface TenantBranding {
             @if (logoPreviewUrl()) {
               <div class="flex items-center gap-4 mb-3">
                 <img [src]="logoPreviewUrl()" alt="Logo preview"
-                     class="w-16 h-16 rounded-xl border border-slate-600/50 object-contain bg-white/5 p-2">
+                     class="w-16 h-16 rounded-xl border border-slate-200 object-contain bg-white/5 p-2">
                 <button (click)="removeLogo()"
                         class="px-3 py-1.5 rounded-lg text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 transition-all">
                   Remove
@@ -69,7 +69,7 @@ interface TenantBranding {
             }
 
             <div (click)="fileInput.click()"
-                 class="border-2 border-dashed border-slate-600/50 rounded-xl p-6 text-center cursor-pointer hover:border-violet-500/30 hover:bg-slate-700/20 transition-all">
+                 class="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center cursor-pointer hover:border-violet-500/30 hover:bg-slate-700/20 transition-all">
               <svg class="w-8 h-8 mx-auto mb-2 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
               </svg>
@@ -84,7 +84,7 @@ interface TenantBranding {
         </div>
 
         <!-- Colors -->
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 space-y-4">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
           <h2 class="text-lg font-semibold text-white">Brand Colors</h2>
 
           <!-- Primary Color -->
@@ -92,11 +92,11 @@ interface TenantBranding {
             <label class="block text-xs font-medium text-slate-400 mb-1.5">Primary Color</label>
             <div class="flex items-center gap-3">
               <input type="color" [(ngModel)]="primaryColor"
-                     class="w-10 h-10 rounded-lg border border-slate-600/50 bg-transparent cursor-pointer">
+                     class="w-10 h-10 rounded-lg border border-slate-200 bg-transparent cursor-pointer">
               <input type="text" [(ngModel)]="primaryColor" maxlength="7" placeholder="#10b981"
-                     class="w-32 px-4 py-2.5 bg-slate-700/50 border border-slate-600/50 rounded-xl text-sm text-white font-mono
+                     class="w-32 px-4 py-2.5 bg-slate-700/50 border border-slate-200 rounded-xl text-sm text-white font-mono
                             placeholder-slate-500 focus:outline-none focus:border-violet-500/50 transition-all">
-              <div class="w-8 h-8 rounded-lg border border-slate-600/50" [style.background-color]="primaryColor"></div>
+              <div class="w-8 h-8 rounded-lg border border-slate-200" [style.background-color]="primaryColor"></div>
               <span class="text-xs text-slate-500">Used for buttons, links, key UI elements</span>
             </div>
           </div>
@@ -106,23 +106,23 @@ interface TenantBranding {
             <label class="block text-xs font-medium text-slate-400 mb-1.5">Accent Color</label>
             <div class="flex items-center gap-3">
               <input type="color" [(ngModel)]="accentColor"
-                     class="w-10 h-10 rounded-lg border border-slate-600/50 bg-transparent cursor-pointer">
+                     class="w-10 h-10 rounded-lg border border-slate-200 bg-transparent cursor-pointer">
               <input type="text" [(ngModel)]="accentColor" maxlength="7" placeholder="#06b6d4"
-                     class="w-32 px-4 py-2.5 bg-slate-700/50 border border-slate-600/50 rounded-xl text-sm text-white font-mono
+                     class="w-32 px-4 py-2.5 bg-slate-700/50 border border-slate-200 rounded-xl text-sm text-white font-mono
                             placeholder-slate-500 focus:outline-none focus:border-violet-500/50 transition-all">
-              <div class="w-8 h-8 rounded-lg border border-slate-600/50" [style.background-color]="accentColor"></div>
+              <div class="w-8 h-8 rounded-lg border border-slate-200" [style.background-color]="accentColor"></div>
               <span class="text-xs text-slate-500">Used for gradients, highlights, badges</span>
             </div>
           </div>
         </div>
 
         <!-- Live Preview -->
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6">
           <h2 class="text-lg font-semibold text-white mb-4">Live Preview</h2>
 
-          <div class="bg-slate-900 rounded-xl border border-slate-700/30 overflow-hidden">
+          <div class="bg-slate-900 rounded-xl border border-slate-200 overflow-hidden">
             <!-- Preview navbar -->
-            <div class="px-5 py-3 border-b border-slate-700/30 flex items-center justify-between"
+            <div class="px-5 py-3 border-b border-slate-200 flex items-center justify-between"
                  [style.background]="'linear-gradient(135deg, ' + primaryColor + '10, ' + accentColor + '10)'">
               <div class="flex items-center gap-3">
                 @if (logoPreviewUrl()) {
@@ -165,7 +165,7 @@ interface TenantBranding {
                         [style.background]="'linear-gradient(135deg, ' + primaryColor + ', ' + accentColor + ')'">
                   Export Report
                 </button>
-                <button class="px-3 py-1.5 rounded-lg text-xs font-medium border text-slate-300"
+                <button class="px-3 py-1.5 rounded-lg text-xs font-medium border text-slate-600"
                         [style.border-color]="primaryColor + '50'"
                         [style.color]="primaryColor">
                   View Details
@@ -198,7 +198,7 @@ interface TenantBranding {
 
       <!-- Toast -->
       @if (toast()) {
-        <div class="fixed bottom-6 right-6 bg-emerald-500/90 text-white px-5 py-3 rounded-xl shadow-lg text-sm font-medium z-50 flex items-center gap-2">
+        <div class="fixed bottom-6 right-6 bg-blue-600/90 text-white px-5 py-3 rounded-xl shadow-lg text-sm font-medium z-50 flex items-center gap-2">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
           </svg>

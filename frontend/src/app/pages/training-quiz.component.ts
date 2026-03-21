@@ -763,14 +763,14 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
     <div class="space-y-8 max-w-4xl mx-auto">
 
       <!-- ─── Header ─── -->
-      <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500/10 via-cyan-500/10 to-blue-500/10 border border-emerald-500/20 p-8">
-        <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-emerald-500/5 to-transparent rounded-full -translate-y-1/2 translate-x-1/2"></div>
+      <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600/10 via-blue-500/10 to-blue-500/10 border border-blue-200 p-8">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-blue-600/5 to-transparent rounded-full -translate-y-1/2 translate-x-1/2"></div>
         <div class="relative">
           <div class="flex items-center gap-2 mb-3">
-            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-100 text-blue-600 border border-blue-200">
               DORA Art. 13(6)
             </span>
-            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-600/20 text-blue-500 border border-blue-500/30">
               {{ lang.t('quiz.interactive') }}
             </span>
           </div>
@@ -798,9 +798,9 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             @for (role of roles; track role.key) {
               <button (click)="selectRole(role.key)" type="button"
-                      class="group text-left p-5 rounded-2xl border border-slate-700/50 bg-slate-800/50 hover:border-emerald-500/40 hover:bg-slate-800/80 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-emerald-500/10">
+                      class="group text-left p-5 rounded-2xl border border-slate-200 bg-white hover:border-blue-500/40 hover:bg-white transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-md">
                 <div class="text-3xl mb-3">{{ role.icon }}</div>
-                <h3 class="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors">
+                <h3 class="text-sm font-bold text-white group-hover:text-blue-600 transition-colors">
                   {{ l(role.label.et, role.label.en) }}
                 </h3>
                 <p class="text-xs text-slate-500 mt-1 leading-relaxed">
@@ -811,10 +811,10 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
           </div>
 
           <!-- Info card -->
-          <div class="bg-slate-800/30 border border-slate-700/50 rounded-xl p-5">
+          <div class="bg-slate-800/30 border border-slate-200 rounded-xl p-5">
             <div class="flex gap-3">
-              <div class="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               </div>
               <div>
                 <h4 class="text-sm font-semibold text-white mb-1">{{ lang.t('quiz.how_the_quiz_works') }}</h4>
@@ -835,13 +835,13 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
         <div class="space-y-6">
 
           <!-- Progress bar + timer -->
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4">
+          <div class="bg-white border border-slate-200 rounded-xl p-4">
             <div class="flex items-center justify-between mb-3">
               <div class="flex items-center gap-3">
                 <span class="text-sm font-medium text-white">
                   {{ lang.t('quiz.question') }} {{ currentIndex() + 1 }}/{{ quizQuestions().length }}
                 </span>
-                <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-700/50 text-slate-300">
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-700/50 text-slate-600">
                   {{ getCurrentCategory() }}
                 </span>
               </div>
@@ -851,7 +851,7 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
               </div>
             </div>
             <div class="h-2 bg-slate-700/50 rounded-full overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-emerald-500 to-cyan-500 transition-all duration-500 rounded-full"
+              <div class="h-full bg-blue-600 transition-all duration-500 rounded-full"
                    [style.width.%]="((currentIndex() + 1) / quizQuestions().length) * 100"></div>
             </div>
             <!-- Score so far -->
@@ -863,12 +863,12 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
 
           <!-- Question card -->
           @if (currentQuestion(); as q) {
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 md:p-8 space-y-6">
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 space-y-6">
 
               <!-- Question text -->
               <div>
                 <div class="flex items-start gap-3">
-                  <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-sm font-bold text-emerald-400">
+                  <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-sm font-bold text-blue-600">
                     {{ currentIndex() + 1 }}
                   </span>
                   <h3 class="text-lg font-semibold text-white leading-relaxed">
@@ -897,22 +897,22 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
               @if (answered()) {
                 <div class="rounded-xl border p-5 space-y-3"
                      [class]="selectedAnswer() === q.correctIndex
-                       ? 'bg-emerald-500/5 border-emerald-500/30'
+                       ? 'bg-blue-50 border-blue-200'
                        : 'bg-red-500/5 border-red-500/30'">
                   <div class="flex items-center gap-2">
                     @if (selectedAnswer() === q.correctIndex) {
-                      <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                      <span class="text-sm font-bold text-emerald-400">{{ lang.t('quiz.correct') }}</span>
+                      <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                      <span class="text-sm font-bold text-blue-600">{{ lang.t('quiz.correct') }}</span>
                     } @else {
                       <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                       <span class="text-sm font-bold text-red-400">{{ lang.t('quiz.incorrect') }}</span>
                     }
                   </div>
-                  <p class="text-sm text-slate-300 leading-relaxed">
+                  <p class="text-sm text-slate-600 leading-relaxed">
                     {{ l(q.explanation.et, q.explanation.en) }}
                   </p>
                   <div class="flex items-center gap-2">
-                    <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-cyan-500/20 text-cyan-400">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-600/20 text-blue-500">
                       {{ q.doraReference }}
                     </span>
                   </div>
@@ -921,7 +921,7 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
                 <!-- Next button -->
                 <div class="flex justify-end">
                   <button (click)="nextQuestion()" type="button"
-                          class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-emerald-500/25 transition-all flex items-center gap-2">
+                          class="px-6 py-2.5 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-lg transition-all flex items-center gap-2">
                     {{ isLastQuestion()
                       ? (lang.t('quiz.view_results'))
                       : (lang.t('quiz.next_question')) }}
@@ -941,18 +941,18 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
 
             <!-- Score Card -->
             <div class="relative overflow-hidden rounded-2xl border p-8 text-center"
-                 [class]="result.grade === 'A' ? 'bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border-emerald-500/30'
-                        : result.grade === 'B' ? 'bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border-blue-500/30'
+                 [class]="result.grade === 'A' ? 'bg-gradient-to-br from-blue-600/10 to-blue-500/10 border-blue-200'
+                        : result.grade === 'B' ? 'bg-gradient-to-br from-blue-500/10 to-blue-500/10 border-blue-500/30'
                         : result.grade === 'C' ? 'bg-gradient-to-br from-amber-500/10 to-orange-500/10 border-amber-500/30'
                         : 'bg-gradient-to-br from-red-500/10 to-orange-500/10 border-red-500/30'">
               <div class="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-white/5 to-transparent rounded-full -translate-y-1/2 translate-x-1/2"></div>
               <div class="relative space-y-4">
                 <div class="text-6xl font-black"
-                     [class]="result.grade === 'A' ? 'text-emerald-400' : result.grade === 'B' ? 'text-blue-400' : result.grade === 'C' ? 'text-amber-400' : 'text-red-400'">
+                     [class]="result.grade === 'A' ? 'text-blue-600' : result.grade === 'B' ? 'text-blue-400' : result.grade === 'C' ? 'text-amber-400' : 'text-red-400'">
                   {{ result.grade }}
                 </div>
                 <div class="text-4xl font-bold text-white">{{ result.correctAnswers }}/{{ result.totalQuestions }}</div>
-                <div class="text-lg text-slate-300">{{ result.percentage }}%</div>
+                <div class="text-lg text-slate-600">{{ result.percentage }}%</div>
                 <p class="text-sm text-slate-400">
                   {{ getGradeMessage(result.grade) }}
                 </p>
@@ -960,22 +960,22 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
             </div>
 
             <!-- Category Breakdown -->
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 space-y-4">
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
               <h3 class="text-sm font-bold text-white uppercase tracking-wider">
                 {{ lang.t('quiz.results_by_category') }}
               </h3>
               @for (cat of result.categoryBreakdown; track cat.category) {
                 <div class="space-y-2">
                   <div class="flex items-center justify-between">
-                    <span class="text-sm text-slate-300">{{ getCategoryLabel(cat.category) }}</span>
+                    <span class="text-sm text-slate-600">{{ getCategoryLabel(cat.category) }}</span>
                     <span class="text-sm font-bold"
-                          [class]="cat.percentage >= 75 ? 'text-emerald-400' : cat.percentage >= 50 ? 'text-amber-400' : 'text-red-400'">
+                          [class]="cat.percentage >= 75 ? 'text-blue-600' : cat.percentage >= 50 ? 'text-amber-400' : 'text-red-400'">
                       {{ cat.correct }}/{{ cat.total }} ({{ cat.percentage }}%)
                     </span>
                   </div>
                   <div class="h-2 bg-slate-700/50 rounded-full overflow-hidden">
                     <div class="h-full rounded-full transition-all duration-700"
-                         [class]="cat.percentage >= 75 ? 'bg-gradient-to-r from-emerald-500 to-cyan-500' : cat.percentage >= 50 ? 'bg-gradient-to-r from-amber-500 to-orange-500' : 'bg-gradient-to-r from-red-500 to-orange-500'"
+                         [class]="cat.percentage >= 75 ? 'bg-blue-600' : cat.percentage >= 50 ? 'bg-gradient-to-r from-amber-500 to-orange-500' : 'bg-gradient-to-r from-red-500 to-orange-500'"
                          [style.width.%]="cat.percentage"></div>
                   </div>
                 </div>
@@ -984,7 +984,7 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
 
             <!-- Recommendations -->
             @if (getWeakCategories(result).length > 0) {
-              <div class="bg-slate-800/50 border border-amber-500/20 rounded-2xl p-6 space-y-4">
+              <div class="bg-white border border-amber-500/20 rounded-2xl p-6 space-y-4">
                 <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                   {{ lang.t('quiz.recommendations_for_improvement') }}
@@ -997,7 +997,7 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
                     <div>
                       <p class="text-sm font-semibold text-white">{{ getCategoryLabel(weak.category) }}</p>
                       <p class="text-xs text-slate-400 mt-0.5">{{ getRecommendation(weak.category) }}</p>
-                      <a [routerLink]="getRecommendedLink(weak.category)" class="inline-flex items-center gap-1 text-xs text-cyan-400 hover:text-cyan-300 mt-1.5 transition-colors">
+                      <a [routerLink]="getRecommendedLink(weak.category)" class="inline-flex items-center gap-1 text-xs text-blue-500 hover:text-blue-400 mt-1.5 transition-colors">
                         {{ lang.t('quiz.open_tool') }}
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                       </a>
@@ -1008,33 +1008,33 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
             }
 
             <!-- Certificate Card -->
-            <div class="relative overflow-hidden rounded-2xl border-2 border-emerald-500/30 bg-gradient-to-br from-slate-800 to-slate-900 p-8 text-center space-y-4">
-              <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-500/5 via-transparent to-transparent"></div>
-              <div class="absolute top-4 left-4 w-16 h-16 border-t-2 border-l-2 border-emerald-500/20 rounded-tl-lg"></div>
-              <div class="absolute top-4 right-4 w-16 h-16 border-t-2 border-r-2 border-emerald-500/20 rounded-tr-lg"></div>
-              <div class="absolute bottom-4 left-4 w-16 h-16 border-b-2 border-l-2 border-emerald-500/20 rounded-bl-lg"></div>
-              <div class="absolute bottom-4 right-4 w-16 h-16 border-b-2 border-r-2 border-emerald-500/20 rounded-br-lg"></div>
+            <div class="relative overflow-hidden rounded-2xl border-2 border-blue-200 bg-gradient-to-br from-slate-800 to-slate-900 p-8 text-center space-y-4">
+              <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-600/5 via-transparent to-transparent"></div>
+              <div class="absolute top-4 left-4 w-16 h-16 border-t-2 border-l-2 border-blue-200 rounded-tl-lg"></div>
+              <div class="absolute top-4 right-4 w-16 h-16 border-t-2 border-r-2 border-blue-200 rounded-tr-lg"></div>
+              <div class="absolute bottom-4 left-4 w-16 h-16 border-b-2 border-l-2 border-blue-200 rounded-bl-lg"></div>
+              <div class="absolute bottom-4 right-4 w-16 h-16 border-b-2 border-r-2 border-blue-200 rounded-br-lg"></div>
 
               <div class="relative space-y-4">
-                <div class="text-emerald-400">
+                <div class="text-blue-600">
                   <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
                 </div>
                 <div>
-                  <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400/70">DoraAudit.eu</p>
+                  <p class="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600/70">DoraAudit.eu</p>
                   <h3 class="text-xl font-bold text-white mt-1">
                     {{ lang.t('quiz.dora_training_certificate') }}
                   </h3>
                 </div>
-                <div class="text-sm text-slate-300">
+                <div class="text-sm text-slate-600">
                   {{ lang.t('quiz.role') }}: <span class="font-semibold text-white">{{ getRoleLabel(result.role) }}</span>
                 </div>
-                <div class="text-sm text-slate-300">
-                  {{ lang.t('quiz.score') }}: <span class="font-bold text-emerald-400">{{ result.percentage }}% ({{ result.grade }})</span>
+                <div class="text-sm text-slate-600">
+                  {{ lang.t('quiz.score') }}: <span class="font-bold text-blue-600">{{ result.percentage }}% ({{ result.grade }})</span>
                 </div>
-                <div class="text-sm text-slate-300">
+                <div class="text-sm text-slate-600">
                   {{ lang.t('quiz.time') }}: <span class="text-white">{{ formatTime(result.elapsedSeconds) }}</span>
                 </div>
-                <div class="text-xs text-slate-500 pt-2 border-t border-slate-700/50">
+                <div class="text-xs text-slate-500 pt-2 border-t border-slate-200">
                   {{ lang.t('quiz.completed') }}: {{ result.completedAt }}
                   &bull; DORA Art. 13(6)
                 </div>
@@ -1044,16 +1044,16 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
             <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row gap-3 justify-center">
               <button (click)="retryQuiz()" type="button"
-                      class="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-emerald-500/25 transition-all flex items-center gap-2 justify-center">
+                      class="px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-lg transition-all flex items-center gap-2 justify-center">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                 {{ lang.t('quiz.retry_quiz') }}
               </button>
               <button (click)="shareResults()" type="button"
-                      class="px-6 py-3 rounded-xl border border-slate-600/50 text-slate-300 font-semibold text-sm hover:border-emerald-500/30 hover:text-white transition-all flex items-center gap-2 justify-center">
+                      class="px-6 py-3 rounded-xl border border-slate-200 text-slate-600 font-semibold text-sm hover:border-blue-200 hover:text-white transition-all flex items-center gap-2 justify-center">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
                 {{ lang.t('quiz.share_results') }}
               </button>
-              <a routerLink="/training" class="px-6 py-3 rounded-xl border border-slate-600/50 text-slate-300 font-semibold text-sm hover:border-cyan-500/30 hover:text-white transition-all flex items-center gap-2 justify-center">
+              <a routerLink="/training" class="px-6 py-3 rounded-xl border border-slate-200 text-slate-600 font-semibold text-sm hover:border-blue-500/30 hover:text-white transition-all flex items-center gap-2 justify-center">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                 {{ lang.t('quiz.training_tracker') }}
               </a>
@@ -1061,7 +1061,7 @@ const CATEGORY_TARGETS: { [cat: string]: number } = {
 
             <!-- Copied toast -->
             @if (showCopied()) {
-              <div class="fixed bottom-6 right-6 px-4 py-2.5 rounded-xl bg-emerald-500 text-white text-sm font-semibold shadow-lg shadow-emerald-500/25 animate-pulse z-50">
+              <div class="fixed bottom-6 right-6 px-4 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold shadow-lg shadow-lg animate-pulse z-50">
                 {{ lang.t('quiz.copied_to_clipboard') }}
               </div>
             }
@@ -1271,29 +1271,29 @@ export class TrainingQuizComponent implements OnDestroy {
   getOptionClass(index: number): string {
     const base = 'cursor-pointer ';
     if (!this.answered()) {
-      return base + 'border-slate-700/50 bg-slate-800/30 hover:border-emerald-500/40 hover:bg-slate-800/60';
+      return base + 'border-slate-200 bg-slate-800/30 hover:border-blue-500/40 hover:bg-white';
     }
     const q = this.currentQuestion();
-    if (!q) return base + 'border-slate-700/50 bg-slate-800/30';
+    if (!q) return base + 'border-slate-200 bg-slate-800/30';
 
     if (index === q.correctIndex) {
-      return 'border-emerald-500/50 bg-emerald-500/10';
+      return 'border-blue-500/50 bg-blue-50';
     }
     if (index === this.selectedAnswer() && index !== q.correctIndex) {
       return 'border-red-500/50 bg-red-500/10';
     }
-    return 'border-slate-700/30 bg-slate-800/20 opacity-50';
+    return 'border-slate-200 bg-slate-800/20 opacity-50';
   }
 
   getOptionLetterClass(index: number): string {
     if (!this.answered()) {
-      return 'bg-slate-700/50 text-slate-300';
+      return 'bg-slate-700/50 text-slate-600';
     }
     const q = this.currentQuestion();
-    if (!q) return 'bg-slate-700/50 text-slate-300';
+    if (!q) return 'bg-slate-700/50 text-slate-600';
 
     if (index === q.correctIndex) {
-      return 'bg-emerald-500 text-white';
+      return 'bg-blue-600 text-white';
     }
     if (index === this.selectedAnswer() && index !== q.correctIndex) {
       return 'bg-red-500 text-white';

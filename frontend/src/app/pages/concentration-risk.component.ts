@@ -30,44 +30,44 @@ import { ApiService, IctProvider } from '../api.service';
       @if (!loading()) {
         <!-- Risk overview -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5">
+          <div class="bg-white border border-slate-200 rounded-xl p-5">
             <div class="text-3xl font-bold text-white">{{ providers().length }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('concentration.ict_providers') }}</div>
           </div>
-          <div class="bg-slate-800/50 border rounded-xl p-5"
-               [class]="highConcentrationCount() > 0 ? 'border-red-500/30' : 'border-slate-700/50'">
-            <div class="text-3xl font-bold" [class]="highConcentrationCount() > 0 ? 'text-red-400' : 'text-emerald-400'">{{ highConcentrationCount() }}</div>
+          <div class="bg-white border rounded-xl p-5"
+               [class]="highConcentrationCount() > 0 ? 'border-red-500/30' : 'border-slate-200'">
+            <div class="text-3xl font-bold" [class]="highConcentrationCount() > 0 ? 'text-red-400' : 'text-blue-600'">{{ highConcentrationCount() }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('concentration.high_concentration') }}</div>
           </div>
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5">
+          <div class="bg-white border border-slate-200 rounded-xl p-5">
             <div class="text-3xl font-bold text-white">{{ uniqueCountries().length }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('concentration.countries') }}</div>
           </div>
         </div>
 
         <!-- Service type distribution -->
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6">
           <h2 class="text-lg font-semibold text-white mb-4">{{ lang.t('concentration.service_type_distribution') }}</h2>
           @for (entry of serviceTypeDistribution(); track entry.type) {
             <div class="mb-3">
               <div class="flex justify-between text-sm mb-1">
-                <span class="text-slate-300">{{ entry.type }}</span>
-                <span class="font-semibold" [class]="entry.percentage > 40 ? 'text-red-400' : entry.percentage > 25 ? 'text-amber-400' : 'text-emerald-400'">
+                <span class="text-slate-600">{{ entry.type }}</span>
+                <span class="font-semibold" [class]="entry.percentage > 40 ? 'text-red-400' : entry.percentage > 25 ? 'text-amber-400' : 'text-blue-600'">
                   {{ entry.count }} ({{ entry.percentage }}%)
                 </span>
               </div>
               <div class="w-full h-2 bg-slate-700 rounded-full overflow-hidden">
                 <div class="h-full rounded-full transition-all"
                      [style.width.%]="entry.percentage"
-                     [class]="entry.percentage > 40 ? 'bg-red-400' : entry.percentage > 25 ? 'bg-amber-400' : 'bg-emerald-400'"></div>
+                     [class]="entry.percentage > 40 ? 'bg-red-400' : entry.percentage > 25 ? 'bg-amber-400' : 'bg-blue-500'"></div>
               </div>
             </div>
           }
         </div>
 
         <!-- Provider concentration table -->
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl overflow-hidden">
-          <div class="px-6 py-4 border-b border-slate-700/50">
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+          <div class="px-6 py-4 border-b border-slate-200">
             <h2 class="text-lg font-semibold text-white">{{ lang.t('concentration.provider_concentration_analysis') }}</h2>
           </div>
           <div class="divide-y divide-slate-700/30">
@@ -94,7 +94,7 @@ import { ApiService, IctProvider } from '../api.service';
         </div>
 
         @if (providers().length === 0) {
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
+          <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
             <p class="text-slate-400">{{ lang.t('concentration.add_ict_providers_first_in_supply_chain') }}</p>
           </div>
         }

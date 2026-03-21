@@ -33,21 +33,21 @@ interface HistoryEntry {
     <div class="max-w-5xl mx-auto">
       <!-- Header -->
       <div class="text-center mb-10">
-        <h1 class="text-3xl font-bold text-slate-100 mb-2">{{ lang.t('bench.title') }}</h1>
+        <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ lang.t('bench.title') }}</h1>
         <p class="text-slate-400">{{ lang.t('bench.subtitle') }}</p>
       </div>
 
       <!-- No assessment state -->
       @if (!latestEntry()) {
         <div class="glass-card p-12 text-center">
-          <div class="w-20 h-20 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-6 border border-slate-700/50">
+          <div class="w-20 h-20 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-6 border border-slate-200">
             <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
             </svg>
           </div>
-          <h2 class="text-xl font-bold text-slate-200 mb-2">{{ lang.t('bench.no_assessment') }}</h2>
+          <h2 class="text-xl font-bold text-slate-700 mb-2">{{ lang.t('bench.no_assessment') }}</h2>
           <p class="text-slate-400 mb-6">{{ lang.t('bench.no_assessment_desc') }}</p>
-          <a routerLink="/assessment" class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 font-semibold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
+          <a routerLink="/assessment" class="inline-flex items-center gap-2 bg-blue-600 text-slate-900 font-semibold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-lg transition-all">
             {{ lang.t('bench.take_assessment') }}
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
           </a>
@@ -57,7 +57,7 @@ interface HistoryEntry {
       @if (latestEntry()) {
         <!-- Hero Percentile -->
         <div class="glass-card p-8 mb-8 text-center">
-          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium mb-4">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-600 text-sm font-medium mb-4">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
             {{ benchmarkData()?.totalAssessments || 247 }} {{ lang.t('bench.total_assessments') }}
           </div>
@@ -65,12 +65,12 @@ interface HistoryEntry {
             <span class="gradient-text">{{ lang.t('bench.top') }} {{ 100 - (benchmarkData()?.percentileRank || 50) | number:'1.0-0' }}%</span>
           </div>
           <p class="text-slate-400 text-lg">
-            {{ lang.t('bench.better_than') }} <span class="text-emerald-400 font-semibold">{{ benchmarkData()?.percentileRank || 50 | number:'1.0-0' }}%</span> {{ lang.t('bench.of_organizations') }}
+            {{ lang.t('bench.better_than') }} <span class="text-blue-600 font-semibold">{{ benchmarkData()?.percentileRank || 50 | number:'1.0-0' }}%</span> {{ lang.t('bench.of_organizations') }}
           </p>
           <div class="mt-4 flex items-center justify-center gap-6 text-sm text-slate-500">
             <span>{{ lang.t('bench.your_score') }}: <strong class="text-white">{{ latestEntry()!.scorePercentage | number:'1.0-0' }}%</strong></span>
-            <span>{{ lang.t('bench.industry_avg') }}: <strong class="text-slate-300">{{ benchmarkData()?.industryAverage || 61 | number:'1.0-0' }}%</strong></span>
-            <span>{{ lang.t('bench.median') }}: <strong class="text-slate-300">{{ benchmarkData()?.median || 58 | number:'1.0-0' }}%</strong></span>
+            <span>{{ lang.t('bench.industry_avg') }}: <strong class="text-slate-600">{{ benchmarkData()?.industryAverage || 61 | number:'1.0-0' }}%</strong></span>
+            <span>{{ lang.t('bench.median') }}: <strong class="text-slate-600">{{ benchmarkData()?.median || 58 | number:'1.0-0' }}%</strong></span>
           </div>
         </div>
 
@@ -78,8 +78,8 @@ interface HistoryEntry {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           <!-- Radar Chart -->
           <div class="glass-card p-6">
-            <h2 class="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
-              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/></svg>
+            <h2 class="text-lg font-bold text-slate-700 mb-4 flex items-center gap-2">
+              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/></svg>
               {{ lang.t('bench.radar_title') }}
             </h2>
             <svg viewBox="0 0 300 320" class="w-full max-w-sm mx-auto">
@@ -102,7 +102,7 @@ interface HistoryEntry {
               <!-- Labels -->
               @for (label of pillarLabels(); track $index) {
                 <text [attr.x]="label.x" [attr.y]="label.y" text-anchor="middle" dominant-baseline="middle" class="fill-slate-400" style="font-size: 10px;">{{ label.text }}</text>
-                <text [attr.x]="label.x" [attr.y]="label.y + 13" text-anchor="middle" dominant-baseline="middle" class="fill-emerald-400" style="font-size: 9px; font-weight: 600;">{{ label.score | number:'1.0-0' }}%</text>
+                <text [attr.x]="label.x" [attr.y]="label.y + 13" text-anchor="middle" dominant-baseline="middle" class="fill-blue-500" style="font-size: 9px; font-weight: 600;">{{ label.score | number:'1.0-0' }}%</text>
               }
               <!-- Legend -->
               <circle cx="70" cy="305" r="5" fill="rgb(52 211 153)" fill-opacity="0.3" stroke="rgb(52 211 153)" stroke-width="1.5"/>
@@ -114,20 +114,20 @@ interface HistoryEntry {
 
           <!-- Pillar Comparison Bars -->
           <div class="glass-card p-6">
-            <h2 class="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
-              <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <h2 class="text-lg font-bold text-slate-700 mb-4 flex items-center gap-2">
+              <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
               {{ lang.t('bench.pillar_comparison') }}
             </h2>
             <div class="space-y-5">
               @for (p of pillarComparison(); track p.id) {
                 <div>
                   <div class="flex items-center justify-between mb-1.5">
-                    <span class="text-sm font-medium text-slate-300">{{ p.label }}</span>
+                    <span class="text-sm font-medium text-slate-600">{{ p.label }}</span>
                     <div class="flex items-center gap-3 text-xs">
-                      <span [class]="p.userScore >= p.industryAvg ? 'text-emerald-400' : 'text-amber-400'">
+                      <span [class]="p.userScore >= p.industryAvg ? 'text-blue-600' : 'text-amber-400'">
                         {{ p.userScore | number:'1.0-0' }}%
                         @if (p.userScore >= p.industryAvg) {
-                          <span class="text-emerald-500">+{{ p.userScore - p.industryAvg | number:'1.0-0' }}</span>
+                          <span class="text-blue-600">+{{ p.userScore - p.industryAvg | number:'1.0-0' }}</span>
                         } @else {
                           <span class="text-red-400">{{ p.userScore - p.industryAvg | number:'1.0-0' }}</span>
                         }
@@ -135,9 +135,9 @@ interface HistoryEntry {
                     </div>
                   </div>
                   <!-- User bar -->
-                  <div class="relative h-6 bg-slate-800/80 rounded-lg overflow-hidden">
+                  <div class="relative h-6 bg-white rounded-lg overflow-hidden">
                     <div class="absolute inset-y-0 left-0 rounded-lg transition-all duration-1000"
-                         [class]="p.userScore >= p.industryAvg ? 'bg-gradient-to-r from-emerald-600 to-emerald-500' : 'bg-gradient-to-r from-amber-600 to-amber-500'"
+                         [class]="p.userScore >= p.industryAvg ? 'bg-gradient-to-r from-blue-700 to-blue-600' : 'bg-gradient-to-r from-amber-600 to-amber-500'"
                          [style.width.%]="p.userScore">
                     </div>
                     <!-- Industry average marker -->
@@ -155,7 +155,7 @@ interface HistoryEntry {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           <!-- Sector Comparison -->
           <div class="glass-card p-6">
-            <h2 class="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
+            <h2 class="text-lg font-bold text-slate-700 mb-4 flex items-center gap-2">
               <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
               {{ lang.t('bench.sector_comparison') }}
             </h2>
@@ -163,13 +163,13 @@ interface HistoryEntry {
               @for (s of sectorRanking(); track s.key) {
                 <div class="flex items-center gap-3">
                   <span class="text-sm text-slate-400 w-28 truncate">{{ s.label }}</span>
-                  <div class="flex-1 h-5 bg-slate-800/80 rounded-full overflow-hidden">
+                  <div class="flex-1 h-5 bg-white rounded-full overflow-hidden">
                     <div class="h-full rounded-full transition-all duration-1000"
-                         [class]="s.isUser ? 'bg-gradient-to-r from-emerald-600 to-cyan-500' : 'bg-slate-600/60'"
+                         [class]="s.isUser ? 'bg-gradient-to-r from-blue-700 to-blue-500' : 'bg-slate-600/60'"
                          [style.width.%]="s.average">
                     </div>
                   </div>
-                  <span class="text-sm font-semibold w-12 text-right" [class]="s.isUser ? 'text-emerald-400' : 'text-slate-400'">{{ s.average | number:'1.0-0' }}%</span>
+                  <span class="text-sm font-semibold w-12 text-right" [class]="s.isUser ? 'text-blue-600' : 'text-slate-400'">{{ s.average | number:'1.0-0' }}%</span>
                 </div>
               }
             </div>
@@ -177,7 +177,7 @@ interface HistoryEntry {
 
           <!-- Score Distribution -->
           <div class="glass-card p-6">
-            <h2 class="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
+            <h2 class="text-lg font-bold text-slate-700 mb-4 flex items-center gap-2">
               <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/></svg>
               {{ lang.t('bench.distribution') }}
             </h2>
@@ -192,25 +192,25 @@ interface HistoryEntry {
               </svg>
               <div class="space-y-3">
                 <div class="flex items-center gap-2">
-                  <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
-                  <span class="text-sm text-slate-300">{{ lang.t('bench.compliant') }}</span>
-                  <span class="text-sm font-semibold text-emerald-400 ml-auto">{{ distGreen }}</span>
+                  <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                  <span class="text-sm text-slate-600">{{ lang.t('bench.compliant') }}</span>
+                  <span class="text-sm font-semibold text-blue-600 ml-auto">{{ distGreen }}</span>
                 </div>
                 <div class="flex items-center gap-2">
                   <div class="w-3 h-3 rounded-full bg-amber-400"></div>
-                  <span class="text-sm text-slate-300">{{ lang.t('bench.partial') }}</span>
+                  <span class="text-sm text-slate-600">{{ lang.t('bench.partial') }}</span>
                   <span class="text-sm font-semibold text-amber-400 ml-auto">{{ distYellow }}</span>
                 </div>
                 <div class="flex items-center gap-2">
                   <div class="w-3 h-3 rounded-full bg-red-400"></div>
-                  <span class="text-sm text-slate-300">{{ lang.t('bench.non_compliant') }}</span>
+                  <span class="text-sm text-slate-600">{{ lang.t('bench.non_compliant') }}</span>
                   <span class="text-sm font-semibold text-red-400 ml-auto">{{ distRed }}</span>
                 </div>
               </div>
             </div>
             <!-- User position indicator -->
-            <div class="mt-6 p-3 rounded-lg" [class]="latestEntry()!.complianceLevel === 'GREEN' ? 'bg-emerald-500/10 border border-emerald-500/20' : latestEntry()!.complianceLevel === 'YELLOW' ? 'bg-amber-500/10 border border-amber-500/20' : 'bg-red-500/10 border border-red-500/20'">
-              <p class="text-sm text-center" [class]="latestEntry()!.complianceLevel === 'GREEN' ? 'text-emerald-300' : latestEntry()!.complianceLevel === 'YELLOW' ? 'text-amber-300' : 'text-red-300'">
+            <div class="mt-6 p-3 rounded-lg" [class]="latestEntry()!.complianceLevel === 'GREEN' ? 'bg-blue-50 border border-blue-200' : latestEntry()!.complianceLevel === 'YELLOW' ? 'bg-amber-500/10 border border-amber-500/20' : 'bg-red-500/10 border border-red-500/20'">
+              <p class="text-sm text-center" [class]="latestEntry()!.complianceLevel === 'GREEN' ? 'text-blue-500' : latestEntry()!.complianceLevel === 'YELLOW' ? 'text-amber-300' : 'text-red-300'">
                 {{ lang.t('bench.your_level') }}:
                 <strong>{{ latestEntry()!.complianceLevel === 'GREEN' ? lang.t('bench.compliant') : latestEntry()!.complianceLevel === 'YELLOW' ? lang.t('bench.partial') : lang.t('bench.non_compliant') }}</strong>
                 ({{ latestEntry()!.scorePercentage | number:'1.0-0' }}%)
@@ -221,11 +221,11 @@ interface HistoryEntry {
 
         <!-- Score Range Box Plot -->
         <div class="glass-card p-6 mb-8">
-          <h2 class="text-lg font-bold text-slate-200 mb-6 flex items-center gap-2">
-            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+          <h2 class="text-lg font-bold text-slate-700 mb-6 flex items-center gap-2">
+            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
             {{ lang.t('bench.score_range') }}
           </h2>
-          <div class="relative h-12 bg-slate-800/60 rounded-xl overflow-visible mx-4">
+          <div class="relative h-12 bg-white rounded-xl overflow-visible mx-4">
             <!-- P25-P75 box -->
             <div class="absolute inset-y-1 rounded-lg bg-slate-600/40 border border-slate-500/30"
                  [style.left.%]="benchmarkData()?.percentile25 || 45"
@@ -234,7 +234,7 @@ interface HistoryEntry {
             <!-- Median line -->
             <div class="absolute inset-y-0 w-0.5 bg-slate-300/60" [style.left.%]="benchmarkData()?.median || 58"></div>
             <!-- User marker -->
-            <div class="absolute top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-emerald-500 border-2 border-white shadow-lg shadow-emerald-500/50 z-10" [style.left.%]="latestEntry()!.scorePercentage" style="margin-left: -10px;"></div>
+            <div class="absolute top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-blue-600 border-2 border-white shadow-lg shadow-sm0 z-10" [style.left.%]="latestEntry()!.scorePercentage" style="margin-left: -10px;"></div>
           </div>
           <div class="flex justify-between mt-2 px-4 text-xs text-slate-500">
             <span>0%</span>
@@ -247,7 +247,7 @@ interface HistoryEntry {
 
         <!-- CTA -->
         <div class="text-center">
-          <a routerLink="/assessment" class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 font-semibold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
+          <a routerLink="/assessment" class="inline-flex items-center gap-2 bg-blue-600 text-slate-900 font-semibold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-lg transition-all">
             {{ lang.t('bench.retake') }}
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
           </a>

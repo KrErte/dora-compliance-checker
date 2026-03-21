@@ -246,16 +246,16 @@ describe('DeadlineCalendarComponent', () => {
       expect(component.getCategoryClass('TLPT')).toContain('red');
     });
 
-    it('REPORT returns cyan class', () => {
-      expect(component.getCategoryClass('REPORT')).toContain('cyan');
+    it('REPORT returns blue class', () => {
+      expect(component.getCategoryClass('REPORT')).toContain('blue');
     });
 
     it('CONTRACT returns amber class', () => {
       expect(component.getCategoryClass('CONTRACT')).toContain('amber');
     });
 
-    it('TRAINING returns emerald class', () => {
-      expect(component.getCategoryClass('TRAINING')).toContain('emerald');
+    it('TRAINING returns blue class', () => {
+      expect(component.getCategoryClass('TRAINING')).toContain('blue');
     });
 
     it('GENERAL returns slate class', () => {

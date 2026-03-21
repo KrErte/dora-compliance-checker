@@ -13,7 +13,7 @@ import { RegulatoryUpdate } from '../models';
     <div class="space-y-6">
       <!-- Header -->
       <div>
-        <a routerLink="/guardian" class="text-sm text-slate-500 hover:text-emerald-400 transition-colors mb-2 inline-block">
+        <a routerLink="/guardian" class="text-sm text-slate-500 hover:text-blue-600 transition-colors mb-2 inline-block">
           &larr; {{ lang.t('guardian.back') }}
         </a>
         <h1 class="text-2xl font-bold text-white flex items-center gap-3">
@@ -30,7 +30,7 @@ import { RegulatoryUpdate } from '../models';
       </div>
 
       <!-- Empty -->
-      <div *ngIf="!loading && updates.length === 0" class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
+      <div *ngIf="!loading && updates.length === 0" class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
         <svg class="w-12 h-12 mx-auto mb-3 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
         </svg>
@@ -40,7 +40,7 @@ import { RegulatoryUpdate } from '../models';
       <!-- Updates list -->
       <div *ngIf="!loading && updates.length > 0" class="space-y-4">
         <div *ngFor="let update of updates"
-             class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5 hover:border-slate-600/50 transition-all">
+             class="bg-white backdrop-blur border border-slate-200 rounded-xl p-5 hover:border-slate-200 transition-all">
           <div class="flex items-start gap-4">
             <!-- Relevance indicator -->
             <div [class]="'flex-shrink-0 w-12 h-12 rounded-xl flex flex-col items-center justify-center ' + relevanceBg(update.relevanceScore)">

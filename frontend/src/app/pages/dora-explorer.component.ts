@@ -36,7 +36,7 @@ interface GlossaryTerm {
     <div class="max-w-7xl mx-auto animate-fade-in-up">
       <!-- Hero Header -->
       <div class="text-center mb-8">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium mb-4">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-600 text-xs font-medium mb-4">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
           EU 2022/2554
         </div>
@@ -50,19 +50,19 @@ interface GlossaryTerm {
 
       <!-- Quick Stats -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-        <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-xl p-4 text-center">
-          <div class="text-2xl font-bold text-emerald-400">{{ articles.length }}</div>
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4 text-center">
+          <div class="text-2xl font-bold text-blue-600">{{ articles.length }}</div>
           <div class="text-xs text-slate-400 mt-1">{{ lang.t('explorer.articles_covered') }}</div>
         </div>
-        <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-xl p-4 text-center">
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4 text-center">
           <div class="text-2xl font-bold text-red-400">{{ criticalCount }}</div>
           <div class="text-xs text-slate-400 mt-1">{{ lang.t('explorer.critical_requirements') }}</div>
         </div>
-        <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-xl p-4 text-center">
-          <div class="text-2xl font-bold text-cyan-400">7</div>
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4 text-center">
+          <div class="text-2xl font-bold text-blue-500">7</div>
           <div class="text-xs text-slate-400 mt-1">{{ lang.t('explorer.chapters') }}</div>
         </div>
-        <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-xl p-4 text-center">
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4 text-center">
           <div class="text-2xl font-bold text-violet-400">{{ mockCoverage }}%</div>
           <div class="text-xs text-slate-400 mt-1">{{ lang.t('explorer.your_coverage') }}</div>
         </div>
@@ -78,7 +78,7 @@ interface GlossaryTerm {
           [(ngModel)]="searchQuery"
           (ngModelChange)="onSearch()"
           [placeholder]="lang.t('explorer.search_placeholder')"
-          class="w-full pl-12 pr-4 py-3.5 bg-slate-800/80 border border-slate-600/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all text-sm"
+          class="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all text-sm"
         />
         <div *ngIf="searchQuery" class="absolute inset-y-0 right-0 pr-4 flex items-center">
           <button (click)="searchQuery = ''; onSearch()" class="text-slate-400 hover:text-white transition-colors">
@@ -90,21 +90,21 @@ interface GlossaryTerm {
       <!-- Severity Filter Pills -->
       <div class="flex flex-wrap gap-2 mb-6">
         <button (click)="filterSeverity = null; onSearch()"
-                [class]="'px-3 py-1.5 rounded-lg text-xs font-medium transition-all ' + (!filterSeverity ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:border-slate-600')">
+                [class]="'px-3 py-1.5 rounded-lg text-xs font-medium transition-all ' + (!filterSeverity ? 'bg-blue-100 text-blue-600 border border-blue-200' : 'bg-white text-slate-400 border border-slate-200 hover:border-slate-300')">
           {{ lang.t('explorer.all') }} ({{ articles.length }})
         </button>
         <button (click)="filterSeverity = 'critical'; onSearch()"
-                [class]="'px-3 py-1.5 rounded-lg text-xs font-medium transition-all ' + (filterSeverity === 'critical' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:border-slate-600')">
+                [class]="'px-3 py-1.5 rounded-lg text-xs font-medium transition-all ' + (filterSeverity === 'critical' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-white text-slate-400 border border-slate-200 hover:border-slate-300')">
           <span class="inline-block w-2 h-2 rounded-full bg-red-500 mr-1"></span>
           {{ lang.t('explorer.critical') }} ({{ criticalCount }})
         </button>
         <button (click)="filterSeverity = 'important'; onSearch()"
-                [class]="'px-3 py-1.5 rounded-lg text-xs font-medium transition-all ' + (filterSeverity === 'important' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:border-slate-600')">
+                [class]="'px-3 py-1.5 rounded-lg text-xs font-medium transition-all ' + (filterSeverity === 'important' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-white text-slate-400 border border-slate-200 hover:border-slate-300')">
           <span class="inline-block w-2 h-2 rounded-full bg-amber-500 mr-1"></span>
           {{ lang.t('explorer.important') }} ({{ importantCount }})
         </button>
         <button (click)="filterSeverity = 'informational'; onSearch()"
-                [class]="'px-3 py-1.5 rounded-lg text-xs font-medium transition-all ' + (filterSeverity === 'informational' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' : 'bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:border-slate-600')">
+                [class]="'px-3 py-1.5 rounded-lg text-xs font-medium transition-all ' + (filterSeverity === 'informational' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' : 'bg-white text-slate-400 border border-slate-200 hover:border-slate-300')">
           <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mr-1"></span>
           {{ lang.t('explorer.informational') }} ({{ informationalCount }})
         </button>
@@ -113,8 +113,8 @@ interface GlossaryTerm {
       <div class="flex flex-col lg:flex-row gap-6">
         <!-- Chapter Sidebar -->
         <div class="lg:w-72 shrink-0">
-          <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-xl p-4 lg:sticky lg:top-24">
-            <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-3">
+          <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4 lg:sticky lg:top-24">
+            <h3 class="text-sm font-semibold text-slate-600 uppercase tracking-wider mb-3">
               {{ lang.t('explorer.chapters') }}
             </h3>
             <nav class="space-y-1">
@@ -122,8 +122,8 @@ interface GlossaryTerm {
                       (click)="selectChapter(ch.id)"
                       [class]="'w-full text-left px-3 py-2.5 rounded-lg transition-all text-sm flex items-start gap-2.5 ' +
                         (selectedChapter === ch.id
-                          ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20'
-                          : 'text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 border border-transparent')">
+                          ? 'bg-blue-50 text-blue-600 border border-blue-200'
+                          : 'text-slate-400 hover:bg-slate-100 hover:text-slate-700 border border-transparent')">
                 <span class="text-base mt-0.5 shrink-0" [innerHTML]="ch.icon"></span>
                 <div>
                   <div class="font-medium text-xs">{{ ch.id }}</div>
@@ -133,25 +133,25 @@ interface GlossaryTerm {
               <button (click)="selectChapter(null)"
                       [class]="'w-full text-left px-3 py-2.5 rounded-lg transition-all text-sm flex items-center gap-2.5 ' +
                         (!selectedChapter
-                          ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20'
-                          : 'text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 border border-transparent')">
+                          ? 'bg-blue-50 text-blue-600 border border-blue-200'
+                          : 'text-slate-400 hover:bg-slate-100 hover:text-slate-700 border border-transparent')">
                 <span class="text-base shrink-0">&#128218;</span>
                 <span class="font-medium text-xs">{{ lang.t('explorer.show_all') }}</span>
               </button>
             </nav>
 
             <!-- Glossary Section -->
-            <div class="mt-6 pt-4 border-t border-slate-700/50">
-              <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-3">
+            <div class="mt-6 pt-4 border-t border-slate-200">
+              <h3 class="text-sm font-semibold text-slate-600 uppercase tracking-wider mb-3">
                 {{ lang.t('explorer.glossary') }}
               </h3>
               <div class="space-y-2">
                 <div *ngFor="let term of glossaryTerms"
                      class="group relative">
-                  <div class="px-2 py-1.5 rounded text-xs text-cyan-400 cursor-help hover:bg-cyan-500/10 transition-colors">
+                  <div class="px-2 py-1.5 rounded text-xs text-blue-500 cursor-help hover:bg-blue-50 transition-colors">
                     {{ l(term.term.et, term.term.en) }}
                   </div>
-                  <div class="absolute left-0 bottom-full mb-1 w-64 p-3 bg-slate-900 border border-slate-600 rounded-lg shadow-xl text-xs text-slate-300 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 pointer-events-none">
+                  <div class="absolute left-0 bottom-full mb-1 w-64 p-3 bg-slate-900 border border-slate-600 rounded-lg shadow-xl text-xs text-slate-600 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 pointer-events-none">
                     <div class="font-semibold text-white mb-1">{{ l(term.term.et, term.term.en) }}</div>
                     {{ l(term.definition.et, term.definition.en) }}
                     <div class="absolute left-4 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-600"></div>
@@ -168,16 +168,16 @@ interface GlossaryTerm {
           <div class="flex items-center justify-between mb-4">
             <p class="text-sm text-slate-400">
               {{ filteredArticles.length }} {{ l('artiklit leitud', 'articles found') }}
-              <span *ngIf="selectedChapter" class="text-emerald-400"> &mdash; {{ selectedChapter }}</span>
+              <span *ngIf="selectedChapter" class="text-blue-600"> &mdash; {{ selectedChapter }}</span>
             </p>
             <button *ngIf="expandedArticles.size > 0" (click)="collapseAll()"
-                    class="text-xs text-slate-500 hover:text-slate-300 transition-colors">
+                    class="text-xs text-slate-500 hover:text-slate-600 transition-colors">
               {{ lang.t('explorer.collapse_all') }}
             </button>
           </div>
 
           <!-- No results -->
-          <div *ngIf="filteredArticles.length === 0" class="bg-slate-800/60 border border-slate-700/50 rounded-xl p-12 text-center">
+          <div *ngIf="filteredArticles.length === 0" class="bg-white border border-slate-200 rounded-xl p-12 text-center">
             <svg class="w-12 h-12 text-slate-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <p class="text-slate-400 text-sm">
               {{ lang.t('explorer.no_articles_found') }}
@@ -186,7 +186,7 @@ interface GlossaryTerm {
 
           <!-- Chapter groups -->
           <div *ngFor="let ch of getVisibleChapters()" class="mb-8">
-            <div class="flex items-center gap-2 mb-3 pb-2 border-b border-slate-700/40">
+            <div class="flex items-center gap-2 mb-3 pb-2 border-b border-slate-200">
               <span class="text-lg" [innerHTML]="ch.icon"></span>
               <h2 class="text-base font-semibold text-white">{{ ch.id }}: {{ l(ch.name.et, ch.name.en) }}</h2>
               <span class="text-xs text-slate-500 ml-1">({{ ch.articles }})</span>
@@ -194,8 +194,8 @@ interface GlossaryTerm {
 
             <div class="space-y-3">
               <div *ngFor="let article of getChapterArticles(ch.id)"
-                   class="bg-slate-800/60 backdrop-blur border rounded-xl overflow-hidden transition-all duration-200 hover:border-slate-600/80"
-                   [class]="'bg-slate-800/60 backdrop-blur border rounded-xl overflow-hidden transition-all duration-200 hover:border-slate-600/80 ' + getSeverityBorder(article.severity)">
+                   class="bg-white backdrop-blur border rounded-xl overflow-hidden transition-all duration-200 hover:border-slate-300/80"
+                   [class]="'bg-white backdrop-blur border rounded-xl overflow-hidden transition-all duration-200 hover:border-slate-300/80 ' + getSeverityBorder(article.severity)">
 
                 <!-- Card Header (always visible) -->
                 <button (click)="toggleArticle(article.number)"
@@ -209,7 +209,7 @@ interface GlossaryTerm {
                   <!-- Article info -->
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2 flex-wrap">
-                      <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-700/60 text-slate-300">
+                      <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-700/60 text-slate-600">
                         Art. {{ article.number }}
                       </span>
                       <span [class]="'text-xs px-2 py-0.5 rounded-full font-medium ' + getSeverityBadge(article.severity)">
@@ -234,13 +234,13 @@ interface GlossaryTerm {
                 </button>
 
                 <!-- Expanded Content -->
-                <div *ngIf="expandedArticles.has(article.number)" class="px-5 pb-5 pt-0 border-t border-slate-700/30">
+                <div *ngIf="expandedArticles.has(article.number)" class="px-5 pb-5 pt-0 border-t border-slate-200">
                   <!-- Summary -->
                   <div class="mt-4 mb-4">
                     <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
                       {{ lang.t('explorer.plainlanguage_explanation') }}
                     </h4>
-                    <p class="text-sm text-slate-300 leading-relaxed">
+                    <p class="text-sm text-slate-600 leading-relaxed">
                       {{ l(article.summary.et, article.summary.en) }}
                     </p>
                   </div>
@@ -252,8 +252,8 @@ interface GlossaryTerm {
                     </h4>
                     <ul class="space-y-1.5">
                       <li *ngFor="let point of la(article.keyPoints.et, article.keyPoints.en)"
-                          class="flex items-start gap-2 text-sm text-slate-300">
-                        <svg class="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          class="flex items-start gap-2 text-sm text-slate-600">
+                        <svg class="w-4 h-4 text-blue-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
                         </svg>
                         <span>{{ point }}</span>
@@ -262,17 +262,17 @@ interface GlossaryTerm {
                   </div>
 
                   <!-- Compliance Tip / Tool Link -->
-                  <div *ngIf="article.toolLink" class="mt-4 p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/15">
+                  <div *ngIf="article.toolLink" class="mt-4 p-3 rounded-lg bg-blue-50 border border-blue-500/15">
                     <div class="flex items-center gap-2">
-                      <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="w-4 h-4 text-blue-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                       </svg>
                       <span class="text-xs text-slate-400">
                         {{ lang.t('explorer.compliance_tip') }}
                       </span>
                     </div>
-                    <p class="text-sm text-emerald-300 mt-1">
-                      <a [routerLink]="article.toolLink" class="hover:text-emerald-200 underline underline-offset-2 transition-colors">
+                    <p class="text-sm text-blue-500 mt-1">
+                      <a [routerLink]="article.toolLink" class="hover:text-blue-300 underline underline-offset-2 transition-colors">
                         {{ l(article.toolName!.et, article.toolName!.en) }}
                       </a>
                     </p>
@@ -283,7 +283,7 @@ interface GlossaryTerm {
           </div>
 
           <!-- CTA Footer -->
-          <div class="mt-10 bg-gradient-to-br from-emerald-900/20 to-cyan-900/20 border border-emerald-500/20 rounded-xl p-6 text-center">
+          <div class="mt-10 bg-gradient-to-br from-blue-50 to-blue-50 border border-blue-200 rounded-xl p-6 text-center">
             <h3 class="text-lg font-semibold text-white mb-2">
               {{ lang.t('explorer.ready_to_check_your_compliance') }}
             </h3>
@@ -292,7 +292,7 @@ interface GlossaryTerm {
             </p>
             <div class="flex flex-wrap justify-center gap-3">
               <a routerLink="/assessment"
-                 class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-medium rounded-lg transition-colors">
+                 class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-lg transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
                 {{ lang.t('explorer.start_assessment') }}
               </a>
@@ -813,7 +813,7 @@ export class DoraExplorerComponent implements OnInit {
     switch (severity) {
       case 'critical': return 'border-red-500/20';
       case 'important': return 'border-amber-500/20';
-      default: return 'border-slate-700/50';
+      default: return 'border-slate-200';
     }
   }
 

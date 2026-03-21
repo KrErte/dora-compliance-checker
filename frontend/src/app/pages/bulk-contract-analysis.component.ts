@@ -59,12 +59,12 @@ interface BulkResponse {
             <div class="mb-6">
               <label class="block text-sm text-slate-400 mb-2">Company / Organization Name</label>
               <input type="text" [(ngModel)]="companyName" placeholder="e.g. My Financial Institution"
-                     class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-emerald-500 focus:outline-none">
+                     class="w-full bg-white border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none">
             </div>
 
             <!-- Drop Zone -->
             <div class="border-2 border-dashed rounded-2xl p-12 text-center transition-all cursor-pointer"
-                 [class]="files.length > 0 ? 'border-emerald-500/50 bg-emerald-500/5' : 'border-slate-700 hover:border-slate-500 bg-slate-800/30'"
+                 [class]="files.length > 0 ? 'border-blue-500/50 bg-blue-50' : 'border-slate-700 hover:border-slate-500 bg-slate-800/30'"
                  (click)="fileInput.click()"
                  (drop)="onDrop($event)" (dragover)="$event.preventDefault()">
               <input #fileInput type="file" multiple accept=".pdf,.docx,.doc,.txt" (change)="onFilesSelected($event)" class="hidden">
@@ -73,10 +73,10 @@ interface BulkResponse {
                 <svg class="w-16 h-16 mx-auto mb-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                 </svg>
-                <p class="text-lg text-slate-300 mb-2">Drop contracts here or click to browse</p>
+                <p class="text-lg text-slate-600 mb-2">Drop contracts here or click to browse</p>
                 <p class="text-sm text-slate-500">PDF, DOCX, DOC, TXT &middot; Up to 50 files</p>
               } @else {
-                <div class="text-emerald-400 mb-3">
+                <div class="text-blue-600 mb-3">
                   <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
@@ -95,7 +95,7 @@ interface BulkResponse {
                       <svg class="w-5 h-5 text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                       </svg>
-                      <span class="text-sm text-slate-300 truncate">{{ file.name }}</span>
+                      <span class="text-sm text-slate-600 truncate">{{ file.name }}</span>
                       <span class="text-xs text-slate-500">{{ formatSize(file.size) }}</span>
                     </div>
                     <button (click)="removeFile(i)" class="text-slate-500 hover:text-red-400 transition-colors">
@@ -109,11 +109,11 @@ interface BulkResponse {
 
               <div class="mt-6 flex items-center gap-4">
                 <button (click)="startAnalysis()" [disabled]="analyzing || !companyName"
-                        class="flex-1 px-6 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 rounded-xl font-semibold text-lg
-                               hover:shadow-lg hover:shadow-emerald-500/25 transition-all disabled:opacity-30 disabled:cursor-not-allowed">
+                        class="flex-1 px-6 py-3 bg-blue-600 text-slate-900 rounded-xl font-semibold text-lg
+                               hover:shadow-lg hover:shadow-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed">
                   {{ analyzing ? 'Analyzing...' : 'Analyze ' + files.length + ' Contract' + (files.length > 1 ? 's' : '') }}
                 </button>
-                <button (click)="clearFiles()" class="px-4 py-3 bg-slate-700 text-slate-300 rounded-xl hover:bg-slate-600 transition-colors">
+                <button (click)="clearFiles()" class="px-4 py-3 bg-slate-700 text-slate-600 rounded-xl hover:bg-slate-600 transition-colors">
                   Clear
                 </button>
               </div>
@@ -124,11 +124,11 @@ interface BulkResponse {
         <!-- Progress -->
         @if (analyzing) {
           <div class="glass-card p-8 text-center mb-8">
-            <div class="animate-spin w-12 h-12 border-3 border-emerald-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+            <div class="animate-spin w-12 h-12 border-3 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
             <p class="text-lg text-white mb-2">Analyzing contracts...</p>
             <p class="text-sm text-slate-400">{{ progressText }}</p>
             <div class="mt-4 w-full bg-slate-800 rounded-full h-2">
-              <div class="h-2 rounded-full bg-emerald-500 transition-all duration-500" [style.width.%]="progressPercent"></div>
+              <div class="h-2 rounded-full bg-blue-600 transition-all duration-500" [style.width.%]="progressPercent"></div>
             </div>
           </div>
         }
@@ -139,27 +139,27 @@ interface BulkResponse {
           <div class="glass-card p-6 mb-6">
             <div class="flex items-center justify-between mb-6">
               <h2 class="text-xl font-bold text-white">Portfolio Summary</h2>
-              <button (click)="resetAnalysis()" class="px-4 py-2 bg-slate-700 text-slate-300 rounded-lg hover:bg-slate-600 text-sm">
+              <button (click)="resetAnalysis()" class="px-4 py-2 bg-slate-700 text-slate-600 rounded-lg hover:bg-slate-600 text-sm">
                 New Analysis
               </button>
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <div class="text-center p-4 rounded-xl bg-slate-800/50">
-                <div class="text-3xl font-bold" [class]="response.portfolioLevel === 'GREEN' ? 'text-emerald-400' : (response.portfolioLevel === 'YELLOW' ? 'text-amber-400' : 'text-red-400')">
+              <div class="text-center p-4 rounded-xl bg-white">
+                <div class="text-3xl font-bold" [class]="response.portfolioLevel === 'GREEN' ? 'text-blue-600' : (response.portfolioLevel === 'YELLOW' ? 'text-amber-400' : 'text-red-400')">
                   {{ response.averageScore }}%
                 </div>
                 <div class="text-xs text-slate-400 mt-1">Avg. Score</div>
               </div>
-              <div class="text-center p-4 rounded-xl bg-slate-800/50">
+              <div class="text-center p-4 rounded-xl bg-white">
                 <div class="text-3xl font-bold text-blue-400">{{ response.successCount }}</div>
                 <div class="text-xs text-slate-400 mt-1">Contracts Analyzed</div>
               </div>
-              <div class="text-center p-4 rounded-xl bg-slate-800/50">
-                <div class="text-3xl font-bold text-emerald-400">{{ response.portfolioTotalFound }}</div>
+              <div class="text-center p-4 rounded-xl bg-white">
+                <div class="text-3xl font-bold text-blue-600">{{ response.portfolioTotalFound }}</div>
                 <div class="text-xs text-slate-400 mt-1">Requirements Met</div>
               </div>
-              <div class="text-center p-4 rounded-xl bg-slate-800/50">
+              <div class="text-center p-4 rounded-xl bg-white">
                 <div class="text-3xl font-bold text-red-400">{{ response.portfolioTotalMissing }}</div>
                 <div class="text-xs text-slate-400 mt-1">Gaps Found</div>
               </div>
@@ -174,7 +174,7 @@ interface BulkResponse {
               <div class="w-full bg-slate-800 rounded-full h-3">
                 <div class="h-3 rounded-full transition-all"
                      [style.width.%]="response.averageScore"
-                     [class]="response.portfolioLevel === 'GREEN' ? 'bg-emerald-500' : (response.portfolioLevel === 'YELLOW' ? 'bg-amber-500' : 'bg-red-500')">
+                     [class]="response.portfolioLevel === 'GREEN' ? 'bg-blue-600' : (response.portfolioLevel === 'YELLOW' ? 'bg-amber-500' : 'bg-red-500')">
                 </div>
               </div>
             </div>
@@ -210,13 +210,13 @@ interface BulkResponse {
             <h3 class="text-lg font-semibold text-white mb-4">All Contracts</h3>
             <div class="space-y-3">
               @for (r of response.results; track r.fileName) {
-                <div class="flex items-center justify-between p-4 rounded-xl bg-slate-800/30 border border-slate-700/30">
+                <div class="flex items-center justify-between p-4 rounded-xl bg-slate-800/30 border border-slate-200">
                   <div class="flex items-center gap-4 min-w-0 flex-1">
                     @if (r.status === 'success') {
                       <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-                           [class]="r.complianceLevel === 'GREEN' ? 'bg-emerald-500/20' : (r.complianceLevel === 'YELLOW' ? 'bg-amber-500/20' : 'bg-red-500/20')">
+                           [class]="r.complianceLevel === 'GREEN' ? 'bg-blue-100' : (r.complianceLevel === 'YELLOW' ? 'bg-amber-500/20' : 'bg-red-500/20')">
                         <span class="font-bold text-sm"
-                              [class]="r.complianceLevel === 'GREEN' ? 'text-emerald-400' : (r.complianceLevel === 'YELLOW' ? 'text-amber-400' : 'text-red-400')">
+                              [class]="r.complianceLevel === 'GREEN' ? 'text-blue-600' : (r.complianceLevel === 'YELLOW' ? 'text-amber-400' : 'text-red-400')">
                           {{ r.scorePercentage | number:'1.0-0' }}%
                         </span>
                       </div>

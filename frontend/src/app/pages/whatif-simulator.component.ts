@@ -34,21 +34,21 @@ interface ImpactResult {
     <div class="max-w-5xl mx-auto">
       <!-- Header -->
       <div class="text-center mb-10">
-        <h1 class="text-3xl font-bold text-slate-100 mb-2">{{ lang.t('whatif.title') }}</h1>
+        <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ lang.t('whatif.title') }}</h1>
         <p class="text-slate-400">{{ lang.t('whatif.subtitle') }}</p>
       </div>
 
       <!-- No providers state -->
       @if (providers().length === 0 && !loading()) {
         <div class="glass-card p-12 text-center">
-          <div class="w-20 h-20 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-6 border border-slate-700/50">
+          <div class="w-20 h-20 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-6 border border-slate-200">
             <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
             </svg>
           </div>
-          <h2 class="text-xl font-bold text-slate-200 mb-2">{{ lang.t('whatif.no_providers') }}</h2>
+          <h2 class="text-xl font-bold text-slate-700 mb-2">{{ lang.t('whatif.no_providers') }}</h2>
           <p class="text-slate-400 mb-6">{{ lang.t('whatif.no_providers_desc') }}</p>
-          <a routerLink="/supply-chain" class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 font-semibold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
+          <a routerLink="/supply-chain" class="inline-flex items-center gap-2 bg-blue-600 text-slate-900 font-semibold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-lg transition-all">
             {{ lang.t('whatif.go_supply_chain') }}
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
           </a>
@@ -58,7 +58,7 @@ interface ImpactResult {
       @if (providers().length > 0) {
         <!-- Provider Selection -->
         <div class="glass-card p-6 mb-8">
-          <h2 class="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
+          <h2 class="text-lg font-bold text-slate-700 mb-4 flex items-center gap-2">
             <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
             {{ lang.t('whatif.select_provider') }}
           </h2>
@@ -68,14 +68,14 @@ interface ImpactResult {
                       class="text-left p-4 rounded-xl border transition-all duration-200"
                       [class]="selectedProvider()?.id === p.id
                         ? 'bg-red-500/15 border-red-500/40 ring-1 ring-red-500/30'
-                        : 'bg-slate-800/50 border-slate-700/50 hover:border-red-500/30 hover:bg-red-500/5'">
+                        : 'bg-white border-slate-200 hover:border-red-500/30 hover:bg-red-500/5'">
                 <div class="flex items-center gap-3 mb-2">
                   <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold"
                        [class]="p.criticality === 'CRITICAL' || p.criticality === 'HIGH' ? 'bg-red-500/20 text-red-400' : p.criticality === 'MEDIUM' ? 'bg-amber-500/20 text-amber-400' : 'bg-slate-700 text-slate-400'">
                     {{ p.providerName.charAt(0) }}
                   </div>
                   <div class="min-w-0">
-                    <p class="font-medium text-slate-200 truncate">{{ p.providerName }}</p>
+                    <p class="font-medium text-slate-700 truncate">{{ p.providerName }}</p>
                     <p class="text-xs text-slate-500">{{ p.serviceType }}</p>
                   </div>
                 </div>
@@ -103,16 +103,16 @@ interface ImpactResult {
             <div class="glass-card p-6 border-l-4"
                  [class]="impact()!.severity === 'CRITICAL' ? 'border-l-red-500' :
                           impact()!.severity === 'HIGH' ? 'border-l-orange-500' :
-                          impact()!.severity === 'MEDIUM' ? 'border-l-amber-500' : 'border-l-emerald-500'">
+                          impact()!.severity === 'MEDIUM' ? 'border-l-amber-500' : 'border-l-blue-600'">
               <div class="flex items-start gap-4">
                 <div class="w-14 h-14 rounded-xl flex items-center justify-center shrink-0"
                      [class]="impact()!.severity === 'CRITICAL' ? 'bg-red-500/20' :
                               impact()!.severity === 'HIGH' ? 'bg-orange-500/20' :
-                              impact()!.severity === 'MEDIUM' ? 'bg-amber-500/20' : 'bg-emerald-500/20'">
+                              impact()!.severity === 'MEDIUM' ? 'bg-amber-500/20' : 'bg-blue-100'">
                   <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                        [class]="impact()!.severity === 'CRITICAL' ? 'text-red-400' :
                                 impact()!.severity === 'HIGH' ? 'text-orange-400' :
-                                impact()!.severity === 'MEDIUM' ? 'text-amber-400' : 'text-emerald-400'">
+                                impact()!.severity === 'MEDIUM' ? 'text-amber-400' : 'text-blue-600'">
                     @if (impact()!.severity === 'CRITICAL' || impact()!.severity === 'HIGH') {
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                     } @else {
@@ -124,7 +124,7 @@ interface ImpactResult {
                   <h3 class="text-xl font-bold mb-1"
                       [class]="impact()!.severity === 'CRITICAL' ? 'text-red-400' :
                                impact()!.severity === 'HIGH' ? 'text-orange-400' :
-                               impact()!.severity === 'MEDIUM' ? 'text-amber-400' : 'text-emerald-400'">
+                               impact()!.severity === 'MEDIUM' ? 'text-amber-400' : 'text-blue-600'">
                     {{ lang.t('whatif.severity_' + impact()!.severity.toLowerCase()) }}
                   </h3>
                   <p class="text-slate-400 text-sm">
@@ -146,7 +146,7 @@ interface ImpactResult {
               </div>
               <div class="glass-card p-4 text-center">
                 <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.t('whatif.cascade_risk') }}</p>
-                <p class="text-3xl font-bold" [class]="impact()!.cascadeRisk > 70 ? 'text-red-400' : impact()!.cascadeRisk > 40 ? 'text-amber-400' : 'text-emerald-400'">{{ impact()!.cascadeRisk }}%</p>
+                <p class="text-3xl font-bold" [class]="impact()!.cascadeRisk > 70 ? 'text-red-400' : impact()!.cascadeRisk > 40 ? 'text-amber-400' : 'text-blue-600'">{{ impact()!.cascadeRisk }}%</p>
               </div>
               <div class="glass-card p-4 text-center">
                 <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.t('whatif.financial_impact') }}</p>
@@ -166,7 +166,7 @@ interface ImpactResult {
                   @for (svc of impact()!.affectedServices; track svc) {
                     <div class="flex items-center gap-3 p-3 bg-red-500/5 rounded-lg border border-red-500/10">
                       <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-                      <span class="text-sm text-slate-300">{{ svc }}</span>
+                      <span class="text-sm text-slate-600">{{ svc }}</span>
                     </div>
                   }
                 </div>
@@ -174,15 +174,15 @@ interface ImpactResult {
 
               <!-- Mitigations -->
               <div class="glass-card p-6">
-                <h3 class="text-lg font-bold text-emerald-400 mb-4 flex items-center gap-2">
+                <h3 class="text-lg font-bold text-blue-600 mb-4 flex items-center gap-2">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                   {{ lang.t('whatif.mitigations') }}
                 </h3>
                 <div class="space-y-2">
                   @for (m of impact()!.mitigations; track m; let i = $index) {
-                    <div class="flex items-start gap-3 p-3 bg-emerald-500/5 rounded-lg border border-emerald-500/10">
-                      <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs flex items-center justify-center shrink-0 mt-0.5">{{ i + 1 }}</span>
-                      <span class="text-sm text-slate-300">{{ m }}</span>
+                    <div class="flex items-start gap-3 p-3 bg-blue-50 rounded-lg border border-blue-500/10">
+                      <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-600 text-xs flex items-center justify-center shrink-0 mt-0.5">{{ i + 1 }}</span>
+                      <span class="text-sm text-slate-600">{{ m }}</span>
                     </div>
                   }
                 </div>
@@ -191,15 +191,15 @@ interface ImpactResult {
 
             <!-- Exit Strategy Status -->
             <div class="glass-card p-6">
-              <h3 class="text-lg font-bold text-cyan-400 mb-4 flex items-center gap-2">
+              <h3 class="text-lg font-bold text-blue-500 mb-4 flex items-center gap-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                 {{ lang.t('whatif.exit_strategy') }}
               </h3>
               @if (selectedProvider()!.hasExitStrategy) {
-                <div class="p-4 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
+                <div class="p-4 bg-blue-50 rounded-lg border border-blue-200">
                   <div class="flex items-center gap-2 mb-2">
-                    <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                    <span class="font-medium text-emerald-300">{{ lang.t('whatif.exit_exists') }}</span>
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    <span class="font-medium text-blue-500">{{ lang.t('whatif.exit_exists') }}</span>
                   </div>
                   @if (selectedProvider()!.exitStrategyDescription) {
                     <p class="text-sm text-slate-400 ml-7">{{ selectedProvider()!.exitStrategyDescription }}</p>
@@ -218,7 +218,7 @@ interface ImpactResult {
 
             <!-- Reset -->
             <div class="text-center">
-              <button (click)="reset()" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 hover:border-slate-600 transition-all">
+              <button (click)="reset()" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-slate-600 hover:border-slate-300 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                 {{ lang.t('whatif.reset') }}
               </button>

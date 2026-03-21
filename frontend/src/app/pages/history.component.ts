@@ -28,9 +28,9 @@ interface HistoryEntry {
         </div>
         <div class="flex gap-2">
           <a routerLink="/assessment"
-             class="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
+             class="bg-blue-600 hover:bg-blue-700
                     text-slate-900 font-semibold px-5 py-2 rounded-lg transition-all duration-300
-                    hover:shadow-lg hover:shadow-emerald-500/25 flex items-center gap-2 text-sm">
+                    hover:shadow-lg hover:shadow-lg flex items-center gap-2 text-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
@@ -41,28 +41,28 @@ interface HistoryEntry {
 
       <!-- Stats overview -->
       <div *ngIf="history.length > 0" class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4 animate-fade-in-up delay-100">
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4 animate-fade-in-up delay-100">
           <p class="text-xs text-slate-500 mb-1">{{ lang.t('history.avg_score') }}</p>
-          <span class="text-2xl font-bold text-emerald-400">{{ avgScore | number:'1.0-0' }}%</span>
+          <span class="text-2xl font-bold text-blue-600">{{ avgScore | number:'1.0-0' }}%</span>
         </div>
-        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4 animate-fade-in-up delay-200">
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4 animate-fade-in-up delay-200">
           <p class="text-xs text-slate-500 mb-1">{{ lang.t('history.compliant') }}</p>
-          <span class="text-2xl font-bold text-emerald-400">{{ greenCount }}</span>
+          <span class="text-2xl font-bold text-blue-600">{{ greenCount }}</span>
         </div>
-        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4 animate-fade-in-up delay-300">
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4 animate-fade-in-up delay-300">
           <p class="text-xs text-slate-500 mb-1">{{ lang.t('history.partial') }}</p>
           <span class="text-2xl font-bold text-amber-400">{{ yellowCount }}</span>
         </div>
-        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4 animate-fade-in-up delay-400">
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4 animate-fade-in-up delay-400">
           <p class="text-xs text-slate-500 mb-1">{{ lang.t('history.non_compliant') }}</p>
           <span class="text-2xl font-bold text-red-400">{{ redCount }}</span>
         </div>
       </div>
 
       <!-- Trend chart -->
-      <div *ngIf="history.length >= 2" class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6 mb-8 animate-fade-in-up delay-300">
-        <h2 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
-          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div *ngIf="history.length >= 2" class="bg-white backdrop-blur border border-slate-200 rounded-xl p-6 mb-8 animate-fade-in-up delay-300">
+        <h2 class="text-sm font-semibold text-slate-600 mb-4 flex items-center gap-2">
+          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
           </svg>
           {{ lang.t('history.trend') }}
@@ -70,13 +70,13 @@ interface HistoryEntry {
         <div class="relative h-32">
           <svg class="w-full h-full" [attr.viewBox]="'0 0 ' + chartWidth + ' 130'" preserveAspectRatio="none">
             <!-- Grid lines -->
-            <line x1="0" y1="32.5" [attr.x2]="chartWidth" y2="32.5" stroke="#334155" stroke-width="0.5" stroke-dasharray="4"/>
-            <line x1="0" y1="65" [attr.x2]="chartWidth" y2="65" stroke="#334155" stroke-width="0.5" stroke-dasharray="4"/>
-            <line x1="0" y1="97.5" [attr.x2]="chartWidth" y2="97.5" stroke="#334155" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="0" y1="32.5" [attr.x2]="chartWidth" y2="32.5" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="0" y1="65" [attr.x2]="chartWidth" y2="65" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="0" y1="97.5" [attr.x2]="chartWidth" y2="97.5" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="4"/>
             <!-- Area fill -->
             <path [attr.d]="areaPath" fill="url(#gradient)" opacity="0.3"/>
             <!-- Line -->
-            <path [attr.d]="linePath" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="animate-sparkline"/>
+            <path [attr.d]="linePath" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="animate-sparkline"/>
             <!-- Dots -->
             <circle *ngFor="let point of chartPoints; let i = index"
                     [attr.cx]="point.x" [attr.cy]="point.y" r="4"
@@ -84,8 +84,8 @@ interface HistoryEntry {
                     class="animate-scale-in" [style.animation-delay]="(i * 100 + 500) + 'ms'"/>
             <defs>
               <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#34d399" stop-opacity="0.4"/>
-                <stop offset="100%" stop-color="#34d399" stop-opacity="0"/>
+                <stop offset="0%" stop-color="#2563eb" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#2563eb" stop-opacity="0"/>
               </linearGradient>
             </defs>
           </svg>
@@ -102,11 +102,11 @@ interface HistoryEntry {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
         </div>
-        <h2 class="text-lg font-semibold text-slate-300 mb-2">{{ lang.t('history.empty_title') }}</h2>
+        <h2 class="text-lg font-semibold text-slate-600 mb-2">{{ lang.t('history.empty_title') }}</h2>
         <p class="text-slate-500 mb-6">{{ lang.t('history.empty_desc') }}</p>
         <a routerLink="/assessment"
-           class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
-                  font-semibold px-6 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25">
+           class="inline-flex items-center gap-2 bg-blue-600 text-slate-900
+                  font-semibold px-6 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-lg">
           {{ lang.t('history.first') }}
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
@@ -116,13 +116,13 @@ interface HistoryEntry {
 
       <!-- History list -->
       <div *ngFor="let entry of history; let i = index"
-           class="bg-slate-800/50 backdrop-blur rounded-xl p-5 mb-3 border border-slate-700/50 card-hover animate-slide-in-right"
+           class="bg-white backdrop-blur rounded-xl p-5 mb-3 border border-slate-200 card-hover animate-slide-in-right"
            [style.animation-delay]="(i * 60 + 300) + 'ms'">
         <a [routerLink]="['/results', entry.id]" class="flex items-center gap-4">
           <!-- Score circle -->
           <div class="relative w-14 h-14 shrink-0">
             <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="42" fill="none" stroke="#334155" stroke-width="6"/>
+              <circle cx="50" cy="50" r="42" fill="none" stroke="#e2e8f0" stroke-width="6"/>
               <circle cx="50" cy="50" r="42" fill="none"
                       [attr.stroke]="getLevelColor(entry.complianceLevel)"
                       stroke-width="6"
@@ -140,7 +140,7 @@ interface HistoryEntry {
           <!-- Info -->
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2 mb-0.5">
-              <h3 class="text-slate-200 font-medium truncate">{{ entry.companyName }}</h3>
+              <h3 class="text-slate-700 font-medium truncate">{{ entry.companyName }}</h3>
               <span [class]="getBadgeClass(entry.complianceLevel)">
                 {{ getBadgeLabel(entry.complianceLevel) }}
               </span>
@@ -226,7 +226,7 @@ export class HistoryComponent implements OnInit {
   getBadgeClass(level: string): string {
     const base = 'text-xs px-2 py-0.5 rounded-full font-medium shrink-0';
     switch (level) {
-      case 'GREEN': return `${base} bg-emerald-500/15 text-emerald-400 border border-emerald-500/20`;
+      case 'GREEN': return `${base} bg-blue-50 text-blue-600 border border-blue-200`;
       case 'YELLOW': return `${base} bg-amber-500/15 text-amber-400 border border-amber-500/20`;
       case 'RED': return `${base} bg-red-500/15 text-red-400 border border-red-500/20`;
       default: return base;

@@ -14,15 +14,15 @@ import { SubscriptionService } from '../services/subscription.service';
 
       <!-- Page Header -->
       <div class="text-center mb-8">
-        <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-1.5 mb-4">
-          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-full px-4 py-1.5 mb-4">
+          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
           </svg>
-          <span class="text-sm font-medium text-emerald-300">{{ lang.l('Genoomivaade', 'Genome View') }}</span>
+          <span class="text-sm font-medium text-blue-500">{{ lang.l('Genoomivaade', 'Genome View') }}</span>
         </div>
-        <h1 class="text-3xl font-bold text-slate-100 mb-2 flex items-center justify-center gap-3">
-          <svg class="w-8 h-8 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <h1 class="text-3xl font-bold text-slate-900 mb-2 flex items-center justify-center gap-3">
+          <svg class="w-8 h-8 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M12 3c-1.5 2-3 4-3 6s1.5 3 3 3 3-1 3-3-1.5-4-3-6z" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M12 12c-1.5 2-3 4-3 6s1.5 3 3 3 3-1 3-3-1.5-4-3-6z" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M8 6.5C6.5 7 5 8 5 10s2 3 4 2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -41,23 +41,23 @@ import { SubscriptionService } from '../services/subscription.service';
       </div>
 
       <!-- Tabs -->
-      <div class="flex justify-center gap-1 mb-8 bg-slate-800/60 rounded-xl p-1 max-w-md mx-auto border border-slate-700/50">
+      <div class="flex justify-center gap-1 mb-8 bg-white rounded-xl p-1 max-w-md mx-auto border border-slate-200">
         <button (click)="activeTab.set('genome')"
           [class]="activeTab() === 'genome'
-            ? 'flex-1 px-4 py-2.5 rounded-lg text-sm font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+            ? 'flex-1 px-4 py-2.5 rounded-lg text-sm font-medium bg-blue-100 text-blue-500 border border-blue-200'
             : 'flex-1 px-4 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-white transition-colors'">
           {{ lang.l('Genoom', 'Genome') }}
         </button>
         <button (click)="activeTab.set('history')"
           [class]="activeTab() === 'history'
-            ? 'flex-1 px-4 py-2.5 rounded-lg text-sm font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+            ? 'flex-1 px-4 py-2.5 rounded-lg text-sm font-medium bg-blue-100 text-blue-500 border border-blue-200'
             : 'flex-1 px-4 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-white transition-colors'">
           {{ lang.l('Ajalugu', 'History') }}
         </button>
         <button (click)="activeTab.set('comparison')"
           class="flex-1 relative"
           [class]="activeTab() === 'comparison'
-            ? 'flex-1 px-4 py-2.5 rounded-lg text-sm font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+            ? 'flex-1 px-4 py-2.5 rounded-lg text-sm font-medium bg-blue-100 text-blue-500 border border-blue-200'
             : 'flex-1 px-4 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-white transition-colors'">
           {{ lang.l('Voordlus', 'Comparison') }}
           @if (!sub.isPremium()) {
@@ -71,22 +71,22 @@ import { SubscriptionService } from '../services/subscription.service';
       <!-- Loading -->
       @if (loading()) {
         <div class="flex flex-col items-center justify-center py-32">
-          <div class="w-12 h-12 border-4 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin mb-4"></div>
+          <div class="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-4"></div>
           <p class="text-slate-400 text-sm">{{ lang.l('Genoomi dekodeerimine...', 'Decoding genome...') }}</p>
         </div>
       }
 
       <!-- No data -->
       @if (!loading() && !genome()) {
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
-          <div class="w-20 h-20 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-6 border border-slate-700/50">
+        <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
+          <div class="w-20 h-20 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-6 border border-slate-200">
             <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
             </svg>
           </div>
-          <h2 class="text-xl font-bold text-slate-200 mb-2">{{ lang.l('Genoomi pole veel', 'No Genome Yet') }}</h2>
+          <h2 class="text-xl font-bold text-slate-700 mb-2">{{ lang.l('Genoomi pole veel', 'No Genome Yet') }}</h2>
           <p class="text-slate-400 mb-6">{{ lang.l('Tehke esmalt hindamine, et genereerida oma vastavuse genoom.', 'Complete an assessment first to generate your compliance genome.') }}</p>
-          <a routerLink="/assessment" class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 font-semibold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
+          <a routerLink="/assessment" class="inline-flex items-center gap-2 bg-blue-600 text-slate-900 font-semibold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-lg transition-all">
             {{ lang.l('Alusta hindamist', 'Start Assessment') }}
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
           </a>
@@ -99,8 +99,8 @@ import { SubscriptionService } from '../services/subscription.service';
 
           <!-- SVG Visualization -->
           <div class="xl:col-span-8">
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 relative overflow-hidden">
-              <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-cyan-500/5 pointer-events-none"></div>
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 relative overflow-hidden">
+              <div class="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-transparent to-blue-500/5 pointer-events-none"></div>
 
               <div class="flex justify-center relative">
                 <svg [attr.viewBox]="'0 0 700 700'" class="w-full max-w-[700px] h-auto genome-svg">
@@ -130,12 +130,12 @@ import { SubscriptionService } from '../services/subscription.service';
                   </defs>
 
                   <!-- Background circle -->
-                  <circle cx="350" cy="350" r="340" fill="url(#bg-gradient)" stroke="#334155" stroke-width="0.5" stroke-dasharray="4 4" opacity="0.4"/>
+                  <circle cx="350" cy="350" r="340" fill="url(#bg-gradient)" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="4 4" opacity="0.4"/>
 
                   <!-- Reference circles (faint grid) -->
-                  <circle cx="350" cy="350" r="320" fill="none" stroke="#334155" stroke-width="0.3" stroke-dasharray="2 6" opacity="0.3"/>
-                  <circle cx="350" cy="350" r="260" fill="none" stroke="#334155" stroke-width="0.3" stroke-dasharray="2 6" opacity="0.3"/>
-                  <circle cx="350" cy="350" r="200" fill="none" stroke="#334155" stroke-width="0.3" stroke-dasharray="2 6" opacity="0.3"/>
+                  <circle cx="350" cy="350" r="320" fill="none" stroke="#e2e8f0" stroke-width="0.3" stroke-dasharray="2 6" opacity="0.3"/>
+                  <circle cx="350" cy="350" r="260" fill="none" stroke="#e2e8f0" stroke-width="0.3" stroke-dasharray="2 6" opacity="0.3"/>
+                  <circle cx="350" cy="350" r="200" fill="none" stroke="#e2e8f0" stroke-width="0.3" stroke-dasharray="2 6" opacity="0.3"/>
 
                   <!-- Outer Ring: Chromosomes (Pillar Arcs) -->
                   @for (chr of genome().chromosomes; track chr.id; let i = $index) {
@@ -282,12 +282,12 @@ import { SubscriptionService } from '../services/subscription.service';
               <!-- Stats Bar -->
               <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 mt-6 relative">
                 @if (genome().stats) {
-                  <div class="bg-slate-900/60 border border-slate-700/40 rounded-xl p-3 text-center">
+                  <div class="bg-slate-900/60 border border-slate-200 rounded-xl p-3 text-center">
                     <div class="text-lg font-bold text-white">{{ genome().stats.totalGenes }}</div>
                     <div class="text-xs text-slate-500">{{ lang.l('Geenid', 'Genes') }}</div>
                   </div>
-                  <div class="bg-slate-900/60 border border-emerald-500/20 rounded-xl p-3 text-center">
-                    <div class="text-lg font-bold text-emerald-400">{{ genome().stats.healthyGenes }}</div>
+                  <div class="bg-slate-900/60 border border-blue-200 rounded-xl p-3 text-center">
+                    <div class="text-lg font-bold text-blue-600">{{ genome().stats.healthyGenes }}</div>
                     <div class="text-xs text-slate-500">{{ lang.l('Terved', 'Healthy') }}</div>
                   </div>
                   <div class="bg-slate-900/60 border border-amber-500/20 rounded-xl p-3 text-center">
@@ -298,8 +298,8 @@ import { SubscriptionService } from '../services/subscription.service';
                     <div class="text-lg font-bold text-red-400">{{ genome().stats.criticalGenes }}</div>
                     <div class="text-xs text-slate-500">{{ lang.l('Kriitilised', 'Critical') }}</div>
                   </div>
-                  <div class="bg-slate-900/60 border border-cyan-500/20 rounded-xl p-3 text-center">
-                    <div class="text-lg font-bold text-cyan-400">{{ genome().stats.proteinLinks }}</div>
+                  <div class="bg-slate-900/60 border border-blue-500/20 rounded-xl p-3 text-center">
+                    <div class="text-lg font-bold text-blue-500">{{ genome().stats.proteinLinks }}</div>
                     <div class="text-xs text-slate-500">{{ lang.l('Seosed', 'Links') }}</div>
                   </div>
                   <div class="bg-slate-900/60 border border-rose-500/20 rounded-xl p-3 text-center">
@@ -311,11 +311,11 @@ import { SubscriptionService } from '../services/subscription.service';
             </div>
 
             <!-- Legend -->
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 mt-4">
-              <h3 class="text-sm font-semibold text-slate-300 mb-3">{{ lang.l('Legend', 'Legend') }}</h3>
+            <div class="bg-white border border-slate-200 rounded-2xl p-5 mt-4">
+              <h3 class="text-sm font-semibold text-slate-600 mb-3">{{ lang.l('Legend', 'Legend') }}</h3>
               <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
                 <div class="flex items-center gap-2">
-                  <div class="w-8 h-3 rounded-full bg-emerald-500/60"></div>
+                  <div class="w-8 h-3 rounded-full bg-blue-600/60"></div>
                   <span class="text-slate-400">{{ lang.l('Terve geen (80%+)', 'Healthy gene (80%+)') }}</span>
                 </div>
                 <div class="flex items-center gap-2">
@@ -337,10 +337,10 @@ import { SubscriptionService } from '../services/subscription.service';
           <!-- Gene Detail Side Panel -->
           <div class="xl:col-span-4 space-y-4">
             @if (selectedGene()) {
-              <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 relative gene-detail-panel">
+              <div class="bg-white border border-slate-200 rounded-2xl p-5 relative gene-detail-panel">
                 <!-- Close button -->
                 <button (click)="selectedGene.set(null)"
-                  class="absolute top-3 right-3 w-8 h-8 rounded-lg bg-slate-700/50 flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-600/50 transition-colors">
+                  class="absolute top-3 right-3 w-8 h-8 rounded-lg bg-slate-700/50 flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-100 transition-colors">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
 
@@ -356,7 +356,7 @@ import { SubscriptionService } from '../services/subscription.service';
                   <div class="relative w-28 h-28">
                     <svg viewBox="0 0 120 120" class="w-full h-full">
                       <!-- Track -->
-                      <circle cx="60" cy="60" r="50" fill="none" stroke="#334155" stroke-width="8" stroke-linecap="round"/>
+                      <circle cx="60" cy="60" r="50" fill="none" stroke="#e2e8f0" stroke-width="8" stroke-linecap="round"/>
                       <!-- Progress -->
                       <circle cx="60" cy="60" r="50" fill="none"
                         [attr.stroke]="selectedGene().color"
@@ -383,12 +383,12 @@ import { SubscriptionService } from '../services/subscription.service';
                   <!-- Pillar -->
                   <div class="flex items-center justify-between bg-slate-900/40 rounded-lg px-3 py-2">
                     <span class="text-xs text-slate-500">{{ lang.l('Sammas', 'Pillar') }}</span>
-                    <span class="text-sm font-medium text-slate-300">{{ selectedGene().pillarName }}</span>
+                    <span class="text-sm font-medium text-slate-600">{{ selectedGene().pillarName }}</span>
                   </div>
                   <!-- Evidence -->
                   <div class="flex items-center justify-between bg-slate-900/40 rounded-lg px-3 py-2">
                     <span class="text-xs text-slate-500">{{ lang.l('Toeendid', 'Evidence') }}</span>
-                    <span class="text-sm font-medium text-cyan-400">{{ selectedGene().evidenceCount || 0 }}</span>
+                    <span class="text-sm font-medium text-blue-500">{{ selectedGene().evidenceCount || 0 }}</span>
                   </div>
                   <!-- Remediations -->
                   <div class="flex items-center justify-between bg-slate-900/40 rounded-lg px-3 py-2">
@@ -400,7 +400,7 @@ import { SubscriptionService } from '../services/subscription.service';
                     <span class="text-xs text-slate-500">{{ lang.l('Staatus', 'Status') }}</span>
                     <span class="text-xs font-semibold px-2 py-0.5 rounded-full"
                       [class]="selectedGene().score >= 80
-                        ? 'bg-emerald-500/20 text-emerald-400'
+                        ? 'bg-blue-100 text-blue-600'
                         : selectedGene().score >= 50
                           ? 'bg-amber-500/20 text-amber-400'
                           : 'bg-red-500/20 text-red-400'">
@@ -421,12 +421,12 @@ import { SubscriptionService } from '../services/subscription.service';
                       <div>
                         <div class="flex justify-between text-xs mb-1">
                           <span class="text-slate-400">{{ item.label }}</span>
-                          <span class="text-slate-300 font-medium">{{ item.value }}%</span>
+                          <span class="text-slate-600 font-medium">{{ item.value }}%</span>
                         </div>
                         <div class="h-1.5 bg-slate-700 rounded-full overflow-hidden">
                           <div class="h-full rounded-full transition-all duration-500"
                             [style.width.%]="item.value"
-                            [class]="item.value >= 80 ? 'bg-emerald-500' : item.value >= 50 ? 'bg-amber-500' : 'bg-red-500'">
+                            [class]="item.value >= 80 ? 'bg-blue-600' : item.value >= 50 ? 'bg-amber-500' : 'bg-red-500'">
                           </div>
                         </div>
                       </div>
@@ -440,7 +440,7 @@ import { SubscriptionService } from '../services/subscription.service';
                     <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{{ lang.l('Seotud geenid', 'Linked Genes') }}</h4>
                     <div class="flex flex-wrap gap-1.5">
                       @for (linked of selectedGene().linkedGenes; track linked) {
-                        <span class="text-xs bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 rounded-md px-2 py-0.5">{{ linked }}</span>
+                        <span class="text-xs bg-blue-50 text-blue-500 border border-blue-500/20 rounded-md px-2 py-0.5">{{ linked }}</span>
                       }
                     </div>
                   </div>
@@ -448,7 +448,7 @@ import { SubscriptionService } from '../services/subscription.service';
               </div>
             } @else {
               <!-- Placeholder when no gene selected -->
-              <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-8 text-center">
+              <div class="bg-white border border-slate-200 rounded-2xl p-8 text-center">
                 <div class="w-16 h-16 rounded-2xl bg-slate-700/30 flex items-center justify-center mx-auto mb-4">
                   <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/>
@@ -460,8 +460,8 @@ import { SubscriptionService } from '../services/subscription.service';
             }
 
             <!-- Quick overview stats -->
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5">
-              <h3 class="text-sm font-semibold text-slate-300 mb-3">{{ lang.l('Kiire ulevaade', 'Quick Overview') }}</h3>
+            <div class="bg-white border border-slate-200 rounded-2xl p-5">
+              <h3 class="text-sm font-semibold text-slate-600 mb-3">{{ lang.l('Kiire ulevaade', 'Quick Overview') }}</h3>
               @if (genome().stats) {
                 <div class="space-y-3">
                   <div class="flex items-center justify-between">
@@ -485,15 +485,15 @@ import { SubscriptionService } from '../services/subscription.service';
             </div>
 
             <!-- Chromosome breakdown -->
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5">
-              <h3 class="text-sm font-semibold text-slate-300 mb-3">{{ lang.l('Kromosoomid', 'Chromosomes') }}</h3>
+            <div class="bg-white border border-slate-200 rounded-2xl p-5">
+              <h3 class="text-sm font-semibold text-slate-600 mb-3">{{ lang.l('Kromosoomid', 'Chromosomes') }}</h3>
               <div class="space-y-2">
                 @for (chr of genome().chromosomes; track chr.id) {
                   <div class="bg-slate-900/40 rounded-lg px-3 py-2">
                     <div class="flex items-center justify-between mb-1">
                       <div class="flex items-center gap-2">
                         <div class="w-2.5 h-2.5 rounded-full" [style.background]="chr.color"></div>
-                        <span class="text-xs font-medium text-slate-300">{{ chr.label }}</span>
+                        <span class="text-xs font-medium text-slate-600">{{ chr.label }}</span>
                       </div>
                       <span class="text-xs font-bold" [style.color]="chr.color">{{ chr.score }}%</span>
                     </div>
@@ -515,12 +515,12 @@ import { SubscriptionService } from '../services/subscription.service';
       @if (!loading() && genome() && activeTab() === 'history') {
         <div class="space-y-6">
           @if (history().length === 0) {
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
+            <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
               <p class="text-slate-400">{{ lang.l('Ajalugu pole veel saadaval. Tehke mitu hindamist, et naha genoomi arengut.', 'No history available yet. Complete multiple assessments to see genome evolution.') }}</p>
             </div>
           } @else {
             <!-- Timeline header -->
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5">
+            <div class="bg-white border border-slate-200 rounded-2xl p-5">
               <div class="flex items-center justify-between mb-4">
                 <h2 class="text-lg font-semibold text-white">{{ lang.l('Genoomi evolutsioon', 'Genome Evolution') }}</h2>
                 <span class="text-xs text-slate-500">{{ history().length }} {{ lang.l('hetkeseisu', 'snapshots') }}</span>
@@ -538,15 +538,15 @@ import { SubscriptionService } from '../services/subscription.service';
                           (click)="toggleSnapshotSelection(snap.assessmentId)"
                           class="w-12 h-12 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all"
                           [class]="isSnapshotSelected(snap.assessmentId)
-                            ? 'border-emerald-400 bg-emerald-500/20 text-emerald-300'
+                            ? 'border-blue-400 bg-blue-100 text-blue-500'
                             : 'border-slate-600 bg-slate-800 text-slate-400 hover:border-slate-500'">
                           {{ snap.overallScore }}
                         </button>
                       </div>
 
                       <!-- Snapshot card -->
-                      <div class="flex-1 bg-slate-900/40 border border-slate-700/30 rounded-xl p-4"
-                        [ngClass]="{'ring-1 ring-emerald-500/40': isSnapshotSelected(snap.assessmentId)}">
+                      <div class="flex-1 bg-slate-900/40 border border-slate-200 rounded-xl p-4"
+                        [ngClass]="{'ring-1 ring-blue-600/40': isSnapshotSelected(snap.assessmentId)}">
                         <div class="flex items-center justify-between mb-3">
                           <div>
                             <div class="text-sm font-semibold text-white">
@@ -556,7 +556,7 @@ import { SubscriptionService } from '../services/subscription.service';
                           </div>
                           <div class="text-right">
                             <div class="text-lg font-bold"
-                              [class]="snap.overallScore >= 80 ? 'text-emerald-400' : snap.overallScore >= 50 ? 'text-amber-400' : 'text-red-400'">
+                              [class]="snap.overallScore >= 80 ? 'text-blue-600' : snap.overallScore >= 50 ? 'text-amber-400' : 'text-red-400'">
                               {{ snap.overallScore }}%
                             </div>
                           </div>
@@ -569,7 +569,7 @@ import { SubscriptionService } from '../services/subscription.service';
                               <div class="h-2 bg-slate-700 rounded-full overflow-hidden">
                                 <div class="h-full rounded-full transition-all"
                                   [style.width.%]="pillar.score"
-                                  [class]="pillar.score >= 80 ? 'bg-emerald-500' : pillar.score >= 50 ? 'bg-amber-500' : 'bg-red-500'">
+                                  [class]="pillar.score >= 80 ? 'bg-blue-600' : pillar.score >= 50 ? 'bg-amber-500' : 'bg-red-500'">
                                 </div>
                               </div>
                               <div class="text-[8px] text-slate-600 text-center mt-0.5">P{{ pillar.pillarId }}</div>
@@ -580,7 +580,7 @@ import { SubscriptionService } from '../services/subscription.service';
                         <!-- Mini genome preview SVG -->
                         <div class="flex justify-center mt-3">
                           <svg viewBox="0 0 80 80" class="w-16 h-16">
-                            <circle cx="40" cy="40" r="35" fill="none" stroke="#334155" stroke-width="2" stroke-dasharray="2 3"/>
+                            <circle cx="40" cy="40" r="35" fill="none" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="2 3"/>
                             @for (ps of snap.pillarScores; track ps.pillarId; let pi = $index) {
                               <path
                                 [attr.d]="describeArc(40, 40, 30, pi * 72 + 2, pi * 72 + 70)"
@@ -608,7 +608,7 @@ import { SubscriptionService } from '../services/subscription.service';
             @if (selectedSnapshots().length === 2) {
               <div class="flex justify-center">
                 <button (click)="compareSnapshots()"
-                  class="px-6 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 font-semibold rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 transition-all flex items-center gap-2">
+                  class="px-6 py-3 bg-blue-600 text-slate-900 font-semibold rounded-xl hover:shadow-lg hover:shadow-lg transition-all flex items-center gap-2">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
                   {{ lang.l('Voorrdle valitud hetkeseise', 'Compare Selected Snapshots') }}
                 </button>
@@ -627,7 +627,7 @@ import { SubscriptionService } from '../services/subscription.service';
         <div class="relative">
           <!-- Premium gate overlay -->
           @if (!sub.isPremium()) {
-            <div class="absolute inset-0 z-20 bg-slate-900/80 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center">
+            <div class="absolute inset-0 z-20 bg-white backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center">
               <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-4">
                 <svg class="w-8 h-8 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
@@ -645,28 +645,28 @@ import { SubscriptionService } from '../services/subscription.service';
 
           <div class="space-y-6" [class.blur-sm]="!sub.isPremium()" [class.pointer-events-none]="!sub.isPremium()">
             @if (!comparison()) {
-              <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
+              <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
                 <div class="w-16 h-16 rounded-2xl bg-slate-700/30 flex items-center justify-center mx-auto mb-4">
                   <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
                 </div>
-                <h3 class="text-lg font-semibold text-slate-300 mb-2">{{ lang.l('Voordlust pole veel', 'No Comparison Yet') }}</h3>
+                <h3 class="text-lg font-semibold text-slate-600 mb-2">{{ lang.l('Voordlust pole veel', 'No Comparison Yet') }}</h3>
                 <p class="text-sm text-slate-500">{{ lang.l('Mine Ajaloo vahelehele ja vali 2 hetkeseisu voordlemiseks.', 'Go to the History tab and select 2 snapshots to compare.') }}</p>
               </div>
             } @else {
               <!-- Comparison header: Side by side scores -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 text-center">
+                <div class="bg-white border border-slate-200 rounded-2xl p-5 text-center">
                   <div class="text-xs text-slate-500 mb-1">{{ lang.l('Vanem', 'From') }}</div>
                   <div class="text-3xl font-bold"
-                    [class]="comparison().from.score >= 80 ? 'text-emerald-400' : comparison().from.score >= 50 ? 'text-amber-400' : 'text-red-400'">
+                    [class]="comparison().from.score >= 80 ? 'text-blue-600' : comparison().from.score >= 50 ? 'text-amber-400' : 'text-red-400'">
                     {{ comparison().from.score }}%
                   </div>
                   <div class="text-xs text-slate-500 mt-1">{{ comparison().from.date | date:'dd.MM.yyyy' }}</div>
                 </div>
-                <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 text-center">
+                <div class="bg-white border border-slate-200 rounded-2xl p-5 text-center">
                   <div class="text-xs text-slate-500 mb-1">{{ lang.l('Uuem', 'To') }}</div>
                   <div class="text-3xl font-bold"
-                    [class]="comparison().to.score >= 80 ? 'text-emerald-400' : comparison().to.score >= 50 ? 'text-amber-400' : 'text-red-400'">
+                    [class]="comparison().to.score >= 80 ? 'text-blue-600' : comparison().to.score >= 50 ? 'text-amber-400' : 'text-red-400'">
                     {{ comparison().to.score }}%
                   </div>
                   <div class="text-xs text-slate-500 mt-1">{{ comparison().to.date | date:'dd.MM.yyyy' }}</div>
@@ -675,9 +675,9 @@ import { SubscriptionService } from '../services/subscription.service';
 
               <!-- Summary cards -->
               <div class="grid grid-cols-3 gap-4">
-                <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 text-center">
-                  <div class="text-2xl font-bold text-emerald-400">{{ comparison().summary.improved }}</div>
-                  <div class="text-xs text-emerald-300/70">{{ lang.l('Paranenud', 'Improved') }}</div>
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 text-center">
+                  <div class="text-2xl font-bold text-blue-600">{{ comparison().summary.improved }}</div>
+                  <div class="text-xs text-blue-500/70">{{ lang.l('Paranenud', 'Improved') }}</div>
                 </div>
                 <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-center">
                   <div class="text-2xl font-bold text-red-400">{{ comparison().summary.worsened }}</div>
@@ -690,14 +690,14 @@ import { SubscriptionService } from '../services/subscription.service';
               </div>
 
               <!-- Changes table -->
-              <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl overflow-hidden">
-                <div class="px-5 py-4 border-b border-slate-700/50">
+              <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+                <div class="px-5 py-4 border-b border-slate-200">
                   <h3 class="text-sm font-semibold text-white">{{ lang.l('Muutused', 'Changes') }}</h3>
                 </div>
                 <div class="overflow-x-auto">
                   <table class="w-full text-sm">
                     <thead>
-                      <tr class="text-xs text-slate-500 border-b border-slate-700/30">
+                      <tr class="text-xs text-slate-500 border-b border-slate-200">
                         <th class="text-left px-4 py-3 font-medium">{{ lang.l('Artikkel', 'Article') }}</th>
                         <th class="text-left px-4 py-3 font-medium">{{ lang.l('Sammas', 'Pillar') }}</th>
                         <th class="text-center px-4 py-3 font-medium">{{ lang.l('Vana', 'From') }}</th>
@@ -708,31 +708,31 @@ import { SubscriptionService } from '../services/subscription.service';
                     </thead>
                     <tbody>
                       @for (change of comparison().changes; track change.article) {
-                        <tr class="border-b border-slate-700/20 hover:bg-slate-700/10 transition-colors">
-                          <td class="px-4 py-3 font-medium text-slate-300 font-mono text-xs">{{ change.article }}</td>
+                        <tr class="border-b border-slate-200 hover:bg-slate-700/10 transition-colors">
+                          <td class="px-4 py-3 font-medium text-slate-600 font-mono text-xs">{{ change.article }}</td>
                           <td class="px-4 py-3 text-slate-400">{{ change.pillar }}</td>
                           <td class="text-center px-4 py-3">
                             <span class="font-mono text-xs"
-                              [class]="change.fromScore >= 80 ? 'text-emerald-400' : change.fromScore >= 50 ? 'text-amber-400' : 'text-red-400'">
+                              [class]="change.fromScore >= 80 ? 'text-blue-600' : change.fromScore >= 50 ? 'text-amber-400' : 'text-red-400'">
                               {{ change.fromScore }}%
                             </span>
                           </td>
                           <td class="text-center px-4 py-3">
                             <span class="font-mono text-xs"
-                              [class]="change.toScore >= 80 ? 'text-emerald-400' : change.toScore >= 50 ? 'text-amber-400' : 'text-red-400'">
+                              [class]="change.toScore >= 80 ? 'text-blue-600' : change.toScore >= 50 ? 'text-amber-400' : 'text-red-400'">
                               {{ change.toScore }}%
                             </span>
                           </td>
                           <td class="text-center px-4 py-3">
                             <span class="font-mono text-xs font-bold"
-                              [class]="change.delta > 0 ? 'text-emerald-400' : change.delta < 0 ? 'text-red-400' : 'text-slate-500'">
+                              [class]="change.delta > 0 ? 'text-blue-600' : change.delta < 0 ? 'text-red-400' : 'text-slate-500'">
                               {{ change.delta > 0 ? '+' : '' }}{{ change.delta }}%
                             </span>
                           </td>
                           <td class="text-center px-4 py-3">
                             <span class="text-xs font-semibold px-2 py-0.5 rounded-full"
                               [class]="change.trend === 'IMPROVED'
-                                ? 'bg-emerald-500/15 text-emerald-400'
+                                ? 'bg-blue-50 text-blue-600'
                                 : change.trend === 'WORSENED'
                                   ? 'bg-red-500/15 text-red-400'
                                   : 'bg-slate-500/15 text-slate-400'">

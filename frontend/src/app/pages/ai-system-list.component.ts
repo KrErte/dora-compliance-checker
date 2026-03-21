@@ -46,7 +46,7 @@ interface PagedResult {
           <p class="text-slate-400 text-sm mt-1">{{ lang.l('Hallake oma AI-suesteemide vastavust EU AI Actile', 'Manage your AI systems compliance with the EU AI Act') }}</p>
         </div>
         <button (click)="navigateToNew()"
-                class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-emerald-500/25 transition-all flex items-center gap-2">
+                class="px-5 py-2.5 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-lg transition-all flex items-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
           </svg>
@@ -55,7 +55,7 @@ interface PagedResult {
       </div>
 
       <!-- Filter Bar -->
-      <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-4">
+      <div class="bg-white border border-slate-200 rounded-2xl p-4">
         <div class="flex flex-col md:flex-row gap-3">
           <!-- Search -->
           <div class="flex-1 relative">
@@ -64,12 +64,12 @@ interface PagedResult {
             </svg>
             <input type="text" [(ngModel)]="searchQuery" (ngModelChange)="onFilterChange()"
                    [placeholder]="lang.l('Otsi suesteeme...', 'Search systems...')"
-                   class="w-full pl-10 pr-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 text-sm">
+                   class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 text-sm">
           </div>
 
           <!-- Risk Level Filter -->
           <select [(ngModel)]="filterRiskLevel" (ngModelChange)="onFilterChange()"
-                  class="px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:outline-none focus:border-cyan-500/50 text-sm min-w-[160px]">
+                  class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none focus:border-blue-500/50 text-sm min-w-[160px]">
             <option value="">{{ lang.l('Koik riskitasemed', 'All Risk Levels') }}</option>
             <option value="MINIMAL">{{ lang.l('Minimaalne', 'Minimal') }}</option>
             <option value="LIMITED">{{ lang.l('Piiratud', 'Limited') }}</option>
@@ -79,7 +79,7 @@ interface PagedResult {
 
           <!-- Status Filter -->
           <select [(ngModel)]="filterStatus" (ngModelChange)="onFilterChange()"
-                  class="px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:outline-none focus:border-cyan-500/50 text-sm min-w-[140px]">
+                  class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none focus:border-blue-500/50 text-sm min-w-[140px]">
             <option value="">{{ lang.l('Koik staatused', 'All Statuses') }}</option>
             <option value="DRAFT">{{ lang.l('Mustand', 'Draft') }}</option>
             <option value="ACTIVE">{{ lang.l('Aktiivne', 'Active') }}</option>
@@ -91,17 +91,17 @@ interface PagedResult {
       <!-- Loading State -->
       @if (loading()) {
         <div class="flex justify-center py-16">
-          <div class="w-8 h-8 border-2 border-slate-700 border-t-emerald-400 rounded-full animate-spin"></div>
+          <div class="w-8 h-8 border-2 border-slate-700 border-t-blue-500 rounded-full animate-spin"></div>
         </div>
       }
 
       <!-- Systems Table -->
       @if (!loading() && systems().length > 0) {
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl overflow-hidden">
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
           <div class="overflow-x-auto">
             <table class="w-full">
               <thead>
-                <tr class="border-b border-slate-700/50">
+                <tr class="border-b border-slate-200">
                   <th class="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">{{ lang.l('Nimi', 'Name') }}</th>
                   <th class="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">{{ lang.l('Tarnija', 'Vendor') }}</th>
                   <th class="text-left px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">{{ lang.l('Riskitase', 'Risk Level') }}</th>
@@ -123,7 +123,7 @@ interface PagedResult {
 
                     <!-- Vendor -->
                     <td class="px-6 py-4">
-                      <span class="text-sm text-slate-300">{{ system.vendor || '-' }}</span>
+                      <span class="text-sm text-slate-600">{{ system.vendor || '-' }}</span>
                     </td>
 
                     <!-- Risk Level Badge -->
@@ -162,7 +162,7 @@ interface PagedResult {
                     <td class="px-6 py-4 text-right">
                       <div class="flex items-center justify-end gap-2" (click)="$event.stopPropagation()">
                         <button (click)="navigateToDetail(system.id)"
-                                class="p-2 rounded-lg hover:bg-slate-700/50 text-slate-400 hover:text-cyan-400 transition-colors"
+                                class="p-2 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-blue-500 transition-colors"
                                 [title]="lang.l('Vaata', 'View')">
                           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -186,25 +186,25 @@ interface PagedResult {
 
           <!-- Pagination -->
           @if (totalPages() > 1) {
-            <div class="flex items-center justify-between px-6 py-4 border-t border-slate-700/50">
+            <div class="flex items-center justify-between px-6 py-4 border-t border-slate-200">
               <div class="text-sm text-slate-400">
                 {{ lang.l('Kokku', 'Total') }}: {{ totalElements() }} {{ lang.l('suesteemi', 'systems') }}
               </div>
               <div class="flex items-center gap-1">
                 <button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 0"
-                        class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-slate-400 hover:text-white hover:bg-slate-700/50">
+                        class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-slate-400 hover:text-white hover:bg-slate-100">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                   </svg>
                 </button>
                 @for (p of pageNumbers(); track p) {
                   <button (click)="goToPage(p)" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
-                          [class]="p === currentPage() ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-700/50'">
+                          [class]="p === currentPage() ? 'bg-blue-600/20 text-blue-500 border border-blue-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-100'">
                     {{ p + 1 }}
                   </button>
                 }
                 <button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() >= totalPages() - 1"
-                        class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-slate-400 hover:text-white hover:bg-slate-700/50">
+                        class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-slate-400 hover:text-white hover:bg-slate-100">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                   </svg>
@@ -217,7 +217,7 @@ interface PagedResult {
 
       <!-- Empty State -->
       @if (!loading() && systems().length === 0) {
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
+        <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
           <div class="w-16 h-16 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mx-auto mb-6">
             <svg class="w-8 h-8 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
@@ -228,7 +228,7 @@ interface PagedResult {
             {{ lang.l('Alustage oma AI-suesteemide registreerimist, et jalgida EU AI Act vastavust.', 'Start registering your AI systems to track EU AI Act compliance.') }}
           </p>
           <button (click)="navigateToNew()"
-                  class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-emerald-500/25 transition-all inline-flex items-center gap-2">
+                  class="px-6 py-2.5 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-lg transition-all inline-flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
@@ -254,7 +254,7 @@ interface PagedResult {
             </p>
             <div class="flex gap-3">
               <button (click)="systemToDelete.set(null)"
-                      class="flex-1 px-4 py-2.5 rounded-xl bg-slate-700 text-slate-300 font-medium text-sm hover:bg-slate-600 transition-colors">
+                      class="flex-1 px-4 py-2.5 rounded-xl bg-slate-700 text-slate-600 font-medium text-sm hover:bg-slate-600 transition-colors">
                 {{ lang.l('Tuehista', 'Cancel') }}
               </button>
               <button (click)="deleteSystem()" [disabled]="deleting()"
@@ -388,7 +388,7 @@ export class AiSystemListComponent implements OnInit {
       case 'UNACCEPTABLE': return 'bg-red-500/15 text-red-400 border border-red-500/25';
       case 'HIGH': return 'bg-orange-500/15 text-orange-400 border border-orange-500/25';
       case 'LIMITED': return 'bg-yellow-500/15 text-yellow-400 border border-yellow-500/25';
-      case 'MINIMAL': return 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/25';
+      case 'MINIMAL': return 'bg-blue-50 text-blue-600 border border-blue-500/25';
       default: return 'bg-slate-500/15 text-slate-400 border border-slate-500/25';
     }
   }
@@ -405,7 +405,7 @@ export class AiSystemListComponent implements OnInit {
 
   getStatusBadgeClass(status: string): string {
     switch (status) {
-      case 'ACTIVE': return 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/25';
+      case 'ACTIVE': return 'bg-blue-50 text-blue-600 border border-blue-500/25';
       case 'DRAFT': return 'bg-slate-500/15 text-slate-400 border border-slate-500/25';
       case 'RETIRED': return 'bg-amber-500/15 text-amber-400 border border-amber-500/25';
       default: return 'bg-slate-500/15 text-slate-400 border border-slate-500/25';
@@ -422,13 +422,13 @@ export class AiSystemListComponent implements OnInit {
   }
 
   getScoreBarClass(score: number): string {
-    if (score >= 80) return 'bg-emerald-500';
+    if (score >= 80) return 'bg-blue-600';
     if (score >= 50) return 'bg-yellow-500';
     return 'bg-red-500';
   }
 
   getScoreTextClass(score: number): string {
-    if (score >= 80) return 'text-emerald-400';
+    if (score >= 80) return 'text-blue-600';
     if (score >= 50) return 'text-yellow-400';
     return 'text-red-400';
   }

@@ -42,12 +42,12 @@ interface ToolCategory {
       <div class="flex items-center gap-1 mb-8 animate-fade-in-up">
         <button type="button" (click)="setShowAll(false)"
                 class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
-                [class]="!showAll() ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:text-slate-300 hover:bg-slate-700/30'">
+                [class]="!showAll() ? 'bg-blue-50 text-blue-600 border border-blue-200' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'">
           {{ lang.t('tools.essential') }}
         </button>
         <button type="button" (click)="setShowAll(true)"
                 class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
-                [class]="showAll() ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:text-slate-300 hover:bg-slate-700/30'">
+                [class]="showAll() ? 'bg-blue-50 text-blue-600 border border-blue-200' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100'">
           {{ lang.t('tools.all_tools_count') }} ({{ totalToolCount }})
         </button>
       </div>
@@ -62,12 +62,12 @@ interface ToolCategory {
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
             @for (tool of cat.tools; track tool.link) {
               <a [routerLink]="tool.link"
-                 class="group bg-slate-800/50 hover:bg-slate-800 border border-slate-700/50 hover:border-slate-600/50
+                 class="group bg-white hover:bg-slate-800 border border-slate-200 hover:border-slate-200
                         rounded-xl p-4 transition-all duration-200 hover:shadow-lg hover:shadow-black/10 hover:-translate-y-0.5">
                 <div class="flex items-start gap-3">
                   <span class="text-lg shrink-0 mt-0.5">{{ tool.icon }}</span>
                   <div class="min-w-0">
-                    <p class="text-sm font-medium text-white group-hover:text-emerald-400 transition-colors truncate">
+                    <p class="text-sm font-medium text-white group-hover:text-blue-600 transition-colors truncate">
                       {{ lang.l(tool.titleEt, tool.titleEn) }}
                     </p>
                     <p class="text-[11px] text-slate-500 mt-0.5 line-clamp-2">
@@ -116,7 +116,7 @@ export class ToolsHubComponent {
 
   categories: ToolCategory[] = [
     {
-      titleEt: 'P\u00f5hivastavus', titleEn: 'Core Compliance', icon: '\u{1F3AF}', color: 'emerald',
+      titleEt: 'P\u00f5hivastavus', titleEn: 'Core Compliance', icon: '\u{1F3AF}', color: 'blue',
       tools: [
         { icon: '\u{1F4CB}', titleEt: 'DORA hindamine', titleEn: 'DORA Assessment', descEt: 'T\u00e4ishindamine 37 k\u00fcsimusega', descEn: 'Full assessment with 37 questions', link: '/assessment', essential: true },
         { icon: '\u{1F4C4}', titleEt: 'Lepingu anal\u00fc\u00fcs', titleEn: 'Contract Analysis', descEt: 'AI-p\u00f5hine DORA Art. 30 anal\u00fc\u00fcs', descEn: 'AI-powered DORA Art. 30 analysis', link: '/contract-analysis', essential: true },
@@ -145,7 +145,7 @@ export class ToolsHubComponent {
       ]
     },
     {
-      titleEt: 'Anal\u00fc\u00fcs ja testimine', titleEn: 'Analysis & Testing', icon: '\u{1F9EA}', color: 'cyan',
+      titleEt: 'Anal\u00fc\u00fcs ja testimine', titleEn: 'Analysis & Testing', icon: '\u{1F9EA}', color: 'blue',
       tools: [
         { icon: '\u{1F525}', titleEt: 'Riski soojuskaart', titleEn: 'Risk Heatmap', descEt: 'Visuaalne riskide kaardistus', descEn: 'Visual risk mapping by pillar', link: '/risk-heatmap' },
         { icon: '\u{1F4CA}', titleEt: 'K\u00fcpsusmudel', titleEn: 'Maturity Model', descEt: 'Vastavuse k\u00fcpsuse hindamine 0-5', descEn: 'Compliance maturity assessment 0-5', link: '/maturity' },

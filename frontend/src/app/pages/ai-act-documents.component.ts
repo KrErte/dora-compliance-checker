@@ -54,8 +54,8 @@ interface DocTypeOption {
         <div class="relative">
           <button type="button" (click)="toggleDropdown()"
                   class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200
-                         bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
-                         text-slate-900 hover:shadow-lg hover:shadow-emerald-500/25">
+                         bg-blue-600 hover:bg-blue-700
+                         text-slate-900 hover:shadow-lg hover:shadow-lg">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
@@ -67,7 +67,7 @@ interface DocTypeOption {
 
           <!-- Document Type Dropdown -->
           @if (showDropdown()) {
-            <div class="absolute right-0 mt-2 w-72 bg-slate-800 border border-slate-700/50 rounded-xl shadow-2xl shadow-black/30 z-50 overflow-hidden animate-fade-in">
+            <div class="absolute right-0 mt-2 w-72 bg-slate-800 border border-slate-200 rounded-xl shadow-2xl shadow-black/30 z-50 overflow-hidden animate-fade-in">
               <div class="p-2">
                 <p class="text-xs uppercase tracking-wider text-slate-500 font-medium px-3 py-2">
                   {{ lang.l('Vali dokumendi tuup', 'Select Document Type') }}
@@ -75,7 +75,7 @@ interface DocTypeOption {
                 @for (docType of documentTypes; track docType.value) {
                   <button type="button" (click)="selectDocType(docType.value)"
                           class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left text-sm transition-all
-                                 hover:bg-slate-700/50 text-slate-300 hover:text-white group">
+                                 hover:bg-slate-100 text-slate-600 hover:text-white group">
                     <span class="text-lg shrink-0">{{ docType.icon }}</span>
                     <span class="font-medium">{{ lang.l(docType.labelEt, docType.labelEn) }}</span>
                   </button>
@@ -88,7 +88,7 @@ interface DocTypeOption {
 
       <!-- Generate Dialog (additional context) -->
       @if (selectedDocType()) {
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6 mb-8 animate-fade-in-up">
+        <div class="bg-white border border-slate-200 rounded-xl p-6 mb-8 animate-fade-in-up">
           <h2 class="text-lg font-semibold text-white mb-1">
             {{ lang.l('Genereeri dokument', 'Generate Document') }}
           </h2>
@@ -97,25 +97,25 @@ interface DocTypeOption {
           </p>
 
           <div>
-            <label class="block text-sm font-medium text-slate-300 mb-1.5">
+            <label class="block text-sm font-medium text-slate-600 mb-1.5">
               {{ lang.l('Lisakontekst (valikuline)', 'Additional Context (optional)') }}
             </label>
             <textarea [(ngModel)]="additionalContext" rows="3"
                       class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white text-sm
-                             placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all resize-none"
+                             placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all resize-none"
                       [placeholder]="lang.l('Lisa spetsiifilist konteksti dokumendi genereerimiseks...', 'Add specific context for document generation...')">
             </textarea>
           </div>
 
-          <div class="flex items-center justify-end gap-3 mt-5 pt-4 border-t border-slate-700/50">
+          <div class="flex items-center justify-end gap-3 mt-5 pt-4 border-t border-slate-200">
             <button type="button" (click)="cancelGenerate()"
-                    class="px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all">
+                    class="px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-100 transition-all">
               {{ lang.l('Tuhista', 'Cancel') }}
             </button>
             <button type="button" (click)="generateDocument()" [disabled]="generating()"
                     class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200
-                           bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
-                           text-slate-900 hover:shadow-lg hover:shadow-emerald-500/25 disabled:opacity-50 disabled:cursor-not-allowed">
+                           bg-blue-600 hover:bg-blue-700
+                           text-slate-900 hover:shadow-lg hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
               @if (generating()) {
                 <div class="w-4 h-4 border-2 border-slate-900 border-t-transparent rounded-full animate-spin"></div>
               }
@@ -128,7 +128,7 @@ interface DocTypeOption {
       <!-- Loading -->
       @if (loading()) {
         <div class="text-center py-20 animate-fade-in">
-          <div class="inline-block w-10 h-10 border-4 border-slate-700 border-t-emerald-400 rounded-full animate-spin"></div>
+          <div class="inline-block w-10 h-10 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin"></div>
           <p class="text-slate-500 text-sm mt-4">{{ lang.l('Laadin dokumente...', 'Loading documents...') }}</p>
         </div>
       }
@@ -148,7 +148,7 @@ interface DocTypeOption {
       <!-- Empty State -->
       @if (!loading() && !error() && documents().length === 0) {
         <div class="text-center py-20 animate-fade-in-up">
-          <div class="w-20 h-20 mx-auto mb-5 rounded-2xl bg-slate-800/50 border border-slate-700/50 flex items-center justify-center">
+          <div class="w-20 h-20 mx-auto mb-5 rounded-2xl bg-white border border-slate-200 flex items-center justify-center">
             <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -164,11 +164,11 @@ interface DocTypeOption {
 
       <!-- Documents Table -->
       @if (!loading() && documents().length > 0) {
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl overflow-hidden animate-fade-in-up">
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden animate-fade-in-up">
           <div class="overflow-x-auto">
             <table class="w-full">
               <thead>
-                <tr class="border-b border-slate-700/50">
+                <tr class="border-b border-slate-200">
                   <th class="text-left text-xs uppercase tracking-wider text-slate-500 font-medium px-5 py-3.5">
                     {{ lang.l('Pealkiri', 'Title') }}
                   </th>
@@ -188,7 +188,7 @@ interface DocTypeOption {
               </thead>
               <tbody>
                 @for (doc of documents(); track doc.id) {
-                  <tr class="border-b border-slate-700/20 hover:bg-slate-700/20 transition-colors cursor-pointer"
+                  <tr class="border-b border-slate-200 hover:bg-slate-700/20 transition-colors cursor-pointer"
                       (click)="toggleDocView(doc.id)">
                     <!-- Title -->
                     <td class="px-5 py-4">
@@ -211,7 +211,7 @@ interface DocTypeOption {
                           {{ lang.l('Genereerimine...', 'Generating...') }}
                         </span>
                       } @else if (doc.status === 'COMPLETED') {
-                        <span class="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-400">
+                        <span class="inline-flex items-center gap-1.5 text-xs font-medium text-blue-600">
                           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                           </svg>
@@ -237,7 +237,7 @@ interface DocTypeOption {
                       <div class="flex items-center justify-end gap-1.5" (click)="$event.stopPropagation()">
                         @if (doc.status === 'COMPLETED') {
                           <button type="button" (click)="exportPdf(doc.id)"
-                                  class="p-1.5 rounded-lg text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-all"
+                                  class="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all"
                                   [title]="lang.l('Ekspordi PDF', 'Export PDF')">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -259,20 +259,20 @@ interface DocTypeOption {
                   @if (viewingDocId() === doc.id && doc.status === 'COMPLETED' && doc.content) {
                     <tr>
                       <td colspan="5" class="px-5 py-0">
-                        <div class="bg-slate-900/70 border border-slate-700/30 rounded-lg mb-4 animate-fade-in">
-                          <div class="flex items-center justify-between px-4 py-3 border-b border-slate-700/30">
-                            <h4 class="text-sm font-medium text-slate-300">
+                        <div class="bg-slate-900/70 border border-slate-200 rounded-lg mb-4 animate-fade-in">
+                          <div class="flex items-center justify-between px-4 py-3 border-b border-slate-200">
+                            <h4 class="text-sm font-medium text-slate-600">
                               {{ lang.l('Dokumendi sisu', 'Document Content') }}
                             </h4>
                             <button type="button" (click)="toggleDocView(doc.id)"
-                                    class="p-1 rounded text-slate-500 hover:text-white hover:bg-slate-700/50 transition-all">
+                                    class="p-1 rounded text-slate-500 hover:text-white hover:bg-slate-100 transition-all">
                               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                               </svg>
                             </button>
                           </div>
                           <div class="p-4 max-h-96 overflow-y-auto">
-                            <pre class="text-sm text-slate-300 whitespace-pre-wrap font-mono leading-relaxed">{{ doc.content }}</pre>
+                            <pre class="text-sm text-slate-600 whitespace-pre-wrap font-mono leading-relaxed">{{ doc.content }}</pre>
                           </div>
                         </div>
                       </td>
@@ -456,17 +456,17 @@ export class AiActDocumentsComponent implements OnInit, OnDestroy {
       case 'RISK_MANAGEMENT':
         return 'bg-amber-500/15 text-amber-400 border border-amber-500/20';
       case 'HUMAN_OVERSIGHT':
-        return 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/20';
+        return 'bg-blue-600/15 text-blue-500 border border-blue-500/20';
       case 'DATA_GOVERNANCE':
         return 'bg-indigo-500/15 text-indigo-400 border border-indigo-500/20';
       case 'CONFORMITY_DECLARATION':
-        return 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20';
+        return 'bg-blue-50 text-blue-600 border border-blue-200';
       case 'POST_MARKET_MONITORING':
         return 'bg-orange-500/15 text-orange-400 border border-orange-500/20';
       case 'TRANSPARENCY_NOTICE':
         return 'bg-pink-500/15 text-pink-400 border border-pink-500/20';
       default:
-        return 'bg-slate-700/50 text-slate-300 border border-slate-600/30';
+        return 'bg-slate-700/50 text-slate-600 border border-slate-600/30';
     }
   }
 

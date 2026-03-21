@@ -87,8 +87,8 @@ const POLICY_TYPES: PolicyType[] = [
 
       <!-- Saved policies -->
       @if (savedPolicies().length > 0 && step() === 1) {
-        <div class="mb-8 p-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
-          <h3 class="text-sm font-semibold text-slate-300 mb-3 flex items-center gap-2">
+        <div class="mb-8 p-4 rounded-xl bg-white border border-slate-200">
+          <h3 class="text-sm font-semibold text-slate-600 mb-3 flex items-center gap-2">
             <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/>
             </svg>
@@ -96,7 +96,7 @@ const POLICY_TYPES: PolicyType[] = [
           </h3>
           <div class="space-y-2">
             @for (p of savedPolicies(); track p.id) {
-              <div class="flex items-center justify-between p-3 rounded-lg bg-slate-900/50 border border-slate-700/30 hover:border-slate-600 transition-colors">
+              <div class="flex items-center justify-between p-3 rounded-lg bg-white border border-slate-200 hover:border-slate-300 transition-colors">
                 <div class="flex items-center gap-3">
                   <div class="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center text-violet-400 text-xs font-bold">
                     {{ p.language.toUpperCase() }}
@@ -152,11 +152,11 @@ const POLICY_TYPES: PolicyType[] = [
                       class="p-4 rounded-xl border text-left transition-all group"
                       [ngClass]="selectedType()?.id === t.id
                         ? 'bg-violet-500/10 border-violet-500/40 shadow-lg shadow-violet-500/10'
-                        : 'bg-slate-800/50 border-slate-700/50 hover:border-slate-600'">
+                        : 'bg-white border-slate-200 hover:border-slate-300'">
                 <svg class="w-5 h-5 mb-2" [ngClass]="selectedType()?.id === t.id ? 'text-violet-400' : 'text-slate-500'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path [attr.d]="t.icon"/>
                 </svg>
-                <p class="text-sm font-medium" [ngClass]="selectedType()?.id === t.id ? 'text-white' : 'text-slate-300'">
+                <p class="text-sm font-medium" [ngClass]="selectedType()?.id === t.id ? 'text-white' : 'text-slate-600'">
                   {{ lang.l(t.nameEt, t.nameEn) }}
                 </p>
                 <p class="text-xs text-slate-500 mt-1">{{ t.doraRef }}</p>
@@ -172,23 +172,23 @@ const POLICY_TYPES: PolicyType[] = [
           <h2 class="text-lg font-semibold text-white mb-1">{{ lang.l('Ettevõtte andmed', 'Company Details') }}</h2>
           <p class="text-sm text-slate-400 mb-5">{{ lang.l('Sisesta andmed, mida kasutatakse poliitikaadokumendis.', 'Enter details to be used in the policy document.') }}</p>
 
-          <div class="p-5 rounded-xl bg-slate-800/50 border border-slate-700/50 mb-6">
+          <div class="p-5 rounded-xl bg-white border border-slate-200 mb-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs text-slate-500 mb-1">{{ lang.l('Ettevõtte nimi', 'Company Name') }} *</label>
-                <input [(ngModel)]="companyName" maxlength="200" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="AS Finants">
+                <input [(ngModel)]="companyName" maxlength="200" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="AS Finants">
               </div>
               <div>
                 <label class="block text-xs text-slate-500 mb-1">CISO / IT {{ lang.l('juht', 'Manager') }}</label>
-                <input [(ngModel)]="cisoName" maxlength="100" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="Mari Mets">
+                <input [(ngModel)]="cisoName" maxlength="100" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="Mari Mets">
               </div>
               <div>
                 <label class="block text-xs text-slate-500 mb-1">{{ lang.l('Vastutav juhatuse liige', 'Responsible Board Member') }}</label>
-                <input [(ngModel)]="boardMember" maxlength="100" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="Jaan Tamm">
+                <input [(ngModel)]="boardMember" maxlength="100" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="Jaan Tamm">
               </div>
               <div>
                 <label class="block text-xs text-slate-500 mb-1">{{ lang.l('Sektor', 'Sector') }}</label>
-                <select [(ngModel)]="sector" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none">
+                <select [(ngModel)]="sector" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none">
                   <option value="banking">{{ lang.l('Pangandus', 'Banking') }}</option>
                   <option value="insurance">{{ lang.l('Kindlustus', 'Insurance') }}</option>
                   <option value="investment">{{ lang.l('Investeerimine', 'Investment') }}</option>
@@ -198,7 +198,7 @@ const POLICY_TYPES: PolicyType[] = [
               </div>
               <div>
                 <label class="block text-xs text-slate-500 mb-1">{{ lang.l('Ettevõtte suurus', 'Company Size') }}</label>
-                <select [(ngModel)]="companySize" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none">
+                <select [(ngModel)]="companySize" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none">
                   <option value="small">{{ lang.l('Väike (< 50 töötajat)', 'Small (< 50 employees)') }}</option>
                   <option value="medium">{{ lang.l('Keskmine (50-250)', 'Medium (50-250)') }}</option>
                   <option value="large">{{ lang.l('Suur (> 250)', 'Large (> 250)') }}</option>
@@ -208,11 +208,11 @@ const POLICY_TYPES: PolicyType[] = [
                 <label class="block text-xs text-slate-500 mb-1">{{ lang.l('Keel', 'Language') }}</label>
                 <div class="flex gap-2">
                   <button (click)="docLanguage = 'et'" class="flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all"
-                          [ngClass]="docLanguage === 'et' ? 'bg-violet-500/20 text-violet-400 border border-violet-500/40' : 'bg-slate-900/50 text-slate-400 border border-slate-700 hover:border-slate-600'">
+                          [ngClass]="docLanguage === 'et' ? 'bg-violet-500/20 text-violet-400 border border-violet-500/40' : 'bg-white text-slate-400 border border-slate-700 hover:border-slate-300'">
                     Eesti
                   </button>
                   <button (click)="docLanguage = 'en'" class="flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all"
-                          [ngClass]="docLanguage === 'en' ? 'bg-violet-500/20 text-violet-400 border border-violet-500/40' : 'bg-slate-900/50 text-slate-400 border border-slate-700 hover:border-slate-600'">
+                          [ngClass]="docLanguage === 'en' ? 'bg-violet-500/20 text-violet-400 border border-violet-500/40' : 'bg-white text-slate-400 border border-slate-700 hover:border-slate-300'">
                     English
                   </button>
                 </div>
@@ -221,18 +221,18 @@ const POLICY_TYPES: PolicyType[] = [
 
             <!-- Assessment selector -->
             @if (assessments().length > 0) {
-              <div class="mt-4 pt-4 border-t border-slate-700/50">
+              <div class="mt-4 pt-4 border-t border-slate-200">
                 <label class="block text-xs text-slate-500 mb-1">
                   {{ lang.l('Kohandamine hindamise alusel (valikuline)', 'Tailor to assessment gaps (optional)') }}
                 </label>
-                <select [(ngModel)]="selectedAssessmentId" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none">
+                <select [(ngModel)]="selectedAssessmentId" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none">
                   <option value="">{{ lang.l('Ilma hindamiseta', 'Without assessment') }}</option>
                   @for (a of assessments(); track a.id) {
                     <option [value]="a.id">{{ a.companyName }} - {{ a.scorePercentage | number:'1.0-0' }}% ({{ formatDate(a.assessmentDate) }})</option>
                   }
                 </select>
                 @if (selectedAssessmentId) {
-                  <p class="text-xs text-emerald-400/70 mt-1">
+                  <p class="text-xs text-blue-600/70 mt-1">
                     {{ lang.l('AI kohandab poliitikat tuvastatud lünkade alusel', 'AI will tailor the policy based on identified gaps') }}
                   </p>
                 }
@@ -241,7 +241,7 @@ const POLICY_TYPES: PolicyType[] = [
           </div>
 
           <div class="flex items-center gap-3">
-            <button (click)="step.set(1)" class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-300 hover:bg-slate-700 transition-all">
+            <button (click)="step.set(1)" class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-600 hover:bg-slate-700 transition-all">
               {{ lang.l('Tagasi', 'Back') }}
             </button>
           </div>
@@ -317,7 +317,7 @@ const POLICY_TYPES: PolicyType[] = [
         <div>
           <!-- Actions bar -->
           <div class="flex flex-wrap items-center gap-3 mb-6">
-            <button (click)="step.set(1); generatedPolicy.set(null)" class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-300 hover:bg-slate-700 transition-all flex items-center gap-2">
+            <button (click)="step.set(1); generatedPolicy.set(null)" class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-600 hover:bg-slate-700 transition-all flex items-center gap-2">
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
               {{ lang.l('Uus dokument', 'New Document') }}
             </button>
@@ -327,7 +327,7 @@ const POLICY_TYPES: PolicyType[] = [
               </svg>
               {{ copied() ? lang.l('Kopeeritud!', 'Copied!') : lang.l('Kopeeri tekst', 'Copy Text') }}
             </button>
-            <button (click)="printDoc()" class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-300 hover:bg-slate-700 transition-all flex items-center gap-2">
+            <button (click)="printDoc()" class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-600 hover:bg-slate-700 transition-all flex items-center gap-2">
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/>
               </svg>
@@ -337,19 +337,19 @@ const POLICY_TYPES: PolicyType[] = [
 
           <!-- Gaps summary -->
           @if (generatedPolicy()!.gapsSummary) {
-            <div class="mb-6 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
-              <h4 class="text-sm font-semibold text-emerald-400 mb-1 flex items-center gap-2">
+            <div class="mb-6 p-4 rounded-xl bg-blue-50 border border-blue-200">
+              <h4 class="text-sm font-semibold text-blue-600 mb-1 flex items-center gap-2">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
                 {{ lang.l('Hindamise lünkade kokkuvõte', 'Assessment Gaps Summary') }}
               </h4>
-              <p class="text-sm text-slate-300">{{ generatedPolicy()!.gapsSummary }}</p>
+              <p class="text-sm text-slate-600">{{ generatedPolicy()!.gapsSummary }}</p>
             </div>
           }
 
           <!-- Document -->
-          <div id="policy-document" class="p-6 sm:p-8 rounded-xl bg-slate-800/80 border border-slate-700/50 print:bg-white print:text-black print:border-0">
+          <div id="policy-document" class="p-6 sm:p-8 rounded-xl bg-white border border-slate-200 print:bg-white print:text-black print:border-0">
             <!-- Header -->
-            <div class="text-center mb-8 pb-6 border-b border-slate-700/50 print:border-gray-300">
+            <div class="text-center mb-8 pb-6 border-b border-slate-200 print:border-gray-300">
               <p class="text-xs text-red-400 font-bold tracking-widest mb-4 print:text-red-600">{{ lang.l('KONFIDENTSIAALNE', 'CONFIDENTIAL') }}</p>
               <h2 class="text-2xl font-bold text-white mb-2 print:text-black">{{ generatedPolicy()!.companyName }}</h2>
               <h3 class="text-lg font-semibold text-violet-400 mb-4 print:text-violet-700">{{ getPolicyTypeName(generatedPolicy()!.policyType) }}</h3>
@@ -362,7 +362,7 @@ const POLICY_TYPES: PolicyType[] = [
 
             <!-- Table of Contents -->
             <div class="mb-8 p-4 rounded-lg bg-slate-900/30 print:bg-gray-100">
-              <p class="text-sm font-bold text-slate-300 mb-3 print:text-black">{{ lang.l('Sisukord', 'Table of Contents') }}</p>
+              <p class="text-sm font-bold text-slate-600 mb-3 print:text-black">{{ lang.l('Sisukord', 'Table of Contents') }}</p>
               @for (section of generatedPolicy()!.sections; track section.number) {
                 <p class="text-sm text-slate-400 py-0.5 print:text-gray-700">{{ section.number }}. {{ section.title }}</p>
               }
@@ -372,12 +372,12 @@ const POLICY_TYPES: PolicyType[] = [
             @for (section of generatedPolicy()!.sections; track section.number) {
               <div class="mb-6">
                 <h4 class="text-base font-semibold text-white mb-2 print:text-black">{{ section.number }}. {{ section.title }}</h4>
-                <p class="text-sm text-slate-300 leading-relaxed whitespace-pre-line print:text-gray-800">{{ section.body }}</p>
+                <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line print:text-gray-800">{{ section.body }}</p>
               </div>
             }
 
             <!-- Sign-off -->
-            <div class="mt-10 pt-6 border-t border-slate-700/50 grid grid-cols-2 gap-8 print:border-gray-300">
+            <div class="mt-10 pt-6 border-t border-slate-200 grid grid-cols-2 gap-8 print:border-gray-300">
               <div>
                 <p class="text-xs text-slate-500 mb-1 print:text-gray-500">{{ lang.l('Koostanud', 'Prepared by') }}</p>
                 <div class="h-px bg-slate-600 w-48 mt-8 print:bg-gray-400"></div>

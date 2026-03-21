@@ -48,7 +48,7 @@ interface SimulationResult {
 
       @if (!hasAssessmentData()) {
         <!-- No data state -->
-        <div class="text-center py-16 bg-slate-800/30 rounded-2xl border border-slate-700/50">
+        <div class="text-center py-16 bg-slate-800/30 rounded-2xl border border-slate-200">
           <div class="w-16 h-16 rounded-2xl bg-slate-700/50 flex items-center justify-center mx-auto mb-4">
             <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
@@ -57,8 +57,8 @@ interface SimulationResult {
           <h3 class="text-lg font-semibold text-white mb-2">{{ lang.t('sim.no_data_title') }}</h3>
           <p class="text-slate-400 text-sm mb-6">{{ lang.t('sim.no_data_desc') }}</p>
           <a routerLink="/assessment"
-             class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-medium text-sm
-                    hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
+             class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 text-white font-medium text-sm
+                    hover:bg-blue-700 hover:shadow-lg hover:shadow-lg transition-all">
             {{ lang.t('sim.start_assessment') }}
           </a>
         </div>
@@ -110,10 +110,10 @@ interface SimulationResult {
           </div>
 
           <!-- Assessment context -->
-          <div class="p-4 rounded-xl bg-slate-800/30 border border-slate-700/30">
+          <div class="p-4 rounded-xl bg-slate-800/30 border border-slate-200">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-lg flex items-center justify-center"
-                   [class]="latestAssessment()!.complianceLevel === 'GREEN' ? 'bg-emerald-500/20 text-emerald-400' :
+                   [class]="latestAssessment()!.complianceLevel === 'GREEN' ? 'bg-blue-100 text-blue-600' :
                             latestAssessment()!.complianceLevel === 'YELLOW' ? 'bg-yellow-500/20 text-yellow-400' :
                             'bg-red-500/20 text-red-400'">
                 <span class="text-lg font-bold">{{ latestAssessment()!.scorePercentage }}%</span>
@@ -130,7 +130,7 @@ interface SimulationResult {
         @if (activeSimulation(); as sim) {
           <div class="space-y-6">
             <!-- Back button -->
-            <button type="button" (click)="clearSimulation()" class="flex items-center gap-2 text-sm text-slate-400 hover:text-emerald-400 transition-colors">
+            <button type="button" (click)="clearSimulation()" class="flex items-center gap-2 text-sm text-slate-400 hover:text-blue-600 transition-colors">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
               </svg>
@@ -152,21 +152,21 @@ interface SimulationResult {
 
             <!-- KPI Cards -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
+              <div class="p-4 rounded-xl bg-white border border-slate-200">
                 <p class="text-xs text-slate-500 mb-1">{{ lang.t('sim.exposure') }}</p>
-                <p class="text-2xl font-bold" [class]="sim.overallExposure > 60 ? 'text-red-400' : sim.overallExposure > 30 ? 'text-yellow-400' : 'text-emerald-400'">
+                <p class="text-2xl font-bold" [class]="sim.overallExposure > 60 ? 'text-red-400' : sim.overallExposure > 30 ? 'text-yellow-400' : 'text-blue-600'">
                   {{ sim.overallExposure }}%
                 </p>
               </div>
-              <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
+              <div class="p-4 rounded-xl bg-white border border-slate-200">
                 <p class="text-xs text-slate-500 mb-1">{{ lang.t('sim.gaps_exploited') }}</p>
                 <p class="text-2xl font-bold text-red-400">{{ sim.vulnerableGaps.length }}</p>
               </div>
-              <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
+              <div class="p-4 rounded-xl bg-white border border-slate-200">
                 <p class="text-xs text-slate-500 mb-1">{{ lang.t('sim.protected') }}</p>
-                <p class="text-2xl font-bold text-emerald-400">{{ sim.protectedAreas.length }}</p>
+                <p class="text-2xl font-bold text-blue-600">{{ sim.protectedAreas.length }}</p>
               </div>
-              <div class="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
+              <div class="p-4 rounded-xl bg-white border border-slate-200">
                 <p class="text-xs text-slate-500 mb-1">{{ lang.t('sim.response_time') }}</p>
                 <p class="text-2xl font-bold text-white">{{ sim.estimatedResponseTimeDays }}{{ lang.t('sim.days') }}</p>
               </div>
@@ -177,18 +177,18 @@ interface SimulationResult {
                  [class]="sim.regulatoryOutcome === 'FINE' ? 'bg-red-500/5 border-red-500/20' :
                           sim.regulatoryOutcome === 'PRESCRIPTION' ? 'bg-orange-500/5 border-orange-500/20' :
                           sim.regulatoryOutcome === 'WARNING' ? 'bg-yellow-500/5 border-yellow-500/20' :
-                          'bg-emerald-500/5 border-emerald-500/20'">
+                          'bg-blue-50 border-blue-200'">
               <div class="flex items-center gap-3 mb-3">
                 <div class="w-10 h-10 rounded-lg flex items-center justify-center"
                      [class]="sim.regulatoryOutcome === 'FINE' ? 'bg-red-500/20' :
                               sim.regulatoryOutcome === 'PRESCRIPTION' ? 'bg-orange-500/20' :
                               sim.regulatoryOutcome === 'WARNING' ? 'bg-yellow-500/20' :
-                              'bg-emerald-500/20'">
+                              'bg-blue-100'">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                        [class]="sim.regulatoryOutcome === 'FINE' ? 'text-red-400' :
                                 sim.regulatoryOutcome === 'PRESCRIPTION' ? 'text-orange-400' :
                                 sim.regulatoryOutcome === 'WARNING' ? 'text-yellow-400' :
-                                'text-emerald-400'">
+                                'text-blue-600'">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5"/>
                   </svg>
                 </div>
@@ -197,7 +197,7 @@ interface SimulationResult {
                   <p class="text-sm" [class]="sim.regulatoryOutcome === 'FINE' ? 'text-red-400' :
                               sim.regulatoryOutcome === 'PRESCRIPTION' ? 'text-orange-400' :
                               sim.regulatoryOutcome === 'WARNING' ? 'text-yellow-400' :
-                              'text-emerald-400'">
+                              'text-blue-600'">
                     {{ lang.t('sim.outcome_' + sim.regulatoryOutcome) }}
                   </p>
                 </div>
@@ -220,18 +220,18 @@ interface SimulationResult {
                          [class]="event.risk === 'CRITICAL' ? 'bg-red-500 border-red-400' :
                                   event.risk === 'HIGH' ? 'bg-orange-500 border-orange-400' :
                                   event.risk === 'MEDIUM' ? 'bg-yellow-500 border-yellow-400' :
-                                  'bg-emerald-500 border-emerald-400'"></div>
+                                  'bg-blue-600 border-blue-400'"></div>
                     @if (i < sim.timelineEvents.length - 1) {
                       <div class="absolute left-[-16px] top-4 w-0.5 h-full bg-slate-700/50"></div>
                     }
-                    <div class="p-4 rounded-xl bg-slate-800/30 border border-slate-700/30">
+                    <div class="p-4 rounded-xl bg-slate-800/30 border border-slate-200">
                       <div class="flex items-center gap-2 mb-1">
                         <span class="text-xs font-mono text-slate-500">{{ lang.t('sim.day') }} {{ event.daysFromIncident }}</span>
                         <span class="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase"
                               [class]="event.risk === 'CRITICAL' ? 'bg-red-500/20 text-red-400' :
                                        event.risk === 'HIGH' ? 'bg-orange-500/20 text-orange-400' :
                                        event.risk === 'MEDIUM' ? 'bg-yellow-500/20 text-yellow-400' :
-                                       'bg-emerald-500/20 text-emerald-400'">
+                                       'bg-blue-100 text-blue-600'">
                           {{ event.risk }}
                         </span>
                       </div>
@@ -271,13 +271,13 @@ interface SimulationResult {
             @if (sim.protectedAreas.length > 0) {
               <div>
                 <h3 class="text-lg font-semibold text-white mb-4">
-                  <span class="text-emerald-400">{{ sim.protectedAreas.length }}</span> {{ lang.t('sim.protected_areas') }}
+                  <span class="text-blue-600">{{ sim.protectedAreas.length }}</span> {{ lang.t('sim.protected_areas') }}
                 </h3>
                 <div class="space-y-2">
                   @for (area of sim.protectedAreas; track area.question) {
-                    <div class="flex items-center gap-3 p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/15">
-                      <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center shrink-0">
-                        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="flex items-center gap-3 p-3 rounded-xl bg-blue-50 border border-blue-500/15">
+                      <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
+                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                         </svg>
                       </div>
@@ -292,8 +292,8 @@ interface SimulationResult {
             }
 
             <!-- Real world example -->
-            <div class="p-6 rounded-2xl bg-slate-800/30 border border-slate-700/30">
-              <h3 class="text-sm font-semibold text-slate-300 mb-2">{{ lang.t('sim.real_world') }}</h3>
+            <div class="p-6 rounded-2xl bg-slate-800/30 border border-slate-200">
+              <h3 class="text-sm font-semibold text-slate-600 mb-2">{{ lang.t('sim.real_world') }}</h3>
               <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center">
                   <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -314,8 +314,8 @@ interface SimulationResult {
                 {{ lang.t('sim.try_another') }}
               </button>
               <a routerLink="/assessment"
-                 class="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-medium text-sm
-                        hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
+                 class="px-6 py-3 rounded-xl bg-blue-600 text-white font-medium text-sm
+                        hover:bg-blue-700 hover:shadow-lg hover:shadow-lg transition-all">
                 {{ lang.t('sim.improve_score') }}
               </a>
             </div>
@@ -387,7 +387,7 @@ export class IncidentSimulatorComponent {
     {
       id: 'api_attack',
       icon: '\u26A1',
-      color: 'cyan',
+      color: 'blue',
       affectedCategories: ['SERVICE_LEVEL', 'INCIDENT', 'DATA', 'CONTINUITY'],
       affectedQuestionIds: [1, 2, 4, 5, 9, 14],
       regulatoryArticles: ['Art. 17', 'Art. 25', 'Art. 30'],
@@ -478,13 +478,13 @@ export class IncidentSimulatorComponent {
   }
 
   getScenarioCardClass(s: IncidentScenario): string {
-    const base = 'bg-slate-800/30 border-slate-700/50 hover:border-';
+    const base = 'bg-slate-800/30 border-slate-200 hover:border-';
     const colorMap: Record<string, string> = {
       red: 'red-500/50 hover:bg-red-500/5',
       orange: 'orange-500/50 hover:bg-orange-500/5',
       purple: 'purple-500/50 hover:bg-purple-500/5',
       yellow: 'yellow-500/50 hover:bg-yellow-500/5',
-      cyan: 'cyan-500/50 hover:bg-cyan-500/5'
+      blue: 'blue-500/50 hover:bg-blue-50'
     };
     return base + (colorMap[s.color] || colorMap['red']);
   }
@@ -495,7 +495,7 @@ export class IncidentSimulatorComponent {
       orange: 'bg-orange-500/20',
       purple: 'bg-purple-500/20',
       yellow: 'bg-yellow-500/20',
-      cyan: 'bg-cyan-500/20'
+      blue: 'bg-blue-600/20'
     };
     return map[s.color] || 'bg-red-500/20';
   }
@@ -505,7 +505,7 @@ export class IncidentSimulatorComponent {
       CRITICAL: 'bg-red-500/20 text-red-400',
       HIGH: 'bg-orange-500/20 text-orange-400',
       MEDIUM: 'bg-yellow-500/20 text-yellow-400',
-      LOW: 'bg-emerald-500/20 text-emerald-400'
+      LOW: 'bg-blue-100 text-blue-600'
     };
     return map[risk] || '';
   }
@@ -513,6 +513,6 @@ export class IncidentSimulatorComponent {
   getResultHeaderClass(sim: SimulationResult): string {
     if (sim.overallExposure >= 60) return 'bg-red-500/5 border-red-500/20';
     if (sim.overallExposure >= 30) return 'bg-orange-500/5 border-orange-500/20';
-    return 'bg-emerald-500/5 border-emerald-500/20';
+    return 'bg-blue-50 border-blue-200';
   }
 }

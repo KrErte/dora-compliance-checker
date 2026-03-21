@@ -19,23 +19,23 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
       <div class="flex items-center justify-center gap-3 mb-10 animate-fade-in">
         <div class="flex items-center gap-2">
           <div [class]="step >= 1
-            ? 'w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-sm font-bold'
+            ? 'w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-slate-900 text-sm font-bold'
             : 'w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-slate-400 text-sm font-bold'">1</div>
-          <span class="text-sm hidden sm:inline" [class]="step >= 1 ? 'text-emerald-400' : 'text-slate-500'">{{ lang.t('assessment.step_data') }}</span>
+          <span class="text-sm hidden sm:inline" [class]="step >= 1 ? 'text-blue-600' : 'text-slate-500'">{{ lang.t('assessment.step_data') }}</span>
         </div>
-        <div class="w-12 h-px" [class]="step >= 2 ? 'bg-emerald-500' : 'bg-slate-700'"></div>
+        <div class="w-12 h-px" [class]="step >= 2 ? 'bg-blue-600' : 'bg-slate-700'"></div>
         <div class="flex items-center gap-2">
           <div [class]="step >= 2
-            ? 'w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-sm font-bold'
+            ? 'w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-slate-900 text-sm font-bold'
             : 'w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-slate-400 text-sm font-bold'">2</div>
-          <span class="text-sm hidden sm:inline" [class]="step >= 2 ? 'text-emerald-400' : 'text-slate-500'">{{ lang.t('assessment.step_questions') }}</span>
+          <span class="text-sm hidden sm:inline" [class]="step >= 2 ? 'text-blue-600' : 'text-slate-500'">{{ lang.t('assessment.step_questions') }}</span>
         </div>
-        <div class="w-12 h-px" [class]="step >= 3 ? 'bg-emerald-500' : 'bg-slate-700'"></div>
+        <div class="w-12 h-px" [class]="step >= 3 ? 'bg-blue-600' : 'bg-slate-700'"></div>
         <div class="flex items-center gap-2">
           <div [class]="step >= 3
-            ? 'w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-sm font-bold'
+            ? 'w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-slate-900 text-sm font-bold'
             : 'w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-slate-400 text-sm font-bold'">3</div>
-          <span class="text-sm hidden sm:inline" [class]="step >= 3 ? 'text-emerald-400' : 'text-slate-500'">{{ lang.t('assessment.step_results') }}</span>
+          <span class="text-sm hidden sm:inline" [class]="step >= 3 ? 'text-blue-600' : 'text-slate-500'">{{ lang.t('assessment.step_results') }}</span>
         </div>
       </div>
 
@@ -46,7 +46,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
 
 
       <div *ngIf="loading" class="text-center py-16 animate-fade-in">
-        <div class="inline-block w-10 h-10 border-4 border-slate-700 border-t-emerald-400 rounded-full animate-spin"></div>
+        <div class="inline-block w-10 h-10 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin"></div>
         <p class="text-slate-400 mt-4">{{ lang.t('assessment.loading') }}</p>
       </div>
 
@@ -55,7 +55,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
       </div>
 
       <!-- Draft restored indicator -->
-      <div *ngIf="hasDraft && !loading" class="flex items-center gap-2 mb-4 px-4 py-2 bg-cyan-500/10 border border-cyan-500/20 rounded-lg text-xs text-cyan-400 animate-fade-in">
+      <div *ngIf="hasDraft && !loading" class="flex items-center gap-2 mb-4 px-4 py-2 bg-blue-50 border border-blue-500/20 rounded-lg text-xs text-blue-500 animate-fade-in">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
         </svg>
@@ -66,8 +66,8 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
       <div *ngIf="!loading && !error" class="flex flex-wrap gap-2 mb-6 animate-fade-in-up delay-100">
         <span class="text-xs text-slate-500 self-center mr-1">Demo:</span>
         <button type="button" (click)="applyScenario('ideal')"
-                class="px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20
-                       hover:bg-emerald-500/20 transition-all duration-200">
+                class="px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-50 text-blue-600 border border-blue-200
+                       hover:bg-blue-100 transition-all duration-200">
           {{ lang.t('assessment.scenario_ideal') }}
         </button>
         <button type="button" (click)="applyScenario('average')"
@@ -82,7 +82,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
         </button>
         <button type="button" (click)="clearAll()"
                 class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-700/50 text-slate-400 border border-slate-600/30
-                       hover:bg-slate-600/50 transition-all duration-200">
+                       hover:bg-slate-100 transition-all duration-200">
           {{ lang.t('assessment.clear') }}
         </button>
       </div>
@@ -91,8 +91,8 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
         <!-- Company info -->
         <div class="glass-card p-6 mb-6 card-hover animate-fade-in-up">
           <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-semibold text-slate-200 flex items-center gap-2">
-              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <h2 class="text-lg font-semibold text-slate-700 flex items-center gap-2">
+              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
               </svg>
               {{ lang.t('assessment.company') }}
@@ -105,33 +105,33 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
             <div>
               <label for="assess-company" class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.company_name') }}</label>
               <input type="text" [(ngModel)]="companyName" name="companyName" id="assess-company" required
-                     class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
-                            focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300"
+                     class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900
+                            focus:border-blue-400 focus:ring-1 focus:ring-blue-500/20 focus:outline-none transition-all duration-300"
                      [placeholder]="lang.t('assess.example_ltd')">
             </div>
             <div>
               <label for="assess-contract" class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.contract_name') }}</label>
               <input type="text" [(ngModel)]="contractName" name="contractName" id="assess-contract" required
-                     class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
-                            focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300"
+                     class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900
+                            focus:border-blue-400 focus:ring-1 focus:ring-blue-500/20 focus:outline-none transition-all duration-300"
                      [placeholder]="lang.t('assess.cloud_service_agreement')">
             </div>
             <div>
               <label for="assess-sector" class="block text-sm text-slate-400 mb-1.5">{{ lang.t('assessment.sector') }}</label>
               <select [(ngModel)]="selectedSector" name="sector" id="assess-sector"
-                      class="w-full bg-slate-900/50 border border-slate-600/50 rounded-lg px-4 py-2.5 text-slate-100
-                             focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400/20 focus:outline-none transition-all duration-300 appearance-none">
+                      class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900
+                             focus:border-blue-400 focus:ring-1 focus:ring-blue-500/20 focus:outline-none transition-all duration-300 appearance-none">
                 <option value="">{{ lang.t('assessment.select_sector') }}</option>
                 <option *ngFor="let s of sectors" [value]="s.value">{{ lang.l(s.et, s.en) }}</option>
               </select>
             </div>
           </div>
           <!-- Sector hint -->
-          <div *ngIf="sectorHint" class="mt-3 flex items-start gap-2 px-3 py-2 bg-cyan-500/5 border border-cyan-500/15 rounded-lg">
-            <svg class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div *ngIf="sectorHint" class="mt-3 flex items-start gap-2 px-3 py-2 bg-blue-50 border border-blue-500/15 rounded-lg">
+            <svg class="w-4 h-4 text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            <p class="text-xs text-cyan-300/80">{{ sectorHint }}</p>
+            <p class="text-xs text-blue-400/80">{{ sectorHint }}</p>
           </div>
         </div>
 
@@ -140,7 +140,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
              [id]="'cat-' + group.category"
              class="glass-card p-6 mb-4 card-hover animate-fade-in-up"
              [style.animation-delay]="(gi * 100 + 200) + 'ms'">
-          <h2 class="text-lg font-semibold text-emerald-400 mb-1 flex items-center gap-2 flex-wrap">
+          <h2 class="text-lg font-semibold text-blue-600 mb-1 flex items-center gap-2 flex-wrap">
             <span class="w-7 h-7 rounded-lg flex items-center justify-center text-base"
                   [class]="getCategoryIconBg(group.category)">{{ getCategoryIcon(group.category) }}</span>
             {{ getCategoryLabel(group.category) }}
@@ -149,31 +149,31 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
                   [title]="lang.t('assessment.extended_tooltip')">
               {{ lang.t('assessment.extended_badge') }}
             </span>
-            <span *ngIf="getCategoryProgress(group) === 100" class="ml-auto text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">&#10003;</span>
+            <span *ngIf="getCategoryProgress(group) === 100" class="ml-auto text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-200">&#10003;</span>
           </h2>
           <p class="text-xs text-slate-500 mb-4">{{ group.questions.length }} {{ lang.t('assessment.questions_count') }}</p>
 
           <div *ngFor="let q of group.questions; let i = index"
-               class="py-4 border-b border-slate-700/50 last:border-b-0">
+               class="py-4 border-b border-slate-200 last:border-b-0">
             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
               <div class="flex-1">
-                <p class="text-slate-200 mb-1.5">
+                <p class="text-slate-700 mb-1.5">
                   <span class="text-slate-500 text-sm mr-2">{{ getGlobalIndex(gi, i) }}.</span>
                   {{ lang.currentLang === 'et' ? q.questionEt : q.questionEn }}
                 </p>
                 <div class="flex items-center gap-2 flex-wrap">
                   <div class="group relative inline-block">
                     <span class="text-xs cursor-help border-b border-dashed transition-colors"
-                          [class]="isExtendedQuestion(q.id) ? 'text-amber-500 border-amber-600 hover:text-amber-400' : 'text-slate-500 border-slate-600 hover:text-emerald-400'">
+                          [class]="isExtendedQuestion(q.id) ? 'text-amber-500 border-amber-600 hover:text-amber-400' : 'text-slate-500 border-slate-600 hover:text-blue-600'">
                       {{ q.articleReference }}
                     </span>
                     <div class="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200
                                 absolute z-10 bottom-full left-0 mb-2 w-80 p-4 bg-slate-700/95 backdrop-blur
-                                text-slate-200 text-xs rounded-xl shadow-2xl border border-slate-600/50">
-                      <div class="font-semibold mb-1" [class]="isExtendedQuestion(q.id) ? 'text-amber-400' : 'text-emerald-400'">{{ q.articleReference }}</div>
+                                text-slate-700 text-xs rounded-xl shadow-2xl border border-slate-200">
+                      <div class="font-semibold mb-1" [class]="isExtendedQuestion(q.id) ? 'text-amber-400' : 'text-blue-600'">{{ q.articleReference }}</div>
                       <div *ngIf="isExtendedQuestion(q.id)" class="text-amber-300/80 text-[10px] mb-2 italic">{{ lang.t('assessment.extended_tooltip') }}</div>
                       {{ lang.currentLang === 'et' ? q.explanation : q.explanationEn }}
-                      <div class="absolute bottom-0 left-4 translate-y-1/2 rotate-45 w-2 h-2 bg-slate-700 border-r border-b border-slate-600/50"></div>
+                      <div class="absolute bottom-0 left-4 translate-y-1/2 rotate-45 w-2 h-2 bg-slate-700 border-r border-b border-slate-200"></div>
                     </div>
                   </div>
                   <span *ngIf="isExtendedQuestion(q.id)"
@@ -186,22 +186,22 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
                 <button type="button"
                         (click)="answers[q.id] = 'yes'; autoSave()"
                         [class]="answers[q.id] === 'yes'
-                          ? 'px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-emerald-400 text-slate-900 shadow-lg shadow-emerald-500/20 scale-105 transition-all duration-200'
-                          : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
+                          ? 'px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-blue-600 to-blue-400 text-slate-900 shadow-lg shadow-md scale-105 transition-all duration-200'
+                          : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-all duration-200'">
                   {{ lang.t('assessment.yes') }}
                 </button>
                 <button type="button"
                         (click)="answers[q.id] = 'partial'; autoSave()"
                         [class]="answers[q.id] === 'partial'
                           ? 'px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-amber-500 to-amber-400 text-slate-900 shadow-lg shadow-amber-500/20 scale-105 transition-all duration-200'
-                          : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
+                          : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-all duration-200'">
                   {{ lang.t('assessment.partial') }}
                 </button>
                 <button type="button"
                         (click)="answers[q.id] = 'no'; autoSave()"
                         [class]="answers[q.id] === 'no'
                           ? 'px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-red-500 to-red-400 text-white shadow-lg shadow-red-500/20 scale-105 transition-all duration-200'
-                          : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-600/50 hover:text-slate-200 transition-all duration-200'">
+                          : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-all duration-200'">
                   {{ lang.t('assessment.no') }}
                 </button>
               </div>
@@ -211,13 +211,13 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
 
         <!-- Submit bar -->
         <div class="sticky bottom-4 mt-8 animate-fade-in-up delay-300">
-          <div class="bg-slate-800/90 backdrop-blur-md border border-slate-700/50 rounded-xl p-4 shadow-2xl">
+          <div class="bg-slate-800/90 backdrop-blur-md border border-slate-200 rounded-xl p-4 shadow-2xl">
             <!-- Live score preview -->
-            <div *ngIf="answeredCount > 0" class="flex items-center gap-2 sm:gap-4 mb-3 pb-3 border-b border-slate-700/30">
+            <div *ngIf="answeredCount > 0" class="flex items-center gap-2 sm:gap-4 mb-3 pb-3 border-b border-slate-200">
               <div class="flex items-center gap-2 flex-1">
                 <div class="relative w-10 h-10 shrink-0">
                   <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="42" fill="none" stroke="#334155" stroke-width="8"/>
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="#e2e8f0" stroke-width="8"/>
                     <circle cx="50" cy="50" r="42" fill="none"
                             [attr.stroke]="liveScoreColor"
                             stroke-width="8"
@@ -235,7 +235,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
                   <div class="flex items-center gap-2">
                     <span class="text-sm font-semibold" [style.color]="liveScoreColor">{{ liveScoreLabel }}</span>
                     <span class="text-xs text-slate-600">&middot;</span>
-                    <span class="text-xs text-emerald-400">{{ yesCount }} <span class="hidden sm:inline">{{ lang.t('assessment.yes') }}</span><span class="sm:hidden">{{ lang.t('assessment.yes').charAt(0) }}</span></span>
+                    <span class="text-xs text-blue-600">{{ yesCount }} <span class="hidden sm:inline">{{ lang.t('assessment.yes') }}</span><span class="sm:hidden">{{ lang.t('assessment.yes').charAt(0) }}</span></span>
                     <span class="text-xs text-amber-400">{{ partialCount }} <span class="hidden sm:inline">{{ lang.t('assessment.partial') }}</span><span class="sm:hidden">{{ lang.t('assessment.partial').charAt(0) }}</span></span>
                     <span class="text-xs text-red-400">{{ noCount }} <span class="hidden sm:inline">{{ lang.t('assessment.no') }}</span><span class="sm:hidden">{{ lang.t('assessment.no').charAt(0) }}</span></span>
                   </div>
@@ -256,7 +256,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
             <div>
               <div class="flex items-center gap-3">
                 <div class="w-full bg-slate-700 rounded-full h-2 w-20 sm:w-32">
-                  <div class="h-2 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-400 transition-all duration-500"
+                  <div class="h-2 rounded-full bg-gradient-to-r from-blue-600 to-blue-400 transition-all duration-500"
                        [style.width.%]="(answeredCount / totalQuestions) * 100">
                   </div>
                 </div>
@@ -266,7 +266,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
             <button type="submit"
                     [disabled]="!canSubmit || submitting"
                     [class]="canSubmit && !submitting
-                      ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-900 font-semibold px-8 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 flex items-center gap-2'
+                      ? 'bg-blue-600 hover:bg-blue-700 text-slate-900 font-semibold px-8 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-lg flex items-center gap-2'
                       : 'bg-slate-700 text-slate-500 font-semibold px-8 py-2.5 rounded-lg cursor-not-allowed flex items-center gap-2'">
               <span *ngIf="!submitting">{{ lang.t('assessment.submit') }}</span>
               <span *ngIf="submitting" class="flex items-center gap-2">
@@ -285,18 +285,18 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
       <!-- Confirmation dialog -->
       <div *ngIf="showConfirmDialog" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in"
            (click)="cancelSubmit()">
-        <div class="bg-slate-800 border border-slate-700/50 rounded-2xl p-6 max-w-md w-full mx-4 shadow-2xl animate-scale-in"
+        <div class="bg-slate-800 border border-slate-200 rounded-2xl p-6 max-w-md w-full mx-4 shadow-2xl animate-scale-in"
              (click)="$event.stopPropagation()">
           <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
+              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-slate-100">{{ lang.t('assessment.confirm_title') }}</h3>
+            <h3 class="text-lg font-semibold text-slate-900">{{ lang.t('assessment.confirm_title') }}</h3>
           </div>
 
-          <div *ngIf="isComplete" class="text-slate-300 text-sm mb-6">
+          <div *ngIf="isComplete" class="text-slate-600 text-sm mb-6">
             {{ lang.t('assessment.confirm_complete') }}
           </div>
 
@@ -304,20 +304,20 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
             <div class="flex items-center gap-3 mb-3 px-4 py-3 bg-slate-700/50 rounded-xl">
               <div class="relative w-10 h-10 shrink-0">
                 <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="42" fill="none" stroke="#334155" stroke-width="8"/>
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="#e2e8f0" stroke-width="8"/>
                   <circle cx="50" cy="50" r="42" fill="none"
-                          stroke="#34d399"
+                          stroke="#2563eb"
                           stroke-width="8"
                           stroke-linecap="round"
                           stroke-dasharray="263.89"
                           [attr.stroke-dashoffset]="263.89 - (263.89 * answeredCount / totalQuestions)"/>
                 </svg>
                 <div class="absolute inset-0 flex items-center justify-center">
-                  <span class="text-xs font-bold text-emerald-400">{{ answeredCount }}</span>
+                  <span class="text-xs font-bold text-blue-600">{{ answeredCount }}</span>
                 </div>
               </div>
               <div>
-                <p class="text-sm text-slate-200 font-medium">
+                <p class="text-sm text-slate-700 font-medium">
                   {{ lang.t('assessment.confirm_answered') }} {{ answeredCount }} {{ lang.t('assessment.confirm_of') }} {{ totalQuestions }} {{ lang.t('assessment.confirm_questions') }}
                 </p>
               </div>
@@ -334,11 +334,11 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
 
           <div class="flex items-center gap-3 justify-end">
             <button type="button" (click)="cancelSubmit()"
-                    class="px-5 py-2 rounded-lg text-sm font-medium bg-slate-700 text-slate-300 hover:bg-slate-600 transition-all duration-200">
+                    class="px-5 py-2 rounded-lg text-sm font-medium bg-slate-700 text-slate-600 hover:bg-slate-600 transition-all duration-200">
               {{ lang.t('assessment.confirm_cancel') }}
             </button>
             <button type="button" (click)="confirmSubmit()"
-                    class="px-5 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-900 font-semibold transition-all duration-200 shadow-lg shadow-emerald-500/25 flex items-center gap-2">
+                    class="px-5 py-2 rounded-lg text-sm font-medium bg-blue-600 hover:bg-blue-700 text-slate-900 font-semibold transition-all duration-200 shadow-lg shadow-lg flex items-center gap-2">
               {{ lang.t('assessment.confirm_confirm') }}
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
@@ -631,9 +631,9 @@ export class AssessmentComponent implements OnInit {
 
   getCategoryIconBg(category: string): string {
     const bg: { [key: string]: string } = {
-      SERVICE_LEVEL: 'bg-emerald-500/10',
+      SERVICE_LEVEL: 'bg-blue-50',
       EXIT_STRATEGY: 'bg-amber-500/10',
-      AUDIT: 'bg-cyan-500/10',
+      AUDIT: 'bg-blue-50',
       INCIDENT: 'bg-red-500/10',
       DATA: 'bg-violet-500/10',
       SUBCONTRACTING: 'bg-blue-500/10',
@@ -642,10 +642,10 @@ export class AssessmentComponent implements OnInit {
       CONTINUITY: 'bg-teal-500/10',
       RECRUITMENT: 'bg-pink-500/10',
       FINANCIAL_REPORTING: 'bg-yellow-500/10',
-      ICT_RISK_MANAGEMENT: 'bg-emerald-500/10',
+      ICT_RISK_MANAGEMENT: 'bg-blue-50',
       INCIDENT_MANAGEMENT: 'bg-red-500/10',
       TESTING: 'bg-purple-500/10',
-      INFORMATION_SHARING: 'bg-cyan-500/10'
+      INFORMATION_SHARING: 'bg-blue-50'
     };
     return bg[category] || 'bg-slate-500/10';
   }

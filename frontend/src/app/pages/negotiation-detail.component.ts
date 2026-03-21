@@ -22,7 +22,7 @@ import { NegotiationResult, NegotiationItemResult, NegotiationMessageResult } fr
         &larr; {{ lang.t('neg.back') }}
       </a>
 
-      <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-6">
+      <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
         <div class="flex items-center justify-between mb-2">
           <h1 class="text-2xl font-bold text-white">{{ neg.contractName }}</h1>
           <span [class]="overallBadge(neg.overallStatus)">{{ overallLabel(neg.overallStatus) }}</span>
@@ -43,7 +43,7 @@ import { NegotiationResult, NegotiationItemResult, NegotiationMessageResult } fr
         <!-- Strategy section -->
         <div *ngIf="neg.strategySummary" class="bg-violet-500/5 border border-violet-500/20 rounded-xl p-4 mb-4">
           <h3 class="text-sm font-semibold text-violet-400 mb-2">{{ lang.t('neg.strategy') }}</h3>
-          <p class="text-sm text-slate-300 leading-relaxed whitespace-pre-line">{{ neg.strategySummary }}</p>
+          <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line">{{ neg.strategySummary }}</p>
         </div>
 
         <!-- Action buttons -->
@@ -54,24 +54,24 @@ import { NegotiationResult, NegotiationItemResult, NegotiationMessageResult } fr
             {{ strategyLoading ? lang.t('neg.generating') : lang.t('neg.generate_strategy') }}
           </button>
           <button type="button" (click)="generateEmail()" [disabled]="emailLoading"
-                  class="px-4 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-sm font-medium
-                         hover:bg-cyan-500/30 transition-all disabled:opacity-50">
+                  class="px-4 py-2 rounded-lg bg-blue-600/20 text-blue-500 border border-blue-500/30 text-sm font-medium
+                         hover:bg-blue-600/30 transition-all disabled:opacity-50">
             {{ emailLoading ? lang.t('neg.generating') : lang.t('neg.generate_email') }}
           </button>
         </div>
       </div>
 
       <!-- Email draft -->
-      <div *ngIf="emailDraft" class="bg-slate-800/50 backdrop-blur border border-cyan-500/30 rounded-2xl overflow-hidden">
-        <div class="px-5 py-3 bg-cyan-500/10 flex items-center justify-between">
-          <h3 class="text-sm font-semibold text-cyan-400">{{ lang.t('neg.email_draft') }}</h3>
-          <button type="button" (click)="copyEmail()" class="px-3 py-1 rounded-lg text-xs font-medium bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 transition-all">
+      <div *ngIf="emailDraft" class="bg-white backdrop-blur border border-blue-500/30 rounded-2xl overflow-hidden">
+        <div class="px-5 py-3 bg-blue-50 flex items-center justify-between">
+          <h3 class="text-sm font-semibold text-blue-500">{{ lang.t('neg.email_draft') }}</h3>
+          <button type="button" (click)="copyEmail()" class="px-3 py-1 rounded-lg text-xs font-medium bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 transition-all">
             {{ copied ? lang.t('neg.copied') : lang.t('neg.copy') }}
           </button>
         </div>
         <div class="p-5">
           <p class="text-xs text-slate-500 mb-1">{{ emailDraft.subject }}</p>
-          <pre class="text-sm text-slate-300 whitespace-pre-wrap font-sans leading-relaxed">{{ emailDraft.body }}</pre>
+          <pre class="text-sm text-slate-600 whitespace-pre-wrap font-sans leading-relaxed">{{ emailDraft.body }}</pre>
         </div>
       </div>
 
@@ -80,14 +80,14 @@ import { NegotiationResult, NegotiationItemResult, NegotiationMessageResult } fr
         <h2 class="text-lg font-semibold text-white mb-4">{{ lang.t('neg.items') }} ({{ neg.items.length }})</h2>
 
         <div *ngFor="let item of neg.items; let i = index"
-             class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl mb-3 overflow-hidden">
+             class="bg-white backdrop-blur border border-slate-200 rounded-xl mb-3 overflow-hidden">
 
           <!-- Item header -->
           <div class="px-5 py-3 flex items-center justify-between cursor-pointer hover:bg-slate-700/20 transition-colors"
                (click)="toggleItem(item.id)">
             <div class="flex items-center gap-3 min-w-0">
               <span class="text-slate-500 text-sm font-mono">{{ item.priority }}.</span>
-              <span class="text-slate-300 text-sm whitespace-nowrap">{{ item.articleReference }}</span>
+              <span class="text-slate-600 text-sm whitespace-nowrap">{{ item.articleReference }}</span>
               <span class="text-slate-400 text-sm truncate">{{ item.requirementText }}</span>
             </div>
             <div class="flex items-center gap-2 flex-shrink-0 ml-2">
@@ -101,12 +101,12 @@ import { NegotiationResult, NegotiationItemResult, NegotiationMessageResult } fr
           </div>
 
           <!-- Expanded detail -->
-          <div *ngIf="expandedItem === item.id" class="px-5 py-4 border-t border-slate-700/30 space-y-4">
+          <div *ngIf="expandedItem === item.id" class="px-5 py-4 border-t border-slate-200 space-y-4">
 
             <!-- Strategy -->
             <div *ngIf="item.strategy">
               <p class="text-xs font-semibold text-violet-400 uppercase mb-1">{{ lang.t('neg.strategy') }}</p>
-              <p class="text-sm text-slate-300">{{ item.strategy }}</p>
+              <p class="text-sm text-slate-600">{{ item.strategy }}</p>
             </div>
 
             <!-- Suggested clause -->
@@ -119,17 +119,17 @@ import { NegotiationResult, NegotiationItemResult, NegotiationMessageResult } fr
             <div class="flex flex-wrap gap-2">
               <button type="button" *ngFor="let s of statuses" (click)="updateStatus(item, s)"
                       [class]="'px-3 py-1.5 rounded-lg text-xs font-medium transition-all ' +
-                        (item.status === s ? 'bg-violet-500/30 text-violet-300 border border-violet-500/40' : 'bg-slate-700/30 text-slate-500 border border-slate-600/30 hover:text-slate-300')">
+                        (item.status === s ? 'bg-violet-500/30 text-violet-300 border border-violet-500/40' : 'bg-slate-700/30 text-slate-500 border border-slate-600/30 hover:text-slate-600')">
                 {{ itemStatusLabel(s) }}
               </button>
             </div>
 
             <!-- Item messages -->
-            <div *ngIf="item.messages && item.messages.length > 0" class="space-y-2 pt-2 border-t border-slate-700/30">
+            <div *ngIf="item.messages && item.messages.length > 0" class="space-y-2 pt-2 border-t border-slate-200">
               <div *ngFor="let msg of item.messages"
-                   [class]="'p-3 rounded-lg text-sm ' + (msg.direction === 'OUTBOUND' ? 'bg-cyan-500/5 border border-cyan-500/10' : 'bg-slate-700/30')">
+                   [class]="'p-3 rounded-lg text-sm ' + (msg.direction === 'OUTBOUND' ? 'bg-blue-50 border border-blue-500/10' : 'bg-slate-700/30')">
                 <p class="text-xs text-slate-500 mb-1">{{ msg.subject }} &middot; {{ msg.createdAt | date:'dd.MM HH:mm' }}</p>
-                <p class="text-slate-300 whitespace-pre-line">{{ msg.body }}</p>
+                <p class="text-slate-600 whitespace-pre-line">{{ msg.body }}</p>
               </div>
             </div>
           </div>
@@ -229,7 +229,7 @@ export class NegotiationDetailComponent implements OnInit {
     switch (status) {
       case 'DRAFT': return base + ' bg-slate-500/20 text-slate-400';
       case 'IN_PROGRESS': return base + ' bg-violet-500/20 text-violet-400';
-      case 'COMPLETED': return base + ' bg-emerald-500/20 text-emerald-400';
+      case 'COMPLETED': return base + ' bg-blue-100 text-blue-600';
       default: return base + ' bg-yellow-500/20 text-yellow-400';
     }
   }
@@ -249,9 +249,9 @@ export class NegotiationDetailComponent implements OnInit {
   itemStatusBadge(status: string): string {
     const base = 'px-2 py-0.5 rounded-full text-xs font-medium';
     switch (status) {
-      case 'AGREED': return base + ' bg-emerald-500/20 text-emerald-400';
+      case 'AGREED': return base + ' bg-blue-100 text-blue-600';
       case 'REJECTED': return base + ' bg-red-500/20 text-red-400';
-      case 'SENT': return base + ' bg-cyan-500/20 text-cyan-400';
+      case 'SENT': return base + ' bg-blue-600/20 text-blue-500';
       case 'RESPONDED': return base + ' bg-violet-500/20 text-violet-400';
       case 'DRAFTED': return base + ' bg-yellow-500/20 text-yellow-400';
       default: return base + ' bg-slate-500/20 text-slate-400';

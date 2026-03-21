@@ -24,10 +24,10 @@ interface Deadline {
     <div class="max-w-5xl mx-auto">
       <!-- Header -->
       <div class="text-center mb-10">
-        <h1 class="text-3xl font-bold text-slate-100 mb-2">{{ lang.t('deadlines.title') }}</h1>
+        <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ lang.t('deadlines.title') }}</h1>
         <p class="text-slate-400 mb-4">{{ lang.t('deadlines.subtitle') }}</p>
         <button (click)="exportIcal()"
-                class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/20">
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all bg-blue-50 text-blue-500 border border-blue-500/30 hover:bg-blue-600/20">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
           {{ lang.l('Ekspordi kalendrisse', 'Export to Calendar') }}
         </button>
@@ -41,8 +41,8 @@ interface Deadline {
             <button (click)="toggleEntityType(type.key)"
                     class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all"
                     [class]="selectedEntityType() === type.key
-                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                      : 'bg-slate-800/50 text-slate-400 border border-slate-700/50 hover:border-slate-600'">
+                      ? 'bg-blue-100 text-blue-600 border border-blue-200'
+                      : 'bg-white text-slate-400 border border-slate-200 hover:border-slate-300'">
               {{ lang.t(type.labelKey) }}
             </button>
           }
@@ -54,7 +54,7 @@ interface Deadline {
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           @for (d of upcomingDeadlines().slice(0, 3); track d.id) {
             <div class="glass-card p-5 border-t-2"
-                 [class]="daysUntil(d.date) <= 30 ? 'border-t-red-500' : daysUntil(d.date) <= 90 ? 'border-t-amber-500' : 'border-t-emerald-500'">
+                 [class]="daysUntil(d.date) <= 30 ? 'border-t-red-500' : daysUntil(d.date) <= 90 ? 'border-t-amber-500' : 'border-t-blue-600'">
               <div class="flex items-center gap-2 mb-3">
                 <span class="px-2 py-0.5 rounded-full text-xs font-medium"
                       [class]="getCategoryClass(d.category)">
@@ -64,12 +64,12 @@ interface Deadline {
                   <span class="text-xs text-slate-500">{{ lang.t('deadlines.recurrence_' + d.recurrence.toLowerCase()) }}</span>
                 }
               </div>
-              <h3 class="font-semibold text-slate-200 mb-1 text-sm">{{ lang.t(d.titleKey) }}</h3>
+              <h3 class="font-semibold text-slate-700 mb-1 text-sm">{{ lang.t(d.titleKey) }}</h3>
               <p class="text-xs text-slate-500 mb-3">{{ formatDate(d.date) }}</p>
               <div class="flex items-end justify-between">
                 <div>
                   <span class="text-3xl font-bold"
-                        [class]="daysUntil(d.date) <= 30 ? 'text-red-400' : daysUntil(d.date) <= 90 ? 'text-amber-400' : 'text-emerald-400'">
+                        [class]="daysUntil(d.date) <= 30 ? 'text-red-400' : daysUntil(d.date) <= 90 ? 'text-amber-400' : 'text-blue-600'">
                     {{ daysUntil(d.date) }}
                   </span>
                   <span class="text-sm text-slate-500 ml-1">{{ lang.t('deadlines.days') }}</span>
@@ -102,11 +102,11 @@ interface Deadline {
                 <div class="flex items-center gap-3">
                   <span class="px-2 py-0.5 rounded-full text-xs font-medium" [class]="getCategoryClass(d.category)">{{ lang.t('deadlines.cat_' + d.category.toLowerCase()) }}</span>
                   <div>
-                    <p class="text-sm font-medium text-slate-200">{{ lang.t(d.titleKey) }}</p>
+                    <p class="text-sm font-medium text-slate-700">{{ lang.t(d.titleKey) }}</p>
                     <p class="text-xs text-red-400">{{ Math.abs(daysUntil(d.date)) }} {{ lang.t('deadlines.days_overdue') }}</p>
                   </div>
                 </div>
-                <button (click)="markDone(d)" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-400 hover:border-emerald-500/30 hover:text-emerald-400 transition-all">
+                <button (click)="markDone(d)" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-400 hover:border-blue-200 hover:text-blue-600 transition-all">
                   {{ lang.t('deadlines.mark_done') }}
                 </button>
               </div>
@@ -117,8 +117,8 @@ interface Deadline {
 
       <!-- Full timeline -->
       <div class="glass-card p-6 mb-8">
-        <h2 class="text-lg font-bold text-slate-200 mb-6 flex items-center gap-2">
-          <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        <h2 class="text-lg font-bold text-slate-700 mb-6 flex items-center gap-2">
+          <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
           {{ lang.t('deadlines.timeline') }}
         </h2>
 
@@ -132,8 +132,8 @@ interface Deadline {
                 <!-- Timeline dot -->
                 <div class="w-12 flex items-start justify-center shrink-0 z-10">
                   @if (d.completed) {
-                    <div class="w-5 h-5 rounded-full bg-emerald-500/20 border-2 border-emerald-500 flex items-center justify-center">
-                      <svg class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                    <div class="w-5 h-5 rounded-full bg-blue-100 border-2 border-blue-500 flex items-center justify-center">
+                      <svg class="w-3 h-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
                     </div>
                   } @else if (isPast(d.date)) {
                     <div class="w-5 h-5 rounded-full bg-red-500/20 border-2 border-red-500"></div>
@@ -154,18 +154,18 @@ interface Deadline {
                           <span class="text-xs text-slate-600">{{ lang.t('deadlines.recurrence_' + d.recurrence.toLowerCase()) }}</span>
                         }
                       </div>
-                      <h3 class="font-medium text-sm" [class]="d.completed ? 'text-slate-500 line-through' : 'text-slate-200'">{{ lang.t(d.titleKey) }}</h3>
+                      <h3 class="font-medium text-sm" [class]="d.completed ? 'text-slate-500 line-through' : 'text-slate-700'">{{ lang.t(d.titleKey) }}</h3>
                       <p class="text-xs text-slate-500 mt-0.5">{{ lang.t(d.descKey) }}</p>
                     </div>
                     <div class="text-right shrink-0">
-                      <p class="text-sm font-medium" [class]="d.completed ? 'text-emerald-500' : isPast(d.date) ? 'text-red-400' : daysUntil(d.date) <= 90 ? 'text-amber-400' : 'text-slate-400'">
+                      <p class="text-sm font-medium" [class]="d.completed ? 'text-blue-600' : isPast(d.date) ? 'text-red-400' : daysUntil(d.date) <= 90 ? 'text-amber-400' : 'text-slate-400'">
                         {{ formatDate(d.date) }}
                       </p>
                       @if (!d.completed && !isPast(d.date)) {
                         <p class="text-xs text-slate-500">{{ daysUntil(d.date) }} {{ lang.t('deadlines.days') }}</p>
                       }
                       @if (!d.completed) {
-                        <button (click)="markDone(d)" class="text-xs text-slate-600 hover:text-emerald-400 mt-1 transition-colors">{{ lang.t('deadlines.mark_done') }}</button>
+                        <button (click)="markDone(d)" class="text-xs text-slate-600 hover:text-blue-600 mt-1 transition-colors">{{ lang.t('deadlines.mark_done') }}</button>
                       }
                     </div>
                   </div>
@@ -179,10 +179,10 @@ interface Deadline {
       <!-- All done message -->
       @if (upcomingDeadlines().length === 0 && overdueDeadlines().length === 0) {
         <div class="glass-card p-12 text-center">
-          <div class="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
           </div>
-          <h2 class="text-xl font-bold text-emerald-400 mb-2">{{ lang.t('deadlines.all_done') }}</h2>
+          <h2 class="text-xl font-bold text-blue-600 mb-2">{{ lang.t('deadlines.all_done') }}</h2>
           <p class="text-slate-400">{{ lang.t('deadlines.all_done_desc') }}</p>
         </div>
       }
@@ -288,9 +288,9 @@ export class DeadlineCalendarComponent implements OnInit {
     const classes: { [key: string]: string } = {
       'ROI': 'bg-violet-500/20 text-violet-400',
       'TLPT': 'bg-red-500/20 text-red-400',
-      'REPORT': 'bg-cyan-500/20 text-cyan-400',
+      'REPORT': 'bg-blue-600/20 text-blue-500',
       'CONTRACT': 'bg-amber-500/20 text-amber-400',
-      'TRAINING': 'bg-emerald-500/20 text-emerald-400',
+      'TRAINING': 'bg-blue-100 text-blue-600',
       'GENERAL': 'bg-slate-700 text-slate-400',
     };
     return classes[cat] || classes['GENERAL'];

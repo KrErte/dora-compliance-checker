@@ -27,7 +27,7 @@ interface CommandAction {
         <div class="w-full max-w-xl bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden"
              (click)="$event.stopPropagation()">
           <!-- Search input -->
-          <div class="flex items-center gap-3 px-5 py-4 border-b border-slate-700/50">
+          <div class="flex items-center gap-3 px-5 py-4 border-b border-slate-200">
             <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
@@ -45,9 +45,9 @@ interface CommandAction {
               <div class="px-3 pt-3 pb-1">
                 <div class="px-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">{{ lang.t('cmd.quick_actions') }}</div>
                 @for (action of quickActions; track action.id; let i = $index) {
-                  <div (click)="executeAction(action)" [class]="'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700/50 transition-colors cursor-pointer' + (selectedIndex() === i ? ' bg-slate-700/30' : '')">
+                  <div (click)="executeAction(action)" [class]="'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer' + (selectedIndex() === i ? ' bg-slate-700/30' : '')">
                     <div class="w-7 h-7 rounded-lg flex items-center justify-center text-sm shrink-0" [class]="action.iconBg">{{ action.icon }}</div>
-                    <span class="text-sm text-slate-300">{{ lang.t(action.labelKey) }}</span>
+                    <span class="text-sm text-slate-600">{{ lang.t(action.labelKey) }}</span>
                   </div>
                 }
               </div>
@@ -56,9 +56,9 @@ interface CommandAction {
               <div class="px-3 pt-2 pb-1">
                 <div class="px-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">{{ lang.t('cmd.navigation') }}</div>
                 @for (action of navActions; track action.id; let i = $index) {
-                  <div (click)="executeAction(action)" [class]="'w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-700/50 transition-colors cursor-pointer' + (selectedIndex() === quickActions.length + i ? ' bg-slate-700/30' : '')">
+                  <div (click)="executeAction(action)" [class]="'w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer' + (selectedIndex() === quickActions.length + i ? ' bg-slate-700/30' : '')">
                     <div class="w-7 h-7 rounded-lg flex items-center justify-center text-sm shrink-0" [class]="action.iconBg">{{ action.icon }}</div>
-                    <span class="text-sm text-slate-300">{{ lang.t(action.labelKey) }}</span>
+                    <span class="text-sm text-slate-600">{{ lang.t(action.labelKey) }}</span>
                   </div>
                 }
               </div>
@@ -71,7 +71,7 @@ interface CommandAction {
                     <button type="button" (click)="clearRecentSearches()" class="text-slate-600 hover:text-slate-400 transition-colors">{{ lang.t('cmd.clear') }}</button>
                   </div>
                   @for (search of recentSearches(); track search; let i = $index) {
-                    <div (click)="useRecentSearch(search)" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-700/50 transition-colors cursor-pointer">
+                    <div (click)="useRecentSearch(search)" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer">
                       <svg class="w-4 h-4 text-slate-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                       </svg>
@@ -85,7 +85,7 @@ interface CommandAction {
             <!-- Loading -->
             @if (loading()) {
               <div class="px-5 py-8 text-center">
-                <div class="w-6 h-6 mx-auto rounded-full border-2 border-slate-700 border-t-emerald-400 animate-spin"></div>
+                <div class="w-6 h-6 mx-auto rounded-full border-2 border-slate-700 border-t-blue-500 animate-spin"></div>
               </div>
             }
 
@@ -99,9 +99,9 @@ interface CommandAction {
               <div class="px-3 pt-3 pb-1">
                 <div class="px-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">{{ lang.t('cmd.actions') }}</div>
                 @for (action of matchingActions(); track action.id; let i = $index) {
-                  <div (click)="executeAction(action)" [class]="'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700/50 transition-colors cursor-pointer' + (selectedIndex() === i ? ' bg-slate-700/30' : '')">
+                  <div (click)="executeAction(action)" [class]="'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer' + (selectedIndex() === i ? ' bg-slate-700/30' : '')">
                     <div class="w-7 h-7 rounded-lg flex items-center justify-center text-sm shrink-0" [class]="action.iconBg">{{ action.icon }}</div>
-                    <span class="text-sm text-slate-300">{{ lang.t(action.labelKey) }}</span>
+                    <span class="text-sm text-slate-600">{{ lang.t(action.labelKey) }}</span>
                   </div>
                 }
               </div>
@@ -113,7 +113,7 @@ interface CommandAction {
                 <div class="px-3 pt-3 pb-1">
                   <div class="px-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">{{ group.label }}</div>
                   @for (item of group.items; track item.url + item.title; let i = $index) {
-                    <div (click)="navigate(item.url)" [class]="'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700/50 transition-colors text-left group cursor-pointer' + (selectedIndex() === getGlobalIndex(group, i) ? ' bg-slate-700/30' : '')">
+                    <div (click)="navigate(item.url)" [class]="'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 transition-colors text-left group cursor-pointer' + (selectedIndex() === getGlobalIndex(group, i) ? ' bg-slate-700/30' : '')">
                       <div class="w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-bold shrink-0" [class]="getTypeColor(group.type)">
                         {{ getTypeIcon(group.type) }}
                       </div>
@@ -129,7 +129,7 @@ interface CommandAction {
           </div>
 
           <!-- Footer hints -->
-          <div class="px-4 py-2.5 border-t border-slate-700/50 flex items-center justify-between text-[10px] text-slate-500">
+          <div class="px-4 py-2.5 border-t border-slate-200 flex items-center justify-between text-[10px] text-slate-500">
             <span><kbd class="px-1.5 py-0.5 rounded bg-slate-700 text-slate-400 font-mono mr-1">&uarr;&darr;</kbd> {{ lang.t('cmd.navigate') }}</span>
             <span><kbd class="px-1.5 py-0.5 rounded bg-slate-700 text-slate-400 font-mono mr-1">Enter</kbd> {{ lang.t('cmd.open') }}</span>
             <span><kbd class="px-1.5 py-0.5 rounded bg-slate-700 text-slate-400 font-mono mr-1">Ctrl+K</kbd> {{ lang.t('cmd.toggle') }}</span>
@@ -156,8 +156,8 @@ export class GlobalSearchComponent {
 
   // Quick actions
   quickActions: CommandAction[] = [
-    { id: 'new-assessment', group: 'quick', icon: '📋', iconBg: 'bg-cyan-500/20', labelKey: 'cmd.new_assessment', handler: () => this.go('/assessment/wizard') },
-    { id: 'upload-contract', group: 'quick', icon: '📄', iconBg: 'bg-emerald-500/20', labelKey: 'cmd.upload_contract', handler: () => this.go('/contract-analysis') },
+    { id: 'new-assessment', group: 'quick', icon: '📋', iconBg: 'bg-blue-600/20', labelKey: 'cmd.new_assessment', handler: () => this.go('/assessment/wizard') },
+    { id: 'upload-contract', group: 'quick', icon: '📄', iconBg: 'bg-blue-100', labelKey: 'cmd.upload_contract', handler: () => this.go('/contract-analysis') },
     { id: 'create-incident', group: 'quick', icon: '🚨', iconBg: 'bg-red-500/20', labelKey: 'cmd.create_incident', handler: () => this.go('/incident-reporting') },
     { id: 'bulk-import', group: 'quick', icon: '📥', iconBg: 'bg-violet-500/20', labelKey: 'cmd.bulk_import', handler: () => this.go('/bulk-import') },
     { id: 'toggle-lang', group: 'quick', icon: '🌐', iconBg: 'bg-blue-500/20', labelKey: 'cmd.toggle_lang', handler: () => { this.lang.toggle(); this.close(); } },
@@ -166,9 +166,9 @@ export class GlobalSearchComponent {
 
   // Navigation actions
   navActions: CommandAction[] = [
-    { id: 'nav-dashboard', group: 'nav', icon: '📊', iconBg: 'bg-emerald-500/15', labelKey: 'cmd.go_dashboard', handler: () => this.go('/dashboard') },
-    { id: 'nav-assessment', group: 'nav', icon: '📋', iconBg: 'bg-cyan-500/15', labelKey: 'cmd.go_assessment', handler: () => this.go('/assessment') },
-    { id: 'nav-contracts', group: 'nav', icon: '📄', iconBg: 'bg-emerald-500/15', labelKey: 'cmd.go_contracts', handler: () => this.go('/workspace') },
+    { id: 'nav-dashboard', group: 'nav', icon: '📊', iconBg: 'bg-blue-50', labelKey: 'cmd.go_dashboard', handler: () => this.go('/dashboard') },
+    { id: 'nav-assessment', group: 'nav', icon: '📋', iconBg: 'bg-blue-600/15', labelKey: 'cmd.go_assessment', handler: () => this.go('/assessment') },
+    { id: 'nav-contracts', group: 'nav', icon: '📄', iconBg: 'bg-blue-50', labelKey: 'cmd.go_contracts', handler: () => this.go('/workspace') },
     { id: 'nav-remediation', group: 'nav', icon: '✅', iconBg: 'bg-amber-500/15', labelKey: 'cmd.go_remediation', handler: () => this.go('/remediation') },
     { id: 'nav-evidence', group: 'nav', icon: '📁', iconBg: 'bg-violet-500/15', labelKey: 'cmd.go_evidence', handler: () => this.go('/evidence-vault') },
     { id: 'nav-incidents', group: 'nav', icon: '🚨', iconBg: 'bg-red-500/15', labelKey: 'cmd.go_incidents', handler: () => this.go('/incident-reporting') },
@@ -355,8 +355,8 @@ export class GlobalSearchComponent {
 
   getTypeColor(type: string): string {
     const colors: { [key: string]: string } = {
-      assessment: 'bg-cyan-500/20 text-cyan-400',
-      contract: 'bg-emerald-500/20 text-emerald-400',
+      assessment: 'bg-blue-600/20 text-blue-500',
+      contract: 'bg-blue-100 text-blue-600',
       remediation: 'bg-amber-500/20 text-amber-400',
       evidence: 'bg-violet-500/20 text-violet-400',
       incident: 'bg-red-500/20 text-red-400',

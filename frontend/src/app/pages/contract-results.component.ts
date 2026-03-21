@@ -16,26 +16,26 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
   template: `
     <!-- Loading -->
     <div *ngIf="loading" class="text-center py-20">
-      <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-700 border-t-emerald-400 animate-spin"></div>
+      <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-700 border-t-blue-500 animate-spin"></div>
       <p class="text-slate-400">{{ lang.t('contract.loading_results') }}</p>
     </div>
 
     <!-- Error -->
     <div *ngIf="error" class="text-center py-20">
       <p class="text-red-400">{{ error }}</p>
-      <a routerLink="/contract-analysis" class="text-emerald-400 hover:underline mt-4 inline-block">{{ lang.t('contract.back') }}</a>
+      <a routerLink="/contract-analysis" class="text-blue-600 hover:underline mt-4 inline-block">{{ lang.t('contract.back') }}</a>
     </div>
 
     <!-- Results -->
     <div *ngIf="result" class="max-w-5xl mx-auto space-y-8">
 
       <!-- Header with score ring -->
-      <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-4 sm:p-8">
+      <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-4 sm:p-8">
         <div class="flex flex-col md:flex-row items-center gap-6 sm:gap-8">
           <!-- SVG Score Ring -->
           <div class="relative flex-shrink-0">
             <svg width="160" height="160" viewBox="0 0 160 160">
-              <circle cx="80" cy="80" r="70" stroke="#334155" stroke-width="10" fill="none"/>
+              <circle cx="80" cy="80" r="70" stroke="#e2e8f0" stroke-width="10" fill="none"/>
               <circle cx="80" cy="80" r="70" [attr.stroke]="scoreColor" stroke-width="10" fill="none"
                       stroke-linecap="round"
                       [attr.stroke-dasharray]="circumference"
@@ -60,14 +60,14 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
             </div>
             <h1 class="text-2xl font-bold text-white mb-1">{{ result.contractName }}</h1>
             <p class="text-slate-400 text-sm mb-3">{{ result.companyName }} &middot; {{ result.fileName }}</p>
-            <p class="text-slate-300 text-sm leading-relaxed">{{ result.summary }}</p>
+            <p class="text-slate-600 text-sm leading-relaxed">{{ result.summary }}</p>
           </div>
         </div>
 
         <!-- Stats row -->
-        <div class="grid grid-cols-3 gap-2 sm:gap-4 mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-slate-700/50">
+        <div class="grid grid-cols-3 gap-2 sm:gap-4 mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-slate-200">
           <div class="text-center">
-            <p class="text-2xl font-bold text-emerald-400">{{ result.foundCount }}</p>
+            <p class="text-2xl font-bold text-blue-600">{{ result.foundCount }}</p>
             <p class="text-xs text-slate-500">{{ lang.t('contract.covered') }}</p>
           </div>
           <div class="text-center">
@@ -81,7 +81,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
         </div>
 
         <!-- Benchmark comparison -->
-        <div *ngIf="benchmark" class="mt-6 pt-6 border-t border-slate-700/50">
+        <div *ngIf="benchmark" class="mt-6 pt-6 border-t border-slate-200">
           <div class="flex items-center gap-2 mb-4">
             <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
@@ -92,13 +92,13 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
             <div class="text-center">
               <p class="text-xs text-slate-500 mb-1">{{ lang.t('contractres.your_score') }}</p>
               <p class="text-lg font-bold" [style.color]="scoreColor">{{ result.scorePercentage | number:'1.0-0' }}%</p>
-              <p class="text-[10px]" [class]="result.scorePercentage >= benchmark.industryAverage ? 'text-emerald-400' : 'text-amber-400'">
+              <p class="text-[10px]" [class]="result.scorePercentage >= benchmark.industryAverage ? 'text-blue-600' : 'text-amber-400'">
                 {{ getBenchmarkComparison() }}
               </p>
             </div>
             <div class="text-center">
               <p class="text-xs text-slate-500 mb-1">{{ lang.t('contractres.average') }}</p>
-              <p class="text-lg font-bold text-slate-300">{{ benchmark.industryAverage | number:'1.0-0' }}%</p>
+              <p class="text-lg font-bold text-slate-600">{{ benchmark.industryAverage | number:'1.0-0' }}%</p>
               <p class="text-[10px] text-slate-500">{{ benchmark.totalAnalyses }} {{ lang.t('contractres.analyses') }}</p>
             </div>
             <div class="text-center">
@@ -108,15 +108,15 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
             </div>
           </div>
         </div>
-        <div *ngIf="benchmarkLoading" class="mt-6 pt-6 border-t border-slate-700/50 flex items-center gap-2">
+        <div *ngIf="benchmarkLoading" class="mt-6 pt-6 border-t border-slate-200 flex items-center gap-2">
           <div class="w-4 h-4 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
           <span class="text-xs text-slate-400">{{ lang.t('contractres.loading_benchmark') }}</span>
         </div>
       </div>
 
       <!-- Findings Table -->
-      <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl overflow-hidden">
-        <div class="p-4 border-b border-slate-700/50">
+      <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl overflow-hidden">
+        <div class="p-4 border-b border-slate-200">
           <h2 class="text-lg font-semibold text-white">{{ lang.t('contract.evidence_mapping') }}</h2>
           <p class="text-xs text-slate-500 mt-1">{{ lang.t('contract.evidence_desc') }}</p>
         </div>
@@ -150,10 +150,10 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let f of filteredFindings" class="border-t border-slate-700/30 hover:bg-slate-700/20 transition-colors">
+              <tr *ngFor="let f of filteredFindings" class="border-t border-slate-200 hover:bg-slate-700/20 transition-colors">
                 <td class="px-4 py-3 text-sm text-slate-400">{{ f.requirementId }}</td>
-                <td class="px-4 py-3 text-sm text-slate-300 whitespace-nowrap">{{ f.doraReference }}</td>
-                <td class="px-4 py-3 text-sm text-slate-300 max-w-xs">
+                <td class="px-4 py-3 text-sm text-slate-600 whitespace-nowrap">{{ f.doraReference }}</td>
+                <td class="px-4 py-3 text-sm text-slate-600 max-w-xs">
                   <span class="line-clamp-2">{{ lang.l(f.requirementEt, f.requirementEn) }}</span>
                 </td>
                 <td class="px-4 py-3 text-center">
@@ -178,18 +178,18 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
           </span>
         </div>
         <div *ngFor="let f of missingFindings; let i = index"
-             class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl overflow-hidden">
+             class="bg-white backdrop-blur border border-slate-200 rounded-xl overflow-hidden">
           <div [class]="'px-4 sm:px-5 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 ' + (f.status === 'missing' ? 'bg-red-500/10' : 'bg-yellow-500/10')">
             <div class="flex items-start sm:items-center gap-2 sm:gap-3 min-w-0">
               <span class="text-white font-bold text-sm shrink-0">{{ i + 1 }}.</span>
               <span class="text-white text-sm font-medium shrink-0">{{ f.doraReference }}</span>
-              <span class="text-slate-300 text-sm line-clamp-2 sm:line-clamp-1">{{ lang.l(f.requirementEt, f.requirementEn) }}</span>
+              <span class="text-slate-600 text-sm line-clamp-2 sm:line-clamp-1">{{ lang.l(f.requirementEt, f.requirementEn) }}</span>
             </div>
             <span [class]="statusBadge(f.status) + ' shrink-0 self-end sm:self-auto'">{{ statusLabel(f.status) }}</span>
           </div>
           <div class="px-5 py-4">
             <p class="text-xs font-semibold text-slate-500 uppercase mb-1">{{ lang.t('contract.recommendation') }}</p>
-            <p class="text-sm text-slate-300 mb-4">{{ lang.l(f.recommendationEt, f.recommendationEn) }}</p>
+            <p class="text-sm text-slate-600 mb-4">{{ lang.l(f.recommendationEt, f.recommendationEn) }}</p>
 
             <!-- Generate clause button -->
             <button type="button" (click)="generateCompliantClause(f)"
@@ -220,11 +220,11 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
                   {{ lang.t('contractres.suggested_clause') }}
                 </h4>
                 <button type="button" (click)="copyClause(f.requirementId)"
-                        class="text-xs px-2 py-1 rounded bg-slate-700/50 text-slate-300 hover:bg-slate-600/50 transition-colors flex items-center gap-1">
+                        class="text-xs px-2 py-1 rounded bg-slate-700/50 text-slate-600 hover:bg-slate-100 transition-colors flex items-center gap-1">
                   <svg *ngIf="copiedClause !== f.requirementId" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                   </svg>
-                  <svg *ngIf="copiedClause === f.requirementId" class="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg *ngIf="copiedClause === f.requirementId" class="w-3 h-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                   </svg>
                   {{ copiedClause === f.requirementId
@@ -232,14 +232,14 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
                     : lang.t('contractres.copy') }}
                 </button>
               </div>
-              <pre class="text-sm text-slate-200 whitespace-pre-wrap font-sans bg-slate-900/50 rounded-lg p-4 mb-3 leading-relaxed">{{ generatedClauses[f.requirementId].suggestedClause }}</pre>
+              <pre class="text-sm text-slate-700 whitespace-pre-wrap font-sans bg-white rounded-lg p-4 mb-3 leading-relaxed">{{ generatedClauses[f.requirementId].suggestedClause }}</pre>
 
               <!-- Key elements -->
               <div *ngIf="generatedClauses[f.requirementId].keyElements" class="mb-3">
                 <p class="text-xs text-slate-500 mb-1">{{ lang.t('contractres.key_elements') }}</p>
                 <div class="flex flex-wrap gap-2">
                   <span *ngFor="let el of generatedClauses[f.requirementId].keyElements"
-                        class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        class="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-200">
                     {{ el }}
                   </span>
                 </div>
@@ -250,7 +250,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
                 <p class="text-xs text-slate-500 mb-1">{{ lang.t('contractres.legal_references') }}</p>
                 <div class="flex flex-wrap gap-2">
                   <span *ngFor="let ref of generatedClauses[f.requirementId].legalReferences"
-                        class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                        class="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-500 border border-blue-500/20">
                     {{ ref }}
                   </span>
                 </div>
@@ -268,7 +268,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
       <!-- Action buttons -->
       <div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:justify-center">
         <button type="button" (click)="viewComparison()"
-                class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-cyan-500/25 transition-all">
+                class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-blue-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-blue-500/25 transition-all">
           <span class="flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
@@ -279,7 +279,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
 
         <!-- PDF Export - Paywalled -->
         <button type="button" (click)="handlePdfClick()"
-                class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-emerald-500/25 transition-all"
+                class="px-6 py-2.5 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-lg transition-all"
                 [class.opacity-80]="!subscriptionService.canAccess('PDF_EXPORT')">
           <span class="flex items-center gap-2">
             <svg *ngIf="!subscriptionService.canAccess('PDF_EXPORT')" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -295,7 +295,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
 
         <!-- Excel Export - Paywalled -->
         <button type="button" (click)="handleExcelClick()"
-                class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-teal-500 to-emerald-500 text-slate-900 font-semibold text-sm hover:shadow-lg hover:shadow-teal-500/25 transition-all"
+                class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-teal-500 to-blue-600 text-slate-900 font-semibold text-sm hover:shadow-lg hover:shadow-teal-500/25 transition-all"
                 [class.opacity-80]="!subscriptionService.canAccess('EXCEL_EXPORT')">
           <span class="flex items-center gap-2">
             <svg *ngIf="!subscriptionService.canAccess('EXCEL_EXPORT')" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -330,7 +330,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
           </span>
         </button>
         <a routerLink="/contract-analysis"
-           class="px-6 py-2.5 rounded-xl bg-slate-700/50 border border-slate-600/50 text-slate-300 font-semibold text-sm hover:bg-slate-600/50 transition-all">
+           class="px-6 py-2.5 rounded-xl bg-slate-700/50 border border-slate-200 text-slate-600 font-semibold text-sm hover:bg-slate-100 transition-all">
           {{ lang.t('contract.new_analysis') }}
         </a>
       </div>
@@ -489,7 +489,7 @@ export class ContractResultsComponent implements OnInit {
   get levelClass(): string {
     if (!this.result) return '';
     switch (this.result.complianceLevel) {
-      case 'GREEN': return 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+      case 'GREEN': return 'bg-blue-100 text-blue-600 border border-blue-200';
       case 'YELLOW': return 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30';
       case 'RED': return 'bg-red-500/20 text-red-400 border border-red-500/30';
     }
@@ -517,13 +517,13 @@ export class ContractResultsComponent implements OnInit {
   filterClass(filter: string): string {
     const base = 'px-3 py-1.5 rounded-lg text-xs font-medium transition-all';
     return filter === this.statusFilter
-      ? base + ' bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+      ? base + ' bg-blue-100 text-blue-600 border border-blue-200'
       : base + ' bg-slate-700/30 text-slate-400 border border-slate-600/30 hover:text-white';
   }
 
   statusBadge(status: string): string {
     switch (status) {
-      case 'found': return 'px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400';
+      case 'found': return 'px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-600';
       case 'partial': return 'px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-400';
       default: return 'px-2 py-0.5 rounded-full text-xs font-medium bg-red-500/20 text-red-400';
     }

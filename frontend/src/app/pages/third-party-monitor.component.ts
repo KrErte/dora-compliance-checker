@@ -31,23 +31,23 @@ import { RouterLink } from '@angular/router';
       } @else if (dashboard()) {
         <!-- Summary Stats Row -->
         <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
+          <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-white">{{ dashboard()!.totalProviders }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('tpm.total') }}</div>
           </div>
-          <div class="bg-slate-800/50 border border-red-500/30 rounded-xl p-4 text-center">
+          <div class="bg-white border border-red-500/30 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-red-400">{{ dashboard()!.criticalProviders }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('tpm.critical') }}</div>
           </div>
-          <div class="bg-slate-800/50 border border-orange-500/30 rounded-xl p-4 text-center">
+          <div class="bg-white border border-orange-500/30 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-orange-400">{{ dashboard()!.highRiskProviders }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('tpm.high_risk') }}</div>
           </div>
-          <div class="bg-slate-800/50 border border-emerald-500/30 rounded-xl p-4 text-center">
-            <div class="text-2xl font-bold text-emerald-400">{{ dashboard()!.exitStrategyPercentage }}%</div>
+          <div class="bg-white border border-blue-200 rounded-xl p-4 text-center">
+            <div class="text-2xl font-bold text-blue-600">{{ dashboard()!.exitStrategyPercentage }}%</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('tpm.exit_coverage') }}</div>
           </div>
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
+          <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-white">{{ concentrationRisks().length }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('tpm.concentration_risks') }}</div>
           </div>
@@ -64,7 +64,7 @@ import { RouterLink } from '@angular/router';
             </h3>
             @for (risk of concentrationRisks(); track risk.name) {
               <div class="flex items-center justify-between text-sm">
-                <span class="text-slate-300">{{ risk.name }} ({{ risk.type }})</span>
+                <span class="text-slate-600">{{ risk.name }} ({{ risk.type }})</span>
                 <span class="text-red-400 font-medium">{{ risk.percentage }}% — {{ risk.count }} {{ lang.t('tpm.providers_label') }}</span>
               </div>
             }
@@ -75,7 +75,7 @@ import { RouterLink } from '@angular/router';
         @if (dashboard()!.vendors?.length > 0) {
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             @for (vendor of dashboard()!.vendors; track vendor.id) {
-              <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 hover:border-amber-500/30 transition-colors space-y-3">
+              <div class="bg-white border border-slate-200 rounded-xl p-5 hover:border-amber-500/30 transition-colors space-y-3">
                 <div class="flex items-center justify-between">
                   <div>
                     <h3 class="text-white font-semibold text-sm">{{ vendor.providerName }}</h3>
@@ -92,10 +92,10 @@ import { RouterLink } from '@angular/router';
                   <div class="flex-1 bg-slate-700/50 rounded-full h-2.5">
                     <div class="h-full rounded-full transition-all"
                          [style.width.%]="vendor.riskScore"
-                         [class]="vendor.riskScore >= 70 ? 'bg-red-500' : vendor.riskScore >= 40 ? 'bg-amber-500' : 'bg-emerald-500'">
+                         [class]="vendor.riskScore >= 70 ? 'bg-red-500' : vendor.riskScore >= 40 ? 'bg-amber-500' : 'bg-blue-600'">
                     </div>
                   </div>
-                  <span class="text-sm font-medium" [class]="vendor.riskScore >= 70 ? 'text-red-400' : vendor.riskScore >= 40 ? 'text-amber-400' : 'text-emerald-400'">
+                  <span class="text-sm font-medium" [class]="vendor.riskScore >= 70 ? 'text-red-400' : vendor.riskScore >= 40 ? 'text-amber-400' : 'text-blue-600'">
                     {{ vendor.riskScore }}
                   </span>
                 </div>
@@ -116,10 +116,10 @@ import { RouterLink } from '@angular/router';
                 }
 
                 <!-- Footer -->
-                <div class="flex items-center justify-between text-xs pt-2 border-t border-slate-700/30">
+                <div class="flex items-center justify-between text-xs pt-2 border-t border-slate-200">
                   <div class="flex items-center gap-2">
                     @if (vendor.hasExitStrategy) {
-                      <span class="text-emerald-400">{{ lang.t('tpm.has_exit') }}</span>
+                      <span class="text-blue-600">{{ lang.t('tpm.has_exit') }}</span>
                     } @else {
                       <span class="text-red-400">{{ lang.t('tpm.no_exit') }}</span>
                     }
@@ -142,7 +142,7 @@ import { RouterLink } from '@angular/router';
         @if (concentrationData()) {
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- By Service Type -->
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5">
+            <div class="bg-white border border-slate-200 rounded-xl p-5">
               <h3 class="text-white font-semibold text-sm mb-3">{{ lang.t('tpm.by_service_type') }}</h3>
               @for (entry of getEntries(concentrationData()!.byServiceType); track entry.key) {
                 <div class="flex items-center gap-2 mb-2">
@@ -155,7 +155,7 @@ import { RouterLink } from '@angular/router';
               }
             </div>
             <!-- By Country -->
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5">
+            <div class="bg-white border border-slate-200 rounded-xl p-5">
               <h3 class="text-white font-semibold text-sm mb-3">{{ lang.t('tpm.by_country') }}</h3>
               @for (entry of getEntries(concentrationData()!.byCountry); track entry.key) {
                 <div class="flex items-center gap-2 mb-2">

@@ -11,7 +11,7 @@ import { LangService } from '../lang.service';
   template: `
     <div class="max-w-3xl mx-auto">
       <div *ngIf="loading" class="text-center py-16 animate-fade-in">
-        <div class="inline-block w-10 h-10 border-4 border-slate-700 border-t-emerald-400 rounded-full animate-spin"></div>
+        <div class="inline-block w-10 h-10 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin"></div>
       </div>
 
       <div *ngIf="result" class="animate-scale-in">
@@ -23,7 +23,7 @@ import { LangService } from '../lang.service';
               <svg width="100%" height="100%">
                 <defs>
                   <pattern id="cert-pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-                    <circle cx="20" cy="20" r="1" fill="#34d399"/>
+                    <circle cx="20" cy="20" r="1" fill="#2563eb"/>
                   </pattern>
                 </defs>
                 <rect width="100%" height="100%" fill="url(#cert-pattern)"/>
@@ -33,13 +33,13 @@ import { LangService } from '../lang.service';
             <div class="relative z-10">
               <!-- Logo -->
               <div class="flex justify-center mb-6">
-                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-extrabold text-2xl shadow-lg shadow-emerald-500/20">
+                <div class="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center text-slate-900 font-extrabold text-2xl shadow-lg shadow-md">
                   D
                 </div>
               </div>
 
               <!-- Title -->
-              <p class="text-xs uppercase tracking-[0.3em] text-emerald-400 mb-2">{{ lang.t('cert.subtitle') }}</p>
+              <p class="text-xs uppercase tracking-[0.3em] text-blue-600 mb-2">{{ lang.t('cert.subtitle') }}</p>
               <h1 class="text-3xl md:text-4xl font-extrabold mb-2">
                 <span class="gradient-text">{{ lang.t('cert.title') }}</span>
               </h1>
@@ -47,29 +47,29 @@ import { LangService } from '../lang.service';
 
               <!-- Divider -->
               <div class="flex items-center gap-4 mb-8">
-                <div class="flex-1 h-px bg-gradient-to-r from-transparent to-emerald-500/30"></div>
-                <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex-1 h-px bg-gradient-to-r from-transparent to-blue-600/30"></div>
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                 </svg>
-                <div class="flex-1 h-px bg-gradient-to-l from-transparent to-emerald-500/30"></div>
+                <div class="flex-1 h-px bg-gradient-to-l from-transparent to-blue-600/30"></div>
               </div>
 
               <!-- Certification text -->
               <p class="text-slate-400 mb-2">{{ lang.t('cert.certifies_that') }}</p>
-              <h2 class="text-2xl font-bold text-slate-100 mb-1">{{ result.companyName }}</h2>
+              <h2 class="text-2xl font-bold text-slate-900 mb-1">{{ result.companyName }}</h2>
               <p class="text-slate-400 mb-6">{{ lang.t('cert.completed_assessment') }}</p>
 
               <!-- Contract -->
-              <div class="inline-block bg-slate-800/50 border border-slate-700/50 rounded-xl px-6 py-3 mb-8">
+              <div class="inline-block bg-white border border-slate-200 rounded-xl px-6 py-3 mb-8">
                 <p class="text-xs text-slate-500">{{ lang.t('cert.assessed_contract') }}</p>
-                <p class="text-slate-200 font-medium">{{ result.contractName }}</p>
+                <p class="text-slate-700 font-medium">{{ result.contractName }}</p>
               </div>
 
               <!-- Score -->
               <div class="flex justify-center mb-8">
                 <div class="relative w-32 h-32">
                   <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="45" fill="none" stroke="#334155" stroke-width="4"/>
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="#e2e8f0" stroke-width="4"/>
                     <circle cx="50" cy="50" r="45" fill="none"
                             [attr.stroke]="levelColor"
                             stroke-width="4"
@@ -95,7 +95,7 @@ import { LangService } from '../lang.service';
               <!-- Stats -->
               <div class="grid grid-cols-3 gap-2 sm:gap-4 mb-8 max-w-sm mx-auto">
                 <div>
-                  <div class="text-2xl font-bold text-emerald-400">{{ result.compliantCount }}</div>
+                  <div class="text-2xl font-bold text-blue-600">{{ result.compliantCount }}</div>
                   <p class="text-xs text-slate-500">{{ lang.t('cert.compliant') }}</p>
                 </div>
                 <div>
@@ -103,7 +103,7 @@ import { LangService } from '../lang.service';
                   <p class="text-xs text-slate-500">{{ lang.t('cert.non_compliant') }}</p>
                 </div>
                 <div>
-                  <div class="text-2xl font-bold text-slate-300">{{ result.totalQuestions }}</div>
+                  <div class="text-2xl font-bold text-slate-600">{{ result.totalQuestions }}</div>
                   <p class="text-xs text-slate-500">{{ lang.t('cert.total') }}</p>
                 </div>
               </div>
@@ -118,7 +118,7 @@ import { LangService } from '../lang.service';
               <!-- Signature line -->
               <div class="mt-8 pt-6 border-t border-slate-800">
                 <div class="flex items-center justify-center gap-2 text-xs text-slate-600">
-                  <div class="w-6 h-6 rounded bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs">D</div>
+                  <div class="w-6 h-6 rounded bg-blue-600 flex items-center justify-center text-slate-900 font-bold text-xs">D</div>
                   {{ lang.t('cert.tool_name') }}
                 </div>
               </div>
@@ -138,8 +138,8 @@ import { LangService } from '../lang.service';
             {{ lang.t('cert.print') }}
           </button>
           <a [routerLink]="['/results', result.id]"
-             class="bg-slate-700/50 hover:bg-slate-600/50 text-slate-200 font-semibold px-6 py-2.5 rounded-lg
-                    transition-all duration-300 border border-slate-600/50 hover:border-slate-500/50 flex items-center gap-2">
+             class="bg-slate-700/50 hover:bg-slate-100 text-slate-700 font-semibold px-6 py-2.5 rounded-lg
+                    transition-all duration-300 border border-slate-200 hover:border-slate-500/50 flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
             </svg>
@@ -180,7 +180,7 @@ export class CertificateComponent implements OnInit {
 
   get badgeClass(): string {
     switch (this.result?.complianceLevel) {
-      case 'GREEN': return 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/25';
+      case 'GREEN': return 'bg-blue-50 text-blue-600 border border-blue-500/25';
       case 'YELLOW': return 'bg-amber-500/15 text-amber-400 border border-amber-500/25';
       case 'RED': return 'bg-red-500/15 text-red-400 border border-red-500/25';
       default: return '';

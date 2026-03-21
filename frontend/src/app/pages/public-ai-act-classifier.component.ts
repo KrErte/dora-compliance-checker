@@ -60,17 +60,17 @@ const CATEGORY_META: Record<string, { icon: string; labelEn: string; labelEt: st
     icon: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
     labelEn: 'Limited Risk / Transparency (Article 50)',
     labelEt: 'Piiratud risk / Läbipaistvus (Artikkel 50)',
-    color: 'text-cyan-400',
-    bgClass: 'bg-cyan-500/10',
-    borderClass: 'border-cyan-500/30'
+    color: 'text-blue-500',
+    bgClass: 'bg-blue-50',
+    borderClass: 'border-blue-500/30'
   },
   EXEMPTION: {
     icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4',
     labelEn: 'Exemptions (Article 6(3))',
     labelEt: 'Erandid (Artikkel 6(3))',
-    color: 'text-emerald-400',
-    bgClass: 'bg-emerald-500/10',
-    borderClass: 'border-emerald-500/30'
+    color: 'text-blue-600',
+    bgClass: 'bg-blue-50',
+    borderClass: 'border-blue-200'
   }
 };
 
@@ -94,19 +94,19 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
     description: 'This AI system requires comprehensive compliance measures.'
   },
   LIMITED: {
-    color: 'text-cyan-400',
-    bgClass: 'bg-cyan-500/20',
-    borderClass: 'border-cyan-500/50',
-    gradient: 'from-cyan-500 to-blue-500',
+    color: 'text-blue-500',
+    bgClass: 'bg-blue-600/20',
+    borderClass: 'border-blue-500/50',
+    gradient: 'from-blue-500 to-blue-500',
     labelEn: 'LIMITED RISK',
     labelEt: 'PIIRATUD RISK',
     description: 'This AI system has specific transparency obligations.'
   },
   MINIMAL: {
-    color: 'text-emerald-400',
-    bgClass: 'bg-emerald-500/20',
-    borderClass: 'border-emerald-500/50',
-    gradient: 'from-emerald-500 to-green-500',
+    color: 'text-blue-600',
+    bgClass: 'bg-blue-100',
+    borderClass: 'border-blue-500/50',
+    gradient: 'from-blue-600 to-green-500',
     labelEn: 'MINIMAL RISK',
     labelEt: 'MINIMAALNE RISK',
     description: 'This AI system has no specific mandatory obligations.'
@@ -125,19 +125,19 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
         <div class="relative overflow-hidden">
           <!-- Background decorations -->
           <div class="absolute inset-0 pointer-events-none">
-            <div class="absolute top-0 left-1/4 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl"></div>
-            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl"></div>
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-emerald-500/3 to-cyan-500/3 rounded-full blur-3xl"></div>
+            <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-50 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-50 rounded-full blur-3xl"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-blue-600/3 to-blue-500/3 rounded-full blur-3xl"></div>
           </div>
 
           <div class="relative max-w-4xl mx-auto px-4 py-16 sm:py-24">
             <div class="text-center space-y-8">
               <!-- Badge -->
-              <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200">
+                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                 </svg>
-                <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">
+                <span class="text-xs font-semibold text-blue-600 uppercase tracking-wider">
                   {{ lang.l('Tasuta tööriist', 'Free Tool') }}
                 </span>
               </div>
@@ -147,7 +147,7 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
                 <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight">
                   {{ lang.l('EL TI seaduse', 'EU AI Act') }}
                   <br/>
-                  <span class="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                  <span class="bg-blue-600 bg-clip-text text-transparent">
                     {{ lang.l('Riskiklassifikaator', 'Risk Classifier') }}
                   </span>
                 </h1>
@@ -161,29 +161,29 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
 
               <!-- Features -->
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
-                <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-800/40 border border-slate-700/30">
-                  <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-white border border-slate-200">
+                  <svg class="w-5 h-5 text-blue-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
-                  <span class="text-sm text-slate-300">{{ lang.l('2 minutit', '2 minutes') }}</span>
+                  <span class="text-sm text-slate-600">{{ lang.l('2 minutit', '2 minutes') }}</span>
                 </div>
-                <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-800/40 border border-slate-700/30">
-                  <svg class="w-5 h-5 text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-white border border-slate-200">
+                  <svg class="w-5 h-5 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
-                  <span class="text-sm text-slate-300">{{ lang.l('Registreerimist pole vaja', 'No signup needed') }}</span>
+                  <span class="text-sm text-slate-600">{{ lang.l('Registreerimist pole vaja', 'No signup needed') }}</span>
                 </div>
-                <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-800/40 border border-slate-700/30">
-                  <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-white border border-slate-200">
+                  <svg class="w-5 h-5 text-blue-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                   </svg>
-                  <span class="text-sm text-slate-300">{{ lang.l('Privaatne ja turvaline', 'Private & secure') }}</span>
+                  <span class="text-sm text-slate-600">{{ lang.l('Privaatne ja turvaline', 'Private & secure') }}</span>
                 </div>
               </div>
 
               <!-- CTA -->
               <button (click)="startClassification()"
-                      class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 font-bold text-lg hover:shadow-xl hover:shadow-emerald-500/25 hover:scale-[1.02] transition-all duration-300">
+                      class="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-blue-600 text-slate-900 font-bold text-lg hover:shadow-xl hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
                 {{ lang.l('Alusta klassifitseerimist', 'Start Classification') }}
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
@@ -210,7 +210,7 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
       <!-- Loading State -->
       @if (phase() === 'loading') {
         <div class="max-w-4xl mx-auto px-4 py-24 flex flex-col items-center justify-center">
-          <div class="w-10 h-10 border-2 border-slate-700 border-t-emerald-400 rounded-full animate-spin mb-4"></div>
+          <div class="w-10 h-10 border-2 border-slate-700 border-t-blue-500 rounded-full animate-spin mb-4"></div>
           <p class="text-sm text-slate-400">{{ lang.l('Laadin küsimusi...', 'Loading questions...') }}</p>
         </div>
       }
@@ -224,7 +224,7 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
             </svg>
             <h3 class="text-lg font-semibold text-white mb-2">{{ lang.l('Viga küsimuste laadimisel', 'Error loading questions') }}</h3>
             <p class="text-sm text-slate-400 mb-6">{{ errorMessage() }}</p>
-            <button (click)="startClassification()" class="px-5 py-2.5 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/30 transition-all text-sm font-medium">
+            <button (click)="startClassification()" class="px-5 py-2.5 rounded-xl bg-blue-100 text-blue-600 border border-blue-200 hover:bg-blue-600/30 transition-all text-sm font-medium">
               {{ lang.l('Proovi uuesti', 'Try again') }}
             </button>
           </div>
@@ -241,7 +241,7 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
               {{ lang.l('EL TI seaduse riskiklassifikaator', 'EU AI Act Risk Classifier') }}
             </h2>
             <button (click)="backToHero()"
-                    class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white bg-slate-800/50 border border-slate-700/50 hover:border-slate-600 transition-all">
+                    class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white bg-white border border-slate-200 hover:border-slate-300 transition-all">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
@@ -250,15 +250,15 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
           </div>
 
           <!-- Progress Bar -->
-          <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-5">
+          <div class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-5">
             <div class="flex items-center justify-between mb-3">
-              <span class="text-sm font-medium text-slate-300">
+              <span class="text-sm font-medium text-slate-600">
                 {{ lang.l('Küsimus', 'Question') }} {{ currentVisibleIndex() + 1 }} / {{ visibleQuestions().length }}
               </span>
               <span class="text-xs text-slate-500">{{ progressPercent() }}%</span>
             </div>
             <div class="w-full h-2 rounded-full bg-slate-700/50 overflow-hidden">
-              <div class="h-full rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 transition-all duration-500 ease-out"
+              <div class="h-full rounded-full bg-blue-600 transition-all duration-500 ease-out"
                    [style.width.%]="progressPercent()"></div>
             </div>
           </div>
@@ -279,15 +279,15 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
 
           <!-- Question Card -->
           @if (currentQuestion(); as q) {
-            <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 space-y-6 animate-fade-in">
+            <div class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6 space-y-6 animate-fade-in">
               <!-- Question Text -->
               <div>
                 <h3 class="text-lg font-semibold text-white leading-relaxed">
                   {{ lang.l(q.questionTextEt, q.questionTextEn) }}
                 </h3>
                 @if (getHelpText(q)) {
-                  <div class="mt-3 flex gap-2.5 p-3 rounded-xl bg-slate-900/50 border border-slate-700/30">
-                    <svg class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div class="mt-3 flex gap-2.5 p-3 rounded-xl bg-white border border-slate-200">
+                    <svg class="w-4 h-4 text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <p class="text-sm text-slate-400 leading-relaxed">{{ getHelpText(q) }}</p>
@@ -300,19 +300,19 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
                 <button (click)="answer('YES')"
                         class="group relative p-5 rounded-xl border-2 transition-all duration-300 text-center"
                         [class]="answers()[q.questionKey] === 'YES'
-                          ? 'border-emerald-500/70 bg-emerald-500/15 shadow-lg shadow-emerald-500/10'
-                          : 'border-slate-700/50 bg-slate-900/30 hover:border-emerald-500/40 hover:bg-emerald-500/5'">
+                          ? 'border-blue-500/70 bg-blue-50 shadow-lg shadow-md'
+                          : 'border-slate-200 bg-slate-900/30 hover:border-blue-500/40 hover:bg-blue-50'">
                   <div class="flex flex-col items-center gap-2">
                     <div class="w-10 h-10 rounded-full flex items-center justify-center transition-all"
-                         [class]="answers()[q.questionKey] === 'YES' ? 'bg-emerald-500/30' : 'bg-slate-700/50 group-hover:bg-emerald-500/20'">
+                         [class]="answers()[q.questionKey] === 'YES' ? 'bg-blue-600/30' : 'bg-slate-700/50 group-hover:bg-blue-100'">
                       <svg class="w-5 h-5 transition-colors"
-                           [class]="answers()[q.questionKey] === 'YES' ? 'text-emerald-400' : 'text-slate-400 group-hover:text-emerald-400'"
+                           [class]="answers()[q.questionKey] === 'YES' ? 'text-blue-600' : 'text-slate-400 group-hover:text-blue-600'"
                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                       </svg>
                     </div>
                     <span class="font-semibold text-sm"
-                          [class]="answers()[q.questionKey] === 'YES' ? 'text-emerald-400' : 'text-slate-300'">
+                          [class]="answers()[q.questionKey] === 'YES' ? 'text-blue-600' : 'text-slate-600'">
                       {{ lang.l('JAH', 'YES') }}
                     </span>
                   </div>
@@ -322,7 +322,7 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
                         class="group relative p-5 rounded-xl border-2 transition-all duration-300 text-center"
                         [class]="answers()[q.questionKey] === 'NO'
                           ? 'border-red-500/70 bg-red-500/15 shadow-lg shadow-red-500/10'
-                          : 'border-slate-700/50 bg-slate-900/30 hover:border-red-500/40 hover:bg-red-500/5'">
+                          : 'border-slate-200 bg-slate-900/30 hover:border-red-500/40 hover:bg-red-500/5'">
                   <div class="flex flex-col items-center gap-2">
                     <div class="w-10 h-10 rounded-full flex items-center justify-center transition-all"
                          [class]="answers()[q.questionKey] === 'NO' ? 'bg-red-500/30' : 'bg-slate-700/50 group-hover:bg-red-500/20'">
@@ -333,7 +333,7 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
                       </svg>
                     </div>
                     <span class="font-semibold text-sm"
-                          [class]="answers()[q.questionKey] === 'NO' ? 'text-red-400' : 'text-slate-300'">
+                          [class]="answers()[q.questionKey] === 'NO' ? 'text-red-400' : 'text-slate-600'">
                       {{ lang.l('EI', 'NO') }}
                     </span>
                   </div>
@@ -347,7 +347,7 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
                         class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all"
                         [class]="currentVisibleIndex() === 0
                           ? 'text-slate-600 cursor-not-allowed'
-                          : 'text-slate-300 hover:text-white bg-slate-700/30 hover:bg-slate-700/50 border border-slate-700/50'">
+                          : 'text-slate-600 hover:text-white bg-slate-700/30 hover:bg-slate-100 border border-slate-200'">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                   </svg>
@@ -359,8 +359,8 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
                           [disabled]="!allVisibleAnswered()"
                           class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold transition-all"
                           [class]="allVisibleAnswered()
-                            ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 hover:shadow-lg hover:shadow-emerald-500/25'
-                            : 'bg-slate-700/30 text-slate-500 cursor-not-allowed border border-slate-700/50'">
+                            ? 'bg-blue-600 text-slate-900 hover:shadow-lg hover:shadow-lg'
+                            : 'bg-slate-700/30 text-slate-500 cursor-not-allowed border border-slate-200'">
                     {{ lang.l('Klassifitseeri', 'Classify') }}
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
@@ -371,8 +371,8 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
                           [disabled]="!currentAnswered()"
                           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all"
                           [class]="currentAnswered()
-                            ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/30'
-                            : 'bg-slate-700/30 text-slate-500 cursor-not-allowed border border-slate-700/50'">
+                            ? 'bg-blue-100 text-blue-600 border border-blue-200 hover:bg-blue-600/30'
+                            : 'bg-slate-700/30 text-slate-500 cursor-not-allowed border border-slate-200'">
                     {{ lang.l('Jargmine', 'Next') }}
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -384,15 +384,15 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
           }
 
           <!-- Questions Overview (dots) -->
-          <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-4">
+          <div class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-4">
             <div class="flex flex-wrap gap-2 justify-center">
               @for (q of visibleQuestions(); track q.questionKey; let i = $index) {
                 <button (click)="goToQuestion(i)"
                         class="w-3 h-3 rounded-full transition-all duration-300"
                         [class]="i === currentVisibleIndex()
-                          ? 'bg-emerald-400 ring-2 ring-emerald-400/30 scale-125'
+                          ? 'bg-blue-500 ring-2 ring-blue-500/30 scale-125'
                           : answers()[q.questionKey]
-                            ? 'bg-emerald-500/40 hover:bg-emerald-500/60'
+                            ? 'bg-blue-600/40 hover:bg-blue-600/60'
                             : 'bg-slate-600/50 hover:bg-slate-500/50'"
                         [title]="(i + 1) + '. ' + lang.l(q.questionTextEt, q.questionTextEn)">
                 </button>
@@ -406,9 +406,9 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
       @if (phase() === 'submitting') {
         <div class="max-w-4xl mx-auto px-4 py-24 flex flex-col items-center justify-center">
           <div class="w-16 h-16 relative mb-6">
-            <div class="absolute inset-0 border-2 border-emerald-500/20 rounded-full"></div>
-            <div class="absolute inset-0 border-2 border-transparent border-t-emerald-400 rounded-full animate-spin"></div>
-            <svg class="absolute inset-3 w-10 h-10 text-emerald-400/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="absolute inset-0 border-2 border-blue-200 rounded-full"></div>
+            <div class="absolute inset-0 border-2 border-transparent border-t-blue-500 rounded-full animate-spin"></div>
+            <svg class="absolute inset-3 w-10 h-10 text-blue-600/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
             </svg>
           </div>
@@ -434,13 +434,13 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
               <h2 class="text-3xl sm:text-4xl font-extrabold {{ getRiskConfig().color }} mb-3">
                 {{ lang.l(getRiskConfig().labelEt, getRiskConfig().labelEn) }}
               </h2>
-              <p class="text-slate-300 max-w-xl mx-auto leading-relaxed">{{ result()!.rationale }}</p>
+              <p class="text-slate-600 max-w-xl mx-auto leading-relaxed">{{ result()!.rationale }}</p>
             </div>
           </div>
 
           <!-- Deadline -->
           @if (result()!.deadline) {
-            <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-5 flex items-center gap-4">
+            <div class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-5 flex items-center gap-4">
               <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center shrink-0">
                 <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -455,20 +455,20 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
 
           <!-- Applicable Articles -->
           @if (result()!.applicableArticles.length > 0) {
-            <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6">
+            <div class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6">
               <h3 class="text-sm font-semibold text-white mb-4 flex items-center gap-2">
-                <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                 </svg>
                 {{ lang.l('Kohaldatavad artiklid', 'Applicable Articles') }}
               </h3>
               <div class="space-y-2">
                 @for (article of result()!.applicableArticles; track article) {
-                  <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-900/40 border border-slate-700/30">
-                    <svg class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-900/40 border border-slate-200">
+                    <svg class="w-4 h-4 text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                     </svg>
-                    <span class="text-sm text-slate-300">{{ article }}</span>
+                    <span class="text-sm text-slate-600">{{ article }}</span>
                   </div>
                 }
               </div>
@@ -477,20 +477,20 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
 
           <!-- Recommended Actions -->
           @if (result()!.recommendedActions.length > 0) {
-            <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6">
+            <div class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6">
               <h3 class="text-sm font-semibold text-white mb-4 flex items-center gap-2">
-                <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
                 </svg>
                 {{ lang.l('Soovituslikud tegevused', 'Recommended Actions') }}
               </h3>
               <div class="space-y-2">
                 @for (action of result()!.recommendedActions; track action; let i = $index) {
-                  <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-900/40 border border-slate-700/30">
-                    <span class="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center shrink-0 text-xs font-bold text-emerald-400">
+                  <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-900/40 border border-slate-200">
+                    <span class="w-6 h-6 rounded-full bg-blue-100 border border-blue-200 flex items-center justify-center shrink-0 text-xs font-bold text-blue-600">
                       {{ i + 1 }}
                     </span>
-                    <span class="text-sm text-slate-300">{{ action }}</span>
+                    <span class="text-sm text-slate-600">{{ action }}</span>
                   </div>
                 }
               </div>
@@ -500,7 +500,7 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
           <!-- Actions row -->
           <div class="flex flex-col sm:flex-row items-center gap-3">
             <button (click)="resetClassification()"
-                    class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-700/30 text-slate-300 hover:text-white border border-slate-700/50 hover:border-slate-600 transition-all text-sm font-medium w-full sm:w-auto justify-center">
+                    class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-slate-700/30 text-slate-600 hover:text-white border border-slate-200 hover:border-slate-300 transition-all text-sm font-medium w-full sm:w-auto justify-center">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
               </svg>
@@ -509,11 +509,11 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
           </div>
 
           <!-- CTA: Register to save -->
-          <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500/10 via-cyan-500/10 to-blue-500/10 border border-emerald-500/20 p-8">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-emerald-500/5 to-transparent rounded-full -translate-y-1/2 translate-x-1/2"></div>
+          <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600/10 via-blue-500/10 to-blue-500/10 border border-blue-200 p-8">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-blue-600/5 to-transparent rounded-full -translate-y-1/2 translate-x-1/2"></div>
             <div class="relative text-center space-y-4">
-              <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto">
-                <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center mx-auto">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
                 </svg>
               </div>
@@ -530,14 +530,14 @@ const RISK_LEVEL_CONFIG: Record<string, { color: string; bgClass: string; border
               </div>
               <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <a routerLink="/register"
-                   class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 font-semibold text-sm hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
+                   class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 text-slate-900 font-semibold text-sm hover:shadow-lg hover:shadow-lg transition-all">
                   {{ lang.l('Loo tasuta konto', 'Create free account') }}
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                   </svg>
                 </a>
                 <a routerLink="/pricing"
-                   class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm text-slate-300 hover:text-white transition-colors">
+                   class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm text-slate-600 hover:text-white transition-colors">
                   {{ lang.l('Vaata plaane', 'View plans') }}
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>

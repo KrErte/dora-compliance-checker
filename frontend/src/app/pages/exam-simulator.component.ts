@@ -90,7 +90,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
         @if (history().length > 0) {
           <div class="flex justify-end mb-6">
             <button (click)="screen.set('history')"
-                    class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800/50 border border-slate-700/50 text-slate-300 text-sm hover:border-violet-500/30 transition-all">
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-600 text-sm hover:border-violet-500/30 transition-all">
               <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
@@ -102,7 +102,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <!-- Focus Area Selection -->
           <div class="glass-card p-6">
-            <h2 class="text-lg font-bold text-slate-200 mb-1 flex items-center gap-2">
+            <h2 class="text-lg font-bold text-slate-700 mb-1 flex items-center gap-2">
               <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
               </svg>
@@ -115,7 +115,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                         class="w-full text-left p-3.5 rounded-xl border transition-all duration-200 flex items-center gap-3"
                         [class]="selectedFocus() === f.value
                           ? 'bg-violet-500/15 border-violet-500/40 ring-1 ring-violet-500/30'
-                          : 'bg-slate-800/50 border-slate-700/50 hover:border-violet-500/20 hover:bg-violet-500/5'">
+                          : 'bg-white border-slate-200 hover:border-violet-500/20 hover:bg-violet-500/5'">
                   <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm shrink-0"
                        [class]="selectedFocus() === f.value ? 'bg-violet-500/20 text-violet-400' : 'bg-slate-700/50 text-slate-500'">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -123,7 +123,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                     </svg>
                   </div>
                   <div class="min-w-0">
-                    <p class="font-medium text-sm" [class]="selectedFocus() === f.value ? 'text-violet-300' : 'text-slate-300'">{{ lang.t(f.labelKey) }}</p>
+                    <p class="font-medium text-sm" [class]="selectedFocus() === f.value ? 'text-violet-300' : 'text-slate-600'">{{ lang.t(f.labelKey) }}</p>
                     <p class="text-xs text-slate-500">{{ f.articles }}</p>
                   </div>
                   @if (selectedFocus() === f.value) {
@@ -139,7 +139,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
           <!-- Difficulty & Start -->
           <div class="space-y-6">
             <div class="glass-card p-6">
-              <h2 class="text-lg font-bold text-slate-200 mb-1 flex items-center gap-2">
+              <h2 class="text-lg font-bold text-slate-700 mb-1 flex items-center gap-2">
                 <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                 </svg>
@@ -152,15 +152,15 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                           class="w-full text-left p-3.5 rounded-xl border transition-all duration-200 flex items-center gap-3"
                           [class]="selectedDifficulty() === d.value
                             ? 'bg-violet-500/15 border-violet-500/40 ring-1 ring-violet-500/30'
-                            : 'bg-slate-800/50 border-slate-700/50 hover:border-violet-500/20 hover:bg-violet-500/5'">
+                            : 'bg-white border-slate-200 hover:border-violet-500/20 hover:bg-violet-500/5'">
                     <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold shrink-0"
-                         [class]="d.value === 'basic' ? 'bg-emerald-500/20 text-emerald-400'
+                         [class]="d.value === 'basic' ? 'bg-blue-100 text-blue-600'
                                 : d.value === 'intermediate' ? 'bg-amber-500/20 text-amber-400'
                                 : 'bg-red-500/20 text-red-400'">
                       {{ d.level }}
                     </div>
                     <div class="min-w-0">
-                      <p class="font-medium text-sm" [class]="selectedDifficulty() === d.value ? 'text-violet-300' : 'text-slate-300'">{{ lang.t(d.labelKey) }}</p>
+                      <p class="font-medium text-sm" [class]="selectedDifficulty() === d.value ? 'text-violet-300' : 'text-slate-600'">{{ lang.t(d.labelKey) }}</p>
                       <p class="text-xs text-slate-500">{{ lang.t(d.descKey) }}</p>
                     </div>
                   </button>
@@ -228,7 +228,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
               </div>
               <div>
                 <p class="text-xs text-slate-500 uppercase tracking-wider font-medium">{{ lang.t('exam.in_progress') }}</p>
-                <p class="text-sm text-slate-300">{{ lang.t('exam.question') }} <span class="text-violet-400 font-bold">{{ currentQuestionIndex() + 1 }}</span> {{ lang.t('exam.of') }} <span class="font-semibold">{{ totalQuestions() }}</span></p>
+                <p class="text-sm text-slate-600">{{ lang.t('exam.question') }} <span class="text-violet-400 font-bold">{{ currentQuestionIndex() + 1 }}</span> {{ lang.t('exam.of') }} <span class="font-semibold">{{ totalQuestions() }}</span></p>
               </div>
             </div>
             <div class="text-right">
@@ -246,7 +246,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
               <div class="w-6 h-6 rounded-md text-[10px] font-bold flex items-center justify-center transition-all"
                    [class]="i < currentQuestionIndex() ? getQuestionDotClass(i)
                           : i === currentQuestionIndex() ? 'bg-violet-500/30 border border-violet-500 text-violet-300 ring-2 ring-violet-500/30'
-                          : 'bg-slate-800/50 border border-slate-700/50 text-slate-600'">
+                          : 'bg-white border border-slate-200 text-slate-600'">
                 {{ i + 1 }}
               </div>
             }
@@ -267,21 +267,21 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
               <span class="px-2.5 py-1 rounded-lg text-xs font-medium border"
                     [class]="currentQuestion()!.difficulty === 'advanced' ? 'bg-red-500/10 text-red-400 border-red-500/20'
                            : currentQuestion()!.difficulty === 'intermediate' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-                           : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'">
+                           : 'bg-blue-50 text-blue-600 border-blue-200'">
                 {{ currentQuestion()!.difficulty | titlecase }}
               </span>
               <span class="ml-auto text-sm font-semibold text-violet-400">{{ currentQuestion()!.points }} pts</span>
             </div>
 
             <!-- Question Text -->
-            <div class="bg-slate-900/50 rounded-xl p-5 border border-slate-700/30 mb-5">
+            <div class="bg-white rounded-xl p-5 border border-slate-200 mb-5">
               <div class="flex items-start gap-3">
                 <div class="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center shrink-0 mt-0.5">
                   <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
                 </div>
-                <p class="text-slate-200 leading-relaxed">{{ currentQuestion()!.question }}</p>
+                <p class="text-slate-700 leading-relaxed">{{ currentQuestion()!.question }}</p>
               </div>
             </div>
 
@@ -294,7 +294,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                             rows="6"
                             maxlength="5000"
                             [placeholder]="lang.t('exam.answer_placeholder')"
-                            class="mt-2 w-full bg-slate-900/60 border border-slate-600/50 rounded-xl px-4 py-3 text-slate-200 text-sm placeholder-slate-600 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 resize-y transition-all">
+                            class="mt-2 w-full bg-slate-900/60 border border-slate-200 rounded-xl px-4 py-3 text-slate-700 text-sm placeholder-slate-600 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 resize-y transition-all">
                   </textarea>
                 </label>
                 <div class="flex items-center justify-between">
@@ -352,16 +352,16 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <!-- Strengths -->
                   @if (currentFeedback()!.strengths.length > 0) {
-                    <div class="bg-emerald-500/5 rounded-xl p-4 border border-emerald-500/15">
-                      <h4 class="text-sm font-bold text-emerald-400 mb-3 flex items-center gap-2">
+                    <div class="bg-blue-50 rounded-xl p-4 border border-blue-500/15">
+                      <h4 class="text-sm font-bold text-blue-600 mb-3 flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         {{ lang.t('exam.strengths') }}
                       </h4>
                       <div class="space-y-2">
                         @for (s of currentFeedback()!.strengths; track s) {
                           <div class="flex items-start gap-2">
-                            <svg class="w-3.5 h-3.5 text-emerald-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                            <span class="text-xs text-slate-300">{{ s }}</span>
+                            <svg class="w-3.5 h-3.5 text-blue-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-xs text-slate-600">{{ s }}</span>
                           </div>
                         }
                       </div>
@@ -379,7 +379,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                         @for (g of currentFeedback()!.gaps; track g) {
                           <div class="flex items-start gap-2">
                             <svg class="w-3.5 h-3.5 text-red-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                            <span class="text-xs text-slate-300">{{ g }}</span>
+                            <span class="text-xs text-slate-600">{{ g }}</span>
                           </div>
                         }
                       </div>
@@ -394,7 +394,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
                       {{ lang.t('exam.recommendation') }}
                     </h4>
-                    <p class="text-sm text-slate-300">{{ currentFeedback()!.recommendation }}</p>
+                    <p class="text-sm text-slate-600">{{ currentFeedback()!.recommendation }}</p>
                   </div>
                 }
 
@@ -452,7 +452,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
           <!-- Category Breakdown -->
           @if (examResult()!.categoryScores && examResult()!.categoryScores.length > 0) {
             <div class="glass-card p-6">
-              <h2 class="text-lg font-bold text-slate-200 mb-5 flex items-center gap-2">
+              <h2 class="text-lg font-bold text-slate-700 mb-5 flex items-center gap-2">
                 <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                 </svg>
@@ -462,12 +462,12 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                 @for (cat of examResult()!.categoryScores; track cat.category) {
                   <div>
                     <div class="flex items-center justify-between mb-1.5">
-                      <span class="text-sm font-medium text-slate-300">{{ cat.category }}</span>
+                      <span class="text-sm font-medium text-slate-600">{{ cat.category }}</span>
                       <span class="text-sm font-bold" [class]="getCategoryScoreColor(cat.percentage)">
                         {{ cat.earned }}/{{ cat.total }} ({{ cat.percentage | number:'1.0-0' }}%)
                       </span>
                     </div>
-                    <div class="h-3 bg-slate-800/60 rounded-full overflow-hidden">
+                    <div class="h-3 bg-white rounded-full overflow-hidden">
                       <div class="h-full rounded-full transition-all duration-1000"
                            [class]="getCategoryBarClass(cat.percentage)"
                            [style.width.%]="cat.percentage">
@@ -491,11 +491,11 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
             </div>
             <div class="glass-card p-4 text-center">
               <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.t('exam.points') }}</p>
-              <p class="text-3xl font-bold text-slate-200">{{ examResult()!.earnedPoints }}</p>
+              <p class="text-3xl font-bold text-slate-700">{{ examResult()!.earnedPoints }}</p>
             </div>
             <div class="glass-card p-4 text-center">
               <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.t('exam.questions_label') }}</p>
-              <p class="text-3xl font-bold text-slate-200">{{ totalQuestions() }}</p>
+              <p class="text-3xl font-bold text-slate-700">{{ totalQuestions() }}</p>
             </div>
           </div>
 
@@ -507,12 +507,12 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
               {{ lang.t('exam.take_another') }}
             </button>
             <button (click)="screen.set('history')"
-                    class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-slate-800 border border-slate-700 text-slate-300 hover:border-violet-500/30 transition-all">
+                    class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-slate-800 border border-slate-700 text-slate-600 hover:border-violet-500/30 transition-all">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               {{ lang.t('exam.view_history') }}
             </button>
             <a routerLink="/dashboard"
-               class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-slate-800 border border-slate-700 text-slate-300 hover:border-slate-600 transition-all">
+               class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-slate-800 border border-slate-700 text-slate-600 hover:border-slate-300 transition-all">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
               {{ lang.t('exam.dashboard') }}
             </a>
@@ -555,12 +555,12 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
 
           @if (!historyLoading() && history().length === 0) {
             <div class="glass-card p-12 text-center">
-              <div class="w-20 h-20 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-6 border border-slate-700/50">
+              <div class="w-20 h-20 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-6 border border-slate-200">
                 <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                 </svg>
               </div>
-              <h2 class="text-xl font-bold text-slate-200 mb-2">{{ lang.t('exam.no_exams') }}</h2>
+              <h2 class="text-xl font-bold text-slate-700 mb-2">{{ lang.t('exam.no_exams') }}</h2>
               <p class="text-slate-400 mb-6">{{ lang.t('exam.no_exams_desc') }}</p>
               <button (click)="resetExam()"
                       class="inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 to-purple-600 text-white font-semibold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-violet-500/25 transition-all">
@@ -582,11 +582,11 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                   <!-- Details -->
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2 mb-1">
-                      <p class="font-semibold text-slate-200">{{ lang.t(getFocusLabelKey(entry.focus)) }}</p>
+                      <p class="font-semibold text-slate-700">{{ lang.t(getFocusLabelKey(entry.focus)) }}</p>
                       <span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase"
                             [class]="entry.difficulty === 'advanced' ? 'bg-red-500/15 text-red-400'
                                    : entry.difficulty === 'intermediate' ? 'bg-amber-500/15 text-amber-400'
-                                   : 'bg-emerald-500/15 text-emerald-400'">
+                                   : 'bg-blue-50 text-blue-600'">
                         {{ entry.difficulty }}
                       </span>
                     </div>
@@ -618,7 +618,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
               <p class="font-semibold text-red-400 mb-1">{{ lang.t('exam.error_title') }}</p>
               <p class="text-sm text-slate-400">{{ error() }}</p>
             </div>
-            <button (click)="error.set(null)" class="ml-auto text-slate-500 hover:text-slate-300">
+            <button (click)="error.set(null)" class="ml-auto text-slate-500 hover:text-slate-600">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
           </div>
@@ -825,30 +825,30 @@ export class ExamSimulatorComponent implements OnInit {
 
   getQuestionDotClass(index: number): string {
     const feedback = this.feedbackScores().find(f => f.index === index);
-    if (!feedback) return 'bg-slate-700/50 border border-slate-600/50 text-slate-500';
+    if (!feedback) return 'bg-slate-700/50 border border-slate-200 text-slate-500';
     const pct = this.scorePct(feedback.score, feedback.max);
-    if (pct >= 70) return 'bg-emerald-500/20 border border-emerald-500/40 text-emerald-400';
+    if (pct >= 70) return 'bg-blue-100 border border-blue-500/40 text-blue-600';
     if (pct >= 40) return 'bg-amber-500/20 border border-amber-500/40 text-amber-400';
     return 'bg-red-500/20 border border-red-500/40 text-red-400';
   }
 
   getFeedbackBannerClass(score: number, max: number): string {
     const pct = this.scorePct(score, max);
-    if (pct >= 70) return 'bg-emerald-500/5 border-l-emerald-500 border border-emerald-500/15';
+    if (pct >= 70) return 'bg-blue-50 border-l-blue-600 border border-blue-500/15';
     if (pct >= 40) return 'bg-amber-500/5 border-l-amber-500 border border-amber-500/15';
     return 'bg-red-500/5 border-l-red-500 border border-red-500/15';
   }
 
   getFeedbackScoreBg(score: number, max: number): string {
     const pct = this.scorePct(score, max);
-    if (pct >= 70) return 'bg-emerald-500/20';
+    if (pct >= 70) return 'bg-blue-100';
     if (pct >= 40) return 'bg-amber-500/20';
     return 'bg-red-500/20';
   }
 
   getFeedbackScoreColor(score: number, max: number): string {
     const pct = this.scorePct(score, max);
-    if (pct >= 70) return 'text-emerald-400';
+    if (pct >= 70) return 'text-blue-600';
     if (pct >= 40) return 'text-amber-400';
     return 'text-red-400';
   }
@@ -864,8 +864,8 @@ export class ExamSimulatorComponent implements OnInit {
 
   getGradeGradientClass(grade: string): string {
     switch (grade) {
-      case 'A': return 'from-emerald-500 to-cyan-500';
-      case 'B': return 'from-emerald-500 to-teal-500';
+      case 'A': return 'from-blue-600 to-blue-500';
+      case 'B': return 'from-blue-600 to-blue-400';
       case 'C': return 'from-amber-500 to-yellow-500';
       case 'D': return 'from-orange-500 to-amber-500';
       default: return 'from-red-500 to-rose-500';
@@ -874,7 +874,7 @@ export class ExamSimulatorComponent implements OnInit {
 
   getGradeBorderClass(grade: string): string {
     switch (grade) {
-      case 'A': return 'border-emerald-500/40 bg-emerald-500/10';
+      case 'A': return 'border-blue-500/40 bg-blue-50';
       case 'B': return 'border-teal-500/40 bg-teal-500/10';
       case 'C': return 'border-amber-500/40 bg-amber-500/10';
       case 'D': return 'border-orange-500/40 bg-orange-500/10';
@@ -884,7 +884,7 @@ export class ExamSimulatorComponent implements OnInit {
 
   getGradeTextClass(grade: string): string {
     switch (grade) {
-      case 'A': return 'text-emerald-400';
+      case 'A': return 'text-blue-600';
       case 'B': return 'text-teal-400';
       case 'C': return 'text-amber-400';
       case 'D': return 'text-orange-400';
@@ -894,7 +894,7 @@ export class ExamSimulatorComponent implements OnInit {
 
   getVerdictClass(grade: string): string {
     switch (grade) {
-      case 'A': return 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400';
+      case 'A': return 'bg-blue-50 border-blue-200 text-blue-600';
       case 'B': return 'bg-teal-500/10 border-teal-500/30 text-teal-400';
       case 'C': return 'bg-amber-500/10 border-amber-500/30 text-amber-400';
       case 'D': return 'bg-orange-500/10 border-orange-500/30 text-orange-400';
@@ -903,13 +903,13 @@ export class ExamSimulatorComponent implements OnInit {
   }
 
   getCategoryScoreColor(pct: number): string {
-    if (pct >= 70) return 'text-emerald-400';
+    if (pct >= 70) return 'text-blue-600';
     if (pct >= 40) return 'text-amber-400';
     return 'text-red-400';
   }
 
   getCategoryBarClass(pct: number): string {
-    if (pct >= 70) return 'bg-gradient-to-r from-emerald-600 to-emerald-500';
+    if (pct >= 70) return 'bg-gradient-to-r from-blue-700 to-blue-600';
     if (pct >= 40) return 'bg-gradient-to-r from-amber-600 to-amber-500';
     return 'bg-gradient-to-r from-red-600 to-red-500';
   }

@@ -13,27 +13,27 @@ import { MODEL_CLAUSES, ModelClause, getModelClause } from '../data/model-clause
   template: `
     <!-- Loading -->
     <div *ngIf="loading" class="text-center py-20">
-      <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-700 border-t-cyan-400 animate-spin"></div>
+      <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-700 border-t-blue-400 animate-spin"></div>
       <p class="text-slate-400">{{ lang.t('comparison.loading') }}</p>
     </div>
 
     <!-- Error -->
     <div *ngIf="error" class="text-center py-20">
       <p class="text-red-400">{{ error }}</p>
-      <a routerLink="/contract-analysis" class="text-cyan-400 hover:underline mt-4 inline-block">{{ lang.t('contract.back') }}</a>
+      <a routerLink="/contract-analysis" class="text-blue-500 hover:underline mt-4 inline-block">{{ lang.t('contract.back') }}</a>
     </div>
 
     <!-- Comparison View -->
     <div *ngIf="result" class="max-w-6xl mx-auto space-y-6">
 
       <!-- Header Card -->
-      <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-6">
+      <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
         <div class="flex flex-col md:flex-row items-center justify-between gap-6">
           <div class="flex items-center gap-6">
             <!-- Score Ring -->
             <div class="relative flex-shrink-0">
               <svg width="100" height="100" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="42" stroke="#334155" stroke-width="8" fill="none"/>
+                <circle cx="50" cy="50" r="42" stroke="#e2e8f0" stroke-width="8" fill="none"/>
                 <circle cx="50" cy="50" r="42" [attr.stroke]="scoreColor" stroke-width="8" fill="none"
                         stroke-linecap="round"
                         [attr.stroke-dasharray]="circumference"
@@ -58,7 +58,7 @@ import { MODEL_CLAUSES, ModelClause, getModelClause } from '../data/model-clause
           <!-- Stats -->
           <div class="flex gap-6">
             <div class="text-center">
-              <p class="text-xl font-bold text-emerald-400">{{ result.foundCount }}</p>
+              <p class="text-xl font-bold text-blue-600">{{ result.foundCount }}</p>
               <p class="text-xs text-slate-500">{{ lang.t('comparison.status_found') }}</p>
             </div>
             <div class="text-center">
@@ -84,9 +84,9 @@ import { MODEL_CLAUSES, ModelClause, getModelClause } from '../data/model-clause
       </div>
 
       <!-- Comparison Matrix -->
-      <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl overflow-hidden">
+      <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl overflow-hidden">
         <!-- Table Header -->
-        <div class="grid grid-cols-12 gap-4 px-5 py-4 bg-slate-700/30 border-b border-slate-700/50 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+        <div class="grid grid-cols-12 gap-4 px-5 py-4 bg-slate-700/30 border-b border-slate-200 text-xs font-semibold text-slate-400 uppercase tracking-wider">
           <div class="col-span-3">{{ lang.t('comparison.th_requirement') }}</div>
           <div class="col-span-4">{{ lang.t('comparison.th_your_contract') }}</div>
           <div class="col-span-4">{{ lang.t('comparison.th_model_clause') }}</div>
@@ -97,7 +97,7 @@ import { MODEL_CLAUSES, ModelClause, getModelClause } from '../data/model-clause
         @for (f of filteredFindings; track f.requirementId; let i = $index) {
           <!-- Main Row -->
           <div (click)="toggleRow(f.requirementId)"
-               class="grid grid-cols-12 gap-4 px-5 py-4 border-b border-slate-700/30 cursor-pointer hover:bg-slate-700/20 transition-all"
+               class="grid grid-cols-12 gap-4 px-5 py-4 border-b border-slate-200 cursor-pointer hover:bg-slate-700/20 transition-all"
                [class.bg-slate-700]="expandedRows.has(f.requirementId)">
 
             <!-- Requirement -->
@@ -108,20 +108,20 @@ import { MODEL_CLAUSES, ModelClause, getModelClause } from '../data/model-clause
                 </svg>
                 <div>
                   <p class="text-sm font-medium text-white">{{ f.requirementId }}. {{ getRequirementName(f.requirementId) }}</p>
-                  <p class="text-xs text-cyan-400/70 mt-0.5">{{ f.doraReference }}</p>
+                  <p class="text-xs text-blue-500/70 mt-0.5">{{ f.doraReference }}</p>
                 </div>
               </div>
             </div>
 
             <!-- Your Contract Quote -->
             <div class="col-span-4">
-              <p *ngIf="f.quote" class="text-sm text-slate-300 line-clamp-2">"{{ f.quote }}"</p>
+              <p *ngIf="f.quote" class="text-sm text-slate-600 line-clamp-2">"{{ f.quote }}"</p>
               <p *ngIf="!f.quote" class="text-sm text-slate-600 italic">{{ lang.t('comparison.not_found') }}</p>
             </div>
 
             <!-- Model Clause -->
             <div class="col-span-4">
-              <p class="text-sm text-cyan-300/80 line-clamp-2">{{ getModelClauseText(f.requirementId) }}</p>
+              <p class="text-sm text-blue-400/80 line-clamp-2">{{ getModelClauseText(f.requirementId) }}</p>
             </div>
 
             <!-- Status -->
@@ -142,7 +142,7 @@ import { MODEL_CLAUSES, ModelClause, getModelClause } from '../data/model-clause
 
           <!-- Expanded Detail Row -->
           <div *ngIf="expandedRows.has(f.requirementId)"
-               class="bg-slate-800/30 border-b border-slate-700/30 animate-fade-in">
+               class="bg-slate-800/30 border-b border-slate-200 animate-fade-in">
             <div class="grid grid-cols-2 gap-6 p-6">
               <!-- Your Contract Full Text -->
               <div class="space-y-2">
@@ -150,8 +150,8 @@ import { MODEL_CLAUSES, ModelClause, getModelClause } from '../data/model-clause
                   <span class="w-2 h-2 rounded-full" [class]="f.quote ? 'bg-slate-400' : 'bg-red-400'"></span>
                   {{ lang.t('comparison.your_text') }}
                 </h4>
-                <div class="bg-slate-900/50 rounded-lg p-4 border border-slate-700/50">
-                  <p *ngIf="f.quote" class="text-sm text-slate-300 leading-relaxed">"{{ f.quote }}"</p>
+                <div class="bg-white rounded-lg p-4 border border-slate-200">
+                  <p *ngIf="f.quote" class="text-sm text-slate-600 leading-relaxed">"{{ f.quote }}"</p>
                   <p *ngIf="!f.quote" class="text-sm text-slate-600 italic">{{ lang.t('comparison.clause_not_present') }}</p>
                 </div>
                 <p *ngIf="f.status !== 'found'" class="text-xs text-amber-400/80 mt-2">
@@ -161,12 +161,12 @@ import { MODEL_CLAUSES, ModelClause, getModelClause } from '../data/model-clause
 
               <!-- Model Clause Full Text -->
               <div class="space-y-2">
-                <h4 class="text-xs font-semibold text-cyan-400 uppercase tracking-wider flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                <h4 class="text-xs font-semibold text-blue-500 uppercase tracking-wider flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-blue-500"></span>
                   {{ lang.t('comparison.model_text') }}
                 </h4>
-                <div class="bg-cyan-950/30 rounded-lg p-4 border border-cyan-700/30">
-                  <p class="text-sm text-cyan-200 leading-relaxed">{{ getModelClauseText(f.requirementId) }}</p>
+                <div class="bg-blue-50 rounded-lg p-4 border border-blue-700/30">
+                  <p class="text-sm text-blue-200 leading-relaxed">{{ getModelClauseText(f.requirementId) }}</p>
                 </div>
                 <p class="text-xs text-slate-500 mt-2">
                   {{ lang.t('comparison.model_source') }}: DORA {{ f.doraReference }}
@@ -180,7 +180,7 @@ import { MODEL_CLAUSES, ModelClause, getModelClause } from '../data/model-clause
       <!-- Legend -->
       <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-slate-500">
         <div class="flex items-center gap-2">
-          <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400">
+          <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-600">
             <svg class="w-3 h-3 inline" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
             </svg>
@@ -208,7 +208,7 @@ import { MODEL_CLAUSES, ModelClause, getModelClause } from '../data/model-clause
       <!-- Action Buttons -->
       <div class="flex flex-wrap gap-3 justify-center pt-4">
         <button type="button" (click)="exportPdf()"
-                class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-cyan-500/25 transition-all">
+                class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-blue-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-blue-500/25 transition-all">
           <span class="flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -217,7 +217,7 @@ import { MODEL_CLAUSES, ModelClause, getModelClause } from '../data/model-clause
           </span>
         </button>
         <a [routerLink]="['/contract-results', result.id]"
-           class="px-6 py-2.5 rounded-xl bg-slate-700/50 border border-slate-600/50 text-slate-300 font-semibold text-sm hover:bg-slate-600/50 transition-all">
+           class="px-6 py-2.5 rounded-xl bg-slate-700/50 border border-slate-200 text-slate-600 font-semibold text-sm hover:bg-slate-100 transition-all">
           <span class="flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
@@ -315,13 +315,13 @@ export class ContractComparisonComponent implements OnInit {
   filterClass(filter: string): string {
     const base = 'px-4 py-2 rounded-xl text-sm font-medium transition-all';
     return filter === this.statusFilter
-      ? base + ' bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
+      ? base + ' bg-blue-600/20 text-blue-500 border border-blue-500/30'
       : base + ' bg-slate-700/30 text-slate-400 border border-slate-600/30 hover:text-white';
   }
 
   statusBadge(status: string): string {
     switch (status) {
-      case 'found': return 'px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-400';
+      case 'found': return 'px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-600';
       case 'partial': return 'px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-400';
       default: return 'px-2 py-0.5 rounded-full text-xs font-medium bg-red-500/20 text-red-400';
     }

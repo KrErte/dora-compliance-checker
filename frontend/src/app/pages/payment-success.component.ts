@@ -18,9 +18,9 @@ import { LangService } from '../lang.service';
     <div class="max-w-2xl mx-auto text-center relative z-10">
       <!-- Success Icon -->
       <div class="mb-8">
-        <div class="success-icon mx-auto w-24 h-24 rounded-full bg-gradient-to-br from-emerald-500/20 to-cyan-500/20
-                    border-2 border-emerald-500/50 flex items-center justify-center">
-          <svg class="w-12 h-12 text-emerald-400 checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+        <div class="success-icon mx-auto w-24 h-24 rounded-full bg-gradient-to-br from-blue-600/20 to-blue-500/20
+                    border-2 border-blue-500/50 flex items-center justify-center">
+          <svg class="w-12 h-12 text-blue-600 checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
             <path class="checkmark-path" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
           </svg>
         </div>
@@ -32,7 +32,7 @@ import { LangService } from '../lang.service';
       </h1>
 
       <!-- Subtitle -->
-      <p class="text-lg text-slate-300 mb-10 animate-fade-in-delay">
+      <p class="text-lg text-slate-600 mb-10 animate-fade-in-delay">
         {{ lang.t('payment.license_activated') }}
       </p>
 
@@ -40,41 +40,41 @@ import { LangService } from '../lang.service';
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
         <!-- DORA Assessment -->
         <a routerLink="/assessment"
-           class="glass-card p-5 rounded-xl border border-slate-700/50
-                  hover:border-emerald-500/50 hover:shadow-lg hover:shadow-emerald-500/10
+           class="glass-card p-5 rounded-xl border border-slate-200
+                  hover:border-blue-500/50 hover:shadow-lg hover:shadow-md
                   transition-all duration-300 group">
-          <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500/20 to-cyan-500/20
+          <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600/20 to-blue-500/20
                       flex items-center justify-center mb-3 mx-auto group-hover:scale-110 transition-transform">
-            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
           </div>
-          <span class="text-slate-200 font-medium text-sm group-hover:text-emerald-400 transition-colors">
+          <span class="text-slate-700 font-medium text-sm group-hover:text-blue-600 transition-colors">
             {{ lang.t('payment.start_dora') }}
           </span>
         </a>
 
         <!-- NIS2 Assessment -->
         <a routerLink="/nis2/assessment"
-           class="glass-card p-5 rounded-xl border border-slate-700/50
-                  hover:border-cyan-500/50 hover:shadow-lg hover:shadow-cyan-500/10
+           class="glass-card p-5 rounded-xl border border-slate-200
+                  hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/10
                   transition-all duration-300 group">
-          <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500/20 to-blue-500/20
+          <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500/20 to-blue-500/20
                       flex items-center justify-center mb-3 mx-auto group-hover:scale-110 transition-transform">
-            <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
             </svg>
           </div>
-          <span class="text-slate-200 font-medium text-sm group-hover:text-cyan-400 transition-colors">
+          <span class="text-slate-700 font-medium text-sm group-hover:text-blue-500 transition-colors">
             {{ lang.t('payment.start_nis2') }}
           </span>
         </a>
 
         <!-- Contract Analysis -->
         <a routerLink="/contract-analysis"
-           class="glass-card p-5 rounded-xl border border-slate-700/50
+           class="glass-card p-5 rounded-xl border border-slate-200
                   hover:border-amber-500/50 hover:shadow-lg hover:shadow-amber-500/10
                   transition-all duration-300 group">
           <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500/20 to-orange-500/20
@@ -84,7 +84,7 @@ import { LangService } from '../lang.service';
                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
           </div>
-          <span class="text-slate-200 font-medium text-sm group-hover:text-amber-400 transition-colors">
+          <span class="text-slate-700 font-medium text-sm group-hover:text-amber-400 transition-colors">
             {{ lang.t('payment.analyze_contract') }}
           </span>
         </a>

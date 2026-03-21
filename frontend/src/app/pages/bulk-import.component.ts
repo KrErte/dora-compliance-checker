@@ -49,9 +49,9 @@ interface ValidationError {
         @for (s of stepKeys; track s; let i = $index) {
           <div class="flex items-center gap-2">
             <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all"
-                 [class]="currentStep() > i ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
+                 [class]="currentStep() > i ? 'bg-blue-100 text-blue-600 border border-blue-200' :
                           currentStep() === i ? 'bg-violet-500/20 text-violet-400 border border-violet-500/30' :
-                          'bg-slate-700/50 text-slate-500 border border-slate-600/50'">
+                          'bg-slate-700/50 text-slate-500 border border-slate-200'">
               @if (currentStep() > i) {
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
               } @else {
@@ -60,7 +60,7 @@ interface ValidationError {
             </div>
             <span class="text-xs hidden sm:block" [class]="currentStep() === i ? 'text-white font-medium' : 'text-slate-500'">{{ lang.t(s) }}</span>
             @if (i < stepKeys.length - 1) {
-              <div class="w-8 h-0.5" [class]="currentStep() > i ? 'bg-emerald-500/30' : 'bg-slate-700'"></div>
+              <div class="w-8 h-0.5" [class]="currentStep() > i ? 'bg-blue-600/30' : 'bg-slate-700'"></div>
             }
           </div>
         }
@@ -81,10 +81,10 @@ interface ValidationError {
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             @for (entity of entityOptions; track entity.type) {
               <button (click)="selectEntity(entity.type)"
-                      class="group text-left bg-slate-800/50 border rounded-2xl p-6 transition-all duration-200 hover:shadow-lg hover:shadow-violet-500/5"
+                      class="group text-left bg-white border rounded-2xl p-6 transition-all duration-200 hover:shadow-lg hover:shadow-violet-500/5"
                       [class]="selectedEntity() === entity.type
                         ? 'border-violet-500/50 bg-violet-500/5 ring-1 ring-violet-500/20'
-                        : 'border-slate-700/50 hover:border-slate-600/50'">
+                        : 'border-slate-200 hover:border-slate-200'">
                 <div class="flex items-start gap-4">
                   <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
                        [class]="entity.color">
@@ -136,11 +136,11 @@ interface ValidationError {
       <!-- ═══════════════════════════════════════════════════ -->
       @if (currentStep() === 1) {
         <div class="animate-fade-in-up">
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-8">
+          <div class="bg-white border border-slate-200 rounded-2xl p-8">
             <div class="flex items-center justify-between mb-6">
               <h2 class="text-lg font-semibold text-white">{{ lang.t('bulk.step1_title') }}</h2>
               <button (click)="downloadTemplate()"
-                      class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-300 font-medium text-sm hover:bg-slate-700 transition-all flex items-center gap-2">
+                      class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-600 font-medium text-sm hover:bg-slate-700 transition-all flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
@@ -150,7 +150,7 @@ interface ValidationError {
 
             <!-- Drop zone -->
             <div class="relative border-2 border-dashed rounded-2xl p-12 text-center transition-all duration-200 cursor-pointer"
-                 [class]="dragOver() ? 'border-violet-400 bg-violet-500/5' : 'border-slate-600/50 hover:border-slate-500/50'"
+                 [class]="dragOver() ? 'border-violet-400 bg-violet-500/5' : 'border-slate-200 hover:border-slate-500/50'"
                  (dragover)="onDragOver($event)"
                  (dragleave)="onDragLeave($event)"
                  (drop)="onDrop($event)"
@@ -173,8 +173,8 @@ interface ValidationError {
                 </div>
               } @else {
                 <div class="space-y-3">
-                  <div class="mx-auto w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
-                    <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div class="mx-auto w-12 h-12 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                     </svg>
                   </div>
@@ -200,7 +200,7 @@ interface ValidationError {
 
           <div class="flex justify-between mt-8">
             <button (click)="goToStep(0)"
-                    class="px-6 py-2.5 rounded-xl bg-slate-700/50 text-slate-300 font-medium text-sm hover:bg-slate-700 transition-all flex items-center gap-2">
+                    class="px-6 py-2.5 rounded-xl bg-slate-700/50 text-slate-600 font-medium text-sm hover:bg-slate-700 transition-all flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
               </svg>
@@ -227,14 +227,14 @@ interface ValidationError {
       <!-- ═══════════════════════════════════════════════════ -->
       @if (currentStep() === 2) {
         <div class="animate-fade-in-up">
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+          <div class="bg-white border border-slate-200 rounded-2xl p-6">
             <h2 class="text-lg font-semibold text-white mb-2">{{ lang.t('bulk.step2_title') }}</h2>
             <p class="text-slate-400 text-sm mb-6">{{ lang.t('bulk.step2_desc') }}</p>
 
             <!-- Mapping table -->
             <div class="space-y-3">
               @for (mapping of columnMappings(); track mapping.csvColumn) {
-                <div class="flex items-center gap-4 bg-slate-900/50 border border-slate-700/30 rounded-xl p-4">
+                <div class="flex items-center gap-4 bg-white border border-slate-200 rounded-xl p-4">
                   <div class="flex-1">
                     <span class="text-xs text-slate-500 uppercase tracking-wider">{{ lang.t('bulk.csv_column') }}</span>
                     <p class="text-white font-medium text-sm mt-0.5">{{ mapping.csvColumn }}</p>
@@ -247,7 +247,7 @@ interface ValidationError {
                   <div class="flex-1">
                     <span class="text-xs text-slate-500 uppercase tracking-wider">{{ lang.t('bulk.target_field') }}</span>
                     <select [(ngModel)]="mapping.targetField"
-                            class="mt-0.5 w-full px-3 py-1.5 bg-slate-800/80 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
+                            class="mt-0.5 w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
                       <option value="">-- {{ lang.t('bulk.skip_column') }} --</option>
                       @for (opt of mapping.options; track opt) {
                         <option [value]="opt">{{ opt }}</option>
@@ -261,7 +261,7 @@ interface ValidationError {
 
           <!-- Preview rows -->
           @if (previewRows().length > 0) {
-            <div class="mt-6 bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 overflow-x-auto">
+            <div class="mt-6 bg-white border border-slate-200 rounded-2xl p-6 overflow-x-auto">
               <h3 class="text-sm font-semibold text-white mb-4 flex items-center gap-2">
                 <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -280,10 +280,10 @@ interface ValidationError {
                 </thead>
                 <tbody>
                   @for (row of previewRows(); track $index; let i = $index) {
-                    <tr class="border-t border-slate-700/30">
+                    <tr class="border-t border-slate-200">
                       <td class="py-2 pr-4 text-slate-600">{{ i + 1 }}</td>
                       @for (col of previewHeaders(); track col) {
-                        <td class="py-2 pr-4 text-slate-300 whitespace-nowrap max-w-[200px] truncate">{{ row[col] || '-' }}</td>
+                        <td class="py-2 pr-4 text-slate-600 whitespace-nowrap max-w-[200px] truncate">{{ row[col] || '-' }}</td>
                       }
                     </tr>
                   }
@@ -294,7 +294,7 @@ interface ValidationError {
 
           <div class="flex justify-between mt-8">
             <button (click)="goToStep(1)"
-                    class="px-6 py-2.5 rounded-xl bg-slate-700/50 text-slate-300 font-medium text-sm hover:bg-slate-700 transition-all flex items-center gap-2">
+                    class="px-6 py-2.5 rounded-xl bg-slate-700/50 text-slate-600 font-medium text-sm hover:bg-slate-700 transition-all flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
               </svg>
@@ -318,42 +318,42 @@ interface ValidationError {
         <div class="animate-fade-in-up">
           <!-- Summary stats -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
+            <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
               <div class="text-2xl font-bold text-white">{{ totalRows() }}</div>
               <div class="text-xs text-slate-400 mt-1">{{ lang.t('bulk.total_rows') }}</div>
             </div>
-            <div class="bg-slate-800/50 border border-emerald-500/30 rounded-xl p-4 text-center">
-              <div class="text-2xl font-bold text-emerald-400">{{ validRows() }}</div>
+            <div class="bg-white border border-blue-200 rounded-xl p-4 text-center">
+              <div class="text-2xl font-bold text-blue-600">{{ validRows() }}</div>
               <div class="text-xs text-slate-400 mt-1">{{ lang.t('bulk.valid_rows') }}</div>
             </div>
-            <div class="bg-slate-800/50 border border-red-500/30 rounded-xl p-4 text-center">
+            <div class="bg-white border border-red-500/30 rounded-xl p-4 text-center">
               <div class="text-2xl font-bold text-red-400">{{ errorRows() }}</div>
               <div class="text-xs text-slate-400 mt-1">{{ lang.t('bulk.error_rows') }}</div>
             </div>
-            <div class="bg-slate-800/50 border border-amber-500/30 rounded-xl p-4 text-center">
+            <div class="bg-white border border-amber-500/30 rounded-xl p-4 text-center">
               <div class="text-2xl font-bold text-amber-400">{{ warningCount() }}</div>
               <div class="text-xs text-slate-400 mt-1">{{ lang.t('bulk.warnings') }}</div>
             </div>
           </div>
 
           <!-- Validation progress bar -->
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 mb-6">
+          <div class="bg-white border border-slate-200 rounded-xl p-4 mb-6">
             <div class="flex items-center justify-between mb-2">
-              <span class="text-sm text-slate-300">{{ lang.t('bulk.validation_rate') }}</span>
-              <span class="text-sm font-semibold" [class]="validRows() === totalRows() ? 'text-emerald-400' : 'text-amber-400'">
+              <span class="text-sm text-slate-600">{{ lang.t('bulk.validation_rate') }}</span>
+              <span class="text-sm font-semibold" [class]="validRows() === totalRows() ? 'text-blue-600' : 'text-amber-400'">
                 {{ totalRows() > 0 ? ((validRows() / totalRows()) * 100).toFixed(0) : 0 }}%
               </span>
             </div>
             <div class="w-full bg-slate-700/50 rounded-full h-2">
               <div class="h-2 rounded-full transition-all duration-500"
-                   [class]="validRows() === totalRows() ? 'bg-emerald-500' : 'bg-amber-500'"
+                   [class]="validRows() === totalRows() ? 'bg-blue-600' : 'bg-amber-500'"
                    [style.width.%]="totalRows() > 0 ? (validRows() / totalRows()) * 100 : 0"></div>
             </div>
           </div>
 
           <!-- Error list -->
           @if (validationErrors().length > 0) {
-            <div class="bg-slate-800/50 border border-red-500/20 rounded-2xl p-6 mb-6">
+            <div class="bg-white border border-red-500/20 rounded-2xl p-6 mb-6">
               <h3 class="text-sm font-semibold text-red-400 mb-4 flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -377,24 +377,24 @@ interface ValidationError {
           }
 
           @if (validRows() === totalRows() && totalRows() > 0) {
-            <div class="bg-emerald-900/10 border border-emerald-500/20 rounded-xl p-4 mb-6 flex items-center gap-3">
-              <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-blue-950/10 border border-blue-200 rounded-xl p-4 mb-6 flex items-center gap-3">
+              <svg class="w-5 h-5 text-blue-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
-              <p class="text-emerald-300 text-sm font-medium">{{ lang.t('bulk.all_valid') }}</p>
+              <p class="text-blue-500 text-sm font-medium">{{ lang.t('bulk.all_valid') }}</p>
             </div>
           }
 
           <div class="flex justify-between mt-8">
             <button (click)="goToStep(2)"
-                    class="px-6 py-2.5 rounded-xl bg-slate-700/50 text-slate-300 font-medium text-sm hover:bg-slate-700 transition-all flex items-center gap-2">
+                    class="px-6 py-2.5 rounded-xl bg-slate-700/50 text-slate-600 font-medium text-sm hover:bg-slate-700 transition-all flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
               </svg>
               {{ lang.t('bulk.back') }}
             </button>
             <button (click)="executeImport()" [disabled]="validRows() === 0 || importing()"
-                    class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold text-sm hover:shadow-lg hover:shadow-emerald-500/25 transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2">
+                    class="px-6 py-2.5 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2">
               @if (importing()) {
                 <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                 {{ lang.t('bulk.importing') }}
@@ -414,11 +414,11 @@ interface ValidationError {
       <!-- ═══════════════════════════════════════════════════ -->
       @if (currentStep() === 4) {
         <div class="animate-fade-in-up">
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-8 text-center">
+          <div class="bg-white border border-slate-200 rounded-2xl p-8 text-center">
             @if (importSuccess()) {
               <!-- Success state -->
-              <div class="mx-auto w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mb-6">
-                <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="mx-auto w-16 h-16 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center mb-6">
+                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>
               </div>
@@ -437,15 +437,15 @@ interface ValidationError {
 
             <!-- Result stats -->
             <div class="grid grid-cols-3 gap-4 max-w-md mx-auto mb-8">
-              <div class="bg-slate-900/50 border border-emerald-500/20 rounded-xl p-4">
-                <div class="text-2xl font-bold text-emerald-400">{{ importedCount() }}</div>
+              <div class="bg-white border border-blue-200 rounded-xl p-4">
+                <div class="text-2xl font-bold text-blue-600">{{ importedCount() }}</div>
                 <div class="text-xs text-slate-400 mt-1">{{ lang.t('bulk.imported') }}</div>
               </div>
-              <div class="bg-slate-900/50 border border-red-500/20 rounded-xl p-4">
+              <div class="bg-white border border-red-500/20 rounded-xl p-4">
                 <div class="text-2xl font-bold text-red-400">{{ failedCount() }}</div>
                 <div class="text-xs text-slate-400 mt-1">{{ lang.t('bulk.failed') }}</div>
               </div>
-              <div class="bg-slate-900/50 border border-amber-500/20 rounded-xl p-4">
+              <div class="bg-white border border-amber-500/20 rounded-xl p-4">
                 <div class="text-2xl font-bold text-amber-400">{{ skippedCount() }}</div>
                 <div class="text-xs text-slate-400 mt-1">{{ lang.t('bulk.skipped') }}</div>
               </div>
@@ -469,7 +469,7 @@ interface ValidationError {
             <!-- Actions -->
             <div class="flex items-center justify-center gap-4">
               <button (click)="resetWizard()"
-                      class="px-6 py-2.5 rounded-xl bg-slate-700/50 text-slate-300 font-medium text-sm hover:bg-slate-700 transition-all flex items-center gap-2">
+                      class="px-6 py-2.5 rounded-xl bg-slate-700/50 text-slate-600 font-medium text-sm hover:bg-slate-700 transition-all flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                 </svg>
@@ -513,7 +513,7 @@ export class BulkImportComponent {
       titleKey: 'bulk.entity_remediation',
       descKey: 'bulk.entity_remediation_desc',
       icon: 'clipboard',
-      color: 'bg-gradient-to-br from-emerald-500 to-teal-600'
+      color: 'bg-gradient-to-br from-blue-600 to-teal-600'
     },
     {
       type: 'ict_assets',

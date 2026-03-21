@@ -228,11 +228,11 @@ const TEMPLATES: PolicyTemplate[] = [
                 class="p-4 rounded-xl border text-left transition-all"
                 [ngClass]="selectedTemplate?.id === t.id
                   ? 'bg-violet-500/10 border-violet-500/40 shadow-lg shadow-violet-500/10'
-                  : 'bg-slate-800/50 border-slate-700/50 hover:border-slate-600'">
+                  : 'bg-white border-slate-200 hover:border-slate-300'">
           <svg class="w-5 h-5 mb-2" [ngClass]="selectedTemplate?.id === t.id ? 'text-violet-400' : 'text-slate-500'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path [attr.d]="t.icon"/>
           </svg>
-          <p class="text-sm font-medium" [ngClass]="selectedTemplate?.id === t.id ? 'text-white' : 'text-slate-300'">
+          <p class="text-sm font-medium" [ngClass]="selectedTemplate?.id === t.id ? 'text-white' : 'text-slate-600'">
             {{ lang.l(t.name.et, t.name.en) }}
           </p>
           <p class="text-xs text-slate-500 mt-1">{{ t.doraRef }}</p>
@@ -242,20 +242,20 @@ const TEMPLATES: PolicyTemplate[] = [
 
     @if (selectedTemplate) {
       <!-- Company details -->
-      <div class="p-5 rounded-xl bg-slate-800/50 border border-slate-700/50 mb-6">
-        <h3 class="text-sm font-semibold text-slate-300 mb-4">{{ lang.t('policy.company_details') }}</h3>
+      <div class="p-5 rounded-xl bg-white border border-slate-200 mb-6">
+        <h3 class="text-sm font-semibold text-slate-600 mb-4">{{ lang.t('policy.company_details') }}</h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="block text-xs text-slate-500 mb-1">{{ lang.t('policy.company_name') }}</label>
-            <input [(ngModel)]="companyName" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="AS Finants">
+            <input [(ngModel)]="companyName" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="AS Finants">
           </div>
           <div>
             <label class="block text-xs text-slate-500 mb-1">{{ lang.t('policy.registration_number') }}</label>
-            <input [(ngModel)]="regNumber" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="12345678">
+            <input [(ngModel)]="regNumber" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="12345678">
           </div>
           <div>
             <label class="block text-xs text-slate-500 mb-1">{{ lang.t('policy.sector') }}</label>
-            <select [(ngModel)]="sector" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none">
+            <select [(ngModel)]="sector" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none">
               <option value="banking">{{ lang.t('policy.banking') }}</option>
               <option value="insurance">{{ lang.t('policy.insurance') }}</option>
               <option value="investment">{{ lang.t('policy.investment') }}</option>
@@ -265,15 +265,15 @@ const TEMPLATES: PolicyTemplate[] = [
           </div>
           <div>
             <label class="block text-xs text-slate-500 mb-1">{{ lang.t('policy.country') }}</label>
-            <input [(ngModel)]="country" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="Estonia">
+            <input [(ngModel)]="country" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="Estonia">
           </div>
           <div>
             <label class="block text-xs text-slate-500 mb-1">CISO / IT {{ lang.t('policy.manager') }}</label>
-            <input [(ngModel)]="cisoName" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="Mari Mets">
+            <input [(ngModel)]="cisoName" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="Mari Mets">
           </div>
           <div>
             <label class="block text-xs text-slate-500 mb-1">{{ lang.t('policy.responsible_board_member') }}</label>
-            <input [(ngModel)]="boardMember" class="w-full px-3 py-2 rounded-lg bg-slate-900/50 border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="Jaan Tamm">
+            <input [(ngModel)]="boardMember" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="Jaan Tamm">
           </div>
         </div>
       </div>
@@ -286,7 +286,7 @@ const TEMPLATES: PolicyTemplate[] = [
           </svg>
           {{ copied ? lang.t('policy.copied') : lang.t('policy.copy_text') }}
         </button>
-        <button (click)="printDoc()" class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-300 hover:bg-slate-700 transition-all flex items-center gap-2">
+        <button (click)="printDoc()" class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-600 hover:bg-slate-700 transition-all flex items-center gap-2">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/>
           </svg>
@@ -295,12 +295,12 @@ const TEMPLATES: PolicyTemplate[] = [
       </div>
 
       <!-- Document preview -->
-      <div id="policy-document" class="p-6 sm:p-8 rounded-xl bg-slate-800/80 border border-slate-700/50 print:bg-white print:text-black print:border-0">
+      <div id="policy-document" class="p-6 sm:p-8 rounded-xl bg-white border border-slate-200 print:bg-white print:text-black print:border-0">
         <!-- Header -->
-        <div class="text-center mb-8 pb-6 border-b border-slate-700/50 print:border-gray-300">
+        <div class="text-center mb-8 pb-6 border-b border-slate-200 print:border-gray-300">
           <p class="text-xs text-red-400 font-bold tracking-widest mb-4 print:text-red-600">{{ lang.t('policy.confidential') }}</p>
           <h2 class="text-2xl font-bold text-white mb-2 print:text-black">{{ getCompanyName() }}</h2>
-          <h3 class="text-lg font-semibold text-emerald-400 mb-4 print:text-emerald-700">{{ lang.l(selectedTemplate.name.et, selectedTemplate.name.en) }}</h3>
+          <h3 class="text-lg font-semibold text-blue-600 mb-4 print:text-blue-800">{{ lang.l(selectedTemplate.name.et, selectedTemplate.name.en) }}</h3>
           <div class="flex justify-center gap-6 text-xs text-slate-400 print:text-gray-600">
             <span>{{ lang.t('policy.version') }}: 1.0</span>
             <span>{{ lang.t('policy.date') }}: {{ today }}</span>
@@ -310,7 +310,7 @@ const TEMPLATES: PolicyTemplate[] = [
 
         <!-- Table of contents -->
         <div class="mb-8 p-4 rounded-lg bg-slate-900/30 print:bg-gray-100">
-          <p class="text-sm font-bold text-slate-300 mb-3 print:text-black">{{ lang.t('policy.table_of_contents') }}</p>
+          <p class="text-sm font-bold text-slate-600 mb-3 print:text-black">{{ lang.t('policy.table_of_contents') }}</p>
           @for (section of selectedTemplate.sections; track section.title.en) {
             <p class="text-sm text-slate-400 py-0.5 print:text-gray-700">{{ lang.l(section.title.et, section.title.en) }}</p>
           }
@@ -320,12 +320,12 @@ const TEMPLATES: PolicyTemplate[] = [
         @for (section of selectedTemplate.sections; track section.title.en) {
           <div class="mb-6">
             <h4 class="text-base font-semibold text-white mb-2 print:text-black">{{ lang.l(section.title.et, section.title.en) }}</h4>
-            <p class="text-sm text-slate-300 leading-relaxed whitespace-pre-line print:text-gray-800">{{ interpolate(lang.l(section.body.et, section.body.en)) }}</p>
+            <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line print:text-gray-800">{{ interpolate(lang.l(section.body.et, section.body.en)) }}</p>
           </div>
         }
 
         <!-- Sign-off -->
-        <div class="mt-10 pt-6 border-t border-slate-700/50 grid grid-cols-2 gap-8 print:border-gray-300">
+        <div class="mt-10 pt-6 border-t border-slate-200 grid grid-cols-2 gap-8 print:border-gray-300">
           <div>
             <p class="text-xs text-slate-500 mb-1 print:text-gray-500">{{ lang.t('policy.prepared_by') }}</p>
             <div class="h-px bg-slate-600 w-48 mt-8 print:bg-gray-400"></div>

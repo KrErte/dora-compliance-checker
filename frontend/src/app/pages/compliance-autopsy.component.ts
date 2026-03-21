@@ -65,7 +65,7 @@ import { SubscriptionService } from '../services/subscription.service';
     }
   `],
   template: `
-    <div class="min-h-screen bg-slate-950 text-slate-200">
+    <div class="min-h-screen bg-slate-950 text-slate-700">
       <!-- Header -->
       <div class="bg-gradient-to-b from-slate-900 via-slate-900/95 to-slate-950 border-b border-red-900/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
@@ -93,7 +93,7 @@ import { SubscriptionService } from '../services/subscription.service';
             <button (click)="activeTab.set('events')"
               [class]="activeTab() === 'events'
                 ? 'px-5 py-2.5 rounded-t-lg text-sm font-medium bg-slate-800 text-red-400 border border-b-0 border-red-900/40'
-                : 'px-5 py-2.5 rounded-t-lg text-sm font-medium text-slate-400 hover:text-slate-300 border border-b-0 border-transparent hover:border-slate-700/50'">
+                : 'px-5 py-2.5 rounded-t-lg text-sm font-medium text-slate-400 hover:text-slate-600 border border-b-0 border-transparent hover:border-slate-200'">
               <span class="flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -104,7 +104,7 @@ import { SubscriptionService } from '../services/subscription.service';
             <button (click)="activeTab.set('report')"
               [class]="activeTab() === 'report'
                 ? 'px-5 py-2.5 rounded-t-lg text-sm font-medium bg-slate-800 text-red-400 border border-b-0 border-red-900/40'
-                : 'px-5 py-2.5 rounded-t-lg text-sm font-medium text-slate-400 hover:text-slate-300 border border-b-0 border-transparent hover:border-slate-700/50'"
+                : 'px-5 py-2.5 rounded-t-lg text-sm font-medium text-slate-400 hover:text-slate-600 border border-b-0 border-transparent hover:border-slate-200'"
               [disabled]="!report()">
               <span class="flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,7 +116,7 @@ import { SubscriptionService } from '../services/subscription.service';
             <button (click)="activeTab.set('history')"
               [class]="activeTab() === 'history'
                 ? 'px-5 py-2.5 rounded-t-lg text-sm font-medium bg-slate-800 text-red-400 border border-b-0 border-red-900/40'
-                : 'px-5 py-2.5 rounded-t-lg text-sm font-medium text-slate-400 hover:text-slate-300 border border-b-0 border-transparent hover:border-slate-700/50'">
+                : 'px-5 py-2.5 rounded-t-lg text-sm font-medium text-slate-400 hover:text-slate-600 border border-b-0 border-transparent hover:border-slate-200'">
               <span class="flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -170,7 +170,7 @@ import { SubscriptionService } from '../services/subscription.service';
           <div>
             @if (events().length === 0) {
               <div class="text-center py-20">
-                <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-slate-800/80 border border-slate-700/50 flex items-center justify-center">
+                <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-white border border-slate-200 flex items-center justify-center">
                   <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
@@ -186,7 +186,7 @@ import { SubscriptionService } from '../services/subscription.service';
               </div>
             } @else {
               <div class="mb-6">
-                <h2 class="text-lg font-semibold text-slate-300 medical-font">
+                <h2 class="text-lg font-semibold text-slate-600 medical-font">
                   {{ lang.lang() === 'et' ? 'JUHTUMID LAHKAMISEKS' : 'CASES AWAITING AUTOPSY' }}
                 </h2>
                 <p class="text-slate-500 text-sm mt-1">
@@ -197,7 +197,7 @@ import { SubscriptionService } from '../services/subscription.service';
               </div>
               <div class="grid gap-4">
                 @for (event of events(); track event.id) {
-                  <div class="bg-slate-800/80 border rounded-lg overflow-hidden hover:bg-slate-800/95 transition-colors"
+                  <div class="bg-white border rounded-lg overflow-hidden hover:bg-white transition-colors"
                     [class]="getSeverityBorderClass(event.severity)">
                     <div class="p-5">
                       <div class="flex items-start justify-between gap-4">
@@ -277,7 +277,7 @@ import { SubscriptionService } from '../services/subscription.service';
           <div class="space-y-6">
 
             <!-- ---- Report Header ---- -->
-            <div class="bg-slate-900/80 border border-red-900/30 rounded-xl p-6 relative overflow-hidden">
+            <div class="bg-white border border-red-900/30 rounded-xl p-6 relative overflow-hidden">
               <div class="absolute top-0 right-0 w-64 h-64 bg-red-900/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
               <div class="relative">
                 <div class="flex items-center gap-2 mb-1">
@@ -294,19 +294,19 @@ import { SubscriptionService } from '../services/subscription.service';
                     <span class="text-[10px] text-slate-500 uppercase tracking-wider block mb-1">
                       {{ lang.lang() === 'et' ? 'Aruande ID' : 'Report ID' }}
                     </span>
-                    <span class="text-sm font-mono text-slate-300">{{ report().id?.substring(0, 12) }}</span>
+                    <span class="text-sm font-mono text-slate-600">{{ report().id?.substring(0, 12) }}</span>
                   </div>
                   <div>
                     <span class="text-[10px] text-slate-500 uppercase tracking-wider block mb-1">
                       {{ lang.lang() === 'et' ? 'Koostatud' : 'Performed' }}
                     </span>
-                    <span class="text-sm text-slate-300">{{ report().performedAt | date:'dd MMM yyyy, HH:mm' }}</span>
+                    <span class="text-sm text-slate-600">{{ report().performedAt | date:'dd MMM yyyy, HH:mm' }}</span>
                   </div>
                   <div>
                     <span class="text-[10px] text-slate-500 uppercase tracking-wider block mb-1">
                       {{ lang.lang() === 'et' ? 'Juhtumi ID' : 'Case ID' }}
                     </span>
-                    <span class="text-sm font-mono text-slate-300">{{ report().failureEventId?.substring(0, 12) }}</span>
+                    <span class="text-sm font-mono text-slate-600">{{ report().failureEventId?.substring(0, 12) }}</span>
                   </div>
                 </div>
 
@@ -371,7 +371,7 @@ import { SubscriptionService } from '../services/subscription.service';
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <!-- Severity Meter -->
-                      <div class="bg-slate-800/60 rounded-lg p-3">
+                      <div class="bg-white rounded-lg p-3">
                         <span class="text-[10px] text-slate-500 uppercase tracking-wider block mb-2">
                           {{ lang.lang() === 'et' ? 'Raskusaste' : 'Severity' }}
                         </span>
@@ -388,7 +388,7 @@ import { SubscriptionService } from '../services/subscription.service';
                         </div>
                       </div>
                       <!-- Duration -->
-                      <div class="bg-slate-800/60 rounded-lg p-3">
+                      <div class="bg-white rounded-lg p-3">
                         <span class="text-[10px] text-slate-500 uppercase tracking-wider block mb-2">
                           {{ lang.lang() === 'et' ? 'Kestus' : 'Duration' }}
                         </span>
@@ -400,7 +400,7 @@ import { SubscriptionService } from '../services/subscription.service';
                         </span>
                       </div>
                       <!-- Article -->
-                      <div class="bg-slate-800/60 rounded-lg p-3">
+                      <div class="bg-white rounded-lg p-3">
                         <span class="text-[10px] text-slate-500 uppercase tracking-wider block mb-2">
                           {{ lang.lang() === 'et' ? 'Artikli viide' : 'Article Reference' }}
                         </span>
@@ -440,7 +440,7 @@ import { SubscriptionService } from '../services/subscription.service';
                 @if (report().contributingFactors?.length) {
                   <div class="px-6 pb-6 space-y-3">
                     @for (factor of report().contributingFactors; track $index) {
-                      <div class="flex items-start gap-4 bg-slate-800/40 rounded-lg p-4 border border-slate-700/30">
+                      <div class="flex items-start gap-4 bg-white rounded-lg p-4 border border-slate-200">
                         <span class="text-lg font-bold text-slate-600 font-mono shrink-0 w-8 text-center">
                           {{ $index + 1 }}
                         </span>
@@ -456,7 +456,7 @@ import { SubscriptionService } from '../services/subscription.service';
                               </span>
                             }
                           </div>
-                          <p class="text-sm text-slate-300 leading-relaxed">
+                          <p class="text-sm text-slate-600 leading-relaxed">
                             {{ lang.lang() === 'et' ? (factor.factorEt || factor.factor) : factor.factor }}
                           </p>
                         </div>
@@ -489,7 +489,7 @@ import { SubscriptionService } from '../services/subscription.service';
                   <div class="px-6 pb-6">
                     <!-- Score trajectory -->
                     @if (hasTimelineScores()) {
-                      <div class="mb-6 bg-slate-800/40 rounded-lg p-4 border border-slate-700/30">
+                      <div class="mb-6 bg-white rounded-lg p-4 border border-slate-200">
                         <span class="text-[10px] text-slate-500 uppercase tracking-wider block mb-3">
                           {{ lang.lang() === 'et' ? 'Skoori trajektoor' : 'Score Trajectory' }}
                         </span>
@@ -517,7 +517,7 @@ import { SubscriptionService } from '../services/subscription.service';
                           <div class="absolute left-[-25px] top-1 w-3 h-3 rounded-full border-2 z-10"
                             [class]="getTimelineTypeDotClass(entry.type)">
                           </div>
-                          <div class="bg-slate-800/40 rounded-lg p-3 border border-slate-700/30 ml-2">
+                          <div class="bg-white rounded-lg p-3 border border-slate-200 ml-2">
                             <div class="flex items-center justify-between gap-2 mb-1">
                               <span class="text-xs text-slate-500 font-mono">{{ entry.date | date:'dd MMM yyyy' }}</span>
                               @if (entry.score != null) {
@@ -526,9 +526,9 @@ import { SubscriptionService } from '../services/subscription.service';
                                 </span>
                               }
                             </div>
-                            <p class="text-sm text-slate-300">{{ entry.event }}</p>
+                            <p class="text-sm text-slate-600">{{ entry.event }}</p>
                             @if (entry.type === 'INFLECTION') {
-                              <p class="text-[10px] text-emerald-500/80 mt-1 italic">
+                              <p class="text-[10px] text-blue-600/80 mt-1 italic">
                                 {{ lang.lang() === 'et'
                                   ? '&#8618; Kui siin oleks ravitud, oleks ellujäämine olnud voimalik'
                                   : '&#8618; If treated here, survival was possible' }}
@@ -599,11 +599,11 @@ import { SubscriptionService } from '../services/subscription.service';
               <button (click)="toggleSection('organAnalysis')"
                 class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-800/30 transition-colors">
                 <div class="flex items-center gap-3">
-                  <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                   </svg>
-                  <h3 class="text-base font-bold text-emerald-400 medical-font tracking-wide uppercase">
+                  <h3 class="text-base font-bold text-blue-600 medical-font tracking-wide uppercase">
                     {{ lang.lang() === 'et' ? 'ELUNDIANALUUS' : 'ORGAN ANALYSIS' }}
                   </h3>
                 </div>
@@ -617,7 +617,7 @@ import { SubscriptionService } from '../services/subscription.service';
                   <div class="px-6 pb-6">
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                       @for (organ of report().organAnalysis; track organ.pillar) {
-                        <div class="organ-card bg-slate-800/60 rounded-xl p-4 border transition-colors relative overflow-hidden"
+                        <div class="organ-card bg-white rounded-xl p-4 border transition-colors relative overflow-hidden"
                           [style.border-color]="getConditionColor(organ.condition) + '40'">
                           <!-- Condition gradient bg -->
                           <div class="absolute inset-0 opacity-5"
@@ -632,7 +632,7 @@ import { SubscriptionService } from '../services/subscription.service';
                                 {{ organ.score }}
                               </span>
                             </div>
-                            <h4 class="text-sm font-semibold text-slate-200 mb-2 leading-tight">
+                            <h4 class="text-sm font-semibold text-slate-700 mb-2 leading-tight">
                               {{ lang.lang() === 'et' ? (organ.nameEt || organ.name) : organ.name }}
                             </h4>
                             <span class="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full mb-3"
@@ -664,8 +664,8 @@ import { SubscriptionService } from '../services/subscription.service';
               <button (click)="toggleSection('recommendations')"
                 class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-800/30 transition-colors">
                 <div class="flex items-center gap-3">
-                  <span class="text-xl font-bold text-cyan-400 medical-font">Rx</span>
-                  <h3 class="text-base font-bold text-cyan-400 medical-font tracking-wide uppercase">
+                  <span class="text-xl font-bold text-blue-500 medical-font">Rx</span>
+                  <h3 class="text-base font-bold text-blue-500 medical-font tracking-wide uppercase">
                     {{ lang.lang() === 'et' ? 'ENNETAV RETSEPT' : 'PREVENTION Rx' }}
                   </h3>
                 </div>
@@ -679,17 +679,17 @@ import { SubscriptionService } from '../services/subscription.service';
                   <div class="px-6 pb-6 prescription-pad">
                     <div class="space-y-4">
                       @for (rx of report().recommendations; track $index) {
-                        <div class="bg-slate-800/40 border border-dashed border-slate-700/50 rounded-lg p-4">
+                        <div class="bg-white border border-dashed border-slate-200 rounded-lg p-4">
                           <div class="flex items-start justify-between gap-4">
                             <div class="flex-1 min-w-0">
                               <div class="flex items-center gap-2 mb-2 flex-wrap">
-                                <span class="text-lg font-bold text-cyan-400/60 medical-font">Rx{{ $index + 1 }}</span>
+                                <span class="text-lg font-bold text-blue-500/60 medical-font">Rx{{ $index + 1 }}</span>
                                 <span class="text-[10px] font-bold px-2 py-0.5 rounded-full"
                                   [class]="getPriorityBadgeClass(rx.priority)">
                                   {{ rx.priority }}
                                 </span>
                               </div>
-                              <p class="text-sm text-slate-200 leading-relaxed mb-3">
+                              <p class="text-sm text-slate-700 leading-relaxed mb-3">
                                 {{ lang.lang() === 'et' ? (rx.actionEt || rx.action) : rx.action }}
                               </p>
                               <div class="flex items-center gap-4 flex-wrap">
@@ -700,7 +700,7 @@ import { SubscriptionService } from '../services/subscription.service';
                                   {{ lang.lang() === 'et' ? 'Panus' : 'Effort' }}: {{ rx.effortDays }}
                                   {{ lang.lang() === 'et' ? 'paeva' : 'days' }}
                                 </span>
-                                <span class="text-xs text-emerald-400 flex items-center gap-1">
+                                <span class="text-xs text-blue-600 flex items-center gap-1">
                                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
                                   </svg>
@@ -710,7 +710,7 @@ import { SubscriptionService } from '../services/subscription.service';
                               </div>
                             </div>
                             <a [routerLink]="['/remediation']" [queryParams]="{ action: rx.action, priority: rx.priority, effort: rx.effortDays }"
-                              class="shrink-0 px-3 py-1.5 bg-cyan-900/30 border border-cyan-800/40 text-cyan-300 text-xs font-medium rounded-lg hover:bg-cyan-900/50 transition-colors">
+                              class="shrink-0 px-3 py-1.5 bg-blue-50 border border-blue-800/40 text-blue-400 text-xs font-medium rounded-lg hover:bg-blue-100 transition-colors">
                               {{ lang.lang() === 'et' ? 'Loo parandus' : 'Create Remediation' }}
                             </a>
                           </div>
@@ -731,7 +731,7 @@ import { SubscriptionService } from '../services/subscription.service';
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
                   </svg>
-                  <h3 class="text-base font-bold text-slate-300 medical-font tracking-wide uppercase">
+                  <h3 class="text-base font-bold text-slate-600 medical-font tracking-wide uppercase">
                     {{ lang.lang() === 'et' ? 'TOENDITE AHEL - LABORI TULEMUSED' : 'EVIDENCE CHAIN - LAB RESULTS' }}
                   </h3>
                 </div>
@@ -743,9 +743,9 @@ import { SubscriptionService } from '../services/subscription.service';
               <div class="section-collapse" [class.section-open]="expandedSections().has('evidenceChain')" [class.section-closed]="!expandedSections().has('evidenceChain')">
                 @if (report().evidenceChain?.length) {
                   <div class="px-6 pb-6">
-                    <div class="bg-slate-800/30 rounded-lg border border-slate-700/30 overflow-hidden">
+                    <div class="bg-slate-800/30 rounded-lg border border-slate-200 overflow-hidden">
                       <!-- Table Header -->
-                      <div class="grid grid-cols-12 gap-2 px-4 py-3 bg-slate-800/60 border-b border-slate-700/30 text-[10px] text-slate-500 uppercase tracking-wider font-bold">
+                      <div class="grid grid-cols-12 gap-2 px-4 py-3 bg-white border-b border-slate-200 text-[10px] text-slate-500 uppercase tracking-wider font-bold">
                         <div class="col-span-2">{{ lang.lang() === 'et' ? 'Sammas' : 'Pillar' }}</div>
                         <div class="col-span-3">{{ lang.lang() === 'et' ? 'Nimi' : 'Name' }}</div>
                         <div class="col-span-3">{{ lang.lang() === 'et' ? 'Artiklid' : 'Articles' }}</div>
@@ -758,7 +758,7 @@ import { SubscriptionService } from '../services/subscription.service';
                             <span class="text-xs font-mono text-slate-400">{{ chain.pillar }}</span>
                           </div>
                           <div class="col-span-3">
-                            <span class="text-xs text-slate-300">{{ chain.name }}</span>
+                            <span class="text-xs text-slate-600">{{ chain.name }}</span>
                           </div>
                           <div class="col-span-3">
                             <div class="flex flex-wrap gap-1">
@@ -770,7 +770,7 @@ import { SubscriptionService } from '../services/subscription.service';
                             </div>
                           </div>
                           <div class="col-span-2 text-center">
-                            <span class="text-sm font-bold text-slate-300">{{ chain.evidenceCount }}</span>
+                            <span class="text-sm font-bold text-slate-600">{{ chain.evidenceCount }}</span>
                           </div>
                           <div class="col-span-2 text-center">
                             <span class="text-[10px] font-bold px-2 py-1 rounded-full"
@@ -792,7 +792,7 @@ import { SubscriptionService } from '../services/subscription.service';
         <!-- No report selected -->
         @if (!loading() && activeTab() === 'report' && !report()) {
           <div class="text-center py-20">
-            <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-slate-800/80 border border-slate-700/50 flex items-center justify-center">
+            <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-white border border-slate-200 flex items-center justify-center">
               <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                   d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -814,7 +814,7 @@ import { SubscriptionService } from '../services/subscription.service';
           <div>
             @if (history().length === 0) {
               <div class="text-center py-20">
-                <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-slate-800/80 border border-slate-700/50 flex items-center justify-center">
+                <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-white border border-slate-200 flex items-center justify-center">
                   <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
@@ -830,14 +830,14 @@ import { SubscriptionService } from '../services/subscription.service';
               </div>
             } @else {
               <div class="mb-6">
-                <h2 class="text-lg font-semibold text-slate-300 medical-font">
+                <h2 class="text-lg font-semibold text-slate-600 medical-font">
                   {{ lang.lang() === 'et' ? 'LAHKAMISTE ARHIIV' : 'AUTOPSY ARCHIVE' }}
                 </h2>
               </div>
               <div class="space-y-3">
                 @for (entry of history(); track entry.id) {
                   <button (click)="loadReport(entry.id)"
-                    class="w-full text-left bg-slate-800/60 border border-slate-700/40 rounded-lg p-5 hover:bg-slate-800/90 hover:border-slate-600/50 transition-colors group">
+                    class="w-full text-left bg-white border border-slate-200 rounded-lg p-5 hover:bg-slate-800/90 hover:border-slate-200 transition-colors group">
                     <div class="flex items-center justify-between gap-4 flex-wrap">
                       <div class="flex items-center gap-4 flex-1 min-w-0">
                         <div class="w-10 h-10 rounded-lg bg-slate-700/50 border border-slate-600/30 flex items-center justify-center shrink-0">
@@ -860,7 +860,7 @@ import { SubscriptionService } from '../services/subscription.service';
                               {{ entry.severity }}
                             </span>
                           </div>
-                          <p class="text-sm text-slate-300 truncate">
+                          <p class="text-sm text-slate-600 truncate">
                             {{ entry.causeOfDeath }}
                           </p>
                         </div>
@@ -987,10 +987,10 @@ export class ComplianceAutopsyComponent implements OnInit {
 
   getSeverityBorderClass(severity: string): string {
     switch (severity) {
-      case 'CRITICAL': return 'border-red-800/40 bg-slate-800/80';
-      case 'HIGH': return 'border-orange-800/40 bg-slate-800/80';
-      case 'MEDIUM': return 'border-amber-800/30 bg-slate-800/80';
-      default: return 'border-slate-700/40 bg-slate-800/80';
+      case 'CRITICAL': return 'border-red-800/40 bg-white';
+      case 'HIGH': return 'border-orange-800/40 bg-white';
+      case 'MEDIUM': return 'border-amber-800/30 bg-white';
+      default: return 'border-slate-200 bg-white';
     }
   }
 
@@ -1008,7 +1008,7 @@ export class ComplianceAutopsyComponent implements OnInit {
       case 'CRITICAL': return 'bg-red-900/60 text-red-300 border border-red-800/40';
       case 'HIGH': return 'bg-orange-900/60 text-orange-300 border border-orange-800/40';
       case 'MEDIUM': return 'bg-amber-900/60 text-amber-300 border border-amber-800/40';
-      default: return 'bg-slate-700/60 text-slate-300 border border-slate-600/40';
+      default: return 'bg-slate-700/60 text-slate-600 border border-slate-200';
     }
   }
 
@@ -1036,10 +1036,10 @@ export class ComplianceAutopsyComponent implements OnInit {
 
   getVerdictClass(verdict: string): string {
     switch (verdict) {
-      case 'SURVIVABLE': return 'bg-emerald-900/60 text-emerald-300 border border-emerald-800/40';
+      case 'SURVIVABLE': return 'bg-blue-950/60 text-blue-500 border border-blue-900/40';
       case 'CRITICAL_CONDITION': return 'bg-amber-900/60 text-amber-300 border border-amber-800/40';
       case 'TERMINAL': return 'bg-red-900/60 text-red-300 border border-red-800/40';
-      default: return 'bg-slate-700/60 text-slate-300 border border-slate-600/40';
+      default: return 'bg-slate-700/60 text-slate-600 border border-slate-200';
     }
   }
 
@@ -1049,8 +1049,8 @@ export class ComplianceAutopsyComponent implements OnInit {
     switch (impact) {
       case 'HIGH': return 'bg-red-900/60 text-red-300';
       case 'MEDIUM': return 'bg-amber-900/60 text-amber-300';
-      case 'LOW': return 'bg-emerald-900/60 text-emerald-300';
-      default: return 'bg-slate-700/60 text-slate-300';
+      case 'LOW': return 'bg-blue-950/60 text-blue-500';
+      default: return 'bg-slate-700/60 text-slate-600';
     }
   }
 
@@ -1060,8 +1060,8 @@ export class ComplianceAutopsyComponent implements OnInit {
       case 'URGENT': return 'bg-red-900/60 text-red-300 border border-red-800/40';
       case 'HIGH': return 'bg-orange-900/60 text-orange-300 border border-orange-800/40';
       case 'MEDIUM': return 'bg-amber-900/60 text-amber-300 border border-amber-800/40';
-      case 'LOW': return 'bg-slate-700/60 text-slate-300 border border-slate-600/40';
-      default: return 'bg-slate-700/60 text-slate-300 border border-slate-600/40';
+      case 'LOW': return 'bg-slate-700/60 text-slate-600 border border-slate-200';
+      default: return 'bg-slate-700/60 text-slate-600 border border-slate-200';
     }
   }
 
@@ -1069,10 +1069,10 @@ export class ComplianceAutopsyComponent implements OnInit {
 
   getEvidenceStatusClass(status: string): string {
     switch (status) {
-      case 'ADEQUATE': return 'bg-emerald-900/60 text-emerald-300';
+      case 'ADEQUATE': return 'bg-blue-950/60 text-blue-500';
       case 'PARTIAL': return 'bg-amber-900/60 text-amber-300';
       case 'MISSING': return 'bg-red-900/60 text-red-300';
-      default: return 'bg-slate-700/60 text-slate-300';
+      default: return 'bg-slate-700/60 text-slate-600';
     }
   }
 
@@ -1082,7 +1082,7 @@ export class ComplianceAutopsyComponent implements OnInit {
     switch (type) {
       case 'FAILURE': return 'bg-red-500 border-red-400';
       case 'DEGRADATION': return 'bg-orange-500 border-orange-400';
-      case 'INFLECTION': return 'bg-emerald-500 border-emerald-400';
+      case 'INFLECTION': return 'bg-blue-600 border-blue-400';
       case 'WARNING': return 'bg-amber-500 border-amber-400';
       case 'INCIDENT': return 'bg-red-600 border-red-500';
       default: return 'bg-slate-500 border-slate-400';

@@ -28,7 +28,7 @@ import { SubscriptionService } from '../services/subscription.service';
       </div>
 
       <!-- Upgrade prompt for free users -->
-      <div *ngIf="!subscriptionService.isPremium()" class="bg-slate-800/50 border border-amber-500/30 rounded-2xl p-8 text-center">
+      <div *ngIf="!subscriptionService.isPremium()" class="bg-white border border-amber-500/30 rounded-2xl p-8 text-center">
         <svg class="w-16 h-16 mx-auto mb-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
         </svg>
@@ -47,7 +47,7 @@ import { SubscriptionService } from '../services/subscription.service';
       <!-- Branding form (premium users only) -->
       <div *ngIf="subscriptionService.isPremium()" class="space-y-6">
         <!-- Logo Section -->
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6">
           <h2 class="text-lg font-semibold text-white mb-4">
             {{ lang.t('branding.company_logo') }}
           </h2>
@@ -55,7 +55,7 @@ import { SubscriptionService } from '../services/subscription.service';
           <!-- Current logo -->
           <div *ngIf="settings.hasLogo" class="flex items-center gap-4 mb-4">
             <img [src]="logoUrl" alt="Company logo"
-                 class="w-20 h-20 rounded-xl border border-slate-600/50 object-contain bg-white/5 p-2">
+                 class="w-20 h-20 rounded-xl border border-slate-200 object-contain bg-white/5 p-2">
             <button type="button" (click)="deleteLogo()"
                     class="px-3 py-1.5 rounded-lg text-xs font-medium bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 transition-all">
               {{ lang.t('branding.delete_logo') }}
@@ -66,7 +66,7 @@ import { SubscriptionService } from '../services/subscription.service';
           <div (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
                (click)="fileInput.click()"
                [class]="'border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all ' +
-                         (dragOver ? 'border-violet-400 bg-violet-500/5' : 'border-slate-600/50 hover:border-slate-500/50 hover:bg-slate-700/20')">
+                         (dragOver ? 'border-violet-400 bg-violet-500/5' : 'border-slate-200 hover:border-slate-500/50 hover:bg-slate-700/20')">
             <svg class="w-10 h-10 mx-auto mb-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
             </svg>
@@ -77,11 +77,11 @@ import { SubscriptionService } from '../services/subscription.service';
           </div>
           <input #fileInput type="file" accept="image/png,image/jpeg,image/svg+xml" class="hidden" (change)="onFileSelected($event)">
           <p *ngIf="logoError" class="text-red-400 text-xs mt-2">{{ logoError }}</p>
-          <p *ngIf="logoSuccess" class="text-emerald-400 text-xs mt-2">{{ logoSuccess }}</p>
+          <p *ngIf="logoSuccess" class="text-blue-600 text-xs mt-2">{{ logoSuccess }}</p>
         </div>
 
         <!-- Company Name & Color -->
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6">
           <h2 class="text-lg font-semibold text-white mb-4">
             {{ lang.t('branding.company_details') }}
           </h2>
@@ -94,7 +94,7 @@ import { SubscriptionService } from '../services/subscription.service';
               </label>
               <input type="text" [(ngModel)]="companyName"
                      [placeholder]="lang.t('branding.your_company_name')"
-                     class="w-full px-4 py-2.5 rounded-xl bg-slate-700/50 border border-slate-600/50 text-white text-sm
+                     class="w-full px-4 py-2.5 rounded-xl bg-slate-700/50 border border-slate-200 text-white text-sm
                             placeholder-slate-500 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 transition-all">
               <p *ngIf="nameError" class="text-red-400 text-xs mt-1">{{ nameError }}</p>
             </div>
@@ -106,12 +106,12 @@ import { SubscriptionService } from '../services/subscription.service';
               </label>
               <div class="flex items-center gap-3">
                 <input type="color" [(ngModel)]="primaryColor"
-                       class="w-10 h-10 rounded-lg border border-slate-600/50 bg-transparent cursor-pointer">
+                       class="w-10 h-10 rounded-lg border border-slate-200 bg-transparent cursor-pointer">
                 <input type="text" [(ngModel)]="primaryColor"
                        placeholder="#22c55e" maxlength="7"
-                       class="w-32 px-4 py-2.5 rounded-xl bg-slate-700/50 border border-slate-600/50 text-white text-sm font-mono
+                       class="w-32 px-4 py-2.5 rounded-xl bg-slate-700/50 border border-slate-200 text-white text-sm font-mono
                               placeholder-slate-500 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 transition-all">
-                <div class="w-8 h-8 rounded-lg border border-slate-600/50" [style.background-color]="primaryColor"></div>
+                <div class="w-8 h-8 rounded-lg border border-slate-200" [style.background-color]="primaryColor"></div>
               </div>
               <p *ngIf="colorError" class="text-red-400 text-xs mt-1">{{ colorError }}</p>
             </div>
@@ -119,7 +119,7 @@ import { SubscriptionService } from '../services/subscription.service';
         </div>
 
         <!-- Preview -->
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6">
           <h2 class="text-lg font-semibold text-white mb-4">
             {{ lang.t('branding.pdf_preview') }}
           </h2>
@@ -157,7 +157,7 @@ import { SubscriptionService } from '../services/subscription.service';
         </div>
 
         <!-- Toast notifications -->
-        <div *ngIf="saveSuccess" class="fixed bottom-6 right-6 bg-emerald-500/90 text-white px-5 py-3 rounded-xl shadow-lg text-sm font-medium flex items-center gap-2 z-50 animate-fade-in">
+        <div *ngIf="saveSuccess" class="fixed bottom-6 right-6 bg-blue-600/90 text-white px-5 py-3 rounded-xl shadow-lg text-sm font-medium flex items-center gap-2 z-50 animate-fade-in">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
           </svg>

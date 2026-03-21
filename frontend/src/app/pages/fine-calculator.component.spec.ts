@@ -330,7 +330,7 @@ describe('FineCalculatorComponent', () => {
   // TC3.26 — Risk badge colors mapped correctly
   it('TC3.26: risk level badge classes map correctly', () => {
     component.result = { minFine: 0, maxFine: 0, likelyMin: 0, likelyMax: 0, riskScore: 0, gaps: [], displayValue: 0, riskLevel: 'low' };
-    expect(component.getResultBadgeClass()).toContain('emerald');
+    expect(component.getResultBadgeClass()).toContain('blue');
 
     component.result.riskLevel = 'medium';
     expect(component.getResultBadgeClass()).toContain('yellow');

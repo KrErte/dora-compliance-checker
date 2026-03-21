@@ -131,7 +131,7 @@ interface SimulationResult {
 
         <!-- Quick Scenarios -->
         <div class="mb-8">
-          <h2 class="text-lg font-semibold text-slate-200 mb-4">
+          <h2 class="text-lg font-semibold text-slate-700 mb-4">
             {{ lang.l('Kiirstsenaariumid', 'Quick Scenarios') }}
           </h2>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -185,7 +185,7 @@ interface SimulationResult {
         <!-- Trigger Selector Grid -->
         @if (!simulationResult() && !simulating()) {
           <div class="mb-8">
-            <h2 class="text-lg font-semibold text-slate-200 mb-1">
+            <h2 class="text-lg font-semibold text-slate-700 mb-1">
               {{ lang.l('Vali trigger', 'Select Trigger') }}
             </h2>
             <p class="text-sm text-slate-400 mb-5">
@@ -195,7 +195,7 @@ interface SimulationResult {
             @if (loadingTriggers()) {
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 @for (i of [1,2,3,4,5,6]; track i) {
-                  <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 animate-pulse">
+                  <div class="bg-white border border-slate-200 rounded-xl p-5 animate-pulse">
                     <div class="flex items-start gap-3">
                       <div class="w-10 h-10 rounded-lg bg-slate-700/50"></div>
                       <div class="flex-1 space-y-2">
@@ -245,7 +245,7 @@ interface SimulationResult {
                         </div>
                         <div class="flex-1 min-w-0">
                           <div class="flex items-center gap-2 mb-1">
-                            <h3 class="text-sm font-bold text-slate-200 truncate">
+                            <h3 class="text-sm font-bold text-slate-700 truncate">
                               {{ lang.l(trigger.titleEt, trigger.title) }}
                             </h3>
                             <span class="shrink-0 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase"
@@ -268,7 +268,7 @@ interface SimulationResult {
             }
 
             @if (!loadingTriggers() && triggers().length === 0) {
-              <div class="text-center py-12 bg-slate-800/30 rounded-2xl border border-slate-700/50">
+              <div class="text-center py-12 bg-slate-800/30 rounded-2xl border border-slate-200">
                 <div class="w-16 h-16 rounded-2xl bg-slate-700/50 flex items-center justify-center mx-auto mb-4">
                   <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
@@ -280,7 +280,7 @@ interface SimulationResult {
                 <p class="text-slate-400 text-sm mb-6">
                   {{ lang.l('Lae esmalt hindamine, et saada personaalseid triggereid', 'Complete an assessment first to get personalized triggers') }}
                 </p>
-                <a routerLink="/assessment" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-medium text-sm hover:from-emerald-400 hover:to-cyan-400 transition-all">
+                <a routerLink="/assessment" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 text-white font-medium text-sm hover:bg-blue-700 transition-all">
                   {{ lang.l('Alusta hindamist', 'Start Assessment') }}
                 </a>
               </div>
@@ -291,7 +291,7 @@ interface SimulationResult {
         <!-- Loading / Simulating State -->
         @if (simulating()) {
           <div class="my-12">
-            <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-12 text-center">
+            <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-12 text-center">
               <!-- Animated dominoes falling -->
               <div class="flex items-end justify-center gap-3 mb-8 h-20">
                 <div class="w-4 h-16 bg-gradient-to-t from-red-500 to-red-400 rounded-sm origin-bottom animate-domino-1"></div>
@@ -326,7 +326,7 @@ interface SimulationResult {
             <!-- Back / Reset button -->
             <div class="flex items-center justify-between">
               <button (click)="resetSimulation()"
-                class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 bg-slate-800/50 border border-slate-700/50 hover:border-slate-600/50 transition-all">
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-700 bg-white border border-slate-200 hover:border-slate-200 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                 {{ lang.l('Tagasi', 'Back to Triggers') }}
               </button>
@@ -337,13 +337,13 @@ interface SimulationResult {
             </div>
 
             <!-- Trigger Summary Header -->
-            <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5">
+            <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-5">
               <div class="flex items-center gap-3 mb-2">
                 <div class="w-10 h-10 rounded-lg bg-red-500/20 flex items-center justify-center">
                   <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 </div>
                 <div>
-                  <h2 class="text-lg font-bold text-slate-100">
+                  <h2 class="text-lg font-bold text-slate-900">
                     {{ lang.l(simulationResult()!.triggerNameEt, simulationResult()!.triggerName) }}
                   </h2>
                   <p class="text-xs text-slate-500">
@@ -356,7 +356,7 @@ interface SimulationResult {
             <!-- Before / After Score Comparison -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <!-- Before Score -->
-              <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6 text-center">
+              <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-6 text-center">
                 <p class="text-xs text-slate-500 uppercase tracking-wider mb-4">
                   {{ lang.l('Enne', 'Before') }}
                 </p>
@@ -364,20 +364,20 @@ interface SimulationResult {
                   <svg class="w-full h-full -rotate-90" viewBox="0 0 120 120">
                     <circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="8" class="text-slate-700/50"/>
                     <circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-width="8"
-                            class="text-emerald-500 transition-all duration-1000"
+                            class="text-blue-600 transition-all duration-1000"
                             [attr.stroke-dasharray]="2 * 3.14159 * 52"
                             [attr.stroke-dashoffset]="2 * 3.14159 * 52 * (1 - simulationResult()!.scoreBefore / 100)"
                             stroke-linecap="round"/>
                   </svg>
                   <div class="absolute inset-0 flex items-center justify-center">
-                    <span class="text-3xl font-bold text-emerald-400">{{ simulationResult()!.scoreBefore }}%</span>
+                    <span class="text-3xl font-bold text-blue-600">{{ simulationResult()!.scoreBefore }}%</span>
                   </div>
                 </div>
                 <p class="text-sm text-slate-400">{{ lang.l('Praegune skoor', 'Current Score') }}</p>
               </div>
 
               <!-- After Score -->
-              <div class="bg-slate-800/50 backdrop-blur border border-red-500/30 rounded-xl p-6 text-center">
+              <div class="bg-white backdrop-blur border border-red-500/30 rounded-xl p-6 text-center">
                 <p class="text-xs text-slate-500 uppercase tracking-wider mb-4">
                   {{ lang.l('Pärast', 'After') }}
                 </p>
@@ -404,25 +404,25 @@ interface SimulationResult {
 
             <!-- Impact Summary Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4">
+              <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4">
                 <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.l('Riskitase', 'Risk Level') }}</p>
                 <span class="text-lg font-bold" [class]="getRiskTextColor(simulationResult()!.riskLevel)">
                   {{ simulationResult()!.riskLevel }}
                 </span>
               </div>
-              <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4">
+              <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4">
                 <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.l('Mõjutatud sambad', 'Affected Pillars') }}</p>
-                <span class="text-lg font-bold text-slate-100">{{ simulationResult()!.affectedPillars.length }}</span>
+                <span class="text-lg font-bold text-slate-900">{{ simulationResult()!.affectedPillars.length }}</span>
               </div>
-              <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4">
+              <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4">
                 <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.l('Taastumisaeg', 'Recovery Time') }}</p>
                 <span class="text-lg font-bold text-amber-400">{{ simulationResult()!.estimatedRecoveryDays }} {{ lang.l('päeva', 'days') }}</span>
               </div>
             </div>
 
             <!-- Affected Pillars -->
-            <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5">
-              <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-3">
+            <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-5">
+              <h3 class="text-sm font-semibold text-slate-600 uppercase tracking-wider mb-3">
                 {{ lang.l('Mõjutatud sambad', 'Affected Pillars') }}
               </h3>
               <div class="flex flex-wrap gap-2">
@@ -436,8 +436,8 @@ interface SimulationResult {
             </div>
 
             <!-- Cascade Visualization Timeline -->
-            <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6">
-              <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-6">
+            <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-6">
+              <h3 class="text-sm font-semibold text-slate-600 uppercase tracking-wider mb-6">
                 {{ lang.l('Kaskaadi ajakava', 'Cascade Timeline') }}
               </h3>
 
@@ -463,13 +463,13 @@ interface SimulationResult {
                            [style.animation-delay]="(i * 300 + 150) + 'ms'"></div>
 
                       <!-- Step content -->
-                      <div class="bg-slate-900/50 border border-slate-700/30 rounded-lg p-4 hover:border-slate-600/50 transition-colors">
+                      <div class="bg-white border border-slate-200 rounded-lg p-4 hover:border-slate-200 transition-colors">
                         <div class="flex items-start justify-between gap-4 mb-2">
                           <div class="flex items-center gap-2">
                             <span class="w-6 h-6 rounded-full bg-slate-700/50 flex items-center justify-center text-[10px] font-bold text-slate-400">
                               {{ step.stepNumber }}
                             </span>
-                            <h4 class="text-sm font-bold text-slate-200">
+                            <h4 class="text-sm font-bold text-slate-700">
                               {{ lang.l(step.nameEt, step.name) }}
                             </h4>
                           </div>
@@ -526,8 +526,8 @@ interface SimulationResult {
             </div>
 
             <!-- Score Degradation Visualization -->
-            <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6">
-              <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-4">
+            <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-6">
+              <h3 class="text-sm font-semibold text-slate-600 uppercase tracking-wider mb-4">
                 {{ lang.l('Skoori lagunemine sambakaupa', 'Score Degradation by Pillar') }}
               </h3>
               <div class="space-y-3">
@@ -550,25 +550,25 @@ interface SimulationResult {
 
             <!-- Remediation Steps -->
             @if (simulationResult()!.remediationSteps.length > 0) {
-              <div class="bg-slate-800/50 backdrop-blur border border-emerald-500/20 rounded-xl p-6">
+              <div class="bg-white backdrop-blur border border-blue-200 rounded-xl p-6">
                 <div class="flex items-center gap-2 mb-5">
-                  <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center">
-                    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                   </div>
-                  <h3 class="text-sm font-semibold text-emerald-300 uppercase tracking-wider">
+                  <h3 class="text-sm font-semibold text-blue-500 uppercase tracking-wider">
                     {{ lang.l('Parandusmeetmed', 'Remediation Steps') }}
                   </h3>
                 </div>
 
                 <div class="space-y-3">
                   @for (remedy of simulationResult()!.remediationSteps; track remedy.priority) {
-                    <div class="flex items-start gap-4 p-4 bg-slate-900/50 border border-slate-700/30 rounded-lg hover:border-emerald-500/20 transition-colors">
-                      <div class="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0 text-xs font-bold text-emerald-400 border border-emerald-500/20">
+                    <div class="flex items-start gap-4 p-4 bg-white border border-slate-200 rounded-lg hover:border-blue-200 transition-colors">
+                      <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center shrink-0 text-xs font-bold text-blue-600 border border-blue-200">
                         {{ remedy.priority }}
                       </div>
                       <div class="flex-1 min-w-0">
                         <div class="flex items-start justify-between gap-3 mb-1">
-                          <p class="text-sm font-medium text-slate-200">
+                          <p class="text-sm font-medium text-slate-700">
                             {{ lang.l(remedy.actionEt, remedy.action) }}
                           </p>
                           <span class="shrink-0 px-2 py-0.5 rounded text-[10px] font-bold uppercase"
@@ -781,7 +781,7 @@ export class ChainReactionComponent implements OnInit {
       case 'CRITICAL': return 'bg-red-500/5 border-red-500/20 hover:border-red-500/40 hover:bg-red-500/10';
       case 'HIGH': return 'bg-amber-500/5 border-amber-500/20 hover:border-amber-500/40 hover:bg-amber-500/10';
       case 'MEDIUM': return 'bg-yellow-500/5 border-yellow-500/20 hover:border-yellow-500/40 hover:bg-yellow-500/10';
-      default: return 'bg-slate-800/50 border-slate-700/50 hover:border-slate-600/50';
+      default: return 'bg-white border-slate-200 hover:border-slate-200';
     }
   }
 
@@ -874,7 +874,7 @@ export class ChainReactionComponent implements OnInit {
 
   getEffortBadgeClass(effort: string): string {
     switch (effort) {
-      case 'LOW': return 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+      case 'LOW': return 'bg-blue-100 text-blue-600 border border-blue-200';
       case 'MEDIUM': return 'bg-amber-500/20 text-amber-400 border border-amber-500/30';
       case 'HIGH': return 'bg-red-500/20 text-red-400 border border-red-500/30';
       default: return 'bg-slate-700/50 text-slate-400';

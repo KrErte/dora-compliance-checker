@@ -18,7 +18,7 @@ import { CompanyType, AlertFrequency } from '../models';
 
         <!-- Header -->
         <div class="text-center mb-8">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium mb-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-600 text-xs font-medium mb-4">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
             </svg>
@@ -34,11 +34,11 @@ import { CompanyType, AlertFrequency } from '../models';
             @for (s of steps; track s.num) {
               <button (click)="goToStep(s.num)"
                       class="flex items-center gap-2 text-xs font-medium transition-colors"
-                      [class.text-emerald-400]="step() >= s.num"
+                      [class.text-blue-600]="step() >= s.num"
                       [class.text-slate-500]="step() < s.num">
                 <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all"
-                      [class.bg-emerald-500]="step() > s.num"
-                      [class.border-emerald-500]="step() >= s.num"
+                      [class.bg-blue-600]="step() > s.num"
+                      [class.border-blue-500]="step() >= s.num"
                       [class.text-white]="step() >= s.num"
                       [class.border-slate-600]="step() < s.num"
                       [class.text-slate-500]="step() < s.num">
@@ -53,13 +53,13 @@ import { CompanyType, AlertFrequency } from '../models';
             }
           </div>
           <div class="h-1.5 bg-slate-700 rounded-full overflow-hidden">
-            <div class="h-full bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full transition-all duration-500"
+            <div class="h-full bg-blue-600 rounded-full transition-all duration-500"
                  [style.width.%]="((step() - 1) / 3) * 100"></div>
           </div>
         </div>
 
         <!-- Step content card -->
-        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-6 sm:p-8 shadow-xl">
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-xl">
 
           <!-- Step 1: Company Type -->
           @if (step() === 1) {
@@ -69,9 +69,9 @@ import { CompanyType, AlertFrequency } from '../models';
               @for (ct of companyTypes; track ct.value) {
                 <button (click)="companyType = ct.value"
                         class="p-4 rounded-xl border-2 text-left transition-all duration-200"
-                        [ngClass]="companyType === ct.value ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-700'">
+                        [ngClass]="companyType === ct.value ? 'border-blue-500 bg-blue-50' : 'border-slate-700'">
                   <div class="text-2xl mb-2">{{ ct.icon }}</div>
-                  <div class="text-sm font-medium" [class.text-emerald-400]="companyType === ct.value" [class.text-slate-300]="companyType !== ct.value">
+                  <div class="text-sm font-medium" [class.text-blue-600]="companyType === ct.value" [class.text-slate-600]="companyType !== ct.value">
                     {{ lang.t(ct.label) }}
                   </div>
                 </button>
@@ -87,9 +87,9 @@ import { CompanyType, AlertFrequency } from '../models';
               @for (c of countries; track c.code) {
                 <button (click)="country = c.code"
                         class="p-5 rounded-xl border-2 text-center transition-all duration-200"
-                        [ngClass]="country === c.code ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-700'">
+                        [ngClass]="country === c.code ? 'border-blue-500 bg-blue-50' : 'border-slate-700'">
                   <div class="text-3xl mb-2">{{ c.flag }}</div>
-                  <div class="text-sm font-medium" [class.text-emerald-400]="country === c.code" [class.text-slate-300]="country !== c.code">
+                  <div class="text-sm font-medium" [class.text-blue-600]="country === c.code" [class.text-slate-600]="country !== c.code">
                     {{ c.name }}
                   </div>
                 </button>
@@ -104,10 +104,10 @@ import { CompanyType, AlertFrequency } from '../models';
             <div class="space-y-3">
               @for (reg of regulationOptions; track reg.value) {
                 <label class="flex items-start gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200"
-                       [ngClass]="regulations.includes(reg.value) ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-700'">
+                       [ngClass]="regulations.includes(reg.value) ? 'border-blue-500 bg-blue-50' : 'border-slate-700'">
                   <input type="checkbox" [checked]="regulations.includes(reg.value)"
                          (change)="toggleRegulation(reg.value)"
-                         class="mt-1 w-4 h-4 rounded border-slate-600 bg-slate-700 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-0">
+                         class="mt-1 w-4 h-4 rounded border-slate-600 bg-slate-700 text-blue-600 focus:ring-blue-500 focus:ring-offset-0">
                   <div>
                     <div class="text-sm font-medium text-white">{{ reg.name }}</div>
                     <div class="text-xs text-slate-400 mt-0.5">{{ lang.t(reg.desc) }}</div>
@@ -125,7 +125,7 @@ import { CompanyType, AlertFrequency } from '../models';
               @for (freq of frequencyOptions; track freq.value) {
                 <label class="flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-200"
                        [ngClass]="{
-                         'border-emerald-500 bg-emerald-500/10': alertFrequency === freq.value,
+                         'border-blue-500 bg-blue-50': alertFrequency === freq.value,
                          'border-slate-700': alertFrequency !== freq.value,
                          'opacity-50 cursor-not-allowed': freq.premium && !sub.isPremium(),
                          'cursor-pointer': !(freq.premium && !sub.isPremium())
@@ -134,10 +134,10 @@ import { CompanyType, AlertFrequency } from '../models';
                          [checked]="alertFrequency === freq.value"
                          (change)="setFrequency(freq)"
                          [disabled]="freq.premium && !sub.isPremium()"
-                         class="w-4 h-4 border-slate-600 bg-slate-700 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-0">
+                         class="w-4 h-4 border-slate-600 bg-slate-700 text-blue-600 focus:ring-blue-500 focus:ring-offset-0">
                   <div class="flex-1">
                     <div class="flex items-center gap-2">
-                      <span class="text-sm font-medium" [class.text-emerald-400]="alertFrequency === freq.value" [class.text-white]="alertFrequency !== freq.value">
+                      <span class="text-sm font-medium" [class.text-blue-600]="alertFrequency === freq.value" [class.text-white]="alertFrequency !== freq.value">
                         {{ lang.t(freq.label) }}
                       </span>
                       @if (freq.premium && !sub.isPremium()) {
@@ -151,18 +151,18 @@ import { CompanyType, AlertFrequency } from '../models';
             </div>
 
             <!-- Channels -->
-            <div class="mt-6 pt-6 border-t border-slate-700/50">
+            <div class="mt-6 pt-6 border-t border-slate-200">
               <h3 class="text-sm font-medium text-white mb-3">{{ lang.t('alert.wizard.channels') }}</h3>
               <div class="flex items-center gap-6">
                 <label class="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" [(ngModel)]="alertDashboard"
-                         class="w-4 h-4 rounded border-slate-600 bg-slate-700 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-0">
-                  <span class="text-sm text-slate-300">{{ lang.t('alert.wizard.channel_dashboard') }}</span>
+                         class="w-4 h-4 rounded border-slate-600 bg-slate-700 text-blue-600 focus:ring-blue-500 focus:ring-offset-0">
+                  <span class="text-sm text-slate-600">{{ lang.t('alert.wizard.channel_dashboard') }}</span>
                 </label>
                 <label class="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" [(ngModel)]="alertEmail"
-                         class="w-4 h-4 rounded border-slate-600 bg-slate-700 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-0">
-                  <span class="text-sm text-slate-300">{{ lang.t('alert.wizard.channel_email') }}</span>
+                         class="w-4 h-4 rounded border-slate-600 bg-slate-700 text-blue-600 focus:ring-blue-500 focus:ring-offset-0">
+                  <span class="text-sm text-slate-600">{{ lang.t('alert.wizard.channel_email') }}</span>
                 </label>
               </div>
             </div>
@@ -182,12 +182,12 @@ import { CompanyType, AlertFrequency } from '../models';
           @if (step() < 4) {
             <button (click)="next()" [disabled]="!canNext()"
                     class="px-6 py-2.5 text-sm font-medium rounded-xl transition-all duration-200"
-                    [ngClass]="canNext() ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 text-white' : 'bg-slate-700 text-slate-500 cursor-not-allowed'">
+                    [ngClass]="canNext() ? 'bg-blue-600 text-white' : 'bg-slate-700 text-slate-500 cursor-not-allowed'">
               {{ lang.t('alert.wizard.next') }}
             </button>
           } @else {
             <button (click)="save()" [disabled]="saving()"
-                    class="px-6 py-2.5 text-sm font-medium rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white transition-all duration-200 flex items-center gap-2">
+                    class="px-6 py-2.5 text-sm font-medium rounded-xl bg-blue-600 text-white transition-all duration-200 flex items-center gap-2">
               @if (saving()) {
                 <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>

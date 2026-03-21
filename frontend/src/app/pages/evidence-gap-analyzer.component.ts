@@ -24,7 +24,7 @@ interface ArticleOption {
     <!-- Enterprise Paywall -->
     <div *ngIf="!isEnterprise" class="animate-fade-in">
       <div class="text-center py-16">
-        <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-teal-500/20 to-cyan-500/20 flex items-center justify-center">
+        <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-teal-500/20 to-blue-500/20 flex items-center justify-center">
           <svg class="w-10 h-10 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
           </svg>
@@ -41,7 +41,7 @@ interface ArticleOption {
           {{ lang.l('Enterprise funktsioon — uuendage ligipääsuks', 'Enterprise feature — upgrade to access') }}
         </div>
         <div>
-          <a routerLink="/pricing" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-cyan-500 text-slate-900 font-semibold hover:from-teal-400 hover:to-cyan-400 transition-all">
+          <a routerLink="/pricing" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-blue-500 text-slate-900 font-semibold hover:from-teal-400 hover:to-blue-400 transition-all">
             {{ lang.l('Vaata plaane', 'View Plans') }}
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
           </a>
@@ -56,7 +56,7 @@ interface ArticleOption {
       <div *ngIf="state === 'upload'" class="animate-fade-in-up">
         <div class="text-center mb-10">
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-teal-500/10 border border-teal-500/30 text-teal-400 mb-4">
-            <div class="w-4 h-4 rounded bg-gradient-to-br from-teal-400 to-cyan-400 flex items-center justify-center text-white text-[7px] font-bold">AI</div>
+            <div class="w-4 h-4 rounded bg-gradient-to-br from-teal-400 to-blue-400 flex items-center justify-center text-white text-[7px] font-bold">AI</div>
             Evidence Gap Analyzer
           </span>
           <h1 class="text-3xl font-bold gradient-text mb-3">
@@ -71,21 +71,21 @@ interface ArticleOption {
         <div class="max-w-3xl mx-auto space-y-6">
           <!-- Document Title -->
           <div class="glass-card p-6">
-            <label class="block text-sm font-medium text-slate-300 mb-2">
+            <label class="block text-sm font-medium text-slate-600 mb-2">
               {{ lang.l('Dokumendi pealkiri', 'Document Title') }}
             </label>
             <input type="text" [(ngModel)]="documentTitle"
-                   class="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/30 rounded-xl text-slate-200 placeholder-slate-500 focus:outline-none focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/30"
+                   class="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/30 rounded-xl text-slate-700 placeholder-slate-500 focus:outline-none focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/30"
                    [placeholder]="lang.l('nt IKT riskijuhtimise poliitika', 'e.g. ICT Risk Management Policy')">
           </div>
 
           <!-- Document Category -->
           <div class="glass-card p-6">
-            <label class="block text-sm font-medium text-slate-300 mb-2">
+            <label class="block text-sm font-medium text-slate-600 mb-2">
               {{ lang.l('Dokumendi kategooria', 'Document Category') }}
             </label>
             <select [(ngModel)]="documentCategory"
-                    class="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/30 rounded-xl text-slate-200 focus:outline-none focus:border-teal-500/50">
+                    class="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/30 rounded-xl text-slate-700 focus:outline-none focus:border-teal-500/50">
               <option value="POLICY">{{ lang.l('Poliitika', 'Policy') }}</option>
               <option value="PROCEDURE">{{ lang.l('Protseduur', 'Procedure') }}</option>
               <option value="TEST_REPORT">{{ lang.l('Testiaruanne', 'Test Report') }}</option>
@@ -97,7 +97,7 @@ interface ArticleOption {
           <!-- Article Selection -->
           <div class="glass-card p-6">
             <div class="flex items-center justify-between mb-4">
-              <label class="text-sm font-medium text-slate-300">
+              <label class="text-sm font-medium text-slate-600">
                 {{ lang.l('Valige kontrollitavad DORA artiklid', 'Select DORA Articles to Check') }}
               </label>
               <button (click)="toggleAllArticles()" class="text-xs text-teal-400 hover:text-teal-300 transition-colors">
@@ -116,7 +116,7 @@ interface ArticleOption {
                        [ngClass]="art.selected ? 'bg-teal-500/10 border-teal-500/30' : 'bg-slate-700/30 border-slate-600/20'">
                   <input type="checkbox" [(ngModel)]="art.selected" class="accent-teal-500">
                   <div>
-                    <div class="text-sm text-slate-200">Art. {{ art.articleNumber }}</div>
+                    <div class="text-sm text-slate-700">Art. {{ art.articleNumber }}</div>
                     <div class="text-[10px] text-slate-500">{{ lang.l(art.nameEt, art.nameEn) }}</div>
                   </div>
                 </label>
@@ -134,7 +134,7 @@ interface ArticleOption {
                        [ngClass]="art.selected ? 'bg-teal-500/10 border-teal-500/30' : 'bg-slate-700/30 border-slate-600/20'">
                   <input type="checkbox" [(ngModel)]="art.selected" class="accent-teal-500">
                   <div>
-                    <div class="text-sm text-slate-200">Art. {{ art.articleNumber }}</div>
+                    <div class="text-sm text-slate-700">Art. {{ art.articleNumber }}</div>
                     <div class="text-[10px] text-slate-500">{{ lang.l(art.nameEt, art.nameEn) }}</div>
                   </div>
                 </label>
@@ -152,7 +152,7 @@ interface ArticleOption {
                        [ngClass]="art.selected ? 'bg-teal-500/10 border-teal-500/30' : 'bg-slate-700/30 border-slate-600/20'">
                   <input type="checkbox" [(ngModel)]="art.selected" class="accent-teal-500">
                   <div>
-                    <div class="text-sm text-slate-200">Art. {{ art.articleNumber }}</div>
+                    <div class="text-sm text-slate-700">Art. {{ art.articleNumber }}</div>
                     <div class="text-[10px] text-slate-500">{{ lang.l(art.nameEt, art.nameEn) }}</div>
                   </div>
                 </label>
@@ -170,7 +170,7 @@ interface ArticleOption {
                        [ngClass]="art.selected ? 'bg-teal-500/10 border-teal-500/30' : 'bg-slate-700/30 border-slate-600/20'">
                   <input type="checkbox" [(ngModel)]="art.selected" class="accent-teal-500">
                   <div>
-                    <div class="text-sm text-slate-200">Art. {{ art.articleNumber }}</div>
+                    <div class="text-sm text-slate-700">Art. {{ art.articleNumber }}</div>
                     <div class="text-[10px] text-slate-500">{{ lang.l(art.nameEt, art.nameEn) }}</div>
                   </div>
                 </label>
@@ -185,7 +185,7 @@ interface ArticleOption {
 
           <!-- File Upload -->
           <div class="glass-card p-6">
-            <label class="block text-sm font-medium text-slate-300 mb-3">
+            <label class="block text-sm font-medium text-slate-600 mb-3">
               {{ lang.l('Laadi dokument üles', 'Upload Document') }}
             </label>
             <div (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
@@ -207,7 +207,7 @@ interface ArticleOption {
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
                 <div class="text-left">
-                  <p class="text-sm text-slate-200 font-medium">{{ selectedFile.name }}</p>
+                  <p class="text-sm text-slate-700 font-medium">{{ selectedFile.name }}</p>
                   <p class="text-xs text-slate-500">{{ (selectedFile.size / 1024 / 1024).toFixed(2) }} MB</p>
                 </div>
                 <button (click)="clearFile($event)" class="text-slate-500 hover:text-red-400 transition-colors ml-2">
@@ -222,7 +222,7 @@ interface ArticleOption {
                   [disabled]="!canAnalyze"
                   class="w-full py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-2"
                   [ngClass]="canAnalyze
-                    ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-slate-900 hover:from-teal-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-teal-500/25'
+                    ? 'bg-gradient-to-r from-teal-500 to-blue-500 text-slate-900 hover:from-teal-400 hover:to-blue-400 hover:shadow-lg hover:shadow-teal-500/25'
                     : 'bg-slate-700/50 text-slate-500 cursor-not-allowed'">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
@@ -233,7 +233,7 @@ interface ArticleOption {
 
         <!-- History Section -->
         <div *ngIf="history.length > 0" class="mt-16 max-w-3xl mx-auto">
-          <h2 class="text-lg font-semibold text-slate-200 mb-4">
+          <h2 class="text-lg font-semibold text-slate-700 mb-4">
             {{ lang.l('Varasemad analüüsid', 'Previous Analyses') }}
           </h2>
           <div class="space-y-3">
@@ -255,7 +255,7 @@ interface ArticleOption {
                 </span>
               </div>
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-slate-200 truncate">{{ item.documentTitle }}</p>
+                <p class="text-sm font-medium text-slate-700 truncate">{{ item.documentTitle }}</p>
                 <p class="text-xs text-slate-500">{{ item.fileName }} &middot; {{ item.analysisDate | date:'dd.MM.yyyy HH:mm' }}</p>
               </div>
               <div class="flex items-center gap-1.5 text-xs shrink-0">
@@ -271,15 +271,15 @@ interface ArticleOption {
       <!-- Loading State -->
       <div *ngIf="state === 'loading'" class="animate-fade-in text-center py-20">
         <div class="w-20 h-20 mx-auto mb-6 relative">
-          <div class="absolute inset-0 rounded-full border-4 border-slate-700/50"></div>
+          <div class="absolute inset-0 rounded-full border-4 border-slate-200"></div>
           <div class="absolute inset-0 rounded-full border-4 border-teal-500 border-t-transparent animate-spin"></div>
-          <div class="absolute inset-3 rounded-full bg-gradient-to-br from-teal-500/20 to-cyan-500/20 flex items-center justify-center">
+          <div class="absolute inset-3 rounded-full bg-gradient-to-br from-teal-500/20 to-blue-500/20 flex items-center justify-center">
             <svg class="w-6 h-6 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
           </div>
         </div>
-        <h2 class="text-xl font-bold text-slate-200 mb-2">
+        <h2 class="text-xl font-bold text-slate-700 mb-2">
           {{ lang.l('Analüüsin dokumenti DORA nõuete vastu...', 'Analyzing document against DORA requirements...') }}
         </h2>
         <p class="text-slate-500 text-sm">
@@ -292,10 +292,10 @@ interface ArticleOption {
         <!-- Header -->
         <div class="flex items-center justify-between mb-6">
           <div>
-            <h1 class="text-2xl font-bold text-slate-200">{{ result.documentTitle }}</h1>
+            <h1 class="text-2xl font-bold text-slate-700">{{ result.documentTitle }}</h1>
             <p class="text-sm text-slate-500">{{ result.fileName }} &middot; {{ result.documentCategory }} &middot; {{ result.analysisDate | date:'dd.MM.yyyy HH:mm' }}</p>
           </div>
-          <button (click)="resetToUpload()" class="px-4 py-2 rounded-lg text-sm bg-slate-700/50 text-slate-300 border border-slate-600/30 hover:bg-slate-600/50 hover:text-teal-400 transition-colors">
+          <button (click)="resetToUpload()" class="px-4 py-2 rounded-lg text-sm bg-slate-700/50 text-slate-600 border border-slate-600/30 hover:bg-slate-100 hover:text-teal-400 transition-colors">
             {{ lang.l('Uus analüüs', 'New Analysis') }}
           </button>
         </div>
@@ -318,7 +318,7 @@ interface ArticleOption {
                         class="transition-all duration-1000"/>
               </svg>
               <div class="absolute inset-0 flex items-center justify-center">
-                <span class="text-2xl font-bold text-slate-200">{{ result.scorePercentage }}%</span>
+                <span class="text-2xl font-bold text-slate-700">{{ result.scorePercentage }}%</span>
               </div>
             </div>
             <span class="text-xs font-semibold px-3 py-1 rounded-full"
@@ -357,19 +357,19 @@ interface ArticleOption {
 
         <!-- Summary -->
         <div class="glass-card p-6 mb-8">
-          <h3 class="text-sm font-semibold text-slate-300 mb-2">{{ lang.l('Kokkuvõte', 'Summary') }}</h3>
+          <h3 class="text-sm font-semibold text-slate-600 mb-2">{{ lang.l('Kokkuvõte', 'Summary') }}</h3>
           <p class="text-slate-400 text-sm leading-relaxed">{{ lang.l(result.summaryEt, result.summaryEn) }}</p>
         </div>
 
         <!-- Findings by Article -->
         <div class="space-y-6 mb-8">
-          <h3 class="text-lg font-semibold text-slate-200">{{ lang.l('Detailsed tulemused', 'Detailed Findings') }}</h3>
+          <h3 class="text-lg font-semibold text-slate-700">{{ lang.l('Detailsed tulemused', 'Detailed Findings') }}</h3>
 
           <div *ngFor="let group of groupedFindings" class="glass-card overflow-hidden">
-            <div class="px-6 py-4 bg-slate-700/20 border-b border-slate-700/30 flex items-center justify-between">
+            <div class="px-6 py-4 bg-slate-700/20 border-b border-slate-200 flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <span class="px-2.5 py-1 rounded-lg bg-teal-500/20 text-teal-400 text-xs font-bold">Art. {{ group.articleNumber }}</span>
-                <span class="text-sm font-medium text-slate-200">{{ lang.l(group.nameEt, group.nameEn) }}</span>
+                <span class="text-sm font-medium text-slate-700">{{ lang.l(group.nameEt, group.nameEn) }}</span>
               </div>
               <div class="flex items-center gap-1.5 text-xs">
                 <span class="px-1.5 py-0.5 rounded bg-green-500/20 text-green-400">{{ group.foundCount }}</span>
@@ -393,7 +393,7 @@ interface ArticleOption {
                     <div class="flex items-center gap-2 mb-1">
                       <span class="text-[10px] text-slate-500 font-mono">{{ finding.doraReference }}</span>
                     </div>
-                    <p class="text-sm font-medium text-slate-200">
+                    <p class="text-sm font-medium text-slate-700">
                       {{ lang.l(finding.subRequirementEt, finding.subRequirementEn) }}
                     </p>
                   </div>
@@ -421,7 +421,7 @@ interface ArticleOption {
         <div class="flex flex-wrap gap-3 mb-12">
           <button (click)="exportPdf()"
                   [disabled]="exporting"
-                  class="px-5 py-2.5 rounded-xl text-sm font-medium bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/30 transition-colors flex items-center gap-2">
+                  class="px-5 py-2.5 rounded-xl text-sm font-medium bg-blue-100 text-blue-600 border border-blue-200 hover:bg-blue-600/30 transition-colors flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
@@ -436,7 +436,7 @@ interface ArticleOption {
             {{ syncing ? lang.l('Sünkroniseerin...', 'Syncing...') : lang.l('Sünkroniseeri Article Trackeriga', 'Sync to Article Tracker') }}
           </button>
           <button (click)="resetToUpload()"
-                  class="px-5 py-2.5 rounded-xl text-sm font-medium bg-slate-700/50 text-slate-300 border border-slate-600/30 hover:bg-slate-600/50 hover:text-teal-400 transition-colors flex items-center gap-2">
+                  class="px-5 py-2.5 rounded-xl text-sm font-medium bg-slate-700/50 text-slate-600 border border-slate-600/30 hover:bg-slate-100 hover:text-teal-400 transition-colors flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
             </svg>

@@ -11,7 +11,7 @@ import { LangService } from '../lang.service';
   template: `
     <div class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-4">
       <div class="max-w-md w-full">
-        <div class="bg-slate-800/60 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-8 text-center">
+        <div class="bg-white backdrop-blur-xl rounded-2xl border border-slate-200 p-8 text-center">
 
           <!-- Loading -->
           <div *ngIf="state === 'loading'">
@@ -21,8 +21,8 @@ import { LangService } from '../lang.service';
 
           <!-- Success -->
           <div *ngIf="state === 'success'">
-            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-500/20 flex items-center justify-center">
-              <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 flex items-center justify-center">
+              <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
               </svg>
             </div>
@@ -32,7 +32,7 @@ import { LangService } from '../lang.service';
             <p class="text-slate-400 mb-6">
               {{ lang.t('verify.your_email_address_has_been_successfully') }}
             </p>
-            <a routerLink="/dashboard" class="inline-block px-6 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold rounded-lg hover:shadow-lg transition-all">
+            <a routerLink="/dashboard" class="inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all">
               {{ lang.t('verify.go_to_dashboard') }}
             </a>
           </div>
@@ -50,7 +50,7 @@ import { LangService } from '../lang.service';
             <p class="text-slate-400 mb-6">
               {{ lang.t('verify.invalid_or_expired_verification_link_ple') }}
             </p>
-            <a routerLink="/login" class="inline-block px-6 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold rounded-lg hover:shadow-lg transition-all">
+            <a routerLink="/login" class="inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all">
               {{ lang.t('verify.log_in') }}
             </a>
           </div>

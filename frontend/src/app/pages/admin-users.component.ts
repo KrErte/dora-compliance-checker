@@ -18,14 +18,14 @@ import { AdminService, AdminUser } from '../services/admin.service';
       <!-- Toast -->
       @if (toast()) {
         <div class="fixed top-4 right-4 z-50 px-4 py-3 rounded-lg shadow-lg text-sm font-medium animate-fade-in"
-             [class]="toast()!.type === 'success' ? 'bg-emerald-500/90 text-white' : 'bg-red-500/90 text-white'">
+             [class]="toast()!.type === 'success' ? 'bg-blue-600/90 text-white' : 'bg-red-500/90 text-white'">
           {{ toast()!.message }}
         </div>
       }
 
       @if (loading()) {
         <div class="flex items-center justify-center py-20">
-          <div class="w-8 h-8 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin"></div>
+          <div class="w-8 h-8 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></div>
         </div>
       } @else if (error()) {
         <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-6 text-center">
@@ -35,11 +35,11 @@ import { AdminService, AdminUser } from '../services/admin.service';
           </button>
         </div>
       } @else {
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl overflow-hidden">
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden">
           <div class="overflow-x-auto">
             <table class="w-full text-sm">
               <thead>
-                <tr class="border-b border-slate-700/50">
+                <tr class="border-b border-slate-200">
                   <th class="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Name</th>
                   <th class="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Email</th>
                   <th class="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Role</th>
@@ -50,8 +50,8 @@ import { AdminService, AdminUser } from '../services/admin.service';
               </thead>
               <tbody>
                 @for (user of users(); track user.id) {
-                  <tr class="border-b border-slate-700/30 hover:bg-slate-700/20 transition-colors">
-                    <td class="px-4 py-3 text-slate-300">
+                  <tr class="border-b border-slate-200 hover:bg-slate-700/20 transition-colors">
+                    <td class="px-4 py-3 text-slate-600">
                       {{ user.fullName || '—' }}
                       @if (user.earlyAdopter) {
                         <span class="ml-1 px-1.5 py-0.5 text-[9px] font-bold rounded bg-amber-500/20 text-amber-400">EA</span>
@@ -60,14 +60,14 @@ import { AdminService, AdminUser } from '../services/admin.service';
                     <td class="px-4 py-3 text-slate-400 font-mono text-xs">{{ user.email }}</td>
                     <td class="px-4 py-3">
                       <select [ngModel]="user.role" (ngModelChange)="updateUser(user, 'role', $event)"
-                              class="bg-slate-700 border border-slate-600 text-slate-300 text-xs rounded-lg px-2 py-1 focus:border-emerald-500 focus:outline-none cursor-pointer">
+                              class="bg-slate-700 border border-slate-600 text-slate-600 text-xs rounded-lg px-2 py-1 focus:border-blue-500 focus:outline-none cursor-pointer">
                         <option value="USER">USER</option>
                         <option value="ADMIN">ADMIN</option>
                       </select>
                     </td>
                     <td class="px-4 py-3">
                       <select [ngModel]="user.accountTier" (ngModelChange)="updateUser(user, 'accountTier', $event)"
-                              class="bg-slate-700 border border-slate-600 text-slate-300 text-xs rounded-lg px-2 py-1 focus:border-emerald-500 focus:outline-none cursor-pointer">
+                              class="bg-slate-700 border border-slate-600 text-slate-600 text-xs rounded-lg px-2 py-1 focus:border-blue-500 focus:outline-none cursor-pointer">
                         <option value="FREE">FREE</option>
                         <option value="PREMIUM">PREMIUM</option>
                         <option value="STANDARD">STANDARD</option>

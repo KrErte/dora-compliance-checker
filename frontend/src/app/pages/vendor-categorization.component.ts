@@ -17,7 +17,7 @@ interface WizardQuestion {
     <div class="space-y-8">
       <!-- Header -->
       <div class="text-center">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-medium mb-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-500/20 text-blue-500 text-xs font-medium mb-4">
           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
           </svg>
@@ -32,9 +32,9 @@ interface WizardQuestion {
         @for (s of steps; track s; let i = $index) {
           <div class="flex items-center gap-2">
             <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all"
-                 [class]="currentStep() > i ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
-                          currentStep() === i ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30' :
-                          'bg-slate-700/50 text-slate-500 border border-slate-600/50'">
+                 [class]="currentStep() > i ? 'bg-blue-100 text-blue-600 border border-blue-200' :
+                          currentStep() === i ? 'bg-blue-600/20 text-blue-500 border border-blue-500/30' :
+                          'bg-slate-700/50 text-slate-500 border border-slate-200'">
               @if (currentStep() > i) {
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
               } @else {
@@ -43,7 +43,7 @@ interface WizardQuestion {
             </div>
             <span class="text-xs hidden sm:block" [class]="currentStep() === i ? 'text-white font-medium' : 'text-slate-500'">{{ lang.t(s) }}</span>
             @if (i < steps.length - 1) {
-              <div class="w-8 h-0.5" [class]="currentStep() > i ? 'bg-emerald-500/30' : 'bg-slate-700'"></div>
+              <div class="w-8 h-0.5" [class]="currentStep() > i ? 'bg-blue-600/30' : 'bg-slate-700'"></div>
             }
           </div>
         }
@@ -51,14 +51,14 @@ interface WizardQuestion {
 
       <!-- Step 0: Select vendor -->
       @if (currentStep() === 0) {
-        <div class="max-w-2xl mx-auto bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+        <div class="max-w-2xl mx-auto bg-white border border-slate-200 rounded-2xl p-6">
           <h2 class="text-lg font-semibold text-white mb-4">{{ lang.t('vendorcat.select_provider') }}</h2>
 
           @if (providers().length > 0) {
             <div class="mb-4">
-              <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('vendorcat.existing_provider') }}</label>
+              <label class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('vendorcat.existing_provider') }}</label>
               <select [(ngModel)]="selectedProviderId"
-                      class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:outline-none focus:border-cyan-500/50">
+                      class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none focus:border-blue-500/50">
                 <option value="">{{ lang.t('vendorcat.choose') }}</option>
                 @for (p of providers(); track p.id) {
                   <option [value]="p.id">{{ p.providerName }} ({{ p.serviceType }})</option>
@@ -70,15 +70,15 @@ interface WizardQuestion {
 
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.t('vendorcat.new_name') }}</label>
+              <label class="block text-sm font-medium text-slate-600 mb-1">{{ lang.t('vendorcat.new_name') }}</label>
               <input [(ngModel)]="newVendorName" type="text"
-                     class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50"
+                     class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50"
                      placeholder="AWS, Microsoft Azure, Telia...">
             </div>
             <div>
-              <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.t('vendorcat.new_service') }}</label>
+              <label class="block text-sm font-medium text-slate-600 mb-1">{{ lang.t('vendorcat.new_service') }}</label>
               <select [(ngModel)]="newVendorService"
-                      class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:outline-none focus:border-cyan-500/50">
+                      class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none focus:border-blue-500/50">
                 <option value="Cloud">Cloud</option>
                 <option value="Infrastructure">Infrastructure</option>
                 <option value="Software">Software</option>
@@ -93,7 +93,7 @@ interface WizardQuestion {
 
           <div class="flex justify-end mt-6">
             <button (click)="nextStep()" [disabled]="!canProceedStep0()"
-                    class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold text-sm hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                    class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-blue-500 text-white font-semibold text-sm hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed">
               {{ lang.t('vendorcat.next') }}
               <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </button>
@@ -103,7 +103,7 @@ interface WizardQuestion {
 
       <!-- Steps 1-3: Questions -->
       @if (currentStep() >= 1 && currentStep() <= 3) {
-        <div class="max-w-2xl mx-auto bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+        <div class="max-w-2xl mx-auto bg-white border border-slate-200 rounded-2xl p-6">
           <h2 class="text-lg font-semibold text-white mb-6">
             {{ lang.t(steps[currentStep()]) }}
           </h2>
@@ -111,14 +111,14 @@ interface WizardQuestion {
           <div class="space-y-6">
             @for (q of getStepQuestions(); track q.key) {
               <div class="bg-slate-900/30 rounded-xl p-4">
-                <p class="text-sm font-medium text-slate-200 mb-3">{{ lang.t(q.key) }}</p>
+                <p class="text-sm font-medium text-slate-700 mb-3">{{ lang.t(q.key) }}</p>
                 <div class="grid grid-cols-3 gap-2">
                   @for (opt of q.options; track opt.label) {
                     <button (click)="answers[q.key] = opt.value"
                             class="px-3 py-2 rounded-lg text-sm font-medium transition-all border"
                             [class]="answers[q.key] === opt.value
-                              ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-300'
-                              : 'bg-slate-800/50 border-slate-700/50 text-slate-400 hover:border-slate-600'">
+                              ? 'bg-blue-600/20 border-blue-500/40 text-blue-400'
+                              : 'bg-white border-slate-200 text-slate-400 hover:border-slate-300'">
                       {{ lang.t(opt.label) }}
                     </button>
                   }
@@ -129,12 +129,12 @@ interface WizardQuestion {
 
           <div class="flex justify-between mt-6">
             <button (click)="prevStep()"
-                    class="px-5 py-2.5 rounded-xl bg-slate-700/50 border border-slate-600/50 text-slate-300 text-sm hover:bg-slate-600/50 transition-all">
+                    class="px-5 py-2.5 rounded-xl bg-slate-700/50 border border-slate-200 text-slate-600 text-sm hover:bg-slate-100 transition-all">
               <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
               {{ lang.t('vendorcat.prev') }}
             </button>
             <button (click)="nextStep()" [disabled]="!canProceedCurrentStep()"
-                    class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold text-sm hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                    class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-blue-500 text-white font-semibold text-sm hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed">
               {{ lang.t('vendorcat.next') }}
               <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </button>
@@ -149,13 +149,13 @@ interface WizardQuestion {
           <div class="rounded-2xl p-8 text-center mb-6"
                [class]="resultLevel() === 'CRITICAL' ? 'bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/30' :
                         resultLevel() === 'IMPORTANT' ? 'bg-gradient-to-br from-amber-500/10 to-yellow-500/10 border border-amber-500/30' :
-                        'bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/30'">
+                        'bg-gradient-to-br from-blue-600/10 to-blue-500/10 border border-blue-200'">
             <div class="text-6xl mb-4">
               {{ resultLevel() === 'CRITICAL' ? '\u26a0\ufe0f' : resultLevel() === 'IMPORTANT' ? '\u2139\ufe0f' : '\u2705' }}
             </div>
             <h2 class="text-sm font-medium text-slate-400 mb-2">{{ lang.t('vendorcat.result_title') }}</h2>
             <div class="text-3xl font-bold mb-4"
-                 [class]="resultLevel() === 'CRITICAL' ? 'text-red-400' : resultLevel() === 'IMPORTANT' ? 'text-amber-400' : 'text-emerald-400'">
+                 [class]="resultLevel() === 'CRITICAL' ? 'text-red-400' : resultLevel() === 'IMPORTANT' ? 'text-amber-400' : 'text-blue-600'">
               {{ lang.t('vendorcat.result_' + resultLevel().toLowerCase()) }}
             </div>
 
@@ -170,7 +170,7 @@ interface WizardQuestion {
                      [style.width.%]="scorePercent()"
                      [class]="resultLevel() === 'CRITICAL' ? 'bg-gradient-to-r from-red-500 to-orange-500' :
                               resultLevel() === 'IMPORTANT' ? 'bg-gradient-to-r from-amber-500 to-yellow-500' :
-                              'bg-gradient-to-r from-emerald-500 to-cyan-500'">
+                              'bg-blue-600'">
                 </div>
               </div>
               <div class="flex justify-between text-[10px] text-slate-600 mt-1">
@@ -180,13 +180,13 @@ interface WizardQuestion {
               </div>
             </div>
 
-            <p class="text-sm text-slate-300 max-w-md mx-auto">
+            <p class="text-sm text-slate-600 max-w-md mx-auto">
               {{ lang.t('vendorcat.explanation') }}: {{ lang.t('vendorcat.' + resultLevel().toLowerCase() + '_explanation') }}
             </p>
           </div>
 
           <!-- Vendor name -->
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 mb-4">
+          <div class="bg-white border border-slate-200 rounded-xl p-4 mb-4">
             <div class="text-xs text-slate-400 mb-1">{{ lang.t('vendorcat.step_select') }}</div>
             <div class="text-white font-semibold">{{ getVendorDisplayName() }}</div>
           </div>
@@ -194,7 +194,7 @@ interface WizardQuestion {
           <!-- Actions -->
           <div class="flex flex-wrap gap-3">
             <button (click)="saveResult()" [disabled]="saving()"
-                    class="flex-1 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold text-sm hover:shadow-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2">
+                    class="flex-1 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-500 text-white font-semibold text-sm hover:shadow-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2">
               @if (saving()) {
                 <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
               }
@@ -206,7 +206,7 @@ interface WizardQuestion {
               }
             </button>
             <button (click)="startOver()"
-                    class="px-5 py-3 rounded-xl bg-slate-700/50 border border-slate-600/50 text-slate-300 text-sm hover:bg-slate-600/50 transition-all">
+                    class="px-5 py-3 rounded-xl bg-slate-700/50 border border-slate-200 text-slate-600 text-sm hover:bg-slate-100 transition-all">
               {{ lang.t('vendorcat.start_over') }}
             </button>
           </div>

@@ -14,40 +14,40 @@ import { AuthService } from '../auth/auth.service';
     <div class="min-h-[60vh] flex items-center justify-center">
       <div class="w-full max-w-md">
         <!-- Trial Banner -->
-        <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-500/30">
+        <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-blue-600/10 to-blue-500/10 border border-blue-200">
           <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center shrink-0">
-              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
+              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
             </div>
             <div>
-              <p class="text-sm font-semibold text-emerald-300">{{ lang.l('14 päeva tasuta prooviaeg', '14-day free trial') }}</p>
+              <p class="text-sm font-semibold text-blue-500">{{ lang.l('14 päeva tasuta prooviaeg', '14-day free trial') }}</p>
               <p class="text-xs text-slate-400">{{ lang.l('Krediitkaarti pole vaja', 'No credit card required') }}</p>
             </div>
           </div>
           <div class="grid grid-cols-2 gap-2 text-xs text-slate-400">
             <div class="flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              <svg class="w-3.5 h-3.5 text-blue-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
               {{ lang.l('AI lepinguanalüüs', 'AI contract analysis') }}
             </div>
             <div class="flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              <svg class="w-3.5 h-3.5 text-blue-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
               {{ lang.l('PDF/Excel eksport', 'PDF/Excel export') }}
             </div>
             <div class="flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              <svg class="w-3.5 h-3.5 text-blue-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
               {{ lang.l('Vastavussertifikaat', 'Compliance certificate') }}
             </div>
             <div class="flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              <svg class="w-3.5 h-3.5 text-blue-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
               {{ lang.l('Tegevuskava', 'Action plan') }}
             </div>
           </div>
         </div>
 
         <div class="text-center mb-8">
-          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-2xl mx-auto mb-4">
+          <div class="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center text-slate-900 font-bold text-2xl mx-auto mb-4">
             D
           </div>
           <h1 class="text-2xl font-bold text-white mb-2">{{ lang.t('auth.register') }}</h1>
@@ -55,14 +55,14 @@ import { AuthService } from '../auth/auth.service';
         </div>
 
         <!-- Success state -->
-        <div *ngIf="registrationSuccess" class="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-emerald-500/30 p-8 text-center">
+        <div *ngIf="registrationSuccess" class="bg-white backdrop-blur-xl rounded-2xl border border-blue-200 p-8 text-center">
           <div class="text-6xl mb-4">✅</div>
-          <h2 class="text-2xl font-bold text-emerald-300 mb-2">{{ lang.t('register.success_title') }}</h2>
-          <p class="text-slate-300 mb-6">{{ lang.t('register.success_desc') }}</p>
+          <h2 class="text-2xl font-bold text-blue-500 mb-2">{{ lang.t('register.success_title') }}</h2>
+          <p class="text-slate-600 mb-6">{{ lang.t('register.success_desc') }}</p>
           <a routerLink="/assessment"
              class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold
-                    bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
-                    hover:from-emerald-400 hover:to-cyan-400 transition-all">
+                    bg-blue-600 text-slate-900
+                    hover:bg-blue-700 transition-all">
             {{ lang.t('register.start_now') }}
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
@@ -71,7 +71,7 @@ import { AuthService } from '../auth/auth.service';
         </div>
 
         <!-- Registration form -->
-        <div *ngIf="!registrationSuccess" class="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-8">
+        <div *ngIf="!registrationSuccess" class="bg-white backdrop-blur-xl rounded-2xl border border-slate-200 p-8">
           <!-- SSO Buttons -->
           <div class="space-y-3 mb-6">
             <a href="/api/auth/oauth2/google"
@@ -103,21 +103,21 @@ import { AuthService } from '../auth/auth.service';
           <!-- Separator -->
           <div class="relative my-6">
             <div class="absolute inset-0 flex items-center">
-              <div class="w-full border-t border-slate-600/50"></div>
+              <div class="w-full border-t border-slate-200"></div>
             </div>
             <div class="relative flex justify-center text-sm">
-              <span class="px-4 bg-slate-800/50 text-slate-500">{{ lang.t('auth.or') }}</span>
+              <span class="px-4 bg-white text-slate-500">{{ lang.t('auth.or') }}</span>
             </div>
           </div>
 
           <form (ngSubmit)="onRegister()">
             <div class="mb-5">
-              <label for="reg-fullname" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.full_name') }}</label>
+              <label for="reg-fullname" class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('auth.full_name') }}</label>
               <input type="text" [(ngModel)]="fullName" name="fullName" id="reg-fullname" required
                      (blur)="touched['fullName'] = true"
                      class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
                             focus:outline-none focus:ring-1 transition-all"
-                     [class]="fieldErrors['fullName'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/25'"
+                     [class]="fieldErrors['fullName'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/25'"
                      placeholder="Jaan Tamm">
               @if (fieldErrors['fullName']) {
                 <p class="mt-1 text-xs text-red-400">{{ fieldErrors['fullName'] }}</p>
@@ -125,12 +125,12 @@ import { AuthService } from '../auth/auth.service';
             </div>
 
             <div class="mb-5">
-              <label for="reg-email" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.email') }}</label>
+              <label for="reg-email" class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('auth.email') }}</label>
               <input type="email" [(ngModel)]="email" name="email" id="reg-email" required
                      (blur)="touched['email'] = true"
                      class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
                             focus:outline-none focus:ring-1 transition-all"
-                     [class]="fieldErrors['email'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/25'"
+                     [class]="fieldErrors['email'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/25'"
                      placeholder="teie@ettevote.ee">
               @if (fieldErrors['email']) {
                 <p class="mt-1 text-xs text-red-400">{{ fieldErrors['email'] }}</p>
@@ -138,12 +138,12 @@ import { AuthService } from '../auth/auth.service';
             </div>
 
             <div class="mb-5">
-              <label for="reg-password" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.password') }}</label>
+              <label for="reg-password" class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('auth.password') }}</label>
               <input type="password" [(ngModel)]="password" name="password" id="reg-password" required minlength="6"
                      (blur)="touched['password'] = true"
                      class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
                             focus:outline-none focus:ring-1 transition-all"
-                     [class]="fieldErrors['password'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/25'"
+                     [class]="fieldErrors['password'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/25'"
                      placeholder="********">
               @if (fieldErrors['password']) {
                 <p class="mt-1 text-xs text-red-400">{{ fieldErrors['password'] }}</p>
@@ -151,12 +151,12 @@ import { AuthService } from '../auth/auth.service';
             </div>
 
             <div class="mb-6">
-              <label for="reg-confirm-password" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.confirm_password') }}</label>
+              <label for="reg-confirm-password" class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('auth.confirm_password') }}</label>
               <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" id="reg-confirm-password" required
                      (blur)="touched['confirmPassword'] = true"
                      class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
                             focus:outline-none focus:ring-1 transition-all"
-                     [class]="fieldErrors['confirmPassword'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/25'"
+                     [class]="fieldErrors['confirmPassword'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/25'"
                      placeholder="********">
               @if (fieldErrors['confirmPassword']) {
                 <p class="mt-1 text-xs text-red-400">{{ fieldErrors['confirmPassword'] }}</p>
@@ -168,13 +168,13 @@ import { AuthService } from '../auth/auth.service';
               <label class="flex items-start gap-3 cursor-pointer group">
                 <input type="checkbox" [(ngModel)]="agreeTerms" name="agreeTerms"
                        [attr.aria-label]="lang.l('Nõustun kasutustingimuste ja privaatsuspoliitikaga', 'I agree to the Terms of Service and Privacy Policy')"
-                       class="mt-0.5 w-4 h-4 rounded border-slate-600 bg-slate-700 text-emerald-500
-                              focus:ring-emerald-500/25 focus:ring-offset-0 cursor-pointer">
+                       class="mt-0.5 w-4 h-4 rounded border-slate-600 bg-slate-700 text-blue-600
+                              focus:ring-blue-500/25 focus:ring-offset-0 cursor-pointer">
                 <span class="text-sm text-slate-400 leading-relaxed" aria-hidden="true">
                   {{ lang.t('auth.terms_agree') }}
-                  <a routerLink="/terms" target="_blank" class="text-emerald-400 hover:text-emerald-300 underline">{{ lang.t('auth.terms_link') }}</a>
+                  <a routerLink="/terms" target="_blank" class="text-blue-600 hover:text-blue-500 underline">{{ lang.t('auth.terms_link') }}</a>
                   {{ lang.t('auth.terms_and') }}
-                  <a routerLink="/privacy" target="_blank" class="text-emerald-400 hover:text-emerald-300 underline">{{ lang.t('auth.privacy_link') }}</a>
+                  <a routerLink="/privacy" target="_blank" class="text-blue-600 hover:text-blue-500 underline">{{ lang.t('auth.privacy_link') }}</a>
                 </span>
               </label>
             </div>
@@ -187,8 +187,8 @@ import { AuthService } from '../auth/auth.service';
 
             <button type="submit" [disabled]="loading"
                     class="w-full py-3 rounded-xl font-semibold text-sm transition-all duration-200
-                           bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
-                           hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25
+                           bg-blue-600 text-white
+                           hover:bg-blue-700 hover:shadow-lg hover:shadow-lg
                            disabled:opacity-50 disabled:cursor-not-allowed">
               @if (loading) {
                 <span class="inline-flex items-center gap-2">
@@ -207,7 +207,7 @@ import { AuthService } from '../auth/auth.service';
           <div class="mt-6 text-center">
             <p class="text-sm text-slate-400">
               {{ lang.t('auth.have_account') }}
-              <a routerLink="/login" class="text-emerald-400 hover:text-emerald-300 font-medium transition-colors">
+              <a routerLink="/login" class="text-blue-600 hover:text-blue-500 font-medium transition-colors">
                 {{ lang.t('auth.login_link') }}
               </a>
             </p>

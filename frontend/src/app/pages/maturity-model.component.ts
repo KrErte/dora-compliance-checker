@@ -30,7 +30,7 @@ interface MaturityArea {
       </div>
 
       <!-- Overall maturity -->
-      <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+      <div class="bg-white border border-slate-200 rounded-2xl p-6">
         <div class="flex items-center gap-6">
           <div class="relative w-28 h-28 flex-shrink-0">
             <svg class="w-28 h-28 -rotate-90" viewBox="0 0 100 100">
@@ -38,7 +38,7 @@ interface MaturityArea {
               <circle cx="50" cy="50" r="42" stroke-width="6" fill="none" stroke-linecap="round"
                       [attr.stroke-dasharray]="264"
                       [attr.stroke-dashoffset]="264 - (264 * averageLevel() / 5)"
-                      [class]="averageLevel() >= 4 ? 'stroke-emerald-400' : averageLevel() >= 2.5 ? 'stroke-amber-400' : 'stroke-red-400'"/>
+                      [class]="averageLevel() >= 4 ? 'stroke-blue-500' : averageLevel() >= 2.5 ? 'stroke-amber-400' : 'stroke-red-400'"/>
             </svg>
             <div class="absolute inset-0 flex flex-col items-center justify-center">
               <span class="text-2xl font-bold text-white">{{ averageLevel().toFixed(1) }}</span>
@@ -51,7 +51,7 @@ interface MaturityArea {
               @for (level of [0,1,2,3,4,5]; track level) {
                 <div class="flex-1 text-center">
                   <div class="h-2 rounded-full mb-1"
-                       [class]="level <= averageLevel() ? (level >= 4 ? 'bg-emerald-400' : level >= 2 ? 'bg-amber-400' : 'bg-red-400') : 'bg-slate-700'"></div>
+                       [class]="level <= averageLevel() ? (level >= 4 ? 'bg-blue-500' : level >= 2 ? 'bg-amber-400' : 'bg-red-400') : 'bg-slate-700'"></div>
                   <span class="text-[9px] text-slate-500">{{ level }}</span>
                 </div>
               }
@@ -70,12 +70,12 @@ interface MaturityArea {
 
       <!-- Pillar breakdown -->
       @for (pillar of pillars; track pillar.id) {
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl overflow-hidden">
-          <div class="px-6 py-4 border-b border-slate-700/50 flex items-center justify-between cursor-pointer"
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+          <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between cursor-pointer"
                (click)="togglePillar(pillar.id)">
             <h2 class="text-lg font-semibold text-white">{{ lang.l(pillar.nameEt, pillar.nameEn) }}</h2>
             <div class="flex items-center gap-3">
-              <span class="text-sm font-bold" [class]="getPillarAverage(pillar.id) >= 4 ? 'text-emerald-400' : getPillarAverage(pillar.id) >= 2.5 ? 'text-amber-400' : 'text-red-400'">
+              <span class="text-sm font-bold" [class]="getPillarAverage(pillar.id) >= 4 ? 'text-blue-600' : getPillarAverage(pillar.id) >= 2.5 ? 'text-amber-400' : 'text-red-400'">
                 {{ getPillarAverage(pillar.id).toFixed(1) }}/5
               </span>
               <svg class="w-5 h-5 text-slate-400 transition-transform" [class.rotate-180]="expandedPillars.has(pillar.id)"
@@ -96,7 +96,7 @@ interface MaturityArea {
                     @for (lvl of [0,1,2,3,4,5]; track lvl) {
                       <button (click)="setLevel(area, lvl)"
                               class="w-8 h-8 rounded-lg text-xs font-bold transition-all"
-                              [class]="area.level === lvl ? (lvl >= 4 ? 'bg-emerald-500/30 text-emerald-400 border border-emerald-500/40' : lvl >= 2 ? 'bg-amber-500/30 text-amber-400 border border-amber-500/40' : 'bg-red-500/30 text-red-400 border border-red-500/40') : 'bg-slate-700/30 text-slate-500 hover:text-slate-300'">
+                              [class]="area.level === lvl ? (lvl >= 4 ? 'bg-blue-600/30 text-blue-600 border border-blue-500/40' : lvl >= 2 ? 'bg-amber-500/30 text-amber-400 border border-amber-500/40' : 'bg-red-500/30 text-red-400 border border-red-500/40') : 'bg-slate-700/30 text-slate-500 hover:text-slate-600'">
                         {{ lvl }}
                       </button>
                     }

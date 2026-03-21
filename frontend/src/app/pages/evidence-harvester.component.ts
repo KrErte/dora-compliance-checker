@@ -60,9 +60,9 @@ interface PillarCoverage {
     <!-- Premium Gate -->
     @if (!sub.isPremium()) {
       <div class="max-w-4xl mx-auto px-4 py-16 animate-fade-in">
-        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-10 text-center">
-          <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 flex items-center justify-center mx-auto mb-6">
-            <svg class="w-10 h-10 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-10 text-center">
+          <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-600/20 to-teal-500/20 flex items-center justify-center mx-auto mb-6">
+            <svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
             </svg>
           </div>
@@ -82,7 +82,7 @@ interface PillarCoverage {
             {{ lang.l('Premium funktsioon — uuendage ligipääsuks', 'Premium feature — upgrade to access') }}
           </div>
           <div>
-            <a routerLink="/pricing" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-900 font-semibold hover:from-emerald-400 hover:to-teal-400 transition-all">
+            <a routerLink="/pricing" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-blue-400 text-slate-900 font-semibold hover:from-blue-500 hover:to-teal-400 transition-all">
               {{ lang.l('Vaata plaane', 'View Plans') }}
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
             </a>
@@ -97,11 +97,11 @@ interface PillarCoverage {
 
         <!-- Hero Section -->
         <div class="text-center mb-2">
-          <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-1.5 mb-4">
-            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-full px-4 py-1.5 mb-4">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
             </svg>
-            <span class="text-sm font-medium text-emerald-300">Evidence Auto-Harvester</span>
+            <span class="text-sm font-medium text-blue-500">Evidence Auto-Harvester</span>
           </div>
           <h1 class="text-3xl font-bold gradient-text mb-3">
             {{ lang.l('Tõendite automaatne kogumine', 'Evidence Auto-Harvester') }}
@@ -116,40 +116,40 @@ interface PillarCoverage {
 
         <!-- Stats Bar -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
-            <div class="text-2xl font-bold text-emerald-400">{{ stats().connectedSources }}</div>
+          <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
+            <div class="text-2xl font-bold text-blue-600">{{ stats().connectedSources }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.l('Ühendatud allikad', 'Connected Sources') }}</div>
           </div>
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
+          <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-teal-400">{{ stats().totalEvidence }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.l('Kogutud tõendeid', 'Evidence Harvested') }}</div>
           </div>
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
-            <div class="text-2xl font-bold" [class]="stats().coveragePercent >= 70 ? 'text-emerald-400' : stats().coveragePercent >= 40 ? 'text-amber-400' : 'text-red-400'">
+          <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
+            <div class="text-2xl font-bold" [class]="stats().coveragePercent >= 70 ? 'text-blue-600' : stats().coveragePercent >= 40 ? 'text-amber-400' : 'text-red-400'">
               {{ stats().coveragePercent }}%
             </div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.l('Katvus', 'Coverage') }}</div>
           </div>
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
-            <div class="text-sm font-semibold text-slate-200">{{ formatTime(stats().lastHarvestAt) }}</div>
+          <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
+            <div class="text-sm font-semibold text-slate-700">{{ formatTime(stats().lastHarvestAt) }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.l('Viimane kogumine', 'Last Harvest') }}</div>
           </div>
         </div>
 
         <!-- Connector Grid -->
         <div>
-          <h2 class="text-lg font-semibold text-slate-200 mb-4 flex items-center gap-2">
-            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <h2 class="text-lg font-semibold text-slate-700 mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
             </svg>
             {{ lang.l('Konnektorid', 'Connectors') }}
           </h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             @for (def of connectorDefs; track def.type) {
-              <div class="bg-slate-800/50 border rounded-xl p-5 transition-all hover:shadow-lg hover:shadow-slate-900/50 cursor-pointer group"
+              <div class="bg-white border rounded-xl p-5 transition-all hover:shadow-lg hover:shadow-slate-900/50 cursor-pointer group"
                    [class]="selectedConnector()?.type === def.type
-                     ? 'border-emerald-500/50 ring-1 ring-emerald-500/20 ' + def.borderClass
-                     : 'border-slate-700/50 hover:border-slate-600/50'"
+                     ? 'border-blue-500/50 ring-1 ring-blue-100 ' + def.borderClass
+                     : 'border-slate-200 hover:border-slate-200'"
                    (click)="selectConnector(def)">
 
                 <!-- Header: Icon + Status -->
@@ -158,7 +158,7 @@ interface PillarCoverage {
                     <span [innerHTML]="def.icon" class="w-6 h-6 flex items-center justify-center" [class]="def.textClass"></span>
                   </div>
                   @if (getConnectorByType(def.type); as conn) {
-                    <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-blue-600 border border-blue-200">
                       {{ lang.l('Ühendatud', 'Connected') }}
                     </span>
                   } @else {
@@ -169,12 +169,12 @@ interface PillarCoverage {
                 </div>
 
                 <!-- Name & Description -->
-                <h3 class="text-sm font-bold text-slate-100 mb-1">{{ def.name }}</h3>
+                <h3 class="text-sm font-bold text-slate-900 mb-1">{{ def.name }}</h3>
                 <p class="text-xs text-slate-400 mb-3 leading-relaxed">{{ lang.l(def.descEt, def.descEn) }}</p>
 
                 <!-- Evidence Count & Last Sync -->
                 @if (getConnectorByType(def.type); as conn) {
-                  <div class="flex items-center justify-between text-xs text-slate-500 mb-3 border-t border-slate-700/30 pt-3">
+                  <div class="flex items-center justify-between text-xs text-slate-500 mb-3 border-t border-slate-200 pt-3">
                     <span class="flex items-center gap-1">
                       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                       {{ conn.evidenceCount }} {{ lang.l('tõendit', 'items') }}
@@ -191,7 +191,7 @@ interface PillarCoverage {
                   @if (getConnectorByType(def.type); as conn) {
                     <button (click)="harvest(conn.id, $event)"
                             [disabled]="harvesting().has(conn.id)"
-                            class="flex-1 px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/20 disabled:opacity-50">
+                            class="flex-1 px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5 bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-100 disabled:opacity-50">
                       @if (harvesting().has(conn.id)) {
                         <svg class="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg>
                       } @else {
@@ -206,7 +206,7 @@ interface PillarCoverage {
                   } @else {
                     <button (click)="connect(def, $event)"
                             [disabled]="connecting()"
-                            class="flex-1 px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5 bg-slate-700/50 text-slate-300 border border-slate-600/30 hover:bg-slate-700 hover:text-white disabled:opacity-50">
+                            class="flex-1 px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5 bg-slate-700/50 text-slate-600 border border-slate-600/30 hover:bg-slate-700 hover:text-white disabled:opacity-50">
                       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
                       {{ lang.l('Ühenda', 'Connect') }}
                     </button>
@@ -219,15 +219,15 @@ interface PillarCoverage {
 
         <!-- Mapping Matrix Panel (shown when a connected connector is selected) -->
         @if (selectedConnector() && getConnectorByType(selectedConnector()!.type)) {
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6 animate-fade-in">
+          <div class="bg-white border border-slate-200 rounded-xl p-6 animate-fade-in">
             <div class="flex items-center justify-between mb-5">
-              <h2 class="text-lg font-semibold text-slate-200 flex items-center gap-2">
+              <h2 class="text-lg font-semibold text-slate-700 flex items-center gap-2">
                 <svg class="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7"/>
                 </svg>
                 {{ lang.l('Vastendamise maatriks', 'Mapping Matrix') }} — {{ selectedConnector()!.name }}
               </h2>
-              <button (click)="selectedConnector.set(null)" class="text-slate-500 hover:text-slate-300 transition-colors">
+              <button (click)="selectedConnector.set(null)" class="text-slate-500 hover:text-slate-600 transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
               </button>
             </div>
@@ -235,7 +235,7 @@ interface PillarCoverage {
             <div class="overflow-x-auto">
               <table class="w-full text-sm">
                 <thead>
-                  <tr class="border-b border-slate-700/50">
+                  <tr class="border-b border-slate-200">
                     <th class="text-left py-3 px-4 text-slate-400 font-medium">{{ lang.l('Tõendi tüüp', 'Evidence Type') }}</th>
                     @for (pillar of pillarNames; track pillar.key) {
                       <th class="text-center py-3 px-2 text-slate-400 font-medium text-xs">{{ lang.l(pillar.nameEt, pillar.nameEn) }}</th>
@@ -244,15 +244,15 @@ interface PillarCoverage {
                 </thead>
                 <tbody>
                   @for (rule of getMappingRules(selectedConnector()!.type); track rule.evidenceType) {
-                    <tr class="border-b border-slate-700/30 hover:bg-slate-700/20 transition-colors">
-                      <td class="py-3 px-4 text-slate-300 text-xs">{{ lang.l(rule.labelEt, rule.labelEn) }}</td>
+                    <tr class="border-b border-slate-200 hover:bg-slate-700/20 transition-colors">
+                      <td class="py-3 px-4 text-slate-600 text-xs">{{ lang.l(rule.labelEt, rule.labelEn) }}</td>
                       @for (pillar of pillarNames; track pillar.key) {
                         <td class="text-center py-3 px-2">
                           <label class="inline-flex items-center justify-center cursor-pointer">
                             <input type="checkbox"
                                    [checked]="rule.pillars.includes(pillar.key)"
                                    (change)="toggleMapping(selectedConnector()!.type, rule.evidenceType, pillar.key)"
-                                   class="w-4 h-4 rounded border-slate-600 bg-slate-700/50 text-emerald-500 focus:ring-emerald-500/30 focus:ring-offset-0 cursor-pointer">
+                                   class="w-4 h-4 rounded border-slate-600 bg-slate-700/50 text-blue-600 focus:ring-blue-500/30 focus:ring-offset-0 cursor-pointer">
                           </label>
                         </td>
                       }
@@ -264,7 +264,7 @@ interface PillarCoverage {
 
             <div class="mt-4 flex justify-end">
               <button (click)="saveMappings()" [disabled]="savingMappings()"
-                      class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-900 hover:from-emerald-400 hover:to-teal-400 disabled:opacity-50">
+                      class="px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-400 text-slate-900 hover:from-blue-500 hover:to-teal-400 disabled:opacity-50">
                 @if (savingMappings()) {
                   <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg>
                 } @else {
@@ -280,8 +280,8 @@ interface PillarCoverage {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           <!-- Coverage Donuts -->
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6">
-            <h2 class="text-lg font-semibold text-slate-200 mb-5 flex items-center gap-2">
+          <div class="bg-white border border-slate-200 rounded-xl p-6">
+            <h2 class="text-lg font-semibold text-slate-700 mb-5 flex items-center gap-2">
               <svg class="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
               </svg>
@@ -301,7 +301,7 @@ interface PillarCoverage {
                               [attr.stroke-dashoffset]="263.89 - (263.89 * pillar.percent / 100)"/>
                     </svg>
                     <div class="absolute inset-0 flex items-center justify-center">
-                      <span class="text-sm font-bold text-slate-100">{{ pillar.percent }}%</span>
+                      <span class="text-sm font-bold text-slate-900">{{ pillar.percent }}%</span>
                     </div>
                   </div>
                   <div class="text-xs text-slate-400 leading-tight">{{ lang.l(pillar.nameEt, pillar.name) }}</div>
@@ -311,9 +311,9 @@ interface PillarCoverage {
           </div>
 
           <!-- Harvest Feed -->
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6">
-            <h2 class="text-lg font-semibold text-slate-200 mb-5 flex items-center gap-2">
-              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-white border border-slate-200 rounded-xl p-6">
+            <h2 class="text-lg font-semibold text-slate-700 mb-5 flex items-center gap-2">
+              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
               </svg>
               {{ lang.l('Viimased kogumised', 'Recent Harvests') }}
@@ -329,12 +329,12 @@ interface PillarCoverage {
             } @else {
               <div class="space-y-2 max-h-80 overflow-y-auto pr-1 custom-scrollbar">
                 @for (event of harvestFeed(); track event.id) {
-                  <div class="flex items-start gap-3 p-3 rounded-lg bg-slate-700/20 border border-slate-700/30 hover:bg-slate-700/30 transition-colors">
+                  <div class="flex items-start gap-3 p-3 rounded-lg bg-slate-700/20 border border-slate-200 hover:bg-slate-100 transition-colors">
                     <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" [class]="getConnectorBg(event.connectorType)">
                       <span [innerHTML]="getConnectorIcon(event.connectorType)" class="w-4 h-4 flex items-center justify-center" [class]="getConnectorText(event.connectorType)"></span>
                     </div>
                     <div class="flex-1 min-w-0">
-                      <div class="text-xs font-medium text-slate-200 truncate">{{ event.title }}</div>
+                      <div class="text-xs font-medium text-slate-700 truncate">{{ event.title }}</div>
                       <div class="flex items-center gap-2 mt-1">
                         <span class="px-1.5 py-0.5 rounded text-[10px] font-medium border"
                               [class]="getPillarBadge(event.pillar)">
@@ -429,7 +429,7 @@ export class EvidenceHarvesterComponent implements OnInit {
       color: '#94A3B8',
       bgClass: 'bg-slate-600/20',
       borderClass: 'border-slate-500/30',
-      textClass: 'text-slate-300'
+      textClass: 'text-slate-600'
     },
     {
       type: 'AZURE_DEVOPS',
@@ -846,9 +846,9 @@ export class EvidenceHarvesterComponent implements OnInit {
     const map: Record<string, string> = {
       ICT_RISK: 'bg-blue-500/10 text-blue-400 border-blue-500/30',
       INCIDENT: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
-      TESTING: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+      TESTING: 'bg-blue-50 text-blue-600 border-blue-200',
       THIRD_PARTY: 'bg-purple-500/10 text-purple-400 border-purple-500/30',
-      INFO_SHARING: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30'
+      INFO_SHARING: 'bg-blue-50 text-blue-500 border-blue-500/30'
     };
     return map[pillar] || 'bg-slate-500/10 text-slate-400 border-slate-500/30';
   }

@@ -55,25 +55,25 @@ interface ConsolidatedView {
       <!-- Consolidated overview -->
       @if (entities().length > 0) {
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-4 text-center">
+          <div class="bg-white rounded-xl border border-slate-200 p-4 text-center">
             <p class="text-2xl font-bold text-white">{{ consolidated().totalEntities }}</p>
             <p class="text-xs text-slate-400 mt-1">
               {{ lang.t('group.total_entities') }}
             </p>
           </div>
-          <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-4 text-center">
-            <p class="text-2xl font-bold text-emerald-400">{{ consolidated().doraApplicable }}</p>
+          <div class="bg-white rounded-xl border border-slate-200 p-4 text-center">
+            <p class="text-2xl font-bold text-blue-600">{{ consolidated().doraApplicable }}</p>
             <p class="text-xs text-slate-400 mt-1">DORA</p>
           </div>
-          <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-4 text-center">
+          <div class="bg-white rounded-xl border border-slate-200 p-4 text-center">
             <p class="text-2xl font-bold text-amber-400">{{ consolidated().nis2Applicable }}</p>
             <p class="text-xs text-slate-400 mt-1">NIS2</p>
           </div>
-          <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-4 text-center">
+          <div class="bg-white rounded-xl border border-slate-200 p-4 text-center">
             <p class="text-2xl font-bold" [ngClass]="{
               'text-red-400': consolidated().avgMaturity < 2,
               'text-amber-400': consolidated().avgMaturity >= 2 && consolidated().avgMaturity < 3.5,
-              'text-emerald-400': consolidated().avgMaturity >= 3.5
+              'text-blue-600': consolidated().avgMaturity >= 3.5
             }">{{ consolidated().avgMaturity.toFixed(1) }}</p>
             <p class="text-xs text-slate-400 mt-1">
               {{ lang.t('group.avg_maturity') }}
@@ -83,13 +83,13 @@ interface ConsolidatedView {
 
         <!-- Country distribution -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-4">
-            <h3 class="text-sm font-semibold text-slate-300 mb-3">
+          <div class="bg-white rounded-xl border border-slate-200 p-4">
+            <h3 class="text-sm font-semibold text-slate-600 mb-3">
               {{ lang.t('group.by_country') }}
             </h3>
             @for (entry of getCountryEntries(); track entry[0]) {
               <div class="flex items-center justify-between py-1.5">
-                <span class="text-sm text-slate-300">{{ entry[0] }}</span>
+                <span class="text-sm text-slate-600">{{ entry[0] }}</span>
                 <div class="flex items-center gap-2">
                   <div class="w-20 h-2 bg-slate-700 rounded-full overflow-hidden">
                     <div class="h-full bg-gradient-to-r from-violet-400 to-purple-400 rounded-full"
@@ -100,13 +100,13 @@ interface ConsolidatedView {
               </div>
             }
           </div>
-          <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-4">
-            <h3 class="text-sm font-semibold text-slate-300 mb-3">
+          <div class="bg-white rounded-xl border border-slate-200 p-4">
+            <h3 class="text-sm font-semibold text-slate-600 mb-3">
               {{ lang.t('group.by_type') }}
             </h3>
             @for (entry of getTypeEntries(); track entry[0]) {
               <div class="flex items-center justify-between py-1.5">
-                <span class="text-sm text-slate-300">{{ getTypeLabel(entry[0]) }}</span>
+                <span class="text-sm text-slate-600">{{ getTypeLabel(entry[0]) }}</span>
                 <span class="text-xs text-slate-500">{{ entry[1] }}</span>
               </div>
             }
@@ -116,7 +116,7 @@ interface ConsolidatedView {
 
       <!-- Entities list -->
       @if (entities().length === 0) {
-        <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-12 text-center">
+        <div class="bg-white rounded-xl border border-slate-200 p-12 text-center">
           <svg class="w-16 h-16 text-slate-600 mx-auto mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
             <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/>
           </svg>
@@ -130,12 +130,12 @@ interface ConsolidatedView {
       }
 
       @for (entity of entities(); track entity.id) {
-        <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-4 sm:p-5">
+        <div class="bg-white rounded-xl border border-slate-200 p-4 sm:p-5">
           <div class="flex items-start justify-between">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-xs"
                    [ngClass]="{
-                     'bg-gradient-to-br from-emerald-400 to-cyan-400': entity.type === 'PARENT',
+                     'bg-blue-600': entity.type === 'PARENT',
                      'bg-gradient-to-br from-violet-400 to-purple-400': entity.type === 'SUBSIDIARY',
                      'bg-gradient-to-br from-amber-400 to-orange-400': entity.type === 'BRANCH',
                      'bg-gradient-to-br from-blue-400 to-indigo-400': entity.type === 'JOINT_VENTURE'
@@ -155,7 +155,7 @@ interface ConsolidatedView {
             </div>
             <div class="flex items-center gap-2">
               @if (entity.doraApplicable) {
-                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-emerald-500/20 text-emerald-400">DORA</span>
+                <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-blue-100 text-blue-600">DORA</span>
               }
               @if (entity.nis2Applicable) {
                 <span class="px-2 py-0.5 text-[10px] font-bold rounded bg-amber-500/20 text-amber-400">NIS2</span>
@@ -172,7 +172,7 @@ interface ConsolidatedView {
               <p class="text-sm font-semibold" [ngClass]="{
                 'text-red-400': (entity.maturityScore || 0) < 2,
                 'text-amber-400': (entity.maturityScore || 0) >= 2 && (entity.maturityScore || 0) < 3.5,
-                'text-emerald-400': (entity.maturityScore || 0) >= 3.5,
+                'text-blue-600': (entity.maturityScore || 0) >= 3.5,
                 'text-slate-500': !entity.maturityScore
               }">{{ entity.maturityScore ? entity.maturityScore.toFixed(1) + ' / 5.0' : 'N/A' }}</p>
             </div>
@@ -180,17 +180,17 @@ interface ConsolidatedView {
               <p class="text-[10px] text-slate-500 uppercase">
                 {{ lang.t('group.last_assessment') }}
               </p>
-              <p class="text-sm text-slate-300">{{ entity.lastAssessment || 'N/A' }}</p>
+              <p class="text-sm text-slate-600">{{ entity.lastAssessment || 'N/A' }}</p>
             </div>
             <div>
               <p class="text-[10px] text-slate-500 uppercase">
                 {{ lang.t('group.contact') }}
               </p>
-              <p class="text-sm text-slate-300">{{ entity.contactPerson || 'N/A' }}</p>
+              <p class="text-sm text-slate-600">{{ entity.contactPerson || 'N/A' }}</p>
             </div>
             <div class="flex items-end justify-end gap-1">
               <button (click)="editEntity(entity)"
-                      class="px-2 py-1 text-xs rounded bg-slate-600/30 text-slate-300 hover:bg-slate-600/50 transition-colors">
+                      class="px-2 py-1 text-xs rounded bg-slate-600/30 text-slate-600 hover:bg-slate-100 transition-colors">
                 {{ lang.t('group.edit') }}
               </button>
               <button (click)="deleteEntity(entity.id)"
@@ -209,8 +209,8 @@ interface ConsolidatedView {
       <!-- Add/Edit modal -->
       @if (showModal) {
         <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" (click)="showModal = false">
-          <div class="bg-slate-800 rounded-xl border border-slate-700/50 shadow-xl w-full max-w-lg max-h-[80vh] overflow-y-auto" (click)="$event.stopPropagation()">
-            <div class="p-5 border-b border-slate-700/50">
+          <div class="bg-slate-800 rounded-xl border border-slate-200 shadow-xl w-full max-w-lg max-h-[80vh] overflow-y-auto" (click)="$event.stopPropagation()">
+            <div class="p-5 border-b border-slate-200">
               <h3 class="text-lg font-semibold text-white">
                 {{ editingId ? lang.t('group.edit_entity') : lang.t('group.add_entity_37') }}
               </h3>
@@ -222,14 +222,14 @@ interface ConsolidatedView {
                     {{ lang.t('group.name') }} *
                   </label>
                   <input [(ngModel)]="form.name" type="text"
-                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
+                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
                     {{ lang.t('group.type') }}
                   </label>
                   <select [(ngModel)]="form.type"
-                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
+                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
                     <option value="PARENT">{{ lang.t('group.parent_company') }}</option>
                     <option value="SUBSIDIARY">{{ lang.t('group.subsidiary') }}</option>
                     <option value="BRANCH">{{ lang.t('group.branch') }}</option>
@@ -241,7 +241,7 @@ interface ConsolidatedView {
                     {{ lang.t('group.country') }}
                   </label>
                   <input [(ngModel)]="form.country" type="text"
-                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50"
+                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50"
                          placeholder="EE, LV, LT, FI...">
                 </div>
                 <div>
@@ -249,14 +249,14 @@ interface ConsolidatedView {
                     {{ lang.t('group.registry_code') }}
                   </label>
                   <input [(ngModel)]="form.registryCode" type="text"
-                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
+                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
                     {{ lang.t('group.sector') }}
                   </label>
                   <select [(ngModel)]="form.sector"
-                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
+                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
                     <option value="Banking">{{ lang.t('group.banking') }}</option>
                     <option value="Insurance">{{ lang.t('group.insurance') }}</option>
                     <option value="Investment">{{ lang.t('group.investment') }}</option>
@@ -268,13 +268,13 @@ interface ConsolidatedView {
                 <div class="flex items-center gap-4 col-span-2">
                   <label class="flex items-center gap-2 cursor-pointer">
                     <input [(ngModel)]="form.doraApplicable" type="checkbox"
-                           class="rounded border-slate-600 bg-slate-700 text-emerald-500 focus:ring-emerald-500/30">
-                    <span class="text-sm text-slate-300">DORA</span>
+                           class="rounded border-slate-600 bg-slate-700 text-blue-600 focus:ring-blue-500/30">
+                    <span class="text-sm text-slate-600">DORA</span>
                   </label>
                   <label class="flex items-center gap-2 cursor-pointer">
                     <input [(ngModel)]="form.nis2Applicable" type="checkbox"
                            class="rounded border-slate-600 bg-slate-700 text-amber-500 focus:ring-amber-500/30">
-                    <span class="text-sm text-slate-300">NIS2</span>
+                    <span class="text-sm text-slate-600">NIS2</span>
                   </label>
                 </div>
                 <div>
@@ -282,39 +282,39 @@ interface ConsolidatedView {
                     {{ lang.t('group.maturity_score') }} (0-5)
                   </label>
                   <input [(ngModel)]="form.maturityScore" type="number" min="0" max="5" step="0.1"
-                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
+                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
                     {{ lang.t('group.last_assessment_30') }}
                   </label>
                   <input [(ngModel)]="form.lastAssessment" type="date"
-                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
+                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
                     {{ lang.t('group.contact_person') }}
                   </label>
                   <input [(ngModel)]="form.contactPerson" type="text"
-                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
+                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
                 </div>
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1">
                     {{ lang.t('group.contact_email') }}
                   </label>
                   <input [(ngModel)]="form.contactEmail" type="email"
-                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
+                         class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
                 </div>
                 <div class="col-span-2">
                   <label class="block text-xs font-medium text-slate-400 mb-1">
                     {{ lang.t('group.notes') }}
                   </label>
                   <textarea [(ngModel)]="form.notes" rows="2"
-                            class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50"></textarea>
+                            class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50"></textarea>
                 </div>
               </div>
             </div>
-            <div class="p-5 border-t border-slate-700/50 flex justify-end gap-2">
+            <div class="p-5 border-t border-slate-200 flex justify-end gap-2">
               <button (click)="showModal = false"
                       class="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors">
                 {{ lang.t('group.cancel') }}

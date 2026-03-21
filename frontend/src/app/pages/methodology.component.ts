@@ -11,21 +11,21 @@ import { LangService } from '../lang.service';
     <div class="max-w-4xl mx-auto">
       <!-- Header -->
       <div class="text-center mb-12">
-        <h1 class="text-3xl font-bold text-slate-100 mb-4">{{ lang.t('methodology.title') }}</h1>
+        <h1 class="text-3xl font-bold text-slate-900 mb-4">{{ lang.t('methodology.title') }}</h1>
         <p class="text-slate-400">{{ lang.t('methodology.subtitle') }}</p>
       </div>
 
       <!-- DORA Article 30 Overview -->
       <div class="glass-card p-5 sm:p-8 mb-8">
-        <h2 class="text-xl font-bold text-emerald-400 mb-4">{{ lang.t('methodology.art30_title') }}</h2>
-        <p class="text-slate-300 mb-6 leading-relaxed">{{ lang.t('methodology.art30_desc') }}</p>
+        <h2 class="text-xl font-bold text-blue-600 mb-4">{{ lang.t('methodology.art30_title') }}</h2>
+        <p class="text-slate-600 mb-6 leading-relaxed">{{ lang.t('methodology.art30_desc') }}</p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div *ngFor="let req of requirements" class="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50">
+          <div *ngFor="let req of requirements" class="bg-white rounded-lg p-4 border border-slate-200">
             <div class="flex items-start gap-3">
-              <span class="text-emerald-400 text-lg">{{ req.icon }}</span>
+              <span class="text-blue-600 text-lg">{{ req.icon }}</span>
               <div>
-                <h3 class="font-medium text-slate-200 mb-1">{{ lang.t(req.titleKey) }}</h3>
+                <h3 class="font-medium text-slate-700 mb-1">{{ lang.t(req.titleKey) }}</h3>
                 <p class="text-sm text-slate-400">{{ lang.t(req.descKey) }}</p>
               </div>
             </div>
@@ -35,15 +35,15 @@ import { LangService } from '../lang.service';
 
       <!-- Assessment Process -->
       <div class="glass-card p-5 sm:p-8 mb-8">
-        <h2 class="text-xl font-bold text-cyan-400 mb-4">{{ lang.t('methodology.process_title') }}</h2>
+        <h2 class="text-xl font-bold text-blue-500 mb-4">{{ lang.t('methodology.process_title') }}</h2>
 
         <div class="space-y-6">
           <div *ngFor="let step of steps; let i = index" class="flex gap-4">
-            <div class="w-10 h-10 rounded-full bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold shrink-0">
+            <div class="w-10 h-10 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-500 font-bold shrink-0">
               {{ i + 1 }}
             </div>
             <div>
-              <h3 class="font-medium text-slate-200 mb-1">{{ lang.t(step.titleKey) }}</h3>
+              <h3 class="font-medium text-slate-700 mb-1">{{ lang.t(step.titleKey) }}</h3>
               <p class="text-sm text-slate-400">{{ lang.t(step.descKey) }}</p>
             </div>
           </div>
@@ -53,11 +53,11 @@ import { LangService } from '../lang.service';
       <!-- Scoring Methodology -->
       <div class="glass-card p-5 sm:p-8 mb-8">
         <h2 class="text-xl font-bold text-violet-400 mb-4">{{ lang.t('methodology.scoring_title') }}</h2>
-        <p class="text-slate-300 mb-6">{{ lang.t('methodology.scoring_desc') }}</p>
+        <p class="text-slate-600 mb-6">{{ lang.t('methodology.scoring_desc') }}</p>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-          <div class="text-center p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
-            <div class="text-2xl font-bold text-emerald-400 mb-1">80-100%</div>
+          <div class="text-center p-4 rounded-lg bg-blue-50 border border-blue-200">
+            <div class="text-2xl font-bold text-blue-600 mb-1">80-100%</div>
             <p class="text-sm text-slate-400">{{ lang.t('methodology.compliant') }}</p>
           </div>
           <div class="text-center p-4 rounded-lg bg-amber-500/10 border border-amber-500/20">
@@ -77,10 +77,10 @@ import { LangService } from '../lang.service';
 
         <div class="space-y-4">
           <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32022R2554" target="_blank" rel="noopener"
-             class="flex items-center gap-3 p-4 bg-slate-800/50 rounded-lg border border-slate-700/50 hover:border-emerald-500/30 transition-colors">
+             class="flex items-center gap-3 p-4 bg-white rounded-lg border border-slate-200 hover:border-blue-200 transition-colors">
             <span class="text-2xl">📜</span>
             <div>
-              <h3 class="font-medium text-slate-200">{{ lang.t('methodology.ref_dora_title') }}</h3>
+              <h3 class="font-medium text-slate-700">{{ lang.t('methodology.ref_dora_title') }}</h3>
               <p class="text-sm text-slate-500">{{ lang.t('methodology.ref_dora_source') }}</p>
             </div>
             <svg class="w-5 h-5 text-slate-500 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -89,10 +89,10 @@ import { LangService } from '../lang.service';
           </a>
 
           <a href="https://www.eba.europa.eu/regulation-and-policy/operational-resilience" target="_blank" rel="noopener"
-             class="flex items-center gap-3 p-4 bg-slate-800/50 rounded-lg border border-slate-700/50 hover:border-emerald-500/30 transition-colors">
+             class="flex items-center gap-3 p-4 bg-white rounded-lg border border-slate-200 hover:border-blue-200 transition-colors">
             <span class="text-2xl">🏛️</span>
             <div>
-              <h3 class="font-medium text-slate-200">{{ lang.t('methodology.ref_eba_title') }}</h3>
+              <h3 class="font-medium text-slate-700">{{ lang.t('methodology.ref_eba_title') }}</h3>
               <p class="text-sm text-slate-500">{{ lang.t('methodology.ref_eba_source') }}</p>
             </div>
             <svg class="w-5 h-5 text-slate-500 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -101,10 +101,10 @@ import { LangService } from '../lang.service';
           </a>
 
           <a href="https://www.fi.ee/en/supervision/cross-sectoral-supervision/digital-operational-resilience-dora" target="_blank" rel="noopener"
-             class="flex items-center gap-3 p-4 bg-slate-800/50 rounded-lg border border-slate-700/50 hover:border-emerald-500/30 transition-colors">
+             class="flex items-center gap-3 p-4 bg-white rounded-lg border border-slate-200 hover:border-blue-200 transition-colors">
             <span class="text-2xl">🇪🇪</span>
             <div>
-              <h3 class="font-medium text-slate-200">{{ lang.t('methodology.ref_fsa_title') }}</h3>
+              <h3 class="font-medium text-slate-700">{{ lang.t('methodology.ref_fsa_title') }}</h3>
               <p class="text-sm text-slate-500">{{ lang.t('methodology.ref_fsa_source') }}</p>
             </div>
             <svg class="w-5 h-5 text-slate-500 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,7 +117,7 @@ import { LangService } from '../lang.service';
       <!-- CTA -->
       <div class="text-center">
         <a routerLink="/assessment"
-           class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 font-semibold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
+           class="inline-flex items-center gap-2 bg-blue-600 text-slate-900 font-semibold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-lg transition-all">
           {{ lang.t('methodology.start_assessment') }}
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>

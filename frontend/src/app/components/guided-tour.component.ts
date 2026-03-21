@@ -33,7 +33,7 @@ interface TourStep {
         </svg>
         <!-- Highlight ring around target -->
         @if (cutout()) {
-          <div class="absolute border-2 border-emerald-400 rounded-xl pointer-events-none animate-pulse"
+          <div class="absolute border-2 border-blue-400 rounded-xl pointer-events-none animate-pulse"
                [style.left.px]="cutout()!.x - 8" [style.top.px]="cutout()!.y - 8"
                [style.width.px]="cutout()!.w + 16" [style.height.px]="cutout()!.h + 16"
                style="box-shadow: 0 0 0 4px rgba(52,211,153,0.2), 0 0 30px rgba(52,211,153,0.15)"></div>
@@ -41,12 +41,12 @@ interface TourStep {
       </div>
 
       <!-- Tooltip bubble -->
-      <div class="fixed z-[201] w-80 bg-slate-800 border border-slate-600/50 rounded-2xl shadow-2xl shadow-black/40 p-5"
+      <div class="fixed z-[201] w-80 bg-slate-800 border border-slate-200 rounded-2xl shadow-2xl shadow-black/40 p-5"
            [style.left.px]="tooltipPos().x" [style.top.px]="tooltipPos().y"
            (click)="$event.stopPropagation()">
         <!-- Step icon -->
         <div class="flex items-center gap-3 mb-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-lg">
+          <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-slate-900 text-lg">
             {{ currentStepData().icon }}
           </div>
           <div>
@@ -54,37 +54,37 @@ interface TourStep {
             <p class="text-[10px] text-slate-400">{{ currentStep() + 1 }} / {{ steps.length }}</p>
           </div>
         </div>
-        <p class="text-sm text-slate-300 leading-relaxed mb-4">{{ lang.t(currentStepData().descKey) }}</p>
+        <p class="text-sm text-slate-600 leading-relaxed mb-4">{{ lang.t(currentStepData().descKey) }}</p>
 
         <!-- Progress dots -->
         <div class="flex items-center gap-1.5 mb-4">
           @for (step of steps; track step.titleKey; let i = $index) {
             <div class="h-1.5 rounded-full transition-all duration-300"
-                 [class]="i === currentStep() ? 'w-6 bg-emerald-400' : i < currentStep() ? 'w-1.5 bg-emerald-400/50' : 'w-1.5 bg-slate-600'"></div>
+                 [class]="i === currentStep() ? 'w-6 bg-blue-500' : i < currentStep() ? 'w-1.5 bg-blue-500/50' : 'w-1.5 bg-slate-600'"></div>
           }
         </div>
 
         <!-- Navigation buttons -->
         <div class="flex items-center justify-between">
           <button type="button" (click)="skip()"
-                  class="text-xs text-slate-500 hover:text-slate-300 transition-colors">
+                  class="text-xs text-slate-500 hover:text-slate-600 transition-colors">
             {{ lang.t('tour.skip') }}
           </button>
           <div class="flex items-center gap-2">
             @if (currentStep() > 0) {
               <button type="button" (click)="prev()"
-                      class="px-3 py-1.5 text-xs rounded-lg border border-slate-600 text-slate-300 hover:bg-slate-700 transition-colors">
+                      class="px-3 py-1.5 text-xs rounded-lg border border-slate-600 text-slate-600 hover:bg-slate-700 transition-colors">
                 {{ lang.t('tour.prev') }}
               </button>
             }
             @if (currentStep() < steps.length - 1) {
               <button type="button" (click)="next()"
-                      class="px-4 py-1.5 text-xs rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-medium hover:from-emerald-400 hover:to-cyan-400 transition-all">
+                      class="px-4 py-1.5 text-xs rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition-all">
                 {{ lang.t('tour.next') }}
               </button>
             } @else {
               <button type="button" (click)="finish()"
-                      class="px-4 py-1.5 text-xs rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-medium hover:from-emerald-400 hover:to-cyan-400 transition-all">
+                      class="px-4 py-1.5 text-xs rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition-all">
                 {{ lang.t('tour.finish') }}
               </button>
             }

@@ -44,19 +44,19 @@ interface SimulationResult {
           <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
           <span class="text-sm font-medium text-violet-300">{{ lang.t('dt.badge') }}</span>
         </div>
-        <h1 class="text-3xl font-bold text-slate-100 mb-2">{{ lang.t('dt.title') }}</h1>
+        <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ lang.t('dt.title') }}</h1>
         <p class="text-slate-400">{{ lang.t('dt.subtitle') }}</p>
       </div>
 
       <!-- Empty State -->
       @if (!loading() && data() && data()!.nodes.length === 0) {
         <div class="glass-card p-12 text-center">
-          <div class="w-20 h-20 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-6 border border-slate-700/50">
+          <div class="w-20 h-20 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-6 border border-slate-200">
             <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2z"/></svg>
           </div>
-          <h2 class="text-xl font-bold text-slate-200 mb-2">{{ lang.t('dt.empty_title') }}</h2>
+          <h2 class="text-xl font-bold text-slate-700 mb-2">{{ lang.t('dt.empty_title') }}</h2>
           <p class="text-slate-400 mb-6">{{ lang.t('dt.empty_desc') }}</p>
-          <a routerLink="/ict-asset-map" class="inline-flex items-center gap-2 bg-gradient-to-r from-violet-500 to-cyan-500 text-slate-900 font-semibold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-violet-500/25 transition-all">
+          <a routerLink="/ict-asset-map" class="inline-flex items-center gap-2 bg-gradient-to-r from-violet-500 to-blue-500 text-slate-900 font-semibold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-violet-500/25 transition-all">
             {{ lang.t('dt.empty_cta') }}
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
           </a>
@@ -78,25 +78,25 @@ interface SimulationResult {
           <div class="lg:col-span-3 space-y-4">
             <!-- Stats Card -->
             <div class="glass-card p-4">
-              <h3 class="text-sm font-semibold text-slate-300 mb-3 uppercase tracking-wider">{{ lang.t('dt.stats_title') }}</h3>
+              <h3 class="text-sm font-semibold text-slate-600 mb-3 uppercase tracking-wider">{{ lang.t('dt.stats_title') }}</h3>
               <div class="space-y-3">
                 <div class="flex items-center justify-between">
                   <span class="text-slate-400 text-sm">{{ lang.t('dt.stats_functions') }}</span>
-                  <span class="text-slate-100 font-bold">{{ data()!.stats.totalFunctions }}</span>
+                  <span class="text-slate-900 font-bold">{{ data()!.stats.totalFunctions }}</span>
                 </div>
                 <div class="flex items-center justify-between">
                   <span class="text-slate-400 text-sm">{{ lang.t('dt.stats_assets') }}</span>
-                  <span class="text-slate-100 font-bold">{{ data()!.stats.totalAssets }}</span>
+                  <span class="text-slate-900 font-bold">{{ data()!.stats.totalAssets }}</span>
                 </div>
                 <div class="flex items-center justify-between">
                   <span class="text-slate-400 text-sm">{{ lang.t('dt.stats_providers') }}</span>
-                  <span class="text-slate-100 font-bold">{{ data()!.stats.totalProviders }}</span>
+                  <span class="text-slate-900 font-bold">{{ data()!.stats.totalProviders }}</span>
                 </div>
                 <div class="flex items-center justify-between">
                   <span class="text-slate-400 text-sm">{{ lang.t('dt.stats_links') }}</span>
-                  <span class="text-slate-100 font-bold">{{ data()!.stats.totalLinks }}</span>
+                  <span class="text-slate-900 font-bold">{{ data()!.stats.totalLinks }}</span>
                 </div>
-                <div class="border-t border-slate-700/50 pt-3">
+                <div class="border-t border-slate-200 pt-3">
                   <div class="flex items-center justify-between">
                     <span class="text-slate-400 text-sm">{{ lang.t('dt.stats_critical') }}</span>
                     <span class="text-red-400 font-bold">{{ data()!.stats.criticalFunctions }}</span>
@@ -104,37 +104,37 @@ interface SimulationResult {
                 </div>
                 <div class="flex items-center justify-between">
                   <span class="text-slate-400 text-sm">{{ lang.t('dt.stats_coverage') }}</span>
-                  <span class="font-bold" [class]="data()!.stats.complianceCoverage >= 80 ? 'text-emerald-400' : data()!.stats.complianceCoverage >= 50 ? 'text-amber-400' : 'text-red-400'">{{ data()!.stats.complianceCoverage }}%</span>
+                  <span class="font-bold" [class]="data()!.stats.complianceCoverage >= 80 ? 'text-blue-600' : data()!.stats.complianceCoverage >= 50 ? 'text-amber-400' : 'text-red-400'">{{ data()!.stats.complianceCoverage }}%</span>
                 </div>
               </div>
             </div>
 
             <!-- Risk Distribution -->
             <div class="glass-card p-4">
-              <h3 class="text-sm font-semibold text-slate-300 mb-3 uppercase tracking-wider">{{ lang.t('dt.risk_title') }}</h3>
+              <h3 class="text-sm font-semibold text-slate-600 mb-3 uppercase tracking-wider">{{ lang.t('dt.risk_title') }}</h3>
               <div class="space-y-2">
                 <div class="flex items-center gap-2">
                   <div class="w-3 h-3 rounded-full bg-red-500"></div>
                   <span class="text-sm text-slate-400">{{ lang.t('dt.risk_spof') }}</span>
-                  <span class="ml-auto text-sm font-bold text-slate-200">{{ data()!.riskAnalysis.singlePointsOfFailure.length }}</span>
+                  <span class="ml-auto text-sm font-bold text-slate-700">{{ data()!.riskAnalysis.singlePointsOfFailure.length }}</span>
                 </div>
                 <div class="flex items-center gap-2">
                   <div class="w-3 h-3 rounded-full bg-amber-500"></div>
                   <span class="text-sm text-slate-400">{{ lang.t('dt.risk_concentration') }}</span>
-                  <span class="ml-auto text-sm font-bold text-slate-200">{{ data()!.riskAnalysis.concentrationRisks.length }}</span>
+                  <span class="ml-auto text-sm font-bold text-slate-700">{{ data()!.riskAnalysis.concentrationRisks.length }}</span>
                 </div>
                 <div class="flex items-center gap-2">
-                  <div class="w-3 h-3 rounded-full bg-cyan-500"></div>
+                  <div class="w-3 h-3 rounded-full bg-blue-600"></div>
                   <span class="text-sm text-slate-400">{{ lang.t('dt.risk_unmapped') }}</span>
-                  <span class="ml-auto text-sm font-bold text-slate-200">{{ data()!.riskAnalysis.unmappedFunctions.length }}</span>
+                  <span class="ml-auto text-sm font-bold text-slate-700">{{ data()!.riskAnalysis.unmappedFunctions.length }}</span>
                 </div>
               </div>
               @if (data()!.complianceGaps.length > 0) {
-                <div class="mt-3 pt-3 border-t border-slate-700/50">
+                <div class="mt-3 pt-3 border-t border-slate-200">
                   <h4 class="text-xs font-semibold text-amber-400 mb-2 uppercase">{{ lang.t('dt.compliance_gaps') }}</h4>
                   @for (gap of data()!.complianceGaps.slice(0, 5); track gap.nodeId) {
                     <div class="text-xs text-slate-400 mb-1">
-                      <span class="text-slate-300">{{ gap.nodeName }}</span>: {{ gap.gaps[0] }}
+                      <span class="text-slate-600">{{ gap.nodeName }}</span>: {{ gap.gaps[0] }}
                     </div>
                   }
                 </div>
@@ -148,7 +148,7 @@ interface SimulationResult {
             <div class="glass-card p-3 flex flex-wrap items-center gap-2">
               <!-- Simulation Toggle -->
               <button (click)="toggleSimulation()"
-                [class]="simulationMode() ? 'bg-red-500/20 border-red-500/50 text-red-300' : 'bg-slate-700/50 border-slate-600/50 text-slate-300 hover:bg-slate-600/50'"
+                [class]="simulationMode() ? 'bg-red-500/20 border-red-500/50 text-red-300' : 'bg-slate-700/50 border-slate-200 text-slate-600 hover:bg-slate-100'"
                 class="flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 {{ lang.t('dt.simulation_mode') }}
@@ -158,29 +158,29 @@ interface SimulationResult {
 
               <!-- Overlay Buttons -->
               <button (click)="toggleOverlay('concentration')"
-                [class]="activeOverlay() === 'concentration' ? 'bg-amber-500/20 border-amber-500/50 text-amber-300' : 'bg-slate-700/50 border-slate-600/50 text-slate-400 hover:text-slate-300'"
+                [class]="activeOverlay() === 'concentration' ? 'bg-amber-500/20 border-amber-500/50 text-amber-300' : 'bg-slate-700/50 border-slate-200 text-slate-400 hover:text-slate-600'"
                 class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-all">
                 {{ lang.t('dt.overlay_concentration') }}
               </button>
               <button (click)="toggleOverlay('spof')"
-                [class]="activeOverlay() === 'spof' ? 'bg-red-500/20 border-red-500/50 text-red-300' : 'bg-slate-700/50 border-slate-600/50 text-slate-400 hover:text-slate-300'"
+                [class]="activeOverlay() === 'spof' ? 'bg-red-500/20 border-red-500/50 text-red-300' : 'bg-slate-700/50 border-slate-200 text-slate-400 hover:text-slate-600'"
                 class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-all">
                 {{ lang.t('dt.overlay_spof') }}
               </button>
               <button (click)="toggleOverlay('compliance')"
-                [class]="activeOverlay() === 'compliance' ? 'bg-violet-500/20 border-violet-500/50 text-violet-300' : 'bg-slate-700/50 border-slate-600/50 text-slate-400 hover:text-slate-300'"
+                [class]="activeOverlay() === 'compliance' ? 'bg-violet-500/20 border-violet-500/50 text-violet-300' : 'bg-slate-700/50 border-slate-200 text-slate-400 hover:text-slate-600'"
                 class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-all">
                 {{ lang.t('dt.overlay_compliance') }}
               </button>
 
               <div class="ml-auto flex items-center gap-1.5">
-                <button (click)="zoomIn()" class="p-1.5 rounded-lg bg-slate-700/50 border border-slate-600/50 text-slate-400 hover:text-slate-200 transition-all">
+                <button (click)="zoomIn()" class="p-1.5 rounded-lg bg-slate-700/50 border border-slate-200 text-slate-400 hover:text-slate-700 transition-all">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
                 </button>
-                <button (click)="zoomOut()" class="p-1.5 rounded-lg bg-slate-700/50 border border-slate-600/50 text-slate-400 hover:text-slate-200 transition-all">
+                <button (click)="zoomOut()" class="p-1.5 rounded-lg bg-slate-700/50 border border-slate-200 text-slate-400 hover:text-slate-700 transition-all">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"/></svg>
                 </button>
-                <button (click)="fitGraph()" class="p-1.5 rounded-lg bg-slate-700/50 border border-slate-600/50 text-slate-400 hover:text-slate-200 transition-all">
+                <button (click)="fitGraph()" class="p-1.5 rounded-lg bg-slate-700/50 border border-slate-200 text-slate-400 hover:text-slate-700 transition-all">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
                 </button>
               </div>
@@ -205,27 +205,27 @@ interface SimulationResult {
             <!-- Impact Banner -->
             @if (simulation()) {
               <div class="rounded-xl p-4 border"
-                [class]="simulation()!.severity === 'CRITICAL' ? 'bg-red-500/10 border-red-500/30' : simulation()!.severity === 'HIGH' ? 'bg-amber-500/10 border-amber-500/30' : 'bg-cyan-500/10 border-cyan-500/30'">
+                [class]="simulation()!.severity === 'CRITICAL' ? 'bg-red-500/10 border-red-500/30' : simulation()!.severity === 'HIGH' ? 'bg-amber-500/10 border-amber-500/30' : 'bg-blue-50 border-blue-500/30'">
                 <div class="flex items-center justify-between mb-3">
-                  <h4 class="text-sm font-semibold" [class]="simulation()!.severity === 'CRITICAL' ? 'text-red-300' : simulation()!.severity === 'HIGH' ? 'text-amber-300' : 'text-cyan-300'">
+                  <h4 class="text-sm font-semibold" [class]="simulation()!.severity === 'CRITICAL' ? 'text-red-300' : simulation()!.severity === 'HIGH' ? 'text-amber-300' : 'text-blue-400'">
                     {{ lang.t('dt.simulate_impact') }}: {{ simulation()!.removedNodeName }}
                   </h4>
                   <span class="px-2 py-0.5 rounded-full text-xs font-bold"
-                    [class]="simulation()!.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-300' : simulation()!.severity === 'HIGH' ? 'bg-amber-500/20 text-amber-300' : simulation()!.severity === 'MEDIUM' ? 'bg-yellow-500/20 text-yellow-300' : 'bg-emerald-500/20 text-emerald-300'">
+                    [class]="simulation()!.severity === 'CRITICAL' ? 'bg-red-500/20 text-red-300' : simulation()!.severity === 'HIGH' ? 'bg-amber-500/20 text-amber-300' : simulation()!.severity === 'MEDIUM' ? 'bg-yellow-500/20 text-yellow-300' : 'bg-blue-100 text-blue-500'">
                     {{ simulation()!.severity }}
                   </span>
                 </div>
                 <div class="grid grid-cols-3 gap-3 text-center">
                   <div>
-                    <div class="text-lg font-bold text-slate-100">{{ simulation()!.affectedFunctions.length }}</div>
+                    <div class="text-lg font-bold text-slate-900">{{ simulation()!.affectedFunctions.length }}</div>
                     <div class="text-xs text-slate-400">{{ lang.t('dt.simulate_functions') }}</div>
                   </div>
                   <div>
-                    <div class="text-lg font-bold text-slate-100">{{ simulation()!.affectedAssets.length }}</div>
+                    <div class="text-lg font-bold text-slate-900">{{ simulation()!.affectedAssets.length }}</div>
                     <div class="text-xs text-slate-400">{{ lang.t('dt.simulate_assets') }}</div>
                   </div>
                   <div>
-                    <div class="text-lg font-bold text-slate-100">{{ simulation()!.estimatedRecoveryHours }}h</div>
+                    <div class="text-lg font-bold text-slate-900">{{ simulation()!.estimatedRecoveryHours }}h</div>
                     <div class="text-xs text-slate-400">{{ lang.t('dt.simulate_recovery') }}</div>
                   </div>
                 </div>
@@ -243,11 +243,11 @@ interface SimulationResult {
                 <span class="text-slate-500 font-semibold uppercase tracking-wider mr-1">{{ lang.t('dt.legend') }}</span>
                 <span class="flex items-center gap-1.5"><span class="w-4 h-4 rounded bg-violet-500/60 inline-block" style="clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)"></span> <span class="text-slate-400">{{ lang.t('dt.legend_function') }}</span></span>
                 <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-full bg-blue-500/60 inline-block"></span> <span class="text-slate-400">{{ lang.t('dt.legend_asset') }}</span></span>
-                <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-sm bg-emerald-500/60 inline-block"></span> <span class="text-slate-400">{{ lang.t('dt.legend_provider') }}</span></span>
+                <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded-sm bg-blue-600/60 inline-block"></span> <span class="text-slate-400">{{ lang.t('dt.legend_provider') }}</span></span>
                 <span class="w-px h-4 bg-slate-700"></span>
                 <span class="flex items-center gap-1.5"><span class="w-5 h-0.5 bg-red-400 inline-block"></span> <span class="text-slate-400">{{ lang.t('dt.legend_required') }}</span></span>
                 <span class="flex items-center gap-1.5"><span class="w-5 h-0.5 bg-slate-500 inline-block" style="border-top: 2px dashed"></span> <span class="text-slate-400">{{ lang.t('dt.legend_optional') }}</span></span>
-                <span class="flex items-center gap-1.5"><span class="w-5 h-0.5 bg-emerald-400 inline-block" style="border-top: 2px dotted"></span> <span class="text-slate-400">{{ lang.t('dt.legend_backup') }}</span></span>
+                <span class="flex items-center gap-1.5"><span class="w-5 h-0.5 bg-blue-500 inline-block" style="border-top: 2px dotted"></span> <span class="text-slate-400">{{ lang.t('dt.legend_backup') }}</span></span>
               </div>
             </div>
           </div>
@@ -258,19 +258,19 @@ interface SimulationResult {
               <div class="glass-card p-4">
                 <div class="flex items-center gap-2 mb-3">
                   <div class="w-8 h-8 rounded-lg flex items-center justify-center"
-                    [class]="selectedNode()!.type === 'function' ? 'bg-violet-500/20' : selectedNode()!.type === 'asset' ? 'bg-blue-500/20' : 'bg-emerald-500/20'">
+                    [class]="selectedNode()!.type === 'function' ? 'bg-violet-500/20' : selectedNode()!.type === 'asset' ? 'bg-blue-500/20' : 'bg-blue-100'">
                     @if (selectedNode()!.type === 'function') {
                       <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
                     } @else if (selectedNode()!.type === 'asset') {
                       <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                     } @else {
-                      <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+                      <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
                     }
                   </div>
                   <div class="flex-1 min-w-0">
-                    <h3 class="text-sm font-bold text-slate-100 truncate">{{ selectedNode()!.label }}</h3>
+                    <h3 class="text-sm font-bold text-slate-900 truncate">{{ selectedNode()!.label }}</h3>
                     <span class="text-xs px-1.5 py-0.5 rounded-full"
-                      [class]="selectedNode()!.type === 'function' ? 'bg-violet-500/20 text-violet-300' : selectedNode()!.type === 'asset' ? 'bg-blue-500/20 text-blue-300' : 'bg-emerald-500/20 text-emerald-300'">
+                      [class]="selectedNode()!.type === 'function' ? 'bg-violet-500/20 text-violet-300' : selectedNode()!.type === 'asset' ? 'bg-blue-500/20 text-blue-300' : 'bg-blue-100 text-blue-500'">
                       {{ selectedNode()!.type | titlecase }}
                     </span>
                   </div>
@@ -280,47 +280,47 @@ interface SimulationResult {
                   @if (selectedNode()!.criticality) {
                     <div class="flex items-center justify-between">
                       <span class="text-slate-400">{{ lang.t('dt.detail_criticality') }}</span>
-                      <span class="font-medium" [class]="selectedNode()!.criticality === 'CRITICAL' ? 'text-red-400' : selectedNode()!.criticality === 'HIGH' || selectedNode()!.criticality === 'IMPORTANT' ? 'text-amber-400' : 'text-cyan-400'">{{ selectedNode()!.criticality }}</span>
+                      <span class="font-medium" [class]="selectedNode()!.criticality === 'CRITICAL' ? 'text-red-400' : selectedNode()!.criticality === 'HIGH' || selectedNode()!.criticality === 'IMPORTANT' ? 'text-amber-400' : 'text-blue-500'">{{ selectedNode()!.criticality }}</span>
                     </div>
                   }
                   @if (selectedNode()!.riskScore != null) {
                     <div class="flex items-center justify-between">
                       <span class="text-slate-400">{{ lang.t('dt.detail_risk_score') }}</span>
-                      <span class="font-medium" [class]="selectedNode()!.riskScore! >= 70 ? 'text-red-400' : selectedNode()!.riskScore! >= 40 ? 'text-amber-400' : 'text-emerald-400'">{{ selectedNode()!.riskScore }}</span>
+                      <span class="font-medium" [class]="selectedNode()!.riskScore! >= 70 ? 'text-red-400' : selectedNode()!.riskScore! >= 40 ? 'text-amber-400' : 'text-blue-600'">{{ selectedNode()!.riskScore }}</span>
                     </div>
                   }
                   @if (selectedNode()!.assetType) {
                     <div class="flex items-center justify-between">
                       <span class="text-slate-400">{{ lang.t('dt.detail_type') }}</span>
-                      <span class="text-slate-200">{{ selectedNode()!.assetType }}</span>
+                      <span class="text-slate-700">{{ selectedNode()!.assetType }}</span>
                     </div>
                   }
                   @if (selectedNode()!.serviceType) {
                     <div class="flex items-center justify-between">
                       <span class="text-slate-400">{{ lang.t('dt.detail_service') }}</span>
-                      <span class="text-slate-200">{{ selectedNode()!.serviceType }}</span>
+                      <span class="text-slate-700">{{ selectedNode()!.serviceType }}</span>
                     </div>
                   }
                   @if (selectedNode()!.country) {
                     <div class="flex items-center justify-between">
                       <span class="text-slate-400">{{ lang.t('dt.detail_country') }}</span>
-                      <span class="text-slate-200">{{ selectedNode()!.country }}</span>
+                      <span class="text-slate-700">{{ selectedNode()!.country }}</span>
                     </div>
                   }
                   @if (selectedNode()!.hasExitStrategy != null) {
                     <div class="flex items-center justify-between">
                       <span class="text-slate-400">{{ lang.t('dt.detail_exit') }}</span>
-                      <span [class]="selectedNode()!.hasExitStrategy ? 'text-emerald-400' : 'text-red-400'">{{ selectedNode()!.hasExitStrategy ? 'Yes' : 'No' }}</span>
+                      <span [class]="selectedNode()!.hasExitStrategy ? 'text-blue-600' : 'text-red-400'">{{ selectedNode()!.hasExitStrategy ? 'Yes' : 'No' }}</span>
                     </div>
                   }
                   @if (selectedNode()!.contractEndDate) {
                     <div class="flex items-center justify-between">
                       <span class="text-slate-400">{{ lang.t('dt.detail_contract') }}</span>
-                      <span class="text-slate-200">{{ selectedNode()!.contractEndDate }}</span>
+                      <span class="text-slate-700">{{ selectedNode()!.contractEndDate }}</span>
                     </div>
                   }
                   @if (selectedNode()!.description) {
-                    <div class="pt-2 border-t border-slate-700/50">
+                    <div class="pt-2 border-t border-slate-200">
                       <span class="text-slate-400 text-xs">{{ selectedNode()!.description }}</span>
                     </div>
                   }
@@ -330,15 +330,15 @@ interface SimulationResult {
               <!-- Connected Nodes -->
               @if (connectedNodes().length > 0) {
                 <div class="glass-card p-4">
-                  <h3 class="text-sm font-semibold text-slate-300 mb-3 uppercase tracking-wider">{{ lang.t('dt.detail_connected') }}</h3>
+                  <h3 class="text-sm font-semibold text-slate-600 mb-3 uppercase tracking-wider">{{ lang.t('dt.detail_connected') }}</h3>
                   <div class="space-y-1.5 max-h-48 overflow-y-auto">
                     @for (cn of connectedNodes(); track cn.id) {
-                      <button (click)="selectNodeById(cn.id)" class="w-full text-left flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-700/50 transition-colors group">
+                      <button (click)="selectNodeById(cn.id)" class="w-full text-left flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-100 transition-colors group">
                         <div class="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                          [class]="cn.type === 'function' ? 'bg-violet-400' : cn.type === 'asset' ? 'bg-blue-400' : 'bg-emerald-400'"></div>
-                        <span class="text-sm text-slate-300 group-hover:text-slate-100 truncate">{{ cn.label }}</span>
+                          [class]="cn.type === 'function' ? 'bg-violet-400' : cn.type === 'asset' ? 'bg-blue-400' : 'bg-blue-500'"></div>
+                        <span class="text-sm text-slate-600 group-hover:text-slate-900 truncate">{{ cn.label }}</span>
                         <span class="text-[10px] ml-auto flex-shrink-0 px-1.5 rounded"
-                          [class]="cn.edgeDep === 'REQUIRED' ? 'bg-red-500/20 text-red-400' : cn.edgeDep === 'BACKUP' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-600/50 text-slate-400'">{{ cn.edgeDep }}</span>
+                          [class]="cn.edgeDep === 'REQUIRED' ? 'bg-red-500/20 text-red-400' : cn.edgeDep === 'BACKUP' ? 'bg-blue-100 text-blue-600' : 'bg-slate-600/50 text-slate-400'">{{ cn.edgeDep }}</span>
                       </button>
                     }
                   </div>
@@ -366,7 +366,7 @@ interface SimulationResult {
                     }
                   </div>
                   @if (simulation()!.affectedAssets.length > 0) {
-                    <div class="pt-2 border-t border-slate-700/50">
+                    <div class="pt-2 border-t border-slate-200">
                       <h4 class="text-xs text-slate-400 mb-1">{{ lang.t('dt.simulate_assets') }}</h4>
                       @for (a of simulation()!.affectedAssets; track a) {
                         <div class="text-sm text-amber-300 flex items-center gap-1.5 mb-0.5">

@@ -42,16 +42,16 @@ interface TimelineEvent {
       <!-- Stats Cards -->
       @if (stats()) {
       <div class="grid grid-cols-3 gap-4">
-        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-5 text-center">
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-5 text-center">
           <div class="text-3xl font-bold text-white mb-1">{{ stats().total }}</div>
           <div class="text-xs text-slate-400">{{ lang.t('activity.total_events') }}</div>
         </div>
-        <div class="bg-slate-800/50 backdrop-blur border border-violet-500/30 rounded-2xl p-5 text-center">
+        <div class="bg-white backdrop-blur border border-violet-500/30 rounded-2xl p-5 text-center">
           <div class="text-3xl font-bold text-violet-400 mb-1">{{ stats().last7Days }}</div>
           <div class="text-xs text-slate-400">{{ lang.t('activity.last_7_days') }}</div>
         </div>
-        <div class="bg-slate-800/50 backdrop-blur border border-cyan-500/30 rounded-2xl p-5 text-center">
-          <div class="text-3xl font-bold text-cyan-400 mb-1">{{ stats().last30Days }}</div>
+        <div class="bg-white backdrop-blur border border-blue-500/30 rounded-2xl p-5 text-center">
+          <div class="text-3xl font-bold text-blue-500 mb-1">{{ stats().last30Days }}</div>
           <div class="text-xs text-slate-400">{{ lang.t('activity.last_30_days') }}</div>
         </div>
       </div>
@@ -64,7 +64,7 @@ interface TimelineEvent {
                 class="px-4 py-1.5 rounded-full text-xs font-medium transition-all border"
                 [class]="activeFilter === f.key
                   ? 'bg-violet-500/20 border-violet-500/40 text-violet-400'
-                  : 'bg-slate-800/50 border-slate-700/50 text-slate-400 hover:border-slate-600/50 hover:text-slate-300'">
+                  : 'bg-white border-slate-200 text-slate-400 hover:border-slate-200 hover:text-slate-600'">
           {{ lang.t(f.label) }}
         </button>
         }
@@ -83,7 +83,7 @@ interface TimelineEvent {
 
       <!-- Empty State -->
       @if (!loading() && filteredEvents().length === 0) {
-      <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-12 text-center">
+      <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-12 text-center">
         <div class="w-16 h-16 mx-auto rounded-2xl bg-slate-700/50 flex items-center justify-center mb-4">
           <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -98,7 +98,7 @@ interface TimelineEvent {
       @if (!loading() && filteredEvents().length > 0) {
       <div class="relative">
         <!-- Vertical Line -->
-        <div class="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-violet-500/50 via-cyan-500/30 to-transparent"></div>
+        <div class="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-violet-500/50 via-blue-500/30 to-transparent"></div>
 
         <div class="space-y-1">
           @for (event of filteredEvents(); track $index; let i = $index) {
@@ -159,7 +159,7 @@ interface TimelineEvent {
               </div>
 
               <!-- Content -->
-              <div class="flex-1 bg-slate-800/40 backdrop-blur border border-slate-700/40 rounded-xl p-4 hover:border-slate-600/60 transition-all group-hover:shadow-lg group-hover:shadow-violet-500/5 mb-2">
+              <div class="flex-1 bg-white backdrop-blur border border-slate-200 rounded-xl p-4 hover:border-slate-300/60 transition-all group-hover:shadow-lg group-hover:shadow-violet-500/5 mb-2">
                 <div class="flex items-start justify-between gap-3">
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2 flex-wrap mb-1">
@@ -175,7 +175,7 @@ interface TimelineEvent {
                       }
                       @if (event.score != null) {
                       <span class="text-xs font-bold"
-                            [class]="event.score >= 75 ? 'text-emerald-400' : event.score >= 50 ? 'text-amber-400' : 'text-red-400'">
+                            [class]="event.score >= 75 ? 'text-blue-600' : event.score >= 50 ? 'text-amber-400' : 'text-red-400'">
                         {{ event.score | number:'1.0-0' }}%
                       </span>
                       }
@@ -202,7 +202,7 @@ interface TimelineEvent {
         @if (hasMore()) {
         <div class="flex justify-center pt-6">
           <button (click)="loadMore()"
-                  class="px-6 py-2 rounded-xl bg-slate-800/50 border border-slate-700/50 text-slate-400 text-sm hover:border-violet-500/40 hover:text-violet-400 transition-all">
+                  class="px-6 py-2 rounded-xl bg-white border border-slate-200 text-slate-400 text-sm hover:border-violet-500/40 hover:text-violet-400 transition-all">
             {{ lang.t('activity.load_more') }}
           </button>
         </div>
@@ -311,13 +311,13 @@ export class ComplianceTimelineComponent implements OnInit {
   getIconBgClass(event: TimelineEvent): string {
     switch (event.type) {
       case 'ASSESSMENT': return 'bg-blue-500/20 text-blue-400';
-      case 'CONTRACT_ANALYSIS': return 'bg-cyan-500/20 text-cyan-400';
+      case 'CONTRACT_ANALYSIS': return 'bg-blue-600/20 text-blue-500';
       case 'EVIDENCE': return 'bg-indigo-500/20 text-indigo-400';
-      case 'EVIDENCE_VERIFIED': return 'bg-emerald-500/20 text-emerald-400';
+      case 'EVIDENCE_VERIFIED': return 'bg-blue-100 text-blue-600';
       case 'REMEDIATION': return 'bg-amber-500/20 text-amber-400';
-      case 'REMEDIATION_COMPLETED': return 'bg-emerald-500/20 text-emerald-400';
+      case 'REMEDIATION_COMPLETED': return 'bg-blue-100 text-blue-600';
       case 'INCIDENT': return 'bg-red-500/20 text-red-400';
-      case 'INCIDENT_RESOLVED': return 'bg-emerald-500/20 text-emerald-400';
+      case 'INCIDENT_RESOLVED': return 'bg-blue-100 text-blue-600';
       case 'PROVIDER': return 'bg-violet-500/20 text-violet-400';
       default: return 'bg-slate-700/50 text-slate-400';
     }
@@ -326,7 +326,7 @@ export class ComplianceTimelineComponent implements OnInit {
   getTypeBadgeClass(event: TimelineEvent): string {
     switch (event.type) {
       case 'ASSESSMENT': return 'bg-blue-500/20 text-blue-400';
-      case 'CONTRACT_ANALYSIS': return 'bg-cyan-500/20 text-cyan-400';
+      case 'CONTRACT_ANALYSIS': return 'bg-blue-600/20 text-blue-500';
       case 'EVIDENCE': case 'EVIDENCE_VERIFIED': return 'bg-indigo-500/20 text-indigo-400';
       case 'REMEDIATION': case 'REMEDIATION_COMPLETED': return 'bg-amber-500/20 text-amber-400';
       case 'INCIDENT': case 'INCIDENT_RESOLVED': return 'bg-red-500/20 text-red-400';
@@ -337,7 +337,7 @@ export class ComplianceTimelineComponent implements OnInit {
 
   getStatusBadgeClass(event: TimelineEvent): string {
     const s = event.status;
-    if (['GREEN', 'VERIFIED', 'COMPLETED', 'CLOSED'].includes(s)) return 'bg-emerald-500/20 text-emerald-400';
+    if (['GREEN', 'VERIFIED', 'COMPLETED', 'CLOSED'].includes(s)) return 'bg-blue-100 text-blue-600';
     if (['YELLOW', 'PENDING', 'IN_PROGRESS', 'DRAFT'].includes(s)) return 'bg-amber-500/20 text-amber-400';
     if (['RED', 'CRITICAL', 'OVERDUE'].includes(s)) return 'bg-red-500/20 text-red-400';
     return 'bg-slate-700/50 text-slate-400';

@@ -40,19 +40,19 @@ import { SubscriptionService } from '../services/subscription.service';
           <button (click)="selectedDifficulty.set('CADET')"
             [class]="selectedDifficulty() === 'CADET'
               ? 'px-5 py-2 rounded-lg text-sm font-medium bg-green-500/20 border border-green-500/50 text-green-400'
-              : 'px-5 py-2 rounded-lg text-sm font-medium bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:bg-slate-700/50 transition-colors'">
+              : 'px-5 py-2 rounded-lg text-sm font-medium bg-white border border-slate-200 text-slate-400 hover:bg-slate-100 transition-colors'">
             {{ lang.l('Kadett', 'Cadet') }}
           </button>
           <button (click)="selectedDifficulty.set('OFFICER')"
             [class]="selectedDifficulty() === 'OFFICER'
               ? 'px-5 py-2 rounded-lg text-sm font-medium bg-amber-500/20 border border-amber-500/50 text-amber-400'
-              : 'px-5 py-2 rounded-lg text-sm font-medium bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:bg-slate-700/50 transition-colors'">
+              : 'px-5 py-2 rounded-lg text-sm font-medium bg-white border border-slate-200 text-slate-400 hover:bg-slate-100 transition-colors'">
             {{ lang.l('Ohvitser', 'Officer') }}
           </button>
           <button (click)="selectedDifficulty.set('COMMANDER')"
             [class]="selectedDifficulty() === 'COMMANDER'
               ? 'px-5 py-2 rounded-lg text-sm font-medium bg-red-500/20 border border-red-500/50 text-red-400'
-              : 'px-5 py-2 rounded-lg text-sm font-medium bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:bg-slate-700/50 transition-colors'">
+              : 'px-5 py-2 rounded-lg text-sm font-medium bg-white border border-slate-200 text-slate-400 hover:bg-slate-100 transition-colors'">
             {{ lang.l('Komandor', 'Commander') }}
           </button>
         </div>
@@ -60,7 +60,7 @@ import { SubscriptionService } from '../services/subscription.service';
         <!-- Scenario Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
           @for (ex of exercises(); track ex.id) {
-            <div class="relative rounded-xl bg-slate-800/60 border border-slate-700/50 overflow-hidden hover:border-slate-600/70 transition-all duration-200 cursor-pointer group"
+            <div class="relative rounded-xl bg-white border border-slate-200 overflow-hidden hover:border-slate-300/70 transition-all duration-200 cursor-pointer group"
                  [style.border-left]="'4px solid ' + getScenarioColor(ex.category)"
                  (click)="!isLocked(ex) && selectScenario(ex.id)">
               <!-- Premium Lock Overlay -->
@@ -130,7 +130,7 @@ import { SubscriptionService } from '../services/subscription.service';
 
         <!-- Back Link -->
         <div class="text-center mt-6">
-          <a routerLink="/dashboard" class="text-sm text-slate-500 hover:text-slate-300 transition-colors">
+          <a routerLink="/dashboard" class="text-sm text-slate-500 hover:text-slate-600 transition-colors">
             {{ lang.l('Tagasi töölauale', 'Back to Dashboard') }}
           </a>
         </div>
@@ -166,11 +166,11 @@ import { SubscriptionService } from '../services/subscription.service';
            [class.stress-critical]="stressLevel() > 80">
 
         <!-- Top Bar -->
-        <div class="flex items-center justify-between px-6 py-3 bg-slate-900/80 border-b border-slate-800/50 shrink-0">
+        <div class="flex items-center justify-between px-6 py-3 bg-white border-b border-slate-800/50 shrink-0">
           <!-- Scenario Title -->
           <div class="flex items-center gap-3">
             <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-            <span class="text-sm font-semibold text-slate-300 uppercase tracking-wider">
+            <span class="text-sm font-semibold text-slate-600 uppercase tracking-wider">
               {{ lang.l('ELAV HARJUTUS', 'LIVE EXERCISE') }}
             </span>
             <span class="text-sm text-slate-500">|</span>
@@ -203,7 +203,7 @@ import { SubscriptionService } from '../services/subscription.service';
               <div class="text-xs text-slate-500">{{ lang.l('SKOOR', 'SCORE') }}</div>
             </div>
             <div class="text-center">
-              <div class="text-lg font-semibold text-slate-300">{{ activeEvents().length }}</div>
+              <div class="text-lg font-semibold text-slate-600">{{ activeEvents().length }}</div>
               <div class="text-xs text-slate-500">{{ lang.l('OOTEL', 'QUEUED') }}</div>
             </div>
             <!-- Abort Button -->
@@ -242,7 +242,7 @@ import { SubscriptionService } from '../services/subscription.service';
               <div class="event-card rounded-lg border p-3 cursor-pointer transition-all duration-200"
                    [class]="selectedEvent()?.id === event.id
                      ? 'bg-slate-800 border-blue-500/50 shadow-lg shadow-blue-500/5'
-                     : 'bg-slate-800/50 border-slate-700/50 hover:border-slate-600/50'"
+                     : 'bg-white border-slate-200 hover:border-slate-200'"
                    (click)="selectEvent(event)">
                 <!-- Type Icon + Urgency -->
                 <div class="flex items-center justify-between mb-2">
@@ -256,7 +256,7 @@ import { SubscriptionService } from '../services/subscription.service';
                   </span>
                 </div>
                 <!-- Title -->
-                <p class="text-sm font-medium text-slate-200 mb-2 line-clamp-2">
+                <p class="text-sm font-medium text-slate-700 mb-2 line-clamp-2">
                   {{ lang.l(event.titleEt || event.title, event.title) }}
                 </p>
                 <!-- Response Window Bar -->
@@ -304,13 +304,13 @@ import { SubscriptionService } from '../services/subscription.service';
                       class="w-full text-left px-6 py-4 rounded-xl border transition-all duration-200 group"
                       [class]="respondingTo() === $index
                         ? (lastResponseCorrect() ? 'bg-green-500/20 border-green-500/50' : 'bg-red-500/20 border-red-500/50')
-                        : 'bg-slate-800/60 border-slate-700/50 hover:bg-slate-800 hover:border-slate-600 hover:shadow-lg'"
+                        : 'bg-white border-slate-200 hover:bg-slate-800 hover:border-slate-300 hover:shadow-lg'"
                       [disabled]="responding()">
                       <div class="flex items-center gap-4">
-                        <span class="w-8 h-8 rounded-lg bg-slate-700/50 group-hover:bg-slate-600/50 flex items-center justify-center text-sm font-bold text-slate-400 shrink-0 transition-colors">
+                        <span class="w-8 h-8 rounded-lg bg-slate-700/50 group-hover:bg-slate-100 flex items-center justify-center text-sm font-bold text-slate-400 shrink-0 transition-colors">
                           {{ getOptionLetter($index) }}
                         </span>
-                        <span class="text-base text-slate-200">
+                        <span class="text-base text-slate-700">
                           {{ lang.l(option.labelEt || option.label, option.label) }}
                         </span>
                       </div>
@@ -335,7 +335,7 @@ import { SubscriptionService } from '../services/subscription.service';
             } @else {
               <!-- No Event Selected -->
               <div class="text-center">
-                <div class="w-16 h-16 rounded-2xl bg-slate-800/50 flex items-center justify-center mx-auto mb-4">
+                <div class="w-16 h-16 rounded-2xl bg-white flex items-center justify-center mx-auto mb-4">
                   <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
@@ -373,15 +373,15 @@ import { SubscriptionService } from '../services/subscription.service';
 
         <!-- Score Overview -->
         <div class="grid grid-cols-3 gap-4 mb-10">
-          <div class="rounded-xl bg-slate-800/60 border border-slate-700/50 p-6 text-center">
+          <div class="rounded-xl bg-white border border-slate-200 p-6 text-center">
             <div class="text-3xl font-bold text-white mb-1">{{ results()?.totalScore || 0 }}</div>
             <div class="text-sm text-slate-400">/ {{ results()?.maxScore || 0 }} {{ lang.l('punkti', 'points') }}</div>
           </div>
-          <div class="rounded-xl bg-slate-800/60 border border-slate-700/50 p-6 text-center">
+          <div class="rounded-xl bg-white border border-slate-200 p-6 text-center">
             <div class="text-3xl font-bold text-white mb-1">{{ results()?.percentage || 0 }}%</div>
             <div class="text-sm text-slate-400">{{ lang.l('Täpsus', 'Accuracy') }}</div>
           </div>
-          <div class="rounded-xl bg-slate-800/60 border border-slate-700/50 p-6 text-center">
+          <div class="rounded-xl bg-white border border-slate-200 p-6 text-center">
             <div class="text-3xl font-bold text-amber-400 mb-1">#{{ results()?.leaderboardPosition || '-' }}</div>
             <div class="text-sm text-slate-400">{{ lang.l('Edetabelis', 'Leaderboard') }}</div>
           </div>
@@ -389,7 +389,7 @@ import { SubscriptionService } from '../services/subscription.service';
 
         <!-- Category Gauges -->
         @if (results()?.categories?.length) {
-          <div class="rounded-xl bg-slate-800/60 border border-slate-700/50 p-6 mb-8">
+          <div class="rounded-xl bg-white border border-slate-200 p-6 mb-8">
             <h3 class="text-lg font-semibold text-white mb-5">
               {{ lang.l('Kategooriate tulemused', 'Category Breakdown') }}
             </h3>
@@ -397,7 +397,7 @@ import { SubscriptionService } from '../services/subscription.service';
               @for (cat of results()!.categories; track cat.name) {
                 <div>
                   <div class="flex items-center justify-between text-sm mb-1.5">
-                    <span class="text-slate-300">{{ lang.l(cat.nameEt || cat.name, cat.name) }}</span>
+                    <span class="text-slate-600">{{ lang.l(cat.nameEt || cat.name, cat.name) }}</span>
                     <span class="text-slate-400 font-mono">{{ cat.score }}/{{ cat.maxScore }}</span>
                   </div>
                   <div class="w-full h-3 rounded-full bg-slate-700/50 overflow-hidden">
@@ -414,13 +414,13 @@ import { SubscriptionService } from '../services/subscription.service';
 
         <!-- Event-by-Event Replay -->
         @if (results()?.eventResults?.length) {
-          <div class="rounded-xl bg-slate-800/60 border border-slate-700/50 p-6 mb-8">
+          <div class="rounded-xl bg-white border border-slate-200 p-6 mb-8">
             <h3 class="text-lg font-semibold text-white mb-5">
               {{ lang.l('Sündmuste taasesitus', 'Event-by-Event Replay') }}
             </h3>
             <div class="space-y-3">
               @for (er of results()!.eventResults; track $index) {
-                <div class="flex items-center gap-4 p-3 rounded-lg bg-slate-900/40 border border-slate-700/30">
+                <div class="flex items-center gap-4 p-3 rounded-lg bg-slate-900/40 border border-slate-200">
                   <!-- Index -->
                   <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shrink-0"
                        [class]="er.pointsEarned > 0 ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'">
@@ -428,10 +428,10 @@ import { SubscriptionService } from '../services/subscription.service';
                   </div>
                   <!-- Event Details -->
                   <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-slate-200 truncate">{{ er.eventTitle }}</p>
+                    <p class="text-sm font-medium text-slate-700 truncate">{{ er.eventTitle }}</p>
                     <div class="flex items-center gap-3 mt-0.5">
                       <span class="text-xs text-slate-500">
-                        {{ lang.l('Sinu valik', 'Your choice') }}: <span class="text-slate-300">{{ er.chosen }}</span>
+                        {{ lang.l('Sinu valik', 'Your choice') }}: <span class="text-slate-600">{{ er.chosen }}</span>
                       </span>
                       @if (er.chosen !== er.optimal) {
                         <span class="text-xs text-slate-500">
@@ -455,7 +455,7 @@ import { SubscriptionService } from '../services/subscription.service';
 
         <!-- Leaderboard -->
         @if (leaderboard().length > 0) {
-          <div class="rounded-xl bg-slate-800/60 border border-slate-700/50 p-6 mb-8">
+          <div class="rounded-xl bg-white border border-slate-200 p-6 mb-8">
             <h3 class="text-lg font-semibold text-white mb-5">
               {{ lang.l('Edetabel', 'Leaderboard') }}
             </h3>
@@ -464,10 +464,10 @@ import { SubscriptionService } from '../services/subscription.service';
                 <div class="flex items-center gap-4 p-3 rounded-lg"
                      [class]="entry.rank === results()?.leaderboardPosition ? 'bg-blue-500/10 border border-blue-500/30' : 'bg-slate-900/30'">
                   <span class="w-8 text-center font-bold text-lg"
-                        [class]="entry.rank === 1 ? 'text-amber-400' : entry.rank === 2 ? 'text-slate-300' : entry.rank === 3 ? 'text-orange-400' : 'text-slate-500'">
+                        [class]="entry.rank === 1 ? 'text-amber-400' : entry.rank === 2 ? 'text-slate-600' : entry.rank === 3 ? 'text-orange-400' : 'text-slate-500'">
                     {{ entry.rank }}
                   </span>
-                  <span class="flex-1 text-sm text-slate-300">{{ entry.anonymous || ('Player #' + entry.rank) }}</span>
+                  <span class="flex-1 text-sm text-slate-600">{{ entry.anonymous || ('Player #' + entry.rank) }}</span>
                   <span class="font-mono text-sm font-bold"
                         [class]="getGradeColor(entry.grade)">
                     {{ entry.grade }}
@@ -492,7 +492,7 @@ import { SubscriptionService } from '../services/subscription.service';
             </button>
           }
           <button (click)="backToSelection()"
-            class="px-6 py-3 rounded-xl bg-slate-800/60 border border-slate-700/50 text-slate-300 font-medium hover:bg-slate-700/50 transition-colors">
+            class="px-6 py-3 rounded-xl bg-white border border-slate-200 text-slate-600 font-medium hover:bg-slate-100 transition-colors">
             {{ lang.l('Tagasi valikule', 'Back to Selection') }}
           </button>
         </div>

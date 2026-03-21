@@ -31,7 +31,7 @@ interface FrameworkMapping {
 
       <!-- Header -->
       <div class="text-center">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-medium mb-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-500/20 text-blue-500 text-xs font-medium mb-4">
           <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
           </svg>
@@ -47,25 +47,25 @@ interface FrameworkMapping {
 
       <!-- Summary Stats -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-2xl p-5 text-center">
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-5 text-center">
           <div class="text-3xl font-bold text-white mb-1">{{ mappings.length }}</div>
           <div class="text-xs text-slate-400">
             {{ lang.t('fwmap.dora_requirements_mapped') }}
           </div>
         </div>
-        <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-2xl p-5 text-center">
-          <div class="text-3xl font-bold text-emerald-400 mb-1">{{ isoOverlapPercent }}%</div>
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-5 text-center">
+          <div class="text-3xl font-bold text-blue-600 mb-1">{{ isoOverlapPercent }}%</div>
           <div class="text-xs text-slate-400">
             {{ lang.t('fwmap.iso_27001_overlap') }}
           </div>
         </div>
-        <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-2xl p-5 text-center">
-          <div class="text-3xl font-bold text-cyan-400 mb-1">{{ nis2OverlapPercent }}%</div>
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-5 text-center">
+          <div class="text-3xl font-bold text-blue-500 mb-1">{{ nis2OverlapPercent }}%</div>
           <div class="text-xs text-slate-400">
             {{ lang.t('fwmap.nis2_overlap') }}
           </div>
         </div>
-        <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-2xl p-5 text-center">
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-5 text-center">
           <div class="text-3xl font-bold text-amber-400 mb-1">{{ doraOnlyCount }}</div>
           <div class="text-xs text-slate-400">
             {{ lang.t('fwmap.doraunique_requirements') }}
@@ -74,28 +74,28 @@ interface FrameworkMapping {
       </div>
 
       <!-- Framework Selector -->
-      <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-2xl p-6">
+      <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
         <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-          <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
           </svg>
           {{ lang.t('fwmap.select_frameworks') }}
         </h2>
         <div class="flex flex-wrap gap-3">
           <label class="flex items-center gap-2 px-4 py-2.5 rounded-xl border cursor-pointer transition-all"
-                 [class]="showIso ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300' : 'bg-slate-700/30 border-slate-600/30 text-slate-400 hover:border-slate-500/50'">
+                 [class]="showIso ? 'bg-blue-50 border-blue-200 text-blue-500' : 'bg-slate-700/30 border-slate-600/30 text-slate-400 hover:border-slate-500/50'">
             <input type="checkbox" [(ngModel)]="showIso" class="sr-only">
             <span class="w-4 h-4 rounded border flex items-center justify-center text-xs"
-                  [class]="showIso ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-slate-500'">
+                  [class]="showIso ? 'bg-blue-600 border-blue-500 text-white' : 'border-slate-500'">
               <span *ngIf="showIso">&#10003;</span>
             </span>
             ISO 27001:2022
           </label>
           <label class="flex items-center gap-2 px-4 py-2.5 rounded-xl border cursor-pointer transition-all"
-                 [class]="showNis2 ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-300' : 'bg-slate-700/30 border-slate-600/30 text-slate-400 hover:border-slate-500/50'">
+                 [class]="showNis2 ? 'bg-blue-50 border-blue-500/30 text-blue-400' : 'bg-slate-700/30 border-slate-600/30 text-slate-400 hover:border-slate-500/50'">
             <input type="checkbox" [(ngModel)]="showNis2" class="sr-only">
             <span class="w-4 h-4 rounded border flex items-center justify-center text-xs"
-                  [class]="showNis2 ? 'bg-cyan-500 border-cyan-500 text-white' : 'border-slate-500'">
+                  [class]="showNis2 ? 'bg-blue-600 border-blue-500 text-white' : 'border-slate-500'">
               <span *ngIf="showNis2">&#10003;</span>
             </span>
             NIS2 Directive
@@ -122,9 +122,9 @@ interface FrameworkMapping {
       </div>
 
       <!-- Coverage Calculator -->
-      <div class="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur border border-slate-700/50 rounded-2xl p-6">
+      <div class="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur border border-slate-200 rounded-2xl p-6">
         <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-          <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
           </svg>
           {{ lang.t('fwmap.coverage_calculator') }}
@@ -136,12 +136,12 @@ interface FrameworkMapping {
         <div class="flex flex-wrap gap-3 mb-6">
           <button type="button" (click)="toggleCompliance('iso')"
                   class="px-4 py-2 rounded-xl border text-sm font-medium transition-all"
-                  [class]="complyIso ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300' : 'bg-slate-700/30 border-slate-600/30 text-slate-400 hover:border-slate-500/50'">
+                  [class]="complyIso ? 'bg-blue-100 border-blue-500/40 text-blue-500' : 'bg-slate-700/30 border-slate-600/30 text-slate-400 hover:border-slate-500/50'">
             <span *ngIf="complyIso" class="mr-1">&#10003;</span> ISO 27001:2022
           </button>
           <button type="button" (click)="toggleCompliance('nis2')"
                   class="px-4 py-2 rounded-xl border text-sm font-medium transition-all"
-                  [class]="complyNis2 ? 'bg-cyan-500/20 border-cyan-500/40 text-cyan-300' : 'bg-slate-700/30 border-slate-600/30 text-slate-400 hover:border-slate-500/50'">
+                  [class]="complyNis2 ? 'bg-blue-600/20 border-blue-500/40 text-blue-400' : 'bg-slate-700/30 border-slate-600/30 text-slate-400 hover:border-slate-500/50'">
             <span *ngIf="complyNis2" class="mr-1">&#10003;</span> NIS2 Directive
           </button>
           <button type="button" (click)="toggleCompliance('gdpr')"
@@ -158,18 +158,18 @@ interface FrameworkMapping {
 
         <!-- Coverage result -->
         <div *ngIf="anyComplianceSelected" class="space-y-4">
-          <div class="bg-slate-900/60 rounded-xl p-5 border border-slate-700/30">
+          <div class="bg-slate-900/60 rounded-xl p-5 border border-slate-200">
             <div class="flex items-center justify-between mb-3">
-              <span class="text-sm text-slate-300">
+              <span class="text-sm text-slate-600">
                 {{ lang.t('fwmap.dora_coverage_existing') }}
               </span>
-              <span class="text-2xl font-bold" [class]="coveragePercent >= 70 ? 'text-emerald-400' : coveragePercent >= 40 ? 'text-amber-400' : 'text-red-400'">
+              <span class="text-2xl font-bold" [class]="coveragePercent >= 70 ? 'text-blue-600' : coveragePercent >= 40 ? 'text-amber-400' : 'text-red-400'">
                 {{ coveragePercent }}%
               </span>
             </div>
             <div class="h-3 bg-slate-700 rounded-full overflow-hidden mb-3">
               <div class="h-full rounded-full transition-all duration-700 ease-out"
-                   [class]="coveragePercent >= 70 ? 'bg-gradient-to-r from-emerald-500 to-emerald-400' : coveragePercent >= 40 ? 'bg-gradient-to-r from-amber-500 to-amber-400' : 'bg-gradient-to-r from-red-500 to-red-400'"
+                   [class]="coveragePercent >= 70 ? 'bg-gradient-to-r from-blue-600 to-blue-400' : coveragePercent >= 40 ? 'bg-gradient-to-r from-amber-500 to-amber-400' : 'bg-gradient-to-r from-red-500 to-red-400'"
                    [style.width.%]="coveragePercent">
               </div>
             </div>
@@ -180,22 +180,22 @@ interface FrameworkMapping {
 
           <!-- Per-framework breakdown -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3" *ngIf="anyComplianceSelected">
-            <div *ngIf="complyIso" class="bg-slate-900/40 rounded-xl p-4 border border-emerald-500/20">
+            <div *ngIf="complyIso" class="bg-slate-900/40 rounded-xl p-4 border border-blue-200">
               <div class="flex items-center justify-between mb-2">
-                <span class="text-sm text-emerald-300 font-medium">ISO 27001:2022</span>
-                <span class="text-sm font-bold text-emerald-400">{{ isoOverlapPercent }}%</span>
+                <span class="text-sm text-blue-500 font-medium">ISO 27001:2022</span>
+                <span class="text-sm font-bold text-blue-600">{{ isoOverlapPercent }}%</span>
               </div>
               <div class="h-1.5 bg-slate-700 rounded-full overflow-hidden">
-                <div class="h-full bg-emerald-500 rounded-full transition-all duration-500" [style.width.%]="isoOverlapPercent"></div>
+                <div class="h-full bg-blue-600 rounded-full transition-all duration-500" [style.width.%]="isoOverlapPercent"></div>
               </div>
             </div>
-            <div *ngIf="complyNis2" class="bg-slate-900/40 rounded-xl p-4 border border-cyan-500/20">
+            <div *ngIf="complyNis2" class="bg-slate-900/40 rounded-xl p-4 border border-blue-500/20">
               <div class="flex items-center justify-between mb-2">
-                <span class="text-sm text-cyan-300 font-medium">NIS2 Directive</span>
-                <span class="text-sm font-bold text-cyan-400">{{ nis2OverlapPercent }}%</span>
+                <span class="text-sm text-blue-400 font-medium">NIS2 Directive</span>
+                <span class="text-sm font-bold text-blue-500">{{ nis2OverlapPercent }}%</span>
               </div>
               <div class="h-1.5 bg-slate-700 rounded-full overflow-hidden">
-                <div class="h-full bg-cyan-500 rounded-full transition-all duration-500" [style.width.%]="nis2OverlapPercent"></div>
+                <div class="h-full bg-blue-600 rounded-full transition-all duration-500" [style.width.%]="nis2OverlapPercent"></div>
               </div>
             </div>
             <div *ngIf="complyGdpr" class="bg-slate-900/40 rounded-xl p-4 border border-violet-500/20">
@@ -238,7 +238,7 @@ interface FrameworkMapping {
           </div>
         </div>
 
-        <div *ngIf="!anyComplianceSelected" class="bg-slate-900/40 rounded-xl p-8 border border-slate-700/30 text-center">
+        <div *ngIf="!anyComplianceSelected" class="bg-slate-900/40 rounded-xl p-8 border border-slate-200 text-center">
           <svg class="w-12 h-12 text-slate-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
           </svg>
@@ -252,19 +252,19 @@ interface FrameworkMapping {
       <div class="flex flex-wrap gap-2">
         <button type="button" (click)="selectedPillar = 0"
                 class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
-                [class]="selectedPillar === 0 ? 'bg-cyan-500/20 border border-cyan-500/40 text-cyan-300' : 'bg-slate-800/60 border border-slate-700/50 text-slate-400 hover:text-slate-300'">
+                [class]="selectedPillar === 0 ? 'bg-blue-600/20 border border-blue-500/40 text-blue-400' : 'bg-white border border-slate-200 text-slate-400 hover:text-slate-600'">
           {{ lang.t('fwmap.all_pillars') }}
         </button>
         <button *ngFor="let p of pillarNames" type="button" (click)="selectedPillar = p.id"
                 class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
-                [class]="selectedPillar === p.id ? 'bg-cyan-500/20 border border-cyan-500/40 text-cyan-300' : 'bg-slate-800/60 border border-slate-700/50 text-slate-400 hover:text-slate-300'">
+                [class]="selectedPillar === p.id ? 'bg-blue-600/20 border border-blue-500/40 text-blue-400' : 'bg-white border border-slate-200 text-slate-400 hover:text-slate-600'">
           {{ l(p.et, p.en) }}
         </button>
       </div>
 
       <!-- Mapping Table per Pillar -->
-      <div *ngFor="let pillar of getVisiblePillars()" class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-2xl overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-700/50 bg-slate-800/80">
+      <div *ngFor="let pillar of getVisiblePillars()" class="bg-white backdrop-blur border border-slate-200 rounded-2xl overflow-hidden">
+        <div class="px-6 py-4 border-b border-slate-200 bg-white">
           <h3 class="text-base font-semibold text-white flex items-center gap-2">
             <span class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold"
                   [class]="'bg-' + getPillarColor(pillar.id) + '-500/20 text-' + getPillarColor(pillar.id) + '-400'">
@@ -277,25 +277,25 @@ interface FrameworkMapping {
         <div class="overflow-x-auto">
           <table class="w-full text-sm">
             <thead>
-              <tr class="border-b border-slate-700/50">
+              <tr class="border-b border-slate-200">
                 <th class="text-left px-4 py-3 text-slate-400 font-medium whitespace-nowrap">
                   {{ lang.t('fwmap.dora_article') }}
                 </th>
                 <th class="text-left px-4 py-3 text-slate-400 font-medium min-w-[200px]">
                   {{ lang.t('fwmap.requirement') }}
                 </th>
-                <th *ngIf="showIso" class="text-center px-4 py-3 text-emerald-400 font-medium whitespace-nowrap">ISO 27001</th>
-                <th *ngIf="showNis2" class="text-center px-4 py-3 text-cyan-400 font-medium whitespace-nowrap">NIS2</th>
+                <th *ngIf="showIso" class="text-center px-4 py-3 text-blue-600 font-medium whitespace-nowrap">ISO 27001</th>
+                <th *ngIf="showNis2" class="text-center px-4 py-3 text-blue-500 font-medium whitespace-nowrap">NIS2</th>
                 <th *ngIf="showGdpr" class="text-center px-4 py-3 text-violet-400 font-medium whitespace-nowrap">GDPR</th>
                 <th *ngIf="showCobit" class="text-center px-4 py-3 text-amber-400 font-medium whitespace-nowrap">COBIT</th>
               </tr>
             </thead>
             <tbody>
               <ng-container *ngFor="let m of getMappingsForPillar(pillar.id); let i = index">
-                <tr class="border-b border-slate-700/30 hover:bg-slate-700/20 cursor-pointer transition-colors"
+                <tr class="border-b border-slate-200 hover:bg-slate-700/20 cursor-pointer transition-colors"
                     (click)="toggleRow(m.doraArticle)">
-                  <td class="px-4 py-3 text-cyan-300 font-mono text-xs whitespace-nowrap">{{ m.doraArticle }}</td>
-                  <td class="px-4 py-3 text-slate-300">{{ l(m.doraRequirement.et, m.doraRequirement.en) }}</td>
+                  <td class="px-4 py-3 text-blue-400 font-mono text-xs whitespace-nowrap">{{ m.doraArticle }}</td>
+                  <td class="px-4 py-3 text-slate-600">{{ l(m.doraRequirement.et, m.doraRequirement.en) }}</td>
                   <td *ngIf="showIso" class="px-4 py-3 text-center">
                     <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium"
                           [class]="getMatchClass(m.iso27001Match)">
@@ -325,30 +325,30 @@ interface FrameworkMapping {
                 <tr *ngIf="expandedRow === m.doraArticle" class="bg-slate-900/40">
                   <td [attr.colspan]="getColspan()" class="px-4 py-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      <div *ngIf="showIso && m.iso27001" class="bg-slate-800/60 rounded-lg p-3 border border-emerald-500/20">
-                        <div class="text-xs font-semibold text-emerald-400 mb-1">ISO 27001:2022</div>
-                        <div class="text-xs text-slate-300 font-mono mb-1">{{ m.iso27001 }}</div>
+                      <div *ngIf="showIso && m.iso27001" class="bg-white rounded-lg p-3 border border-blue-200">
+                        <div class="text-xs font-semibold text-blue-600 mb-1">ISO 27001:2022</div>
+                        <div class="text-xs text-slate-600 font-mono mb-1">{{ m.iso27001 }}</div>
                         <div *ngIf="m.iso27001Detail" class="text-xs text-slate-400">
                           {{ l(m.iso27001Detail?.et, m.iso27001Detail?.en) }}
                         </div>
                       </div>
-                      <div *ngIf="showNis2 && m.nis2" class="bg-slate-800/60 rounded-lg p-3 border border-cyan-500/20">
-                        <div class="text-xs font-semibold text-cyan-400 mb-1">NIS2 Directive</div>
-                        <div class="text-xs text-slate-300 font-mono mb-1">{{ m.nis2 }}</div>
+                      <div *ngIf="showNis2 && m.nis2" class="bg-white rounded-lg p-3 border border-blue-500/20">
+                        <div class="text-xs font-semibold text-blue-500 mb-1">NIS2 Directive</div>
+                        <div class="text-xs text-slate-600 font-mono mb-1">{{ m.nis2 }}</div>
                         <div *ngIf="m.nis2Detail" class="text-xs text-slate-400">
                           {{ l(m.nis2Detail?.et, m.nis2Detail?.en) }}
                         </div>
                       </div>
-                      <div *ngIf="showGdpr && m.gdpr" class="bg-slate-800/60 rounded-lg p-3 border border-violet-500/20">
+                      <div *ngIf="showGdpr && m.gdpr" class="bg-white rounded-lg p-3 border border-violet-500/20">
                         <div class="text-xs font-semibold text-violet-400 mb-1">GDPR</div>
-                        <div class="text-xs text-slate-300 font-mono mb-1">{{ m.gdpr }}</div>
+                        <div class="text-xs text-slate-600 font-mono mb-1">{{ m.gdpr }}</div>
                         <div *ngIf="m.gdprDetail" class="text-xs text-slate-400">
                           {{ l(m.gdprDetail?.et, m.gdprDetail?.en) }}
                         </div>
                       </div>
-                      <div *ngIf="showCobit && m.cobit" class="bg-slate-800/60 rounded-lg p-3 border border-amber-500/20">
+                      <div *ngIf="showCobit && m.cobit" class="bg-white rounded-lg p-3 border border-amber-500/20">
                         <div class="text-xs font-semibold text-amber-400 mb-1">COBIT 2019</div>
-                        <div class="text-xs text-slate-300 font-mono mb-1">{{ m.cobit }}</div>
+                        <div class="text-xs text-slate-600 font-mono mb-1">{{ m.cobit }}</div>
                         <div *ngIf="m.cobitDetail" class="text-xs text-slate-400">
                           {{ l(m.cobitDetail?.et, m.cobitDetail?.en) }}
                         </div>
@@ -363,13 +363,13 @@ interface FrameworkMapping {
       </div>
 
       <!-- Legend -->
-      <div class="bg-slate-800/60 backdrop-blur border border-slate-700/50 rounded-2xl p-6">
+      <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
         <h3 class="text-sm font-semibold text-white mb-3">
           {{ lang.t('fwmap.legend') }}
         </h3>
         <div class="flex flex-wrap gap-4 text-xs">
           <span class="flex items-center gap-1.5">
-            <span class="inline-block w-3 h-3 rounded-full bg-emerald-500/30 border border-emerald-500/50"></span>
+            <span class="inline-block w-3 h-3 rounded-full bg-blue-600/30 border border-blue-500/50"></span>
             <span class="text-slate-400">{{ lang.t('fwmap.full_match') }}</span>
           </span>
           <span class="flex items-center gap-1.5">
@@ -388,14 +388,14 @@ interface FrameworkMapping {
       </div>
 
       <!-- CTA -->
-      <div class="bg-gradient-to-r from-emerald-900/30 to-cyan-900/30 border border-emerald-500/20 rounded-2xl p-8 text-center">
+      <div class="bg-gradient-to-r from-blue-50 to-blue-50 border border-blue-200 rounded-2xl p-8 text-center">
         <h2 class="text-xl font-bold text-white mb-2">
           {{ lang.t('fwmap.start_dora_assessment') }}
         </h2>
         <p class="text-slate-400 text-sm mb-5 max-w-xl mx-auto">
           {{ lang.t('fwmap.know_your_gaps') }}
         </p>
-        <a routerLink="/assessment" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-colors">
+        <a routerLink="/assessment" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-700 hover:bg-blue-600 text-white font-semibold transition-colors">
           {{ lang.t('fwmap.start_assessment') }}
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
@@ -1314,7 +1314,7 @@ export class FrameworkMappingComponent {
   }
 
   getPillarColor(pillarId: number): string {
-    const colors: Record<number, string> = { 1: 'emerald', 2: 'cyan', 3: 'violet', 4: 'amber', 5: 'blue' };
+    const colors: Record<number, string> = { 1: 'blue', 2: 'sky', 3: 'violet', 4: 'amber', 5: 'blue' };
     return colors[pillarId] || 'slate';
   }
 
@@ -1329,7 +1329,7 @@ export class FrameworkMappingComponent {
 
   getMatchClass(match: 'full' | 'partial' | 'none' | 'na'): string {
     switch (match) {
-      case 'full': return 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+      case 'full': return 'bg-blue-100 text-blue-500 border border-blue-200';
       case 'partial': return 'bg-amber-500/20 text-amber-300 border border-amber-500/30';
       case 'none': return 'bg-red-500/20 text-red-300 border border-red-500/30';
       case 'na': return 'bg-slate-600/20 text-slate-500 border border-slate-600/30';

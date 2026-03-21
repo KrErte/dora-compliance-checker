@@ -15,7 +15,7 @@ import { RemediationItem, RemediationStats } from '../models';
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 class="text-2xl font-bold text-white flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center">
               <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
               </svg>
@@ -26,7 +26,7 @@ import { RemediationItem, RemediationStats } from '../models';
         </div>
         <div class="flex items-center gap-2">
           <button (click)="exportIcal()"
-                  class="px-4 py-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-semibold text-sm hover:bg-cyan-500/20 transition-all flex items-center gap-2">
+                  class="px-4 py-2.5 rounded-xl bg-blue-50 text-blue-500 border border-blue-500/30 font-semibold text-sm hover:bg-blue-600/20 transition-all flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             {{ lang.l('Ekspordi', 'Export iCal') }}
           </button>
@@ -36,7 +36,7 @@ import { RemediationItem, RemediationStats } from '../models';
             {{ lang.l('Impordi CSV', 'Import CSV') }}
           </button>
           <button (click)="showForm = true"
-                  class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold text-sm hover:shadow-lg transition-all flex items-center gap-2">
+                  class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white font-semibold text-sm hover:shadow-lg transition-all flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
@@ -48,23 +48,23 @@ import { RemediationItem, RemediationStats } from '../models';
       <!-- Stats -->
       @if (stats()) {
         <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
+          <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-white">{{ stats()!.total }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('remediation.total') }}</div>
           </div>
-          <div class="bg-slate-800/50 border border-red-500/30 rounded-xl p-4 text-center">
+          <div class="bg-white border border-red-500/30 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-red-400">{{ stats()!.open }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('remediation.open') }}</div>
           </div>
-          <div class="bg-slate-800/50 border border-amber-500/30 rounded-xl p-4 text-center">
+          <div class="bg-white border border-amber-500/30 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-amber-400">{{ stats()!.inProgress }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('remediation.in_progress') }}</div>
           </div>
-          <div class="bg-slate-800/50 border border-emerald-500/30 rounded-xl p-4 text-center">
-            <div class="text-2xl font-bold text-emerald-400">{{ stats()!.completed }}</div>
+          <div class="bg-white border border-blue-200 rounded-xl p-4 text-center">
+            <div class="text-2xl font-bold text-blue-600">{{ stats()!.completed }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('remediation.completed') }}</div>
           </div>
-          <div class="bg-slate-800/50 border border-slate-600/50 rounded-xl p-4 text-center">
+          <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-slate-400">{{ stats()!.deferred }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('remediation.deferred') }}</div>
           </div>
@@ -76,7 +76,7 @@ import { RemediationItem, RemediationStats } from '../models';
         @for (f of filters; track f.value) {
           <button (click)="activeFilter = f.value"
                   class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
-                  [class]="activeFilter === f.value ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-slate-700/30 text-slate-400 hover:text-slate-200'">
+                  [class]="activeFilter === f.value ? 'bg-blue-100 text-blue-600 border border-blue-500/40' : 'bg-slate-700/30 text-slate-400 hover:text-slate-700'">
             {{ lang.l(f.labelEt, f.labelEn) }}
           </button>
         }
@@ -84,15 +84,15 @@ import { RemediationItem, RemediationStats } from '../models';
 
       <!-- Bulk Action Toolbar -->
       @if (selectedIds().size > 0) {
-        <div class="bg-slate-800/80 border border-emerald-500/30 rounded-xl p-3 flex flex-wrap items-center gap-3 animate-in">
-          <span class="text-sm text-emerald-400 font-medium">
+        <div class="bg-white border border-blue-200 rounded-xl p-3 flex flex-wrap items-center gap-3 animate-in">
+          <span class="text-sm text-blue-600 font-medium">
             {{ selectedIds().size }} {{ lang.l('valitud', 'selected') }}
           </span>
           <div class="h-5 w-px bg-slate-600"></div>
 
           <!-- Mark Complete -->
           <button (click)="bulkSetStatus('COMPLETED')" [disabled]="bulkProcessing()"
-                  class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-medium hover:bg-emerald-500/20 transition-all disabled:opacity-50 flex items-center gap-1.5">
+                  class="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 border border-blue-200 text-xs font-medium hover:bg-blue-100 transition-all disabled:opacity-50 flex items-center gap-1.5">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
             {{ lang.l('Märgi valmis', 'Mark Complete') }}
           </button>
@@ -107,23 +107,23 @@ import { RemediationItem, RemediationStats } from '../models';
           <!-- Set Priority Dropdown -->
           <div class="relative">
             <button (click)="showPriorityDropdown = !showPriorityDropdown" [disabled]="bulkProcessing()"
-                    class="px-3 py-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-medium hover:bg-cyan-500/20 transition-all disabled:opacity-50 flex items-center gap-1.5">
+                    class="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-500 border border-blue-500/30 text-xs font-medium hover:bg-blue-600/20 transition-all disabled:opacity-50 flex items-center gap-1.5">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"/></svg>
               {{ lang.l('Määra prioriteet', 'Set Priority') }}
               <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
             </button>
             @if (showPriorityDropdown) {
-              <div class="absolute top-full left-0 mt-1 bg-slate-800 border border-slate-600/50 rounded-lg shadow-xl z-20 min-w-[140px] py-1">
-                <button (click)="bulkSetPriority('CRITICAL')" class="w-full px-3 py-1.5 text-left text-xs text-red-400 hover:bg-slate-700/50 flex items-center gap-2">
+              <div class="absolute top-full left-0 mt-1 bg-slate-800 border border-slate-200 rounded-lg shadow-xl z-20 min-w-[140px] py-1">
+                <button (click)="bulkSetPriority('CRITICAL')" class="w-full px-3 py-1.5 text-left text-xs text-red-400 hover:bg-slate-100 flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-red-500"></span> {{ lang.t('remediation.critical') }}
                 </button>
-                <button (click)="bulkSetPriority('HIGH')" class="w-full px-3 py-1.5 text-left text-xs text-orange-400 hover:bg-slate-700/50 flex items-center gap-2">
+                <button (click)="bulkSetPriority('HIGH')" class="w-full px-3 py-1.5 text-left text-xs text-orange-400 hover:bg-slate-100 flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-orange-500"></span> {{ lang.t('remediation.high') }}
                 </button>
-                <button (click)="bulkSetPriority('MEDIUM')" class="w-full px-3 py-1.5 text-left text-xs text-amber-400 hover:bg-slate-700/50 flex items-center gap-2">
+                <button (click)="bulkSetPriority('MEDIUM')" class="w-full px-3 py-1.5 text-left text-xs text-amber-400 hover:bg-slate-100 flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-amber-500"></span> {{ lang.t('remediation.medium') }}
                 </button>
-                <button (click)="bulkSetPriority('LOW')" class="w-full px-3 py-1.5 text-left text-xs text-blue-400 hover:bg-slate-700/50 flex items-center gap-2">
+                <button (click)="bulkSetPriority('LOW')" class="w-full px-3 py-1.5 text-left text-xs text-blue-400 hover:bg-slate-100 flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-blue-500"></span> {{ lang.t('remediation.low') }}
                 </button>
               </div>
@@ -141,7 +141,7 @@ import { RemediationItem, RemediationStats } from '../models';
 
           <!-- Clear Selection -->
           <button (click)="clearSelection()"
-                  class="px-3 py-1.5 rounded-lg bg-slate-700/50 text-slate-400 text-xs font-medium hover:text-slate-200 transition-all">
+                  class="px-3 py-1.5 rounded-lg bg-slate-700/50 text-slate-400 text-xs font-medium hover:text-slate-700 transition-all">
             {{ lang.l('Tühista valik', 'Clear Selection') }}
           </button>
         </div>
@@ -154,19 +154,19 @@ import { RemediationItem, RemediationStats } from '../models';
             <h2 class="text-lg font-bold text-white mb-4">{{ lang.t('remediation.new_remediation_action') }}</h2>
             <div class="space-y-4">
               <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.t('remediation.title') }}</label>
+                <label class="block text-sm font-medium text-slate-600 mb-1">{{ lang.t('remediation.title') }}</label>
                 <input [(ngModel)]="newItem.title" type="text"
-                       class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:outline-none focus:border-emerald-500/50">
+                       class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none focus:border-blue-500/50">
               </div>
               <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1">{{ lang.t('remediation.description') }}</label>
+                <label class="block text-sm font-medium text-slate-600 mb-1">{{ lang.t('remediation.description') }}</label>
                 <textarea [(ngModel)]="newItem.description" rows="2"
-                          class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:outline-none focus:border-emerald-500/50"></textarea>
+                          class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none focus:border-blue-500/50"></textarea>
               </div>
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs text-slate-400 mb-1">{{ lang.t('remediation.pillar') }}</label>
-                  <select [(ngModel)]="newItem.pillar" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none">
+                  <select [(ngModel)]="newItem.pillar" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
                     <option value="ICT_RISK_MANAGEMENT">ICT Risk Management</option>
                     <option value="INCIDENT_MANAGEMENT">Incident Management</option>
                     <option value="TESTING">Testing</option>
@@ -176,7 +176,7 @@ import { RemediationItem, RemediationStats } from '../models';
                 </div>
                 <div>
                   <label class="block text-xs text-slate-400 mb-1">{{ lang.t('remediation.priority') }}</label>
-                  <select [(ngModel)]="newItem.priority" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none">
+                  <select [(ngModel)]="newItem.priority" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
                     <option value="CRITICAL">{{ lang.t('remediation.critical') }}</option>
                     <option value="HIGH">{{ lang.t('remediation.high') }}</option>
                     <option value="MEDIUM">{{ lang.t('remediation.medium') }}</option>
@@ -187,22 +187,22 @@ import { RemediationItem, RemediationStats } from '../models';
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs text-slate-400 mb-1">{{ lang.t('remediation.assignee') }}</label>
-                  <input [(ngModel)]="newItem.assignee" type="text" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none">
+                  <input [(ngModel)]="newItem.assignee" type="text" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
                 </div>
                 <div>
                   <label class="block text-xs text-slate-400 mb-1">{{ lang.t('remediation.due_date') }}</label>
-                  <input [(ngModel)]="newItem.dueDate" type="date" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none">
+                  <input [(ngModel)]="newItem.dueDate" type="date" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
                 </div>
               </div>
               <div>
                 <label class="block text-xs text-slate-400 mb-1">{{ lang.t('remediation.article_reference') }}</label>
                 <input [(ngModel)]="newItem.articleReference" type="text" placeholder="e.g. Art. 6(1)"
-                       class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none">
+                       class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
               </div>
               <div class="flex justify-end gap-3 pt-2">
-                <button (click)="showForm = false" class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-300 text-sm">{{ lang.t('remediation.cancel') }}</button>
+                <button (click)="showForm = false" class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-600 text-sm">{{ lang.t('remediation.cancel') }}</button>
                 <button (click)="createItem()" [disabled]="!newItem.title"
-                        class="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-semibold disabled:opacity-50">
+                        class="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white text-sm font-semibold disabled:opacity-50">
                   {{ lang.t('remediation.add') }}
                 </button>
               </div>
@@ -228,7 +228,7 @@ import { RemediationItem, RemediationStats } from '../models';
             <!-- Download Template -->
             <div class="mb-5">
               <button (click)="downloadCsvTemplate()"
-                      class="text-sm text-cyan-400 hover:text-cyan-300 underline underline-offset-2 flex items-center gap-1.5 transition-colors">
+                      class="text-sm text-blue-500 hover:text-blue-400 underline underline-offset-2 flex items-center gap-1.5 transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 {{ lang.l('Laadi malli alla', 'Download template') }}
               </button>
@@ -237,31 +237,31 @@ import { RemediationItem, RemediationStats } from '../models';
             <!-- File Input -->
             @if (!importResult()) {
               <div class="mb-5">
-                <label class="block text-sm font-medium text-slate-300 mb-2">{{ lang.l('Vali CSV fail', 'Select CSV file') }}</label>
+                <label class="block text-sm font-medium text-slate-600 mb-2">{{ lang.l('Vali CSV fail', 'Select CSV file') }}</label>
                 <div class="relative">
                   <input type="file" accept=".csv" (change)="onImportFileSelected($event)"
-                         class="w-full px-4 py-3 bg-slate-900/50 border border-slate-600/50 border-dashed rounded-xl text-slate-300 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-violet-500/20 file:text-violet-400 hover:file:bg-violet-500/30 file:cursor-pointer focus:outline-none focus:border-violet-500/50">
+                         class="w-full px-4 py-3 bg-white border border-slate-200 border-dashed rounded-xl text-slate-600 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-violet-500/20 file:text-violet-400 hover:file:bg-violet-500/30 file:cursor-pointer focus:outline-none focus:border-violet-500/50">
                 </div>
               </div>
 
               <!-- Preview Table -->
               @if (importPreview().length > 0) {
                 <div class="mb-5">
-                  <h3 class="text-sm font-medium text-slate-300 mb-2">{{ lang.l('Eelvaade (esimesed 5 rida)', 'Preview (first 5 rows)') }}</h3>
-                  <div class="overflow-x-auto rounded-lg border border-slate-700/50">
+                  <h3 class="text-sm font-medium text-slate-600 mb-2">{{ lang.l('Eelvaade (esimesed 5 rida)', 'Preview (first 5 rows)') }}</h3>
+                  <div class="overflow-x-auto rounded-lg border border-slate-200">
                     <table class="w-full text-xs">
                       <thead>
-                        <tr class="bg-slate-900/50">
+                        <tr class="bg-white">
                           @for (header of importPreviewHeaders(); track header) {
-                            <th class="px-3 py-2 text-left text-slate-400 font-medium border-b border-slate-700/50">{{ header }}</th>
+                            <th class="px-3 py-2 text-left text-slate-400 font-medium border-b border-slate-200">{{ header }}</th>
                           }
                         </tr>
                       </thead>
                       <tbody>
                         @for (row of importPreview(); track $index) {
-                          <tr class="border-b border-slate-700/30 last:border-0">
+                          <tr class="border-b border-slate-200 last:border-0">
                             @for (header of importPreviewHeaders(); track header) {
-                              <td class="px-3 py-2 text-slate-300 max-w-[150px] truncate">{{ row[header] || '-' }}</td>
+                              <td class="px-3 py-2 text-slate-600 max-w-[150px] truncate">{{ row[header] || '-' }}</td>
                             }
                           </tr>
                         }
@@ -272,7 +272,7 @@ import { RemediationItem, RemediationStats } from '../models';
 
                 <!-- Import Button -->
                 <div class="flex justify-end gap-3">
-                  <button (click)="closeImportModal()" class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-300 text-sm">
+                  <button (click)="closeImportModal()" class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-600 text-sm">
                     {{ lang.t('remediation.cancel') }}
                   </button>
                   <button (click)="executeImport()" [disabled]="importing()"
@@ -293,10 +293,10 @@ import { RemediationItem, RemediationStats } from '../models';
             @if (importResult()) {
               <div class="space-y-4">
                 <!-- Success count -->
-                <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4 flex items-center gap-3">
-                  <svg class="w-6 h-6 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-center gap-3">
+                  <svg class="w-6 h-6 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                   <div>
-                    <div class="text-sm font-medium text-emerald-400">
+                    <div class="text-sm font-medium text-blue-600">
                       {{ importResult()!.imported }} {{ lang.l('kirjet imporditud', 'items imported successfully') }}
                     </div>
                   </div>
@@ -321,7 +321,7 @@ import { RemediationItem, RemediationStats } from '../models';
 
                 <div class="flex justify-end">
                   <button (click)="closeImportModal()"
-                          class="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm font-semibold">
+                          class="px-5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white text-sm font-semibold">
                     {{ lang.l('Sulge', 'Close') }}
                   </button>
                 </div>
@@ -334,12 +334,12 @@ import { RemediationItem, RemediationStats } from '../models';
       <!-- Items list -->
       @if (loading()) {
         <div class="text-center py-16">
-          <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-700 border-t-emerald-400 animate-spin"></div>
+          <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-700 border-t-blue-500 animate-spin"></div>
         </div>
       }
 
       @if (!loading() && filteredItems().length === 0) {
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
+        <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
           <svg class="w-16 h-16 mx-auto mb-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
           </svg>
@@ -353,7 +353,7 @@ import { RemediationItem, RemediationStats } from '../models';
           <div class="flex items-center gap-3 px-4 py-2">
             <label class="flex items-center gap-2 cursor-pointer select-none">
               <input type="checkbox" [checked]="allSelected()" (change)="toggleSelectAll()"
-                     class="w-4 h-4 rounded border-slate-600 bg-slate-900/50 text-emerald-500 focus:ring-emerald-500/50 focus:ring-offset-0 cursor-pointer accent-emerald-500">
+                     class="w-4 h-4 rounded border-slate-600 bg-white text-blue-600 focus:ring-blue-500/50 focus:ring-offset-0 cursor-pointer accent-blue-600">
               <span class="text-xs text-slate-400 font-medium">
                 {{ lang.l('Vali kõik', 'Select all') }} ({{ filteredItems().length }})
               </span>
@@ -361,12 +361,12 @@ import { RemediationItem, RemediationStats } from '../models';
           </div>
 
           @for (item of filteredItems(); track item.id) {
-            <div class="bg-slate-800/50 border rounded-xl p-4 hover:border-slate-600/50 transition-all"
-                 [class]="isSelected(item.id) ? 'border-emerald-500/40 bg-emerald-500/5' : 'border-slate-700/50'">
+            <div class="bg-white border rounded-xl p-4 hover:border-slate-200 transition-all"
+                 [class]="isSelected(item.id) ? 'border-blue-500/40 bg-blue-50' : 'border-slate-200'">
               <div class="flex flex-col md:flex-row md:items-center gap-3">
                 <!-- Checkbox -->
                 <input type="checkbox" [checked]="isSelected(item.id)" (change)="toggleSelect(item.id)"
-                       class="w-4 h-4 rounded border-slate-600 bg-slate-900/50 text-emerald-500 focus:ring-emerald-500/50 focus:ring-offset-0 cursor-pointer flex-shrink-0 accent-emerald-500">
+                       class="w-4 h-4 rounded border-slate-600 bg-white text-blue-600 focus:ring-blue-500/50 focus:ring-offset-0 cursor-pointer flex-shrink-0 accent-blue-600">
 
                 <!-- Priority dot -->
                 <div class="w-3 h-3 rounded-full flex-shrink-0"
@@ -391,7 +391,7 @@ import { RemediationItem, RemediationStats } from '../models';
 
                 <!-- Status selector -->
                 <select [(ngModel)]="item.status" (ngModelChange)="updateStatus(item)"
-                        class="px-3 py-1.5 bg-slate-900/50 border border-slate-600/50 rounded-lg text-xs text-white focus:outline-none">
+                        class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-white focus:outline-none">
                   <option value="OPEN">{{ lang.t('remediation.open_24') }}</option>
                   <option value="IN_PROGRESS">{{ lang.t('remediation.in_progress_25') }}</option>
                   <option value="COMPLETED">{{ lang.t('remediation.completed_26') }}</option>

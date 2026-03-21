@@ -14,7 +14,7 @@ import { LangService } from '../lang.service';
       <div class="max-w-5xl mx-auto">
         <div class="flex items-center justify-between mb-8">
           <div>
-            <a routerLink="/command-center" class="text-sm text-slate-500 hover:text-emerald-400 transition-colors">&larr; {{ lang.t('vq.back') }}</a>
+            <a routerLink="/command-center" class="text-sm text-slate-500 hover:text-blue-600 transition-colors">&larr; {{ lang.t('vq.back') }}</a>
             <h1 class="text-2xl font-bold text-white mt-1">{{ lang.t('vq.title') }}</h1>
             <p class="text-sm text-slate-400 mt-1">{{ lang.t('vq.subtitle') }}</p>
           </div>
@@ -31,7 +31,7 @@ import { LangService } from '../lang.service';
             <div class="text-xs text-slate-400">{{ lang.t('vq.submitted') }}</div>
           </div>
           <div class="glass-card p-4 text-center">
-            <div class="text-2xl font-bold text-emerald-400">{{ stats.reviewed }}</div>
+            <div class="text-2xl font-bold text-blue-600">{{ stats.reviewed }}</div>
             <div class="text-xs text-slate-400">{{ lang.t('vq.reviewed') }}</div>
           </div>
         </div>
@@ -43,22 +43,22 @@ import { LangService } from '../lang.service';
             <div>
               <label class="block text-sm text-slate-400 mb-1">{{ lang.t('vq.vendor_name') }}</label>
               <input type="text" [(ngModel)]="newVendorName" [placeholder]="lang.t('vq.vendor_placeholder')"
-                     class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                     class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
             </div>
             <div>
               <label class="block text-sm text-slate-400 mb-1">{{ lang.t('vq.vendor_email') }}</label>
               <input type="email" [(ngModel)]="newVendorEmail" placeholder="vendor@example.com"
-                     class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                     class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
             </div>
             <div class="flex items-end">
               <button (click)="sendQuestionnaire()" [disabled]="!newVendorName || !newVendorEmail || sending"
-                      class="w-full px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-semibold disabled:opacity-30 disabled:cursor-not-allowed">
+                      class="w-full px-6 py-2.5 bg-blue-700 hover:bg-blue-600 text-white rounded-lg font-semibold disabled:opacity-30 disabled:cursor-not-allowed">
                 {{ sending ? lang.t('vq.sending') : lang.t('vq.send_btn') }}
               </button>
             </div>
           </div>
           @if (sendSuccess) {
-            <p class="text-sm text-emerald-400 mt-3">{{ lang.t('vq.send_success') }}</p>
+            <p class="text-sm text-blue-600 mt-3">{{ lang.t('vq.send_success') }}</p>
           }
         </div>
 
@@ -70,7 +70,7 @@ import { LangService } from '../lang.service';
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-4">
                     <div class="w-10 h-10 rounded-lg flex items-center justify-center"
-                         [class]="q.status === 'SUBMITTED' ? 'bg-blue-500/20 text-blue-400' : (q.status === 'REVIEWED' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400')">
+                         [class]="q.status === 'SUBMITTED' ? 'bg-blue-500/20 text-blue-400' : (q.status === 'REVIEWED' ? 'bg-blue-100 text-blue-600' : 'bg-amber-500/20 text-amber-400')">
                       {{ q.status === 'SUBMITTED' ? '&#9993;' : (q.status === 'REVIEWED' ? '&#10003;' : '&#9200;') }}
                     </div>
                     <div>
@@ -81,14 +81,14 @@ import { LangService } from '../lang.service';
                   <div class="flex items-center gap-3">
                     @if (q.riskScore !== null && q.riskScore !== undefined) {
                       <div class="text-center">
-                        <div class="text-lg font-bold" [class]="q.riskScore <= 30 ? 'text-emerald-400' : (q.riskScore <= 60 ? 'text-amber-400' : 'text-red-400')">
+                        <div class="text-lg font-bold" [class]="q.riskScore <= 30 ? 'text-blue-600' : (q.riskScore <= 60 ? 'text-amber-400' : 'text-red-400')">
                           {{ q.riskScore }}
                         </div>
                         <div class="text-[10px] text-slate-500">{{ lang.t('vq.risk_score') }}</div>
                       </div>
                     }
                     <span class="px-3 py-1 rounded-full text-xs font-medium"
-                          [class]="q.status === 'SUBMITTED' ? 'bg-blue-500/20 text-blue-400' : (q.status === 'REVIEWED' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400')">
+                          [class]="q.status === 'SUBMITTED' ? 'bg-blue-500/20 text-blue-400' : (q.status === 'REVIEWED' ? 'bg-blue-100 text-blue-600' : 'bg-amber-500/20 text-amber-400')">
                       {{ q.status === 'PENDING' ? lang.t('vq.pending') : (q.status === 'SUBMITTED' ? lang.t('vq.submitted') : lang.t('vq.reviewed')) }}
                     </span>
                     @if (q.status === 'PENDING') {
@@ -100,7 +100,7 @@ import { LangService } from '../lang.service';
                       <button (click)="viewResponses(q)" class="px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs">
                         {{ lang.t('vq.view') }}
                       </button>
-                      <button (click)="markReviewed(q)" class="px-3 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs">
+                      <button (click)="markReviewed(q)" class="px-3 py-1 bg-blue-700 hover:bg-blue-600 text-white rounded-lg text-xs">
                         {{ lang.t('vq.mark_reviewed') }}
                       </button>
                     }
@@ -114,17 +114,17 @@ import { LangService } from '../lang.service';
 
                 <!-- Expanded responses -->
                 @if (expandedId === q.id && q.responses) {
-                  <div class="mt-4 pt-4 border-t border-slate-700/50">
-                    <h4 class="text-sm font-semibold text-slate-300 mb-3">{{ lang.t('vq.responses') }}</h4>
+                  <div class="mt-4 pt-4 border-t border-slate-200">
+                    <h4 class="text-sm font-semibold text-slate-600 mb-3">{{ lang.t('vq.responses') }}</h4>
                     <div class="space-y-2 max-h-96 overflow-y-auto">
                       @for (r of parseResponses(q.responses); track r.id) {
                         <div class="flex items-start justify-between gap-4 p-3 rounded-lg bg-slate-800/30">
                           <div class="flex-1">
                             <span class="text-[10px] text-slate-500 font-mono">{{ r.id }}</span>
-                            <p class="text-sm text-slate-300">{{ r.text || r.id }}</p>
+                            <p class="text-sm text-slate-600">{{ r.text || r.id }}</p>
                           </div>
                           <span class="px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap"
-                                [class]="r.answer === 'yes' ? 'bg-emerald-500/20 text-emerald-400' : (r.answer === 'partial' ? 'bg-amber-500/20 text-amber-400' : (r.answer === 'no' ? 'bg-red-500/20 text-red-400' : 'bg-slate-500/20 text-slate-400'))">
+                                [class]="r.answer === 'yes' ? 'bg-blue-100 text-blue-600' : (r.answer === 'partial' ? 'bg-amber-500/20 text-amber-400' : (r.answer === 'no' ? 'bg-red-500/20 text-red-400' : 'bg-slate-500/20 text-slate-400'))">
                             {{ r.answer === 'yes' ? lang.t('vq.yes') : (r.answer === 'partial' ? lang.t('vq.partial') : (r.answer === 'no' ? lang.t('vq.no') : lang.t('vq.na'))) }}
                           </span>
                         </div>

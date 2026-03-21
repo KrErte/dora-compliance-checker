@@ -69,7 +69,7 @@ interface OptInStatus {
       <!-- Page Header -->
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 class="text-3xl font-bold text-slate-100 flex items-center gap-3">
+          <h1 class="text-3xl font-bold text-slate-900 flex items-center gap-3">
             <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-lg shadow-violet-500/20">
               <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
@@ -81,8 +81,8 @@ interface OptInStatus {
         </div>
         <div class="flex items-center gap-3">
           @if (optInStatus()?.optedIn) {
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-600 text-sm font-medium">
+              <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
               {{ lang.l('Liitunud', 'Connected') }}
             </span>
           }
@@ -102,7 +102,7 @@ interface OptInStatus {
                   {{ lang.l('Taiesti anonuumne', 'Fully Anonymous') }}
                 </div>
                 <h2 class="text-2xl font-bold text-white mb-2">{{ lang.l('Liitu Vastavuse Vorgustikuga', 'Join the Compliance Network') }}</h2>
-                <p class="text-slate-300 mb-4 max-w-2xl">
+                <p class="text-slate-600 mb-4 max-w-2xl">
                   {{ lang.l(
                     'Jaga anonuumseid vastavusandmeid ja saa ligipaeaeaeaesu kogu vorgustiku aruannetele. Sinu ettevotte nime ega konkreetseid tulemusi ei jagata kunagi.',
                     'Share anonymized compliance data and get access to network-wide insights. Your company name and specific results are never shared.'
@@ -110,25 +110,25 @@ interface OptInStatus {
                 </p>
                 <div class="flex flex-wrap gap-4 text-sm text-slate-400">
                   <span class="flex items-center gap-1.5">
-                    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                     {{ lang.l('Taiesti anonuumne', 'Fully anonymous') }}
                   </span>
                   <span class="flex items-center gap-1.5">
-                    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                     {{ lang.l('Sektori vordlused', 'Sector benchmarks') }}
                   </span>
                   <span class="flex items-center gap-1.5">
-                    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                     {{ lang.l('Ohuteave reaalajas', 'Real-time threat intel') }}
                   </span>
                 </div>
               </div>
-              <div class="bg-slate-800/80 border border-slate-700/50 rounded-xl p-5 min-w-[280px]">
-                <h3 class="text-sm font-semibold text-slate-300 mb-3">{{ lang.l('Sinu profiil', 'Your Profile') }}</h3>
+              <div class="bg-white border border-slate-200 rounded-xl p-5 min-w-[280px]">
+                <h3 class="text-sm font-semibold text-slate-600 mb-3">{{ lang.l('Sinu profiil', 'Your Profile') }}</h3>
                 <div class="space-y-3">
                   <div>
                     <label class="block text-xs text-slate-500 mb-1">{{ lang.l('Sektor', 'Sector') }}</label>
-                    <select [(ngModel)]="optInSector" class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-violet-500/50">
+                    <select [(ngModel)]="optInSector" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-violet-500/50">
                       <option value="banking">{{ lang.l('Pangandus', 'Banking') }}</option>
                       <option value="insurance">{{ lang.l('Kindlustus', 'Insurance') }}</option>
                       <option value="investment">{{ lang.l('Investeerimine', 'Investment') }}</option>
@@ -138,7 +138,7 @@ interface OptInStatus {
                   </div>
                   <div>
                     <label class="block text-xs text-slate-500 mb-1">{{ lang.l('Riik', 'Country') }}</label>
-                    <select [(ngModel)]="optInCountry" class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-violet-500/50">
+                    <select [(ngModel)]="optInCountry" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-violet-500/50">
                       <option value="EE">{{ lang.l('Eesti', 'Estonia') }}</option>
                       <option value="LV">{{ lang.l('Lati', 'Latvia') }}</option>
                       <option value="LT">{{ lang.l('Leedu', 'Lithuania') }}</option>
@@ -149,7 +149,7 @@ interface OptInStatus {
                   </div>
                   <div>
                     <label class="block text-xs text-slate-500 mb-1">{{ lang.l('Ettevotte suurus', 'Company Size') }}</label>
-                    <select [(ngModel)]="optInSize" class="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-violet-500/50">
+                    <select [(ngModel)]="optInSize" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-violet-500/50">
                       <option value="small">{{ lang.l('Vaike (1-49)', 'Small (1-49)') }}</option>
                       <option value="medium">{{ lang.l('Keskmine (50-249)', 'Medium (50-249)') }}</option>
                       <option value="large">{{ lang.l('Suur (250+)', 'Large (250+)') }}</option>
@@ -183,7 +183,7 @@ interface OptInStatus {
         <!-- Hero Stats Bar -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <!-- Total Participants -->
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 text-center group hover:border-violet-500/30 transition-all">
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 text-center group hover:border-violet-500/30 transition-all">
             <div class="w-10 h-10 rounded-xl bg-violet-500/10 flex items-center justify-center mx-auto mb-3 group-hover:bg-violet-500/20 transition-colors">
               <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
@@ -194,29 +194,29 @@ interface OptInStatus {
           </div>
 
           <!-- Average Compliance Score -->
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 text-center group hover:border-emerald-500/30 transition-all">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center mx-auto mb-3 group-hover:bg-emerald-500/20 transition-colors">
-              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 text-center group hover:border-blue-200 transition-all">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mx-auto mb-3 group-hover:bg-blue-100 transition-colors">
+              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
             </div>
-            <div class="text-3xl font-extrabold text-emerald-400 mb-1">{{ stats()?.averageScore || 0 }}%</div>
+            <div class="text-3xl font-extrabold text-blue-600 mb-1">{{ stats()?.averageScore || 0 }}%</div>
             <div class="text-xs text-slate-400">{{ lang.l('Keskmine skoor', 'Average Score') }}</div>
           </div>
 
           <!-- Top Performing Sector -->
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 text-center group hover:border-cyan-500/30 transition-all">
-            <div class="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center mx-auto mb-3 group-hover:bg-cyan-500/20 transition-colors">
-              <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 text-center group hover:border-blue-500/30 transition-all">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mx-auto mb-3 group-hover:bg-blue-600/20 transition-colors">
+              <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
               </svg>
             </div>
-            <div class="text-3xl font-extrabold text-cyan-400 mb-1 truncate">{{ stats()?.topSector || '-' }}</div>
+            <div class="text-3xl font-extrabold text-blue-500 mb-1 truncate">{{ stats()?.topSector || '-' }}</div>
             <div class="text-xs text-slate-400">{{ lang.l('Parim sektor', 'Top Sector') }}</div>
           </div>
 
           <!-- Network Growth -->
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 text-center group hover:border-amber-500/30 transition-all">
+          <div class="bg-white border border-slate-200 rounded-2xl p-5 text-center group hover:border-amber-500/30 transition-all">
             <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center mx-auto mb-3 group-hover:bg-amber-500/20 transition-colors">
               <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
@@ -230,7 +230,7 @@ interface OptInStatus {
         <!-- Threat Radar Section -->
         <div>
           <div class="flex items-center justify-between mb-4">
-            <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+            <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
               <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
               </svg>
@@ -240,7 +240,7 @@ interface OptInStatus {
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             @for (threat of threats(); track threat.id) {
-              <div class="relative overflow-hidden bg-slate-800/50 border rounded-2xl p-5 transition-all hover:shadow-lg group"
+              <div class="relative overflow-hidden bg-white border rounded-2xl p-5 transition-all hover:shadow-lg group"
                    [class]="getThreatBorderClass(threat.severity)">
                 <!-- Severity glow effect -->
                 <div class="absolute top-0 right-0 w-32 h-32 rounded-full opacity-10 -translate-y-1/2 translate-x-1/2"
@@ -282,12 +282,12 @@ interface OptInStatus {
                   <!-- Affected sectors -->
                   <div class="flex flex-wrap gap-1.5 mb-3">
                     @for (sector of threat.affectedSectors; track sector) {
-                      <span class="px-2 py-0.5 rounded-md bg-slate-700/50 text-[10px] text-slate-300 font-medium">{{ sector }}</span>
+                      <span class="px-2 py-0.5 rounded-md bg-slate-700/50 text-[10px] text-slate-600 font-medium">{{ sector }}</span>
                     }
                   </div>
 
                   <!-- Mitigation hint -->
-                  <div class="bg-slate-900/50 rounded-lg p-2.5 mb-3">
+                  <div class="bg-white rounded-lg p-2.5 mb-3">
                     <p class="text-xs text-slate-400 leading-relaxed">
                       <span class="text-slate-500 font-semibold">{{ lang.l('Soovitus', 'Hint') }}:</span> {{ threat.mitigationHint }}
                     </p>
@@ -308,7 +308,7 @@ interface OptInStatus {
               </div>
             }
             @if (threats().length === 0) {
-              <div class="col-span-full bg-slate-800/50 border border-slate-700/50 rounded-2xl p-10 text-center">
+              <div class="col-span-full bg-white border border-slate-200 rounded-2xl p-10 text-center">
                 <svg class="w-12 h-12 text-slate-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                 <p class="text-slate-400">{{ lang.l('Hetkel ohte ei ole tuvastatud', 'No threats detected currently') }}</p>
               </div>
@@ -319,7 +319,7 @@ interface OptInStatus {
         <!-- Industry Pulse Cards -->
         <div>
           <div class="flex items-center justify-between mb-4">
-            <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+            <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
               <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
               </svg>
@@ -328,7 +328,7 @@ interface OptInStatus {
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             @for (sector of industryPulse(); track sector.sectorKey) {
-              <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-5 hover:border-purple-500/30 transition-all group">
+              <div class="bg-white border border-slate-200 rounded-2xl p-5 hover:border-purple-500/30 transition-all group">
                 <!-- Sector icon -->
                 <div class="flex items-center justify-between mb-3">
                   <div class="w-9 h-9 rounded-lg flex items-center justify-center" [class]="getSectorIconBg(sector.sectorKey)">
@@ -364,9 +364,9 @@ interface OptInStatus {
                 </div>
 
                 <!-- Top challenge -->
-                <div class="bg-slate-900/50 rounded-lg p-2">
+                <div class="bg-white rounded-lg p-2">
                   <p class="text-[10px] text-slate-500 mb-0.5">{{ lang.l('Peamine valjakutse', 'Top Challenge') }}</p>
-                  <p class="text-xs text-slate-300 font-medium">{{ sector.topChallenge }}</p>
+                  <p class="text-xs text-slate-600 font-medium">{{ sector.topChallenge }}</p>
                 </div>
               </div>
             }
@@ -392,7 +392,7 @@ interface OptInStatus {
           }
           <div [class]="!subService.isPremium() ? 'select-none pointer-events-none' : ''">
             <div class="flex items-center justify-between mb-4">
-              <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+              <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
                 <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/>
                 </svg>
@@ -402,7 +402,7 @@ interface OptInStatus {
             </div>
 
             <!-- Score vs Peer Average -->
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 mb-4">
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 mb-4">
               <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
                 <!-- Your Score -->
                 <div class="text-center">
@@ -412,7 +412,7 @@ interface OptInStatus {
 
                 <!-- VS badge -->
                 <div class="flex flex-col items-center gap-3">
-                  <div class="w-12 h-12 rounded-full bg-slate-700/50 border border-slate-600/50 flex items-center justify-center">
+                  <div class="w-12 h-12 rounded-full bg-slate-700/50 border border-slate-200 flex items-center justify-center">
                     <span class="text-xs font-bold text-slate-400">VS</span>
                   </div>
                   <!-- Percentile badge -->
@@ -430,15 +430,15 @@ interface OptInStatus {
             </div>
 
             <!-- 5 Pillar Comparison Bars -->
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
-              <h3 class="text-sm font-semibold text-slate-300 mb-4">{{ lang.l('Sambad vordluses', 'Pillar Comparison') }}</h3>
+            <div class="bg-white border border-slate-200 rounded-2xl p-6">
+              <h3 class="text-sm font-semibold text-slate-600 mb-4">{{ lang.l('Sambad vordluses', 'Pillar Comparison') }}</h3>
               <div class="space-y-4">
                 @for (pillar of peerComparison()?.pillarComparisons || []; track pillar.pillarName) {
                   <div>
                     <div class="flex items-center justify-between text-xs mb-1.5">
-                      <span class="text-slate-300 font-medium">{{ pillar.pillarName }}</span>
+                      <span class="text-slate-600 font-medium">{{ pillar.pillarName }}</span>
                       <div class="flex items-center gap-3">
-                        <span class="text-emerald-400 font-semibold">{{ pillar.yourScore }}%</span>
+                        <span class="text-blue-600 font-semibold">{{ pillar.yourScore }}%</span>
                         <span class="text-slate-500">vs</span>
                         <span class="text-slate-400">{{ pillar.peerAverage }}%</span>
                       </div>
@@ -448,15 +448,15 @@ interface OptInStatus {
                       <div class="absolute inset-0 h-3 bg-slate-600/40 rounded-full transition-all duration-700" [style.width.%]="pillar.peerAverage"></div>
                       <!-- Your score bar (foreground) -->
                       <div class="absolute inset-0 h-3 rounded-full transition-all duration-700"
-                           [class]="pillar.yourScore >= pillar.peerAverage ? 'bg-gradient-to-r from-emerald-500 to-cyan-500' : 'bg-gradient-to-r from-amber-500 to-orange-500'"
+                           [class]="pillar.yourScore >= pillar.peerAverage ? 'bg-blue-600' : 'bg-gradient-to-r from-amber-500 to-orange-500'"
                            [style.width.%]="pillar.yourScore"></div>
                     </div>
                   </div>
                 }
               </div>
-              <div class="flex items-center gap-4 mt-4 pt-3 border-t border-slate-700/30">
+              <div class="flex items-center gap-4 mt-4 pt-3 border-t border-slate-200">
                 <div class="flex items-center gap-1.5 text-[10px] text-slate-400">
-                  <span class="w-3 h-1.5 rounded bg-gradient-to-r from-emerald-500 to-cyan-500"></span>
+                  <span class="w-3 h-1.5 rounded bg-blue-600"></span>
                   {{ lang.l('Sinu skoor', 'Your Score') }}
                 </div>
                 <div class="flex items-center gap-1.5 text-[10px] text-slate-400">
@@ -471,7 +471,7 @@ interface OptInStatus {
         <!-- Baltic Heat Map -->
         <div>
           <div class="flex items-center justify-between mb-4">
-            <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+            <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
               <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
@@ -510,7 +510,7 @@ interface OptInStatus {
                   </div>
 
                   <!-- Average Score -->
-                  <div class="bg-slate-900/50 rounded-xl p-4 mb-4 text-center">
+                  <div class="bg-white rounded-xl p-4 mb-4 text-center">
                     <p class="text-[10px] text-slate-500 uppercase tracking-wide mb-1">{{ lang.l('Keskmine vastavusskoor', 'Avg Compliance Score') }}</p>
                     <div class="text-4xl font-extrabold mb-2" [class]="getScoreColor(baltic.averageScore)">
                       {{ baltic.averageScore }}%
@@ -533,18 +533,18 @@ interface OptInStatus {
 
                   <!-- Pillars -->
                   <div class="grid grid-cols-2 gap-3 mb-3">
-                    <div class="bg-emerald-500/5 border border-emerald-500/20 rounded-lg p-3">
-                      <p class="text-[10px] text-emerald-400 font-semibold mb-0.5">{{ lang.l('Tugevaim sammas', 'Strongest Pillar') }}</p>
-                      <p class="text-xs text-slate-200 font-medium">{{ baltic.topPillar }}</p>
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                      <p class="text-[10px] text-blue-600 font-semibold mb-0.5">{{ lang.l('Tugevaim sammas', 'Strongest Pillar') }}</p>
+                      <p class="text-xs text-slate-700 font-medium">{{ baltic.topPillar }}</p>
                     </div>
                     <div class="bg-red-500/5 border border-red-500/20 rounded-lg p-3">
                       <p class="text-[10px] text-red-400 font-semibold mb-0.5">{{ lang.l('Noergim sammas', 'Weakest Pillar') }}</p>
-                      <p class="text-xs text-slate-200 font-medium">{{ baltic.weakestPillar }}</p>
+                      <p class="text-xs text-slate-700 font-medium">{{ baltic.weakestPillar }}</p>
                     </div>
                   </div>
 
                   <!-- Country-specific detail bar -->
-                  <div class="flex items-center gap-2 pt-2 border-t border-slate-700/30">
+                  <div class="flex items-center gap-2 pt-2 border-t border-slate-200">
                     @for (pillar of getBalticPillarBars(baltic.countryCode); track $index) {
                       <div class="flex-1">
                         <div class="h-1.5 rounded-full" [class]="pillar.colorClass" [style.width.%]="pillar.value"></div>
@@ -575,22 +575,22 @@ interface OptInStatus {
             </div>
           }
           <div [class]="!subService.isPremium() ? 'select-none pointer-events-none' : ''">
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+            <div class="bg-white border border-slate-200 rounded-2xl p-6">
               <div class="flex items-center justify-between mb-4">
-                <h3 class="text-sm font-semibold text-slate-300 flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <h3 class="text-sm font-semibold text-slate-600 flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
                   {{ lang.l('Vorgustiku tegevus', 'Network Activity') }}
                 </h3>
                 <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-violet-500/20 text-violet-300 border border-violet-500/30">PRO</span>
               </div>
               <div class="space-y-3">
                 @for (activity of recentActivities(); track $index) {
-                  <div class="flex items-center gap-3 py-2 border-b border-slate-700/20 last:border-0">
+                  <div class="flex items-center gap-3 py-2 border-b border-slate-200 last:border-0">
                     <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm" [class]="activity.bgClass">
                       {{ activity.icon }}
                     </div>
                     <div class="flex-1 min-w-0">
-                      <p class="text-xs text-slate-300">{{ activity.message }}</p>
+                      <p class="text-xs text-slate-600">{{ activity.message }}</p>
                       <p class="text-[10px] text-slate-500">{{ activity.time }}</p>
                     </div>
                   </div>
@@ -806,7 +806,7 @@ export class ComplianceNetworkComponent implements OnInit {
     this.recentActivities.set([
       { icon: '🏦', message: this.lang.l('Pangandussektor paranes 3% sel naedalal', 'Banking sector improved 3% this week'), time: this.lang.l('2 tundi tagasi', '2 hours ago'), bgClass: 'bg-blue-500/10' },
       { icon: '🛡️', message: this.lang.l('Uus ransomware oht tuvastatud', 'New ransomware threat detected'), time: this.lang.l('4 tundi tagasi', '4 hours ago'), bgClass: 'bg-red-500/10' },
-      { icon: '🇪🇪', message: this.lang.l('Eesti keskmine skoor tousis 68%-ni', 'Estonia average score rose to 68%'), time: this.lang.l('6 tundi tagasi', '6 hours ago'), bgClass: 'bg-emerald-500/10' },
+      { icon: '🇪🇪', message: this.lang.l('Eesti keskmine skoor tousis 68%-ni', 'Estonia average score rose to 68%'), time: this.lang.l('6 tundi tagasi', '6 hours ago'), bgClass: 'bg-blue-50' },
       { icon: '📊', message: this.lang.l('5 uut organisatsiooni liitus vorgustikuga', '5 new organizations joined the network'), time: this.lang.l('1 paev tagasi', '1 day ago'), bgClass: 'bg-violet-500/10' },
       { icon: '⚡', message: this.lang.l('Makseteenuste sektor vajab taehelepanu', 'Payment services sector needs attention'), time: this.lang.l('1 paev tagasi', '1 day ago'), bgClass: 'bg-amber-500/10' },
     ]);
@@ -841,11 +841,11 @@ export class ComplianceNetworkComponent implements OnInit {
 
   getThreatBorderClass(severity: string): string {
     switch (severity) {
-      case 'CRITICAL': return 'border-red-500/40 hover:border-red-500/60 bg-slate-800/50';
-      case 'HIGH': return 'border-amber-500/30 hover:border-amber-500/50 bg-slate-800/50';
-      case 'MEDIUM': return 'border-yellow-500/25 hover:border-yellow-500/40 bg-slate-800/50';
-      case 'LOW': return 'border-blue-500/25 hover:border-blue-500/40 bg-slate-800/50';
-      default: return 'border-slate-700/50 bg-slate-800/50';
+      case 'CRITICAL': return 'border-red-500/40 hover:border-red-500/60 bg-white';
+      case 'HIGH': return 'border-amber-500/30 hover:border-amber-500/50 bg-white';
+      case 'MEDIUM': return 'border-yellow-500/25 hover:border-yellow-500/40 bg-white';
+      case 'LOW': return 'border-blue-500/25 hover:border-blue-500/40 bg-white';
+      default: return 'border-slate-200 bg-white';
     }
   }
 
@@ -905,7 +905,7 @@ export class ComplianceNetworkComponent implements OnInit {
     switch (key) {
       case 'banking': return 'bg-blue-500/10';
       case 'insurance': return 'bg-purple-500/10';
-      case 'investment': return 'bg-emerald-500/10';
+      case 'investment': return 'bg-blue-50';
       case 'payment': return 'bg-amber-500/10';
       case 'crypto': return 'bg-orange-500/10';
       default: return 'bg-slate-500/10';
@@ -925,20 +925,20 @@ export class ComplianceNetworkComponent implements OnInit {
 
   getTrendClass(trend: string): string {
     switch (trend) {
-      case 'up': return 'text-emerald-400';
+      case 'up': return 'text-blue-600';
       case 'down': return 'text-red-400';
       default: return 'text-slate-400';
     }
   }
 
   getScoreColor(score: number): string {
-    if (score >= 70) return 'text-emerald-400';
+    if (score >= 70) return 'text-blue-600';
     if (score >= 50) return 'text-amber-400';
     return 'text-red-400';
   }
 
   getScoreBarColor(score: number): string {
-    if (score >= 70) return 'bg-gradient-to-r from-emerald-500 to-cyan-500';
+    if (score >= 70) return 'bg-blue-600';
     if (score >= 50) return 'bg-gradient-to-r from-amber-500 to-yellow-500';
     return 'bg-gradient-to-r from-red-500 to-rose-500';
   }
@@ -947,20 +947,20 @@ export class ComplianceNetworkComponent implements OnInit {
 
   getPercentileBadgeClass(rank: number): string {
     const top = 100 - rank;
-    if (top <= 10) return 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
-    if (top <= 25) return 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30';
+    if (top <= 10) return 'bg-blue-100 text-blue-600 border border-blue-200';
+    if (top <= 25) return 'bg-blue-600/20 text-blue-500 border border-blue-500/30';
     if (top <= 50) return 'bg-amber-500/20 text-amber-400 border border-amber-500/30';
-    return 'bg-slate-600/30 text-slate-400 border border-slate-600/40';
+    return 'bg-slate-600/30 text-slate-400 border border-slate-200';
   }
 
   // --- Baltic helpers ---
 
   getBalticCardBorder(code: string): string {
     switch (code) {
-      case 'EE': return 'border-blue-500/30 hover:border-blue-400/50 bg-slate-800/50';
-      case 'LV': return 'border-rose-700/30 hover:border-rose-600/50 bg-slate-800/50';
-      case 'LT': return 'border-yellow-500/30 hover:border-yellow-400/50 bg-slate-800/50';
-      default: return 'border-slate-700/50 bg-slate-800/50';
+      case 'EE': return 'border-blue-500/30 hover:border-blue-400/50 bg-white';
+      case 'LV': return 'border-rose-700/30 hover:border-rose-600/50 bg-white';
+      case 'LT': return 'border-yellow-500/30 hover:border-yellow-400/50 bg-white';
+      default: return 'border-slate-200 bg-white';
     }
   }
 
@@ -993,7 +993,7 @@ export class ComplianceNetworkComponent implements OnInit {
 
   getReadinessBadge(readiness: string): string {
     switch (readiness) {
-      case 'HIGH': return 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/25';
+      case 'HIGH': return 'bg-blue-50 text-blue-600 border border-blue-500/25';
       case 'MEDIUM': return 'bg-amber-500/15 text-amber-400 border border-amber-500/25';
       case 'LOW': return 'bg-red-500/15 text-red-400 border border-red-500/25';
       default: return 'bg-slate-600/30 text-slate-400';
@@ -1013,7 +1013,7 @@ export class ComplianceNetworkComponent implements OnInit {
   }
 
   getBalticPillarBars(code: string): { value: number; colorClass: string }[] {
-    const colors = ['bg-blue-400/60', 'bg-emerald-400/60', 'bg-amber-400/60', 'bg-purple-400/60', 'bg-cyan-400/60'];
+    const colors = ['bg-blue-400/60', 'bg-blue-500/60', 'bg-amber-400/60', 'bg-purple-400/60', 'bg-blue-500/60'];
     switch (code) {
       case 'EE': return [
         { value: 75, colorClass: colors[0] },

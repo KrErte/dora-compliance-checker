@@ -39,7 +39,7 @@ interface Sector {
   template: `
     <div class="space-y-8">
       <!-- Demo Mode Banner -->
-      <div *ngIf="isDemoMode" class="bg-gradient-to-r from-teal-500/10 to-cyan-500/10 border border-teal-500/30 rounded-xl p-4 flex items-center gap-3">
+      <div *ngIf="isDemoMode" class="bg-gradient-to-r from-teal-500/10 to-blue-500/10 border border-teal-500/30 rounded-xl p-4 flex items-center gap-3">
         <span class="text-2xl">⚡</span>
         <div>
           <p class="text-sm font-medium text-teal-400">{{ lang.t('nis2.demo_mode_title') }}</p>
@@ -48,11 +48,11 @@ interface Sector {
       </div>
 
       <!-- Progress Restored Banner -->
-      <div *ngIf="progressRestored" class="bg-cyan-500/10 border border-cyan-500/30 rounded-xl p-4 flex items-center gap-3 animate-fade-in">
-        <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div *ngIf="progressRestored" class="bg-blue-50 border border-blue-500/30 rounded-xl p-4 flex items-center gap-3 animate-fade-in">
+        <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
         </svg>
-        <p class="text-sm text-cyan-400">{{ lang.t('progress.restored') }}</p>
+        <p class="text-sm text-blue-500">{{ lang.t('progress.restored') }}</p>
       </div>
 
       <!-- Header -->
@@ -69,10 +69,10 @@ interface Sector {
 
       <div class="grid lg:grid-cols-2 gap-8">
         <!-- Input Form -->
-        <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 space-y-6">
+        <div class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6 space-y-6">
           <div class="flex items-center justify-between">
             <h2 class="text-lg font-semibold text-white flex items-center gap-2">
-              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
               </svg>
               {{ lang.t('nis2.company_info') }}
@@ -83,12 +83,12 @@ interface Sector {
           </div>
 
           <!-- Registry Code Lookup -->
-          <div class="space-y-3 pb-6 border-b border-slate-700/50">
+          <div class="space-y-3 pb-6 border-b border-slate-200">
             <div class="flex items-center gap-2">
-              <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
               </svg>
-              <span class="text-sm font-medium text-slate-300">{{ lang.t('nis2.registry_lookup') }}</span>
+              <span class="text-sm font-medium text-slate-600">{{ lang.t('nis2.registry_lookup') }}</span>
               <span class="text-xs text-slate-500">({{ lang.t('nis2.optional') }})</span>
             </div>
 
@@ -99,7 +99,7 @@ interface Sector {
                 maxlength="8"
                 placeholder="12345678"
                 (keyup.enter)="lookupCompany()"
-                class="flex-1 px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 transition-all font-mono tracking-wider"
+                class="flex-1 px-4 py-3 rounded-xl bg-white border border-slate-200 text-white focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-mono tracking-wider"
               />
               <button
                 type="button"
@@ -107,7 +107,7 @@ interface Sector {
                 [disabled]="lookupLoading || registryCode.length !== 8"
                 class="px-5 py-3 rounded-xl font-medium transition-all flex items-center gap-2"
                 [ngClass]="registryCode.length === 8 && !lookupLoading
-                  ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/30 cursor-pointer'
+                  ? 'bg-blue-600/20 text-blue-500 border border-blue-500/30 hover:bg-blue-600/30 cursor-pointer'
                   : 'bg-slate-700/30 text-slate-500 border border-slate-600/30 cursor-not-allowed'">
                 <svg *ngIf="lookupLoading" class="w-4 h-4 animate-spin" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
@@ -131,15 +131,15 @@ interface Sector {
             </div>
 
             <!-- Company info card -->
-            <div *ngIf="companyInfo" class="p-4 rounded-xl bg-cyan-500/5 border border-cyan-500/20 space-y-2">
+            <div *ngIf="companyInfo" class="p-4 rounded-xl bg-blue-50 border border-blue-500/20 space-y-2">
               <div class="flex items-center justify-between">
-                <span class="text-sm font-medium text-cyan-400">{{ companyInfo.name }}</span>
+                <span class="text-sm font-medium text-blue-500">{{ companyInfo.name }}</span>
                 <span class="text-xs text-slate-500 font-mono">{{ companyInfo.registryCode }}</span>
               </div>
               <div class="text-xs text-slate-400">
                 EMTAK: {{ companyInfo.emtakCode }} - {{ lang.l(companyInfo.emtakNameEt, companyInfo.emtakNameEn) }}
               </div>
-              <div *ngIf="dataAutoFilled" class="flex items-center gap-1.5 text-xs text-emerald-400 mt-2">
+              <div *ngIf="dataAutoFilled" class="flex items-center gap-1.5 text-xs text-blue-600 mt-2">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>
@@ -173,8 +173,8 @@ interface Sector {
 
           <!-- Sector Select -->
           <div class="space-y-2">
-            <label for="nis2-sector" class="text-sm font-medium text-slate-300">{{ lang.t('nis2.sector') }} *</label>
-            <select [(ngModel)]="sector" (ngModelChange)="autoSave()" id="nis2-sector" class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/20 transition-all">
+            <label for="nis2-sector" class="text-sm font-medium text-slate-600">{{ lang.t('nis2.sector') }} *</label>
+            <select [(ngModel)]="sector" (ngModelChange)="autoSave()" id="nis2-sector" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-white focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all">
               <option value="">{{ lang.t('nis2.select_sector') }}</option>
               <optgroup [label]="lang.t('nis2.essential_sectors')">
                 <option *ngFor="let s of essentialSectors" [value]="s.code">{{ lang.l(s.nameEt, s.nameEn) }}</option>
@@ -187,21 +187,21 @@ interface Sector {
 
           <!-- Employee Count -->
           <div class="space-y-2">
-            <label for="nis2-employees" class="text-sm font-medium text-slate-300">{{ lang.t('nis2.employees') }} *</label>
+            <label for="nis2-employees" class="text-sm font-medium text-slate-600">{{ lang.t('nis2.employees') }} *</label>
             <input type="number" [(ngModel)]="employees" (ngModelChange)="autoSave()" id="nis2-employees" min="0" placeholder="0"
-                   class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border text-white focus:ring-2 transition-all"
-                   [ngClass]="employees !== null && employees < 0 ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/20'">
+                   class="w-full px-4 py-3 rounded-xl bg-white border text-white focus:ring-2 transition-all"
+                   [ngClass]="employees !== null && employees < 0 ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/20'">
             <p *ngIf="employees !== null && employees < 0" class="text-xs text-red-400">{{ lang.t('validation.positive_required') }}</p>
             <p *ngIf="employees === null || employees >= 0" class="text-xs text-slate-500">{{ lang.t('nis2.employees_hint') }}</p>
           </div>
 
           <!-- Annual Revenue -->
           <div class="space-y-2">
-            <label for="nis2-revenue" class="text-sm font-medium text-slate-300">{{ lang.t('nis2.revenue') }} *</label>
+            <label for="nis2-revenue" class="text-sm font-medium text-slate-600">{{ lang.t('nis2.revenue') }} *</label>
             <div class="relative">
               <input type="number" [(ngModel)]="revenue" (ngModelChange)="autoSave()" id="nis2-revenue" min="0" placeholder="0"
-                     class="w-full px-4 py-3 pr-12 rounded-xl bg-slate-900/50 border text-white focus:ring-2 transition-all"
-                     [ngClass]="revenue !== null && revenue < 0 ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/20'">
+                     class="w-full px-4 py-3 pr-12 rounded-xl bg-white border text-white focus:ring-2 transition-all"
+                     [ngClass]="revenue !== null && revenue < 0 ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/20'">
               <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">EUR</span>
             </div>
             <p *ngIf="revenue !== null && revenue < 0" class="text-xs text-red-400">{{ lang.t('validation.positive_required') }}</p>
@@ -210,11 +210,11 @@ interface Sector {
 
           <!-- Balance Sheet -->
           <div class="space-y-2">
-            <label for="nis2-balance" class="text-sm font-medium text-slate-300">{{ lang.t('nis2.balance') }} *</label>
+            <label for="nis2-balance" class="text-sm font-medium text-slate-600">{{ lang.t('nis2.balance') }} *</label>
             <div class="relative">
               <input type="number" [(ngModel)]="balance" (ngModelChange)="autoSave()" id="nis2-balance" min="0" placeholder="0"
-                     class="w-full px-4 py-3 pr-12 rounded-xl bg-slate-900/50 border text-white focus:ring-2 transition-all"
-                     [ngClass]="balance !== null && balance < 0 ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/20'">
+                     class="w-full px-4 py-3 pr-12 rounded-xl bg-white border text-white focus:ring-2 transition-all"
+                     [ngClass]="balance !== null && balance < 0 ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/20'">
               <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">EUR</span>
             </div>
             <p *ngIf="balance !== null && balance < 0" class="text-xs text-red-400">{{ lang.t('validation.positive_required') }}</p>
@@ -222,7 +222,7 @@ interface Sector {
           </div>
 
           <!-- Thresholds info -->
-          <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-700/30 space-y-3">
+          <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-200 space-y-3">
             <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">{{ lang.t('nis2.thresholds_title') }}</p>
             <div class="grid grid-cols-2 gap-4 text-xs">
               <div>
@@ -248,7 +248,7 @@ interface Sector {
         <!-- Result Panel -->
         <div class="space-y-6">
           <!-- Classification Badge -->
-          <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border p-6" [ngClass]="resultBorderClass">
+          <div class="bg-white backdrop-blur-sm rounded-2xl border p-6" [ngClass]="resultBorderClass">
             <ng-container *ngIf="!hasInput">
               <div class="text-center py-8 space-y-3">
                 <div class="w-16 h-16 mx-auto rounded-full bg-slate-700/50 flex items-center justify-center">
@@ -285,13 +285,13 @@ interface Sector {
                 </div>
 
                 <!-- Not applicable result -->
-                <div *ngIf="classification === 'not_applicable'" class="inline-flex items-center gap-3 px-6 py-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30">
-                  <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div *ngIf="classification === 'not_applicable'" class="inline-flex items-center gap-3 px-6 py-4 rounded-2xl bg-blue-50 border border-blue-200">
+                  <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
                   <div class="text-left">
-                    <p class="text-sm text-emerald-300">NIS2</p>
-                    <p class="text-xl font-bold text-emerald-400">{{ lang.t('nis2.result_not_applicable') }}</p>
+                    <p class="text-sm text-blue-500">NIS2</p>
+                    <p class="text-xl font-bold text-blue-600">{{ lang.t('nis2.result_not_applicable') }}</p>
                   </div>
                 </div>
               </div>
@@ -310,7 +310,7 @@ interface Sector {
           </div>
 
           <!-- Info Panel (shown when applicable) -->
-          <div *ngIf="classification === 'essential' || classification === 'important'" class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 space-y-5">
+          <div *ngIf="classification === 'essential' || classification === 'important'" class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6 space-y-5">
             <h3 class="text-lg font-semibold text-white">{{ lang.t('nis2.what_this_means') }}</h3>
 
             <!-- Supervision Type -->
@@ -322,7 +322,7 @@ interface Sector {
                 </svg>
               </div>
               <div>
-                <p class="text-sm font-medium text-slate-300">{{ lang.t('nis2.supervision') }}</p>
+                <p class="text-sm font-medium text-slate-600">{{ lang.t('nis2.supervision') }}</p>
                 <p class="text-sm text-slate-400">{{ classification === 'essential' ? lang.t('nis2.supervision_proactive') : lang.t('nis2.supervision_reactive') }}</p>
               </div>
             </div>
@@ -335,27 +335,27 @@ interface Sector {
                 </svg>
               </div>
               <div>
-                <p class="text-sm font-medium text-slate-300">{{ lang.t('nis2.max_penalty') }}</p>
+                <p class="text-sm font-medium text-slate-600">{{ lang.t('nis2.max_penalty') }}</p>
                 <p class="text-sm text-slate-400">{{ classification === 'essential' ? lang.t('nis2.penalty_essential') : lang.t('nis2.penalty_important') }}</p>
               </div>
             </div>
 
             <!-- Timeline -->
             <div class="flex items-start gap-3">
-              <div class="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center flex-shrink-0">
-                <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                 </svg>
               </div>
               <div>
-                <p class="text-sm font-medium text-slate-300">{{ lang.t('nis2.timeline') }}</p>
+                <p class="text-sm font-medium text-slate-600">{{ lang.t('nis2.timeline') }}</p>
                 <p class="text-sm text-slate-400">{{ lang.t('nis2.timeline_info') }}</p>
               </div>
             </div>
           </div>
 
           <!-- What to do section -->
-          <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 space-y-4">
+          <div class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6 space-y-4">
             <h3 class="text-lg font-semibold text-white">{{ lang.t('nis2.what_to_do') }}</h3>
 
             <div class="flex items-start gap-3">
@@ -365,7 +365,7 @@ interface Sector {
                 </svg>
               </div>
               <div>
-                <p class="text-sm font-medium text-slate-300">{{ lang.t('nis2.req_risk_title') }}</p>
+                <p class="text-sm font-medium text-slate-600">{{ lang.t('nis2.req_risk_title') }}</p>
                 <p class="text-xs text-slate-400">{{ lang.t('nis2.req_risk_desc') }}</p>
               </div>
             </div>
@@ -377,7 +377,7 @@ interface Sector {
                 </svg>
               </div>
               <div>
-                <p class="text-sm font-medium text-slate-300">{{ lang.t('nis2.req_policies_title') }}</p>
+                <p class="text-sm font-medium text-slate-600">{{ lang.t('nis2.req_policies_title') }}</p>
                 <p class="text-xs text-slate-400">{{ lang.t('nis2.req_policies_desc') }}</p>
               </div>
             </div>
@@ -389,7 +389,7 @@ interface Sector {
                 </svg>
               </div>
               <div>
-                <p class="text-sm font-medium text-slate-300">{{ lang.t('nis2.req_incident_title') }}</p>
+                <p class="text-sm font-medium text-slate-600">{{ lang.t('nis2.req_incident_title') }}</p>
                 <p class="text-xs text-slate-400">{{ lang.t('nis2.req_incident_desc') }}</p>
               </div>
             </div>
@@ -401,14 +401,14 @@ interface Sector {
                 </svg>
               </div>
               <div>
-                <p class="text-sm font-medium text-slate-300">{{ lang.t('nis2.req_board_title') }}</p>
+                <p class="text-sm font-medium text-slate-600">{{ lang.t('nis2.req_board_title') }}</p>
                 <p class="text-xs text-slate-400">{{ lang.t('nis2.req_board_desc') }}</p>
               </div>
             </div>
           </div>
 
           <!-- Next steps CTA section -->
-          <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 space-y-4">
+          <div class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6 space-y-4">
             <h3 class="text-lg font-semibold text-white">{{ lang.t('nis2.next_steps') }}</h3>
 
             <!-- Assessment card - primary -->
@@ -416,15 +416,15 @@ interface Sector {
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <span class="text-lg">📊</span>
-                  <span class="font-medium text-slate-200">{{ lang.t('nis2.cta_assessment_title') }}</span>
+                  <span class="font-medium text-slate-700">{{ lang.t('nis2.cta_assessment_title') }}</span>
                 </div>
                 <span class="text-lg font-bold text-teal-400">{{ lang.t('nis2.cta_assessment_price') }}</span>
               </div>
               <p class="text-xs text-slate-400">{{ lang.t('nis2.cta_assessment_desc') }}</p>
               <a [href]="paymentConfig.lemonsqueezy.products.nis2Assessment.checkoutUrl" target="_blank"
                  class="block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium
-                        bg-gradient-to-r from-teal-500 to-cyan-500 text-white
-                        hover:from-teal-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-teal-500/25
+                        bg-gradient-to-r from-teal-500 to-blue-500 text-white
+                        hover:from-teal-400 hover:to-blue-400 hover:shadow-lg hover:shadow-teal-500/25
                         transition-all duration-200">
                 {{ lang.t('nis2.cta_assessment_btn') }} →
               </a>
@@ -435,14 +435,14 @@ interface Sector {
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <span class="text-lg">📄</span>
-                  <span class="font-medium text-slate-200">{{ lang.t('nis2.cta_report_title') }}</span>
+                  <span class="font-medium text-slate-700">{{ lang.t('nis2.cta_report_title') }}</span>
                 </div>
-                <span class="text-lg font-bold text-slate-300">{{ lang.t('nis2.cta_report_price') }}</span>
+                <span class="text-lg font-bold text-slate-600">{{ lang.t('nis2.cta_report_price') }}</span>
               </div>
               <p class="text-xs text-slate-400">{{ lang.t('nis2.cta_report_desc') }}</p>
               <a [href]="paymentConfig.lemonsqueezy.products.nis2Report.checkoutUrl" target="_blank"
                  class="block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium
-                        bg-slate-600/50 text-slate-200 border border-slate-500/30
+                        bg-slate-600/50 text-slate-700 border border-slate-500/30
                         hover:bg-slate-500/50 hover:text-white
                         transition-all duration-200">
                 {{ lang.t('nis2.cta_report_btn') }} →
@@ -454,7 +454,7 @@ interface Sector {
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <span class="text-lg">🎯</span>
-                  <span class="font-medium text-slate-200">{{ lang.t('nis2.cta_combo_title') }}</span>
+                  <span class="font-medium text-slate-700">{{ lang.t('nis2.cta_combo_title') }}</span>
                 </div>
                 <span class="text-lg font-bold text-amber-400">{{ lang.t('nis2.cta_combo_price') }}</span>
               </div>
@@ -472,20 +472,20 @@ interface Sector {
           </div>
 
           <!-- Not applicable info -->
-          <div *ngIf="classification === 'not_applicable' && hasInput" class="bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 space-y-4">
+          <div *ngIf="classification === 'not_applicable' && hasInput" class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6 space-y-4">
             <h3 class="text-lg font-semibold text-white">{{ lang.t('nis2.not_applicable_title') }}</h3>
             <p class="text-sm text-slate-400">{{ lang.t('nis2.not_applicable_desc') }}</p>
             <ul class="text-sm text-slate-500 space-y-1">
               <li class="flex items-center gap-2">
-                <span class="text-emerald-400">&#10003;</span>
+                <span class="text-blue-600">&#10003;</span>
                 {{ lang.t('nis2.na_reason_1') }}
               </li>
               <li class="flex items-center gap-2">
-                <span class="text-emerald-400">&#10003;</span>
+                <span class="text-blue-600">&#10003;</span>
                 {{ lang.t('nis2.na_reason_2') }}
               </li>
             </ul>
-            <p class="text-xs text-slate-500 pt-2 border-t border-slate-700/50">{{ lang.t('nis2.na_disclaimer') }}</p>
+            <p class="text-xs text-slate-500 pt-2 border-t border-slate-200">{{ lang.t('nis2.na_disclaimer') }}</p>
           </div>
 
           <!-- Email Capture / Lead Magnet -->
@@ -504,7 +504,7 @@ interface Sector {
                 type="email"
                 [(ngModel)]="leadEmail"
                 [placeholder]="lang.t('nis2.email_placeholder')"
-                class="flex-1 px-4 py-3 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white placeholder-slate-500 focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all"
+                class="flex-1 px-4 py-3 rounded-xl bg-white border border-slate-200 text-white placeholder-slate-500 focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all"
               />
               <button
                 type="button"
@@ -526,30 +526,30 @@ interface Sector {
           </div>
 
           <!-- Email Sent Confirmation -->
-          <div *ngIf="emailSent" class="bg-emerald-500/10 backdrop-blur-sm rounded-2xl border border-emerald-500/30 p-6 text-center space-y-2">
-            <div class="w-12 h-12 mx-auto rounded-full bg-emerald-500/20 flex items-center justify-center">
-              <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div *ngIf="emailSent" class="bg-blue-50 backdrop-blur-sm rounded-2xl border border-blue-200 p-6 text-center space-y-2">
+            <div class="w-12 h-12 mx-auto rounded-full bg-blue-100 flex items-center justify-center">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
               </svg>
             </div>
-            <p class="text-emerald-400 font-medium">{{ lang.t('nis2.email_sent_title') }}</p>
+            <p class="text-blue-600 font-medium">{{ lang.t('nis2.email_sent_title') }}</p>
             <p class="text-xs text-slate-400">{{ lang.t('nis2.email_sent_desc') }}</p>
           </div>
         </div>
       </div>
 
       <!-- Info section -->
-      <div class="bg-slate-800/30 rounded-2xl border border-slate-700/30 p-6 space-y-4">
+      <div class="bg-slate-800/30 rounded-2xl border border-slate-200 p-6 space-y-4">
         <h3 class="text-lg font-semibold text-white">{{ lang.t('nis2.about_title') }}</h3>
         <p class="text-sm text-slate-400">{{ lang.t('nis2.about_desc') }}</p>
         <div class="flex flex-wrap gap-3 pt-2">
-          <a href="https://eur-lex.europa.eu/eli/dir/2022/2555" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 transition-colors">
+          <a href="https://eur-lex.europa.eu/eli/dir/2022/2555" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-500 transition-colors">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
             </svg>
             {{ lang.t('nis2.link_directive') }}
           </a>
-          <a href="https://www.ria.ee/kuberturvalisus/kuberturvalisuse-seadus" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 transition-colors">
+          <a href="https://www.ria.ee/kuberturvalisus/kuberturvalisuse-seadus" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-500 transition-colors">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
             </svg>
@@ -769,7 +769,7 @@ export class Nis2ScopeCheckComponent implements OnInit {
     switch (this.classification) {
       case 'essential': return 'border-red-500/30';
       case 'important': return 'border-amber-500/30';
-      default: return 'border-slate-700/50';
+      default: return 'border-slate-200';
     }
   }
 

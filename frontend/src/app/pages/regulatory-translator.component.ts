@@ -27,7 +27,7 @@ import { SubscriptionService } from '../services/subscription.service';
     .section-closed { max-height: 0; opacity: 0; }
   `],
   template: `
-    <div class="min-h-screen bg-slate-950 text-slate-200">
+    <div class="min-h-screen bg-slate-950 text-slate-700">
       <!-- Header -->
       <div class="bg-gradient-to-b from-slate-900 via-slate-900/95 to-slate-950 border-b border-purple-900/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
@@ -75,19 +75,19 @@ import { SubscriptionService } from '../services/subscription.service';
         <!-- Stats Bar -->
         @if (sub.isPremium()) {
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-            <div class="bg-slate-800/50 border border-slate-700/30 rounded-xl p-4">
+            <div class="bg-white border border-slate-200 rounded-xl p-4">
               <div class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.l('Kokku tõlkeid', 'Total Translations') }}</div>
               <div class="text-2xl font-bold text-white">{{ stats()?.total || 0 }}</div>
             </div>
-            <div class="bg-slate-800/50 border border-slate-700/30 rounded-xl p-4">
+            <div class="bg-white border border-slate-200 rounded-xl p-4">
               <div class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.l('Keskm. mõjuskoor', 'Avg Impact Score') }}</div>
               <div class="text-2xl font-bold" [class]="getImpactColor(stats()?.avgImpactScore || 0)">{{ stats()?.avgImpactScore || 0 }}</div>
             </div>
-            <div class="bg-slate-800/50 border border-slate-700/30 rounded-xl p-4">
+            <div class="bg-white border border-slate-200 rounded-xl p-4">
               <div class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.l('Rakendatud tegevused', 'Applied Actions') }}</div>
-              <div class="text-2xl font-bold text-emerald-400">{{ stats()?.appliedActionItems || 0 }}/{{ stats()?.totalActionItems || 0 }}</div>
+              <div class="text-2xl font-bold text-blue-600">{{ stats()?.appliedActionItems || 0 }}/{{ stats()?.totalActionItems || 0 }}</div>
             </div>
-            <div class="bg-slate-800/50 border border-slate-700/30 rounded-xl p-4">
+            <div class="bg-white border border-slate-200 rounded-xl p-4">
               <div class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.l('Ootel', 'Pending') }}</div>
               <div class="text-2xl font-bold text-amber-400">{{ (stats()?.total || 0) - (stats()?.fullyApplied || 0) - (stats()?.dismissed || 0) }}</div>
             </div>
@@ -95,7 +95,7 @@ import { SubscriptionService } from '../services/subscription.service';
         }
 
         <!-- Tabs -->
-        <div class="flex gap-6 border-b border-slate-700/30 mb-8">
+        <div class="flex gap-6 border-b border-slate-200 mb-8">
           <button (click)="activeTab.set('updates')"
                   [class]="activeTab() === 'updates' ? 'tab-active' : 'tab-inactive'"
                   class="pb-3 text-sm font-medium transition-colors">
@@ -125,7 +125,7 @@ import { SubscriptionService } from '../services/subscription.service';
           } @else {
             <div class="space-y-4">
               @for (update of updates()?.content || []; track update.id) {
-                <div class="bg-slate-800/40 border border-slate-700/30 rounded-xl p-5 hover:border-slate-600/40 transition-colors">
+                <div class="bg-white border border-slate-200 rounded-xl p-5 hover:border-slate-200 transition-colors">
                   <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                     <div class="flex-1 min-w-0">
                       <div class="flex items-center gap-2 mb-2 flex-wrap">
@@ -206,7 +206,7 @@ import { SubscriptionService } from '../services/subscription.service';
             </div>
           } @else if ((translations()?.length || 0) === 0) {
             <div class="text-center py-20">
-              <div class="w-16 h-16 rounded-full bg-slate-800/50 flex items-center justify-center mx-auto mb-4">
+              <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center mx-auto mb-4">
                 <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
                 </svg>
@@ -216,10 +216,10 @@ import { SubscriptionService } from '../services/subscription.service';
           } @else {
             <div class="space-y-4">
               @for (t of translations(); track t.id) {
-                <div class="bg-slate-800/40 border border-slate-700/30 rounded-xl overflow-hidden transition-colors"
+                <div class="bg-white border border-slate-200 rounded-xl overflow-hidden transition-colors"
                      [ngClass]="{'border-purple-700': expandedId() === t.id}">
                   <!-- Summary row -->
-                  <div class="p-5 cursor-pointer hover:bg-slate-800/60" (click)="toggleExpand(t.id)">
+                  <div class="p-5 cursor-pointer hover:bg-white" (click)="toggleExpand(t.id)">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                       <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-2 mb-1.5 flex-wrap">
@@ -246,7 +246,7 @@ import { SubscriptionService } from '../services/subscription.service';
                         </div>
                         <!-- Action items progress -->
                         <div class="text-center">
-                          <div class="text-sm font-bold text-emerald-400">{{ t.appliedActionItems }}/{{ t.totalActionItems }}</div>
+                          <div class="text-sm font-bold text-blue-600">{{ t.appliedActionItems }}/{{ t.totalActionItems }}</div>
                           <div class="text-[9px] text-slate-500">{{ lang.l('Tegevused', 'Actions') }}</div>
                         </div>
                         <!-- Expand arrow -->
@@ -260,12 +260,12 @@ import { SubscriptionService } from '../services/subscription.service';
                   <!-- Expanded detail -->
                   <div class="section-collapse" [class.section-open]="expandedId() === t.id" [class.section-closed]="expandedId() !== t.id">
                     @if (expandedId() === t.id && expandedDetail()) {
-                      <div class="border-t border-slate-700/30 p-5 space-y-6">
+                      <div class="border-t border-slate-200 p-5 space-y-6">
 
                         <!-- Plain summary -->
                         <div>
                           <h4 class="text-xs font-semibold text-purple-400 uppercase tracking-wider mb-2">{{ lang.l('Kokkuvõte', 'Summary') }}</h4>
-                          <p class="text-slate-300 text-sm leading-relaxed">{{ expandedDetail()?.plainSummary }}</p>
+                          <p class="text-slate-600 text-sm leading-relaxed">{{ expandedDetail()?.plainSummary }}</p>
                         </div>
 
                         <!-- Impact score visual -->
@@ -285,7 +285,7 @@ import { SubscriptionService } from '../services/subscription.service';
                         <!-- Affected areas: 4 panels -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <!-- Assessment gaps -->
-                          <div class="bg-slate-900/50 border border-red-900/20 rounded-lg p-4">
+                          <div class="bg-white border border-red-900/20 rounded-lg p-4">
                             <h5 class="text-xs font-semibold text-red-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                               {{ lang.l('Hindamise lüngad', 'Assessment Gaps') }}
@@ -304,7 +304,7 @@ import { SubscriptionService } from '../services/subscription.service';
                           </div>
 
                           <!-- Evidence gaps -->
-                          <div class="bg-slate-900/50 border border-amber-900/20 rounded-lg p-4">
+                          <div class="bg-white border border-amber-900/20 rounded-lg p-4">
                             <h5 class="text-xs font-semibold text-amber-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                               {{ lang.l('Tõendite lüngad', 'Evidence Gaps') }}
@@ -323,7 +323,7 @@ import { SubscriptionService } from '../services/subscription.service';
                           </div>
 
                           <!-- Affected providers -->
-                          <div class="bg-slate-900/50 border border-blue-900/20 rounded-lg p-4">
+                          <div class="bg-white border border-blue-900/20 rounded-lg p-4">
                             <h5 class="text-xs font-semibold text-blue-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                               {{ lang.l('Mõjutatud teenusepakkujad', 'Affected Providers') }}
@@ -342,8 +342,8 @@ import { SubscriptionService } from '../services/subscription.service';
                           </div>
 
                           <!-- Contract clauses -->
-                          <div class="bg-slate-900/50 border border-emerald-900/20 rounded-lg p-4">
-                            <h5 class="text-xs font-semibold text-emerald-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                          <div class="bg-white border border-blue-950/20 rounded-lg p-4">
+                            <h5 class="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                               {{ lang.l('Lepinguklauslid', 'Contract Clauses') }}
                             </h5>
@@ -351,7 +351,7 @@ import { SubscriptionService } from '../services/subscription.service';
                               <ul class="space-y-1">
                                 @for (c of expandedDetail()?.affectedAreas?.contractClauses; track $index) {
                                   <li class="text-xs text-slate-400 flex items-start gap-1.5">
-                                    <span class="text-emerald-400 mt-0.5">&#x2022;</span> {{ c }}
+                                    <span class="text-blue-600 mt-0.5">&#x2022;</span> {{ c }}
                                   </li>
                                 }
                               </ul>
@@ -370,7 +370,7 @@ import { SubscriptionService } from '../services/subscription.service';
                             @if (selectedIndices().length > 0 && expandedDetail()?.status !== 'FULLY_APPLIED') {
                               <button (click)="applySelected()"
                                       [disabled]="applying()"
-                                      class="px-4 py-1.5 text-xs font-medium bg-emerald-600 text-white rounded-lg hover:bg-emerald-500 transition-colors disabled:opacity-50 flex items-center gap-2">
+                                      class="px-4 py-1.5 text-xs font-medium bg-blue-700 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 flex items-center gap-2">
                                 @if (applying()) {
                                   <div class="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                                 }
@@ -380,7 +380,7 @@ import { SubscriptionService } from '../services/subscription.service';
                           </div>
                           <div class="space-y-2">
                             @for (item of expandedDetail()?.actionItems || []; track $index) {
-                              <div class="bg-slate-900/40 border border-slate-700/20 rounded-lg p-3 flex items-start gap-3">
+                              <div class="bg-slate-900/40 border border-slate-200 rounded-lg p-3 flex items-start gap-3">
                                 @if (expandedDetail()?.status !== 'FULLY_APPLIED') {
                                   <input type="checkbox"
                                          [checked]="selectedIndices().includes($index)"
@@ -431,7 +431,7 @@ import { SubscriptionService } from '../services/subscription.service';
                         @if (expandedDetail()?.status !== 'DISMISSED' && expandedDetail()?.status !== 'FULLY_APPLIED') {
                           <div class="flex justify-end">
                             <button (click)="dismissTranslation(expandedDetail()?.id); $event.stopPropagation()"
-                                    class="px-4 py-1.5 text-xs text-slate-500 hover:text-slate-300 border border-slate-700/30 rounded-lg hover:bg-slate-800/50 transition-colors">
+                                    class="px-4 py-1.5 text-xs text-slate-500 hover:text-slate-600 border border-slate-200 rounded-lg hover:bg-white transition-colors">
                               {{ lang.l('Lükka tagasi', 'Dismiss') }}
                             </button>
                           </div>
@@ -593,19 +593,19 @@ export class RegulatoryTranslatorComponent implements OnInit {
   getImpactColor(score: number): string {
     if (score >= 70) return 'text-red-400';
     if (score >= 30) return 'text-amber-400';
-    return 'text-emerald-400';
+    return 'text-blue-600';
   }
 
   getImpactBadgeClass(score: number): string {
     if (score >= 70) return 'bg-red-500/20 text-red-400';
     if (score >= 30) return 'bg-amber-500/20 text-amber-400';
-    return 'bg-emerald-500/20 text-emerald-400';
+    return 'bg-blue-100 text-blue-600';
   }
 
   getImpactGaugeClass(score: number): string {
     if (score >= 70) return 'border-red-500 text-red-400 bg-red-500/10';
     if (score >= 30) return 'border-amber-500 text-amber-400 bg-amber-500/10';
-    return 'border-emerald-500 text-emerald-400 bg-emerald-500/10';
+    return 'border-blue-500 text-blue-600 bg-blue-50';
   }
 
   getRiskBadgeClass(level: string): string {
@@ -620,7 +620,7 @@ export class RegulatoryTranslatorComponent implements OnInit {
 
   getStatusBadgeClass(status: string): string {
     switch (status) {
-      case 'FULLY_APPLIED': return 'bg-emerald-500/20 text-emerald-400';
+      case 'FULLY_APPLIED': return 'bg-blue-100 text-blue-600';
       case 'PARTIALLY_APPLIED': return 'bg-blue-500/20 text-blue-400';
       case 'DISMISSED': return 'bg-slate-500/20 text-slate-500';
       default: return 'bg-purple-500/20 text-purple-400';

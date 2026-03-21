@@ -56,46 +56,46 @@ interface VendorStats {
 
       <!-- Stats cards -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4 text-center">
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4 text-center">
           <p class="text-3xl font-bold text-white">{{ stats?.totalVendors || 0 }}</p>
           <p class="text-xs text-slate-500">{{ lang.t('vendor.vendors') }}</p>
         </div>
-        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4 text-center">
-          <p class="text-3xl font-bold text-cyan-400">{{ stats?.totalAssessments || 0 }}</p>
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4 text-center">
+          <p class="text-3xl font-bold text-blue-500">{{ stats?.totalAssessments || 0 }}</p>
           <p class="text-xs text-slate-500">{{ lang.t('vendor.assessments') }}</p>
         </div>
-        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4 text-center">
-          <p class="text-3xl font-bold" [class]="(stats?.averageScore || 0) >= 70 ? 'text-emerald-400' : (stats?.averageScore || 0) >= 50 ? 'text-amber-400' : 'text-red-400'">
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4 text-center">
+          <p class="text-3xl font-bold" [class]="(stats?.averageScore || 0) >= 70 ? 'text-blue-600' : (stats?.averageScore || 0) >= 50 ? 'text-amber-400' : 'text-red-400'">
             {{ stats?.averageScore | number:'1.1-1' }}%
           </p>
           <p class="text-xs text-slate-500">{{ lang.t('vendor.avg_score') }}</p>
         </div>
-        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4 text-center">
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4 text-center">
           <p class="text-3xl font-bold text-red-400">{{ stats?.highRiskCount || 0 }}</p>
           <p class="text-xs text-slate-500">{{ lang.t('vendor.high_risk') }}</p>
         </div>
       </div>
 
       <!-- Filters -->
-      <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4">
+      <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4">
         <div class="flex flex-wrap gap-4">
           <!-- Search -->
           <div class="flex-1 min-w-[200px]">
             <input type="text" [(ngModel)]="searchQuery" (ngModelChange)="filterVendors()"
                    [placeholder]="lang.t('vendor.search_vendor')"
-                   class="w-full px-4 py-2 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white placeholder-slate-500
+                   class="w-full px-4 py-2 rounded-lg bg-white border border-slate-200 text-white placeholder-slate-500
                           focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/25 transition-all">
           </div>
           <!-- Category filter -->
           <select [(ngModel)]="selectedCategory" (ngModelChange)="filterVendors()"
-                  class="px-4 py-2 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white
+                  class="px-4 py-2 rounded-lg bg-white border border-slate-200 text-white
                          focus:outline-none focus:border-violet-500/50 transition-all">
             <option value="ALL">{{ lang.t('vendor.all_categories') }}</option>
             <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
           </select>
           <!-- Risk level filter -->
           <select [(ngModel)]="selectedRisk" (ngModelChange)="filterVendors()"
-                  class="px-4 py-2 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white
+                  class="px-4 py-2 rounded-lg bg-white border border-slate-200 text-white
                          focus:outline-none focus:border-violet-500/50 transition-all">
             <option value="ALL">{{ lang.t('vendor.all_risk_levels') }}</option>
             <option value="LOW">{{ lang.t('vendor.low_risk') }}</option>
@@ -104,7 +104,7 @@ interface VendorStats {
           </select>
           <!-- Sort -->
           <select [(ngModel)]="sortBy" (ngModelChange)="filterVendors()"
-                  class="px-4 py-2 rounded-lg bg-slate-900/50 border border-slate-700/50 text-white
+                  class="px-4 py-2 rounded-lg bg-white border border-slate-200 text-white
                          focus:outline-none focus:border-violet-500/50 transition-all">
             <option value="score">{{ lang.t('vendor.by_score') }}</option>
             <option value="assessments">{{ lang.t('vendor.by_assessments') }}</option>
@@ -125,7 +125,7 @@ interface VendorStats {
         </div>
 
         <div *ngFor="let vendor of filteredVendors; let i = index"
-             class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5 hover:border-slate-600/50 transition-all cursor-pointer"
+             class="bg-white backdrop-blur border border-slate-200 rounded-xl p-5 hover:border-slate-200 transition-all cursor-pointer"
              [class.animate-fade-in-up]="true"
              [style.animation-delay]="(i * 50) + 'ms'"
              (click)="toggleVendorDetail(vendor)">
@@ -153,7 +153,7 @@ interface VendorStats {
             <!-- Score circle -->
             <div class="relative w-16 h-16 shrink-0">
               <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="40" fill="none" stroke="#334155" stroke-width="8"/>
+                <circle cx="50" cy="50" r="40" fill="none" stroke="#e2e8f0" stroke-width="8"/>
                 <circle cx="50" cy="50" r="40" fill="none"
                         [attr.stroke]="getScoreColor(vendor.averageScore)"
                         stroke-width="8"
@@ -170,7 +170,7 @@ interface VendorStats {
           </div>
 
           <!-- Expanded detail -->
-          <div *ngIf="expandedVendor === vendor.id" class="mt-4 pt-4 border-t border-slate-700/50 animate-fade-in">
+          <div *ngIf="expandedVendor === vendor.id" class="mt-4 pt-4 border-t border-slate-200 animate-fade-in">
             <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
               <div class="text-center p-3 bg-slate-900/30 rounded-lg">
                 <p class="text-xs text-slate-500 mb-1">{{ lang.t('vendor.audit') }}</p>
@@ -208,7 +208,7 @@ interface VendorStats {
               <p class="text-xs text-amber-400 font-semibold mb-1">
                 {{ lang.t('vendor.common_gaps') }}
               </p>
-              <p class="text-sm text-slate-300">{{ vendor.commonGaps }}</p>
+              <p class="text-sm text-slate-600">{{ vendor.commonGaps }}</p>
             </div>
           </div>
         </div>
@@ -335,7 +335,7 @@ export class VendorDatabaseComponent implements OnInit {
     switch (risk) {
       case 'HIGH': return base + ' bg-red-500/20 text-red-400 border border-red-500/30';
       case 'MEDIUM': return base + ' bg-amber-500/20 text-amber-400 border border-amber-500/30';
-      default: return base + ' bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+      default: return base + ' bg-blue-100 text-blue-600 border border-blue-200';
     }
   }
 }

@@ -23,8 +23,8 @@ import { Organization, OrgMember, OrgInvite } from '../models';
           </p>
         </div>
         <button (click)="showCreateModal = true"
-                class="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
-                       hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
+                class="px-4 py-2 rounded-lg text-sm font-medium bg-blue-600 text-white
+                       hover:bg-blue-700 hover:shadow-lg hover:shadow-lg transition-all">
           + {{ lang.t('team.new_organization') }}
         </button>
       </div>
@@ -42,7 +42,7 @@ import { Organization, OrgMember, OrgInvite } from '../models';
                 <span class="text-xs text-slate-400 ml-2">{{ invite.role }}</span>
               </div>
               <button (click)="acceptInvite(invite.token)"
-                      class="px-3 py-1 text-xs rounded-lg bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 transition-colors">
+                      class="px-3 py-1 text-xs rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-600/30 transition-colors">
                 {{ lang.t('team.accept') }}
               </button>
             </div>
@@ -52,7 +52,7 @@ import { Organization, OrgMember, OrgInvite } from '../models';
 
       <!-- Organizations list -->
       @if (organizations().length === 0 && !loading()) {
-        <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 p-12 text-center">
+        <div class="bg-white rounded-xl border border-slate-200 p-12 text-center">
           <svg class="w-16 h-16 text-slate-600 mx-auto mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
           </svg>
@@ -66,7 +66,7 @@ import { Organization, OrgMember, OrgInvite } from '../models';
       }
 
       @for (org of organizations(); track org.id) {
-        <div class="bg-slate-800/50 rounded-xl border border-slate-700/50 overflow-hidden">
+        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
           <!-- Org header -->
           <div class="p-4 sm:p-5 flex items-center justify-between cursor-pointer hover:bg-slate-700/20 transition-colors"
                (click)="toggleOrg(org.id)">
@@ -94,11 +94,11 @@ import { Organization, OrgMember, OrgInvite } from '../models';
 
           <!-- Expanded content -->
           @if (expandedOrg() === org.id) {
-            <div class="border-t border-slate-700/50">
+            <div class="border-t border-slate-200">
               <!-- Members section -->
               <div class="p-4 sm:p-5">
                 <div class="flex items-center justify-between mb-4">
-                  <h4 class="text-sm font-semibold text-slate-300">
+                  <h4 class="text-sm font-semibold text-slate-600">
                     {{ lang.t('team.members') }}
                     <span class="text-slate-500 font-normal ml-1">({{ orgMembers().length }})</span>
                   </h4>
@@ -114,7 +114,7 @@ import { Organization, OrgMember, OrgInvite } from '../models';
                   @for (member of orgMembers(); track member.id) {
                     <div class="flex items-center justify-between py-2 px-3 rounded-lg bg-slate-700/20">
                       <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-xs font-bold">
+                        <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-slate-900 text-xs font-bold">
                           {{ (member.fullName || member.email).substring(0, 2).toUpperCase() }}
                         </div>
                         <div>
@@ -135,7 +135,7 @@ import { Organization, OrgMember, OrgInvite } from '../models';
                           <div class="relative">
                             <select (change)="changeMemberRole(org.id, member.id, $event)"
                                     [value]="member.role"
-                                    class="text-xs bg-slate-700 text-slate-300 rounded px-1 py-0.5 border border-slate-600/50">
+                                    class="text-xs bg-slate-700 text-slate-600 rounded px-1 py-0.5 border border-slate-200">
                               <option value="ADMIN">Admin</option>
                               <option value="MEMBER">Member</option>
                             </select>
@@ -162,7 +162,7 @@ import { Organization, OrgMember, OrgInvite } from '../models';
                   @for (invite of orgInvites(); track invite.id) {
                     <div class="flex items-center justify-between py-1.5 text-sm">
                       <div class="flex items-center gap-2">
-                        <span class="text-slate-300">{{ invite.email }}</span>
+                        <span class="text-slate-600">{{ invite.email }}</span>
                         <span class="text-[10px] text-slate-500 bg-slate-700/50 px-1.5 py-0.5 rounded">{{ invite.role }}</span>
                       </div>
                       <button (click)="cancelInvite(org.id, invite.id)"
@@ -178,7 +178,7 @@ import { Organization, OrgMember, OrgInvite } from '../models';
               <div class="px-4 sm:px-5 pb-4 flex gap-2">
                 @if (org.ownerId === auth.user()?.userId) {
                   <button (click)="showEditModal = org.id; editName = org.name; editDesc = org.description || ''"
-                          class="px-3 py-1.5 text-xs rounded-lg bg-slate-600/30 text-slate-300 hover:bg-slate-600/50 transition-colors">
+                          class="px-3 py-1.5 text-xs rounded-lg bg-slate-600/30 text-slate-600 hover:bg-slate-100 transition-colors">
                     {{ lang.t('team.edit') }}
                   </button>
                   <button (click)="confirmDeleteOrg = org.id"
@@ -200,8 +200,8 @@ import { Organization, OrgMember, OrgInvite } from '../models';
       <!-- Create org modal -->
       @if (showCreateModal) {
         <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" (click)="showCreateModal = false">
-          <div class="bg-slate-800 rounded-xl border border-slate-700/50 shadow-xl w-full max-w-md" (click)="$event.stopPropagation()">
-            <div class="p-5 border-b border-slate-700/50">
+          <div class="bg-slate-800 rounded-xl border border-slate-200 shadow-xl w-full max-w-md" (click)="$event.stopPropagation()">
+            <div class="p-5 border-b border-slate-200">
               <h3 class="text-lg font-semibold text-white">
                 {{ lang.t('team.create_organization') }}
               </h3>
@@ -212,8 +212,8 @@ import { Organization, OrgMember, OrgInvite } from '../models';
                   {{ lang.t('team.name') }} *
                 </label>
                 <input [(ngModel)]="newOrgName" type="text"
-                       class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white
-                              focus:outline-none focus:border-emerald-500/50"
+                       class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white
+                              focus:outline-none focus:border-blue-500/50"
                        [placeholder]="lang.t('team.organization_name')">
               </div>
               <div>
@@ -221,19 +221,19 @@ import { Organization, OrgMember, OrgInvite } from '../models';
                   {{ lang.t('team.description') }}
                 </label>
                 <textarea [(ngModel)]="newOrgDesc" rows="2"
-                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white
-                                 focus:outline-none focus:border-emerald-500/50"
+                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white
+                                 focus:outline-none focus:border-blue-500/50"
                           [placeholder]="lang.t('team.optional_description')"></textarea>
               </div>
             </div>
-            <div class="p-5 border-t border-slate-700/50 flex justify-end gap-2">
+            <div class="p-5 border-t border-slate-200 flex justify-end gap-2">
               <button (click)="showCreateModal = false"
                       class="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors">
                 {{ lang.t('team.cancel_17') }}
               </button>
               <button (click)="createOrg()" [disabled]="!newOrgName.trim()"
-                      class="px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
-                             hover:from-emerald-400 hover:to-cyan-400 disabled:opacity-50 transition-all">
+                      class="px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white
+                             hover:bg-blue-700 disabled:opacity-50 transition-all">
                 {{ lang.t('team.create') }}
               </button>
             </div>
@@ -244,8 +244,8 @@ import { Organization, OrgMember, OrgInvite } from '../models';
       <!-- Invite modal -->
       @if (showInviteModal) {
         <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" (click)="showInviteModal = null">
-          <div class="bg-slate-800 rounded-xl border border-slate-700/50 shadow-xl w-full max-w-md" (click)="$event.stopPropagation()">
-            <div class="p-5 border-b border-slate-700/50">
+          <div class="bg-slate-800 rounded-xl border border-slate-200 shadow-xl w-full max-w-md" (click)="$event.stopPropagation()">
+            <div class="p-5 border-b border-slate-200">
               <h3 class="text-lg font-semibold text-white">
                 {{ lang.t('team.invite_member') }}
               </h3>
@@ -254,7 +254,7 @@ import { Organization, OrgMember, OrgInvite } from '../models';
               <div>
                 <label class="block text-xs font-medium text-slate-400 mb-1">Email *</label>
                 <input [(ngModel)]="inviteEmail" type="email"
-                       class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white
+                       class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white
                               focus:outline-none focus:border-violet-500/50"
                        placeholder="user@example.com">
               </div>
@@ -263,14 +263,14 @@ import { Organization, OrgMember, OrgInvite } from '../models';
                   {{ lang.t('team.role') }}
                 </label>
                 <select [(ngModel)]="inviteRole"
-                        class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white
+                        class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white
                                focus:outline-none focus:border-violet-500/50">
                   <option value="MEMBER">Member</option>
                   <option value="ADMIN">Admin</option>
                 </select>
               </div>
             </div>
-            <div class="p-5 border-t border-slate-700/50 flex justify-end gap-2">
+            <div class="p-5 border-t border-slate-200 flex justify-end gap-2">
               <button (click)="showInviteModal = null"
                       class="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors">
                 {{ lang.t('team.cancel_21') }}
@@ -287,8 +287,8 @@ import { Organization, OrgMember, OrgInvite } from '../models';
       <!-- Edit modal -->
       @if (showEditModal) {
         <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" (click)="showEditModal = null">
-          <div class="bg-slate-800 rounded-xl border border-slate-700/50 shadow-xl w-full max-w-md" (click)="$event.stopPropagation()">
-            <div class="p-5 border-b border-slate-700/50">
+          <div class="bg-slate-800 rounded-xl border border-slate-200 shadow-xl w-full max-w-md" (click)="$event.stopPropagation()">
+            <div class="p-5 border-b border-slate-200">
               <h3 class="text-lg font-semibold text-white">
                 {{ lang.t('team.edit_organization') }}
               </h3>
@@ -299,26 +299,26 @@ import { Organization, OrgMember, OrgInvite } from '../models';
                   {{ lang.t('team.name_24') }}
                 </label>
                 <input [(ngModel)]="editName" type="text"
-                       class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white
-                              focus:outline-none focus:border-emerald-500/50">
+                       class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white
+                              focus:outline-none focus:border-blue-500/50">
               </div>
               <div>
                 <label class="block text-xs font-medium text-slate-400 mb-1">
                   {{ lang.t('team.description_25') }}
                 </label>
                 <textarea [(ngModel)]="editDesc" rows="2"
-                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-600/50 rounded-lg text-sm text-white
-                                 focus:outline-none focus:border-emerald-500/50"></textarea>
+                          class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white
+                                 focus:outline-none focus:border-blue-500/50"></textarea>
               </div>
             </div>
-            <div class="p-5 border-t border-slate-700/50 flex justify-end gap-2">
+            <div class="p-5 border-t border-slate-200 flex justify-end gap-2">
               <button (click)="showEditModal = null"
                       class="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors">
                 {{ lang.t('team.cancel_26') }}
               </button>
               <button (click)="updateOrg()"
-                      class="px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
-                             hover:from-emerald-400 hover:to-cyan-400 transition-all">
+                      class="px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white
+                             hover:bg-blue-700 transition-all">
                 {{ lang.t('team.save') }}
               </button>
             </div>

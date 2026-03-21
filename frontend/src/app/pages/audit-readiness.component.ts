@@ -33,7 +33,7 @@ import { LangService } from '../lang.service';
 
       @if (!loading() && data()) {
         <!-- Hero Score -->
-        <div class="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700/50 rounded-2xl p-8 text-center relative overflow-hidden">
+        <div class="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-200 rounded-2xl p-8 text-center relative overflow-hidden">
           <!-- Background glow -->
           <div class="absolute inset-0 opacity-20"
                [style.background]="'radial-gradient(circle at 50% 50%, ' + getLevelColor(data().level) + ' 0%, transparent 60%)'"></div>
@@ -74,7 +74,7 @@ import { LangService } from '../lang.service';
           </h2>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             @for (mod of moduleList(); track mod.key) {
-              <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 hover:border-slate-600/50 transition-all group">
+              <div class="bg-white border border-slate-200 rounded-xl p-4 hover:border-slate-200 transition-all group">
                 <div class="flex items-center justify-between mb-3">
                   <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg flex items-center justify-center"
@@ -100,14 +100,14 @@ import { LangService } from '../lang.service';
         <!-- Pillar Radar -->
         <div>
           <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-            <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
             </svg>
             {{ lang.t('readiness.pillar_scores') }}
           </h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
             @for (p of pillarList(); track p.key) {
-              <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
+              <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
                 <!-- Circular mini score -->
                 <div class="relative w-16 h-16 mx-auto mb-2">
                   <svg class="w-full h-full -rotate-90" viewBox="0 0 64 64">
@@ -142,7 +142,7 @@ import { LangService } from '../lang.service';
             </h2>
             <div class="space-y-2">
               @for (action of data().actions; track action.action; let i = $index) {
-                <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 flex items-center gap-4 hover:border-slate-600/50 transition-all">
+                <div class="bg-white border border-slate-200 rounded-xl p-4 flex items-center gap-4 hover:border-slate-200 transition-all">
                   <!-- Priority indicator -->
                   <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-sm font-bold"
                        [class]="action.priority === 'CRITICAL' ? 'bg-red-500/20 text-red-400' : action.priority === 'HIGH' ? 'bg-orange-500/20 text-orange-400' : 'bg-amber-500/20 text-amber-400'">
@@ -158,7 +158,7 @@ import { LangService } from '../lang.service';
                       <span class="text-[10px] text-slate-500">{{ getModuleLabelByKey(action.module) }}</span>
                     </div>
                   </div>
-                  <span class="text-xs font-semibold text-emerald-400 flex-shrink-0 bg-emerald-500/10 px-2.5 py-1 rounded-lg">
+                  <span class="text-xs font-semibold text-blue-600 flex-shrink-0 bg-blue-50 px-2.5 py-1 rounded-lg">
                     {{ action.impact }}
                   </span>
                 </div>
@@ -246,7 +246,7 @@ export class AuditReadinessComponent implements OnInit, OnDestroy {
 
   getLevelBadgeClass(level: string): string {
     switch (level) {
-      case 'EXCELLENT': return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30';
+      case 'EXCELLENT': return 'bg-blue-50 text-blue-600 border border-blue-200';
       case 'GOOD': return 'bg-blue-500/10 text-blue-400 border border-blue-500/30';
       case 'AT_RISK': return 'bg-amber-500/10 text-amber-400 border border-amber-500/30';
       case 'CRITICAL': return 'bg-red-500/10 text-red-400 border border-red-500/30';
@@ -256,7 +256,7 @@ export class AuditReadinessComponent implements OnInit, OnDestroy {
 
   getLevelDotClass(level: string): string {
     switch (level) {
-      case 'EXCELLENT': return 'bg-emerald-400';
+      case 'EXCELLENT': return 'bg-blue-500';
       case 'GOOD': return 'bg-blue-400';
       case 'AT_RISK': return 'bg-amber-400';
       case 'CRITICAL': return 'bg-red-400';
@@ -266,9 +266,9 @@ export class AuditReadinessComponent implements OnInit, OnDestroy {
 
   getModuleIconClass(key: string): string {
     switch (key) {
-      case 'assessment': return 'bg-cyan-500/10 text-cyan-400';
+      case 'assessment': return 'bg-blue-50 text-blue-500';
       case 'evidence': return 'bg-indigo-500/10 text-indigo-400';
-      case 'remediation': return 'bg-emerald-500/10 text-emerald-400';
+      case 'remediation': return 'bg-blue-50 text-blue-600';
       case 'incidents': return 'bg-red-500/10 text-red-400';
       case 'thirdParty': return 'bg-violet-500/10 text-violet-400';
       case 'roi': return 'bg-amber-500/10 text-amber-400';
@@ -297,7 +297,7 @@ export class AuditReadinessComponent implements OnInit, OnDestroy {
   }
 
   getScoreColor(score: number): string {
-    if (score >= 80) return 'text-emerald-400';
+    if (score >= 80) return 'text-blue-600';
     if (score >= 60) return 'text-blue-400';
     if (score >= 40) return 'text-amber-400';
     return 'text-red-400';
@@ -311,7 +311,7 @@ export class AuditReadinessComponent implements OnInit, OnDestroy {
   }
 
   getBarColor(score: number): string {
-    if (score >= 80) return 'bg-gradient-to-r from-emerald-500 to-emerald-400';
+    if (score >= 80) return 'bg-gradient-to-r from-blue-600 to-blue-400';
     if (score >= 60) return 'bg-gradient-to-r from-blue-500 to-blue-400';
     if (score >= 40) return 'bg-gradient-to-r from-amber-500 to-amber-400';
     return 'bg-gradient-to-r from-red-500 to-red-400';

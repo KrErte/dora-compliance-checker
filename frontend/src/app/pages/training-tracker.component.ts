@@ -40,19 +40,19 @@ interface TrainingRecord {
 
       <!-- Stats -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
+        <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
           <div class="text-2xl font-bold text-white">{{ records().length }}</div>
           <div class="text-xs text-slate-400 mt-1">{{ lang.t('training.total') }}</div>
         </div>
-        <div class="bg-slate-800/50 border border-emerald-500/30 rounded-xl p-4 text-center">
-          <div class="text-2xl font-bold text-emerald-400">{{ countByStatus('COMPLETED') }}</div>
+        <div class="bg-white border border-blue-200 rounded-xl p-4 text-center">
+          <div class="text-2xl font-bold text-blue-600">{{ countByStatus('COMPLETED') }}</div>
           <div class="text-xs text-slate-400 mt-1">{{ lang.t('training.completed') }}</div>
         </div>
-        <div class="bg-slate-800/50 border border-red-500/30 rounded-xl p-4 text-center">
+        <div class="bg-white border border-red-500/30 rounded-xl p-4 text-center">
           <div class="text-2xl font-bold text-red-400">{{ countByStatus('OVERDUE') }}</div>
           <div class="text-xs text-slate-400 mt-1">{{ lang.t('training.overdue') }}</div>
         </div>
-        <div class="bg-slate-800/50 border border-amber-500/30 rounded-xl p-4 text-center">
+        <div class="bg-white border border-amber-500/30 rounded-xl p-4 text-center">
           <div class="text-2xl font-bold text-amber-400">{{ countByStatus('UPCOMING') }}</div>
           <div class="text-xs text-slate-400 mt-1">{{ lang.t('training.upcoming') }}</div>
         </div>
@@ -60,16 +60,16 @@ interface TrainingRecord {
 
       <!-- Records list -->
       @for (record of records(); track record.id) {
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 flex items-center gap-4">
+        <div class="bg-white border border-slate-200 rounded-xl p-4 flex items-center gap-4">
           <div class="w-2 h-2 rounded-full flex-shrink-0"
-               [class]="record.status === 'COMPLETED' ? 'bg-emerald-500' : record.status === 'OVERDUE' ? 'bg-red-500' : 'bg-amber-500'"></div>
+               [class]="record.status === 'COMPLETED' ? 'bg-blue-600' : record.status === 'OVERDUE' ? 'bg-red-500' : 'bg-amber-500'"></div>
           <div class="flex-1 min-w-0">
             <div class="text-sm text-white font-medium">{{ record.personName }}</div>
             <div class="text-xs text-slate-400">{{ record.trainingTitle }} &bull; {{ record.role }}</div>
           </div>
           <div class="text-xs text-slate-400">{{ record.completedDate || lang.t('training.not_completed') }}</div>
           <span class="px-2 py-1 rounded text-[10px] font-semibold"
-                [class]="record.status === 'COMPLETED' ? 'bg-emerald-500/20 text-emerald-400' : record.status === 'OVERDUE' ? 'bg-red-500/20 text-red-400' : 'bg-amber-500/20 text-amber-400'">
+                [class]="record.status === 'COMPLETED' ? 'bg-blue-100 text-blue-600' : record.status === 'OVERDUE' ? 'bg-red-500/20 text-red-400' : 'bg-amber-500/20 text-amber-400'">
             {{ record.status }}
           </span>
           <button (click)="deleteRecord(record.id)" class="text-slate-500 hover:text-red-400" [attr.aria-label]="lang.t('training.aria_delete_record')">
@@ -79,7 +79,7 @@ interface TrainingRecord {
       }
 
       @if (records().length === 0 && !showForm) {
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
+        <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
           <p class="text-slate-400">{{ lang.t('training.no_training_records_added') }}</p>
         </div>
       }
@@ -89,27 +89,27 @@ interface TrainingRecord {
           <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-lg" (click)="$event.stopPropagation()">
             <h2 class="text-lg font-bold text-white mb-4">{{ lang.t('training.add_training_record') }}</h2>
             <div class="space-y-4">
-              <input [(ngModel)]="newRecord.personName" type="text" [placeholder]="lang.t('training.person_name')" class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:outline-none">
-              <select [(ngModel)]="newRecord.role" class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:outline-none">
+              <input [(ngModel)]="newRecord.personName" type="text" [placeholder]="lang.t('training.person_name')" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none">
+              <select [(ngModel)]="newRecord.role" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none">
                 <option value="Board Member">{{ lang.t('training.board_member') }}</option>
                 <option value="CISO">CISO</option>
                 <option value="Compliance Officer">{{ lang.t('training.compliance_officer') }}</option>
                 <option value="ICT Staff">{{ lang.t('training.ict_staff') }}</option>
                 <option value="Other">{{ lang.t('training.other') }}</option>
               </select>
-              <input [(ngModel)]="newRecord.trainingTitle" type="text" [placeholder]="lang.t('training.training_title')" class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white focus:outline-none">
+              <input [(ngModel)]="newRecord.trainingTitle" type="text" [placeholder]="lang.t('training.training_title')" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none">
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs text-slate-400 mb-1">{{ lang.t('training.completed_date') }}</label>
-                  <input [(ngModel)]="newRecord.completedDate" type="date" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none">
+                  <input [(ngModel)]="newRecord.completedDate" type="date" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
                 </div>
                 <div>
                   <label class="block text-xs text-slate-400 mb-1">{{ lang.t('training.next_due_date') }}</label>
-                  <input [(ngModel)]="newRecord.nextDueDate" type="date" class="w-full px-3 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white text-sm focus:outline-none">
+                  <input [(ngModel)]="newRecord.nextDueDate" type="date" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
                 </div>
               </div>
               <div class="flex justify-end gap-3">
-                <button (click)="showForm = false" class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-300 text-sm">{{ lang.t('training.cancel') }}</button>
+                <button (click)="showForm = false" class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-600 text-sm">{{ lang.t('training.cancel') }}</button>
                 <button (click)="addRecord()" [disabled]="!newRecord.personName" class="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-sm font-semibold disabled:opacity-50">
                   {{ lang.t('training.add') }}
                 </button>

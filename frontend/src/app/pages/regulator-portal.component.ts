@@ -27,7 +27,7 @@ interface RegulatorToken {
       <div class="max-w-5xl mx-auto">
 
         <!-- Back link -->
-        <a routerLink="/command-center" class="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-emerald-400 transition-colors mb-6">
+        <a routerLink="/command-center" class="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-blue-600 transition-colors mb-6">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m15 18-6-6 6-6"/></svg>
           {{ lang.l('Juhtimiskeskus', 'Command Center') }}
         </a>
@@ -53,8 +53,8 @@ interface RegulatorToken {
 
         <!-- Premium Gate -->
         @if (!subService.isPremium()) {
-          <div class="bg-gradient-to-br from-violet-500/10 via-slate-800/50 to-cyan-500/10 border border-violet-500/20 rounded-2xl p-8 text-center mb-10">
-            <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-violet-500/20">
+          <div class="bg-gradient-to-br from-violet-500/10 via-slate-800/50 to-blue-500/10 border border-violet-500/20 rounded-2xl p-8 text-center mb-10">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center shadow-lg shadow-violet-500/20">
               <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
               </svg>
@@ -69,7 +69,7 @@ interface RegulatorToken {
               ) }}
             </p>
             <a routerLink="/pricing"
-               class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-violet-500 to-cyan-500 text-white font-semibold hover:from-violet-400 hover:to-cyan-400 transition-all shadow-lg shadow-violet-500/25">
+               class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-violet-500 to-blue-500 text-white font-semibold hover:from-violet-400 hover:to-blue-400 transition-all shadow-lg shadow-violet-500/25">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
               </svg>
@@ -81,22 +81,22 @@ interface RegulatorToken {
         @if (subService.isPremium()) {
           <!-- Stats Row -->
           <div class="grid grid-cols-3 gap-4 mb-8">
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 text-center">
+            <div class="bg-white border border-slate-200 rounded-xl p-5 text-center">
               <div class="text-3xl font-bold text-violet-400">{{ totalTokens() }}</div>
               <div class="text-xs text-slate-400 mt-1">{{ lang.l('Kokku linke', 'Total Links') }}</div>
             </div>
-            <div class="bg-slate-800/50 border border-emerald-500/20 rounded-xl p-5 text-center">
-              <div class="text-3xl font-bold text-emerald-400">{{ activeTokens() }}</div>
+            <div class="bg-white border border-blue-200 rounded-xl p-5 text-center">
+              <div class="text-3xl font-bold text-blue-600">{{ activeTokens() }}</div>
               <div class="text-xs text-slate-400 mt-1">{{ lang.l('Aktiivsed', 'Active') }}</div>
             </div>
-            <div class="bg-slate-800/50 border border-cyan-500/20 rounded-xl p-5 text-center">
-              <div class="text-3xl font-bold text-cyan-400">{{ totalViews() }}</div>
+            <div class="bg-white border border-blue-500/20 rounded-xl p-5 text-center">
+              <div class="text-3xl font-bold text-blue-500">{{ totalViews() }}</div>
               <div class="text-xs text-slate-400 mt-1">{{ lang.l('Kokku vaatamisi', 'Total Views') }}</div>
             </div>
           </div>
 
           <!-- Create Token Form -->
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6 mb-8">
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 mb-8">
             <div class="flex items-center gap-3 mb-5">
               <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center">
                 <svg class="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,7 +116,7 @@ interface RegulatorToken {
                 </label>
                 <input type="text" [(ngModel)]="formLabel"
                        [placeholder]="lang.l('nt. Finantsinspektsioon 2026', 'e.g. Financial Authority 2026')"
-                       class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white text-sm
+                       class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white text-sm
                               placeholder-slate-500 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 transition-all">
               </div>
               <!-- Expiry -->
@@ -126,7 +126,7 @@ interface RegulatorToken {
                 </label>
                 <input type="date" [(ngModel)]="formExpiry"
                        [min]="minDate"
-                       class="w-full px-4 py-2.5 bg-slate-900/50 border border-slate-600/50 rounded-xl text-white text-sm
+                       class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white text-sm
                               focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 transition-all">
               </div>
             </div>
@@ -142,7 +142,7 @@ interface RegulatorToken {
                           class="px-3.5 py-2 rounded-lg text-xs font-medium border transition-all flex items-center gap-2"
                           [class]="formPermissions().includes(perm.key)
                             ? 'bg-violet-500/15 border-violet-500/40 text-violet-300'
-                            : 'bg-slate-700/20 border-slate-700/50 text-slate-400 hover:border-slate-600'">
+                            : 'bg-slate-700/20 border-slate-200 text-slate-400 hover:border-slate-300'">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       @if (formPermissions().includes(perm.key)) {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
@@ -178,32 +178,32 @@ interface RegulatorToken {
 
           <!-- Success banner -->
           @if (createdToken()) {
-            <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-5 mb-8">
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-8">
               <div class="flex items-start gap-3">
-                <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                   </svg>
                 </div>
                 <div class="flex-1 min-w-0">
-                  <h3 class="text-sm font-semibold text-emerald-400 mb-1">
+                  <h3 class="text-sm font-semibold text-blue-600 mb-1">
                     {{ lang.l('Link loodud!', 'Link Created!') }}
                   </h3>
                   <p class="text-xs text-slate-400 mb-2">
                     {{ lang.l('Kopeeri see link ja jaga seda regulaatoriga:', 'Copy this link and share it with the regulator:') }}
                   </p>
                   <div class="flex items-center gap-2">
-                    <div class="flex-1 bg-slate-900/60 rounded-lg px-3 py-2 font-mono text-xs text-cyan-400 truncate border border-slate-700/50">
+                    <div class="flex-1 bg-slate-900/60 rounded-lg px-3 py-2 font-mono text-xs text-blue-500 truncate border border-slate-200">
                       {{ getShareUrl(createdToken()!) }}
                     </div>
                     <button (click)="copyToClipboard(getShareUrl(createdToken()!))"
                             class="px-3 py-2 rounded-lg text-xs font-medium transition-all flex-shrink-0"
-                            [class]="copiedId() === 'new' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-700/50 text-slate-300 hover:bg-slate-600/50'">
+                            [class]="copiedId() === 'new' ? 'bg-blue-100 text-blue-600' : 'bg-slate-700/50 text-slate-600 hover:bg-slate-100'">
                       {{ copiedId() === 'new' ? lang.l('Kopeeritud!', 'Copied!') : lang.l('Kopeeri', 'Copy') }}
                     </button>
                   </div>
                 </div>
-                <button (click)="createdToken.set(null)" class="text-slate-500 hover:text-slate-300 transition-colors flex-shrink-0">
+                <button (click)="createdToken.set(null)" class="text-slate-500 hover:text-slate-600 transition-colors flex-shrink-0">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                   </svg>
@@ -222,7 +222,7 @@ interface RegulatorToken {
 
           <!-- Empty state -->
           @if (!loading() && tokens().length === 0) {
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
+            <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
               <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-slate-700/30 flex items-center justify-center">
                 <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
@@ -252,8 +252,8 @@ interface RegulatorToken {
               </h2>
 
               @for (t of tokens(); track t.id) {
-                <div class="bg-slate-800/50 border rounded-xl p-5 transition-all hover:border-slate-600/50"
-                     [class]="t.active && !isExpired(t) ? 'border-slate-700/50' : 'border-red-500/20 opacity-70'">
+                <div class="bg-white border rounded-xl p-5 transition-all hover:border-slate-200"
+                     [class]="t.active && !isExpired(t) ? 'border-slate-200' : 'border-red-500/20 opacity-70'">
 
                   <!-- Token header -->
                   <div class="flex items-center justify-between mb-3">
@@ -274,7 +274,7 @@ interface RegulatorToken {
                         <h3 class="text-sm font-semibold text-white">{{ t.label }}</h3>
                         <div class="flex items-center gap-2 mt-0.5">
                           <span class="px-2 py-0.5 rounded-full text-[10px] font-medium"
-                                [class]="t.active && !isExpired(t) ? 'bg-emerald-500/15 text-emerald-400' : 'bg-red-500/10 text-red-400'">
+                                [class]="t.active && !isExpired(t) ? 'bg-blue-50 text-blue-600' : 'bg-red-500/10 text-red-400'">
                             {{ t.active && !isExpired(t) ? lang.l('Aktiivne', 'Active') : (isExpired(t) ? lang.l('Aegunud', 'Expired') : lang.l('T\u00fchistatud', 'Revoked')) }}
                           </span>
                           <span class="text-[10px] text-slate-500">
@@ -286,7 +286,7 @@ interface RegulatorToken {
                     <div class="flex items-center gap-4">
                       <!-- Access count -->
                       <div class="text-center">
-                        <div class="text-lg font-bold text-cyan-400">{{ t.accessCount }}</div>
+                        <div class="text-lg font-bold text-blue-500">{{ t.accessCount }}</div>
                         <div class="text-[10px] text-slate-500">{{ lang.l('Vaatamisi', 'Views') }}</div>
                       </div>
                     </div>
@@ -294,13 +294,13 @@ interface RegulatorToken {
 
                   <!-- Share URL -->
                   <div class="flex items-center gap-2 mb-3">
-                    <div class="flex-1 bg-slate-900/60 rounded-lg px-3 py-2 font-mono text-xs text-cyan-400/80 truncate border border-slate-700/40">
+                    <div class="flex-1 bg-slate-900/60 rounded-lg px-3 py-2 font-mono text-xs text-blue-500/80 truncate border border-slate-200">
                       {{ getShareUrl(t.token) }}
                     </div>
                     <button (click)="copyToClipboard(getShareUrl(t.token), t.id)"
                             [disabled]="!t.active || isExpired(t)"
                             class="px-3 py-2 rounded-lg text-xs font-medium transition-all flex-shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
-                            [class]="copiedId() === t.id ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-700/50 text-slate-300 hover:bg-slate-600/50'">
+                            [class]="copiedId() === t.id ? 'bg-blue-100 text-blue-600' : 'bg-slate-700/50 text-slate-600 hover:bg-slate-100'">
                       {{ copiedId() === t.id ? lang.l('Kopeeritud!', 'Copied!') : lang.l('Kopeeri', 'Copy') }}
                     </button>
                   </div>
@@ -328,7 +328,7 @@ interface RegulatorToken {
 
                   <!-- Revoke button -->
                   @if (t.active && !isExpired(t)) {
-                    <div class="mt-3 pt-3 border-t border-slate-700/30 flex justify-end">
+                    <div class="mt-3 pt-3 border-t border-slate-200 flex justify-end">
                       @if (confirmRevokeId() === t.id) {
                         <div class="flex items-center gap-2">
                           <span class="text-xs text-red-400">{{ lang.l('Oled kindel?', 'Are you sure?') }}</span>
@@ -337,7 +337,7 @@ interface RegulatorToken {
                             {{ lang.l('Jah, t\u00fchista', 'Yes, Revoke') }}
                           </button>
                           <button (click)="confirmRevokeId.set(null)"
-                                  class="px-3 py-1.5 rounded-lg text-xs text-slate-400 hover:text-slate-200 transition-colors">
+                                  class="px-3 py-1.5 rounded-lg text-xs text-slate-400 hover:text-slate-700 transition-colors">
                             {{ lang.l('Loobu', 'Cancel') }}
                           </button>
                         </div>
@@ -366,21 +366,21 @@ interface RegulatorToken {
               <div class="flex items-start gap-3">
                 <div class="w-7 h-7 rounded-full bg-violet-500/15 flex items-center justify-center flex-shrink-0 text-violet-400 font-bold text-xs">1</div>
                 <div>
-                  <p class="text-sm font-medium text-slate-300">{{ lang.l('Loo link', 'Create a Link') }}</p>
+                  <p class="text-sm font-medium text-slate-600">{{ lang.l('Loo link', 'Create a Link') }}</p>
                   <p class="text-xs text-slate-500 mt-0.5">{{ lang.l('M\u00e4\u00e4ra silt, \u00f5igused ja aegumiskuup\u00e4ev', 'Set a label, permissions, and expiry date') }}</p>
                 </div>
               </div>
               <div class="flex items-start gap-3">
                 <div class="w-7 h-7 rounded-full bg-violet-500/15 flex items-center justify-center flex-shrink-0 text-violet-400 font-bold text-xs">2</div>
                 <div>
-                  <p class="text-sm font-medium text-slate-300">{{ lang.l('Jaga regulaatoriga', 'Share with Regulator') }}</p>
+                  <p class="text-sm font-medium text-slate-600">{{ lang.l('Jaga regulaatoriga', 'Share with Regulator') }}</p>
                   <p class="text-xs text-slate-500 mt-0.5">{{ lang.l('Saada link turvaliselt e-posti v\u00f5i muul viisil', 'Send the link securely via email or other channel') }}</p>
                 </div>
               </div>
               <div class="flex items-start gap-3">
                 <div class="w-7 h-7 rounded-full bg-violet-500/15 flex items-center justify-center flex-shrink-0 text-violet-400 font-bold text-xs">3</div>
                 <div>
-                  <p class="text-sm font-medium text-slate-300">{{ lang.l('J\u00e4lgi ligip\u00e4\u00e4su', 'Track Access') }}</p>
+                  <p class="text-sm font-medium text-slate-600">{{ lang.l('J\u00e4lgi ligip\u00e4\u00e4su', 'Track Access') }}</p>
                   <p class="text-xs text-slate-500 mt-0.5">{{ lang.l('N\u00e4e, millal ja kui tihti regulaator andmeid vaatas', 'See when and how often the regulator viewed data') }}</p>
                 </div>
               </div>
@@ -390,7 +390,7 @@ interface RegulatorToken {
 
         <!-- Toast -->
         @if (toast()) {
-          <div class="fixed bottom-6 right-6 bg-emerald-500/90 text-white px-5 py-3 rounded-xl shadow-lg text-sm font-medium z-50
+          <div class="fixed bottom-6 right-6 bg-blue-600/90 text-white px-5 py-3 rounded-xl shadow-lg text-sm font-medium z-50
                       animate-[fadeIn_0.3s_ease-out]">
             {{ toast() }}
           </div>

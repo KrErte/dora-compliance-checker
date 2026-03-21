@@ -758,14 +758,14 @@ const ARTICLES: BlogArticle[] = [
     <!-- Article detail view -->
     @if (selectedArticle) {
       <div class="max-w-3xl mx-auto">
-        <a routerLink="/blog" class="inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-emerald-400 transition-colors mb-6">
+        <a routerLink="/blog" class="inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-blue-600 transition-colors mb-6">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           {{ lang.t('blog.back_to_articles') }}
         </a>
 
         <div class="flex items-center gap-3 mb-4">
           <span class="px-2.5 py-1 text-xs font-bold rounded-full"
-                [ngClass]="selectedArticle.category === 'DORA' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'">
+                [ngClass]="selectedArticle.category === 'DORA' ? 'bg-blue-100 text-blue-600' : 'bg-amber-500/20 text-amber-400'">
             {{ selectedArticle.category }}
           </span>
           <span class="text-xs text-slate-500">{{ selectedArticle.date }}</span>
@@ -776,34 +776,34 @@ const ARTICLES: BlogArticle[] = [
           {{ lang.l(selectedArticle.title.et, selectedArticle.title.en) }}
         </h1>
 
-        <div class="prose prose-invert prose-emerald max-w-none
+        <div class="prose prose-invert prose-blue max-w-none
                     prose-headings:text-white prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4
-                    prose-h3:text-lg prose-h3:text-slate-200 prose-h3:mt-6 prose-h3:mb-3
-                    prose-p:text-slate-300 prose-p:leading-relaxed prose-p:mb-4
-                    prose-li:text-slate-300 prose-li:mb-1
+                    prose-h3:text-lg prose-h3:text-slate-700 prose-h3:mt-6 prose-h3:mb-3
+                    prose-p:text-slate-600 prose-p:leading-relaxed prose-p:mb-4
+                    prose-li:text-slate-600 prose-li:mb-1
                     prose-strong:text-white
                     prose-ul:mb-4 prose-ol:mb-4
                     prose-table:border-collapse prose-table:w-full
-                    prose-th:bg-slate-700/50 prose-th:text-slate-200 prose-th:px-4 prose-th:py-2 prose-th:text-left prose-th:border prose-th:border-slate-600
-                    prose-td:px-4 prose-td:py-2 prose-td:border prose-td:border-slate-700 prose-td:text-slate-300"
+                    prose-th:bg-slate-700/50 prose-th:text-slate-700 prose-th:px-4 prose-th:py-2 prose-th:text-left prose-th:border prose-th:border-slate-600
+                    prose-td:px-4 prose-td:py-2 prose-td:border prose-td:border-slate-700 prose-td:text-slate-600"
              [innerHTML]="lang.l(selectedArticle.content.et, selectedArticle.content.en)">
         </div>
 
-        <div class="flex flex-wrap gap-2 mt-8 pt-6 border-t border-slate-700/50">
+        <div class="flex flex-wrap gap-2 mt-8 pt-6 border-t border-slate-200">
           @for (tag of selectedArticle.tags; track tag) {
             <span class="px-2.5 py-1 text-xs bg-slate-700/50 text-slate-400 rounded-full">{{ tag }}</span>
           }
         </div>
 
         <!-- CTA -->
-        <div class="mt-10 p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 border border-emerald-500/20">
+        <div class="mt-10 p-6 rounded-2xl bg-gradient-to-br from-blue-600/10 to-blue-500/10 border border-blue-200">
           <h3 class="text-lg font-semibold text-white mb-2">
             {{ lang.t('blog.start_your_dora_compliance_assessment') }}
           </h3>
           <p class="text-sm text-slate-400 mb-4">
             {{ lang.t('blog.free_assessment_with_37_questions_get_in') }}
           </p>
-          <a routerLink="/assessment" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-cyan-500 text-white hover:from-emerald-400 hover:to-cyan-400 transition-all">
+          <a routerLink="/assessment" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 transition-all">
             {{ lang.t('blog.start_assessment') }}
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
@@ -812,7 +812,7 @@ const ARTICLES: BlogArticle[] = [
     } @else {
       <!-- Blog listing -->
       <div class="text-center mb-10">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium mb-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-600 text-xs font-medium mb-4">
           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
           </svg>
@@ -830,17 +830,17 @@ const ARTICLES: BlogArticle[] = [
       <div class="flex items-center justify-center gap-2 mb-8">
         <button (click)="filterCategory = null"
                 class="px-4 py-2 rounded-lg text-sm font-medium transition-all"
-                [ngClass]="filterCategory === null ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-700/30'">
+                [ngClass]="filterCategory === null ? 'bg-blue-100 text-blue-600 border border-blue-200' : 'text-slate-400 hover:text-white hover:bg-slate-100'">
           {{ lang.t('blog.all') }}
         </button>
         <button (click)="filterCategory = 'DORA'"
                 class="px-4 py-2 rounded-lg text-sm font-medium transition-all"
-                [ngClass]="filterCategory === 'DORA' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-700/30'">
+                [ngClass]="filterCategory === 'DORA' ? 'bg-blue-100 text-blue-600 border border-blue-200' : 'text-slate-400 hover:text-white hover:bg-slate-100'">
           DORA
         </button>
         <button (click)="filterCategory = 'NIS2'"
                 class="px-4 py-2 rounded-lg text-sm font-medium transition-all"
-                [ngClass]="filterCategory === 'NIS2' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-700/30'">
+                [ngClass]="filterCategory === 'NIS2' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-100'">
           NIS2
         </button>
       </div>
@@ -849,22 +849,22 @@ const ARTICLES: BlogArticle[] = [
       <div class="grid gap-6 sm:grid-cols-2">
         @for (article of filteredArticles; track article.slug) {
           <a [routerLink]="['/blog', article.slug]"
-             class="group block p-6 rounded-2xl bg-slate-800/50 border border-slate-700/50 hover:border-emerald-500/30 hover:bg-slate-800/80 transition-all duration-300">
+             class="group block p-6 rounded-2xl bg-white border border-slate-200 hover:border-blue-200 hover:bg-white transition-all duration-300">
             <div class="flex items-center gap-3 mb-3">
               <span class="px-2 py-0.5 text-[10px] font-bold rounded-full"
-                    [ngClass]="article.category === 'DORA' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'">
+                    [ngClass]="article.category === 'DORA' ? 'bg-blue-100 text-blue-600' : 'bg-amber-500/20 text-amber-400'">
                 {{ article.category }}
               </span>
               <span class="text-xs text-slate-500">{{ article.date }}</span>
               <span class="text-xs text-slate-500">{{ article.readTime }} min</span>
             </div>
-            <h2 class="text-lg font-semibold text-white group-hover:text-emerald-400 transition-colors mb-2 leading-snug">
+            <h2 class="text-lg font-semibold text-white group-hover:text-blue-600 transition-colors mb-2 leading-snug">
               {{ lang.l(article.title.et, article.title.en) }}
             </h2>
             <p class="text-sm text-slate-400 leading-relaxed line-clamp-3">
               {{ lang.l(article.excerpt.et, article.excerpt.en) }}
             </p>
-            <div class="flex items-center gap-1.5 mt-4 text-xs text-emerald-400 group-hover:gap-2.5 transition-all">
+            <div class="flex items-center gap-1.5 mt-4 text-xs text-blue-600 group-hover:gap-2.5 transition-all">
               {{ lang.t('blog.read_more') }}
               <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </div>
@@ -873,14 +873,14 @@ const ARTICLES: BlogArticle[] = [
       </div>
 
       <!-- Newsletter CTA -->
-      <div class="mt-12 p-8 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-800/40 border border-slate-700/50 text-center">
+      <div class="mt-12 p-8 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-800/40 border border-slate-200 text-center">
         <h3 class="text-xl font-semibold text-white mb-2">
           {{ lang.t('blog.stay_informed') }}
         </h3>
         <p class="text-sm text-slate-400 mb-4 max-w-lg mx-auto">
           {{ lang.t('blog.register_a_doraaudit_account_to_receive') }}
         </p>
-        <a routerLink="/register" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-cyan-500 text-white hover:from-emerald-400 hover:to-cyan-400 transition-all">
+        <a routerLink="/register" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 transition-all">
           {{ lang.t('blog.register_for_free') }}
         </a>
       </div>

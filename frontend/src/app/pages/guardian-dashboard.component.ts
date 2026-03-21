@@ -27,12 +27,12 @@ import { MonitoredContract } from '../models';
         </div>
         <div class="flex items-center gap-3">
           <!-- Live indicator -->
-          <div *ngIf="pollingActive" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+          <div *ngIf="pollingActive" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-50 border border-blue-200">
             <span class="relative flex h-2 w-2">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
             </span>
-            <span class="text-[10px] font-medium text-emerald-400">Live</span>
+            <span class="text-[10px] font-medium text-blue-600">Live</span>
           </div>
           <span *ngIf="lastUpdated" class="text-[10px] text-slate-500">
             {{ lang.t('guardian.last_updated') }}: {{ lastUpdated | date:'HH:mm:ss' }}
@@ -40,14 +40,14 @@ import { MonitoredContract } from '../models';
         </div>
         <div class="flex gap-2">
           <a routerLink="/guardian/alerts"
-             class="px-4 py-2 rounded-xl bg-slate-700/50 border border-slate-600/50 text-slate-300 text-sm hover:bg-slate-600/50 transition-all flex items-center gap-2">
+             class="px-4 py-2 rounded-xl bg-slate-700/50 border border-slate-200 text-slate-600 text-sm hover:bg-slate-100 transition-all flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
             </svg>
             {{ lang.t('guardian.alerts_title') }}
           </a>
           <a routerLink="/regulatory-updates"
-             class="px-4 py-2 rounded-xl bg-slate-700/50 border border-slate-600/50 text-slate-300 text-sm hover:bg-slate-600/50 transition-all flex items-center gap-2">
+             class="px-4 py-2 rounded-xl bg-slate-700/50 border border-slate-200 text-slate-600 text-sm hover:bg-slate-100 transition-all flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
             </svg>
@@ -62,13 +62,13 @@ import { MonitoredContract } from '../models';
       </div>
 
       <!-- Empty state -->
-      <div *ngIf="!loading && contracts.length === 0" class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
+      <div *ngIf="!loading && contracts.length === 0" class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
         <svg class="w-16 h-16 mx-auto mb-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
         </svg>
         <p class="text-slate-400 mb-4">{{ lang.t('guardian.empty') }}</p>
         <a routerLink="/contract-analysis"
-           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold text-sm hover:shadow-lg transition-all">
+           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 text-white font-semibold text-sm hover:shadow-lg transition-all">
           {{ lang.t('contract.start_analysis') }}
         </a>
       </div>
@@ -76,7 +76,7 @@ import { MonitoredContract } from '../models';
       <!-- Contract cards -->
       <div *ngIf="!loading && contracts.length > 0" class="grid gap-4">
         <div *ngFor="let contract of contracts"
-             class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5 hover:border-slate-600/50 transition-all">
+             class="bg-white backdrop-blur border border-slate-200 rounded-xl p-5 hover:border-slate-200 transition-all">
           <div class="flex flex-col md:flex-row md:items-center gap-4">
             <!-- Score circle -->
             <div class="flex-shrink-0">
@@ -109,7 +109,7 @@ import { MonitoredContract } from '../models';
                 {{ lang.t('guardian.pause') }}
               </button>
               <button type="button" *ngIf="contract.monitoringStatus === 'PAUSED'" (click)="resume(contract)"
-                      class="px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all">
+                      class="px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-100 transition-all">
                 {{ lang.t('guardian.resume') }}
               </button>
               <button type="button" (click)="reanalyze(contract)"
@@ -118,7 +118,7 @@ import { MonitoredContract } from '../models';
                 {{ contract.id === reanalyzingId ? lang.t('guardian.reanalyzing') : lang.t('guardian.reanalyze') }}
               </button>
               <a *ngIf="contract.lastAnalysisId" [routerLink]="['/contract-results', contract.lastAnalysisId]"
-                 class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-700/50 text-slate-300 border border-slate-600/30 hover:bg-slate-600/50 transition-all">
+                 class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-700/50 text-slate-600 border border-slate-600/30 hover:bg-slate-100 transition-all">
                 {{ lang.t('guardian.view_analysis') }}
               </a>
             </div>
@@ -211,7 +211,7 @@ export class GuardianDashboardComponent implements OnInit, OnDestroy {
 
   scoreBg(level: string): string {
     switch (level) {
-      case 'GREEN': return 'bg-emerald-500/10 border border-emerald-500/20';
+      case 'GREEN': return 'bg-blue-50 border border-blue-200';
       case 'YELLOW': return 'bg-yellow-500/10 border border-yellow-500/20';
       default: return 'bg-red-500/10 border border-red-500/20';
     }
@@ -219,7 +219,7 @@ export class GuardianDashboardComponent implements OnInit, OnDestroy {
 
   scoreText(level: string): string {
     switch (level) {
-      case 'GREEN': return 'text-emerald-400';
+      case 'GREEN': return 'text-blue-600';
       case 'YELLOW': return 'text-yellow-400';
       default: return 'text-red-400';
     }
@@ -227,7 +227,7 @@ export class GuardianDashboardComponent implements OnInit, OnDestroy {
 
   statusBadge(status: string): string {
     switch (status) {
-      case 'ACTIVE': return 'px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/20 text-emerald-400';
+      case 'ACTIVE': return 'px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-100 text-blue-600';
       case 'PAUSED': return 'px-2 py-0.5 rounded-full text-[10px] font-medium bg-yellow-500/20 text-yellow-400';
       default: return 'px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-500/20 text-slate-400';
     }

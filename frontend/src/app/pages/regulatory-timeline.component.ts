@@ -40,7 +40,7 @@ interface TimelineEvent {
                ? 'from-red-900/30 to-slate-800/50 border-red-500/30'
                : countdown.soon
                  ? 'from-amber-900/20 to-slate-800/50 border-amber-500/30'
-                 : 'from-slate-800/50 to-slate-800/30 border-slate-700/50'">
+                 : 'from-slate-800/50 to-slate-800/30 border-slate-200'">
           <div class="flex items-start justify-between mb-4">
             <span [class]="'text-xs font-bold px-2 py-1 rounded-full ' + getRegulationClass(countdown.regulation)">
               {{ countdown.regulation }}
@@ -60,7 +60,7 @@ interface TimelineEvent {
             <div>
               <p class="text-xs text-slate-500 mb-1">{{ countdown.date | date:'dd.MM.yyyy' }}</p>
               <div class="flex items-baseline gap-1">
-                <span class="text-3xl font-bold" [class]="countdown.urgent ? 'text-red-400' : countdown.soon ? 'text-amber-400' : 'text-emerald-400'">
+                <span class="text-3xl font-bold" [class]="countdown.urgent ? 'text-red-400' : countdown.soon ? 'text-amber-400' : 'text-blue-600'">
                   {{ countdown.daysLeft }}
                 </span>
                 <span class="text-sm text-slate-500">{{ lang.t('timeline.days') }}</span>
@@ -73,7 +73,7 @@ interface TimelineEvent {
           <!-- Progress bar to deadline -->
           <div class="mt-4 h-1.5 bg-slate-700 rounded-full overflow-hidden">
             <div class="h-full rounded-full transition-all duration-500"
-                 [class]="countdown.urgent ? 'bg-red-500' : countdown.soon ? 'bg-amber-500' : 'bg-emerald-500'"
+                 [class]="countdown.urgent ? 'bg-red-500' : countdown.soon ? 'bg-amber-500' : 'bg-blue-600'"
                  [style.width.%]="countdown.progress">
             </div>
           </div>
@@ -81,9 +81,9 @@ interface TimelineEvent {
       </div>
 
       <!-- Timeline -->
-      <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-2xl p-6">
+      <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
         <h2 class="text-lg font-semibold text-white mb-6 flex items-center gap-2">
-          <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
           </svg>
           {{ lang.t('timeline.complete_timeline') }}
@@ -102,7 +102,7 @@ interface TimelineEvent {
         <!-- Timeline items -->
         <div class="relative">
           <!-- Vertical line -->
-          <div class="absolute left-[19px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-emerald-500 via-cyan-500 to-slate-700"></div>
+          <div class="absolute left-[19px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-600 via-blue-500 to-slate-700"></div>
 
           <div *ngFor="let event of filteredEvents; let i = index"
                class="relative pl-12 pb-8 last:pb-0 animate-fade-in-up"
@@ -113,15 +113,15 @@ interface TimelineEvent {
                    ? 'bg-slate-700 border-2 border-slate-600'
                    : event.status === 'critical'
                      ? 'bg-red-500/20 border-2 border-red-400'
-                     : 'bg-emerald-500/20 border-2 border-emerald-400'">
+                     : 'bg-blue-100 border-2 border-blue-400'">
               <div class="w-2 h-2 rounded-full"
-                   [class]="event.status === 'past' ? 'bg-slate-500' : event.status === 'critical' ? 'bg-red-400' : 'bg-emerald-400'">
+                   [class]="event.status === 'past' ? 'bg-slate-500' : event.status === 'critical' ? 'bg-red-400' : 'bg-blue-500'">
               </div>
             </div>
 
             <!-- Event card -->
-            <div class="bg-slate-800/50 border rounded-xl p-4 transition-all hover:border-slate-600/50"
-                 [class]="event.status === 'past' ? 'border-slate-700/30 opacity-60' : 'border-slate-700/50'">
+            <div class="bg-white border rounded-xl p-4 transition-all hover:border-slate-200"
+                 [class]="event.status === 'past' ? 'border-slate-200 opacity-60' : 'border-slate-200'">
               <div class="flex items-start justify-between gap-4 mb-2">
                 <div class="flex items-center gap-2 flex-wrap">
                   <span [class]="'text-xs font-bold px-2 py-0.5 rounded-full ' + getRegulationClass(event.regulation)">
@@ -140,7 +140,7 @@ interface TimelineEvent {
                 {{ lang.l(event.descriptionEt, event.description) }}
               </p>
               <a *ngIf="event.link" [href]="event.link" target="_blank" rel="noopener"
-                 class="inline-flex items-center gap-1 mt-2 text-xs text-cyan-400 hover:text-cyan-300 transition-colors">
+                 class="inline-flex items-center gap-1 mt-2 text-xs text-blue-500 hover:text-blue-400 transition-colors">
                 {{ lang.t('timeline.learn_more') }}
                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
@@ -154,21 +154,21 @@ interface TimelineEvent {
       <!-- Quick links -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <a href="https://eur-lex.europa.eu/legal-content/ET/TXT/?uri=CELEX:32022R2554" target="_blank" rel="noopener"
-           class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 hover:border-emerald-500/30 transition-all group">
+           class="bg-white border border-slate-200 rounded-xl p-4 hover:border-blue-200 transition-all group">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">
+            <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-100 transition-colors">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
               </svg>
             </div>
             <div>
-              <p class="text-sm font-semibold text-white group-hover:text-emerald-400 transition-colors">DORA {{ lang.t('timeline.full_text') }}</p>
+              <p class="text-sm font-semibold text-white group-hover:text-blue-600 transition-colors">DORA {{ lang.t('timeline.full_text') }}</p>
               <p class="text-xs text-slate-500">EUR-Lex</p>
             </div>
           </div>
         </a>
         <a href="https://eur-lex.europa.eu/legal-content/ET/TXT/?uri=CELEX:32022L2555" target="_blank" rel="noopener"
-           class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 hover:border-blue-500/30 transition-all group">
+           class="bg-white border border-slate-200 rounded-xl p-4 hover:border-blue-500/30 transition-all group">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-500/20 transition-colors">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -182,7 +182,7 @@ interface TimelineEvent {
           </div>
         </a>
         <a routerLink="/regulatory-updates"
-           class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 hover:border-amber-500/30 transition-all group">
+           class="bg-white border border-slate-200 rounded-xl p-4 hover:border-amber-500/30 transition-all group">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 group-hover:bg-amber-500/20 transition-colors">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -418,13 +418,13 @@ export class RegulatoryTimelineComponent implements OnInit, OnDestroy {
   filterClass(filter: string): string {
     const base = 'px-3 py-1.5 rounded-lg text-xs font-medium transition-all';
     return filter === this.filterRegulation
-      ? base + ' bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
+      ? base + ' bg-blue-600/20 text-blue-500 border border-blue-500/30'
       : base + ' bg-slate-700/30 text-slate-400 border border-slate-600/30 hover:text-white';
   }
 
   getRegulationClass(regulation: string): string {
     switch (regulation) {
-      case 'DORA': return 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+      case 'DORA': return 'bg-blue-100 text-blue-600 border border-blue-200';
       case 'NIS2': return 'bg-blue-500/20 text-blue-400 border border-blue-500/30';
       case 'RTS':
       case 'ITS': return 'bg-purple-500/20 text-purple-400 border border-purple-500/30';
@@ -436,7 +436,7 @@ export class RegulatoryTimelineComponent implements OnInit, OnDestroy {
     switch (type) {
       case 'deadline': return 'bg-red-500/10 text-red-400';
       case 'enforcement': return 'bg-amber-500/10 text-amber-400';
-      case 'milestone': return 'bg-cyan-500/10 text-cyan-400';
+      case 'milestone': return 'bg-blue-50 text-blue-500';
       case 'update': return 'bg-slate-500/10 text-slate-400';
       default: return 'bg-slate-500/10 text-slate-400';
     }

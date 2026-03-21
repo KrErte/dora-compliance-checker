@@ -24,19 +24,19 @@ import { ApiService } from '../api.service';
       <!-- Summary Stats -->
       @if (data()) {
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
+          <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-white">{{ data()!.totalCount }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('radar.total_updates') }}</div>
           </div>
-          <div class="bg-slate-800/50 border border-red-500/30 rounded-xl p-4 text-center">
+          <div class="bg-white border border-red-500/30 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-red-400">{{ data()!.criticalCount }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('radar.critical') }}</div>
           </div>
-          <div class="bg-slate-800/50 border border-orange-500/30 rounded-xl p-4 text-center">
+          <div class="bg-white border border-orange-500/30 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-orange-400">{{ data()!.highCount }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('radar.high') }}</div>
           </div>
-          <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 text-center">
+          <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
             <div class="text-2xl font-bold text-blue-400">{{ data()!.totalPages }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('radar.pages') }}</div>
           </div>
@@ -46,7 +46,7 @@ import { ApiService } from '../api.service';
       <!-- Filters -->
       <div class="flex flex-wrap gap-3">
         <select [(ngModel)]="filterSeverity" (ngModelChange)="loadData()"
-                class="bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 py-2 text-white text-sm focus:outline-none focus:border-blue-500/50">
+                class="bg-white border border-slate-200 rounded-xl px-4 py-2 text-white text-sm focus:outline-none focus:border-blue-500/50">
           <option value="">{{ lang.t('radar.all_severity') }}</option>
           <option value="CRITICAL">Critical</option>
           <option value="HIGH">High</option>
@@ -55,7 +55,7 @@ import { ApiService } from '../api.service';
           <option value="INFO">Info</option>
         </select>
         <select [(ngModel)]="filterRegulation" (ngModelChange)="loadData()"
-                class="bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 py-2 text-white text-sm focus:outline-none focus:border-blue-500/50">
+                class="bg-white border border-slate-200 rounded-xl px-4 py-2 text-white text-sm focus:outline-none focus:border-blue-500/50">
           <option value="">{{ lang.t('radar.all_regulations') }}</option>
           <option value="DORA">DORA</option>
           <option value="NIS2">NIS2</option>
@@ -77,7 +77,7 @@ import { ApiService } from '../api.service';
       } @else {
         <div class="space-y-4">
           @for (item of items(); track item.id) {
-            <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-5 hover:border-blue-500/30 transition-colors cursor-pointer"
+            <div class="bg-white border border-slate-200 rounded-xl p-5 hover:border-blue-500/30 transition-colors cursor-pointer"
                  (click)="toggleExpand(item.id)">
               <div class="flex items-start gap-4">
                 <!-- Severity badge -->
@@ -101,7 +101,7 @@ import { ApiService } from '../api.service';
                       <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400">{{ item.affectedContractCount }} {{ lang.t('radar.contracts') }}</span>
                     }
                     @if (item.affectedProviderCount > 0) {
-                      <span class="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400">{{ item.affectedProviderCount }} {{ lang.t('radar.providers') }}</span>
+                      <span class="px-2 py-0.5 rounded bg-blue-50 text-blue-500">{{ item.affectedProviderCount }} {{ lang.t('radar.providers') }}</span>
                     }
                     <!-- Pillar chips -->
                     @if (item.affectedArticles) {
@@ -113,10 +113,10 @@ import { ApiService } from '../api.service';
 
               <!-- Expanded -->
               @if (expandedId() === item.id) {
-                <div class="mt-4 pt-4 border-t border-slate-700/50 space-y-3">
+                <div class="mt-4 pt-4 border-t border-slate-200 space-y-3">
                   @if (item.impactAnalysis) {
                     <div>
-                      <div class="text-xs font-medium text-slate-300 mb-1">{{ lang.t('radar.impact_analysis') }}</div>
+                      <div class="text-xs font-medium text-slate-600 mb-1">{{ lang.t('radar.impact_analysis') }}</div>
                       <p class="text-sm text-slate-400">{{ item.impactAnalysis }}</p>
                     </div>
                   }
@@ -143,12 +143,12 @@ import { ApiService } from '../api.service';
         @if (data() && data()!.totalPages > 1) {
           <div class="flex justify-center gap-2">
             <button (click)="loadPage(currentPage - 1)" [disabled]="currentPage === 0"
-                    class="px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50 text-slate-300 text-sm disabled:opacity-30">
+                    class="px-4 py-2 rounded-lg bg-white border border-slate-200 text-slate-600 text-sm disabled:opacity-30">
               {{ lang.t('radar.prev') }}
             </button>
             <span class="px-4 py-2 text-slate-400 text-sm">{{ currentPage + 1 }} / {{ data()!.totalPages }}</span>
             <button (click)="loadPage(currentPage + 1)" [disabled]="currentPage >= data()!.totalPages - 1"
-                    class="px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700/50 text-slate-300 text-sm disabled:opacity-30">
+                    class="px-4 py-2 rounded-lg bg-white border border-slate-200 text-slate-600 text-sm disabled:opacity-30">
               {{ lang.t('radar.next') }}
             </button>
           </div>
@@ -164,15 +164,15 @@ import { ApiService } from '../api.service';
               <button (click)="impactData.set(null)" class="text-slate-400 hover:text-white">&times;</button>
             </div>
             @if (impactData()!.affectedContracts?.length > 0) {
-              <h3 class="text-sm font-medium text-slate-300 mb-2">{{ lang.t('radar.affected_contracts') }}</h3>
+              <h3 class="text-sm font-medium text-slate-600 mb-2">{{ lang.t('radar.affected_contracts') }}</h3>
               <div class="space-y-2 mb-4">
                 @for (c of impactData()!.affectedContracts; track c.id) {
-                  <div class="bg-slate-800/50 rounded-lg p-3 flex items-center justify-between">
+                  <div class="bg-white rounded-lg p-3 flex items-center justify-between">
                     <div>
                       <div class="text-sm text-white">{{ c.companyName }}</div>
                       <div class="text-xs text-slate-400">{{ c.contractName }}</div>
                     </div>
-                    <span class="px-2 py-0.5 rounded text-xs" [class]="c.currentLevel === 'GREEN' ? 'bg-emerald-500/10 text-emerald-400' : c.currentLevel === 'YELLOW' ? 'bg-amber-500/10 text-amber-400' : 'bg-red-500/10 text-red-400'">
+                    <span class="px-2 py-0.5 rounded text-xs" [class]="c.currentLevel === 'GREEN' ? 'bg-blue-50 text-blue-600' : c.currentLevel === 'YELLOW' ? 'bg-amber-500/10 text-amber-400' : 'bg-red-500/10 text-red-400'">
                       {{ c.currentLevel }}
                     </span>
                   </div>
@@ -180,10 +180,10 @@ import { ApiService } from '../api.service';
               </div>
             }
             @if (impactData()!.affectedProviders?.length > 0) {
-              <h3 class="text-sm font-medium text-slate-300 mb-2">{{ lang.t('radar.affected_providers') }}</h3>
+              <h3 class="text-sm font-medium text-slate-600 mb-2">{{ lang.t('radar.affected_providers') }}</h3>
               <div class="space-y-2">
                 @for (p of impactData()!.affectedProviders; track p.id) {
-                  <div class="bg-slate-800/50 rounded-lg p-3 flex items-center justify-between">
+                  <div class="bg-white rounded-lg p-3 flex items-center justify-between">
                     <div>
                       <div class="text-sm text-white">{{ p.providerName }}</div>
                       <div class="text-xs text-slate-400">{{ p.serviceType }}</div>

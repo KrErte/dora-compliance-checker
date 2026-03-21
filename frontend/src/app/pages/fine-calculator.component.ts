@@ -48,15 +48,15 @@ interface FineResult {
       </div>
 
       <!-- Main Form -->
-      <div class="max-w-2xl mx-auto bg-slate-800/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 md:p-8 space-y-6">
+      <div class="max-w-2xl mx-auto bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6 md:p-8 space-y-6">
 
         <!-- Company Type -->
         <div class="space-y-2">
-          <label class="block text-sm font-medium text-slate-300">{{ lang.t('fine.company_type') }} *</label>
+          <label class="block text-sm font-medium text-slate-600">{{ lang.t('fine.company_type') }} *</label>
           <select [(ngModel)]="companyType"
-                  class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border text-white
+                  class="w-full px-4 py-3 rounded-xl bg-white border text-white
                          focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 transition-all"
-                  [ngClass]="showValidation && !companyType ? 'border-red-500/60' : 'border-slate-600/50'">
+                  [ngClass]="showValidation && !companyType ? 'border-red-500/60' : 'border-slate-200'">
             <option value="" disabled>{{ lang.t('fine.select_type') }}</option>
             <option value="credit">{{ lang.t('fine.type_credit') }}</option>
             <option value="investment">{{ lang.t('fine.type_investment') }}</option>
@@ -69,13 +69,13 @@ interface FineResult {
 
         <!-- Revenue -->
         <div class="space-y-2">
-          <label class="block text-sm font-medium text-slate-300">{{ lang.t('fine.revenue') }} *</label>
+          <label class="block text-sm font-medium text-slate-600">{{ lang.t('fine.revenue') }} *</label>
           <div class="relative">
             <input type="text"
                    [value]="formatInputNumber(revenue)"
                    (input)="onRevenueInput($event)"
                    placeholder="10,000,000"
-                   class="w-full px-4 py-3 pr-16 rounded-xl bg-slate-900/50 border border-slate-600/50 text-white
+                   class="w-full px-4 py-3 pr-16 rounded-xl bg-white border border-slate-200 text-white
                           focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 transition-all
                           [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
             <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">EUR</span>
@@ -99,27 +99,27 @@ interface FineResult {
 
         <!-- Employees -->
         <div class="space-y-2">
-          <label class="block text-sm font-medium text-slate-300">{{ lang.t('fine.employees') }} *</label>
+          <label class="block text-sm font-medium text-slate-600">{{ lang.t('fine.employees') }} *</label>
           <input type="number"
                  [(ngModel)]="employees"
                  (blur)="employeesTouched = true"
                  min="1"
                  [placeholder]="lang.t('fine.employees_placeholder')"
-                 class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border text-white
+                 class="w-full px-4 py-3 rounded-xl bg-white border text-white
                         focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 transition-all
                         [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                 [ngClass]="(employeesTouched || showValidation) && (!employees || employees <= 0) ? 'border-red-500/60' : 'border-slate-600/50'" />
+                 [ngClass]="(employeesTouched || showValidation) && (!employees || employees <= 0) ? 'border-red-500/60' : 'border-slate-200'" />
           <p *ngIf="!((employeesTouched || showValidation) && (!employees || employees <= 0))" class="text-xs text-slate-500">{{ lang.t('fine.employees_hint') }}</p>
           <p *ngIf="(employeesTouched || showValidation) && (!employees || employees <= 0)" class="text-xs text-red-400">{{ lang.t('fine.employees_error') }}</p>
         </div>
 
         <!-- Country -->
         <div class="space-y-2">
-          <label class="block text-sm font-medium text-slate-300">{{ lang.t('fine.country') }} *</label>
+          <label class="block text-sm font-medium text-slate-600">{{ lang.t('fine.country') }} *</label>
           <select [(ngModel)]="country"
-                  class="w-full px-4 py-3 rounded-xl bg-slate-900/50 border text-white
+                  class="w-full px-4 py-3 rounded-xl bg-white border text-white
                          focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 transition-all"
-                  [ngClass]="showValidation && !country ? 'border-red-500/60' : 'border-slate-600/50'">
+                  [ngClass]="showValidation && !country ? 'border-red-500/60' : 'border-slate-200'">
             <option value="" disabled>{{ lang.t('fine.select_country') }}</option>
             <option value="EE">{{ lang.t('fine.country_ee') }}</option>
             <option value="PL">{{ lang.t('fine.country_pl') }}</option>
@@ -130,7 +130,7 @@ interface FineResult {
         </div>
 
         <!-- Compliance Questions Section -->
-        <div class="pt-4 border-t border-slate-700/50 space-y-4">
+        <div class="pt-4 border-t border-slate-200 space-y-4">
           <div>
             <h3 class="text-lg font-semibold text-white">{{ lang.t('fine.compliance_section') }}</h3>
             <p class="text-sm text-slate-500">{{ lang.t('fine.compliance_hint') }}</p>
@@ -138,7 +138,7 @@ interface FineResult {
 
           <!-- Question 1 -->
           <div class="p-4 rounded-xl bg-slate-900/30 border space-y-3"
-               [ngClass]="showValidation && q1 === null ? 'border-red-500/40' : 'border-slate-700/30'">
+               [ngClass]="showValidation && q1 === null ? 'border-red-500/40' : 'border-slate-200'">
             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
               <div class="flex-1">
                 <p class="text-sm font-medium text-white">{{ lang.t('fine.q1') }}</p>
@@ -146,11 +146,11 @@ interface FineResult {
               </div>
               <div class="flex gap-2 shrink-0">
                 <button (click)="q1 = true"
-                        [class]="q1 === true ? 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-sm font-medium' : 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-slate-800 border border-slate-600/50 text-slate-400 text-sm font-medium hover:border-slate-500'">
+                        [class]="q1 === true ? 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-blue-100 border border-blue-500/40 text-blue-600 text-sm font-medium' : 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-slate-800 border border-slate-200 text-slate-400 text-sm font-medium hover:border-slate-500'">
                   {{ lang.t('fine.yes') }}
                 </button>
                 <button (click)="q1 = false"
-                        [class]="q1 === false ? 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-red-500/20 border border-red-500/40 text-red-400 text-sm font-medium' : 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-slate-800 border border-slate-600/50 text-slate-400 text-sm font-medium hover:border-slate-500'">
+                        [class]="q1 === false ? 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-red-500/20 border border-red-500/40 text-red-400 text-sm font-medium' : 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-slate-800 border border-slate-200 text-slate-400 text-sm font-medium hover:border-slate-500'">
                   {{ lang.t('fine.no') }}
                 </button>
               </div>
@@ -159,7 +159,7 @@ interface FineResult {
 
           <!-- Question 2 -->
           <div class="p-4 rounded-xl bg-slate-900/30 border space-y-3"
-               [ngClass]="showValidation && q2 === null ? 'border-red-500/40' : 'border-slate-700/30'">
+               [ngClass]="showValidation && q2 === null ? 'border-red-500/40' : 'border-slate-200'">
             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
               <div class="flex-1">
                 <p class="text-sm font-medium text-white">{{ lang.t('fine.q2') }}</p>
@@ -167,11 +167,11 @@ interface FineResult {
               </div>
               <div class="flex gap-2 shrink-0">
                 <button (click)="q2 = true"
-                        [class]="q2 === true ? 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-sm font-medium' : 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-slate-800 border border-slate-600/50 text-slate-400 text-sm font-medium hover:border-slate-500'">
+                        [class]="q2 === true ? 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-blue-100 border border-blue-500/40 text-blue-600 text-sm font-medium' : 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-slate-800 border border-slate-200 text-slate-400 text-sm font-medium hover:border-slate-500'">
                   {{ lang.t('fine.yes') }}
                 </button>
                 <button (click)="q2 = false"
-                        [class]="q2 === false ? 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-red-500/20 border border-red-500/40 text-red-400 text-sm font-medium' : 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-slate-800 border border-slate-600/50 text-slate-400 text-sm font-medium hover:border-slate-500'">
+                        [class]="q2 === false ? 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-red-500/20 border border-red-500/40 text-red-400 text-sm font-medium' : 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-slate-800 border border-slate-200 text-slate-400 text-sm font-medium hover:border-slate-500'">
                   {{ lang.t('fine.no') }}
                 </button>
               </div>
@@ -180,7 +180,7 @@ interface FineResult {
 
           <!-- Question 3 -->
           <div class="p-4 rounded-xl bg-slate-900/30 border space-y-3"
-               [ngClass]="showValidation && q3 === null ? 'border-red-500/40' : 'border-slate-700/30'">
+               [ngClass]="showValidation && q3 === null ? 'border-red-500/40' : 'border-slate-200'">
             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
               <div class="flex-1">
                 <p class="text-sm font-medium text-white">{{ lang.t('fine.q3') }}</p>
@@ -188,11 +188,11 @@ interface FineResult {
               </div>
               <div class="flex gap-2 shrink-0">
                 <button (click)="q3 = true"
-                        [class]="q3 === true ? 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-sm font-medium' : 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-slate-800 border border-slate-600/50 text-slate-400 text-sm font-medium hover:border-slate-500'">
+                        [class]="q3 === true ? 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-blue-100 border border-blue-500/40 text-blue-600 text-sm font-medium' : 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-slate-800 border border-slate-200 text-slate-400 text-sm font-medium hover:border-slate-500'">
                   {{ lang.t('fine.yes') }}
                 </button>
                 <button (click)="q3 = false"
-                        [class]="q3 === false ? 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-red-500/20 border border-red-500/40 text-red-400 text-sm font-medium' : 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-slate-800 border border-slate-600/50 text-slate-400 text-sm font-medium hover:border-slate-500'">
+                        [class]="q3 === false ? 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-red-500/20 border border-red-500/40 text-red-400 text-sm font-medium' : 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-slate-800 border border-slate-200 text-slate-400 text-sm font-medium hover:border-slate-500'">
                   {{ lang.t('fine.no') }}
                 </button>
               </div>
@@ -201,7 +201,7 @@ interface FineResult {
 
           <!-- Question 4 -->
           <div class="p-4 rounded-xl bg-slate-900/30 border space-y-3"
-               [ngClass]="showValidation && q4 === null ? 'border-red-500/40' : 'border-slate-700/30'">
+               [ngClass]="showValidation && q4 === null ? 'border-red-500/40' : 'border-slate-200'">
             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
               <div class="flex-1">
                 <p class="text-sm font-medium text-white">{{ lang.t('fine.q4') }}</p>
@@ -209,11 +209,11 @@ interface FineResult {
               </div>
               <div class="flex gap-2 shrink-0">
                 <button (click)="q4 = true"
-                        [class]="q4 === true ? 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-sm font-medium' : 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-slate-800 border border-slate-600/50 text-slate-400 text-sm font-medium hover:border-slate-500'">
+                        [class]="q4 === true ? 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-blue-100 border border-blue-500/40 text-blue-600 text-sm font-medium' : 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-slate-800 border border-slate-200 text-slate-400 text-sm font-medium hover:border-slate-500'">
                   {{ lang.t('fine.yes') }}
                 </button>
                 <button (click)="q4 = false"
-                        [class]="q4 === false ? 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-red-500/20 border border-red-500/40 text-red-400 text-sm font-medium' : 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-slate-800 border border-slate-600/50 text-slate-400 text-sm font-medium hover:border-slate-500'">
+                        [class]="q4 === false ? 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-red-500/20 border border-red-500/40 text-red-400 text-sm font-medium' : 'flex-1 sm:flex-initial px-4 py-2 rounded-lg bg-slate-800 border border-slate-200 text-slate-400 text-sm font-medium hover:border-slate-500'">
                   {{ lang.t('fine.no') }}
                 </button>
               </div>
@@ -258,7 +258,7 @@ interface FineResult {
             € {{ formatNumber(result.displayValue) }}
           </div>
           <p class="text-sm text-slate-500 mb-2">{{ lang.t('fine.result_range') }}</p>
-          <p class="text-lg text-slate-300">
+          <p class="text-lg text-slate-600">
             € {{ formatNumber(result.likelyMin) }} — € {{ formatNumber(result.likelyMax) }}
           </p>
           <div class="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-full"
@@ -283,18 +283,18 @@ interface FineResult {
             <span class="text-sm opacity-40 font-semibold">vs</span>
             <div class="text-center">
               <span class="block text-xs uppercase tracking-wider opacity-60 mb-1">DoraAudit Professional</span>
-              <span class="block text-[28px] font-bold text-emerald-400">€149/{{ lang.t('roi.month') }}</span>
+              <span class="block text-[28px] font-bold text-blue-600">€149/{{ lang.t('roi.month') }}</span>
             </div>
           </div>
 
           <div class="text-center">
             <p class="text-sm mb-1">
-              <strong class="text-xl text-emerald-400">{{ roiData.roiPercent }}%</strong>
-              <span class="text-slate-300 ml-1">{{ lang.t('roi.ofYourRisk') }}</span>
+              <strong class="text-xl text-blue-600">{{ roiData.roiPercent }}%</strong>
+              <span class="text-slate-600 ml-1">{{ lang.t('roi.ofYourRisk') }}</span>
             </p>
             <p class="text-sm opacity-70 mt-2 mb-5">{{ lang.t('roi.context') }}</p>
             <a routerLink="/register"
-               class="inline-block px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-slate-900 rounded-xl font-semibold text-sm transition-all hover:-translate-y-0.5 mr-3">
+               class="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-slate-900 rounded-xl font-semibold text-sm transition-all hover:-translate-y-0.5 mr-3">
               {{ lang.t('roi.startAssessment') }} →
             </a>
             <a routerLink="/pricing" class="text-sm opacity-60 underline">{{ lang.t('roi.seePlans') }}</a>
@@ -302,11 +302,11 @@ interface FineResult {
         </div>
 
         <!-- Fine Range Breakdown -->
-        <div class="max-w-2xl mx-auto bg-slate-800/50 rounded-xl border border-slate-700/50 p-6">
+        <div class="max-w-2xl mx-auto bg-white rounded-xl border border-slate-200 p-6">
           <div class="grid grid-cols-2 gap-6">
             <div class="text-center p-4 rounded-lg bg-slate-900/30">
               <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.t('fine.result_min') }}</p>
-              <p class="text-2xl font-bold text-slate-300">€ {{ formatNumber(result.minFine) }}</p>
+              <p class="text-2xl font-bold text-slate-600">€ {{ formatNumber(result.minFine) }}</p>
             </div>
             <div class="text-center p-4 rounded-lg bg-slate-900/30">
               <p class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.t('fine.result_max') }}</p>
@@ -324,12 +324,12 @@ interface FineResult {
 
           <div *ngFor="let gap of result.gaps"
                class="p-4 rounded-xl bg-red-500/5 border border-red-500/20">
-            <p class="text-sm text-slate-300 leading-relaxed">{{ lang.t('fine.gap_' + gap) }}</p>
+            <p class="text-sm text-slate-600 leading-relaxed">{{ lang.t('fine.gap_' + gap) }}</p>
           </div>
         </div>
 
         <!-- Legal Basis Info -->
-        <div class="max-w-2xl mx-auto p-5 rounded-xl border border-slate-700/50 bg-slate-800/30">
+        <div class="max-w-2xl mx-auto p-5 rounded-xl border border-slate-200 bg-slate-800/30">
           <h4 class="text-sm font-semibold text-white mb-3 flex items-center gap-2">
             <span>📋</span>
             {{ lang.t('fine.legal_basis') }}
@@ -346,7 +346,7 @@ interface FineResult {
 
             <!-- CTA: Assessment -->
             <a routerLink="/assessment"
-               class="block p-5 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-teal-500/50 transition-all group">
+               class="block p-5 rounded-xl bg-white border border-slate-200 hover:border-teal-500/50 transition-all group">
               <div class="flex items-start gap-4">
                 <div class="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center shrink-0 group-hover:bg-teal-500/20 transition-colors">
                   <span class="text-2xl">📊</span>
@@ -360,7 +360,7 @@ interface FineResult {
 
             <!-- CTA: Contract Analysis -->
             <a routerLink="/contract-analysis"
-               class="block p-5 rounded-xl bg-slate-800/50 border border-slate-700/50 hover:border-teal-500/50 transition-all group">
+               class="block p-5 rounded-xl bg-white border border-slate-200 hover:border-teal-500/50 transition-all group">
               <div class="flex items-start gap-4">
                 <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0 group-hover:bg-amber-500/20 transition-colors">
                   <span class="text-2xl">📄</span>
@@ -374,7 +374,7 @@ interface FineResult {
           </div>
 
           <!-- Email Gate for PDF -->
-          <div class="p-6 rounded-xl border-2 border-dashed border-slate-700/50 bg-slate-800/30">
+          <div class="p-6 rounded-xl border-2 border-dashed border-slate-200 bg-slate-800/30">
             <div class="flex items-start gap-4">
               <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center shrink-0">
                 <span class="text-2xl">📥</span>
@@ -387,7 +387,7 @@ interface FineResult {
                   <input type="email"
                          [(ngModel)]="email"
                          [placeholder]="lang.t('fine.email_placeholder')"
-                         class="flex-1 px-4 py-2.5 rounded-lg bg-slate-900/50 border border-slate-600/50 text-white text-sm
+                         class="flex-1 px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-white text-sm
                                 focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20 transition-all" />
                   <button (click)="submitEmail()"
                           [disabled]="!isValidEmail() || emailLoading"
@@ -400,7 +400,7 @@ interface FineResult {
                     {{ lang.t('fine.email_submit') }}
                   </button>
                 </div>
-                <div *ngIf="emailSent" class="flex items-center gap-2 text-emerald-400">
+                <div *ngIf="emailSent" class="flex items-center gap-2 text-blue-600">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                   </svg>
@@ -425,7 +425,7 @@ interface FineResult {
 
       <!-- Info Section (when no results) -->
       <div *ngIf="!result" class="max-w-2xl mx-auto">
-        <div class="p-6 rounded-xl border border-slate-700/50 bg-slate-800/30">
+        <div class="p-6 rounded-xl border border-slate-200 bg-slate-800/30">
           <h4 class="text-sm font-semibold text-white mb-3 flex items-center gap-2">
             <span>💡</span>
             {{ lang.t('fine.info_title') }}
@@ -793,17 +793,17 @@ export class FineCalculatorComponent implements OnInit, OnDestroy {
 
   getResultBorderClass(): string {
     switch (this.result?.riskLevel) {
-      case 'low': return 'border-emerald-500/50 bg-emerald-500/5';
+      case 'low': return 'border-blue-500/50 bg-blue-50';
       case 'medium': return 'border-yellow-500/50 bg-yellow-500/5';
       case 'high': return 'border-orange-500/50 bg-orange-500/5';
       case 'critical': return 'border-red-500/50 bg-red-500/5';
-      default: return 'border-slate-700/50';
+      default: return 'border-slate-200';
     }
   }
 
   getResultTextClass(): string {
     switch (this.result?.riskLevel) {
-      case 'low': return 'text-emerald-400';
+      case 'low': return 'text-blue-600';
       case 'medium': return 'text-yellow-400';
       case 'high': return 'text-orange-400';
       case 'critical': return 'text-red-400';
@@ -813,7 +813,7 @@ export class FineCalculatorComponent implements OnInit, OnDestroy {
 
   getResultBadgeClass(): string {
     switch (this.result?.riskLevel) {
-      case 'low': return 'bg-emerald-500/20 text-emerald-400';
+      case 'low': return 'bg-blue-100 text-blue-600';
       case 'medium': return 'bg-yellow-500/20 text-yellow-400';
       case 'high': return 'bg-orange-500/20 text-orange-400';
       case 'critical': return 'bg-red-500/20 text-red-400';

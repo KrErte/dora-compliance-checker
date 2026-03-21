@@ -15,7 +15,7 @@ import { ContractAlert } from '../models';
       <!-- Header -->
       <div class="flex items-center justify-between">
         <div>
-          <a routerLink="/guardian" class="text-sm text-slate-500 hover:text-emerald-400 transition-colors mb-2 inline-block">
+          <a routerLink="/guardian" class="text-sm text-slate-500 hover:text-blue-600 transition-colors mb-2 inline-block">
             &larr; {{ lang.t('guardian.back') }}
           </a>
           <h1 class="text-2xl font-bold text-white flex items-center gap-3">
@@ -41,7 +41,7 @@ import { ContractAlert } from '../models';
       </div>
 
       <!-- Empty -->
-      <div *ngIf="!loading && filteredAlerts.length === 0" class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
+      <div *ngIf="!loading && filteredAlerts.length === 0" class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
         <svg class="w-12 h-12 mx-auto mb-3 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
         </svg>
@@ -51,7 +51,7 @@ import { ContractAlert } from '../models';
       <!-- Alert list -->
       <div *ngIf="!loading && filteredAlerts.length > 0" class="space-y-3">
         <div *ngFor="let alert of filteredAlerts"
-             [class]="'bg-slate-800/50 backdrop-blur border rounded-xl p-5 transition-all ' + (alert.read ? 'border-slate-700/50 opacity-70' : 'border-slate-600/50')">
+             [class]="'bg-white backdrop-blur border rounded-xl p-5 transition-all ' + (alert.read ? 'border-slate-200 opacity-70' : 'border-slate-200')">
           <div class="flex items-start gap-4">
             <!-- Severity icon -->
             <div [class]="'flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center ' + severityBg(alert.severity)">
@@ -79,7 +79,7 @@ import { ContractAlert } from '../models';
                 <span *ngIf="alert.previousScore != null && alert.newScore != null" class="text-xs">
                   <span class="text-slate-500">{{ alert.previousScore | number:'1.1-1' }}%</span>
                   <span class="text-slate-600 mx-1">&rarr;</span>
-                  <span [class]="alert.newScore >= alert.previousScore ? 'text-emerald-400' : 'text-red-400'">
+                  <span [class]="alert.newScore >= alert.previousScore ? 'text-blue-600' : 'text-red-400'">
                     {{ alert.newScore | number:'1.1-1' }}%
                   </span>
                 </span>
@@ -88,7 +88,7 @@ import { ContractAlert } from '../models';
 
             <!-- Mark read button -->
             <button type="button" *ngIf="!alert.read" (click)="markRead(alert)"
-                    class="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-700/50 text-slate-300 border border-slate-600/30 hover:bg-slate-600/50 transition-all">
+                    class="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-700/50 text-slate-600 border border-slate-600/30 hover:bg-slate-100 transition-all">
               {{ lang.t('guardian.mark_read') }}
             </button>
           </div>

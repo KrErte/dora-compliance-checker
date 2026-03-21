@@ -15,7 +15,7 @@ import { ApiService } from '../api.service';
       <div class="max-w-4xl mx-auto">
         <div class="flex items-center justify-between mb-8">
           <div>
-            <a routerLink="/command-center" class="text-sm text-slate-500 hover:text-emerald-400 transition-colors">&larr; {{ lang.t('intg.back') }}</a>
+            <a routerLink="/command-center" class="text-sm text-slate-500 hover:text-blue-600 transition-colors">&larr; {{ lang.t('intg.back') }}</a>
             <h1 class="text-2xl font-bold text-white mt-1">{{ lang.t('intg.title') }}</h1>
             <p class="text-sm text-slate-400 mt-1">{{ lang.t('intg.subtitle') }}</p>
           </div>
@@ -39,11 +39,11 @@ import { ApiService } from '../api.service';
                   </div>
                   <div class="flex items-center gap-2">
                     <button (click)="toggleDeliveryHistory(config.id)" class="px-3 py-1 rounded-lg text-xs font-medium transition-colors"
-                            [class]="expandedDeliveryId === config.id ? 'bg-indigo-500/20 text-indigo-400' : 'bg-slate-700/50 text-slate-400 hover:text-slate-300'">
+                            [class]="expandedDeliveryId === config.id ? 'bg-indigo-500/20 text-indigo-400' : 'bg-slate-700/50 text-slate-400 hover:text-slate-600'">
                       {{ expandedDeliveryId === config.id ? 'Hide History' : 'Delivery History' }}
                     </button>
                     <button (click)="toggleEnabled(config)" class="px-3 py-1 rounded-full text-xs font-medium transition-colors"
-                            [class]="config.enabled ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-500/20 text-slate-500'">
+                            [class]="config.enabled ? 'bg-blue-100 text-blue-600' : 'bg-slate-500/20 text-slate-500'">
                       {{ config.enabled ? lang.t('intg.active') : lang.t('intg.paused') }}
                     </button>
                     <button (click)="testIntegration(config)" class="px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs"
@@ -57,16 +57,16 @@ import { ApiService } from '../api.service';
                   <p class="text-[10px] text-slate-600 mt-2">{{ lang.t('intg.last_triggered') }}: {{ config.lastTriggeredAt | date:'medium' }}</p>
                 }
                 @if (testResults[config.id]) {
-                  <p class="text-xs mt-2" [class]="testResults[config.id] === 'success' ? 'text-emerald-400' : 'text-red-400'">
+                  <p class="text-xs mt-2" [class]="testResults[config.id] === 'success' ? 'text-blue-600' : 'text-red-400'">
                     {{ testResults[config.id] === 'success' ? lang.t('intg.test_success') : lang.t('intg.test_failed') }}
                   </p>
                 }
 
                 <!-- Delivery History Section -->
                 @if (expandedDeliveryId === config.id) {
-                  <div class="mt-4 border-t border-slate-700/50 pt-4">
+                  <div class="mt-4 border-t border-slate-200 pt-4">
                     <div class="flex items-center justify-between mb-3">
-                      <h4 class="text-xs font-semibold text-slate-300 uppercase tracking-wider">Recent Deliveries</h4>
+                      <h4 class="text-xs font-semibold text-slate-600 uppercase tracking-wider">Recent Deliveries</h4>
                       <button (click)="refreshDeliveries(config.id)" class="text-[10px] text-indigo-400 hover:text-indigo-300 transition-colors">
                         Refresh
                       </button>
@@ -79,13 +79,13 @@ import { ApiService } from '../api.service';
                     } @else if (deliveries[config.id]?.length) {
                       <div class="space-y-2 max-h-64 overflow-y-auto pr-1 custom-scrollbar">
                         @for (delivery of deliveries[config.id]; track delivery.id || $index) {
-                          <div class="bg-slate-800/50 border border-slate-700/50 rounded-lg px-3 py-2.5">
+                          <div class="bg-white border border-slate-200 rounded-lg px-3 py-2.5">
                             <div class="flex items-center justify-between gap-2">
                               <div class="flex items-center gap-2 min-w-0">
                                 <span class="text-xs font-medium text-white truncate">{{ delivery.eventType }}</span>
                                 <!-- Status badge -->
                                 @if (delivery.success) {
-                                  <span class="flex-shrink-0 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/20 text-emerald-400">
+                                  <span class="flex-shrink-0 px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-100 text-blue-600">
                                     Success
                                   </span>
                                 } @else if (!delivery.success && delivery.attemptCount < 3) {
@@ -135,7 +135,7 @@ import { ApiService } from '../api.service';
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div>
               <label class="block text-sm text-slate-400 mb-1">{{ lang.t('intg.type') }}</label>
-              <select [(ngModel)]="newConfig.type" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+              <select [(ngModel)]="newConfig.type" class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
                 <option value="SLACK">Slack</option>
                 <option value="TEAMS">Microsoft Teams</option>
                 <option value="WEBHOOK">Custom Webhook</option>
@@ -144,7 +144,7 @@ import { ApiService } from '../api.service';
             <div>
               <label class="block text-sm text-slate-400 mb-1">{{ lang.t('intg.name') }}</label>
               <input type="text" [(ngModel)]="newConfig.name" [placeholder]="lang.t('intg.name_placeholder')"
-                     class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                     class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
             </div>
           </div>
 
@@ -152,7 +152,7 @@ import { ApiService } from '../api.service';
             <label class="block text-sm text-slate-400 mb-1">{{ lang.t('intg.webhook_url') }}</label>
             <input type="url" [(ngModel)]="newConfig.webhookUrl"
                    [placeholder]="newConfig.type === 'SLACK' ? 'https://hooks.slack.com/services/...' : (newConfig.type === 'TEAMS' ? 'https://outlook.office.com/webhook/...' : 'https://your-api.com/webhook')"
-                   class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-2.5 text-white font-mono text-sm">
+                   class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white font-mono text-sm">
           </div>
 
           <!-- Event selection -->
@@ -160,9 +160,9 @@ import { ApiService } from '../api.service';
             <label class="block text-sm text-slate-400 mb-2">{{ lang.t('intg.events') }}</label>
             <div class="flex flex-wrap gap-2">
               @for (event of eventTypes; track event.code) {
-                <label class="flex items-center gap-2 px-3 py-2 bg-slate-800/30 rounded-lg cursor-pointer hover:bg-slate-800/50 transition-colors">
-                  <input type="checkbox" [checked]="isEventSelected(event.code)" (change)="toggleEvent(event.code)" class="w-4 h-4 accent-emerald-500">
-                  <span class="text-sm text-slate-300">{{ event.label }}</span>
+                <label class="flex items-center gap-2 px-3 py-2 bg-slate-800/30 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                  <input type="checkbox" [checked]="isEventSelected(event.code)" (change)="toggleEvent(event.code)" class="w-4 h-4 accent-blue-600">
+                  <span class="text-sm text-slate-600">{{ event.label }}</span>
                 </label>
               }
             </div>
@@ -171,7 +171,7 @@ import { ApiService } from '../api.service';
           <!-- Setup instructions -->
           <div class="bg-slate-800/30 rounded-lg p-4 mb-4">
             @if (newConfig.type === 'SLACK') {
-              <h4 class="text-sm font-semibold text-slate-300 mb-2">{{ lang.t('intg.slack_setup') }}</h4>
+              <h4 class="text-sm font-semibold text-slate-600 mb-2">{{ lang.t('intg.slack_setup') }}</h4>
               <ol class="text-xs text-slate-400 space-y-1 list-decimal list-inside">
                 <li>{{ lang.t('intg.slack_step1') }}</li>
                 <li>{{ lang.t('intg.slack_step2') }}</li>
@@ -180,7 +180,7 @@ import { ApiService } from '../api.service';
               </ol>
             }
             @if (newConfig.type === 'TEAMS') {
-              <h4 class="text-sm font-semibold text-slate-300 mb-2">{{ lang.t('intg.teams_setup') }}</h4>
+              <h4 class="text-sm font-semibold text-slate-600 mb-2">{{ lang.t('intg.teams_setup') }}</h4>
               <ol class="text-xs text-slate-400 space-y-1 list-decimal list-inside">
                 <li>{{ lang.t('intg.teams_step1') }}</li>
                 <li>{{ lang.t('intg.teams_step2') }}</li>
@@ -188,13 +188,13 @@ import { ApiService } from '../api.service';
               </ol>
             }
             @if (newConfig.type === 'WEBHOOK') {
-              <h4 class="text-sm font-semibold text-slate-300 mb-2">{{ lang.t('intg.custom_webhook') }}</h4>
+              <h4 class="text-sm font-semibold text-slate-600 mb-2">{{ lang.t('intg.custom_webhook') }}</h4>
               <p class="text-xs text-slate-400">{{ lang.t('intg.custom_desc') }}</p>
             }
           </div>
 
           <button (click)="addIntegration()" [disabled]="!newConfig.webhookUrl || !newConfig.name"
-                  class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-semibold disabled:opacity-30 disabled:cursor-not-allowed">
+                  class="px-6 py-3 bg-blue-700 hover:bg-blue-600 text-white rounded-lg font-semibold disabled:opacity-30 disabled:cursor-not-allowed">
             {{ lang.t('intg.add') }}
           </button>
         </div>

@@ -22,7 +22,7 @@ interface PillarInfo {
   template: `
     <div class="max-w-3xl mx-auto animate-fade-in-up" *ngIf="pillar">
       <!-- Back button -->
-      <a routerLink="/" class="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-400 transition-colors mb-8">
+      <a routerLink="/" class="inline-flex items-center gap-2 text-slate-400 hover:text-blue-600 transition-colors mb-8">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
         </svg>
@@ -33,12 +33,12 @@ interface PillarInfo {
       <div class="text-center mb-10">
         <div class="text-6xl mb-4">{{ pillar.icon }}</div>
         <h1 class="text-3xl font-bold text-white mb-2">{{ lang.t(pillar.labelKey) }}</h1>
-        <p class="text-emerald-400 font-medium">{{ pillar.articles }}</p>
+        <p class="text-blue-600 font-medium">{{ pillar.articles }}</p>
       </div>
 
       <!-- Description -->
       <div class="glass-card p-6 mb-6">
-        <h2 class="text-sm font-semibold text-slate-300 mb-3">{{ lang.t('pillar.overview') }}</h2>
+        <h2 class="text-sm font-semibold text-slate-600 mb-3">{{ lang.t('pillar.overview') }}</h2>
         <p class="text-slate-400 leading-relaxed">
           {{ lang.l(pillar.descEt, pillar.descEn) }}
         </p>
@@ -46,10 +46,10 @@ interface PillarInfo {
 
       <!-- Key Requirements -->
       <div class="glass-card p-6 mb-6">
-        <h2 class="text-sm font-semibold text-slate-300 mb-4">{{ lang.t('pillar.key_requirements') }}</h2>
+        <h2 class="text-sm font-semibold text-slate-600 mb-4">{{ lang.t('pillar.key_requirements') }}</h2>
         <ul class="space-y-3">
           <li *ngFor="let req of pillar.requirements" class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
             <span class="text-slate-400 text-sm">{{ lang.l(req.et, req.en) }}</span>
@@ -59,12 +59,12 @@ interface PillarInfo {
 
       <!-- Regulatory Links -->
       <div class="glass-card p-6 mb-8">
-        <h2 class="text-sm font-semibold text-slate-300 mb-4">{{ lang.t('pillar.resources') }}</h2>
+        <h2 class="text-sm font-semibold text-slate-600 mb-4">{{ lang.t('pillar.resources') }}</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
           <a *ngFor="let link of pillar.links" [href]="link.url" target="_blank" rel="noopener"
-             class="flex items-center gap-2 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30 hover:border-emerald-500/30 transition-colors group">
-            <span class="text-sm text-slate-300 group-hover:text-emerald-300">{{ link.label }}</span>
-            <svg class="w-4 h-4 text-slate-600 group-hover:text-emerald-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+             class="flex items-center gap-2 p-3 rounded-lg bg-white border border-slate-200 hover:border-blue-200 transition-colors group">
+            <span class="text-sm text-slate-600 group-hover:text-blue-500">{{ link.label }}</span>
+            <svg class="w-4 h-4 text-slate-600 group-hover:text-blue-600 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
             </svg>
           </a>
@@ -85,18 +85,18 @@ interface PillarInfo {
       </div>
 
       <!-- CTA -->
-      <div class="glass-card p-6 border-emerald-500/20 bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 text-center">
+      <div class="glass-card p-6 border-blue-200 bg-gradient-to-br from-blue-600/5 to-blue-500/5 text-center">
         <h3 class="text-lg font-semibold text-white mb-2">{{ lang.t('pillar.cta_title') }}</h3>
         <p class="text-sm text-slate-400 mb-4">{{ lang.t('pillar.cta_desc') }}</p>
         <a *ngIf="pillar.id === 'THIRD_PARTY'" routerLink="/contract-analysis" [queryParams]="{sample: 'true'}"
-           class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 hover:from-emerald-400 hover:to-cyan-400 transition-all">
+           class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-blue-600 text-slate-900 hover:bg-blue-700 transition-all">
           {{ lang.t('landing.cta_try_sample') }}
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
           </svg>
         </a>
         <a *ngIf="pillar.id !== 'THIRD_PARTY'" routerLink="/assessment" [queryParams]="{pillar: pillar.id}"
-           class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 hover:from-emerald-400 hover:to-cyan-400 transition-all">
+           class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-blue-600 text-slate-900 hover:bg-blue-700 transition-all">
           {{ lang.t('pillar.start_assessment') }}
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
@@ -107,7 +107,7 @@ interface PillarInfo {
 
     <!-- Not found -->
     <div *ngIf="!pillar && !loading" class="min-h-[50vh] flex items-center justify-center">
-      <div class="glass-card p-8 md:p-12 max-w-lg mx-auto text-center border border-slate-700/50">
+      <div class="glass-card p-8 md:p-12 max-w-lg mx-auto text-center border border-slate-200">
         <div class="text-6xl mb-4">🔍</div>
         <h1 class="text-2xl font-bold text-white mb-2">{{ lang.t('pillar.not_found') }}</h1>
         <p class="text-slate-400 mb-8">{{ lang.t('pillar.this_dora_pillar_does_not_exist') }}</p>
@@ -117,9 +117,9 @@ interface PillarInfo {
           <p class="text-sm text-slate-500 mb-4">{{ lang.t('pillar.available_pillars') }}</p>
           <div class="grid grid-cols-1 gap-2">
             <a *ngFor="let p of pillars" [routerLink]="'/pillar/' + p.id"
-               class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30 hover:border-emerald-500/30 hover:bg-slate-700/30 transition-all group">
+               class="flex items-center gap-3 p-3 rounded-lg bg-white border border-slate-200 hover:border-blue-200 hover:bg-slate-100 transition-all group">
               <span class="text-xl">{{ p.icon }}</span>
-              <span class="text-sm text-slate-300 group-hover:text-emerald-300">{{ lang.t(p.labelKey) }}</span>
+              <span class="text-sm text-slate-600 group-hover:text-blue-500">{{ lang.t(p.labelKey) }}</span>
               <span class="text-xs text-slate-600 ml-auto">{{ p.articles }}</span>
             </a>
           </div>
@@ -128,8 +128,8 @@ interface PillarInfo {
         <!-- Back to home -->
         <a routerLink="/"
            class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
-                  bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
-                  hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
+                  bg-blue-600 text-slate-900
+                  hover:bg-blue-700 hover:shadow-lg hover:shadow-lg transition-all">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
           </svg>

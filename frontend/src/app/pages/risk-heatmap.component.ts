@@ -22,14 +22,14 @@ import { calculatePillarScores, QuestionResult } from '../models';
       </div>
 
       @if (!hasData()) {
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-12 text-center">
+        <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
           <p class="text-slate-400">{{ lang.t('heatmap.complete_an_assessment_first_to_see_the') }}</p>
         </div>
       }
 
       @if (hasData()) {
         <!-- Heat map grid -->
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6">
           <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
             @for (pillar of pillarData(); track pillar.id) {
               <div class="rounded-xl p-5 text-center transition-all"
@@ -53,13 +53,13 @@ import { calculatePillarScores, QuestionResult } from '../models';
             <span class="text-xs text-slate-400">{{ lang.t('heatmap.medium_risk_5079') }}</span>
           </div>
           <div class="flex items-center gap-2">
-            <div class="w-4 h-4 rounded bg-emerald-500/30 border border-emerald-500/40"></div>
+            <div class="w-4 h-4 rounded bg-blue-600/30 border border-blue-500/40"></div>
             <span class="text-xs text-slate-400">{{ lang.t('heatmap.low_risk_80') }}</span>
           </div>
         </div>
 
         <!-- Category breakdown -->
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6">
           <h2 class="text-lg font-semibold text-white mb-4">{{ lang.t('heatmap.category_map') }}</h2>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
             @for (cat of categoryData(); track cat.category) {
@@ -130,7 +130,7 @@ export class RiskHeatmapComponent {
   }
 
   getHeatClass(percentage: number): string {
-    if (percentage >= 80) return 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-400';
+    if (percentage >= 80) return 'bg-blue-100 border border-blue-200 text-blue-600';
     if (percentage >= 50) return 'bg-amber-500/20 border border-amber-500/30 text-amber-400';
     return 'bg-red-500/20 border border-red-500/30 text-red-400';
   }

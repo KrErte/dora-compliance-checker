@@ -82,9 +82,9 @@ interface ChartPoint {
             </button>
           } @else {
             <button (click)="subService.showUpgrade('COMPLIANCE_REPORT')"
-              class="bg-slate-800/50 backdrop-blur border border-violet-500/30 text-slate-400 font-semibold
+              class="bg-white backdrop-blur border border-violet-500/30 text-slate-400 font-semibold
                      px-5 py-2.5 rounded-lg transition-all duration-300 hover:border-violet-500/50
-                     hover:bg-slate-800/80 flex items-center gap-2 text-sm">
+                     hover:bg-white flex items-center gap-2 text-sm">
               <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11V7a5 5 0 0110 0v4"/>
               </svg>
@@ -92,30 +92,30 @@ interface ChartPoint {
             </button>
           }
           <button (click)="downloadDashboardPdf()" [disabled]="generatingDashPdf()"
-            class="bg-slate-700/50 border border-slate-600/50 text-slate-300 font-semibold px-5 py-2.5 rounded-lg transition-all hover:border-cyan-500/30 hover:bg-slate-800/80 flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+            class="bg-slate-700/50 border border-slate-200 text-slate-600 font-semibold px-5 py-2.5 rounded-lg transition-all hover:border-blue-500/30 hover:bg-white flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
             @if (generatingDashPdf()) {
               <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg>
               Generating...
             } @else {
-              <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
               </svg>
               Download PDF
             }
           </button>
           <a routerLink="/history"
-             class="bg-slate-800/50 backdrop-blur border border-slate-700/50 text-slate-300 font-semibold
-                    px-5 py-2.5 rounded-lg transition-all duration-300 hover:border-emerald-500/30
-                    hover:bg-slate-800/80 flex items-center gap-2 text-sm">
-            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+             class="bg-white backdrop-blur border border-slate-200 text-slate-600 font-semibold
+                    px-5 py-2.5 rounded-lg transition-all duration-300 hover:border-blue-200
+                    hover:bg-white flex items-center gap-2 text-sm">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
             {{ lang.t('dashboard.history') }}
           </a>
           <a routerLink="/assessment"
-             class="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
+             class="bg-blue-600 hover:bg-blue-700
                     text-slate-900 font-semibold px-5 py-2.5 rounded-lg transition-all duration-300
-                    hover:shadow-lg hover:shadow-emerald-500/25 flex items-center gap-2 text-sm">
+                    hover:shadow-lg hover:shadow-lg flex items-center gap-2 text-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
@@ -126,23 +126,23 @@ interface ChartPoint {
 
       <!-- Trial Banner -->
       <div *ngIf="subService.isTrialActive()" class="mb-6 animate-fade-in-up">
-        <div class="bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border border-emerald-500/30
+        <div class="bg-gradient-to-r from-blue-600/10 to-blue-500/10 border border-blue-200
                     rounded-xl px-6 py-4 flex items-center justify-between flex-wrap gap-3">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center shrink-0">
-              <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-10 h-10 rounded-lg bg-blue-100 border border-blue-200 flex items-center justify-center shrink-0">
+              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
               </svg>
             </div>
             <div>
-              <p class="text-sm font-semibold text-emerald-300">{{ lang.t('trial.banner_title') }}</p>
+              <p class="text-sm font-semibold text-blue-500">{{ lang.t('trial.banner_title') }}</p>
               <p class="text-xs text-slate-400">{{ subService.trialDaysLeft() }} {{ lang.t('trial.banner_days_left') }} &middot; {{ lang.t('trial.banner_features_active') }}</p>
             </div>
           </div>
           <a routerLink="/pricing"
-             class="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
+             class="bg-blue-600 hover:bg-blue-700
                     text-slate-900 font-semibold px-5 py-2 rounded-lg transition-all duration-300
-                    hover:shadow-lg hover:shadow-emerald-500/25 text-sm flex items-center gap-2 whitespace-nowrap">
+                    hover:shadow-lg hover:shadow-lg text-sm flex items-center gap-2 whitespace-nowrap">
             {{ lang.t('trial.banner_upgrade') }}
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
@@ -157,11 +157,11 @@ interface ChartPoint {
       <!-- Compliance Score Widget -->
       @if (auditReadiness() && history.length > 0) {
         <div class="mb-6 animate-fade-in-up">
-          <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5">
+          <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-5">
             <div class="flex items-center justify-between mb-4">
               <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 border border-emerald-500/20 flex items-center justify-center">
-                  <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600/20 to-blue-500/20 border border-blue-200 flex items-center justify-center">
+                  <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                   </svg>
                 </div>
@@ -170,7 +170,7 @@ interface ChartPoint {
                   <p class="text-[11px] text-slate-500">{{ lang.l('Auditiks valmisolek', 'Audit Readiness Overview') }}</p>
                 </div>
               </div>
-              <a routerLink="/audit-readiness" class="text-xs text-emerald-400 hover:text-emerald-300 font-medium flex items-center gap-1 transition-colors">
+              <a routerLink="/audit-readiness" class="text-xs text-blue-600 hover:text-blue-500 font-medium flex items-center gap-1 transition-colors">
                 {{ lang.l('Vaata detaile', 'View Details') }}
                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
               </a>
@@ -188,7 +188,7 @@ interface ChartPoint {
                 </svg>
                 <div class="absolute inset-0 flex items-center justify-center">
                   <span class="text-lg font-bold"
-                        [class]="auditReadiness().overallScore >= 80 ? 'text-emerald-400' : auditReadiness().overallScore >= 60 ? 'text-amber-400' : auditReadiness().overallScore >= 40 ? 'text-orange-400' : 'text-red-400'">
+                        [class]="auditReadiness().overallScore >= 80 ? 'text-blue-600' : auditReadiness().overallScore >= 60 ? 'text-amber-400' : auditReadiness().overallScore >= 40 ? 'text-orange-400' : 'text-red-400'">
                     {{ auditReadiness().overallScore }}%
                   </span>
                 </div>
@@ -201,10 +201,10 @@ interface ChartPoint {
                     <div class="flex-1 h-2 bg-slate-700/50 rounded-full overflow-hidden">
                       <div class="h-full rounded-full transition-all duration-500"
                            [style.width.%]="mod.score"
-                           [class]="mod.score >= 80 ? 'bg-emerald-500' : mod.score >= 60 ? 'bg-amber-500' : mod.score >= 40 ? 'bg-orange-500' : 'bg-red-500'"></div>
+                           [class]="mod.score >= 80 ? 'bg-blue-600' : mod.score >= 60 ? 'bg-amber-500' : mod.score >= 40 ? 'bg-orange-500' : 'bg-red-500'"></div>
                     </div>
                     <span class="text-[10px] font-medium w-8 text-right"
-                          [class]="mod.score >= 80 ? 'text-emerald-400' : mod.score >= 60 ? 'text-amber-400' : mod.score >= 40 ? 'text-orange-400' : 'text-red-400'">{{ mod.score }}%</span>
+                          [class]="mod.score >= 80 ? 'text-blue-600' : mod.score >= 60 ? 'text-amber-400' : mod.score >= 40 ? 'text-orange-400' : 'text-red-400'">{{ mod.score }}%</span>
                   </div>
                 }
               </div>
@@ -216,7 +216,7 @@ interface ChartPoint {
       <!-- Achievement Badges Widget -->
       @if (history.length > 0 && achievements().length > 0) {
         <div class="mb-6 animate-fade-in-up">
-          <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5">
+          <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-5">
             <div class="flex items-center justify-between mb-4">
               <div class="flex items-center gap-2.5">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/20 flex items-center justify-center">
@@ -240,7 +240,7 @@ interface ChartPoint {
                 <div class="group relative flex flex-col items-center"
                      (click)="badge.unlocked && !badge.seen && markAchievementSeen(badge.key)">
                   <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg transition-all"
-                       [class]="badge.unlocked ? 'bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30 shadow-lg shadow-amber-500/10' : 'bg-slate-700/30 border border-slate-700/50 opacity-40'">
+                       [class]="badge.unlocked ? 'bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30 shadow-lg shadow-amber-500/10' : 'bg-slate-700/30 border border-slate-200 opacity-40'">
                     {{ getAchievementEmoji(badge.icon) }}
                   </div>
                   @if (badge.unlocked && !badge.seen) {
@@ -260,7 +260,7 @@ interface ChartPoint {
       <!-- Autopilot Widget (premium only) -->
       @if (subService.isPremium() && autopilotCounts() && (autopilotCounts()!.total > 0)) {
         <div class="mb-6 animate-fade-in-up">
-          <div class="bg-slate-800/50 backdrop-blur border border-violet-500/20 rounded-xl p-5">
+          <div class="bg-white backdrop-blur border border-violet-500/20 rounded-xl p-5">
             <div class="flex items-center justify-between mb-3">
               <div class="flex items-center gap-2.5">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500/20 to-purple-500/20 border border-violet-500/20 flex items-center justify-center">
@@ -286,10 +286,10 @@ interface ChartPoint {
             @if (autopilotTop().length > 0) {
               <div class="space-y-2">
                 @for (insight of autopilotTop(); track insight.id) {
-                  <a [routerLink]="insight.actionLink || '/autopilot'" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-slate-900/40 hover:bg-slate-900/60 border border-slate-700/30 transition-colors group">
+                  <a [routerLink]="insight.actionLink || '/autopilot'" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-slate-900/40 hover:bg-slate-900/60 border border-slate-200 transition-colors group">
                     <div class="w-1.5 h-8 rounded-full shrink-0" [class]="insight.severity === 'CRITICAL' ? 'bg-red-500' : insight.severity === 'HIGH' ? 'bg-orange-500' : insight.severity === 'MEDIUM' ? 'bg-amber-500' : 'bg-blue-500'"></div>
                     <div class="flex-1 min-w-0">
-                      <p class="text-xs font-medium text-slate-200 truncate group-hover:text-white">{{ insight.title }}</p>
+                      <p class="text-xs font-medium text-slate-700 truncate group-hover:text-white">{{ insight.title }}</p>
                       <p class="text-[10px] text-slate-500 truncate">{{ insight.recommendedAction }}</p>
                     </div>
                     <span class="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded shrink-0"
@@ -307,7 +307,7 @@ interface ChartPoint {
       <!-- AI Act Systems Widget -->
       @if (auth.isLoggedIn() && aiSystemStats()) {
         <div class="mb-6 animate-fade-in-up">
-          <div class="bg-slate-800/50 backdrop-blur border border-blue-500/20 rounded-xl p-5">
+          <div class="bg-white backdrop-blur border border-blue-500/20 rounded-xl p-5">
             <div class="flex items-center justify-between mb-4">
               <div class="flex items-center gap-2.5">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/20 flex items-center justify-center">
@@ -326,25 +326,25 @@ interface ChartPoint {
               </a>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
-              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-700/30">
+              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-200">
                 <p class="text-[10px] text-red-400 uppercase tracking-wider font-semibold">{{ lang.t('dashboard.risk_unacceptable') }}</p>
                 <p class="text-lg font-bold text-red-400">{{ aiSystemStats()!.unacceptable || 0 }}</p>
               </div>
-              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-700/30">
+              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-200">
                 <p class="text-[10px] text-orange-400 uppercase tracking-wider font-semibold">{{ lang.t('dashboard.risk_high') }}</p>
                 <p class="text-lg font-bold text-orange-400">{{ aiSystemStats()!.high || 0 }}</p>
               </div>
-              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-700/30">
+              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-200">
                 <p class="text-[10px] text-amber-400 uppercase tracking-wider font-semibold">{{ lang.t('dashboard.risk_limited') }}</p>
                 <p class="text-lg font-bold text-amber-400">{{ aiSystemStats()!.limited || 0 }}</p>
               </div>
-              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-700/30">
-                <p class="text-[10px] text-emerald-400 uppercase tracking-wider font-semibold">{{ lang.t('dashboard.risk_minimal') }}</p>
-                <p class="text-lg font-bold text-emerald-400">{{ aiSystemStats()!.minimal || 0 }}</p>
+              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-200">
+                <p class="text-[10px] text-blue-600 uppercase tracking-wider font-semibold">{{ lang.t('dashboard.risk_minimal') }}</p>
+                <p class="text-lg font-bold text-blue-600">{{ aiSystemStats()!.minimal || 0 }}</p>
               </div>
-              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-700/30">
+              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-200">
                 <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">{{ lang.t('dashboard.risk_not_classified') }}</p>
-                <p class="text-lg font-bold text-slate-300">{{ aiSystemStats()!.notClassified || 0 }}</p>
+                <p class="text-lg font-bold text-slate-600">{{ aiSystemStats()!.notClassified || 0 }}</p>
               </div>
             </div>
           </div>
@@ -353,16 +353,16 @@ interface ChartPoint {
 
       <!-- Empty state -->
       <div *ngIf="history.length === 0" class="text-center py-20 animate-scale-in">
-        <div class="w-20 h-20 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-6 border border-slate-700/50">
+        <div class="w-20 h-20 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-6 border border-slate-200">
           <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
           </svg>
         </div>
-        <h2 class="text-xl font-semibold text-slate-300 mb-2">Nothing to show yet — let's fix that</h2>
+        <h2 class="text-xl font-semibold text-slate-600 mb-2">Nothing to show yet — let's fix that</h2>
         <p class="text-slate-500 mb-8 max-w-md mx-auto">Run your first DORA assessment and your compliance data will appear here automatically.</p>
         <a routerLink="/assessment"
-           class="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
-                  font-semibold px-8 py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/25 text-lg">
+           class="inline-flex items-center gap-2 bg-blue-600 text-slate-900
+                  font-semibold px-8 py-3 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-lg text-lg">
           {{ lang.t('dashboard.start_assessment') }}
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
@@ -374,7 +374,7 @@ interface ChartPoint {
       <ng-container *ngIf="history.length > 0">
 
         <!-- Proportionality Scope Card -->
-        <div *ngIf="proportionalityScope()" class="mb-6 bg-gradient-to-r from-blue-500/10 via-emerald-500/10 to-purple-500/10 border border-blue-500/20 rounded-xl p-5 animate-fade-in-up">
+        <div *ngIf="proportionalityScope()" class="mb-6 bg-gradient-to-r from-blue-500/10 via-blue-600/10 to-purple-500/10 border border-blue-500/20 rounded-xl p-5 animate-fade-in-up">
           <div class="flex items-center justify-between">
             <div>
               <h3 class="text-sm text-slate-400 mb-1">{{ lang.t('prop.title') }}</h3>
@@ -382,7 +382,7 @@ interface ChartPoint {
                 <span class="text-white font-semibold">{{ proportionalityScope().entityType }}</span>
                 <span class="px-2 py-0.5 rounded-full text-xs font-bold"
                       [class]="proportionalityScope().sizeCategory === 'MICRO' ? 'bg-blue-500/20 text-blue-400' :
-                               (proportionalityScope().sizeCategory === 'SMALL' ? 'bg-cyan-500/20 text-cyan-400' :
+                               (proportionalityScope().sizeCategory === 'SMALL' ? 'bg-blue-600/20 text-blue-500' :
                                (proportionalityScope().sizeCategory === 'MEDIUM' ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'))">
                   {{ proportionalityScope().sizeCategory }}
                 </span>
@@ -392,12 +392,12 @@ interface ChartPoint {
                 {{ proportionalityScope().fullApply }} full &middot;
                 {{ proportionalityScope().simplified }} simplified &middot;
                 {{ proportionalityScope().exempted }} exempt
-                <span *ngIf="proportionalityScope().reductionPercentage > 0" class="text-emerald-400 ml-1">
+                <span *ngIf="proportionalityScope().reductionPercentage > 0" class="text-blue-600 ml-1">
                   (-{{ proportionalityScope().reductionPercentage }}%)
                 </span>
               </p>
             </div>
-            <a routerLink="/proportionality" class="px-4 py-2 bg-slate-700/50 hover:bg-slate-600/50 text-slate-300 rounded-lg text-sm transition-colors">
+            <a routerLink="/proportionality" class="px-4 py-2 bg-slate-700/50 hover:bg-slate-100 text-slate-600 rounded-lg text-sm transition-colors">
               {{ lang.t('roi.step_export') === 'Export' ? 'View' : 'Vaata' }}
             </a>
           </div>
@@ -407,61 +407,61 @@ interface ChartPoint {
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 
           <!-- Total assessments -->
-          <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5 animate-fade-in-up delay-100 card-hover">
+          <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-5 animate-fade-in-up delay-100 card-hover">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">{{ lang.t('dashboard.total_assessments') }}</p>
-                <span class="text-4xl font-extrabold text-slate-100">{{ history.length }}</span>
+                <span class="text-4xl font-extrabold text-slate-900">{{ history.length }}</span>
                 <p class="text-xs text-slate-500 mt-1">+{{ recentCount }} {{ lang.t('dashboard.last_30_days') }}</p>
               </div>
-              <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
-                <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                 </svg>
               </div>
             </div>
             <div class="mt-3">
               <svg class="w-full h-8" viewBox="0 0 120 32" preserveAspectRatio="none">
-                <path [attr.d]="sparklineTotalPath" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-                <path [attr.d]="sparklineTotalArea" fill="#34d399" opacity="0.08"/>
+                <path [attr.d]="sparklineTotalPath" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                <path [attr.d]="sparklineTotalArea" fill="#2563eb" opacity="0.08"/>
               </svg>
             </div>
           </div>
 
           <!-- Average score -->
-          <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5 animate-fade-in-up delay-200 card-hover">
+          <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-5 animate-fade-in-up delay-200 card-hover">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">{{ lang.t('dashboard.avg_score') }}</p>
                 <span class="text-4xl font-extrabold" [style.color]="avgScoreColor">{{ avgScore | number:'1.0-0' }}%</span>
-                <p class="text-xs mt-1" [class]="scoreTrend >= 0 ? 'text-emerald-400' : 'text-red-400'">
+                <p class="text-xs mt-1" [class]="scoreTrend >= 0 ? 'text-blue-600' : 'text-red-400'">
                   {{ scoreTrend >= 0 ? '+' : '' }}{{ scoreTrend | number:'1.1-1' }}% {{ lang.t('dashboard.trend') }}
                 </p>
               </div>
-              <div class="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center shrink-0">
-                <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-500/20 flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
                 </svg>
               </div>
             </div>
             <div class="mt-3">
               <svg class="w-full h-8" viewBox="0 0 120 32" preserveAspectRatio="none">
-                <path [attr.d]="sparklineScorePath" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-                <path [attr.d]="sparklineScoreArea" fill="#22d3ee" opacity="0.08"/>
+                <path [attr.d]="sparklineScorePath" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+                <path [attr.d]="sparklineScoreArea" fill="#3b82f6" opacity="0.08"/>
               </svg>
             </div>
           </div>
 
           <!-- Compliant companies -->
-          <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5 animate-fade-in-up delay-300 card-hover">
+          <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-5 animate-fade-in-up delay-300 card-hover">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">{{ lang.t('dashboard.compliant_companies') }}</p>
-                <span class="text-4xl font-extrabold text-emerald-400">{{ greenCount }}</span>
+                <span class="text-4xl font-extrabold text-blue-600">{{ greenCount }}</span>
                 <p class="text-xs text-slate-500 mt-1">{{ history.length }} {{ lang.t('dashboard.of_assessments') }}</p>
               </div>
-              <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
-                <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                 </svg>
               </div>
@@ -469,14 +469,14 @@ interface ChartPoint {
             <div class="mt-3">
               <div class="flex items-center gap-2">
                 <div class="flex-1 bg-slate-700/50 rounded-full h-2.5 overflow-hidden">
-                  <div class="h-full rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 transition-all duration-1000"
+                  <div class="h-full rounded-full bg-gradient-to-r from-blue-600 to-blue-400 transition-all duration-1000"
                        [style.width.%]="history.length > 0 ? (greenCount / history.length) * 100 : 0"></div>
                 </div>
                 <span class="text-xs text-slate-400 font-medium">{{ history.length > 0 ? ((greenCount / history.length) * 100 | number:'1.0-0') : 0 }}%</span>
               </div>
               <div class="flex gap-1 mt-2">
                 <div class="flex-1 bg-slate-700/50 rounded-full h-1.5 overflow-hidden">
-                  <div class="h-full rounded-full bg-emerald-500" [style.width.%]="history.length > 0 ? (greenCount / history.length) * 100 : 0"></div>
+                  <div class="h-full rounded-full bg-blue-600" [style.width.%]="history.length > 0 ? (greenCount / history.length) * 100 : 0"></div>
                 </div>
                 <div class="flex-1 bg-slate-700/50 rounded-full h-1.5 overflow-hidden">
                   <div class="h-full rounded-full bg-amber-500" [style.width.%]="history.length > 0 ? (yellowCount / history.length) * 100 : 0"></div>
@@ -489,18 +489,18 @@ interface ChartPoint {
           </div>
 
           <!-- Critical gaps -->
-          <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5 animate-fade-in-up delay-400 card-hover">
+          <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-5 animate-fade-in-up delay-400 card-hover">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">{{ lang.t('dashboard.critical_gaps') }}</p>
-                <span class="text-4xl font-extrabold" [class]="criticalGapsCount > 0 ? 'text-red-400' : 'text-emerald-400'">{{ criticalGapsCount }}</span>
-                <p class="text-xs mt-1" [class]="criticalGapsCount > 0 ? 'text-red-400/70' : 'text-emerald-400/70'">
+                <span class="text-4xl font-extrabold" [class]="criticalGapsCount > 0 ? 'text-red-400' : 'text-blue-600'">{{ criticalGapsCount }}</span>
+                <p class="text-xs mt-1" [class]="criticalGapsCount > 0 ? 'text-red-400/70' : 'text-blue-600/70'">
                   {{ criticalGapsCount > 0 ? lang.t('dashboard.needs_attention') : lang.t('dashboard.no_gaps') }}
                 </p>
               </div>
               <div class="w-10 h-10 rounded-lg shrink-0 flex items-center justify-center"
-                   [class]="criticalGapsCount > 0 ? 'bg-red-500/10 border border-red-500/20' : 'bg-emerald-500/10 border border-emerald-500/20'">
-                <svg class="w-5 h-5" [class]="criticalGapsCount > 0 ? 'text-red-400' : 'text-emerald-400'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                   [class]="criticalGapsCount > 0 ? 'bg-red-500/10 border border-red-500/20' : 'bg-blue-50 border border-blue-200'">
+                <svg class="w-5 h-5" [class]="criticalGapsCount > 0 ? 'text-red-400' : 'text-blue-600'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
                 </svg>
               </div>
@@ -518,8 +518,8 @@ interface ChartPoint {
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
 
           <!-- Company leaderboard (2 cols) -->
-          <div class="lg:col-span-2 bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6 animate-fade-in-up delay-300">
-            <h2 class="text-sm font-semibold text-slate-300 mb-5 flex items-center gap-2">
+          <div class="lg:col-span-2 bg-white backdrop-blur border border-slate-200 rounded-xl p-6 animate-fade-in-up delay-300">
+            <h2 class="text-sm font-semibold text-slate-600 mb-5 flex items-center gap-2">
               <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
               </svg>
@@ -528,7 +528,7 @@ interface ChartPoint {
             </h2>
 
             <!-- Table header -->
-            <div class="grid grid-cols-12 gap-2 px-3 py-2 text-xs text-slate-500 uppercase tracking-wider border-b border-slate-700/50 mb-2">
+            <div class="grid grid-cols-12 gap-2 px-3 py-2 text-xs text-slate-500 uppercase tracking-wider border-b border-slate-200 mb-2">
               <div class="col-span-1">#</div>
               <div class="col-span-4">{{ lang.t('dashboard.col_company') }}</div>
               <div class="col-span-3">{{ lang.t('dashboard.col_contract') }}</div>
@@ -539,21 +539,21 @@ interface ChartPoint {
             <!-- Table rows -->
             <div *ngFor="let entry of leaderboard; let i = index"
                  class="grid grid-cols-12 gap-2 px-3 py-3 rounded-lg items-center transition-all duration-200
-                        hover:bg-slate-700/30 cursor-default animate-slide-in-right"
+                        hover:bg-slate-100 cursor-default animate-slide-in-right"
                  [style.animation-delay]="(i * 60 + 400) + 'ms'"
-                 [ngClass]="{'border-b border-slate-700/30': i !== leaderboard.length - 1}">
+                 [ngClass]="{'border-b border-slate-200': i !== leaderboard.length - 1}">
 
               <!-- Rank -->
               <div class="col-span-1">
                 <span *ngIf="entry.rank === 1" class="w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center text-xs font-bold">1</span>
-                <span *ngIf="entry.rank === 2" class="w-7 h-7 rounded-full bg-slate-400/20 text-slate-300 border border-slate-400/30 flex items-center justify-center text-xs font-bold">2</span>
+                <span *ngIf="entry.rank === 2" class="w-7 h-7 rounded-full bg-slate-400/20 text-slate-600 border border-slate-400/30 flex items-center justify-center text-xs font-bold">2</span>
                 <span *ngIf="entry.rank === 3" class="w-7 h-7 rounded-full bg-orange-600/20 text-orange-400 border border-orange-600/30 flex items-center justify-center text-xs font-bold">3</span>
                 <span *ngIf="entry.rank > 3" class="w-7 h-7 rounded-full bg-slate-700/50 text-slate-500 flex items-center justify-center text-xs font-medium">{{ entry.rank }}</span>
               </div>
 
               <!-- Company -->
               <div class="col-span-4">
-                <p class="text-sm text-slate-200 font-medium truncate">{{ entry.companyName }}</p>
+                <p class="text-sm text-slate-700 font-medium truncate">{{ entry.companyName }}</p>
               </div>
 
               <!-- Contract -->
@@ -565,7 +565,7 @@ interface ChartPoint {
               <div class="col-span-2 flex justify-center">
                 <div class="relative w-10 h-10">
                   <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="40" fill="none" stroke="#334155" stroke-width="6"/>
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#e2e8f0" stroke-width="6"/>
                     <circle cx="50" cy="50" r="40" fill="none"
                             [attr.stroke]="getLevelColor(entry.complianceLevel)"
                             stroke-width="6" stroke-linecap="round"
@@ -593,9 +593,9 @@ interface ChartPoint {
           </div>
 
           <!-- DORA 5 Pillars Overview (1 col) -->
-          <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6 animate-fade-in-up delay-400">
-            <h2 class="text-sm font-semibold text-slate-300 mb-5 flex items-center gap-2">
-              <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-6 animate-fade-in-up delay-400">
+            <h2 class="text-sm font-semibold text-slate-600 mb-5 flex items-center gap-2">
+              <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
               </svg>
               {{ lang.t('dashboard.dora_pillars') }}
@@ -609,7 +609,7 @@ interface ChartPoint {
                   <!-- Donut chart -->
                   <div class="relative w-14 h-14 shrink-0">
                     <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                      <circle cx="50" cy="50" r="38" fill="none" stroke="#334155" stroke-width="8"/>
+                      <circle cx="50" cy="50" r="38" fill="none" stroke="#e2e8f0" stroke-width="8"/>
                       <circle cx="50" cy="50" r="38" fill="none"
                               [attr.stroke]="pillar.color"
                               stroke-width="8" stroke-linecap="round"
@@ -624,7 +624,7 @@ interface ChartPoint {
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2">
                       <span class="text-lg">{{ pillar.icon }}</span>
-                      <p class="text-sm font-medium text-slate-200 truncate">{{ lang.t(pillar.labelKey) }}</p>
+                      <p class="text-sm font-medium text-slate-700 truncate">{{ lang.t(pillar.labelKey) }}</p>
                     </div>
                     <div class="w-full bg-slate-700/50 rounded-full h-1.5 mt-1.5">
                       <div class="h-full rounded-full transition-all duration-1000"
@@ -639,9 +639,9 @@ interface ChartPoint {
         </div>
 
         <!-- Trend Chart (full width) -->
-        <div *ngIf="history.length >= 2" class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6 mb-8 animate-fade-in-up delay-500">
-          <h2 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
-            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div *ngIf="history.length >= 2" class="bg-white backdrop-blur border border-slate-200 rounded-xl p-6 mb-8 animate-fade-in-up delay-500">
+          <h2 class="text-sm font-semibold text-slate-600 mb-4 flex items-center gap-2">
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
             </svg>
             {{ lang.t('dashboard.score_trend') }}
@@ -651,21 +651,21 @@ interface ChartPoint {
             <svg class="w-full h-full" [attr.viewBox]="'0 0 ' + trendChartWidth + ' 240'" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="trendGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#34d399" stop-opacity="0.3"/>
-                  <stop offset="100%" stop-color="#34d399" stop-opacity="0"/>
+                  <stop offset="0%" stop-color="#2563eb" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#2563eb" stop-opacity="0"/>
                 </linearGradient>
                 <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stop-color="#34d399"/>
-                  <stop offset="100%" stop-color="#22d3ee"/>
+                  <stop offset="0%" stop-color="#2563eb"/>
+                  <stop offset="100%" stop-color="#3b82f6"/>
                 </linearGradient>
               </defs>
 
               <!-- Grid lines -->
-              <line x1="50" [attr.y1]="trendYForPercent(100)" [attr.x2]="trendChartWidth - 10" [attr.y2]="trendYForPercent(100)" stroke="#334155" stroke-width="0.5" stroke-dasharray="4"/>
-              <line x1="50" [attr.y1]="trendYForPercent(75)" [attr.x2]="trendChartWidth - 10" [attr.y2]="trendYForPercent(75)" stroke="#334155" stroke-width="0.5" stroke-dasharray="4"/>
-              <line x1="50" [attr.y1]="trendYForPercent(50)" [attr.x2]="trendChartWidth - 10" [attr.y2]="trendYForPercent(50)" stroke="#334155" stroke-width="0.5" stroke-dasharray="4"/>
-              <line x1="50" [attr.y1]="trendYForPercent(25)" [attr.x2]="trendChartWidth - 10" [attr.y2]="trendYForPercent(25)" stroke="#334155" stroke-width="0.5" stroke-dasharray="4"/>
-              <line x1="50" [attr.y1]="trendYForPercent(0)" [attr.x2]="trendChartWidth - 10" [attr.y2]="trendYForPercent(0)" stroke="#334155" stroke-width="0.5" stroke-dasharray="4"/>
+              <line x1="50" [attr.y1]="trendYForPercent(100)" [attr.x2]="trendChartWidth - 10" [attr.y2]="trendYForPercent(100)" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="4"/>
+              <line x1="50" [attr.y1]="trendYForPercent(75)" [attr.x2]="trendChartWidth - 10" [attr.y2]="trendYForPercent(75)" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="4"/>
+              <line x1="50" [attr.y1]="trendYForPercent(50)" [attr.x2]="trendChartWidth - 10" [attr.y2]="trendYForPercent(50)" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="4"/>
+              <line x1="50" [attr.y1]="trendYForPercent(25)" [attr.x2]="trendChartWidth - 10" [attr.y2]="trendYForPercent(25)" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="4"/>
+              <line x1="50" [attr.y1]="trendYForPercent(0)" [attr.x2]="trendChartWidth - 10" [attr.y2]="trendYForPercent(0)" stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="4"/>
 
               <!-- Y-axis labels -->
               <text x="40" [attr.y]="trendYForPercent(100) + 4" text-anchor="end" font-size="10" class="fill-slate-500">100%</text>
@@ -703,8 +703,8 @@ interface ChartPoint {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
 
           <!-- Top Deficiencies -->
-          <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6 animate-fade-in-up delay-600">
-            <h2 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+          <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-6 animate-fade-in-up delay-600">
+            <h2 class="text-sm font-semibold text-slate-600 mb-4 flex items-center gap-2">
               <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
               </svg>
@@ -712,8 +712,8 @@ interface ChartPoint {
             </h2>
 
             <div *ngIf="deficiencies.length === 0" class="text-center py-10">
-              <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-3">
-                <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center mx-auto mb-3">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>
               </div>
@@ -722,14 +722,14 @@ interface ChartPoint {
 
             <div *ngIf="deficiencies.length > 0" class="space-y-2">
               <div *ngFor="let def of deficiencies; let i = index"
-                   class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-lg border border-slate-700/30 animate-slide-in-right"
+                   class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200 animate-slide-in-right"
                    [style.animation-delay]="(i * 80 + 700) + 'ms'">
                 <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shrink-0"
                      [class]="3 > i ? 'bg-red-500/15 text-red-400 border border-red-500/20' : 'bg-amber-500/15 text-amber-400 border border-amber-500/20'">
                   {{ i + 1 }}
                 </div>
                 <div class="flex-1 min-w-0">
-                  <p class="text-sm text-slate-200 truncate">{{ def.companyName }}</p>
+                  <p class="text-sm text-slate-700 truncate">{{ def.companyName }}</p>
                   <p class="text-xs text-slate-500">{{ def.contractName }} &middot; {{ def.scorePercentage | number:'1.0-0' }}%</p>
                 </div>
                 <div class="shrink-0">
@@ -742,8 +742,8 @@ interface ChartPoint {
           </div>
 
           <!-- Score Distribution -->
-          <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6 animate-fade-in-up delay-700">
-            <h2 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+          <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-6 animate-fade-in-up delay-700">
+            <h2 class="text-sm font-semibold text-slate-600 mb-4 flex items-center gap-2">
               <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
@@ -754,9 +754,9 @@ interface ChartPoint {
             <div class="flex justify-center mb-4">
               <svg viewBox="0 0 200 200" class="w-48 h-48">
                 <!-- Donut segments -->
-                <circle cx="100" cy="100" r="70" fill="none" stroke="#334155" stroke-width="30"/>
+                <circle cx="100" cy="100" r="70" fill="none" stroke="#e2e8f0" stroke-width="30"/>
                 <circle cx="100" cy="100" r="70" fill="none"
-                        stroke="#34d399" stroke-width="30"
+                        stroke="#2563eb" stroke-width="30"
                         stroke-dasharray="439.82"
                         [attr.stroke-dashoffset]="439.82 - (439.82 * greenRatio)"
                         transform="rotate(-90 100 100)"
@@ -783,22 +783,22 @@ interface ChartPoint {
             <div class="space-y-2">
               <div class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-700/20 transition-colors">
                 <div class="flex items-center gap-2">
-                  <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
-                  <span class="text-sm text-slate-300">{{ lang.t('dashboard.level_green') }}</span>
+                  <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                  <span class="text-sm text-slate-600">{{ lang.t('dashboard.level_green') }}</span>
                 </div>
-                <span class="text-sm font-semibold text-emerald-400">{{ greenCount }} ({{ history.length > 0 ? (greenRatio * 100 | number:'1.0-0') : 0 }}%)</span>
+                <span class="text-sm font-semibold text-blue-600">{{ greenCount }} ({{ history.length > 0 ? (greenRatio * 100 | number:'1.0-0') : 0 }}%)</span>
               </div>
               <div class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-700/20 transition-colors">
                 <div class="flex items-center gap-2">
                   <div class="w-3 h-3 rounded-full bg-amber-400"></div>
-                  <span class="text-sm text-slate-300">{{ lang.t('dashboard.level_yellow') }}</span>
+                  <span class="text-sm text-slate-600">{{ lang.t('dashboard.level_yellow') }}</span>
                 </div>
                 <span class="text-sm font-semibold text-amber-400">{{ yellowCount }} ({{ history.length > 0 ? (yellowRatio * 100 | number:'1.0-0') : 0 }}%)</span>
               </div>
               <div class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-700/20 transition-colors">
                 <div class="flex items-center gap-2">
                   <div class="w-3 h-3 rounded-full bg-red-400"></div>
-                  <span class="text-sm text-slate-300">{{ lang.t('dashboard.level_red') }}</span>
+                  <span class="text-sm text-slate-600">{{ lang.t('dashboard.level_red') }}</span>
                 </div>
                 <span class="text-sm font-semibold text-red-400">{{ redCount }} ({{ history.length > 0 ? (redRatio * 100 | number:'1.0-0') : 0 }}%)</span>
               </div>
@@ -810,17 +810,17 @@ interface ChartPoint {
         <div class="text-center animate-fade-in delay-800 mb-8">
           <div class="flex flex-wrap justify-center gap-3">
             <a routerLink="/assessment"
-               class="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
+               class="bg-blue-600 hover:bg-blue-700
                       text-slate-900 font-semibold px-6 py-2.5 rounded-lg transition-all duration-300
-                      hover:shadow-lg hover:shadow-emerald-500/25 flex items-center gap-2">
+                      hover:shadow-lg hover:shadow-lg flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
               </svg>
               {{ lang.t('dashboard.new_assessment') }}
             </a>
             <a routerLink="/history"
-               class="bg-slate-700/50 hover:bg-slate-600/50 text-slate-200 font-semibold px-6 py-2.5 rounded-lg
-                      transition-all duration-300 border border-slate-600/50 hover:border-slate-500/50 flex items-center gap-2">
+               class="bg-slate-700/50 hover:bg-slate-100 text-slate-700 font-semibold px-6 py-2.5 rounded-lg
+                      transition-all duration-300 border border-slate-200 hover:border-slate-500/50 flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
@@ -1280,7 +1280,7 @@ export class DashboardComponent implements OnInit {
   getBadgeClass(level: string): string {
     const base = 'text-xs px-2 py-0.5 rounded-full font-medium whitespace-nowrap';
     switch (level) {
-      case 'GREEN': return `${base} bg-emerald-500/15 text-emerald-400 border border-emerald-500/20`;
+      case 'GREEN': return `${base} bg-blue-50 text-blue-600 border border-blue-200`;
       case 'YELLOW': return `${base} bg-amber-500/15 text-amber-400 border border-amber-500/20`;
       case 'RED': return `${base} bg-red-500/15 text-red-400 border border-red-500/20`;
       default: return base;

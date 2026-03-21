@@ -32,11 +32,11 @@ import { GuidedTourComponent } from './components/guided-tour.component';
     <app-global-search />
 
     <!-- Minimal top bar for focused pages (wizard, welcome) -->
-    <nav *ngIf="hideNav" class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50">
+    <nav *ngIf="hideNav" class="bg-white backdrop-blur-xl border-b border-slate-200 sticky top-0 z-50">
       <div class="max-w-5xl mx-auto px-3 sm:px-4 py-3 flex items-center justify-between">
         <a routerLink="/" class="flex items-center gap-3 group">
-          <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs
-                      group-hover:shadow-lg group-hover:shadow-emerald-500/25 transition-all duration-300 group-hover:scale-105">
+          <div class="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-slate-900 font-bold text-xs
+                      group-hover:shadow-lg group-hover:shadow-lg transition-all duration-300 group-hover:scale-105">
             DA
           </div>
           <span class="text-lg font-bold gradient-text leading-tight">
@@ -44,7 +44,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
           </span>
         </a>
         <a routerLink="/dashboard"
-           class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+           class="text-sm text-slate-400 hover:text-blue-600 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-100">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
           </svg>
@@ -53,11 +53,11 @@ import { GuidedTourComponent } from './components/guided-tour.component';
       </div>
     </nav>
 
-    <nav *ngIf="!hideNav" class="bg-slate-800/80 backdrop-blur-xl border-b border-slate-700/50 sticky top-0 z-50" [attr.aria-label]="lang.t('nav.main_nav')">
+    <nav *ngIf="!hideNav" class="bg-white backdrop-blur-xl border-b border-slate-200 sticky top-0 z-50" [attr.aria-label]="lang.t('nav.main_nav')">
       <div class="max-w-5xl mx-auto px-3 sm:px-4 py-3 flex items-center justify-between">
         <a routerLink="/" class="flex items-center gap-3 group tour-target-brand">
-          <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs
-                      group-hover:shadow-lg group-hover:shadow-emerald-500/25 transition-all duration-300 group-hover:scale-105">
+          <div class="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center text-slate-900 font-bold text-xs
+                      group-hover:shadow-lg group-hover:shadow-lg transition-all duration-300 group-hover:scale-105">
             DA
           </div>
           <span class="text-lg font-bold gradient-text leading-tight">
@@ -68,23 +68,23 @@ import { GuidedTourComponent } from './components/guided-tour.component';
         <!-- Desktop nav (unified — no marketing/app split to avoid hydration mismatch) -->
         <div class="hidden lg:flex items-center gap-1">
           <a *ngIf="auth.isLoggedIn()" routerLink="/dashboard" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+             class="text-sm text-slate-400 hover:text-blue-600 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-100">
             {{ lang.t('nav.dashboard') }}
           </a>
           <a routerLink="/assessment" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+             class="text-sm text-slate-400 hover:text-blue-600 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-100">
             {{ lang.t('nav.assessment') }}
           </a>
           <a routerLink="/tools" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+             class="text-sm text-slate-400 hover:text-blue-600 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-100">
             {{ lang.l('Tööriistad', 'Tools') }}
           </a>
           <a routerLink="/pricing" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+             class="text-sm text-slate-400 hover:text-blue-600 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-100">
             {{ lang.t('nav.pricing') }}
           </a>
           <a routerLink="/blog" routerLinkActive="nav-link-active"
-             class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+             class="text-sm text-slate-400 hover:text-blue-600 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-slate-100">
             {{ lang.t('nav.blog') }}
           </a>
           <!-- More dropdown -->
@@ -92,36 +92,36 @@ import { GuidedTourComponent } from './components/guided-tour.component';
           <div class="relative nav-dropdown-trigger">
             <button type="button" (click)="toggleMenu('more', $event)"
                     [attr.aria-expanded]="moreMenu"
-                    class="text-sm text-slate-400 hover:text-emerald-400 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-700/30">
+                    class="text-sm text-slate-400 hover:text-blue-600 transition-colors duration-200 flex items-center gap-1.5 px-3 py-2 rounded-lg hover:bg-slate-100">
               {{ lang.t('nav.more') }}
               <svg class="w-3.5 h-3.5 transition-transform" [class.rotate-180]="moreMenu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m6 9 6 6 6-6"/>
               </svg>
             </button>
-            <div *ngIf="moreMenu" class="absolute left-0 top-full mt-1 w-64 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50 max-h-[calc(100vh-5rem)] overflow-y-auto">
+            <div *ngIf="moreMenu" class="absolute left-0 top-full mt-1 w-64 bg-slate-800 border border-slate-200 rounded-xl shadow-xl py-2 z-50 max-h-[calc(100vh-5rem)] overflow-y-auto">
               <a routerLink="/workspace" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
+                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-600 hover:text-violet-400 hover:bg-slate-100 transition-colors">
                 <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
                 </svg>
                 {{ lang.t('nav.contracts_short') }}
               </a>
               <a routerLink="/chat" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-emerald-300 hover:bg-emerald-500/10 transition-colors mx-1 rounded-lg bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20 mb-1">
-                <div class="w-5 h-5 rounded bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-[8px] font-bold shrink-0">AI</div>
+                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-blue-500 hover:bg-blue-50 transition-colors mx-1 rounded-lg bg-gradient-to-r from-blue-700/10 to-blue-600/10 border border-blue-200 mb-1">
+                <div class="w-5 h-5 rounded bg-blue-600 flex items-center justify-center text-slate-900 text-[8px] font-bold shrink-0">AI</div>
                 DoraBot
               </a>
               <!-- Compliance Management -->
               <p class="px-4 pt-2 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">{{ lang.l('Vastavuse haldus', 'Compliance') }}</p>
               <a routerLink="/audit-readiness" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-amber-400 hover:bg-slate-700/30 transition-colors">
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-600 hover:text-amber-400 hover:bg-slate-100 transition-colors">
                 <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                 </svg>
                 {{ lang.t('nav.audit_readiness') }}
               </a>
               <a routerLink="/autopilot" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-600 hover:text-violet-400 hover:bg-slate-100 transition-colors">
                 <div class="w-4 h-4 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-white text-[7px] font-bold shrink-0">AI</div>
                 {{ lang.t('autopilot.nav') }}
                 @if (autopilotBadge() > 0) {
@@ -129,21 +129,21 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 }
               </a>
               <a routerLink="/remediation" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition-colors">
+                <svg class="w-4 h-4 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m9 11 3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
                 </svg>
                 {{ lang.t('nav.remediation') }}
               </a>
               <a routerLink="/evidence-vault" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-indigo-400 hover:bg-slate-700/30 transition-colors">
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-600 hover:text-indigo-400 hover:bg-slate-100 transition-colors">
                 <svg class="w-4 h-4 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
                 </svg>
                 {{ lang.t('nav.evidence_vault') }}
               </a>
               <a routerLink="/board-report" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-sky-400 hover:bg-slate-700/30 transition-colors">
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-600 hover:text-sky-400 hover:bg-slate-100 transition-colors">
                 <svg class="w-4 h-4 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
                 </svg>
@@ -152,22 +152,22 @@ import { GuidedTourComponent } from './components/guided-tour.component';
               <!-- Risk & Incidents -->
               <p class="px-4 pt-3 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">{{ lang.l('Risk ja intsidendid', 'Risk & Incidents') }}</p>
               <a routerLink="/incident-reporting" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-600 hover:text-red-400 hover:bg-slate-100 transition-colors">
                 <svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
                 </svg>
                 {{ lang.t('nav.incidents') }}
               </a>
               <a routerLink="/supply-chain" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-600 hover:text-blue-500 hover:bg-slate-100 transition-colors">
+                <svg class="w-4 h-4 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M16 16v1a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2m5.66 0H14a2 2 0 0 1 2 2v3.34"/><path d="M3 15h12"/><path d="M18 12h4"/><path d="M18 8h4"/>
                 </svg>
                 {{ lang.t('nav.supply_short') }}
                 <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30 ml-auto">PRO</span>
               </a>
               <a routerLink="/alerts" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-yellow-400 hover:bg-slate-700/30 transition-colors">
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-600 hover:text-yellow-400 hover:bg-slate-100 transition-colors">
                 <svg class="w-4 h-4 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                 </svg>
@@ -176,21 +176,21 @@ import { GuidedTourComponent } from './components/guided-tour.component';
               <!-- AI Act -->
               <p class="px-4 pt-3 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">AI Act</p>
               <a routerLink="/ai-systems" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-blue-400 hover:bg-slate-700/30 transition-colors">
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-600 hover:text-blue-400 hover:bg-slate-100 transition-colors">
                 <svg class="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
                 </svg>
                 {{ lang.t('nav.ai_systems') }}
               </a>
               <a routerLink="/ai-act-classifier" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-purple-400 hover:bg-slate-700/30 transition-colors">
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-600 hover:text-purple-400 hover:bg-slate-100 transition-colors">
                 <svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/>
                 </svg>
                 {{ lang.t('nav.ai_act_classifier') }}
               </a>
               <a routerLink="/gpai-models" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-teal-400 hover:bg-slate-700/30 transition-colors">
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-600 hover:text-teal-400 hover:bg-slate-100 transition-colors">
                 <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
                 </svg>
@@ -199,14 +199,14 @@ import { GuidedTourComponent } from './components/guided-tour.component';
               <!-- Reference -->
               <p class="px-4 pt-3 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">{{ lang.l('Teave', 'Reference') }}</p>
               <a routerLink="/dora-explorer" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition-colors">
+                <svg class="w-4 h-4 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
                 </svg>
                 {{ lang.t('nav.dora_explorer') }}
               </a>
               <a routerLink="/fine-calculator" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
+                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-600 hover:text-red-400 hover:bg-slate-100 transition-colors">
                 <svg class="w-4 h-4 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>
                 </svg>
@@ -219,7 +219,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
           <!-- Theme toggle -->
           <button type="button" (click)="themeService.toggle()"
                   [attr.aria-label]="lang.t('theme.toggle')"
-                  class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-amber-400 hover:bg-slate-700/30 transition-all"
+                  class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-amber-400 hover:bg-slate-100 transition-all"
                   [title]="themeService.isDark() ? lang.t('theme.light') : lang.t('theme.dark')">
             @if (themeService.isDark()) {
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -235,8 +235,8 @@ import { GuidedTourComponent } from './components/guided-tour.component';
           <button type="button" (click)="lang.toggle()"
                   aria-label="Switch language"
                   class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium
-                         border border-slate-600/50 text-slate-300 hover:border-emerald-500/50 hover:text-emerald-400
-                         hover:bg-slate-700/30 transition-all duration-200"
+                         border border-slate-200 text-slate-600 hover:border-blue-500/50 hover:text-blue-600
+                         hover:bg-slate-100 transition-all duration-200"
                   [title]="getLangLabel()">
             <svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>
@@ -248,7 +248,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
             <div class="relative nav-dropdown-trigger">
               <button type="button" (click)="toggleMenu('notif', $event)"
                       aria-label="Notifications" [attr.aria-expanded]="notifMenu"
-                      class="relative w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-rose-400 hover:bg-slate-700/30 transition-all">
+                      class="relative w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-rose-400 hover:bg-slate-100 transition-all">
                 <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                 </svg>
@@ -258,16 +258,16 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   </span>
                 }
               </button>
-              <div *ngIf="notifMenu" class="absolute right-0 top-full mt-1 w-80 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 z-50 overflow-hidden">
-                <div class="px-4 py-3 border-b border-slate-700/30 flex items-center justify-between">
+              <div *ngIf="notifMenu" class="absolute right-0 top-full mt-1 w-80 bg-slate-800 border border-slate-200 rounded-xl shadow-xl z-50 overflow-hidden">
+                <div class="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
                   <span class="text-sm font-semibold text-white">{{ lang.t('notifications.title') }}</span>
                   <div class="flex items-center gap-2">
                     @if (notificationService.notifications().length > 0) {
-                      <button type="button" (click)="notificationService.markAllAsRead()" class="text-[10px] text-slate-400 hover:text-slate-300 font-medium">{{ lang.t('notifications.mark_all_read') }}</button>
+                      <button type="button" (click)="notificationService.markAllAsRead()" class="text-[10px] text-slate-400 hover:text-slate-600 font-medium">{{ lang.t('notifications.mark_all_read') }}</button>
                       <span class="text-slate-600">|</span>
                     }
                     <a routerLink="/notifications" (click)="closeAllMenus()"
-                       class="text-[10px] text-emerald-400 hover:text-emerald-300 font-medium">{{ lang.t('notifications.view_all') }}</a>
+                       class="text-[10px] text-blue-600 hover:text-blue-500 font-medium">{{ lang.t('notifications.view_all') }}</a>
                   </div>
                 </div>
 
@@ -278,7 +278,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   </div>
                   @for (alert of notificationService.alerts().slice(0, 3); track alert.alertKey) {
                     <a [routerLink]="alert.link" (click)="closeAllMenus()"
-                       class="flex items-start gap-3 px-4 py-2.5 hover:bg-slate-700/30 transition-colors border-b border-slate-700/20 last:border-0">
+                       class="flex items-start gap-3 px-4 py-2.5 hover:bg-slate-100 transition-colors border-b border-slate-200 last:border-0">
                       <div class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
                            [class]="alert.severity === 'CRITICAL' ? 'bg-red-500/10' : alert.severity === 'WARNING' ? 'bg-amber-500/10' : 'bg-blue-500/10'">
                         @if (alert.severity === 'CRITICAL') {
@@ -307,7 +307,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                     <p class="px-1 text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">{{ lang.t('notifications.recent') }}</p>
                   </div>
                   @for (notif of notificationService.notifications().slice(0, 5); track notif.id) {
-                    <div (click)="onNotificationClick(notif)" class="flex items-start gap-3 px-4 py-2.5 hover:bg-slate-700/30 transition-colors cursor-pointer border-b border-slate-700/20 last:border-0">
+                    <div (click)="onNotificationClick(notif)" class="flex items-start gap-3 px-4 py-2.5 hover:bg-slate-100 transition-colors cursor-pointer border-b border-slate-200 last:border-0">
                       <div class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 bg-slate-700/50">
                         <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                       </div>
@@ -317,7 +317,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                         <p class="text-[9px] text-slate-600 mt-0.5">{{ notificationService.timeAgo(notif.createdAt) }}</p>
                       </div>
                       @if (!notif.read) {
-                        <div class="w-2 h-2 rounded-full bg-emerald-400 shrink-0 mt-1.5"></div>
+                        <div class="w-2 h-2 rounded-full bg-blue-500 shrink-0 mt-1.5"></div>
                       }
                     </div>
                   }
@@ -325,7 +325,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
 
                 @if (notificationService.alerts().length === 0 && notificationService.notifications().length === 0) {
                   <div class="px-4 py-6 text-center">
-                    <svg class="w-8 h-8 mx-auto text-emerald-400/50 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-8 h-8 mx-auto text-blue-600/50 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <p class="text-xs text-slate-400">{{ lang.t('notifications.no_alerts') }}</p>
@@ -333,9 +333,9 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 }
 
                 <!-- Footer -->
-                <div class="px-4 py-2.5 border-t border-slate-700/30 text-center">
+                <div class="px-4 py-2.5 border-t border-slate-200 text-center">
                   <a routerLink="/notifications" (click)="closeAllMenus()"
-                     class="text-xs text-emerald-400 hover:text-emerald-300 font-medium">{{ lang.t('notifications.view_all') }}</a>
+                     class="text-xs text-blue-600 hover:text-blue-500 font-medium">{{ lang.t('notifications.view_all') }}</a>
                 </div>
               </div>
             </div>
@@ -346,23 +346,23 @@ import { GuidedTourComponent } from './components/guided-tour.component';
           @if (auth.isLoggedIn()) {
             <div class="relative nav-dropdown-trigger">
               <button type="button" (click)="toggleUserMenu($event)"
-                      class="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-xs font-bold
-                             hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-200 hover:scale-105">
+                      class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-slate-900 text-xs font-bold
+                             hover:shadow-lg hover:shadow-lg transition-all duration-200 hover:scale-105">
                 {{ getUserInitials() }}
               </button>
-              <div *ngIf="userMenu" class="absolute right-0 top-full mt-1 w-48 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
+              <div *ngIf="userMenu" class="absolute right-0 top-full mt-1 w-48 bg-slate-800 border border-slate-200 rounded-xl shadow-xl py-2 z-50">
                 @if (auth.user()?.fullName) {
-                  <span class="block px-4 pt-1.5 text-sm font-semibold text-slate-200 truncate">{{ auth.user()?.fullName }}</span>
+                  <span class="block px-4 pt-1.5 text-sm font-semibold text-slate-700 truncate">{{ auth.user()?.fullName }}</span>
                 }
                 <span class="block px-4 py-1 text-xs text-slate-500 truncate">{{ auth.user()?.email }}</span>
-                <div class="border-t border-slate-700/30 my-1"></div>
+                <div class="border-t border-slate-200 my-1"></div>
                 <a routerLink="/dashboard" (click)="userMenu = false"
-                   class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
+                   class="flex items-center gap-2 px-4 py-2 text-sm text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition-colors">
                   {{ lang.t('nav.my_account') }}
                 </a>
                 @if (subscriptionService.isPremium()) {
                   <a routerLink="/settings/branding" (click)="userMenu = false"
-                     class="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:text-violet-400 hover:bg-slate-700/30 transition-colors">
+                     class="flex items-center gap-2 px-4 py-2 text-sm text-slate-600 hover:text-violet-400 hover:bg-slate-100 transition-colors">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
                     </svg>
@@ -371,7 +371,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 }
                 @if (auth.isAdmin()) {
                   <a routerLink="/admin/users" (click)="userMenu = false"
-                     class="flex items-center gap-2 px-4 py-2 text-sm text-amber-400 hover:text-amber-300 hover:bg-slate-700/30 transition-colors">
+                     class="flex items-center gap-2 px-4 py-2 text-sm text-amber-400 hover:text-amber-300 hover:bg-slate-100 transition-colors">
                     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
                       <circle cx="12" cy="12" r="3"/>
@@ -379,7 +379,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                     Admin Panel
                   </a>
                   <a routerLink="/admin/leads" (click)="userMenu = false"
-                     class="flex items-center gap-2 px-4 py-2 text-sm text-amber-400 hover:text-amber-300 hover:bg-slate-700/30 transition-colors">
+                     class="flex items-center gap-2 px-4 py-2 text-sm text-amber-400 hover:text-amber-300 hover:bg-slate-100 transition-colors">
                     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
                       <circle cx="9" cy="7" r="4"/>
@@ -390,26 +390,26 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   </a>
                 }
                 <button type="button" (click)="restartTour(); userMenu = false"
-                        class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-slate-300 hover:text-cyan-400 hover:bg-slate-700/30 transition-colors">
+                        class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-slate-600 hover:text-blue-500 hover:bg-slate-100 transition-colors">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                   </svg>
                   {{ lang.t('onboarding.restart_tour') }}
                 </button>
                 <button type="button" (click)="auth.logout(); userMenu = false"
-                        class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-red-400 hover:bg-slate-700/30 transition-colors">
+                        class="w-full text-left flex items-center gap-2 px-4 py-2 text-sm text-red-400 hover:bg-slate-100 transition-colors">
                   {{ lang.t('auth.logout') }}
                 </button>
               </div>
             </div>
           } @else if (isBrowser) {
             <a routerLink="/login"
-               class="text-sm text-emerald-400 hover:text-emerald-300 transition-colors duration-200 px-2.5 py-2 rounded-lg hover:bg-slate-700/30">
+               class="text-sm text-blue-600 hover:text-blue-500 transition-colors duration-200 px-2.5 py-2 rounded-lg hover:bg-slate-100">
               {{ lang.t('auth.login') }}
             </a>
             <a routerLink="/register"
-               class="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
-                      hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all duration-200">
+               class="px-4 py-2 rounded-lg text-sm font-medium bg-blue-600 text-white
+                      hover:bg-blue-700 hover:shadow-lg hover:shadow-lg transition-all duration-200">
               {{ lang.t('auth.register') }}
             </a>
           }
@@ -418,14 +418,14 @@ import { GuidedTourComponent } from './components/guided-tour.component';
         <!-- Mobile hamburger -->
         <div class="flex items-center gap-2 lg:hidden">
           @if (auth.isLoggedIn()) {
-            <div class="w-7 h-7 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-[10px] font-bold shrink-0">
+            <div class="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center text-slate-900 text-[10px] font-bold shrink-0">
               {{ getUserInitials() }}
             </div>
           }
           <button type="button" (click)="mobileMenu = !mobileMenu"
                   [attr.aria-label]="mobileMenu ? lang.t('nav.close_menu') : lang.t('nav.open_menu')"
                   [attr.aria-expanded]="mobileMenu"
-                  class="p-2 rounded-lg text-slate-400 hover:text-emerald-400 hover:bg-slate-700/30 transition-colors">
+                  class="p-2 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-slate-100 transition-colors">
             <!-- Lucide: menu -->
             <svg *ngIf="!mobileMenu" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>
@@ -439,24 +439,24 @@ import { GuidedTourComponent } from './components/guided-tour.component';
       </div>
 
       <!-- Mobile menu -->
-      <div *ngIf="mobileMenu" class="lg:hidden border-t border-slate-700/50 bg-slate-800/95 backdrop-blur-xl max-h-[calc(100vh-4rem)] overflow-y-auto">
+      <div *ngIf="mobileMenu" class="lg:hidden border-t border-slate-200 bg-white backdrop-blur-xl max-h-[calc(100vh-4rem)] overflow-y-auto">
         <div class="px-4 py-3 flex flex-col gap-1">
           <!-- Primary nav links -->
           @if (auth.isLoggedIn()) {
             <a routerLink="/dashboard" (click)="mobileMenu = false"
-               class="text-sm text-slate-300 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 font-medium">{{ lang.t('nav.dashboard') }}</a>
+               class="text-sm text-slate-600 hover:text-blue-600 px-3 py-2 rounded-lg hover:bg-slate-100 font-medium">{{ lang.t('nav.dashboard') }}</a>
           }
           <a routerLink="/assessment" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.assessment') }}</a>
+             class="text-sm text-slate-400 hover:text-blue-500 px-3 py-2 rounded-lg hover:bg-slate-100">{{ lang.t('nav.assessment') }}</a>
           <a routerLink="/tools" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.l('Tööriistad', 'Tools') }}</a>
+             class="text-sm text-slate-400 hover:text-blue-600 px-3 py-2 rounded-lg hover:bg-slate-100">{{ lang.l('Tööriistad', 'Tools') }}</a>
           <a routerLink="/pricing" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.pricing') }}</a>
+             class="text-sm text-slate-400 hover:text-blue-600 px-3 py-2 rounded-lg hover:bg-slate-100">{{ lang.t('nav.pricing') }}</a>
           <a routerLink="/blog" (click)="mobileMenu = false"
-             class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.blog') }}</a>
+             class="text-sm text-slate-400 hover:text-blue-600 px-3 py-2 rounded-lg hover:bg-slate-100">{{ lang.t('nav.blog') }}</a>
 
           <!-- More section -->
-          <div class="border-t border-slate-700/50 mt-2 pt-2">
+          <div class="border-t border-slate-200 mt-2 pt-2">
             <button type="button" (click)="mobileMoreOpen = !mobileMoreOpen"
                     class="w-full flex items-center justify-between px-3 py-1.5 mb-1">
               <span class="text-[10px] text-slate-600 font-bold uppercase tracking-wider">{{ lang.t('nav.more') }}</span>
@@ -466,16 +466,16 @@ import { GuidedTourComponent } from './components/guided-tour.component';
             </button>
             <div *ngIf="mobileMoreOpen" class="flex flex-col gap-0.5">
               <a routerLink="/chat" (click)="mobileMenu = false"
-                 class="flex items-center gap-2 text-sm text-white px-3 py-2.5 rounded-lg bg-gradient-to-r from-emerald-600/10 to-cyan-600/10 border border-emerald-500/20 mb-1">
-                <div class="w-5 h-5 rounded bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 text-[8px] font-bold">AI</div>
+                 class="flex items-center gap-2 text-sm text-white px-3 py-2.5 rounded-lg bg-gradient-to-r from-blue-700/10 to-blue-600/10 border border-blue-200 mb-1">
+                <div class="w-5 h-5 rounded bg-blue-600 flex items-center justify-center text-slate-900 text-[8px] font-bold">AI</div>
                 DoraBot
               </a>
               <!-- Compliance Management -->
               <p class="px-3 pt-2 pb-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-600">{{ lang.l('Vastavuse haldus', 'Compliance') }}</p>
               <a routerLink="/audit-readiness" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.audit_readiness') }}</a>
+                 class="text-sm text-slate-400 hover:text-amber-400 px-3 py-2 rounded-lg hover:bg-slate-100">{{ lang.t('nav.audit_readiness') }}</a>
               <a routerLink="/autopilot" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
+                 class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-100 flex items-center gap-2">
                 <div class="w-4 h-4 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-[7px] text-white font-bold shrink-0">AI</div>
                 {{ lang.t('autopilot.nav') }}
                 @if (autopilotBadge() > 0) {
@@ -483,43 +483,43 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 }
               </a>
               <a routerLink="/remediation" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.remediation') }}</a>
+                 class="text-sm text-slate-400 hover:text-blue-600 px-3 py-2 rounded-lg hover:bg-slate-100">{{ lang.t('nav.remediation') }}</a>
               <a routerLink="/evidence-vault" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-indigo-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.evidence_vault') }}</a>
+                 class="text-sm text-slate-400 hover:text-indigo-400 px-3 py-2 rounded-lg hover:bg-slate-100">{{ lang.t('nav.evidence_vault') }}</a>
               <a routerLink="/board-report" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-sky-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.board_report') }}</a>
+                 class="text-sm text-slate-400 hover:text-sky-400 px-3 py-2 rounded-lg hover:bg-slate-100">{{ lang.t('nav.board_report') }}</a>
               <!-- Risk & Incidents -->
               <p class="px-3 pt-2 pb-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-600">{{ lang.l('Risk ja intsidendid', 'Risk & Incidents') }}</p>
               <a routerLink="/incident-reporting" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.incidents') }}</a>
+                 class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-100">{{ lang.t('nav.incidents') }}</a>
               <a routerLink="/supply-chain" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center justify-between">
+                 class="text-sm text-slate-400 hover:text-blue-500 px-3 py-2 rounded-lg hover:bg-slate-100 flex items-center justify-between">
                 {{ lang.t('nav.supply_short') }}
                 <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-gradient-to-r from-amber-500/20 to-orange-500/20 text-amber-400 border border-amber-500/30">PRO</span>
               </a>
               <a routerLink="/alerts" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-yellow-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.alerts') }}</a>
+                 class="text-sm text-slate-400 hover:text-yellow-400 px-3 py-2 rounded-lg hover:bg-slate-100">{{ lang.t('nav.alerts') }}</a>
               <!-- AI Act -->
               <p class="px-3 pt-2 pb-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-600">AI Act</p>
               <a routerLink="/ai-systems" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-blue-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.ai_systems') }}</a>
+                 class="text-sm text-slate-400 hover:text-blue-400 px-3 py-2 rounded-lg hover:bg-slate-100">{{ lang.t('nav.ai_systems') }}</a>
               <a routerLink="/ai-act-classifier" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-purple-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.ai_act_classifier') }}</a>
+                 class="text-sm text-slate-400 hover:text-purple-400 px-3 py-2 rounded-lg hover:bg-slate-100">{{ lang.t('nav.ai_act_classifier') }}</a>
               <a routerLink="/gpai-models" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-teal-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.gpai_models') }}</a>
+                 class="text-sm text-slate-400 hover:text-teal-400 px-3 py-2 rounded-lg hover:bg-slate-100">{{ lang.t('nav.gpai_models') }}</a>
               <!-- Reference -->
               <p class="px-3 pt-2 pb-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-600">{{ lang.l('Teave', 'Reference') }}</p>
               <a routerLink="/dora-explorer" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.dora_explorer') }}</a>
+                 class="text-sm text-slate-400 hover:text-blue-600 px-3 py-2 rounded-lg hover:bg-slate-100">{{ lang.t('nav.dora_explorer') }}</a>
               <a routerLink="/fine-calculator" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.fine_calculator') }}</a>
+                 class="text-sm text-slate-400 hover:text-red-400 px-3 py-2 rounded-lg hover:bg-slate-100">{{ lang.t('nav.fine_calculator') }}</a>
             </div>
           </div>
           @if (auth.isLoggedIn()) {
-            <div class="border-t border-slate-700/50 mt-2 pt-2">
+            <div class="border-t border-slate-200 mt-2 pt-2">
               @if (subscriptionService.isPremium()) {
                 <a routerLink="/settings/branding" (click)="mobileMenu = false"
-                   class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
+                   class="text-sm text-slate-400 hover:text-violet-400 px-3 py-2 rounded-lg hover:bg-slate-100 flex items-center gap-2">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
                   </svg>
@@ -528,32 +528,32 @@ import { GuidedTourComponent } from './components/guided-tour.component';
               }
               @if (auth.isAdmin()) {
                 <a routerLink="/admin/users" (click)="mobileMenu = false"
-                   class="text-sm text-amber-400 hover:text-amber-300 px-3 py-2 rounded-lg hover:bg-slate-700/30">Admin Panel</a>
+                   class="text-sm text-amber-400 hover:text-amber-300 px-3 py-2 rounded-lg hover:bg-slate-100">Admin Panel</a>
                 <a routerLink="/admin/leads" (click)="mobileMenu = false"
-                   class="text-sm text-amber-400 hover:text-amber-300 px-3 py-2 rounded-lg hover:bg-slate-700/30">Leads</a>
+                   class="text-sm text-amber-400 hover:text-amber-300 px-3 py-2 rounded-lg hover:bg-slate-100">Leads</a>
               }
               <span class="text-xs text-slate-500 px-3 mt-1 block">{{ auth.user()?.email }}</span>
               <button type="button" (click)="restartTour(); mobileMenu = false"
-                      class="w-full text-left text-sm text-slate-400 hover:text-cyan-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 mt-1 flex items-center gap-2">
+                      class="w-full text-left text-sm text-slate-400 hover:text-blue-500 px-3 py-2 rounded-lg hover:bg-slate-100 mt-1 flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                 </svg>
                 {{ lang.t('onboarding.restart_tour') }}
               </button>
               <button type="button" (click)="auth.logout(); mobileMenu = false"
-                      class="w-full text-left text-sm text-red-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 mt-1">{{ lang.t('auth.logout') }}</button>
+                      class="w-full text-left text-sm text-red-400 px-3 py-2 rounded-lg hover:bg-slate-100 mt-1">{{ lang.t('auth.logout') }}</button>
             </div>
           } @else if (isBrowser) {
-            <div class="border-t border-slate-700/50 mt-2 pt-2 flex flex-col gap-1">
+            <div class="border-t border-slate-200 mt-2 pt-2 flex flex-col gap-1">
               <a routerLink="/login" (click)="mobileMenu = false"
-                 class="text-sm text-emerald-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('auth.login') }}</a>
+                 class="text-sm text-blue-600 px-3 py-2 rounded-lg hover:bg-slate-100">{{ lang.t('auth.login') }}</a>
               <a routerLink="/register" (click)="mobileMenu = false"
-                 class="text-sm text-white bg-emerald-500/20 px-3 py-2 rounded-lg hover:bg-emerald-500/30 text-center">{{ lang.t('auth.register') }}</a>
+                 class="text-sm text-white bg-blue-100 px-3 py-2 rounded-lg hover:bg-blue-600/30 text-center">{{ lang.t('auth.register') }}</a>
             </div>
           }
-          <div class="border-t border-slate-700/50 mt-2 pt-2 flex flex-col gap-1">
+          <div class="border-t border-slate-200 mt-2 pt-2 flex flex-col gap-1">
             <button type="button" (click)="themeService.toggle(); mobileMenu = false"
-                    class="w-full text-left text-sm text-slate-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
+                    class="w-full text-left text-sm text-slate-400 px-3 py-2 rounded-lg hover:bg-slate-100 flex items-center gap-2">
               @if (themeService.isDark()) {
                 <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
               } @else {
@@ -562,7 +562,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
               {{ themeService.isDark() ? lang.t('theme.light') : lang.t('theme.dark') }}
             </button>
             <button type="button" (click)="lang.toggle(); mobileMenu = false"
-                    class="w-full text-left text-sm text-slate-400 px-3 py-2 rounded-lg hover:bg-slate-700/30 flex items-center gap-2">
+                    class="w-full text-left text-sm text-slate-400 px-3 py-2 rounded-lg hover:bg-slate-100 flex items-center gap-2">
               <svg class="w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>
               </svg>
@@ -581,8 +581,8 @@ import { GuidedTourComponent } from './components/guided-tour.component';
           <!-- Brand -->
           <div class="md:col-span-1">
             <div class="flex items-center gap-3 mb-3">
-              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs">DA</div>
-              <p class="text-sm font-bold text-slate-300">{{ lang.t('nav.brand') }}</p>
+              <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-slate-900 font-bold text-xs">DA</div>
+              <p class="text-sm font-bold text-slate-600">{{ lang.t('nav.brand') }}</p>
             </div>
             <p class="text-xs text-slate-500 leading-relaxed">{{ lang.t('footer.tagline') }}</p>
           </div>
@@ -591,13 +591,13 @@ import { GuidedTourComponent } from './components/guided-tour.component';
           <div>
             <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">{{ lang.t('footer.tools') }}</h4>
             <div class="flex flex-col gap-2">
-              <a routerLink="/contract-analysis" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.contract') }}</a>
-              <a routerLink="/assessment" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.assessment') }}</a>
+              <a routerLink="/contract-analysis" class="text-xs text-slate-500 hover:text-blue-600 transition-colors">{{ lang.t('nav.contract') }}</a>
+              <a routerLink="/assessment" class="text-xs text-slate-500 hover:text-blue-600 transition-colors">{{ lang.t('nav.assessment') }}</a>
               <a routerLink="/nis2/scope-check" class="text-xs text-slate-500 hover:text-amber-400 transition-colors">{{ lang.t('nav.nis2_scope') }}</a>
               <a routerLink="/board-risk" class="text-xs text-slate-500 hover:text-teal-400 transition-colors">{{ lang.t('nav.board_risk') }}</a>
               <a routerLink="/fine-calculator" class="text-xs text-slate-500 hover:text-red-400 transition-colors">{{ lang.t('nav.fine_calculator') }}</a>
               <a routerLink="/vendors" class="text-xs text-slate-500 hover:text-violet-400 transition-colors">{{ lang.t('nav.vendors') }}</a>
-              <a routerLink="/dora-explorer" class="text-xs text-slate-500 hover:text-cyan-400 transition-colors">{{ lang.t('nav.explorer') }}</a>
+              <a routerLink="/dora-explorer" class="text-xs text-slate-500 hover:text-blue-500 transition-colors">{{ lang.t('nav.explorer') }}</a>
               <a routerLink="/framework-mapping" class="text-xs text-slate-500 hover:text-teal-400 transition-colors">{{ lang.t('nav.mapping') }}</a>
             </div>
           </div>
@@ -606,13 +606,13 @@ import { GuidedTourComponent } from './components/guided-tour.component';
           <div>
             <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">{{ lang.t('footer.company') }}</h4>
             <div class="flex flex-col gap-2">
-              <a routerLink="/about" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.about') }}</a>
-              <a routerLink="/methodology" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.methodology') }}</a>
-              <a routerLink="/pricing" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.pricing') }}</a>
-              <a routerLink="/blog" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('nav.blog') }}</a>
-              <a routerLink="/privacy" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('footer.privacy') }}</a>
-              <a routerLink="/terms" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors">{{ lang.t('footer.terms') }}</a>
-              <button type="button" (click)="openCookieSettings()" class="text-xs text-slate-500 hover:text-emerald-400 transition-colors text-left">{{ lang.t('cookie.settings') }}</button>
+              <a routerLink="/about" class="text-xs text-slate-500 hover:text-blue-600 transition-colors">{{ lang.t('nav.about') }}</a>
+              <a routerLink="/methodology" class="text-xs text-slate-500 hover:text-blue-600 transition-colors">{{ lang.t('nav.methodology') }}</a>
+              <a routerLink="/pricing" class="text-xs text-slate-500 hover:text-blue-600 transition-colors">{{ lang.t('nav.pricing') }}</a>
+              <a routerLink="/blog" class="text-xs text-slate-500 hover:text-blue-600 transition-colors">{{ lang.t('nav.blog') }}</a>
+              <a routerLink="/privacy" class="text-xs text-slate-500 hover:text-blue-600 transition-colors">{{ lang.t('footer.privacy') }}</a>
+              <a routerLink="/terms" class="text-xs text-slate-500 hover:text-blue-600 transition-colors">{{ lang.t('footer.terms') }}</a>
+              <button type="button" (click)="openCookieSettings()" class="text-xs text-slate-500 hover:text-blue-600 transition-colors text-left">{{ lang.t('cookie.settings') }}</button>
             </div>
           </div>
 
@@ -620,7 +620,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
           <div>
             <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">{{ lang.t('footer.contact') }}</h4>
             <div class="flex flex-col gap-2 text-xs text-slate-500">
-              <a href="mailto:info@doraaudit.eu" class="hover:text-emerald-400 transition-colors">info&#64;doraaudit.eu</a>
+              <a href="mailto:info@doraaudit.eu" class="hover:text-blue-600 transition-colors">info&#64;doraaudit.eu</a>
               <p>DoraAudit.eu</p>
               <p>{{ lang.t('footer.location') }}</p>
               <a href="https://www.linkedin.com/in/kristo-erte-52b73918a/" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 hover:text-blue-400 transition-colors mt-1">
@@ -659,7 +659,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
            [ngClass]="{
              'bg-red-500/90 text-white border-red-400': t.type === 'error',
              'bg-amber-500/90 text-white border-amber-400': t.type === 'warning',
-             'bg-emerald-500/90 text-white border-emerald-400': t.type === 'success',
+             'bg-blue-600/90 text-white border-blue-400': t.type === 'success',
              'bg-slate-700/90 text-white border-slate-600': t.type === 'info'
            }">
         {{ t.message }}

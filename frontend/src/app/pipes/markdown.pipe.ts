@@ -10,14 +10,14 @@ export class MarkdownPipe implements PipeTransform {
     let html = this.escapeHtml(value);
 
     // Headers (### then ## then #)
-    html = html.replace(/^### (.+)$/gm, '<h4 class="text-xs font-bold text-emerald-400 mt-3 mb-1">$1</h4>');
-    html = html.replace(/^## (.+)$/gm, '<h3 class="text-sm font-bold text-emerald-400 mt-3 mb-1">$1</h3>');
+    html = html.replace(/^### (.+)$/gm, '<h4 class="text-xs font-bold text-blue-600 mt-3 mb-1">$1</h4>');
+    html = html.replace(/^## (.+)$/gm, '<h3 class="text-sm font-bold text-blue-600 mt-3 mb-1">$1</h3>');
 
     // Bold
     html = html.replace(/\*\*(.+?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>');
 
     // Inline code
-    html = html.replace(/`([^`]+)`/g, '<code class="px-1 py-0.5 rounded bg-slate-700 text-emerald-300 text-xs font-mono">$1</code>');
+    html = html.replace(/`([^`]+)`/g, '<code class="px-1 py-0.5 rounded bg-slate-700 text-blue-500 text-xs font-mono">$1</code>');
 
     // Bullet points (- or *)
     html = html.replace(/^[\-\*] (.+)$/gm, '<li class="ml-3 pl-1">$1</li>');

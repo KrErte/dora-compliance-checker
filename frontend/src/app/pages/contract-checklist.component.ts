@@ -39,7 +39,7 @@ interface ChecklistSection {
           <p class="text-slate-400 text-sm mt-1">{{ lang.t('checklist.verify_that_your_ict_contract_includes_a') }}</p>
         </div>
         <div class="flex items-center gap-3">
-          <label class="flex items-center gap-2 text-sm text-slate-300 cursor-pointer">
+          <label class="flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
             <input type="checkbox" [(ngModel)]="criticalFunction"
                    class="w-4 h-4 rounded border-slate-600 bg-slate-900 text-violet-500 focus:ring-violet-500">
             {{ lang.t('checklist.critical_function_support') }}
@@ -48,7 +48,7 @@ interface ChecklistSection {
       </div>
 
       <!-- Score overview -->
-      <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl p-6">
+      <div class="bg-white border border-slate-200 rounded-2xl p-6">
         <div class="flex flex-col md:flex-row md:items-center gap-6">
           <!-- Score circle -->
           <div class="relative w-24 h-24 flex-shrink-0">
@@ -57,7 +57,7 @@ interface ChecklistSection {
               <circle cx="50" cy="50" r="42" stroke-width="8" fill="none" stroke-linecap="round"
                       [attr.stroke-dasharray]="264"
                       [attr.stroke-dashoffset]="264 - (264 * scorePercent() / 100)"
-                      [class]="scorePercent() >= 80 ? 'stroke-emerald-400' : scorePercent() >= 50 ? 'stroke-amber-400' : 'stroke-red-400'"/>
+                      [class]="scorePercent() >= 80 ? 'stroke-blue-500' : scorePercent() >= 50 ? 'stroke-amber-400' : 'stroke-red-400'"/>
             </svg>
             <div class="absolute inset-0 flex items-center justify-center">
               <span class="text-xl font-bold text-white">{{ scorePercent() }}%</span>
@@ -66,7 +66,7 @@ interface ChecklistSection {
           <!-- Stats -->
           <div class="flex-1 grid grid-cols-4 gap-4">
             <div class="text-center">
-              <div class="text-xl font-bold text-emerald-400">{{ countByStatus('yes') }}</div>
+              <div class="text-xl font-bold text-blue-600">{{ countByStatus('yes') }}</div>
               <div class="text-xs text-slate-400">{{ lang.t('checklist.present') }}</div>
             </div>
             <div class="text-center">
@@ -87,8 +87,8 @@ interface ChecklistSection {
 
       <!-- Checklist sections -->
       @for (section of visibleSections(); track section.id) {
-        <div class="bg-slate-800/50 border border-slate-700/50 rounded-2xl overflow-hidden">
-          <div class="px-6 py-4 border-b border-slate-700/50 flex items-center justify-between cursor-pointer"
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+          <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between cursor-pointer"
                (click)="toggleSection(section.id)">
             <h2 class="text-lg font-semibold text-white">{{ lang.l(section.title.et, section.title.en) }}</h2>
             <div class="flex items-center gap-3">
@@ -96,7 +96,7 @@ interface ChecklistSection {
               <div class="w-16 h-1.5 bg-slate-700 rounded-full overflow-hidden">
                 <div class="h-full rounded-full transition-all"
                      [style.width.%]="getSectionScore(section)"
-                     [class]="getSectionScore(section) >= 80 ? 'bg-emerald-400' : getSectionScore(section) >= 50 ? 'bg-amber-400' : 'bg-red-400'"></div>
+                     [class]="getSectionScore(section) >= 80 ? 'bg-blue-500' : getSectionScore(section) >= 50 ? 'bg-amber-400' : 'bg-red-400'"></div>
               </div>
               <svg class="w-5 h-5 text-slate-400 transition-transform" [class.rotate-180]="expandedSections.has(section.id)"
                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -126,19 +126,19 @@ interface ChecklistSection {
                       <!-- Status buttons -->
                       <div class="flex items-center gap-1.5 flex-shrink-0">
                         <button (click)="setStatus(item, 'yes')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
-                                [class]="item.status === 'yes' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-slate-700/30 text-slate-500 hover:text-slate-300'">
+                                [class]="item.status === 'yes' ? 'bg-blue-100 text-blue-600 border border-blue-500/40' : 'bg-slate-700/30 text-slate-500 hover:text-slate-600'">
                           {{ lang.t('checklist.yes') }}
                         </button>
                         <button (click)="setStatus(item, 'partial')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
-                                [class]="item.status === 'partial' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : 'bg-slate-700/30 text-slate-500 hover:text-slate-300'">
+                                [class]="item.status === 'partial' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : 'bg-slate-700/30 text-slate-500 hover:text-slate-600'">
                           {{ lang.t('checklist.partial_9') }}
                         </button>
                         <button (click)="setStatus(item, 'no')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
-                                [class]="item.status === 'no' ? 'bg-red-500/20 text-red-400 border border-red-500/40' : 'bg-slate-700/30 text-slate-500 hover:text-slate-300'">
+                                [class]="item.status === 'no' ? 'bg-red-500/20 text-red-400 border border-red-500/40' : 'bg-slate-700/30 text-slate-500 hover:text-slate-600'">
                           {{ lang.t('checklist.no') }}
                         </button>
                         <button (click)="setStatus(item, 'na')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
-                                [class]="item.status === 'na' ? 'bg-slate-500/20 text-slate-300 border border-slate-500/40' : 'bg-slate-700/30 text-slate-500 hover:text-slate-300'">
+                                [class]="item.status === 'na' ? 'bg-slate-500/20 text-slate-600 border border-slate-500/40' : 'bg-slate-700/30 text-slate-500 hover:text-slate-600'">
                           N/A
                         </button>
                       </div>
@@ -147,7 +147,7 @@ interface ChecklistSection {
                     @if (item.status) {
                       <div class="mt-2">
                         <input type="text" [(ngModel)]="item.notes"
-                               class="w-full px-3 py-1.5 bg-slate-900/30 border border-slate-700/30 rounded-lg text-xs text-slate-300 placeholder-slate-600 focus:outline-none focus:border-violet-500/30"
+                               class="w-full px-3 py-1.5 bg-slate-900/30 border border-slate-200 rounded-lg text-xs text-slate-600 placeholder-slate-600 focus:outline-none focus:border-violet-500/30"
                                [placeholder]="lang.t('checklist.notes_optional')">
                       </div>
                     }

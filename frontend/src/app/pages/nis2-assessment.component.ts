@@ -68,7 +68,7 @@ interface AssessmentResult {
           </svg>
         </div>
         <div>
-          <h1 class="text-2xl font-bold text-slate-100">{{ lang.t('nis2_assess.title') }}</h1>
+          <h1 class="text-2xl font-bold text-slate-900">{{ lang.t('nis2_assess.title') }}</h1>
           <p class="text-sm text-slate-400">{{ lang.t('nis2_assess.subtitle') }}</p>
         </div>
       </div>
@@ -108,8 +108,8 @@ interface AssessmentResult {
       <div *ngIf="!loading && !error && domains.length > 0" class="flex flex-wrap gap-2 mb-6 animate-fade-in-up delay-100">
         <span class="text-xs text-slate-500 self-center mr-1">Demo:</span>
         <button type="button" (click)="applyScenario('ideal')"
-                class="px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20
-                       hover:bg-emerald-500/20 transition-all duration-200">
+                class="px-3 py-1.5 rounded-lg text-xs font-medium bg-blue-50 text-blue-600 border border-blue-200
+                       hover:bg-blue-100 transition-all duration-200">
           {{ lang.t('nis2_assess.scenario_ideal') }}
         </button>
         <button type="button" (click)="applyScenario('average')"
@@ -124,7 +124,7 @@ interface AssessmentResult {
         </button>
         <button type="button" (click)="clearAll()"
                 class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-700/50 text-slate-400 border border-slate-600/30
-                       hover:bg-slate-600/50 transition-all duration-200">
+                       hover:bg-slate-100 transition-all duration-200">
           {{ lang.t('nis2_assess.clear') }}
         </button>
       </div>
@@ -136,10 +136,10 @@ interface AssessmentResult {
                   (click)="activeDomain = i"
                   [class]="activeDomain === i
                     ? 'px-4 py-2 rounded-lg text-sm font-medium bg-amber-500/20 text-amber-400 border border-amber-500/30'
-                    : 'px-4 py-2 rounded-lg text-sm font-medium bg-slate-800/50 text-slate-300 border border-slate-700/50 hover:bg-slate-700/50 hover:text-slate-200 transition-colors'">
+                    : 'px-4 py-2 rounded-lg text-sm font-medium bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 hover:text-slate-700 transition-colors'">
             <span class="mr-1.5">{{ getDomainIcon(domain.code) }}</span>
             {{ lang.l(domain.nameEt, domain.nameEn) }}
-            <span *ngIf="getDomainProgress(domain) === 100" class="ml-1.5 text-emerald-400">&#10003;</span>
+            <span *ngIf="getDomainProgress(domain) === 100" class="ml-1.5 text-blue-600">&#10003;</span>
           </button>
         </div>
 
@@ -151,17 +151,17 @@ interface AssessmentResult {
               {{ lang.l(domains[activeDomain].nameEt, domains[activeDomain].nameEn) }}
             </h2>
             <span class="text-xs px-2 py-1 rounded-full"
-                  [class]="getDomainProgress(domains[activeDomain]) === 100 ? 'bg-emerald-500/15 text-emerald-400' : 'bg-slate-700/50 text-slate-400'">
+                  [class]="getDomainProgress(domains[activeDomain]) === 100 ? 'bg-blue-50 text-blue-600' : 'bg-slate-700/50 text-slate-400'">
               {{ getDomainAnsweredCount(domains[activeDomain]) }} / {{ domains[activeDomain].questions.length }}
             </span>
           </div>
 
           <div *ngFor="let q of domains[activeDomain].questions; let qi = index"
-               class="py-5 border-b border-slate-700/50 last:border-b-0">
+               class="py-5 border-b border-slate-200 last:border-b-0">
             <!-- Free questions -->
             <div *ngIf="!isQuestionLocked(activeDomain, qi)">
               <div class="mb-3">
-                <p class="text-slate-100 mb-1">
+                <p class="text-slate-900 mb-1">
                   <span class="text-slate-400 text-sm mr-2">{{ qi + 1 }}.</span>
                   {{ lang.l(q.questionEt, q.questionEn) }}
                 </p>
@@ -178,7 +178,7 @@ interface AssessmentResult {
                         (click)="setAnswer(q.id, score)"
                         [class]="answers[q.id] === score
                           ? getScoreButtonActiveClass(score)
-                          : 'px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-200 border border-slate-600/50 hover:bg-slate-600/50 hover:text-white transition-all duration-200'">
+                          : 'px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-700 border border-slate-200 hover:bg-slate-100 hover:text-white transition-all duration-200'">
                   {{ score }}
                   <span class="hidden sm:inline ml-1 text-xs opacity-75">{{ getScoreLabel(score) }}</span>
                 </button>
@@ -188,7 +188,7 @@ interface AssessmentResult {
             <!-- Locked questions - blurred -->
             <div *ngIf="isQuestionLocked(activeDomain, qi)" class="blur-sm select-none pointer-events-none opacity-50">
               <div class="mb-3">
-                <p class="text-slate-100 mb-1">
+                <p class="text-slate-900 mb-1">
                   <span class="text-slate-400 text-sm mr-2">{{ qi + 1 }}.</span>
                   {{ lang.l(q.questionEt, q.questionEn) }}
                 </p>
@@ -212,7 +212,7 @@ interface AssessmentResult {
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-slate-200 mb-2">{{ lang.t('paywall.unlock_title') }}</h3>
+              <h3 class="text-lg font-semibold text-slate-700 mb-2">{{ lang.t('paywall.unlock_title') }}</h3>
               <p class="text-sm text-slate-400 mb-6">{{ lang.t('paywall.nis2_desc') }}</p>
               <div class="flex flex-col gap-3">
                 <a [href]="paymentConfig.lemonsqueezy.products.nis2Assessment.checkoutUrl"
@@ -226,8 +226,8 @@ interface AssessmentResult {
                 <a [href]="paymentConfig.lemonsqueezy.products.comboPackage.checkoutUrl"
                    target="_blank"
                    class="w-full py-2.5 px-4 rounded-xl text-center font-medium text-sm
-                          bg-slate-700/50 text-slate-300 border border-slate-600/50
-                          hover:bg-slate-600/50 hover:text-amber-400 hover:border-amber-500/30
+                          bg-slate-700/50 text-slate-600 border border-slate-200
+                          hover:bg-slate-100 hover:text-amber-400 hover:border-amber-500/30
                           transition-all duration-200">
                   {{ lang.t('paywall.buy_combo') }}
                 </a>
@@ -236,10 +236,10 @@ interface AssessmentResult {
           </div>
 
           <!-- Domain navigation -->
-          <div class="flex justify-between mt-6 pt-4 border-t border-slate-700/50">
+          <div class="flex justify-between mt-6 pt-4 border-t border-slate-200">
             <button type="button" *ngIf="activeDomain > 0"
                     (click)="activeDomain = activeDomain - 1"
-                    class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-300 hover:bg-slate-600/50 transition-colors flex items-center gap-2">
+                    class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-600 hover:bg-slate-100 transition-colors flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
               </svg>
@@ -259,12 +259,12 @@ interface AssessmentResult {
 
         <!-- Submit section -->
         <div class="sticky bottom-4 mt-8">
-          <div class="bg-slate-800/90 backdrop-blur-md border border-slate-700/50 rounded-xl p-4 shadow-2xl">
+          <div class="bg-slate-800/90 backdrop-blur-md border border-slate-200 rounded-xl p-4 shadow-2xl">
             <!-- Live score preview -->
-            <div *ngIf="answeredCount > 0" class="flex items-center gap-4 mb-3 pb-3 border-b border-slate-700/30">
+            <div *ngIf="answeredCount > 0" class="flex items-center gap-4 mb-3 pb-3 border-b border-slate-200">
               <div class="relative w-12 h-12 shrink-0">
                 <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="42" fill="none" stroke="#334155" stroke-width="8"/>
+                  <circle cx="50" cy="50" r="42" fill="none" stroke="#e2e8f0" stroke-width="8"/>
                   <circle cx="50" cy="50" r="42" fill="none"
                           [attr.stroke]="liveScoreColor"
                           stroke-width="8"
@@ -285,7 +285,7 @@ interface AssessmentResult {
 
             <div class="flex items-center justify-between">
               <button type="button" (click)="saveDraft()"
-                      class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-300 hover:bg-slate-600/50 transition-colors">
+                      class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-600 hover:bg-slate-100 transition-colors">
                 {{ lang.t('nis2_assess.save_draft') }}
               </button>
               <button type="button"
@@ -312,15 +312,15 @@ interface AssessmentResult {
           <div class="glass-card p-8 max-w-lg w-full animate-scale-in">
             <div class="text-center mb-6">
               <div class="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center"
-                   [class]="result.riskLevel === 'LOW' ? 'bg-emerald-500/20' : result.riskLevel === 'MEDIUM' ? 'bg-amber-500/20' : 'bg-red-500/20'">
+                   [class]="result.riskLevel === 'LOW' ? 'bg-blue-100' : result.riskLevel === 'MEDIUM' ? 'bg-amber-500/20' : 'bg-red-500/20'">
                 <span class="text-4xl font-bold"
-                      [class]="result.riskLevel === 'LOW' ? 'text-emerald-400' : result.riskLevel === 'MEDIUM' ? 'text-amber-400' : 'text-red-400'">
+                      [class]="result.riskLevel === 'LOW' ? 'text-blue-600' : result.riskLevel === 'MEDIUM' ? 'text-amber-400' : 'text-red-400'">
                   {{ result.overallScore | number:'1.0-0' }}
                 </span>
               </div>
-              <h2 class="text-xl font-bold text-slate-100 mb-1">{{ lang.t('nis2_assess.result_title') }}</h2>
+              <h2 class="text-xl font-bold text-slate-900 mb-1">{{ lang.t('nis2_assess.result_title') }}</h2>
               <p class="text-sm"
-                 [class]="result.riskLevel === 'LOW' ? 'text-emerald-400' : result.riskLevel === 'MEDIUM' ? 'text-amber-400' : 'text-red-400'">
+                 [class]="result.riskLevel === 'LOW' ? 'text-blue-600' : result.riskLevel === 'MEDIUM' ? 'text-amber-400' : 'text-red-400'">
                 {{ lang.t('nis2_assess.risk_' + result.riskLevel.toLowerCase()) }}
               </p>
             </div>
@@ -340,10 +340,10 @@ interface AssessmentResult {
                   <div class="w-20 h-1.5 bg-slate-700 rounded-full">
                     <div class="h-1.5 rounded-full transition-all"
                          [style.width.%]="ds.score"
-                         [class]="ds.score >= 80 ? 'bg-emerald-500' : ds.score >= 60 ? 'bg-amber-500' : 'bg-red-500'"></div>
+                         [class]="ds.score >= 80 ? 'bg-blue-600' : ds.score >= 60 ? 'bg-amber-500' : 'bg-red-500'"></div>
                   </div>
                   <span class="w-8 text-right"
-                        [class]="ds.score >= 80 ? 'text-emerald-400' : ds.score >= 60 ? 'text-amber-400' : 'text-red-400'">
+                        [class]="ds.score >= 80 ? 'text-blue-600' : ds.score >= 60 ? 'text-amber-400' : 'text-red-400'">
                     {{ ds.score | number:'1.0-0' }}
                   </span>
                 </div>
@@ -507,7 +507,7 @@ export class Nis2AssessmentComponent implements OnInit {
       2: 'px-4 py-2 rounded-lg text-sm font-medium bg-orange-500/20 text-orange-400 border border-orange-500/30 shadow-lg shadow-orange-500/10',
       3: 'px-4 py-2 rounded-lg text-sm font-medium bg-amber-500/20 text-amber-400 border border-amber-500/30 shadow-lg shadow-amber-500/10',
       4: 'px-4 py-2 rounded-lg text-sm font-medium bg-lime-500/20 text-lime-400 border border-lime-500/30 shadow-lg shadow-lime-500/10',
-      5: 'px-4 py-2 rounded-lg text-sm font-medium bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shadow-lg shadow-emerald-500/10'
+      5: 'px-4 py-2 rounded-lg text-sm font-medium bg-blue-100 text-blue-600 border border-blue-200 shadow-lg shadow-md'
     };
     return colors[score] || '';
   }

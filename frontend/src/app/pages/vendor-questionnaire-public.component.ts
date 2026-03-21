@@ -16,7 +16,7 @@ import { LangService } from '../lang.service';
         <!-- Loading -->
         @if (loading) {
           <div class="text-center py-20">
-            <div class="animate-spin w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+            <div class="animate-spin w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
             <p class="text-slate-400">{{ lang.t('vqp.loading') }}</p>
           </div>
         }
@@ -34,7 +34,7 @@ import { LangService } from '../lang.service';
         @if (!loading && status === 'SUBMITTED') {
           <div class="glass-card p-8 text-center">
             <div class="text-5xl mb-4">&#10003;</div>
-            <h2 class="text-xl font-bold text-emerald-400 mb-2">{{ lang.t('vqp.already_submitted') }}</h2>
+            <h2 class="text-xl font-bold text-blue-600 mb-2">{{ lang.t('vqp.already_submitted') }}</h2>
             <p class="text-slate-400">{{ lang.t('vqp.already_submitted_desc').replace('{name}', vendorName) }}</p>
           </div>
         }
@@ -52,10 +52,10 @@ import { LangService } from '../lang.service';
         @if (submitted) {
           <div class="glass-card p-8 text-center">
             <div class="text-5xl mb-4">&#127881;</div>
-            <h2 class="text-xl font-bold text-emerald-400 mb-2">{{ lang.t('vqp.thank_you') }}</h2>
+            <h2 class="text-xl font-bold text-blue-600 mb-2">{{ lang.t('vqp.thank_you') }}</h2>
             <p class="text-slate-400 mb-4">{{ lang.t('vqp.submitted_desc') }}</p>
             @if (submittedRiskScore !== null) {
-              <div class="inline-flex items-center gap-2 px-4 py-2 rounded-lg" [class]="submittedRiskScore <= 30 ? 'bg-emerald-500/10 text-emerald-400' : (submittedRiskScore <= 60 ? 'bg-amber-500/10 text-amber-400' : 'bg-red-500/10 text-red-400')">
+              <div class="inline-flex items-center gap-2 px-4 py-2 rounded-lg" [class]="submittedRiskScore <= 30 ? 'bg-blue-50 text-blue-600' : (submittedRiskScore <= 60 ? 'bg-amber-500/10 text-amber-400' : 'bg-red-500/10 text-red-400')">
                 <span class="font-bold text-lg">{{ submittedRiskScore }}</span>
                 <span class="text-sm">{{ lang.t('vqp.risk_score') }}</span>
               </div>
@@ -68,13 +68,13 @@ import { LangService } from '../lang.service';
           <!-- Header -->
           <div class="glass-card p-6 mb-6">
             <div class="flex items-center gap-3 mb-4">
-              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-400 to-blue-500 flex items-center justify-center text-white font-bold text-lg">D</div>
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center text-white font-bold text-lg">D</div>
               <div>
                 <h1 class="text-xl font-bold text-white">{{ lang.t('vqp.title') }}</h1>
                 <p class="text-sm text-slate-400">{{ lang.t('vqp.powered_by') }}</p>
               </div>
             </div>
-            <p class="text-sm text-slate-300" [innerHTML]="getIntroHtml()"></p>
+            <p class="text-sm text-slate-600" [innerHTML]="getIntroHtml()"></p>
             <p class="text-xs text-slate-500 mt-2">{{ questions.length }} {{ lang.t('vqp.estimated_time') }}</p>
           </div>
 
@@ -85,7 +85,7 @@ import { LangService } from '../lang.service';
               <span>{{ getAnsweredCount() }}/{{ questions.length }}</span>
             </div>
             <div class="w-full bg-slate-800 rounded-full h-2">
-              <div class="h-2 rounded-full bg-emerald-500 transition-all" [style.width.%]="(getAnsweredCount() / questions.length) * 100"></div>
+              <div class="h-2 rounded-full bg-blue-600 transition-all" [style.width.%]="(getAnsweredCount() / questions.length) * 100"></div>
             </div>
           </div>
 
@@ -96,7 +96,7 @@ import { LangService } from '../lang.service';
               <div class="space-y-4">
                 @for (q of getQuestionsByCategory(category); track q.id) {
                   <div class="p-4 rounded-lg bg-slate-800/30">
-                    <p class="text-sm text-slate-300 mb-3">
+                    <p class="text-sm text-slate-600 mb-3">
                       <span class="text-[10px] font-mono text-slate-500 mr-2">{{ q.id }}</span>
                       {{ q.text }}
                       @if (q.weight >= 3) {
@@ -108,7 +108,7 @@ import { LangService } from '../lang.service';
                         <button (click)="setAnswer(q.id, opt)"
                                 class="px-4 py-2 rounded-lg text-sm font-medium transition-all"
                                 [class]="answers[q.id] === opt
-                                  ? (opt === 'yes' ? 'bg-emerald-500 text-white' : (opt === 'partial' ? 'bg-amber-500 text-white' : (opt === 'no' ? 'bg-red-500 text-white' : 'bg-slate-500 text-white')))
+                                  ? (opt === 'yes' ? 'bg-blue-600 text-white' : (opt === 'partial' ? 'bg-amber-500 text-white' : (opt === 'no' ? 'bg-red-500 text-white' : 'bg-slate-500 text-white')))
                                   : 'bg-slate-700/50 text-slate-400 hover:bg-slate-700'">
                           {{ opt === 'yes' ? lang.t('vq.yes') : (opt === 'partial' ? lang.t('vq.partial') : (opt === 'no' ? lang.t('vq.no') : lang.t('vq.na'))) }}
                         </button>
@@ -124,7 +124,7 @@ import { LangService } from '../lang.service';
           <div class="glass-card p-6 text-center">
             <p class="text-sm text-slate-400 mb-4">{{ lang.t('vqp.submit_hint') }}</p>
             <button (click)="submit()" [disabled]="getAnsweredCount() < questions.length || submitting"
-                    class="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-semibold text-lg disabled:opacity-30 disabled:cursor-not-allowed">
+                    class="px-8 py-3 bg-blue-700 hover:bg-blue-600 text-white rounded-lg font-semibold text-lg disabled:opacity-30 disabled:cursor-not-allowed">
               {{ submitting ? lang.t('vqp.submitting') : lang.t('vqp.submit') }}
             </button>
             @if (getAnsweredCount() < questions.length) {

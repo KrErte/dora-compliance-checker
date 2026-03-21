@@ -9,16 +9,16 @@ import { LangService } from '../lang.service';
   template: `
     @if (showBanner()) {
       <div class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-96 z-50 animate-slide-up">
-        <div class="bg-slate-800 border border-emerald-500/30 rounded-xl p-4 shadow-2xl shadow-black/40 backdrop-blur-xl">
+        <div class="bg-slate-800 border border-blue-200 rounded-xl p-4 shadow-2xl shadow-black/40 backdrop-blur-xl">
           <div class="flex items-start gap-3">
-            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-xs flex-shrink-0">
+            <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center text-slate-900 font-bold text-xs flex-shrink-0">
               DA
             </div>
             <div class="flex-1 min-w-0">
               <h3 class="text-sm font-semibold text-white">{{ lang.l('Paigalda DoraAudit', 'Install DoraAudit') }}</h3>
               <p class="text-xs text-slate-400 mt-0.5">{{ lang.l('Lisa oma avaekraanile kiireks ligipääsuks', 'Add to your home screen for quick access') }}</p>
             </div>
-            <button (click)="dismiss()" class="text-slate-500 hover:text-slate-300 transition-colors flex-shrink-0">
+            <button (click)="dismiss()" class="text-slate-500 hover:text-slate-600 transition-colors flex-shrink-0">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
@@ -26,7 +26,7 @@ import { LangService } from '../lang.service';
           </div>
           <div class="flex gap-2 mt-3">
             <button (click)="install()"
-                    class="flex-1 px-4 py-2 rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900 text-xs font-semibold hover:shadow-lg hover:shadow-emerald-500/25 transition-all">
+                    class="flex-1 px-4 py-2 rounded-lg bg-blue-600 text-slate-900 text-xs font-semibold hover:shadow-lg hover:shadow-lg transition-all">
               {{ lang.l('Paigalda', 'Install') }}
             </button>
             <button (click)="dismiss()"

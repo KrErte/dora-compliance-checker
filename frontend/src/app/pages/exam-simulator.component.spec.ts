@@ -654,7 +654,7 @@ describe('ExamSimulatorComponent', () => {
 
     // Set a high score for index 0
     component.feedbackScores.set([{ index: 0, score: 9, max: 10 }]);
-    expect(component.getQuestionDotClass(0)).toContain('emerald');
+    expect(component.getQuestionDotClass(0)).toContain('blue');
 
     // Medium score
     component.feedbackScores.set([{ index: 0, score: 5, max: 10 }]);
@@ -666,7 +666,7 @@ describe('ExamSimulatorComponent', () => {
   });
 
   it('should return correct feedback banner class based on score', () => {
-    expect(component.getFeedbackBannerClass(9, 10)).toContain('emerald');
+    expect(component.getFeedbackBannerClass(9, 10)).toContain('blue');
     expect(component.getFeedbackBannerClass(5, 10)).toContain('amber');
     expect(component.getFeedbackBannerClass(2, 10)).toContain('red');
   });
@@ -680,7 +680,7 @@ describe('ExamSimulatorComponent', () => {
   });
 
   it('should return correct grade text class for each grade', () => {
-    expect(component.getGradeTextClass('A')).toContain('emerald');
+    expect(component.getGradeTextClass('A')).toContain('blue');
     expect(component.getGradeTextClass('B')).toContain('teal');
     expect(component.getGradeTextClass('C')).toContain('amber');
     expect(component.getGradeTextClass('D')).toContain('orange');
@@ -688,7 +688,7 @@ describe('ExamSimulatorComponent', () => {
   });
 
   it('should return correct grade border class for each grade', () => {
-    expect(component.getGradeBorderClass('A')).toContain('emerald');
+    expect(component.getGradeBorderClass('A')).toContain('blue');
     expect(component.getGradeBorderClass('B')).toContain('teal');
     expect(component.getGradeBorderClass('C')).toContain('amber');
     expect(component.getGradeBorderClass('D')).toContain('orange');
@@ -696,7 +696,7 @@ describe('ExamSimulatorComponent', () => {
   });
 
   it('should return correct verdict class for each grade', () => {
-    expect(component.getVerdictClass('A')).toContain('emerald');
+    expect(component.getVerdictClass('A')).toContain('blue');
     expect(component.getVerdictClass('B')).toContain('teal');
     expect(component.getVerdictClass('C')).toContain('amber');
     expect(component.getVerdictClass('D')).toContain('orange');
@@ -704,20 +704,20 @@ describe('ExamSimulatorComponent', () => {
   });
 
   it('should return correct category score color based on percentage', () => {
-    expect(component.getCategoryScoreColor(85)).toContain('emerald');
+    expect(component.getCategoryScoreColor(85)).toContain('blue');
     expect(component.getCategoryScoreColor(55)).toContain('amber');
     expect(component.getCategoryScoreColor(20)).toContain('red');
   });
 
   it('should return correct category bar class based on percentage', () => {
-    expect(component.getCategoryBarClass(75)).toContain('emerald');
+    expect(component.getCategoryBarClass(75)).toContain('blue');
     expect(component.getCategoryBarClass(50)).toContain('amber');
     expect(component.getCategoryBarClass(30)).toContain('red');
   });
 
   it('should return correct grade gradient class', () => {
-    expect(component.getGradeGradientClass('A')).toContain('emerald');
-    expect(component.getGradeGradientClass('B')).toContain('emerald');
+    expect(component.getGradeGradientClass('A')).toContain('blue');
+    expect(component.getGradeGradientClass('B')).toContain('blue');
     expect(component.getGradeGradientClass('C')).toContain('amber');
     expect(component.getGradeGradientClass('D')).toContain('orange');
     expect(component.getGradeGradientClass('F')).toContain('red');
@@ -737,13 +737,13 @@ describe('ExamSimulatorComponent', () => {
   });
 
   it('should return correct feedback score background class', () => {
-    expect(component.getFeedbackScoreBg(9, 10)).toContain('emerald');
+    expect(component.getFeedbackScoreBg(9, 10)).toContain('blue');
     expect(component.getFeedbackScoreBg(5, 10)).toContain('amber');
     expect(component.getFeedbackScoreBg(2, 10)).toContain('red');
   });
 
   it('should return correct feedback score color class', () => {
-    expect(component.getFeedbackScoreColor(9, 10)).toContain('emerald');
+    expect(component.getFeedbackScoreColor(9, 10)).toContain('blue');
     expect(component.getFeedbackScoreColor(5, 10)).toContain('amber');
     expect(component.getFeedbackScoreColor(2, 10)).toContain('red');
   });

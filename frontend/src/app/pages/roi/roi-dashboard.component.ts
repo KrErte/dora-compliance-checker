@@ -18,7 +18,7 @@ import { RoiService, RoiRegister } from '../../services/roi.service';
             <p class="text-slate-400 mt-1">{{ lang.t('roi.page_subtitle') }}</p>
           </div>
           <a routerLink="/roi/new"
-             class="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-xl transition-all">
+             class="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all">
             + {{ lang.t('roi.new_register') }}
           </a>
         </div>
@@ -26,7 +26,7 @@ import { RoiService, RoiRegister } from '../../services/roi.service';
         <!-- Stats -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <div class="glass-card p-5 text-center">
-            <div class="text-3xl font-bold text-emerald-400">{{ registers.length }}</div>
+            <div class="text-3xl font-bold text-blue-600">{{ registers.length }}</div>
             <div class="text-sm text-slate-400 mt-1">{{ lang.t('roi.total_registers') }}</div>
           </div>
           <div class="glass-card p-5 text-center">
@@ -53,7 +53,7 @@ import { RoiService, RoiRegister } from '../../services/roi.service';
         <!-- Registers List -->
         @if (loading) {
           <div class="text-center py-16">
-            <div class="animate-spin w-8 h-8 border-2 border-emerald-400 border-t-transparent rounded-full mx-auto"></div>
+            <div class="animate-spin w-8 h-8 border-2 border-blue-400 border-t-transparent rounded-full mx-auto"></div>
             <p class="text-slate-400 mt-4">{{ lang.t('roi.loading') }}</p>
           </div>
         } @else if (registers.length === 0) {
@@ -62,7 +62,7 @@ import { RoiService, RoiRegister } from '../../services/roi.service';
             <h2 class="text-xl font-semibold text-white mb-2">{{ lang.t('roi.empty_title') }}</h2>
             <p class="text-slate-400 mb-6">{{ lang.t('roi.empty_desc') }}</p>
             <a routerLink="/roi/new"
-               class="inline-block px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-xl transition-all">
+               class="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all">
               {{ lang.t('roi.create_first') }}
             </a>
           </div>
@@ -70,7 +70,7 @@ import { RoiService, RoiRegister } from '../../services/roi.service';
           <div class="space-y-4">
             @for (reg of registers; track reg.id) {
               <a [routerLink]="['/roi', reg.id, 'edit']"
-                 class="glass-card p-6 block hover:border-emerald-500/50 transition-all cursor-pointer">
+                 class="glass-card p-6 block hover:border-blue-500/50 transition-all cursor-pointer">
                 <div class="flex items-center justify-between">
                   <div>
                     <h3 class="text-lg font-semibold text-white">{{ reg.entityName }}</h3>
@@ -135,7 +135,7 @@ export class RoiDashboardComponent implements OnInit {
 
   getStatusClass(status: string): string {
     switch (status) {
-      case 'VALID': return 'bg-emerald-500/20 text-emerald-400';
+      case 'VALID': return 'bg-blue-100 text-blue-600';
       case 'EXPORTED': return 'bg-blue-500/20 text-blue-400';
       case 'VALIDATING': return 'bg-amber-500/20 text-amber-400';
       default: return 'bg-slate-500/20 text-slate-400';

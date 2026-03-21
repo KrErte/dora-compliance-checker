@@ -27,14 +27,14 @@ import { timeout, catchError, throwError } from 'rxjs';
     <div class="min-h-[60vh] flex items-center justify-center">
       <div class="w-full max-w-md">
         <div class="text-center mb-8">
-          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center text-slate-900 font-bold text-2xl mx-auto mb-4">
+          <div class="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center text-slate-900 font-bold text-2xl mx-auto mb-4">
             D
           </div>
           <h1 class="text-2xl font-bold text-white mb-2">{{ lang.t('auth.login') }}</h1>
           <p class="text-slate-400 text-sm">{{ lang.t('nav.brand') }}</p>
         </div>
 
-        <div class="bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-8"
+        <div class="bg-white backdrop-blur-xl rounded-2xl border border-slate-200 p-8"
              [class.animate-shake]="shakeForm">
           @if (error) {
             <div class="mb-6 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center gap-2">
@@ -76,10 +76,10 @@ import { timeout, catchError, throwError } from 'rxjs';
           <!-- Separator -->
           <div class="relative my-6">
             <div class="absolute inset-0 flex items-center">
-              <div class="w-full border-t border-slate-600/50"></div>
+              <div class="w-full border-t border-slate-200"></div>
             </div>
             <div class="relative flex justify-center text-sm">
-              <span class="px-4 bg-slate-800/50 text-slate-500">{{ lang.t('auth.or') }}</span>
+              <span class="px-4 bg-white text-slate-500">{{ lang.t('auth.or') }}</span>
             </div>
           </div>
 
@@ -96,10 +96,10 @@ import { timeout, catchError, throwError } from 'rxjs';
               </div>
               <input type="text" [(ngModel)]="totpCode" name="totpCode" maxlength="8"
                      placeholder="000000"
-                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border border-slate-600/50 text-white text-center text-2xl tracking-[0.5em] font-mono placeholder-slate-600 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/25"
+                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border border-slate-200 text-white text-center text-2xl tracking-[0.5em] font-mono placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25"
                      (keydown.enter)="onVerify2fa()">
               <button (click)="onVerify2fa()" [disabled]="loading || !totpCode"
-                      class="w-full py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-emerald-500 to-cyan-500 text-white hover:from-emerald-400 hover:to-cyan-400 disabled:opacity-50 transition-all">
+                      class="w-full py-3 rounded-xl font-semibold text-sm bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 transition-all">
                 @if (loading) {
                   <span class="inline-flex items-center gap-2">
                     <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
@@ -117,11 +117,11 @@ import { timeout, catchError, throwError } from 'rxjs';
 
           <form (ngSubmit)="onLogin()">
             <div class="mb-5">
-              <label for="login-email" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.email') }}</label>
+              <label for="login-email" class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('auth.email') }}</label>
               <input type="email" [(ngModel)]="email" name="email" id="login-email" required
                      class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
                             focus:outline-none focus:ring-1 transition-all"
-                     [class]="fieldErrors['email'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/25'"
+                     [class]="fieldErrors['email'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/25'"
                      placeholder="teie@ettevote.ee">
               @if (fieldErrors['email']) {
                 <p class="mt-1 text-xs text-red-400">{{ fieldErrors['email'] }}</p>
@@ -129,11 +129,11 @@ import { timeout, catchError, throwError } from 'rxjs';
             </div>
 
             <div class="mb-6">
-              <label for="login-password" class="block text-sm font-medium text-slate-300 mb-2">{{ lang.t('auth.password') }}</label>
+              <label for="login-password" class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('auth.password') }}</label>
               <input type="password" [(ngModel)]="password" name="password" id="login-password" required
                      class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
                             focus:outline-none focus:ring-1 transition-all"
-                     [class]="fieldErrors['password'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-600/50 focus:border-emerald-500/50 focus:ring-emerald-500/25'"
+                     [class]="fieldErrors['password'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/25'"
                      placeholder="********">
               @if (fieldErrors['password']) {
                 <p class="mt-1 text-xs text-red-400">{{ fieldErrors['password'] }}</p>
@@ -142,8 +142,8 @@ import { timeout, catchError, throwError } from 'rxjs';
 
             <button type="submit" [disabled]="loading"
                     class="w-full py-3 rounded-xl font-semibold text-sm transition-all duration-200
-                           bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
-                           hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25
+                           bg-blue-600 text-white
+                           hover:bg-blue-700 hover:shadow-lg hover:shadow-lg
                            disabled:opacity-50 disabled:cursor-not-allowed">
               @if (loading) {
                 <span class="inline-flex items-center gap-2">
@@ -162,7 +162,7 @@ import { timeout, catchError, throwError } from 'rxjs';
           <div class="mt-6 text-center space-y-3">
             <p class="text-sm text-slate-400">
               {{ lang.t('auth.no_account') }}
-              <a routerLink="/register" class="text-emerald-400 hover:text-emerald-300 font-medium transition-colors">
+              <a routerLink="/register" class="text-blue-600 hover:text-blue-500 font-medium transition-colors">
                 {{ lang.t('auth.register_link') }}
               </a>
             </p>

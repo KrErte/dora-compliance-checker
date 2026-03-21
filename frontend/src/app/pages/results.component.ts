@@ -38,7 +38,7 @@ interface HeatmapCell {
   template: `
     <div class="max-w-4xl mx-auto">
       <div *ngIf="loading" class="text-center py-16 animate-fade-in">
-        <div class="inline-block w-10 h-10 border-4 border-slate-700 border-t-emerald-400 rounded-full animate-spin"></div>
+        <div class="inline-block w-10 h-10 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin"></div>
         <p class="text-slate-400 mt-4">{{ lang.t('results.loading') }}</p>
       </div>
 
@@ -59,12 +59,12 @@ interface HeatmapCell {
         </div>
 
         <!-- Score hero section -->
-        <div class="bg-gradient-to-br from-slate-800/80 to-slate-800/40 backdrop-blur rounded-2xl p-4 sm:p-8 mb-8 border border-slate-700/50 animate-scale-in">
+        <div class="bg-gradient-to-br from-slate-800/80 to-slate-800/40 backdrop-blur rounded-2xl p-4 sm:p-8 mb-8 border border-slate-200 animate-scale-in">
           <div class="flex flex-col md:flex-row items-center gap-8">
             <!-- SVG circular score -->
             <div class="relative w-40 h-40 shrink-0">
               <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" fill="none" stroke="#334155" stroke-width="6"/>
+                <circle cx="50" cy="50" r="45" fill="none" stroke="#e2e8f0" stroke-width="6"/>
                 <circle cx="50" cy="50" r="45" fill="none"
                         [attr.stroke]="circleColor"
                         stroke-width="6"
@@ -84,14 +84,14 @@ interface HeatmapCell {
               <div class="animate-fade-in-up delay-200">
                 <span [class]="badgeClass">{{ badgeLabel }}</span>
               </div>
-              <h1 class="text-2xl font-bold text-slate-100 mt-3 animate-fade-in-up delay-300">{{ result.companyName }}</h1>
+              <h1 class="text-2xl font-bold text-slate-900 mt-3 animate-fade-in-up delay-300">{{ result.companyName }}</h1>
               <p class="text-slate-400 animate-fade-in-up delay-400">{{ result.contractName }}</p>
               <p class="text-xs text-slate-500 mt-2 animate-fade-in delay-500">{{ result.assessmentDate | date:'dd.MM.yyyy HH:mm' }}</p>
 
               <!-- Stats row -->
               <div class="flex flex-wrap gap-4 sm:gap-6 mt-4 justify-center md:justify-start animate-fade-in-up delay-500">
                 <div>
-                  <span class="text-2xl font-bold text-emerald-400">{{ result.compliantCount }}</span>
+                  <span class="text-2xl font-bold text-blue-600">{{ result.compliantCount }}</span>
                   <p class="text-xs text-slate-500">{{ lang.t('results.compliant') }}</p>
                 </div>
                 <div>
@@ -103,7 +103,7 @@ interface HeatmapCell {
                   <p class="text-xs text-slate-500">{{ lang.t('results.non_compliant') }}</p>
                 </div>
                 <div>
-                  <span class="text-2xl font-bold text-slate-300">{{ result.totalQuestions }}</span>
+                  <span class="text-2xl font-bold text-slate-600">{{ result.totalQuestions }}</span>
                   <p class="text-xs text-slate-500">{{ lang.t('results.total') }}</p>
                 </div>
               </div>
@@ -114,9 +114,9 @@ interface HeatmapCell {
         <!-- Radar Chart + Risk Heatmap side by side -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <!-- Radar Chart -->
-          <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6 animate-fade-in-up delay-300">
-            <h2 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
-              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-6 animate-fade-in-up delay-300">
+            <h2 class="text-sm font-semibold text-slate-600 mb-4 flex items-center gap-2">
+              <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
               </svg>
@@ -127,16 +127,16 @@ interface HeatmapCell {
                 <!-- Background rings -->
                 <polygon *ngFor="let ring of radarRings"
                          [attr.points]="ring"
-                         fill="none" stroke="#334155" stroke-width="0.5"/>
+                         fill="none" stroke="#e2e8f0" stroke-width="0.5"/>
                 <!-- Axis lines -->
                 <line *ngFor="let p of radarPoints"
                       x1="150" y1="150"
                       [attr.x2]="p.x * 1.0 + 150 * (1 - 1.0)" [attr.y2]="p.y * 1.0 + 150 * (1 - 1.0)"
-                      stroke="#334155" stroke-width="0.5"/>
+                      stroke="#e2e8f0" stroke-width="0.5"/>
                 <!-- Data area -->
                 <polygon [attr.points]="radarDataPath"
-                         fill="#34d399" fill-opacity="0.15"
-                         stroke="#34d399" stroke-width="2"
+                         fill="#2563eb" fill-opacity="0.15"
+                         stroke="#2563eb" stroke-width="2"
                          class="animate-scale-in delay-500"/>
                 <!-- Data points -->
                 <circle *ngFor="let p of radarDataPoints; let i = index"
@@ -157,8 +157,8 @@ interface HeatmapCell {
           </div>
 
           <!-- Risk Heatmap -->
-          <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6 animate-fade-in-up delay-400">
-            <h2 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+          <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-6 animate-fade-in-up delay-400">
+            <h2 class="text-sm font-semibold text-slate-600 mb-4 flex items-center gap-2">
               <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"/>
@@ -199,7 +199,7 @@ interface HeatmapCell {
             <!-- Heatmap legend -->
             <div class="flex items-center justify-center gap-3 mt-3">
               <div class="flex items-center gap-1">
-                <div class="w-3 h-3 rounded bg-emerald-500/40"></div>
+                <div class="w-3 h-3 rounded bg-blue-600/40"></div>
                 <span class="text-xs text-slate-500">{{ lang.t('results.low_risk') }}</span>
               </div>
               <div class="flex items-center gap-1">
@@ -215,9 +215,9 @@ interface HeatmapCell {
         </div>
 
         <!-- DORA 5 Pillars Status -->
-        <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6 mb-8 animate-fade-in-up delay-400">
-          <h2 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
-            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-6 mb-8 animate-fade-in-up delay-400">
+          <h2 class="text-sm font-semibold text-slate-600 mb-4 flex items-center gap-2">
+            <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
             </svg>
             {{ lang.t('results.pillars') }}
@@ -236,7 +236,7 @@ interface HeatmapCell {
                 </span>
               </div>
               <a [routerLink]="pillar.route"
-                 class="inline-block mt-2 text-[10px] text-cyan-400 hover:text-cyan-300 hover:underline transition-colors">
+                 class="inline-block mt-2 text-[10px] text-blue-500 hover:text-blue-400 hover:underline transition-colors">
                 {{ lang.t(pillar.ctaKey) }} &rarr;
               </a>
             </div>
@@ -255,10 +255,10 @@ interface HeatmapCell {
           <div class="space-y-2">
             <a *ngFor="let rec of weakPillarRecommendations"
                [routerLink]="rec.route"
-               class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30 hover:border-amber-500/30 hover:bg-slate-800 transition-all group">
+               class="flex items-center gap-3 p-3 rounded-lg bg-white border border-slate-200 hover:border-amber-500/30 hover:bg-slate-800 transition-all group">
               <span class="text-lg shrink-0">{{ rec.icon }}</span>
               <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-slate-200 group-hover:text-amber-400 transition-colors">{{ rec.label }}</p>
+                <p class="text-sm font-medium text-slate-700 group-hover:text-amber-400 transition-colors">{{ rec.label }}</p>
                 <p class="text-xs text-slate-500">{{ rec.pillarLabel }} &middot; {{ rec.percentage | number:'1.0-0' }}%</p>
               </div>
               <svg class="w-4 h-4 text-slate-600 group-hover:text-amber-400 transition-colors shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -280,23 +280,23 @@ interface HeatmapCell {
           <!-- Main comparison -->
           <div class="grid grid-cols-3 gap-2 sm:gap-4 mb-6">
             <!-- Your Score -->
-            <div class="bg-slate-800/50 rounded-lg p-4 text-center border border-slate-700/30">
+            <div class="bg-white rounded-lg p-4 text-center border border-slate-200">
               <p class="text-xs text-slate-500 mb-1">{{ lang.t('results.your_score') }}</p>
               <p class="text-3xl font-bold" [class]="scoreTextClass">{{ result.scorePercentage | number:'1.0-0' }}%</p>
-              <p class="text-xs mt-1" [class]="result.scorePercentage >= benchmark.industryAverage ? 'text-emerald-400' : 'text-amber-400'">
+              <p class="text-xs mt-1" [class]="result.scorePercentage >= benchmark.industryAverage ? 'text-blue-600' : 'text-amber-400'">
                 {{ getBenchmarkComparison() }}
               </p>
             </div>
 
             <!-- Industry Average -->
-            <div class="bg-slate-800/50 rounded-lg p-4 text-center border border-slate-700/30">
+            <div class="bg-white rounded-lg p-4 text-center border border-slate-200">
               <p class="text-xs text-slate-500 mb-1">{{ lang.t('results.industry_average') }}</p>
-              <p class="text-3xl font-bold text-slate-300">{{ benchmark.industryAverage | number:'1.0-0' }}%</p>
+              <p class="text-3xl font-bold text-slate-600">{{ benchmark.industryAverage | number:'1.0-0' }}%</p>
               <p class="text-xs text-slate-500 mt-1">{{ benchmark.totalAssessments }} {{ lang.t('results.assessments') }}</p>
             </div>
 
             <!-- Percentile Rank -->
-            <div class="bg-slate-800/50 rounded-lg p-4 text-center border border-slate-700/30">
+            <div class="bg-white rounded-lg p-4 text-center border border-slate-200">
               <p class="text-xs text-slate-500 mb-1">{{ lang.t('results.your_ranking') }}</p>
               <p class="text-3xl font-bold text-indigo-400">{{ benchmark.percentileRank | number:'1.0-0' }}%</p>
               <p class="text-xs text-indigo-300 mt-1">{{ getPercentileLabel() }}</p>
@@ -311,7 +311,7 @@ interface HeatmapCell {
               <div class="absolute inset-0 flex">
                 <div class="h-full bg-red-500/40" [style.width.%]="benchmark.complianceLevelDistribution?.['RED'] || 30"></div>
                 <div class="h-full bg-amber-500/40" [style.width.%]="benchmark.complianceLevelDistribution?.['YELLOW'] || 52"></div>
-                <div class="h-full bg-emerald-500/40" [style.width.%]="benchmark.complianceLevelDistribution?.['GREEN'] || 18"></div>
+                <div class="h-full bg-blue-600/40" [style.width.%]="benchmark.complianceLevelDistribution?.['GREEN'] || 18"></div>
               </div>
               <!-- Your position marker -->
               <div class="absolute top-0 bottom-0 w-1 bg-white shadow-lg shadow-white/50 transition-all duration-700"
@@ -335,7 +335,7 @@ interface HeatmapCell {
                 <span class="text-[10px] text-slate-500">{{ lang.t('results.yellow') }} 50-79%</span>
               </div>
               <div class="flex items-center gap-1">
-                <div class="w-2 h-2 rounded-full bg-emerald-500/60"></div>
+                <div class="w-2 h-2 rounded-full bg-blue-600/60"></div>
                 <span class="text-[10px] text-slate-500">{{ lang.t('results.green') }} 80%+</span>
               </div>
             </div>
@@ -359,11 +359,11 @@ interface HeatmapCell {
                 </span>
               </div>
               <!-- Your score line -->
-              <div class="flex items-center gap-2 sm:gap-3 pt-2 border-t border-slate-700/50">
+              <div class="flex items-center gap-2 sm:gap-3 pt-2 border-t border-slate-200">
                 <span class="text-xs font-semibold w-20 sm:w-28 truncate shrink-0" [class]="scoreTextClass">{{ lang.t('results.your_score') }}</span>
                 <div class="flex-1 h-2 bg-slate-700/50 rounded-full overflow-hidden">
                   <div class="h-full rounded-full transition-all duration-700"
-                       [class]="result.complianceLevel === 'GREEN' ? 'bg-emerald-500' : result.complianceLevel === 'YELLOW' ? 'bg-amber-500' : 'bg-red-500'"
+                       [class]="result.complianceLevel === 'GREEN' ? 'bg-blue-600' : result.complianceLevel === 'YELLOW' ? 'bg-amber-500' : 'bg-red-500'"
                        [style.width.%]="result.scorePercentage">
                   </div>
                 </div>
@@ -374,7 +374,7 @@ interface HeatmapCell {
         </div>
 
         <!-- Benchmark loading state -->
-        <div *ngIf="benchmarkLoading" class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6 mb-8 animate-pulse">
+        <div *ngIf="benchmarkLoading" class="bg-white backdrop-blur border border-slate-200 rounded-xl p-6 mb-8 animate-pulse">
           <div class="flex items-center gap-3">
             <div class="w-4 h-4 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin"></div>
             <span class="text-sm text-slate-400">{{ lang.t('results.loading_benchmark_data') }}</span>
@@ -384,17 +384,17 @@ interface HeatmapCell {
         <!-- Category summary cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-8">
           <div *ngFor="let cat of categoryStats; let i = index"
-               class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-4 card-hover animate-fade-in-up"
+               class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4 card-hover animate-fade-in-up"
                [style.animation-delay]="(i * 80 + 300) + 'ms'">
             <p class="text-xs text-slate-500 mb-2">{{ cat.label }}</p>
             <div class="flex items-end gap-2">
-              <span class="text-lg font-bold" [class]="cat.compliant === cat.total ? 'text-emerald-400' : 'text-amber-400'">
+              <span class="text-lg font-bold" [class]="cat.compliant === cat.total ? 'text-blue-600' : 'text-amber-400'">
                 {{ cat.compliant }}/{{ cat.total }}
               </span>
             </div>
             <div class="w-full bg-slate-700 rounded-full h-1.5 mt-2">
               <div class="h-1.5 rounded-full transition-all duration-700 animate-progress-fill"
-                   [class]="cat.compliant === cat.total ? 'bg-emerald-500' : (cat.compliant === 0 ? 'bg-red-500' : 'bg-amber-500')"
+                   [class]="cat.compliant === cat.total ? 'bg-blue-600' : (cat.compliant === 0 ? 'bg-red-500' : 'bg-amber-500')"
                    [style.width.%]="(cat.compliant / cat.total) * 100"
                    [style.animation-delay]="(i * 100 + 500) + 'ms'">
               </div>
@@ -412,7 +412,7 @@ interface HeatmapCell {
           </h2>
           <div class="space-y-2">
             <div *ngFor="let item of nonCompliantItems; let i = index"
-                 class="bg-slate-800/50 rounded-lg border border-slate-700/30 animate-slide-in-right overflow-hidden"
+                 class="bg-white rounded-lg border border-slate-200 animate-slide-in-right overflow-hidden"
                  [style.animation-delay]="(i * 80 + 600) + 'ms'">
               <!-- Header row (clickable) -->
               <div class="flex items-center gap-3 p-3 cursor-pointer hover:bg-slate-700/20 transition-colors"
@@ -422,7 +422,7 @@ interface HeatmapCell {
                   {{ i + 1 }}
                 </div>
                 <div class="flex-1 min-w-0">
-                  <p class="text-sm text-slate-200" [class.truncate]="expandedGapIndex !== i">{{ item.question }}</p>
+                  <p class="text-sm text-slate-700" [class.truncate]="expandedGapIndex !== i">{{ item.question }}</p>
                   <p class="text-xs text-slate-500">{{ item.articleReference }} &middot; {{ getCategoryLabel(item.category) }}</p>
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
@@ -439,19 +439,19 @@ interface HeatmapCell {
               <div *ngIf="expandedGapIndex === i" class="px-3 pb-3 space-y-3 animate-fade-in">
                 <div *ngIf="item.explanation" class="bg-gradient-to-r from-slate-700/30 to-transparent rounded-lg p-3 border-l-2 border-slate-500/50">
                   <p class="text-xs font-semibold text-slate-400 mb-1">{{ lang.t('results.gap_explanation') }}</p>
-                  <p class="text-sm text-slate-300 leading-relaxed">{{ item.explanation }}</p>
+                  <p class="text-sm text-slate-600 leading-relaxed">{{ item.explanation }}</p>
                 </div>
                 <div *ngIf="item.recommendation" class="bg-gradient-to-r from-amber-500/5 to-transparent rounded-lg p-3 border-l-2 border-amber-500/50">
                   <p class="text-xs font-semibold text-amber-400 mb-1">{{ lang.t('results.recommendation') }}</p>
-                  <p class="text-sm text-slate-300 leading-relaxed">{{ item.recommendation }}</p>
+                  <p class="text-sm text-slate-600 leading-relaxed">{{ item.recommendation }}</p>
                 </div>
                 <div class="flex items-center justify-between">
                   <span class="text-xs text-slate-500">{{ lang.t('results.gap_article') }}: {{ item.articleReference }}</span>
                   <button *ngIf="!remediationCreated[i]" type="button" (click)="trackInRemediation(item, i); $event.stopPropagation()"
                           [disabled]="remediationCreating[i]"
                           class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
-                                 bg-cyan-500/10 text-cyan-400 border border-cyan-500/20
-                                 hover:bg-cyan-500/20 hover:border-cyan-500/30 transition-all
+                                 bg-blue-50 text-blue-500 border border-blue-500/20
+                                 hover:bg-blue-600/20 hover:border-blue-500/30 transition-all
                                  disabled:opacity-50 disabled:cursor-not-allowed">
                     <svg *ngIf="!remediationCreating[i]" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -462,7 +462,7 @@ interface HeatmapCell {
                     </svg>
                     {{ lang.t('results.track_remediation') }}
                   </button>
-                  <span *ngIf="remediationCreated[i]" class="flex items-center gap-1.5 text-xs text-emerald-400">
+                  <span *ngIf="remediationCreated[i]" class="flex items-center gap-1.5 text-xs text-blue-600">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                     </svg>
@@ -484,20 +484,20 @@ interface HeatmapCell {
               </svg>
             </div>
             <div class="flex-1 text-center sm:text-left">
-              <h3 class="text-lg font-semibold text-slate-200 mb-1">{{ lang.t('results.professional_report_title') }}</h3>
+              <h3 class="text-lg font-semibold text-slate-700 mb-1">{{ lang.t('results.professional_report_title') }}</h3>
               <p class="text-sm text-slate-400">{{ lang.t('results.professional_report_desc') }}</p>
             </div>
             <div class="flex items-center gap-3 shrink-0">
               <!-- Language toggle -->
-              <div class="flex rounded-lg overflow-hidden border border-slate-600/50">
+              <div class="flex rounded-lg overflow-hidden border border-slate-200">
                 <button type="button" (click)="reportLanguage = 'et'"
                         class="px-3 py-2 text-xs font-medium transition-colors"
-                        [class]="reportLanguage === 'et' ? 'bg-indigo-500 text-white' : 'bg-slate-800/50 text-slate-400 hover:text-slate-200'">
+                        [class]="reportLanguage === 'et' ? 'bg-indigo-500 text-white' : 'bg-white text-slate-400 hover:text-slate-700'">
                   ET
                 </button>
                 <button type="button" (click)="reportLanguage = 'en'"
                         class="px-3 py-2 text-xs font-medium transition-colors"
-                        [class]="reportLanguage === 'en' ? 'bg-indigo-500 text-white' : 'bg-slate-800/50 text-slate-400 hover:text-slate-200'">
+                        [class]="reportLanguage === 'en' ? 'bg-indigo-500 text-white' : 'bg-white text-slate-400 hover:text-slate-700'">
                   EN
                 </button>
               </div>
@@ -527,21 +527,21 @@ interface HeatmapCell {
         </div>
 
         <!-- Premium: Direct PDF download banner -->
-        <div *ngIf="emailCaptured && subscriptionService.canAccess('PDF_EXPORT')" class="glass-card p-6 mb-8 border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 animate-fade-in-up delay-600">
+        <div *ngIf="emailCaptured && subscriptionService.canAccess('PDF_EXPORT')" class="glass-card p-6 mb-8 border-blue-200 bg-gradient-to-br from-blue-600/5 to-blue-500/5 animate-fade-in-up delay-600">
           <div class="flex flex-col sm:flex-row items-center gap-5">
-            <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center shrink-0">
-              <svg class="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center shrink-0">
+              <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
               </svg>
             </div>
             <div class="flex-1 text-center sm:text-left">
-              <h3 class="text-lg font-semibold text-slate-200 mb-1">{{ lang.t('results.pdf_ready_title') }}</h3>
+              <h3 class="text-lg font-semibold text-slate-700 mb-1">{{ lang.t('results.pdf_ready_title') }}</h3>
               <p class="text-sm text-slate-400">{{ lang.t('results.pdf_ready_desc') }}</p>
             </div>
             <button type="button" (click)="exportPdf()"
                     class="px-6 py-3 rounded-xl font-semibold text-sm whitespace-nowrap
-                           bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-900
-                           hover:from-emerald-400 hover:to-cyan-400 hover:shadow-lg hover:shadow-emerald-500/25 transition-all
+                           bg-blue-600 text-slate-900
+                           hover:bg-blue-700 hover:shadow-lg hover:shadow-lg transition-all
                            flex items-center gap-2 shrink-0">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -552,25 +552,25 @@ interface HeatmapCell {
         </div>
 
         <!-- Email Gate for Detailed Report (Free users only) -->
-        <div *ngIf="!emailCaptured" class="glass-card p-8 mb-8 border-cyan-500/30 bg-gradient-to-br from-cyan-500/5 to-emerald-500/5 animate-fade-in-up delay-600">
+        <div *ngIf="!emailCaptured" class="glass-card p-8 mb-8 border-blue-500/30 bg-gradient-to-br from-blue-500/5 to-blue-600/5 animate-fade-in-up delay-600">
           <div class="text-center max-w-md mx-auto">
-            <div class="w-16 h-16 rounded-full bg-cyan-500/20 flex items-center justify-center mx-auto mb-4">
-              <svg class="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-16 h-16 rounded-full bg-blue-600/20 flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
               </svg>
             </div>
-            <h3 class="text-xl font-semibold text-slate-200 mb-2">{{ lang.t('results.email_gate_title') }}</h3>
+            <h3 class="text-xl font-semibold text-slate-700 mb-2">{{ lang.t('results.email_gate_title') }}</h3>
             <p class="text-sm text-slate-400 mb-6">{{ lang.t('results.email_gate_desc') }}</p>
             <div class="flex flex-col sm:flex-row gap-3">
               <input type="email" [(ngModel)]="email" name="email"
-                     class="flex-1 px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-600/50 text-white placeholder-slate-500
-                            focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/25 transition-all"
+                     class="flex-1 px-4 py-3 rounded-xl bg-white border border-slate-200 text-white placeholder-slate-500
+                            focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all"
                      [placeholder]="lang.t('results.youcompanycom')">
               <button type="button" (click)="captureEmail()"
                       [disabled]="!email || emailLoading"
                       class="px-6 py-3 rounded-xl font-semibold text-sm whitespace-nowrap
-                             bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-900
-                             hover:from-cyan-400 hover:to-emerald-400 hover:shadow-lg hover:shadow-cyan-500/25
+                             bg-gradient-to-r from-blue-500 to-blue-600 text-slate-900
+                             hover:from-blue-400 hover:to-blue-400 hover:shadow-lg hover:shadow-blue-500/25
                              disabled:opacity-50 disabled:cursor-not-allowed transition-all">
                 <span *ngIf="!emailLoading">{{ lang.t('results.send_report') }}</span>
                 <span *ngIf="emailLoading" class="flex items-center gap-2">
@@ -587,7 +587,7 @@ interface HeatmapCell {
 
         <!-- Compliance Roadmap (email gated) -->
         <div *ngIf="emailCaptured && nonCompliantItems.length > 0" class="glass-card p-6 mb-8 animate-fade-in-up delay-600">
-          <h2 class="text-sm font-semibold text-slate-300 mb-6 flex items-center gap-2">
+          <h2 class="text-sm font-semibold text-slate-600 mb-6 flex items-center gap-2">
             <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
             </svg>
@@ -596,7 +596,7 @@ interface HeatmapCell {
 
           <div class="relative">
             <!-- Timeline line -->
-            <div class="absolute left-[15px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-red-500 via-amber-500 to-emerald-500 opacity-40"></div>
+            <div class="absolute left-[15px] top-0 bottom-0 w-0.5 bg-gradient-to-b from-red-500 via-amber-500 to-blue-600 opacity-40"></div>
 
             <!-- Phase 1: Critical (0-3 months) -->
             <div class="relative pl-10 pb-8 animate-fade-in-up delay-700">
@@ -620,7 +620,7 @@ interface HeatmapCell {
                     <input type="checkbox" [checked]="isRoadmapItemCompleted(item.questionId)"
                            class="w-4 h-4 rounded border-red-500/30 bg-slate-800 text-red-400 focus:ring-red-500/30 shrink-0 cursor-pointer"
                            (click)="$event.stopPropagation(); toggleRoadmapItem(item.questionId)">
-                    <span class="text-slate-300 truncate transition-all"
+                    <span class="text-slate-600 truncate transition-all"
                           [class.line-through]="isRoadmapItemCompleted(item.questionId)"
                           [class.text-slate-500]="isRoadmapItemCompleted(item.questionId)">{{ item.question }}</span>
                     <span class="text-xs text-slate-600 shrink-0">{{ item.articleReference }}</span>
@@ -651,7 +651,7 @@ interface HeatmapCell {
                     <input type="checkbox" [checked]="isRoadmapItemCompleted(item.questionId)"
                            class="w-4 h-4 rounded border-amber-500/30 bg-slate-800 text-amber-400 focus:ring-amber-500/30 shrink-0 cursor-pointer"
                            (click)="$event.stopPropagation(); toggleRoadmapItem(item.questionId)">
-                    <span class="text-slate-300 truncate transition-all"
+                    <span class="text-slate-600 truncate transition-all"
                           [class.line-through]="isRoadmapItemCompleted(item.questionId)"
                           [class.text-slate-500]="isRoadmapItemCompleted(item.questionId)">{{ item.question }}</span>
                     <span class="text-xs text-slate-600 shrink-0">{{ item.articleReference }}</span>
@@ -670,19 +670,19 @@ interface HeatmapCell {
 
             <!-- Phase 3: Full compliance -->
             <div class="relative pl-10 animate-fade-in-up delay-1000">
-              <div class="absolute left-[7px] top-1 w-[18px] h-[18px] rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center">
-                <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+              <div class="absolute left-[7px] top-1 w-[18px] h-[18px] rounded-full bg-blue-100 border-2 border-blue-400 flex items-center justify-center">
+                <div class="w-2 h-2 rounded-full bg-blue-500"></div>
               </div>
               <div class="glass-card p-4">
                 <div class="flex items-center gap-2 mb-3">
-                  <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">{{ lang.t('results.phase_3') }}</span>
+                  <span class="text-xs font-bold text-blue-600 uppercase tracking-wider">{{ lang.t('results.phase_3') }}</span>
                   <span class="text-xs text-slate-500">&middot; {{ lang.t('results.full_compliance') }}</span>
-                  <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 ml-auto">{{ lang.t('results.months_6_12') }}</span>
+                  <span class="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-200 ml-auto">{{ lang.t('results.months_6_12') }}</span>
                 </div>
                 <div class="w-full bg-slate-700 rounded-full h-1.5 mb-3">
-                  <div class="h-1.5 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-400 animate-progress-fill delay-500" [style.width.%]="roadmapPhase3Progress"></div>
+                  <div class="h-1.5 rounded-full bg-gradient-to-r from-blue-600 to-blue-400 animate-progress-fill delay-500" [style.width.%]="roadmapPhase3Progress"></div>
                 </div>
-                <div class="flex items-center gap-2 text-sm text-emerald-400">
+                <div class="flex items-center gap-2 text-sm text-blue-600">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
@@ -695,12 +695,12 @@ interface HeatmapCell {
 
         <!-- Fine risk estimate -->
         <div class="glass-card p-6 mb-8 animate-fade-in-up delay-500"
-             [class]="result.complianceLevel === 'RED' ? 'border-red-500/30' : result.complianceLevel === 'YELLOW' ? 'border-amber-500/30' : 'border-emerald-500/30'">
+             [class]="result.complianceLevel === 'RED' ? 'border-red-500/30' : result.complianceLevel === 'YELLOW' ? 'border-amber-500/30' : 'border-blue-200'">
           <div class="flex items-center gap-3 mb-3">
-            <svg class="w-5 h-5" [class]="result.complianceLevel === 'RED' ? 'text-red-400' : result.complianceLevel === 'YELLOW' ? 'text-amber-400' : 'text-emerald-400'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5" [class]="result.complianceLevel === 'RED' ? 'text-red-400' : result.complianceLevel === 'YELLOW' ? 'text-amber-400' : 'text-blue-600'" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            <h3 class="text-sm font-semibold" [class]="result.complianceLevel === 'RED' ? 'text-red-300' : result.complianceLevel === 'YELLOW' ? 'text-amber-300' : 'text-emerald-300'">
+            <h3 class="text-sm font-semibold" [class]="result.complianceLevel === 'RED' ? 'text-red-300' : result.complianceLevel === 'YELLOW' ? 'text-amber-300' : 'text-blue-500'">
               {{ lang.t('results.fine_risk') }}
             </h3>
           </div>
@@ -708,13 +708,13 @@ interface HeatmapCell {
             <div class="flex-1">
               <p *ngIf="result.complianceLevel === 'RED'" class="text-sm text-red-300 font-medium">{{ lang.t('results.fine_red') }}</p>
               <p *ngIf="result.complianceLevel === 'YELLOW'" class="text-sm text-amber-300 font-medium">{{ lang.t('results.fine_yellow') }}</p>
-              <p *ngIf="result.complianceLevel === 'GREEN'" class="text-sm text-emerald-300 font-medium">{{ lang.t('results.fine_green') }}</p>
+              <p *ngIf="result.complianceLevel === 'GREEN'" class="text-sm text-blue-500 font-medium">{{ lang.t('results.fine_green') }}</p>
               <p class="text-xs text-slate-500 mt-1">{{ lang.t('results.fine_note') }}</p>
             </div>
             <div class="text-right shrink-0">
               <span *ngIf="result.complianceLevel === 'RED'" class="text-2xl font-bold text-red-400">2%</span>
               <span *ngIf="result.complianceLevel === 'YELLOW'" class="text-2xl font-bold text-amber-400">~1%</span>
-              <span *ngIf="result.complianceLevel === 'GREEN'" class="text-2xl font-bold text-emerald-400">0%</span>
+              <span *ngIf="result.complianceLevel === 'GREEN'" class="text-2xl font-bold text-blue-600">0%</span>
               <p class="text-[10px] text-slate-500">{{ lang.t('results.of_turnover') }}</p>
             </div>
           </div>
@@ -730,22 +730,22 @@ interface HeatmapCell {
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
             <a href="https://www.fi.ee/et/finantsinspektsioon/finantsinnovatsioon/dora" target="_blank" rel="noopener"
-               class="flex items-center gap-2 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30 hover:border-amber-500/30 transition-colors group">
-              <span class="text-xs font-medium text-slate-300 group-hover:text-amber-300">Finantsinspektsioon</span>
+               class="flex items-center gap-2 p-3 rounded-lg bg-white border border-slate-200 hover:border-amber-500/30 transition-colors group">
+              <span class="text-xs font-medium text-slate-600 group-hover:text-amber-300">Finantsinspektsioon</span>
               <svg class="w-3 h-3 text-slate-600 group-hover:text-amber-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
               </svg>
             </a>
             <a href="https://eur-lex.europa.eu/legal-content/ET/TXT/?uri=CELEX:32022R2554" target="_blank" rel="noopener"
-               class="flex items-center gap-2 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30 hover:border-amber-500/30 transition-colors group">
-              <span class="text-xs font-medium text-slate-300 group-hover:text-amber-300">EUR-Lex DORA</span>
+               class="flex items-center gap-2 p-3 rounded-lg bg-white border border-slate-200 hover:border-amber-500/30 transition-colors group">
+              <span class="text-xs font-medium text-slate-600 group-hover:text-amber-300">EUR-Lex DORA</span>
               <svg class="w-3 h-3 text-slate-600 group-hover:text-amber-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
               </svg>
             </a>
             <a href="https://www.eiopa.europa.eu/browse/regulation-and-policy/digital-operational-resilience-act-dora_en" target="_blank" rel="noopener"
-               class="flex items-center gap-2 p-3 rounded-lg bg-slate-800/50 border border-slate-700/30 hover:border-amber-500/30 transition-colors group">
-              <span class="text-xs font-medium text-slate-300 group-hover:text-amber-300">ESA {{ lang.t('contract.guidelines') }}</span>
+               class="flex items-center gap-2 p-3 rounded-lg bg-white border border-slate-200 hover:border-amber-500/30 transition-colors group">
+              <span class="text-xs font-medium text-slate-600 group-hover:text-amber-300">ESA {{ lang.t('contract.guidelines') }}</span>
               <svg class="w-3 h-3 text-slate-600 group-hover:text-amber-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
               </svg>
@@ -754,15 +754,15 @@ interface HeatmapCell {
         </div>
 
         <!-- CTA: Analyze your contract -->
-        <div class="glass-card p-6 mb-8 border-cyan-500/20 animate-fade-in-up delay-600">
+        <div class="glass-card p-6 mb-8 border-blue-500/20 animate-fade-in-up delay-600">
           <div class="flex flex-col md:flex-row items-center gap-4">
             <div class="flex-1 text-center md:text-left">
-              <h3 class="text-sm font-semibold text-slate-200">{{ lang.t('results.cta_contract_title') }}</h3>
+              <h3 class="text-sm font-semibold text-slate-700">{{ lang.t('results.cta_contract_title') }}</h3>
               <p class="text-xs text-slate-500 mt-1">{{ lang.t('results.cta_contract_desc') }}</p>
             </div>
             <a routerLink="/contract-analysis"
-               class="px-6 py-2.5 rounded-lg font-medium text-sm bg-gradient-to-r from-cyan-500 to-emerald-500
-                      text-slate-900 hover:from-cyan-400 hover:to-emerald-400 hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300
+               class="px-6 py-2.5 rounded-lg font-medium text-sm bg-gradient-to-r from-blue-500 to-blue-600
+                      text-slate-900 hover:from-blue-400 hover:to-blue-400 hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300
                       flex items-center gap-2 whitespace-nowrap">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -774,26 +774,26 @@ interface HeatmapCell {
 
         <!-- Question breakdown (email gated) -->
         <div *ngIf="emailCaptured">
-        <h2 class="text-lg font-semibold text-slate-200 mb-4 animate-fade-in-up delay-400 flex items-center gap-2">
-          <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <h2 class="text-lg font-semibold text-slate-700 mb-4 animate-fade-in-up delay-400 flex items-center gap-2">
+          <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
           </svg>
           {{ lang.t('results.detail') }}
         </h2>
 
         <div *ngFor="let qr of result.questionResults; let i = index"
-             class="bg-slate-800/50 backdrop-blur rounded-xl p-5 mb-3 border border-slate-700/50 card-hover animate-slide-in-right"
+             class="bg-white backdrop-blur rounded-xl p-5 mb-3 border border-slate-200 card-hover animate-slide-in-right"
              [style.animation-delay]="(i * 60 + 500) + 'ms'">
           <div class="flex items-start gap-3">
             <span [class]="qr.complianceStatus === 'yes'
-              ? 'mt-0.5 w-7 h-7 rounded-full bg-emerald-500/15 text-emerald-400 flex items-center justify-center text-sm shrink-0 border border-emerald-500/20'
+              ? 'mt-0.5 w-7 h-7 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-sm shrink-0 border border-blue-200'
               : qr.complianceStatus === 'partial'
                 ? 'mt-0.5 w-7 h-7 rounded-full bg-amber-500/15 text-amber-400 flex items-center justify-center text-sm shrink-0 border border-amber-500/20'
                 : 'mt-0.5 w-7 h-7 rounded-full bg-red-500/15 text-red-400 flex items-center justify-center text-sm shrink-0 border border-red-500/20'">
               {{ qr.complianceStatus === 'yes' ? '\u2713' : qr.complianceStatus === 'partial' ? '\u25CB' : '\u2717' }}
             </span>
             <div class="flex-1">
-              <p class="text-slate-200 font-medium">{{ qr.question }}</p>
+              <p class="text-slate-700 font-medium">{{ qr.question }}</p>
               <div class="flex items-center gap-3 mt-1.5">
                 <span class="text-xs text-slate-500">{{ qr.articleReference }}</span>
                 <span class="text-xs px-2 py-0.5 rounded-full bg-slate-700/50 text-slate-400 border border-slate-600/30">
@@ -802,7 +802,7 @@ interface HeatmapCell {
               </div>
               <div *ngIf="qr.complianceStatus !== 'yes'" class="mt-3 bg-gradient-to-r from-amber-500/5 to-transparent rounded-lg p-3 border-l-2 border-amber-500/50">
                 <p class="text-xs font-semibold text-amber-400 mb-1">{{ lang.t('results.recommendation') }}</p>
-                <p class="text-sm text-slate-300 leading-relaxed">{{ lang.currentLang === 'et' ? qr.recommendation : (qr.recommendationEn || qr.recommendation) }}</p>
+                <p class="text-sm text-slate-600 leading-relaxed">{{ lang.currentLang === 'et' ? qr.recommendation : (qr.recommendationEn || qr.recommendation) }}</p>
               </div>
             </div>
           </div>
@@ -857,7 +857,7 @@ interface HeatmapCell {
 
           <!-- Excel Export - Paywalled -->
           <button *ngIf="emailCaptured" type="button" (click)="handleExcelClick()"
-                  class="bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400
+                  class="bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-400 hover:to-blue-400
                          text-slate-900 font-semibold px-6 py-2.5 rounded-lg transition-all duration-300
                          hover:shadow-lg hover:shadow-teal-500/25 flex items-center gap-2"
                   [class.opacity-80]="!subscriptionService.canAccess('EXCEL_EXPORT')">
@@ -872,17 +872,17 @@ interface HeatmapCell {
           </button>
 
           <a routerLink="/assessment"
-             class="bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400
+             class="bg-blue-600 hover:bg-blue-700
                     text-slate-900 font-semibold px-6 py-2.5 rounded-lg transition-all duration-300
-                    hover:shadow-lg hover:shadow-emerald-500/25 flex items-center gap-2">
+                    hover:shadow-lg hover:shadow-lg flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
             {{ lang.t('results.new_assessment') }}
           </a>
           <a routerLink="/contract-analysis"
-             class="bg-slate-700/50 hover:bg-slate-600/50 text-slate-200 font-semibold px-6 py-2.5 rounded-lg
-                    transition-all duration-300 border border-slate-600/50 hover:border-slate-500/50 flex items-center gap-2">
+             class="bg-slate-700/50 hover:bg-slate-100 text-slate-700 font-semibold px-6 py-2.5 rounded-lg
+                    transition-all duration-300 border border-slate-200 hover:border-slate-500/50 flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
@@ -1377,19 +1377,19 @@ export class ResultsComponent implements OnInit {
   }
 
   getPillarCardClass(pct: number): string {
-    if (pct >= 75) return 'bg-emerald-500/5 border-emerald-500/20';
+    if (pct >= 75) return 'bg-blue-50 border-blue-200';
     if (pct >= 50) return 'bg-amber-500/5 border-amber-500/20';
     return 'bg-red-500/5 border-red-500/20';
   }
 
   getPillarTextClass(pct: number): string {
-    if (pct >= 75) return 'text-emerald-400';
+    if (pct >= 75) return 'text-blue-600';
     if (pct >= 50) return 'text-amber-400';
     return 'text-red-400';
   }
 
   getPillarBadgeClass(pct: number): string {
-    if (pct >= 75) return 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20';
+    if (pct >= 75) return 'bg-blue-50 text-blue-600 border border-blue-200';
     if (pct >= 50) return 'bg-amber-500/15 text-amber-400 border border-amber-500/20';
     return 'bg-red-500/15 text-red-400 border border-red-500/20';
   }
@@ -1447,7 +1447,7 @@ export class ResultsComponent implements OnInit {
   get badgeClass(): string {
     const base = 'inline-block px-4 py-1.5 rounded-full text-sm font-bold';
     switch (this.result?.complianceLevel) {
-      case 'GREEN': return `${base} bg-emerald-500/15 text-emerald-400 border border-emerald-500/25`;
+      case 'GREEN': return `${base} bg-blue-50 text-blue-600 border border-blue-500/25`;
       case 'YELLOW': return `${base} bg-amber-500/15 text-amber-400 border border-amber-500/25`;
       case 'RED': return `${base} bg-red-500/15 text-red-400 border border-red-500/25`;
       default: return base;
@@ -1482,7 +1482,7 @@ export class ResultsComponent implements OnInit {
 
   get scoreTextClass(): string {
     switch (this.result?.complianceLevel) {
-      case 'GREEN': return 'text-emerald-400';
+      case 'GREEN': return 'text-blue-600';
       case 'YELLOW': return 'text-amber-400';
       case 'RED': return 'text-red-400';
       default: return 'text-slate-400';
