@@ -12,7 +12,7 @@ import { LangService } from '../lang.service';
     <div class="min-h-[60vh] flex items-center justify-center">
       <div class="text-center">
         @if (loading) {
-          <div class="w-16 h-16 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
+          <div class="w-16 h-16 border-4 border-slate-200 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
           <p class="text-slate-600">{{ lang.t('auth.oauth_loading') }}</p>
         }
         @if (error) {

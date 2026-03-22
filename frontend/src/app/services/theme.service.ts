@@ -24,7 +24,7 @@ export class ThemeService {
       const stored = localStorage.getItem('dora_theme');
       if (stored === 'light' || stored === 'dark') return stored;
     }
-    return 'dark';
+    return 'light';
   }
 
   toggle(): void {

@@ -13,7 +13,7 @@ import { CompanyType, AlertFrequency } from '../models';
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-8 px-4">
+    <div class="min-h-screen bg-gradient-to-br from-white via-slate-50 to-slate-100 py-8 px-4">
       <div class="max-w-2xl mx-auto">
 
         <!-- Header -->
@@ -24,7 +24,7 @@ import { CompanyType, AlertFrequency } from '../models';
             </svg>
             {{ lang.t('alert.wizard.badge') }}
           </div>
-          <h1 class="text-2xl sm:text-3xl font-bold text-white mb-2">{{ lang.t('alert.wizard.title') }}</h1>
+          <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">{{ lang.t('alert.wizard.title') }}</h1>
           <p class="text-slate-400 text-sm">{{ lang.t('alert.wizard.subtitle') }}</p>
         </div>
 
@@ -40,7 +40,7 @@ import { CompanyType, AlertFrequency } from '../models';
                       [class.bg-blue-600]="step() > s.num"
                       [class.border-blue-500]="step() >= s.num"
                       [class.text-white]="step() >= s.num"
-                      [class.border-slate-600]="step() < s.num"
+                      [class.border-slate-300]="step() < s.num"
                       [class.text-slate-500]="step() < s.num">
                   @if (step() > s.num) {
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
@@ -52,7 +52,7 @@ import { CompanyType, AlertFrequency } from '../models';
               </button>
             }
           </div>
-          <div class="h-1.5 bg-slate-700 rounded-full overflow-hidden">
+          <div class="h-1.5 bg-slate-200 rounded-full overflow-hidden">
             <div class="h-full bg-blue-600 rounded-full transition-all duration-500"
                  [style.width.%]="((step() - 1) / 3) * 100"></div>
           </div>
@@ -63,13 +63,13 @@ import { CompanyType, AlertFrequency } from '../models';
 
           <!-- Step 1: Company Type -->
           @if (step() === 1) {
-            <h2 class="text-lg font-semibold text-white mb-1">{{ lang.t('alert.wizard.step1_title') }}</h2>
+            <h2 class="text-lg font-semibold text-slate-900 mb-1">{{ lang.t('alert.wizard.step1_title') }}</h2>
             <p class="text-slate-400 text-sm mb-6">{{ lang.t('alert.wizard.step1_desc') }}</p>
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
               @for (ct of companyTypes; track ct.value) {
                 <button (click)="companyType = ct.value"
                         class="p-4 rounded-xl border-2 text-left transition-all duration-200"
-                        [ngClass]="companyType === ct.value ? 'border-blue-500 bg-blue-50' : 'border-slate-700'">
+                        [ngClass]="companyType === ct.value ? 'border-blue-500 bg-blue-50' : 'border-slate-200'">
                   <div class="text-2xl mb-2">{{ ct.icon }}</div>
                   <div class="text-sm font-medium" [class.text-blue-600]="companyType === ct.value" [class.text-slate-600]="companyType !== ct.value">
                     {{ lang.t(ct.label) }}
@@ -81,13 +81,13 @@ import { CompanyType, AlertFrequency } from '../models';
 
           <!-- Step 2: Country -->
           @if (step() === 2) {
-            <h2 class="text-lg font-semibold text-white mb-1">{{ lang.t('alert.wizard.step2_title') }}</h2>
+            <h2 class="text-lg font-semibold text-slate-900 mb-1">{{ lang.t('alert.wizard.step2_title') }}</h2>
             <p class="text-slate-400 text-sm mb-6">{{ lang.t('alert.wizard.step2_desc') }}</p>
             <div class="grid grid-cols-3 gap-4">
               @for (c of countries; track c.code) {
                 <button (click)="country = c.code"
                         class="p-5 rounded-xl border-2 text-center transition-all duration-200"
-                        [ngClass]="country === c.code ? 'border-blue-500 bg-blue-50' : 'border-slate-700'">
+                        [ngClass]="country === c.code ? 'border-blue-500 bg-blue-50' : 'border-slate-200'">
                   <div class="text-3xl mb-2">{{ c.flag }}</div>
                   <div class="text-sm font-medium" [class.text-blue-600]="country === c.code" [class.text-slate-600]="country !== c.code">
                     {{ c.name }}
@@ -99,17 +99,17 @@ import { CompanyType, AlertFrequency } from '../models';
 
           <!-- Step 3: Regulations -->
           @if (step() === 3) {
-            <h2 class="text-lg font-semibold text-white mb-1">{{ lang.t('alert.wizard.step3_title') }}</h2>
+            <h2 class="text-lg font-semibold text-slate-900 mb-1">{{ lang.t('alert.wizard.step3_title') }}</h2>
             <p class="text-slate-400 text-sm mb-6">{{ lang.t('alert.wizard.step3_desc') }}</p>
             <div class="space-y-3">
               @for (reg of regulationOptions; track reg.value) {
                 <label class="flex items-start gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200"
-                       [ngClass]="regulations.includes(reg.value) ? 'border-blue-500 bg-blue-50' : 'border-slate-700'">
+                       [ngClass]="regulations.includes(reg.value) ? 'border-blue-500 bg-blue-50' : 'border-slate-200'">
                   <input type="checkbox" [checked]="regulations.includes(reg.value)"
                          (change)="toggleRegulation(reg.value)"
-                         class="mt-1 w-4 h-4 rounded border-slate-600 bg-slate-700 text-blue-600 focus:ring-blue-500 focus:ring-offset-0">
+                         class="mt-1 w-4 h-4 rounded border-slate-300 bg-white text-blue-600 focus:ring-blue-500 focus:ring-offset-0">
                   <div>
-                    <div class="text-sm font-medium text-white">{{ reg.name }}</div>
+                    <div class="text-sm font-medium text-slate-900">{{ reg.name }}</div>
                     <div class="text-xs text-slate-400 mt-0.5">{{ lang.t(reg.desc) }}</div>
                   </div>
                 </label>
@@ -119,14 +119,14 @@ import { CompanyType, AlertFrequency } from '../models';
 
           <!-- Step 4: Alert Frequency -->
           @if (step() === 4) {
-            <h2 class="text-lg font-semibold text-white mb-1">{{ lang.t('alert.wizard.step4_title') }}</h2>
+            <h2 class="text-lg font-semibold text-slate-900 mb-1">{{ lang.t('alert.wizard.step4_title') }}</h2>
             <p class="text-slate-400 text-sm mb-6">{{ lang.t('alert.wizard.step4_desc') }}</p>
             <div class="space-y-3">
               @for (freq of frequencyOptions; track freq.value) {
                 <label class="flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-200"
                        [ngClass]="{
                          'border-blue-500 bg-blue-50': alertFrequency === freq.value,
-                         'border-slate-700': alertFrequency !== freq.value,
+                         'border-slate-200': alertFrequency !== freq.value,
                          'opacity-50 cursor-not-allowed': freq.premium && !sub.isPremium(),
                          'cursor-pointer': !(freq.premium && !sub.isPremium())
                        }">
@@ -134,10 +134,10 @@ import { CompanyType, AlertFrequency } from '../models';
                          [checked]="alertFrequency === freq.value"
                          (change)="setFrequency(freq)"
                          [disabled]="freq.premium && !sub.isPremium()"
-                         class="w-4 h-4 border-slate-600 bg-slate-700 text-blue-600 focus:ring-blue-500 focus:ring-offset-0">
+                         class="w-4 h-4 border-slate-300 bg-white text-blue-600 focus:ring-blue-500 focus:ring-offset-0">
                   <div class="flex-1">
                     <div class="flex items-center gap-2">
-                      <span class="text-sm font-medium" [class.text-blue-600]="alertFrequency === freq.value" [class.text-white]="alertFrequency !== freq.value">
+                      <span class="text-sm font-medium" [class.text-blue-600]="alertFrequency === freq.value" [class.text-slate-900]="alertFrequency !== freq.value">
                         {{ lang.t(freq.label) }}
                       </span>
                       @if (freq.premium && !sub.isPremium()) {
@@ -152,16 +152,16 @@ import { CompanyType, AlertFrequency } from '../models';
 
             <!-- Channels -->
             <div class="mt-6 pt-6 border-t border-slate-200">
-              <h3 class="text-sm font-medium text-white mb-3">{{ lang.t('alert.wizard.channels') }}</h3>
+              <h3 class="text-sm font-medium text-slate-900 mb-3">{{ lang.t('alert.wizard.channels') }}</h3>
               <div class="flex items-center gap-6">
                 <label class="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" [(ngModel)]="alertDashboard"
-                         class="w-4 h-4 rounded border-slate-600 bg-slate-700 text-blue-600 focus:ring-blue-500 focus:ring-offset-0">
+                         class="w-4 h-4 rounded border-slate-300 bg-white text-blue-600 focus:ring-blue-500 focus:ring-offset-0">
                   <span class="text-sm text-slate-600">{{ lang.t('alert.wizard.channel_dashboard') }}</span>
                 </label>
                 <label class="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" [(ngModel)]="alertEmail"
-                         class="w-4 h-4 rounded border-slate-600 bg-slate-700 text-blue-600 focus:ring-blue-500 focus:ring-offset-0">
+                         class="w-4 h-4 rounded border-slate-300 bg-white text-blue-600 focus:ring-blue-500 focus:ring-offset-0">
                   <span class="text-sm text-slate-600">{{ lang.t('alert.wizard.channel_email') }}</span>
                 </label>
               </div>
@@ -173,7 +173,7 @@ import { CompanyType, AlertFrequency } from '../models';
         <div class="flex items-center justify-between mt-6">
           @if (step() > 1) {
             <button (click)="prev()"
-                    class="px-5 py-2.5 text-sm text-slate-400 hover:text-white border border-slate-700 rounded-xl hover:border-slate-500 transition-colors">
+                    class="px-5 py-2.5 text-sm text-slate-400 hover:text-slate-900 border border-slate-200 rounded-xl hover:border-slate-500 transition-colors">
               {{ lang.t('alert.wizard.prev') }}
             </button>
           } @else {
@@ -182,7 +182,7 @@ import { CompanyType, AlertFrequency } from '../models';
           @if (step() < 4) {
             <button (click)="next()" [disabled]="!canNext()"
                     class="px-6 py-2.5 text-sm font-medium rounded-xl transition-all duration-200"
-                    [ngClass]="canNext() ? 'bg-blue-600 text-white' : 'bg-slate-700 text-slate-500 cursor-not-allowed'">
+                    [ngClass]="canNext() ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-500 cursor-not-allowed'">
               {{ lang.t('alert.wizard.next') }}
             </button>
           } @else {

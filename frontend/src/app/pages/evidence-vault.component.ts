@@ -15,7 +15,7 @@ import { EvidenceItem, EvidenceStats, EvidenceCoverage } from '../models';
       <!-- Header -->
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center">
               <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
@@ -32,7 +32,7 @@ import { EvidenceItem, EvidenceStats, EvidenceCoverage } from '../models';
             </span>
           }
           <button (click)="exportZip()" [disabled]="items().length === 0"
-                  class="px-4 py-2.5 rounded-xl bg-slate-700/50 text-slate-600 font-medium text-sm hover:bg-slate-700 transition-all flex items-center gap-2 disabled:opacity-40">
+                  class="px-4 py-2.5 rounded-xl bg-slate-100 text-slate-600 font-medium text-sm hover:bg-slate-50 transition-all flex items-center gap-2 disabled:opacity-40">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
@@ -53,7 +53,7 @@ import { EvidenceItem, EvidenceStats, EvidenceCoverage } from '../models';
       @if (stats()) {
         <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
           <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
-            <div class="text-2xl font-bold text-white">{{ stats()!.total }}</div>
+            <div class="text-2xl font-bold text-slate-900">{{ stats()!.total }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('evidence.total') }}</div>
           </div>
           <div class="bg-white border border-amber-500/30 rounded-xl p-4 text-center">
@@ -83,21 +83,21 @@ import { EvidenceItem, EvidenceStats, EvidenceCoverage } from '../models';
           @for (f of statusFilters; track f.value) {
             <button (click)="activeStatus = f.value; loadData()"
                     class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
-                    [class]="activeStatus === f.value ? 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/40' : 'bg-slate-700/30 text-slate-400 hover:text-slate-700'">
+                    [class]="activeStatus === f.value ? 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/40' : 'bg-slate-100 text-slate-400 hover:text-slate-700'">
               {{ lang.l(f.et, f.en) }}
             </button>
           }
         </div>
         <div class="flex items-center gap-2">
           <select [(ngModel)]="activePillar" (ngModelChange)="loadData()"
-                  class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-white focus:outline-none">
+                  class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none">
             <option value="">{{ lang.t('evidence.all_pillars') }}</option>
             @for (p of pillars; track p.value) {
               <option [value]="p.value">{{ p.label }}</option>
             }
           </select>
           <select [(ngModel)]="activeCategory" (ngModelChange)="applyFilters()"
-                  class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-white focus:outline-none">
+                  class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none">
             <option value="">{{ lang.t('evidence.all_categories') }}</option>
             @for (c of categories; track c.value) {
               <option [value]="c.value">{{ lang.l(c.et, c.en) }}</option>
@@ -105,11 +105,11 @@ import { EvidenceItem, EvidenceStats, EvidenceCoverage } from '../models';
           </select>
           <div class="flex bg-white border border-slate-200 rounded-lg overflow-hidden">
             <button (click)="viewMode = 'list'" class="px-3 py-1.5 text-xs font-medium transition-all"
-                    [class]="viewMode === 'list' ? 'bg-indigo-500/20 text-indigo-400' : 'text-slate-400 hover:text-white'">
+                    [class]="viewMode === 'list' ? 'bg-indigo-500/20 text-indigo-400' : 'text-slate-400 hover:text-slate-900'">
               {{ lang.t('evidence.list_view') }}
             </button>
             <button (click)="viewMode = 'coverage'" class="px-3 py-1.5 text-xs font-medium transition-all"
-                    [class]="viewMode === 'coverage' ? 'bg-indigo-500/20 text-indigo-400' : 'text-slate-400 hover:text-white'">
+                    [class]="viewMode === 'coverage' ? 'bg-indigo-500/20 text-indigo-400' : 'text-slate-400 hover:text-slate-900'">
               {{ lang.t('evidence.coverage_map') }}
             </button>
           </div>
@@ -119,12 +119,12 @@ import { EvidenceItem, EvidenceStats, EvidenceCoverage } from '../models';
       <!-- Upload Modal -->
       @if (showUpload) {
         <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" (click)="showUpload = false">
-          <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto" (click)="$event.stopPropagation()">
-            <h2 class="text-lg font-bold text-white mb-4">{{ lang.t('evidence.upload_evidence') }}</h2>
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto" (click)="$event.stopPropagation()">
+            <h2 class="text-lg font-bold text-slate-900 mb-4">{{ lang.t('evidence.upload_evidence') }}</h2>
             <div class="space-y-4">
               <!-- Drop zone -->
               <div class="border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer"
-                   [class]="dragOver ? 'border-indigo-400 bg-indigo-500/10' : 'border-slate-600 hover:border-indigo-500/50'"
+                   [class]="dragOver ? 'border-indigo-400 bg-indigo-500/10' : 'border-slate-300 hover:border-indigo-500/50'"
                    (dragover)="onDragOver($event)" (dragleave)="dragOver = false" (drop)="onDrop($event)"
                    (click)="fileInput.click()">
                 <input #fileInput type="file" class="hidden" (change)="onFileSelected($event)"
@@ -148,12 +148,12 @@ import { EvidenceItem, EvidenceStats, EvidenceCoverage } from '../models';
               <div>
                 <label class="block text-sm font-medium text-slate-600 mb-1">{{ lang.t('evidence.doc_title') }}</label>
                 <input [(ngModel)]="uploadForm.title" type="text"
-                       class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none focus:border-indigo-500/50">
+                       class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-500/50">
               </div>
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs text-slate-400 mb-1">{{ lang.t('evidence.category') }}</label>
-                  <select [(ngModel)]="uploadForm.category" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
+                  <select [(ngModel)]="uploadForm.category" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:outline-none">
                     @for (c of categories; track c.value) {
                       <option [value]="c.value">{{ lang.l(c.et, c.en) }}</option>
                     }
@@ -161,7 +161,7 @@ import { EvidenceItem, EvidenceStats, EvidenceCoverage } from '../models';
                 </div>
                 <div>
                   <label class="block text-xs text-slate-400 mb-1">{{ lang.t('evidence.pillar') }}</label>
-                  <select [(ngModel)]="uploadForm.pillar" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
+                  <select [(ngModel)]="uploadForm.pillar" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:outline-none">
                     @for (p of pillars; track p.value) {
                       <option [value]="p.value">{{ p.label }}</option>
                     }
@@ -174,7 +174,7 @@ import { EvidenceItem, EvidenceStats, EvidenceCoverage } from '../models';
                 <div class="grid grid-cols-6 gap-1.5 max-h-28 overflow-y-auto">
                   @for (art of doraArticles; track art) {
                     <label class="flex items-center gap-1 px-2 py-1 rounded text-xs cursor-pointer transition-all"
-                           [class]="selectedArticles.has(art) ? 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/40' : 'bg-slate-700/30 text-slate-400 hover:text-white'">
+                           [class]="selectedArticles.has(art) ? 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/40' : 'bg-slate-100 text-slate-400 hover:text-slate-900'">
                       <input type="checkbox" class="hidden" [checked]="selectedArticles.has(art)" (change)="toggleArticle(art)">
                       Art.{{ art }}
                     </label>
@@ -184,21 +184,21 @@ import { EvidenceItem, EvidenceStats, EvidenceCoverage } from '../models';
               <div>
                 <label class="block text-xs text-slate-400 mb-1">{{ lang.t('evidence.description') }}</label>
                 <textarea [(ngModel)]="uploadForm.description" rows="2"
-                          class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none focus:border-indigo-500/50"></textarea>
+                          class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-indigo-500/50"></textarea>
               </div>
               <div>
                 <label class="block text-xs text-slate-400 mb-1">{{ lang.t('evidence.expiry_date') }}</label>
                 <input [(ngModel)]="uploadForm.expiryDate" type="date"
-                       class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
+                       class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:outline-none">
               </div>
               <!-- Upload progress -->
               @if (uploading()) {
-                <div class="w-full bg-slate-700 rounded-full h-2">
+                <div class="w-full bg-slate-200 rounded-full h-2">
                   <div class="bg-gradient-to-r from-indigo-500 to-violet-500 h-2 rounded-full animate-pulse" style="width: 60%"></div>
                 </div>
               }
               <div class="flex justify-end gap-3 pt-2">
-                <button (click)="showUpload = false" class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-600 text-sm">{{ lang.t('evidence.cancel') }}</button>
+                <button (click)="showUpload = false" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 text-sm">{{ lang.t('evidence.cancel') }}</button>
                 <button (click)="doUpload()" [disabled]="!selectedFile || !uploadForm.title || uploading()"
                         class="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 text-white text-sm font-semibold disabled:opacity-50">
                   {{ lang.t('evidence.upload_btn') }}
@@ -212,16 +212,16 @@ import { EvidenceItem, EvidenceStats, EvidenceCoverage } from '../models';
       <!-- Verify Modal -->
       @if (showVerify) {
         <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" (click)="showVerify = false">
-          <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-sm" (click)="$event.stopPropagation()">
-            <h2 class="text-lg font-bold text-white mb-4">{{ lang.t('evidence.verify_evidence') }}</h2>
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 w-full max-w-sm" (click)="$event.stopPropagation()">
+            <h2 class="text-lg font-bold text-slate-900 mb-4">{{ lang.t('evidence.verify_evidence') }}</h2>
             <div class="space-y-4">
               <div>
                 <label class="block text-xs text-slate-400 mb-1">{{ lang.t('evidence.verified_by') }}</label>
                 <input [(ngModel)]="verifyName" type="text" placeholder="e.g. John Smith, CISO"
-                       class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none focus:border-blue-500/50">
+                       class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-blue-500/50">
               </div>
               <div class="flex justify-end gap-3">
-                <button (click)="showVerify = false" class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-600 text-sm">{{ lang.t('evidence.cancel') }}</button>
+                <button (click)="showVerify = false" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-600 text-sm">{{ lang.t('evidence.cancel') }}</button>
                 <button (click)="confirmVerify()" [disabled]="!verifyName"
                         class="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-blue-400 text-white text-sm font-semibold disabled:opacity-50">
                   {{ lang.t('evidence.confirm_verify') }}
@@ -235,7 +235,7 @@ import { EvidenceItem, EvidenceStats, EvidenceCoverage } from '../models';
       <!-- Loading -->
       @if (loading()) {
         <div class="text-center py-16">
-          <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-700 border-t-indigo-400 animate-spin"></div>
+          <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-200 border-t-indigo-400 animate-spin"></div>
         </div>
       }
 
@@ -263,9 +263,9 @@ import { EvidenceItem, EvidenceStats, EvidenceCoverage } from '../models';
                 <!-- Content -->
                 <div class="flex-1 min-w-0">
                   <div class="flex items-center gap-2 flex-wrap">
-                    <h3 class="text-sm font-medium text-white truncate">{{ item.title }}</h3>
+                    <h3 class="text-sm font-medium text-slate-900 truncate">{{ item.title }}</h3>
                     <!-- Category badge -->
-                    <span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-700/50 text-slate-600">{{ getCategoryLabel(item.category) }}</span>
+                    <span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600">{{ getCategoryLabel(item.category) }}</span>
                     <!-- Pillar badge -->
                     <span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-indigo-500/10 text-indigo-400">{{ getPillarLabel(item.pillar) }}</span>
                     <!-- Status badge -->
@@ -336,11 +336,11 @@ import { EvidenceItem, EvidenceStats, EvidenceCoverage } from '../models';
         <div class="space-y-6">
           @for (group of pillarArticleGroups; track group.pillar) {
             <div class="bg-white border border-slate-200 rounded-xl p-4">
-              <h3 class="text-sm font-semibold text-white mb-3">{{ group.label }}</h3>
+              <h3 class="text-sm font-semibold text-slate-900 mb-3">{{ group.label }}</h3>
               <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
                 @for (art of group.articles; track art) {
                   <div class="p-2 rounded-lg text-center text-xs font-medium transition-all"
-                       [class]="getArticleCoverage(art) > 0 ? 'bg-blue-50 text-blue-600 border border-blue-200' : 'bg-slate-700/30 text-slate-500 border border-slate-600/30'">
+                       [class]="getArticleCoverage(art) > 0 ? 'bg-blue-50 text-blue-600 border border-blue-200' : 'bg-slate-100 text-slate-500 border border-slate-300/30'">
                     <div class="font-bold">Art. {{ art }}</div>
                     <div class="text-[10px] mt-0.5">{{ getArticleCoverage(art) }} {{ lang.t('evidence.docs_short') }}</div>
                   </div>
@@ -597,7 +597,7 @@ export class EvidenceVaultComponent implements OnInit {
     if (mime?.includes('word') || mime?.includes('document')) return 'bg-blue-500/10 text-blue-400';
     if (mime?.includes('sheet') || mime?.includes('excel')) return 'bg-green-500/10 text-green-400';
     if (mime?.includes('image')) return 'bg-violet-500/10 text-violet-400';
-    return 'bg-slate-700/50 text-slate-400';
+    return 'bg-slate-50 text-slate-400';
   }
 
   getCategoryLabel(cat: string): string {

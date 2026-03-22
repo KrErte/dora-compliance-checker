@@ -23,7 +23,7 @@ interface WizardQuestion {
           </svg>
           DORA Art. 36-37
         </div>
-        <h1 class="text-3xl font-bold text-white mb-3">{{ lang.t('vendorcat.title') }}</h1>
+        <h1 class="text-3xl font-bold text-slate-900 mb-3">{{ lang.t('vendorcat.title') }}</h1>
         <p class="text-slate-400 max-w-2xl mx-auto">{{ lang.t('vendorcat.subtitle') }}</p>
       </div>
 
@@ -41,7 +41,7 @@ interface WizardQuestion {
                 {{ i + 1 }}
               }
             </div>
-            <span class="text-xs hidden sm:block" [class]="currentStep() === i ? 'text-white font-medium' : 'text-slate-500'">{{ lang.t(s) }}</span>
+            <span class="text-xs hidden sm:block" [class]="currentStep() === i ? 'text-slate-900 font-medium' : 'text-slate-500'">{{ lang.t(s) }}</span>
             @if (i < steps.length - 1) {
               <div class="w-8 h-0.5" [class]="currentStep() > i ? 'bg-blue-600/30' : 'bg-slate-700'"></div>
             }
@@ -52,13 +52,13 @@ interface WizardQuestion {
       <!-- Step 0: Select vendor -->
       @if (currentStep() === 0) {
         <div class="max-w-2xl mx-auto bg-white border border-slate-200 rounded-2xl p-6">
-          <h2 class="text-lg font-semibold text-white mb-4">{{ lang.t('vendorcat.select_provider') }}</h2>
+          <h2 class="text-lg font-semibold text-slate-900 mb-4">{{ lang.t('vendorcat.select_provider') }}</h2>
 
           @if (providers().length > 0) {
             <div class="mb-4">
               <label class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('vendorcat.existing_provider') }}</label>
               <select [(ngModel)]="selectedProviderId"
-                      class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none focus:border-blue-500/50">
+                      class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-blue-500/50">
                 <option value="">{{ lang.t('vendorcat.choose') }}</option>
                 @for (p of providers(); track p.id) {
                   <option [value]="p.id">{{ p.providerName }} ({{ p.serviceType }})</option>
@@ -72,13 +72,13 @@ interface WizardQuestion {
             <div>
               <label class="block text-sm font-medium text-slate-600 mb-1">{{ lang.t('vendorcat.new_name') }}</label>
               <input [(ngModel)]="newVendorName" type="text"
-                     class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50"
+                     class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder-slate-500 focus:outline-none focus:border-blue-500/50"
                      placeholder="AWS, Microsoft Azure, Telia...">
             </div>
             <div>
               <label class="block text-sm font-medium text-slate-600 mb-1">{{ lang.t('vendorcat.new_service') }}</label>
               <select [(ngModel)]="newVendorService"
-                      class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none focus:border-blue-500/50">
+                      class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-blue-500/50">
                 <option value="Cloud">Cloud</option>
                 <option value="Infrastructure">Infrastructure</option>
                 <option value="Software">Software</option>
@@ -104,13 +104,13 @@ interface WizardQuestion {
       <!-- Steps 1-3: Questions -->
       @if (currentStep() >= 1 && currentStep() <= 3) {
         <div class="max-w-2xl mx-auto bg-white border border-slate-200 rounded-2xl p-6">
-          <h2 class="text-lg font-semibold text-white mb-6">
+          <h2 class="text-lg font-semibold text-slate-900 mb-6">
             {{ lang.t(steps[currentStep()]) }}
           </h2>
 
           <div class="space-y-6">
             @for (q of getStepQuestions(); track q.key) {
-              <div class="bg-slate-900/30 rounded-xl p-4">
+              <div class="bg-slate-100/30 rounded-xl p-4">
                 <p class="text-sm font-medium text-slate-700 mb-3">{{ lang.t(q.key) }}</p>
                 <div class="grid grid-cols-3 gap-2">
                   @for (opt of q.options; track opt.label) {
@@ -188,7 +188,7 @@ interface WizardQuestion {
           <!-- Vendor name -->
           <div class="bg-white border border-slate-200 rounded-xl p-4 mb-4">
             <div class="text-xs text-slate-400 mb-1">{{ lang.t('vendorcat.step_select') }}</div>
-            <div class="text-white font-semibold">{{ getVendorDisplayName() }}</div>
+            <div class="text-slate-900 font-semibold">{{ getVendorDisplayName() }}</div>
           </div>
 
           <!-- Actions -->

@@ -106,7 +106,7 @@ interface Deadline {
                     <p class="text-xs text-red-400">{{ Math.abs(daysUntil(d.date)) }} {{ lang.t('deadlines.days_overdue') }}</p>
                   </div>
                 </div>
-                <button (click)="markDone(d)" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-400 hover:border-blue-200 hover:text-blue-600 transition-all">
+                <button (click)="markDone(d)" class="text-xs px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-400 hover:border-blue-200 hover:text-blue-600 transition-all">
                   {{ lang.t('deadlines.mark_done') }}
                 </button>
               </div>
@@ -124,7 +124,7 @@ interface Deadline {
 
         <div class="relative">
           <!-- Timeline line -->
-          <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-slate-700/50"></div>
+          <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-slate-200"></div>
 
           <div class="space-y-6">
             @for (d of allFilteredDeadlines(); track d.id) {
@@ -140,7 +140,7 @@ interface Deadline {
                   } @else if (daysUntil(d.date) <= 90) {
                     <div class="w-5 h-5 rounded-full bg-amber-500/20 border-2 border-amber-500 animate-pulse"></div>
                   } @else {
-                    <div class="w-5 h-5 rounded-full bg-slate-700 border-2 border-slate-600"></div>
+                    <div class="w-5 h-5 rounded-full bg-slate-200 border-2 border-slate-300"></div>
                   }
                 </div>
 
@@ -291,7 +291,7 @@ export class DeadlineCalendarComponent implements OnInit {
       'REPORT': 'bg-blue-600/20 text-blue-500',
       'CONTRACT': 'bg-amber-500/20 text-amber-400',
       'TRAINING': 'bg-blue-100 text-blue-600',
-      'GENERAL': 'bg-slate-700 text-slate-400',
+      'GENERAL': 'bg-slate-200 text-slate-400',
     };
     return classes[cat] || classes['GENERAL'];
   }

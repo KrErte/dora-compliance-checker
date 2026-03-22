@@ -40,7 +40,7 @@ interface ValidationError {
           </svg>
           {{ lang.t('bulk.badge') }}
         </div>
-        <h1 class="text-3xl font-bold text-white mb-3">{{ lang.t('bulk.title') }}</h1>
+        <h1 class="text-3xl font-bold text-slate-900 mb-3">{{ lang.t('bulk.title') }}</h1>
         <p class="text-slate-400 max-w-2xl mx-auto">{{ lang.t('bulk.subtitle') }}</p>
       </div>
 
@@ -58,7 +58,7 @@ interface ValidationError {
                 {{ i + 1 }}
               }
             </div>
-            <span class="text-xs hidden sm:block" [class]="currentStep() === i ? 'text-white font-medium' : 'text-slate-500'">{{ lang.t(s) }}</span>
+            <span class="text-xs hidden sm:block" [class]="currentStep() === i ? 'text-slate-900 font-medium' : 'text-slate-500'">{{ lang.t(s) }}</span>
             @if (i < stepKeys.length - 1) {
               <div class="w-8 h-0.5" [class]="currentStep() > i ? 'bg-blue-600/30' : 'bg-slate-700'"></div>
             }
@@ -77,7 +77,7 @@ interface ValidationError {
       <!-- ═══════════════════════════════════════════════════ -->
       @if (currentStep() === 0) {
         <div class="animate-fade-in-up">
-          <h2 class="text-lg font-semibold text-white mb-6 text-center">{{ lang.t('bulk.step0_title') }}</h2>
+          <h2 class="text-lg font-semibold text-slate-900 mb-6 text-center">{{ lang.t('bulk.step0_title') }}</h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             @for (entity of entityOptions; track entity.type) {
               <button (click)="selectEntity(entity.type)"
@@ -104,7 +104,7 @@ interface ValidationError {
                     </svg>
                   </div>
                   <div>
-                    <h3 class="text-white font-semibold text-sm group-hover:text-violet-300 transition-colors">{{ lang.t(entity.titleKey) }}</h3>
+                    <h3 class="text-slate-900 font-semibold text-sm group-hover:text-violet-300 transition-colors">{{ lang.t(entity.titleKey) }}</h3>
                     <p class="text-slate-400 text-xs mt-1 leading-relaxed">{{ lang.t(entity.descKey) }}</p>
                   </div>
                 </div>
@@ -138,9 +138,9 @@ interface ValidationError {
         <div class="animate-fade-in-up">
           <div class="bg-white border border-slate-200 rounded-2xl p-8">
             <div class="flex items-center justify-between mb-6">
-              <h2 class="text-lg font-semibold text-white">{{ lang.t('bulk.step1_title') }}</h2>
+              <h2 class="text-lg font-semibold text-slate-900">{{ lang.t('bulk.step1_title') }}</h2>
               <button (click)="downloadTemplate()"
-                      class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-600 font-medium text-sm hover:bg-slate-700 transition-all flex items-center gap-2">
+                      class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-600 font-medium text-sm hover:bg-slate-50 transition-all flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
@@ -166,7 +166,7 @@ interface ValidationError {
                     </svg>
                   </div>
                   <div>
-                    <p class="text-white font-medium">{{ lang.t('bulk.drop_files') }}</p>
+                    <p class="text-slate-900 font-medium">{{ lang.t('bulk.drop_files') }}</p>
                     <p class="text-slate-500 text-sm mt-1">{{ lang.t('bulk.drop_hint') }}</p>
                   </div>
                   <p class="text-slate-600 text-xs">{{ lang.t('bulk.max_size') }}</p>
@@ -178,7 +178,7 @@ interface ValidationError {
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                     </svg>
                   </div>
-                  <p class="text-white font-medium">{{ selectedFile()!.name }}</p>
+                  <p class="text-slate-900 font-medium">{{ selectedFile()!.name }}</p>
                   <p class="text-slate-500 text-xs">{{ formatFileSize(selectedFile()!.size) }}</p>
                   <button (click)="clearFile($event)"
                           class="text-red-400 text-xs hover:text-red-300 underline transition-colors">
@@ -200,7 +200,7 @@ interface ValidationError {
 
           <div class="flex justify-between mt-8">
             <button (click)="goToStep(0)"
-                    class="px-6 py-2.5 rounded-xl bg-slate-700/50 text-slate-600 font-medium text-sm hover:bg-slate-700 transition-all flex items-center gap-2">
+                    class="px-6 py-2.5 rounded-xl bg-slate-700/50 text-slate-600 font-medium text-sm hover:bg-slate-50 transition-all flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
               </svg>
@@ -228,7 +228,7 @@ interface ValidationError {
       @if (currentStep() === 2) {
         <div class="animate-fade-in-up">
           <div class="bg-white border border-slate-200 rounded-2xl p-6">
-            <h2 class="text-lg font-semibold text-white mb-2">{{ lang.t('bulk.step2_title') }}</h2>
+            <h2 class="text-lg font-semibold text-slate-900 mb-2">{{ lang.t('bulk.step2_title') }}</h2>
             <p class="text-slate-400 text-sm mb-6">{{ lang.t('bulk.step2_desc') }}</p>
 
             <!-- Mapping table -->
@@ -237,7 +237,7 @@ interface ValidationError {
                 <div class="flex items-center gap-4 bg-white border border-slate-200 rounded-xl p-4">
                   <div class="flex-1">
                     <span class="text-xs text-slate-500 uppercase tracking-wider">{{ lang.t('bulk.csv_column') }}</span>
-                    <p class="text-white font-medium text-sm mt-0.5">{{ mapping.csvColumn }}</p>
+                    <p class="text-slate-900 font-medium text-sm mt-0.5">{{ mapping.csvColumn }}</p>
                   </div>
                   <div class="shrink-0">
                     <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -247,7 +247,7 @@ interface ValidationError {
                   <div class="flex-1">
                     <span class="text-xs text-slate-500 uppercase tracking-wider">{{ lang.t('bulk.target_field') }}</span>
                     <select [(ngModel)]="mapping.targetField"
-                            class="mt-0.5 w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-violet-500/50">
+                            class="mt-0.5 w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:border-violet-500/50">
                       <option value="">-- {{ lang.t('bulk.skip_column') }} --</option>
                       @for (opt of mapping.options; track opt) {
                         <option [value]="opt">{{ opt }}</option>
@@ -294,7 +294,7 @@ interface ValidationError {
 
           <div class="flex justify-between mt-8">
             <button (click)="goToStep(1)"
-                    class="px-6 py-2.5 rounded-xl bg-slate-700/50 text-slate-600 font-medium text-sm hover:bg-slate-700 transition-all flex items-center gap-2">
+                    class="px-6 py-2.5 rounded-xl bg-slate-700/50 text-slate-600 font-medium text-sm hover:bg-slate-50 transition-all flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
               </svg>
@@ -319,7 +319,7 @@ interface ValidationError {
           <!-- Summary stats -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
             <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
-              <div class="text-2xl font-bold text-white">{{ totalRows() }}</div>
+              <div class="text-2xl font-bold text-slate-900">{{ totalRows() }}</div>
               <div class="text-xs text-slate-400 mt-1">{{ lang.t('bulk.total_rows') }}</div>
             </div>
             <div class="bg-white border border-blue-200 rounded-xl p-4 text-center">
@@ -387,7 +387,7 @@ interface ValidationError {
 
           <div class="flex justify-between mt-8">
             <button (click)="goToStep(2)"
-                    class="px-6 py-2.5 rounded-xl bg-slate-700/50 text-slate-600 font-medium text-sm hover:bg-slate-700 transition-all flex items-center gap-2">
+                    class="px-6 py-2.5 rounded-xl bg-slate-700/50 text-slate-600 font-medium text-sm hover:bg-slate-50 transition-all flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
               </svg>
@@ -422,7 +422,7 @@ interface ValidationError {
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>
               </div>
-              <h2 class="text-xl font-bold text-white mb-2">{{ lang.t('bulk.import_complete') }}</h2>
+              <h2 class="text-xl font-bold text-slate-900 mb-2">{{ lang.t('bulk.import_complete') }}</h2>
               <p class="text-slate-400 text-sm mb-8">{{ lang.t('bulk.import_complete_desc') }}</p>
             } @else {
               <!-- Partial / error state -->
@@ -431,7 +431,7 @@ interface ValidationError {
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4.5c-.77-.833-2.694-.833-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
                 </svg>
               </div>
-              <h2 class="text-xl font-bold text-white mb-2">{{ lang.t('bulk.import_partial') }}</h2>
+              <h2 class="text-xl font-bold text-slate-900 mb-2">{{ lang.t('bulk.import_partial') }}</h2>
               <p class="text-slate-400 text-sm mb-8">{{ lang.t('bulk.import_partial_desc') }}</p>
             }
 
@@ -469,7 +469,7 @@ interface ValidationError {
             <!-- Actions -->
             <div class="flex items-center justify-center gap-4">
               <button (click)="resetWizard()"
-                      class="px-6 py-2.5 rounded-xl bg-slate-700/50 text-slate-600 font-medium text-sm hover:bg-slate-700 transition-all flex items-center gap-2">
+                      class="px-6 py-2.5 rounded-xl bg-slate-700/50 text-slate-600 font-medium text-sm hover:bg-slate-50 transition-all flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                 </svg>

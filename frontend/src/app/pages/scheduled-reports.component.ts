@@ -26,7 +26,7 @@ interface ScheduledReport {
       <!-- Header -->
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center">
               <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -48,7 +48,7 @@ interface ScheduledReport {
       <!-- Loading -->
       @if (loading()) {
         <div class="text-center py-16">
-          <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-700 border-t-blue-400 animate-spin"></div>
+          <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-200 border-t-blue-400 animate-spin"></div>
         </div>
       }
 
@@ -58,7 +58,7 @@ interface ScheduledReport {
           <svg class="w-16 h-16 mx-auto mb-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
-          <h3 class="text-lg font-semibold text-white mb-2">No Scheduled Reports</h3>
+          <h3 class="text-lg font-semibold text-slate-900 mb-2">No Scheduled Reports</h3>
           <p class="text-sm text-slate-400 mb-4">Create your first scheduled report to automatically receive compliance summaries.</p>
           <button (click)="showCreateForm.set(true)"
                   class="px-5 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white
@@ -71,7 +71,7 @@ interface ScheduledReport {
       <!-- Create/Edit Form -->
       @if (showCreateForm()) {
         <div class="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-          <h3 class="text-lg font-semibold text-white">
+          <h3 class="text-lg font-semibold text-slate-900">
             {{ editingId ? 'Edit Schedule' : 'New Scheduled Report' }}
           </h3>
 
@@ -124,7 +124,7 @@ interface ScheduledReport {
             <div>
               <label class="block text-xs font-medium text-slate-400 mb-1.5">Day of Week</label>
               <select [(ngModel)]="form.dayOfWeek"
-                      class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50">
+                      class="w-full px-3 py-2 bg-slate-200/50 border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-500/50">
                 <option [value]="1">Monday</option>
                 <option [value]="2">Tuesday</option>
                 <option [value]="3">Wednesday</option>
@@ -139,7 +139,7 @@ interface ScheduledReport {
             <div>
               <label class="block text-xs font-medium text-slate-400 mb-1.5">Day of Month</label>
               <select [(ngModel)]="form.dayOfMonth"
-                      class="w-full px-3 py-2 bg-slate-700/50 border border-slate-200 rounded-lg text-sm text-white focus:outline-none focus:border-blue-500/50">
+                      class="w-full px-3 py-2 bg-slate-200/50 border border-slate-200 rounded-lg text-sm text-slate-900 focus:outline-none focus:border-blue-500/50">
                 @for (d of daysOfMonth; track d) {
                   <option [value]="d">{{ d }}</option>
                 }
@@ -151,7 +151,7 @@ interface ScheduledReport {
           <div>
             <label class="block text-xs font-medium text-slate-400 mb-1.5">Recipients (comma-separated emails)</label>
             <input [(ngModel)]="recipientsStr" type="text" placeholder="cto@company.com, compliance@company.com"
-                   class="w-full px-4 py-2.5 bg-slate-700/50 border border-slate-200 rounded-xl text-sm text-white
+                   class="w-full px-4 py-2.5 bg-slate-200/50 border border-slate-200 rounded-xl text-sm text-slate-900
                           placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/30 transition-all">
             <p class="text-[10px] text-slate-500 mt-1">Separate multiple email addresses with commas.</p>
           </div>
@@ -162,7 +162,7 @@ interface ScheduledReport {
 
           <div class="flex justify-end gap-2 pt-2">
             <button (click)="cancelForm()"
-                    class="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors">
+                    class="px-4 py-2 text-sm text-slate-400 hover:text-slate-900 transition-colors">
               Cancel
             </button>
             <button (click)="saveReport()" [disabled]="saving()"
@@ -195,7 +195,7 @@ interface ScheduledReport {
                     {{ report.reportType === 'COMPLIANCE' ? 'CR' : 'EX' }}
                   </div>
                   <div>
-                    <h3 class="text-sm font-semibold text-white">
+                    <h3 class="text-sm font-semibold text-slate-900">
                       {{ report.reportType === 'COMPLIANCE' ? 'Compliance Report' : 'Executive Summary' }}
                     </h3>
                     <div class="flex items-center gap-2 mt-0.5">
@@ -231,7 +231,7 @@ interface ScheduledReport {
               <!-- Recipients & last sent -->
               <div class="mt-3 flex flex-wrap gap-1.5">
                 @for (email of report.recipients; track email) {
-                  <span class="px-2 py-0.5 rounded-full text-[10px] bg-slate-700/50 text-slate-400 border border-slate-600/30">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] bg-slate-200/50 text-slate-400 border border-slate-300/30">
                     {{ email }}
                   </span>
                 }

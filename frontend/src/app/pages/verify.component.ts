@@ -12,8 +12,8 @@ import { LangService } from '../lang.service';
     <div class="min-h-[60vh] flex items-center justify-center p-4">
       @if (loading()) {
         <div class="text-center">
-          <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-700 border-t-blue-500 animate-spin"></div>
-          <p class="text-slate-400">{{ lang.l('Kontrollimine...', 'Verifying...') }}</p>
+          <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-200 border-t-blue-500 animate-spin"></div>
+          <p class="text-slate-500">{{ lang.l('Kontrollimine...', 'Verifying...') }}</p>
         </div>
       }
 
@@ -27,18 +27,18 @@ import { LangService } from '../lang.service';
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                 </svg>
               </div>
-              <h1 class="text-xl font-bold text-white">DORA Compliance Verified</h1>
+              <h1 class="text-xl font-bold text-slate-900">DORA Compliance Verified</h1>
               <p class="text-sm text-blue-600 mt-1">Verified by DoraAudit.eu</p>
             </div>
 
             <!-- Details -->
             <div class="p-6 space-y-4">
               <div class="flex justify-between items-center py-2 border-b border-slate-200">
-                <span class="text-sm text-slate-400">{{ lang.l('Ettevõte', 'Company') }}</span>
-                <span class="text-sm font-medium text-white">{{ data()?.companyName || '—' }}</span>
+                <span class="text-sm text-slate-500">{{ lang.l('Ettevõte', 'Company') }}</span>
+                <span class="text-sm font-medium text-slate-900">{{ data()?.companyName || '—' }}</span>
               </div>
               <div class="flex justify-between items-center py-2 border-b border-slate-200">
-                <span class="text-sm text-slate-400">{{ lang.l('Vastavusskoor', 'Compliance Score') }}</span>
+                <span class="text-sm text-slate-500">{{ lang.l('Vastavusskoor', 'Compliance Score') }}</span>
                 <div class="flex items-center gap-2">
                   <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
                        [class]="(data()?.score || 0) >= 80 ? 'bg-blue-100 text-blue-600' : (data()?.score || 0) >= 60 ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'">
@@ -47,11 +47,11 @@ import { LangService } from '../lang.service';
                 </div>
               </div>
               <div class="flex justify-between items-center py-2 border-b border-slate-200">
-                <span class="text-sm text-slate-400">{{ lang.l('Hindamise kuupäev', 'Assessment Date') }}</span>
+                <span class="text-sm text-slate-500">{{ lang.l('Hindamise kuupäev', 'Assessment Date') }}</span>
                 <span class="text-sm text-slate-600">{{ data()?.assessmentDate }}</span>
               </div>
               <div class="flex justify-between items-center py-2">
-                <span class="text-sm text-slate-400">{{ lang.l('Kehtiv kuni', 'Valid Until') }}</span>
+                <span class="text-sm text-slate-500">{{ lang.l('Kehtiv kuni', 'Valid Until') }}</span>
                 <span class="text-sm font-medium" [class]="data()?.expired ? 'text-red-400' : 'text-blue-600'">
                   {{ data()?.validUntil }}
                   @if (data()?.expired) {
@@ -79,9 +79,9 @@ import { LangService } from '../lang.service';
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
             </div>
-            <h1 class="text-xl font-bold text-white mb-2">{{ lang.l('Kinnitust ei leitud', 'Verification Not Found') }}</h1>
-            <p class="text-sm text-slate-400 mb-6">{{ lang.l('Seda kinnitustunnust ei leitud või see on aegunud.', 'This verification seal was not found or has expired.') }}</p>
-            <a routerLink="/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-700 text-slate-600 text-sm hover:bg-slate-600 transition-colors">
+            <h1 class="text-xl font-bold text-slate-900 mb-2">{{ lang.l('Kinnitust ei leitud', 'Verification Not Found') }}</h1>
+            <p class="text-sm text-slate-500 mb-6">{{ lang.l('Seda kinnitustunnust ei leitud või see on aegunud.', 'This verification seal was not found or has expired.') }}</p>
+            <a routerLink="/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-100 text-slate-600 text-sm hover:bg-slate-200 transition-colors">
               {{ lang.l('Tagasi avalehele', 'Back to Home') }}
             </a>
           </div>

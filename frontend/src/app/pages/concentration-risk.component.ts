@@ -10,7 +10,7 @@ import { ApiService, IctProvider } from '../api.service';
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+        <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
@@ -23,7 +23,7 @@ import { ApiService, IctProvider } from '../api.service';
 
       @if (loading()) {
         <div class="text-center py-16">
-          <div class="w-10 h-10 mx-auto rounded-full border-4 border-slate-700 border-t-amber-400 animate-spin"></div>
+          <div class="w-10 h-10 mx-auto rounded-full border-4 border-slate-200 border-t-amber-400 animate-spin"></div>
         </div>
       }
 
@@ -31,7 +31,7 @@ import { ApiService, IctProvider } from '../api.service';
         <!-- Risk overview -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="bg-white border border-slate-200 rounded-xl p-5">
-            <div class="text-3xl font-bold text-white">{{ providers().length }}</div>
+            <div class="text-3xl font-bold text-slate-900">{{ providers().length }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('concentration.ict_providers') }}</div>
           </div>
           <div class="bg-white border rounded-xl p-5"
@@ -40,14 +40,14 @@ import { ApiService, IctProvider } from '../api.service';
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('concentration.high_concentration') }}</div>
           </div>
           <div class="bg-white border border-slate-200 rounded-xl p-5">
-            <div class="text-3xl font-bold text-white">{{ uniqueCountries().length }}</div>
+            <div class="text-3xl font-bold text-slate-900">{{ uniqueCountries().length }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('concentration.countries') }}</div>
           </div>
         </div>
 
         <!-- Service type distribution -->
         <div class="bg-white border border-slate-200 rounded-2xl p-6">
-          <h2 class="text-lg font-semibold text-white mb-4">{{ lang.t('concentration.service_type_distribution') }}</h2>
+          <h2 class="text-lg font-semibold text-slate-900 mb-4">{{ lang.t('concentration.service_type_distribution') }}</h2>
           @for (entry of serviceTypeDistribution(); track entry.type) {
             <div class="mb-3">
               <div class="flex justify-between text-sm mb-1">
@@ -56,7 +56,7 @@ import { ApiService, IctProvider } from '../api.service';
                   {{ entry.count }} ({{ entry.percentage }}%)
                 </span>
               </div>
-              <div class="w-full h-2 bg-slate-700 rounded-full overflow-hidden">
+              <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
                 <div class="h-full rounded-full transition-all"
                      [style.width.%]="entry.percentage"
                      [class]="entry.percentage > 40 ? 'bg-red-400' : entry.percentage > 25 ? 'bg-amber-400' : 'bg-blue-500'"></div>
@@ -68,15 +68,15 @@ import { ApiService, IctProvider } from '../api.service';
         <!-- Provider concentration table -->
         <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
           <div class="px-6 py-4 border-b border-slate-200">
-            <h2 class="text-lg font-semibold text-white">{{ lang.t('concentration.provider_concentration_analysis') }}</h2>
+            <h2 class="text-lg font-semibold text-slate-900">{{ lang.t('concentration.provider_concentration_analysis') }}</h2>
           </div>
-          <div class="divide-y divide-slate-700/30">
+          <div class="divide-y divide-slate-200">
             @for (provider of providers(); track provider.id) {
               <div class="px-6 py-3 flex items-center gap-4">
                 <div class="w-2 h-2 rounded-full flex-shrink-0"
                      [class]="provider.criticality === 'HIGH' || provider.criticality === 'CRITICAL' ? 'bg-red-500' : provider.criticality === 'MEDIUM' ? 'bg-amber-500' : 'bg-blue-500'"></div>
                 <div class="flex-1 min-w-0">
-                  <div class="text-sm text-white font-medium truncate">{{ provider.providerName }}</div>
+                  <div class="text-sm text-slate-900 font-medium truncate">{{ provider.providerName }}</div>
                   <div class="text-xs text-slate-400">{{ provider.serviceType }} &bull; {{ provider.providerCountry || '?' }}</div>
                 </div>
                 <span class="px-2 py-0.5 rounded text-[10px] font-semibold"

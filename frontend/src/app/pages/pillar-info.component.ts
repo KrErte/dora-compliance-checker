@@ -32,7 +32,7 @@ interface PillarInfo {
       <!-- Header -->
       <div class="text-center mb-10">
         <div class="text-6xl mb-4">{{ pillar.icon }}</div>
-        <h1 class="text-3xl font-bold text-white mb-2">{{ lang.t(pillar.labelKey) }}</h1>
+        <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ lang.t(pillar.labelKey) }}</h1>
         <p class="text-blue-600 font-medium">{{ pillar.articles }}</p>
       </div>
 
@@ -86,7 +86,7 @@ interface PillarInfo {
 
       <!-- CTA -->
       <div class="glass-card p-6 border-blue-200 bg-gradient-to-br from-blue-600/5 to-blue-500/5 text-center">
-        <h3 class="text-lg font-semibold text-white mb-2">{{ lang.t('pillar.cta_title') }}</h3>
+        <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ lang.t('pillar.cta_title') }}</h3>
         <p class="text-sm text-slate-400 mb-4">{{ lang.t('pillar.cta_desc') }}</p>
         <a *ngIf="pillar.id === 'THIRD_PARTY'" routerLink="/contract-analysis" [queryParams]="{sample: 'true'}"
            class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-blue-600 text-slate-900 hover:bg-blue-700 transition-all">
@@ -109,7 +109,7 @@ interface PillarInfo {
     <div *ngIf="!pillar && !loading" class="min-h-[50vh] flex items-center justify-center">
       <div class="glass-card p-8 md:p-12 max-w-lg mx-auto text-center border border-slate-200">
         <div class="text-6xl mb-4">🔍</div>
-        <h1 class="text-2xl font-bold text-white mb-2">{{ lang.t('pillar.not_found') }}</h1>
+        <h1 class="text-2xl font-bold text-slate-900 mb-2">{{ lang.t('pillar.not_found') }}</h1>
         <p class="text-slate-400 mb-8">{{ lang.t('pillar.this_dora_pillar_does_not_exist') }}</p>
 
         <!-- Available pillars -->

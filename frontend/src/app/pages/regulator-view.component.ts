@@ -63,17 +63,17 @@ interface RegulatorPortalData {
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <div class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <div class="min-h-screen bg-gradient-to-b from-white via-slate-50 to-slate-100">
 
       <!-- Loading State -->
       @if (loading()) {
         <div class="flex items-center justify-center min-h-screen">
           <div class="text-center">
             <div class="relative w-16 h-16 mx-auto mb-6">
-              <div class="absolute inset-0 rounded-full border-4 border-slate-700"></div>
+              <div class="absolute inset-0 rounded-full border-4 border-slate-200"></div>
               <div class="absolute inset-0 rounded-full border-4 border-transparent border-t-violet-400 animate-spin"></div>
             </div>
-            <h2 class="text-lg font-semibold text-white mb-1">{{ lang.l('Laadimine...', 'Loading...') }}</h2>
+            <h2 class="text-lg font-semibold text-slate-900 mb-1">{{ lang.l('Laadimine...', 'Loading...') }}</h2>
             <p class="text-sm text-slate-500">{{ lang.l('Vastavusandmete laadimine', 'Retrieving compliance data') }}</p>
           </div>
         </div>
@@ -88,7 +88,7 @@ interface RegulatorPortalData {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.072 16.5c-.77.833.192 2.5 1.732 2.5z"/>
               </svg>
             </div>
-            <h2 class="text-xl font-bold text-white mb-2">
+            <h2 class="text-xl font-bold text-slate-900 mb-2">
               {{ errorCode() === 404
                 ? lang.l('Linki ei leitud', 'Link Not Found')
                 : errorCode() === 410
@@ -120,7 +120,7 @@ interface RegulatorPortalData {
           <div class="max-w-6xl mx-auto">
 
             <!-- Header Banner -->
-            <div class="bg-gradient-to-r from-violet-500/10 via-slate-800/50 to-blue-500/10 border border-violet-500/20 rounded-2xl p-6 mb-8">
+            <div class="bg-gradient-to-r from-violet-500/10 via-slate-100/50 to-blue-500/10 border border-violet-500/20 rounded-2xl p-6 mb-8">
               <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="flex items-center gap-4">
                   <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center shadow-lg shadow-violet-500/20 flex-shrink-0">
@@ -132,7 +132,7 @@ interface RegulatorPortalData {
                     <div class="text-[10px] uppercase tracking-widest text-violet-400 font-medium mb-0.5">
                       {{ lang.l('DORA vastavus\u00fclevaade', 'DORA Compliance Overview') }}
                     </div>
-                    <h1 class="text-2xl md:text-3xl font-bold text-white">{{ data()!.companyName }}</h1>
+                    <h1 class="text-2xl md:text-3xl font-bold text-slate-900">{{ data()!.companyName }}</h1>
                     <div class="flex items-center gap-3 mt-1">
                       <span class="text-xs text-slate-500">
                         {{ lang.l('Hinnatud', 'Assessed') }}: {{ data()!.assessmentDate | date:'dd.MM.yyyy' }}
@@ -152,18 +152,18 @@ interface RegulatorPortalData {
                 <div class="flex items-center gap-4">
                   <div class="relative w-20 h-20">
                     <svg class="w-20 h-20 -rotate-90" viewBox="0 0 80 80">
-                      <circle cx="40" cy="40" r="34" fill="none" stroke="currentColor" stroke-width="6" class="text-slate-700"/>
+                      <circle cx="40" cy="40" r="34" fill="none" stroke="currentColor" stroke-width="6" class="text-slate-200"/>
                       <circle cx="40" cy="40" r="34" fill="none" stroke-width="6" stroke-linecap="round"
                               [attr.stroke-dasharray]="2 * 3.14159 * 34"
                               [attr.stroke-dashoffset]="2 * 3.14159 * 34 * (1 - data()!.overallPercentage / 100)"
                               [class]="getScoreColor(data()!.overallPercentage)"/>
                     </svg>
                     <div class="absolute inset-0 flex items-center justify-center">
-                      <span class="text-lg font-bold text-white">{{ data()!.overallPercentage }}%</span>
+                      <span class="text-lg font-bold text-slate-900">{{ data()!.overallPercentage }}%</span>
                     </div>
                   </div>
                   <div>
-                    <div class="text-sm font-semibold text-white">{{ lang.l('\u00dcldskoor', 'Overall Score') }}</div>
+                    <div class="text-sm font-semibold text-slate-900">{{ lang.l('\u00dcldskoor', 'Overall Score') }}</div>
                     <div class="text-xs mt-0.5"
                          [class]="data()!.overallPercentage >= 75 ? 'text-blue-600' : data()!.overallPercentage >= 50 ? 'text-amber-400' : 'text-red-400'">
                       {{ data()!.overallPercentage >= 75
@@ -180,7 +180,7 @@ interface RegulatorPortalData {
             <!-- 5 Pillar Score Cards -->
             @if (hasPermission('assessment_scores') && data()!.pillars?.length) {
               <div class="mb-8">
-                <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <h2 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
                   <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                   </svg>
@@ -192,17 +192,17 @@ interface RegulatorPortalData {
                       <!-- Donut chart -->
                       <div class="relative w-20 h-20 mx-auto mb-3">
                         <svg class="w-20 h-20 -rotate-90" viewBox="0 0 80 80">
-                          <circle cx="40" cy="40" r="30" fill="none" stroke="currentColor" stroke-width="5" class="text-slate-700/60"/>
+                          <circle cx="40" cy="40" r="30" fill="none" stroke="currentColor" stroke-width="5" class="text-slate-200/60"/>
                           <circle cx="40" cy="40" r="30" fill="none" stroke-width="5" stroke-linecap="round"
                                   [attr.stroke-dasharray]="2 * 3.14159 * 30"
                                   [attr.stroke-dashoffset]="2 * 3.14159 * 30 * (1 - pillar.percentage / 100)"
                                   [class]="getScoreColor(pillar.percentage)"/>
                         </svg>
                         <div class="absolute inset-0 flex items-center justify-center">
-                          <span class="text-sm font-bold text-white">{{ pillar.percentage }}%</span>
+                          <span class="text-sm font-bold text-slate-900">{{ pillar.percentage }}%</span>
                         </div>
                       </div>
-                      <h3 class="text-xs font-semibold text-white mb-0.5">
+                      <h3 class="text-xs font-semibold text-slate-900 mb-0.5">
                         {{ lang.l(pillar.nameEt, pillar.name) }}
                       </h3>
                       <p class="text-[10px] text-slate-500">{{ pillar.articleRef }}</p>
@@ -220,7 +220,7 @@ interface RegulatorPortalData {
               <!-- Evidence Statistics -->
               @if (hasPermission('evidence_stats') && data()!.evidenceStats) {
                 <div class="bg-white border border-slate-200 rounded-xl p-6">
-                  <h2 class="text-sm font-semibold text-white mb-4 flex items-center gap-2">
+                  <h2 class="text-sm font-semibold text-slate-900 mb-4 flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-blue-500/15 flex items-center justify-center">
                       <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -237,7 +237,7 @@ interface RegulatorPortalData {
                           {{ data()!.evidenceStats!.coverage }}%
                         </span>
                       </div>
-                      <div class="w-full bg-slate-700/50 rounded-full h-2.5">
+                      <div class="w-full bg-slate-200/50 rounded-full h-2.5">
                         <div class="h-2.5 rounded-full transition-all"
                              [class]="data()!.evidenceStats!.coverage >= 75 ? 'bg-blue-600' : data()!.evidenceStats!.coverage >= 50 ? 'bg-amber-500' : 'bg-red-500'"
                              [style.width.%]="data()!.evidenceStats!.coverage"></div>
@@ -245,15 +245,15 @@ interface RegulatorPortalData {
                     </div>
                     <!-- Stats grid -->
                     <div class="grid grid-cols-3 gap-3">
-                      <div class="bg-slate-900/40 rounded-lg p-3 text-center">
-                        <div class="text-lg font-bold text-white">{{ data()!.evidenceStats!.total }}</div>
+                      <div class="bg-slate-100/40 rounded-lg p-3 text-center">
+                        <div class="text-lg font-bold text-slate-900">{{ data()!.evidenceStats!.total }}</div>
                         <div class="text-[10px] text-slate-500">{{ lang.l('Kokku', 'Total') }}</div>
                       </div>
-                      <div class="bg-slate-900/40 rounded-lg p-3 text-center">
+                      <div class="bg-slate-100/40 rounded-lg p-3 text-center">
                         <div class="text-lg font-bold text-blue-600">{{ data()!.evidenceStats!.uploaded }}</div>
                         <div class="text-[10px] text-slate-500">{{ lang.l('\u00dcles laetud', 'Uploaded') }}</div>
                       </div>
-                      <div class="bg-slate-900/40 rounded-lg p-3 text-center">
+                      <div class="bg-slate-100/40 rounded-lg p-3 text-center">
                         <div class="text-lg font-bold text-amber-400">{{ data()!.evidenceStats!.pending }}</div>
                         <div class="text-[10px] text-slate-500">{{ lang.l('Ootel', 'Pending') }}</div>
                       </div>
@@ -265,7 +265,7 @@ interface RegulatorPortalData {
               <!-- Vendor Risk Overview -->
               @if (hasPermission('vendors') && data()!.vendorOverview) {
                 <div class="bg-white border border-slate-200 rounded-xl p-6">
-                  <h2 class="text-sm font-semibold text-white mb-4 flex items-center gap-2">
+                  <h2 class="text-sm font-semibold text-slate-900 mb-4 flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-amber-500/15 flex items-center justify-center">
                       <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
@@ -274,11 +274,11 @@ interface RegulatorPortalData {
                     {{ lang.l('Tarnijate riski\u00fclevaade', 'Vendor Risk Overview') }}
                   </h2>
                   <div class="grid grid-cols-2 gap-3 mb-4">
-                    <div class="bg-slate-900/40 rounded-lg p-4 text-center">
-                      <div class="text-2xl font-bold text-white">{{ data()!.vendorOverview!.total }}</div>
+                    <div class="bg-slate-100/40 rounded-lg p-4 text-center">
+                      <div class="text-2xl font-bold text-slate-900">{{ data()!.vendorOverview!.total }}</div>
                       <div class="text-[10px] text-slate-500">{{ lang.l('Kokku tarnijaid', 'Total Vendors') }}</div>
                     </div>
-                    <div class="bg-slate-900/40 rounded-lg p-4 text-center">
+                    <div class="bg-slate-100/40 rounded-lg p-4 text-center">
                       <div class="text-2xl font-bold text-blue-500">{{ data()!.vendorOverview!.averageScore }}</div>
                       <div class="text-[10px] text-slate-500">{{ lang.l('Keskmine skoor', 'Average Score') }}</div>
                     </div>
@@ -301,7 +301,7 @@ interface RegulatorPortalData {
               <!-- Recent Incidents -->
               @if (hasPermission('incidents') && data()!.incidents) {
                 <div class="bg-white border border-slate-200 rounded-xl p-6">
-                  <h2 class="text-sm font-semibold text-white mb-4 flex items-center gap-2">
+                  <h2 class="text-sm font-semibold text-slate-900 mb-4 flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-red-500/15 flex items-center justify-center">
                       <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.072 16.5c-.77.833.192 2.5 1.732 2.5z"/>
@@ -309,18 +309,18 @@ interface RegulatorPortalData {
                     </div>
                     {{ lang.l('Hiljutised intsidendid', 'Recent Incidents') }}
                     @if (data()!.incidents!.length > 0) {
-                      <span class="px-2 py-0.5 rounded-full text-[10px] bg-slate-700/50 text-slate-400">{{ data()!.incidents!.length }}</span>
+                      <span class="px-2 py-0.5 rounded-full text-[10px] bg-slate-200/50 text-slate-400">{{ data()!.incidents!.length }}</span>
                     }
                   </h2>
                   @if (data()!.incidents!.length > 0) {
                     <div class="space-y-2.5">
                       @for (incident of data()!.incidents; track incident.id) {
-                        <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-900/40">
+                        <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-100/40">
                           <div class="w-2 h-2 rounded-full flex-shrink-0"
                                [class]="incident.severity === 'CRITICAL' ? 'bg-red-500' : incident.severity === 'HIGH' ? 'bg-orange-500' : incident.severity === 'MEDIUM' ? 'bg-amber-500' : 'bg-blue-500'">
                           </div>
                           <div class="flex-1 min-w-0">
-                            <p class="text-sm text-white truncate">{{ incident.title }}</p>
+                            <p class="text-sm text-slate-900 truncate">{{ incident.title }}</p>
                             <div class="flex items-center gap-2 mt-0.5">
                               <span class="px-1.5 py-0.5 rounded text-[10px] font-medium"
                                     [class]="incident.severity === 'CRITICAL' ? 'bg-red-500/15 text-red-400' : incident.severity === 'HIGH' ? 'bg-orange-500/15 text-orange-400' : incident.severity === 'MEDIUM' ? 'bg-amber-500/15 text-amber-400' : 'bg-blue-500/15 text-blue-400'">
@@ -345,7 +345,7 @@ interface RegulatorPortalData {
               <!-- Remediation Overview -->
               @if (hasPermission('remediation') && data()!.remediation) {
                 <div class="bg-white border border-slate-200 rounded-xl p-6">
-                  <h2 class="text-sm font-semibold text-white mb-4 flex items-center gap-2">
+                  <h2 class="text-sm font-semibold text-slate-900 mb-4 flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
                       <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
@@ -361,25 +361,25 @@ interface RegulatorPortalData {
                         {{ data()!.remediation!.total > 0 ? Math.round(data()!.remediation!.completed / data()!.remediation!.total * 100) : 0 }}%
                       </span>
                     </div>
-                    <div class="w-full bg-slate-700/50 rounded-full h-2.5">
+                    <div class="w-full bg-slate-200/50 rounded-full h-2.5">
                       <div class="h-2.5 rounded-full bg-blue-600 transition-all"
                            [style.width.%]="data()!.remediation!.total > 0 ? (data()!.remediation!.completed / data()!.remediation!.total * 100) : 0"></div>
                     </div>
                   </div>
                   <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-slate-900/40 rounded-lg p-3 text-center">
-                      <div class="text-lg font-bold text-white">{{ data()!.remediation!.total }}</div>
+                    <div class="bg-slate-100/40 rounded-lg p-3 text-center">
+                      <div class="text-lg font-bold text-slate-900">{{ data()!.remediation!.total }}</div>
                       <div class="text-[10px] text-slate-500">{{ lang.l('Kokku', 'Total') }}</div>
                     </div>
-                    <div class="bg-slate-900/40 rounded-lg p-3 text-center">
+                    <div class="bg-slate-100/40 rounded-lg p-3 text-center">
                       <div class="text-lg font-bold text-blue-600">{{ data()!.remediation!.completed }}</div>
                       <div class="text-[10px] text-slate-500">{{ lang.l('Tehtud', 'Completed') }}</div>
                     </div>
-                    <div class="bg-slate-900/40 rounded-lg p-3 text-center">
+                    <div class="bg-slate-100/40 rounded-lg p-3 text-center">
                       <div class="text-lg font-bold text-amber-400">{{ data()!.remediation!.inProgress }}</div>
                       <div class="text-[10px] text-slate-500">{{ lang.l('T\u00f6\u00f6s', 'In Progress') }}</div>
                     </div>
-                    <div class="bg-slate-900/40 rounded-lg p-3 text-center">
+                    <div class="bg-slate-100/40 rounded-lg p-3 text-center">
                       <div class="text-lg font-bold text-red-400">{{ data()!.remediation!.overdue }}</div>
                       <div class="text-[10px] text-slate-500">{{ lang.l('Hilinenud', 'Overdue') }}</div>
                     </div>
@@ -389,7 +389,7 @@ interface RegulatorPortalData {
             </div>
 
             <!-- Disclaimer -->
-            <div class="bg-slate-800/30 border border-slate-200 rounded-xl p-5 mb-8">
+            <div class="bg-slate-100/30 border border-slate-200 rounded-xl p-5 mb-8">
               <div class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-slate-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -406,7 +406,7 @@ interface RegulatorPortalData {
             </div>
 
             <!-- Footer Branding -->
-            <div class="text-center py-8 border-t border-slate-800/50">
+            <div class="text-center py-8 border-t border-slate-200/50">
               <div class="inline-flex items-center gap-3 mb-3">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center">
                   <span class="text-white font-bold text-xs">DA</span>

@@ -35,19 +35,19 @@ interface ImpactResult {
       <!-- Header -->
       <div class="text-center mb-10">
         <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ lang.t('whatif.title') }}</h1>
-        <p class="text-slate-400">{{ lang.t('whatif.subtitle') }}</p>
+        <p class="text-slate-500">{{ lang.t('whatif.subtitle') }}</p>
       </div>
 
       <!-- No providers state -->
       @if (providers().length === 0 && !loading()) {
         <div class="glass-card p-12 text-center">
-          <div class="w-20 h-20 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-6 border border-slate-200">
+          <div class="w-20 h-20 rounded-2xl bg-slate-100 flex items-center justify-center mx-auto mb-6 border border-slate-200">
             <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
             </svg>
           </div>
           <h2 class="text-xl font-bold text-slate-700 mb-2">{{ lang.t('whatif.no_providers') }}</h2>
-          <p class="text-slate-400 mb-6">{{ lang.t('whatif.no_providers_desc') }}</p>
+          <p class="text-slate-500 mb-6">{{ lang.t('whatif.no_providers_desc') }}</p>
           <a routerLink="/supply-chain" class="inline-flex items-center gap-2 bg-blue-600 text-slate-900 font-semibold px-8 py-3 rounded-xl hover:shadow-lg hover:shadow-lg transition-all">
             {{ lang.t('whatif.go_supply_chain') }}
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
@@ -71,7 +71,7 @@ interface ImpactResult {
                         : 'bg-white border-slate-200 hover:border-red-500/30 hover:bg-red-500/5'">
                 <div class="flex items-center gap-3 mb-2">
                   <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold"
-                       [class]="p.criticality === 'CRITICAL' || p.criticality === 'HIGH' ? 'bg-red-500/20 text-red-400' : p.criticality === 'MEDIUM' ? 'bg-amber-500/20 text-amber-400' : 'bg-slate-700 text-slate-400'">
+                       [class]="p.criticality === 'CRITICAL' || p.criticality === 'HIGH' ? 'bg-red-500/20 text-red-400' : p.criticality === 'MEDIUM' ? 'bg-amber-500/20 text-amber-400' : 'bg-slate-200 text-slate-500'">
                     {{ p.providerName.charAt(0) }}
                   </div>
                   <div class="min-w-0">
@@ -84,7 +84,7 @@ interface ImpactResult {
                         [class]="p.criticality === 'CRITICAL' ? 'bg-red-500/20 text-red-400' :
                                  p.criticality === 'HIGH' ? 'bg-orange-500/20 text-orange-400' :
                                  p.criticality === 'MEDIUM' ? 'bg-amber-500/20 text-amber-400' :
-                                 'bg-slate-700 text-slate-400'">
+                                 'bg-slate-200 text-slate-500'">
                     {{ lang.t('whatif.criticality_' + (p.criticality || 'LOW').toLowerCase()) }}
                   </span>
                   @if (p.providerCountry) {
@@ -127,8 +127,8 @@ interface ImpactResult {
                                impact()!.severity === 'MEDIUM' ? 'text-amber-400' : 'text-blue-600'">
                     {{ lang.t('whatif.severity_' + impact()!.severity.toLowerCase()) }}
                   </h3>
-                  <p class="text-slate-400 text-sm">
-                    {{ lang.t('whatif.scenario_desc') }}: <strong class="text-white">{{ selectedProvider()!.providerName }}</strong>
+                  <p class="text-slate-500 text-sm">
+                    {{ lang.t('whatif.scenario_desc') }}: <strong class="text-slate-900">{{ selectedProvider()!.providerName }}</strong>
                   </p>
                 </div>
               </div>
@@ -202,7 +202,7 @@ interface ImpactResult {
                     <span class="font-medium text-blue-500">{{ lang.t('whatif.exit_exists') }}</span>
                   </div>
                   @if (selectedProvider()!.exitStrategyDescription) {
-                    <p class="text-sm text-slate-400 ml-7">{{ selectedProvider()!.exitStrategyDescription }}</p>
+                    <p class="text-sm text-slate-500 ml-7">{{ selectedProvider()!.exitStrategyDescription }}</p>
                   }
                 </div>
               } @else {
@@ -211,14 +211,14 @@ interface ImpactResult {
                     <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     <span class="font-medium text-red-300">{{ lang.t('whatif.exit_missing') }}</span>
                   </div>
-                  <p class="text-sm text-slate-400 ml-7">{{ lang.t('whatif.exit_missing_desc') }}</p>
+                  <p class="text-sm text-slate-500 ml-7">{{ lang.t('whatif.exit_missing_desc') }}</p>
                 </div>
               }
             </div>
 
             <!-- Reset -->
             <div class="text-center">
-              <button (click)="reset()" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-slate-600 hover:border-slate-300 transition-all">
+              <button (click)="reset()" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-600 hover:border-slate-300 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                 {{ lang.t('whatif.reset') }}
               </button>

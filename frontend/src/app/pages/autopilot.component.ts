@@ -11,7 +11,7 @@ import { AutopilotInsight, AutopilotCounts } from '../models';
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <div class="min-h-screen bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 text-white">
+    <div class="min-h-screen bg-gradient-to-b from-white via-slate-50 to-slate-950 text-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
 
         <!-- Header -->
@@ -70,7 +70,7 @@ import { AutopilotInsight, AutopilotCounts } from '../models';
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
               </svg>
             </div>
-            <h2 class="text-xl font-bold text-white mb-2">{{ lang.t('autopilot.premium_title') }}</h2>
+            <h2 class="text-xl font-bold text-slate-900 mb-2">{{ lang.t('autopilot.premium_title') }}</h2>
             <p class="text-slate-400 text-sm mb-6 max-w-md mx-auto">{{ lang.t('autopilot.premium_desc') }}</p>
             <a routerLink="/pricing" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white font-semibold text-sm transition-all shadow-lg shadow-violet-500/20">
               {{ lang.t('autopilot.upgrade') }}
@@ -105,7 +105,7 @@ import { AutopilotInsight, AutopilotCounts } from '../models';
               @for (sev of severityFilters; track sev.value) {
                 <button (click)="activeSeverity.set(sev.value)"
                   class="px-3 py-1.5 text-xs font-medium rounded-md transition-all"
-                  [class]="activeSeverity() === sev.value ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'">
+                  [class]="activeSeverity() === sev.value ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-slate-900'">
                   {{ sev.label }}
                 </button>
               }
@@ -113,12 +113,12 @@ import { AutopilotInsight, AutopilotCounts } from '../models';
             <div class="flex items-center gap-1 bg-white border border-slate-200 rounded-lg p-1">
               <button (click)="showDismissed.set(false)"
                 class="px-3 py-1.5 text-xs font-medium rounded-md transition-all"
-                [class]="!showDismissed() ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'">
+                [class]="!showDismissed() ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-slate-900'">
                 {{ lang.t('autopilot.filter_active') }}
               </button>
               <button (click)="showDismissed.set(true)"
                 class="px-3 py-1.5 text-xs font-medium rounded-md transition-all"
-                [class]="showDismissed() ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-white'">
+                [class]="showDismissed() ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-slate-900'">
                 {{ lang.t('autopilot.filter_dismissed') }}
               </button>
             </div>
@@ -163,7 +163,7 @@ import { AutopilotInsight, AutopilotCounts } from '../models';
                           </div>
 
                           <!-- Title -->
-                          <h3 class="text-sm font-semibold text-white mb-1">{{ insight.title }}</h3>
+                          <h3 class="text-sm font-semibold text-slate-900 mb-1">{{ insight.title }}</h3>
 
                           <!-- Description -->
                           <p class="text-xs text-slate-400 mb-2 line-clamp-2">{{ insight.description }}</p>
@@ -218,7 +218,7 @@ import { AutopilotInsight, AutopilotCounts } from '../models';
                   <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
                 </svg>
               </div>
-              <h3 class="text-lg font-bold text-white mb-1">{{ lang.t('autopilot.empty_title') }}</h3>
+              <h3 class="text-lg font-bold text-slate-900 mb-1">{{ lang.t('autopilot.empty_title') }}</h3>
               <p class="text-sm text-slate-400">{{ lang.t('autopilot.empty_desc') }}</p>
             </div>
           }

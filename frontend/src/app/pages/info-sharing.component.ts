@@ -22,9 +22,9 @@ interface SharingArrangement {
     <div class="space-y-8">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500 to-blue-500 flex items-center justify-center">
-              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
               </svg>
             </div>
@@ -53,7 +53,7 @@ interface SharingArrangement {
         <div class="bg-white border border-slate-200 rounded-xl p-5">
           <div class="flex items-start justify-between mb-2">
             <div>
-              <h3 class="text-white font-semibold">{{ arr.communityName }}</h3>
+              <h3 class="text-slate-900 font-semibold">{{ arr.communityName }}</h3>
               <p class="text-xs text-slate-400">{{ arr.communityType }} &bull; {{ lang.t('infoshare.joined') }}: {{ arr.joinedDate }}</p>
             </div>
             <div class="flex gap-2">
@@ -90,23 +90,23 @@ interface SharingArrangement {
       }
 
       @if (showForm) {
-        <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" (click)="showForm = false">
-          <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-lg" (click)="$event.stopPropagation()">
-            <h2 class="text-lg font-bold text-white mb-4">{{ lang.t('infoshare.new_sharing_arrangement') }}</h2>
+        <div class="fixed inset-0 bg-white/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" (click)="showForm = false">
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 w-full max-w-lg" (click)="$event.stopPropagation()">
+            <h2 class="text-lg font-bold text-slate-900 mb-4">{{ lang.t('infoshare.new_sharing_arrangement') }}</h2>
             <div class="space-y-4">
-              <input [(ngModel)]="newArr.communityName" type="text" [placeholder]="lang.t('infoshare.community_name')" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none">
-              <select [(ngModel)]="newArr.communityType" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none">
+              <input [(ngModel)]="newArr.communityName" type="text" [placeholder]="lang.t('infoshare.community_name')" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 focus:outline-none">
+              <select [(ngModel)]="newArr.communityType" class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 focus:outline-none">
                 <option value="ISAC">ISAC</option>
                 <option value="CERT">CERT/CSIRT</option>
                 <option value="INDUSTRY_GROUP">{{ lang.t('infoshare.industry_group') }}</option>
                 <option value="BILATERAL">{{ lang.t('infoshare.bilateral') }}</option>
                 <option value="OTHER">{{ lang.t('infoshare.other') }}</option>
               </select>
-              <input [(ngModel)]="newArr.contactPerson" type="text" [placeholder]="lang.t('infoshare.contact_person')" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
-              <input [(ngModel)]="newArr.dataTypes" type="text" [placeholder]="lang.t('infoshare.shared_data_types_ioc_ttp')" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
-              <input [(ngModel)]="newArr.joinedDate" type="date" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
+              <input [(ngModel)]="newArr.contactPerson" type="text" [placeholder]="lang.t('infoshare.contact_person')" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:outline-none">
+              <input [(ngModel)]="newArr.dataTypes" type="text" [placeholder]="lang.t('infoshare.shared_data_types_ioc_ttp')" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:outline-none">
+              <input [(ngModel)]="newArr.joinedDate" type="date" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:outline-none">
               <div class="flex justify-end gap-3">
-                <button (click)="showForm = false" class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-600 text-sm">{{ lang.t('infoshare.cancel') }}</button>
+                <button (click)="showForm = false" class="px-4 py-2 rounded-xl bg-slate-100/50 text-slate-600 text-sm">{{ lang.t('infoshare.cancel') }}</button>
                 <button (click)="addArrangement()" [disabled]="!newArr.communityName" class="px-4 py-2 rounded-xl bg-gradient-to-r from-teal-500 to-blue-500 text-white text-sm font-semibold disabled:opacity-50">
                   {{ lang.t('infoshare.add') }}
                 </button>

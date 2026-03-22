@@ -23,10 +23,10 @@ import { AuthService } from '../auth/auth.service';
             </div>
             <div>
               <p class="text-sm font-semibold text-blue-500">{{ lang.l('14 päeva tasuta prooviaeg', '14-day free trial') }}</p>
-              <p class="text-xs text-slate-400">{{ lang.l('Krediitkaarti pole vaja', 'No credit card required') }}</p>
+              <p class="text-xs text-slate-500">{{ lang.l('Krediitkaarti pole vaja', 'No credit card required') }}</p>
             </div>
           </div>
-          <div class="grid grid-cols-2 gap-2 text-xs text-slate-400">
+          <div class="grid grid-cols-2 gap-2 text-xs text-slate-500">
             <div class="flex items-center gap-1.5">
               <svg class="w-3.5 h-3.5 text-blue-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
               {{ lang.l('AI lepinguanalüüs', 'AI contract analysis') }}
@@ -50,8 +50,8 @@ import { AuthService } from '../auth/auth.service';
           <div class="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center text-slate-900 font-bold text-2xl mx-auto mb-4">
             D
           </div>
-          <h1 class="text-2xl font-bold text-white mb-2">{{ lang.t('auth.register') }}</h1>
-          <p class="text-slate-400 text-sm">{{ lang.t('nav.brand') }}</p>
+          <h1 class="text-2xl font-bold text-slate-900 mb-2">{{ lang.t('auth.register') }}</h1>
+          <p class="text-slate-500 text-sm">{{ lang.t('nav.brand') }}</p>
         </div>
 
         <!-- Success state -->
@@ -115,7 +115,7 @@ import { AuthService } from '../auth/auth.service';
               <label for="reg-fullname" class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('auth.full_name') }}</label>
               <input type="text" [(ngModel)]="fullName" name="fullName" id="reg-fullname" required
                      (blur)="touched['fullName'] = true"
-                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
+                     class="w-full px-4 py-3 rounded-xl bg-slate-100/50 border text-slate-900 placeholder-slate-500
                             focus:outline-none focus:ring-1 transition-all"
                      [class]="fieldErrors['fullName'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/25'"
                      placeholder="Jaan Tamm">
@@ -128,7 +128,7 @@ import { AuthService } from '../auth/auth.service';
               <label for="reg-email" class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('auth.email') }}</label>
               <input type="email" [(ngModel)]="email" name="email" id="reg-email" required
                      (blur)="touched['email'] = true"
-                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
+                     class="w-full px-4 py-3 rounded-xl bg-slate-100/50 border text-slate-900 placeholder-slate-500
                             focus:outline-none focus:ring-1 transition-all"
                      [class]="fieldErrors['email'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/25'"
                      placeholder="teie@ettevote.ee">
@@ -141,7 +141,7 @@ import { AuthService } from '../auth/auth.service';
               <label for="reg-password" class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('auth.password') }}</label>
               <input type="password" [(ngModel)]="password" name="password" id="reg-password" required minlength="6"
                      (blur)="touched['password'] = true"
-                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
+                     class="w-full px-4 py-3 rounded-xl bg-slate-100/50 border text-slate-900 placeholder-slate-500
                             focus:outline-none focus:ring-1 transition-all"
                      [class]="fieldErrors['password'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/25'"
                      placeholder="********">
@@ -154,7 +154,7 @@ import { AuthService } from '../auth/auth.service';
               <label for="reg-confirm-password" class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('auth.confirm_password') }}</label>
               <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" id="reg-confirm-password" required
                      (blur)="touched['confirmPassword'] = true"
-                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
+                     class="w-full px-4 py-3 rounded-xl bg-slate-100/50 border text-slate-900 placeholder-slate-500
                             focus:outline-none focus:ring-1 transition-all"
                      [class]="fieldErrors['confirmPassword'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/25'"
                      placeholder="********">
@@ -168,9 +168,9 @@ import { AuthService } from '../auth/auth.service';
               <label class="flex items-start gap-3 cursor-pointer group">
                 <input type="checkbox" [(ngModel)]="agreeTerms" name="agreeTerms"
                        [attr.aria-label]="lang.l('Nõustun kasutustingimuste ja privaatsuspoliitikaga', 'I agree to the Terms of Service and Privacy Policy')"
-                       class="mt-0.5 w-4 h-4 rounded border-slate-600 bg-slate-700 text-blue-600
+                       class="mt-0.5 w-4 h-4 rounded border-slate-300 bg-slate-200 text-blue-600
                               focus:ring-blue-500/25 focus:ring-offset-0 cursor-pointer">
-                <span class="text-sm text-slate-400 leading-relaxed" aria-hidden="true">
+                <span class="text-sm text-slate-500 leading-relaxed" aria-hidden="true">
                   {{ lang.t('auth.terms_agree') }}
                   <a routerLink="/terms" target="_blank" class="text-blue-600 hover:text-blue-500 underline">{{ lang.t('auth.terms_link') }}</a>
                   {{ lang.t('auth.terms_and') }}
@@ -205,7 +205,7 @@ import { AuthService } from '../auth/auth.service';
           </form>
 
           <div class="mt-6 text-center">
-            <p class="text-sm text-slate-400">
+            <p class="text-sm text-slate-500">
               {{ lang.t('auth.have_account') }}
               <a routerLink="/login" class="text-blue-600 hover:text-blue-500 font-medium transition-colors">
                 {{ lang.t('auth.login_link') }}

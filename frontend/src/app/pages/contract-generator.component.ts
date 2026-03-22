@@ -24,7 +24,7 @@ interface ClauseSelection {
           </svg>
           {{ lang.t('generator.badge') }}
         </div>
-        <h1 class="text-3xl font-bold text-white mb-2">{{ lang.t('generator.title') }}</h1>
+        <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ lang.t('generator.title') }}</h1>
         <p class="text-slate-400 max-w-xl mx-auto">{{ lang.t('generator.subtitle') }}</p>
       </div>
 
@@ -46,7 +46,7 @@ interface ClauseSelection {
         <!-- Left: Clause Selection -->
         <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
           <div class="flex items-center justify-between mb-6">
-            <h2 class="text-lg font-semibold text-white">{{ lang.t('generator.select_clauses') }}</h2>
+            <h2 class="text-lg font-semibold text-slate-900">{{ lang.t('generator.select_clauses') }}</h2>
             <div class="flex gap-2">
               <button type="button" (click)="selectAll()" class="text-xs text-blue-600 hover:text-blue-500">{{ lang.t('generator.select_all') }}</button>
               <span class="text-slate-600">|</span>
@@ -57,8 +57,8 @@ interface ClauseSelection {
           <div class="space-y-3">
             @for (item of clauseSelections; track item.clause.id) {
               <label class="flex items-start gap-4 p-4 rounded-xl border cursor-pointer transition-all"
-                     [class]="item.selected ? 'bg-blue-50 border-blue-200' : 'bg-slate-700/30 border-slate-600/30 hover:border-slate-500/50'">
-                <input type="checkbox" [(ngModel)]="item.selected" class="mt-1 w-5 h-5 rounded border-slate-500 text-blue-600 focus:ring-blue-500 focus:ring-offset-0 bg-slate-700">
+                     [class]="item.selected ? 'bg-blue-50 border-blue-200' : 'bg-slate-200/30 border-slate-300/30 hover:border-slate-500/50'">
+                <input type="checkbox" [(ngModel)]="item.selected" class="mt-1 w-5 h-5 rounded border-slate-500 text-blue-600 focus:ring-blue-500 focus:ring-offset-0 bg-slate-200">
                 <div class="flex-1">
                   <div class="flex items-center gap-2">
                     <span class="text-sm font-medium" [class]="item.selected ? 'text-blue-500' : 'text-slate-600'">
@@ -82,7 +82,7 @@ interface ClauseSelection {
                 {{ selectedCount }} / 8 {{ lang.t('generator.clauses') }}
               </span>
             </div>
-            <div class="mt-2 h-2 rounded-full bg-slate-700 overflow-hidden">
+            <div class="mt-2 h-2 rounded-full bg-slate-200 overflow-hidden">
               <div class="h-full rounded-full transition-all duration-300"
                    [style.width.%]="(selectedCount / 8) * 100"
                    [class]="selectedCount === 8 ? 'bg-blue-600' : selectedCount > 0 ? 'bg-yellow-500' : 'bg-red-500'">
@@ -97,7 +97,7 @@ interface ClauseSelection {
         <!-- Right: Preview -->
         <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
           <div class="flex items-center justify-between mb-6">
-            <h2 class="text-lg font-semibold text-white">{{ lang.t('generator.preview') }}</h2>
+            <h2 class="text-lg font-semibold text-slate-900">{{ lang.t('generator.preview') }}</h2>
             <div class="flex gap-2">
               <button type="button" (click)="downloadPdf()" [disabled]="selectedCount === 0"
                       class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all

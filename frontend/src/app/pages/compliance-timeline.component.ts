@@ -31,7 +31,7 @@ interface TimelineEvent {
           </svg>
           {{ lang.t('activity.badge') }}
         </div>
-        <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
           {{ lang.t('activity.title') }}
         </h1>
         <p class="text-slate-400 max-w-2xl mx-auto">
@@ -43,7 +43,7 @@ interface TimelineEvent {
       @if (stats()) {
       <div class="grid grid-cols-3 gap-4">
         <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-5 text-center">
-          <div class="text-3xl font-bold text-white mb-1">{{ stats().total }}</div>
+          <div class="text-3xl font-bold text-slate-900 mb-1">{{ stats().total }}</div>
           <div class="text-xs text-slate-400">{{ lang.t('activity.total_events') }}</div>
         </div>
         <div class="bg-white backdrop-blur border border-violet-500/30 rounded-2xl p-5 text-center">
@@ -84,12 +84,12 @@ interface TimelineEvent {
       <!-- Empty State -->
       @if (!loading() && filteredEvents().length === 0) {
       <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-12 text-center">
-        <div class="w-16 h-16 mx-auto rounded-2xl bg-slate-700/50 flex items-center justify-center mb-4">
+        <div class="w-16 h-16 mx-auto rounded-2xl bg-slate-200/50 flex items-center justify-center mb-4">
           <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
         </div>
-        <h3 class="text-lg font-semibold text-white mb-2">{{ lang.t('activity.empty_title') }}</h3>
+        <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ lang.t('activity.empty_title') }}</h3>
         <p class="text-sm text-slate-400">{{ lang.t('activity.empty_desc') }}</p>
       </div>
       }
@@ -105,7 +105,7 @@ interface TimelineEvent {
             <!-- Date Separator -->
             @if (i === 0 || getDateGroup(event) !== getDateGroup(filteredEvents()[i - 1])) {
             <div class="relative flex items-center gap-4 py-3">
-              <div class="relative z-10 w-12 h-6 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center">
+              <div class="relative z-10 w-12 h-6 rounded-full bg-white border border-slate-200 flex items-center justify-center">
                 <div class="w-2 h-2 rounded-full bg-violet-400"></div>
               </div>
               <div class="text-xs font-semibold text-violet-400 uppercase tracking-wider">
@@ -180,13 +180,13 @@ interface TimelineEvent {
                       </span>
                       }
                     </div>
-                    <h3 class="text-sm font-semibold text-white truncate">{{ event.title }}</h3>
+                    <h3 class="text-sm font-semibold text-slate-900 truncate">{{ event.title }}</h3>
                     <p class="text-xs text-slate-400 mt-0.5 truncate">{{ event.description }}</p>
                   </div>
                   <div class="flex items-center gap-2 flex-shrink-0">
                     <span class="text-xs text-slate-500 whitespace-nowrap">{{ formatTime(event.timestamp) }}</span>
                     <a [routerLink]="event.link"
-                       class="w-7 h-7 rounded-lg bg-slate-700/50 flex items-center justify-center text-slate-400 hover:text-violet-400 hover:bg-violet-500/20 transition-all">
+                       class="w-7 h-7 rounded-lg bg-slate-200/50 flex items-center justify-center text-slate-400 hover:text-violet-400 hover:bg-violet-500/20 transition-all">
                       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                       </svg>
@@ -319,7 +319,7 @@ export class ComplianceTimelineComponent implements OnInit {
       case 'INCIDENT': return 'bg-red-500/20 text-red-400';
       case 'INCIDENT_RESOLVED': return 'bg-blue-100 text-blue-600';
       case 'PROVIDER': return 'bg-violet-500/20 text-violet-400';
-      default: return 'bg-slate-700/50 text-slate-400';
+      default: return 'bg-slate-200/50 text-slate-400';
     }
   }
 
@@ -331,7 +331,7 @@ export class ComplianceTimelineComponent implements OnInit {
       case 'REMEDIATION': case 'REMEDIATION_COMPLETED': return 'bg-amber-500/20 text-amber-400';
       case 'INCIDENT': case 'INCIDENT_RESOLVED': return 'bg-red-500/20 text-red-400';
       case 'PROVIDER': return 'bg-violet-500/20 text-violet-400';
-      default: return 'bg-slate-700/50 text-slate-400';
+      default: return 'bg-slate-200/50 text-slate-400';
     }
   }
 
@@ -340,7 +340,7 @@ export class ComplianceTimelineComponent implements OnInit {
     if (['GREEN', 'VERIFIED', 'COMPLETED', 'CLOSED'].includes(s)) return 'bg-blue-100 text-blue-600';
     if (['YELLOW', 'PENDING', 'IN_PROGRESS', 'DRAFT'].includes(s)) return 'bg-amber-500/20 text-amber-400';
     if (['RED', 'CRITICAL', 'OVERDUE'].includes(s)) return 'bg-red-500/20 text-red-400';
-    return 'bg-slate-700/50 text-slate-400';
+    return 'bg-slate-200/50 text-slate-400';
   }
 
   getTypeLabel(type: string): string {

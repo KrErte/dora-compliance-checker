@@ -119,8 +119,8 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
                 DORA Art. 17-19
               </span>
             </div>
-            <h1 class="text-3xl font-bold text-white mb-2">{{ lang.t('war_room.title') }}</h1>
-            <p class="text-slate-400 max-w-2xl">{{ lang.t('war_room.subtitle') }}</p>
+            <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ lang.t('war_room.title') }}</h1>
+            <p class="text-slate-500 max-w-2xl">{{ lang.t('war_room.subtitle') }}</p>
           </div>
         </div>
 
@@ -150,9 +150,9 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
                    (click)="!scenario.locked && startScenario(scenario.id)">
                 <!-- Locked overlay -->
                 @if (scenario.locked) {
-                  <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm z-10 flex flex-col items-center justify-center gap-3 rounded-xl">
+                  <div class="absolute inset-0 bg-white/70 backdrop-blur-sm z-10 flex flex-col items-center justify-center gap-3 rounded-xl">
                     <span class="material-symbols-outlined text-3xl text-slate-500">lock</span>
-                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                    <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                       {{ scenario.tier === 'ENTERPRISE' ? 'Enterprise' : 'Standard' }}
                     </span>
                     <a routerLink="/pricing" class="text-xs text-red-400 hover:text-red-300 underline underline-offset-2">
@@ -190,7 +190,7 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
 
                 <div class="flex flex-wrap gap-1">
                   @for (art of scenario.doraArticles; track art) {
-                    <span class="px-1.5 py-0.5 rounded text-[9px] font-medium bg-slate-700/50 text-slate-400">{{ art }}</span>
+                    <span class="px-1.5 py-0.5 rounded text-[9px] font-medium bg-slate-200/50 text-slate-500">{{ art }}</span>
                   }
                 </div>
               </div>
@@ -221,7 +221,7 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
             </div>
           </div>
           <!-- Phase progress bar -->
-          <div class="h-2 bg-slate-700/50 rounded-full overflow-hidden">
+          <div class="h-2 bg-slate-200/50 rounded-full overflow-hidden">
             <div class="h-full bg-gradient-to-r from-red-600 to-orange-500 rounded-full transition-all duration-500"
                  [style.width.%]="phaseProgress()"></div>
           </div>
@@ -231,7 +231,7 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
               <div class="flex-1 h-1.5 rounded-full transition-all"
                    [class]="i < (currentPhase()?.phaseIndex ?? 0) ? 'bg-red-500'
                           : i === (currentPhase()?.phaseIndex ?? 0) ? 'bg-gradient-to-r from-red-500 to-orange-500'
-                          : 'bg-slate-700/50'">
+                          : 'bg-slate-200/50'">
               </div>
             }
           </div>
@@ -289,7 +289,7 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
                           ? 'bg-red-500/10 border-red-500/40 ring-1 ring-red-500/30'
                           : 'bg-white border-slate-200 hover:border-red-500/20 hover:bg-red-500/5'">
                   <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 transition-all"
-                       [class]="selectedOption() === opt.index ? 'border-red-500 bg-red-500' : 'border-slate-600'">
+                       [class]="selectedOption() === opt.index ? 'border-red-500 bg-red-500' : 'border-slate-300'">
                     @if (selectedOption() === opt.index) {
                       <div class="w-2 h-2 rounded-full bg-white"></div>
                     }
@@ -305,8 +305,8 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
             <button (click)="submitDecision()"
                     [disabled]="selectedOption() === null || submitting()"
                     class="w-full py-3.5 rounded-xl font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2"
-                    [class]="submitting() ? 'bg-slate-700 text-slate-400 cursor-wait'
-                           : selectedOption() === null ? 'bg-slate-700 text-slate-500 cursor-not-allowed'
+                    [class]="submitting() ? 'bg-slate-200 text-slate-500 cursor-wait'
+                           : selectedOption() === null ? 'bg-slate-200 text-slate-500 cursor-not-allowed'
                            : 'bg-gradient-to-r from-red-600 to-orange-600 text-white hover:from-red-500 hover:to-orange-500 hover:shadow-xl hover:shadow-red-500/25 hover:-translate-y-0.5'">
               @if (submitting()) {
                 <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -359,7 +359,7 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
                 <p class="font-bold text-lg" [class]="getQualityScoreColor(lastFeedback()!.qualityScore)">
                   {{ lang.t('war_room.decision_quality') }}
                 </p>
-                <p class="text-sm text-slate-400">
+                <p class="text-sm text-slate-500">
                   {{ lang.lang() === 'et' ? lastFeedback()!.feedbackEt : lastFeedback()!.feedback }}
                 </p>
               </div>
@@ -407,7 +407,7 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
               <span class="material-symbols-outlined text-4xl text-red-400">{{ getPhaseIcon(currentPhase()?.id) }}</span>
             </div>
             <p class="text-sm text-slate-500 uppercase tracking-wider mb-2">{{ lang.t('war_room.entering_phase') }}</p>
-            <h2 class="text-2xl font-bold text-white mb-2">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">
               {{ lang.lang() === 'et' ? currentPhase()?.nameEt : currentPhase()?.name }}
             </h2>
             <p class="text-slate-500 text-sm">{{ lang.t('war_room.phase') }} {{ (currentPhase()?.phaseIndex ?? 0) + 1 }} / {{ currentPhase()?.totalPhases ?? 4 }}</p>
@@ -428,14 +428,14 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
                  [class]="getGradeHeroClass(result()!.grade)">
               <span class="text-5xl font-black" [class]="getGradeTextClass(result()!.grade)">{{ result()!.grade }}</span>
             </div>
-            <p class="text-xl font-bold text-white mb-1">{{ lang.t('war_room.overall_score') }}: {{ result()!.overall }}%</p>
-            <p class="text-sm text-slate-400">{{ getGradeLabel(result()!.grade) }}</p>
+            <p class="text-xl font-bold text-slate-900 mb-1">{{ lang.t('war_room.overall_score') }}: {{ result()!.overall }}%</p>
+            <p class="text-sm text-slate-500">{{ getGradeLabel(result()!.grade) }}</p>
           </div>
         </div>
 
         <!-- Score Breakdown -->
         <div class="glass-card p-6 mb-6">
-          <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+          <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
             <span class="material-symbols-outlined text-base text-red-400">analytics</span>
             {{ lang.t('war_room.score_breakdown') }}
           </h3>
@@ -449,7 +449,7 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
                   </div>
                   <span class="text-sm font-bold" [class]="cat.color">{{ cat.value }}%</span>
                 </div>
-                <div class="h-2.5 bg-slate-700/50 rounded-full overflow-hidden">
+                <div class="h-2.5 bg-slate-200/50 rounded-full overflow-hidden">
                   <div class="h-full rounded-full transition-all duration-1000"
                        [class]="cat.barClass"
                        [style.width.%]="cat.value"></div>
@@ -463,25 +463,25 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
         <div class="grid grid-cols-2 gap-3 mb-6">
           <div class="glass-card p-4 text-center">
             <span class="material-symbols-outlined text-2xl text-orange-400 mb-1">hub</span>
-            <p class="text-2xl font-bold text-white">{{ result()!.totalCascadeSpread }}</p>
+            <p class="text-2xl font-bold text-slate-900">{{ result()!.totalCascadeSpread }}</p>
             <p class="text-xs text-slate-500">{{ lang.t('war_room.total_affected') }}</p>
           </div>
           <div class="glass-card p-4 text-center">
             <span class="material-symbols-outlined text-2xl text-red-400 mb-1">timer</span>
-            <p class="text-2xl font-bold text-white">{{ formatMinutes(result()!.simTimeMinutes) }}</p>
+            <p class="text-2xl font-bold text-slate-900">{{ formatMinutes(result()!.simTimeMinutes) }}</p>
             <p class="text-xs text-slate-500">{{ lang.t('war_room.total_time') }}</p>
           </div>
         </div>
 
         <!-- Decision Timeline -->
         <div class="glass-card p-6 mb-6">
-          <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+          <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
             <span class="material-symbols-outlined text-base text-red-400">timeline</span>
             {{ lang.t('war_room.decision_timeline') }}
           </h3>
           <div class="space-y-3">
             @for (d of result()!.decisions; track $index; let i = $index) {
-              <div class="flex items-start gap-3 p-3 rounded-lg bg-slate-800/30 border border-slate-200">
+              <div class="flex items-start gap-3 p-3 rounded-lg bg-slate-100/30 border border-slate-200">
                 <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold shrink-0"
                      [class]="d.qualityScore >= 80 ? 'bg-blue-100 text-blue-600'
                             : d.qualityScore >= 50 ? 'bg-amber-500/20 text-amber-400'
@@ -520,8 +520,8 @@ type Screen = 'scenarios' | 'simulation' | 'feedback' | 'phase-transition' | 're
   styles: [`
     :host { display: block; padding: 1.5rem 1rem; }
     .glass-card {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(51, 65, 85, 0.4);
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(226, 232, 240, 0.8);
       border-radius: 0.75rem;
       backdrop-filter: blur(12px);
     }

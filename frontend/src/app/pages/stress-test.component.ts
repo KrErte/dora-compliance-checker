@@ -65,7 +65,7 @@ import { SubscriptionService } from '../services/subscription.service';
                  (click)="!isLocked(ex) && selectScenario(ex.id)">
               <!-- Premium Lock Overlay -->
               @if (isLocked(ex)) {
-                <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm z-10 flex flex-col items-center justify-center">
+                <div class="absolute inset-0 bg-white/70 backdrop-blur-sm z-10 flex flex-col items-center justify-center">
                   <svg class="w-8 h-8 text-amber-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                   </svg>
@@ -123,7 +123,7 @@ import { SubscriptionService } from '../services/subscription.service';
         <!-- Loading State -->
         @if (loading()) {
           <div class="text-center py-12">
-            <div class="w-8 h-8 border-2 border-slate-600 border-t-blue-400 rounded-full animate-spin mx-auto mb-3"></div>
+            <div class="w-8 h-8 border-2 border-slate-300 border-t-blue-400 rounded-full animate-spin mx-auto mb-3"></div>
             <p class="text-slate-400 text-sm">{{ lang.l('Laadin harjutusi...', 'Loading exercises...') }}</p>
           </div>
         }
@@ -141,9 +141,9 @@ import { SubscriptionService } from '../services/subscription.service';
     <!-- PHASE: COUNTDOWN                                             -->
     <!-- ============================================================ -->
     @if (phase() === 'countdown') {
-      <div class="fixed inset-0 z-50 bg-slate-950 flex items-center justify-center">
+      <div class="fixed inset-0 z-50 bg-white flex items-center justify-center">
         <div class="text-center">
-          <div class="countdown-number text-9xl font-black text-white" [class.countdown-go]="countdownValue() === 0">
+          <div class="countdown-number text-9xl font-black text-slate-900" [class.countdown-go]="countdownValue() === 0">
             @if (countdownValue() > 0) {
               {{ countdownValue() }}
             } @else {
@@ -161,7 +161,7 @@ import { SubscriptionService } from '../services/subscription.service';
     <!-- PHASE: ACTIVE (FULL-SCREEN IMMERSIVE)                        -->
     <!-- ============================================================ -->
     @if (phase() === 'active') {
-      <div class="fixed inset-0 z-40 bg-slate-950 overflow-hidden flex flex-col"
+      <div class="fixed inset-0 z-40 bg-white overflow-hidden flex flex-col"
            [class.stress-pulse]="stressLevel() > 60"
            [class.stress-critical]="stressLevel() > 80">
 
@@ -191,7 +191,7 @@ import { SubscriptionService } from '../services/subscription.service';
           <!-- Right: Score + Events Counter -->
           <div class="flex items-center gap-6">
             <div class="text-center">
-              <div class="text-2xl font-bold text-white">
+              <div class="text-2xl font-bold text-slate-900">
                 {{ currentScore() }}
                 @if (scoreFlash()) {
                   <span class="text-sm ml-1 animate-bounce-once"
@@ -215,7 +215,7 @@ import { SubscriptionService } from '../services/subscription.service';
         </div>
 
         <!-- Stress Level Bar -->
-        <div class="h-1 bg-slate-900 shrink-0">
+        <div class="h-1 bg-white shrink-0">
           <div class="h-full transition-all duration-500"
                [style.width.%]="stressLevel()"
                [class]="stressLevel() > 80 ? 'bg-red-500' : stressLevel() > 50 ? 'bg-amber-500' : 'bg-green-500'">
@@ -225,7 +225,7 @@ import { SubscriptionService } from '../services/subscription.service';
         <!-- Main Content Area -->
         <div class="flex-1 flex overflow-hidden">
           <!-- Left Column: Event Queue -->
-          <div class="w-80 border-r border-slate-800/50 bg-slate-900/30 overflow-y-auto p-4 space-y-3 shrink-0">
+          <div class="w-80 border-r border-slate-800/50 bg-slate-100/30 overflow-y-auto p-4 space-y-3 shrink-0">
             <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 flex items-center justify-between">
               <span>{{ lang.l('Sündmuste järjekord', 'Event Queue') }}</span>
               <span class="text-slate-600">{{ activeEvents().length }}/{{ session()?.totalEvents || '?' }}</span>
@@ -233,7 +233,7 @@ import { SubscriptionService } from '../services/subscription.service';
 
             @if (activeEvents().length === 0) {
               <div class="text-center py-8">
-                <div class="w-8 h-8 border-2 border-slate-700 border-t-blue-400 rounded-full animate-spin mx-auto mb-3"></div>
+                <div class="w-8 h-8 border-2 border-slate-200 border-t-blue-400 rounded-full animate-spin mx-auto mb-3"></div>
                 <p class="text-slate-600 text-xs">{{ lang.l('Ootan sündmusi...', 'Waiting for events...') }}</p>
               </div>
             }
@@ -241,7 +241,7 @@ import { SubscriptionService } from '../services/subscription.service';
             @for (event of activeEvents(); track event.id) {
               <div class="event-card rounded-lg border p-3 cursor-pointer transition-all duration-200"
                    [class]="selectedEvent()?.id === event.id
-                     ? 'bg-slate-800 border-blue-500/50 shadow-lg shadow-blue-500/5'
+                     ? 'bg-white border-blue-500/50 shadow-lg shadow-blue-500/5'
                      : 'bg-white border-slate-200 hover:border-slate-200'"
                    (click)="selectEvent(event)">
                 <!-- Type Icon + Urgency -->
@@ -288,7 +288,7 @@ import { SubscriptionService } from '../services/subscription.service';
                 </div>
 
                 <!-- Event Title -->
-                <h2 class="text-2xl font-bold text-white mb-3">
+                <h2 class="text-2xl font-bold text-slate-900 mb-3">
                   {{ lang.l(selectedEvent()!.titleEt || selectedEvent()!.title, selectedEvent()!.title) }}
                 </h2>
 
@@ -304,7 +304,7 @@ import { SubscriptionService } from '../services/subscription.service';
                       class="w-full text-left px-6 py-4 rounded-xl border transition-all duration-200 group"
                       [class]="respondingTo() === $index
                         ? (lastResponseCorrect() ? 'bg-green-500/20 border-green-500/50' : 'bg-red-500/20 border-red-500/50')
-                        : 'bg-white border-slate-200 hover:bg-slate-800 hover:border-slate-300 hover:shadow-lg'"
+                        : 'bg-white border-slate-200 hover:bg-slate-100 hover:border-slate-300 hover:shadow-lg'"
                       [disabled]="responding()">
                       <div class="flex items-center gap-4">
                         <span class="w-8 h-8 rounded-lg bg-slate-700/50 group-hover:bg-slate-100 flex items-center justify-center text-sm font-bold text-slate-400 shrink-0 transition-colors">
@@ -324,7 +324,7 @@ import { SubscriptionService } from '../services/subscription.service';
                     <span>{{ lang.l('Vastamise aeg', 'Response window') }}</span>
                     <span>{{ getEventRemainingSeconds(selectedEvent()!) }}s</span>
                   </div>
-                  <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+                  <div class="w-full h-2 rounded-full bg-white overflow-hidden">
                     <div class="h-full rounded-full transition-all duration-1000"
                          [style.width.%]="getEventTimePercent(selectedEvent()!)"
                          [class]="getEventTimePercent(selectedEvent()!) > 50 ? 'bg-blue-500' : getEventTimePercent(selectedEvent()!) > 25 ? 'bg-amber-500' : 'bg-red-500 animate-pulse'">
@@ -363,7 +363,7 @@ import { SubscriptionService } from '../services/subscription.service';
               {{ results()?.grade || '?' }}
             </div>
           </div>
-          <h2 class="text-2xl font-bold text-white mb-2">
+          <h2 class="text-2xl font-bold text-slate-900 mb-2">
             {{ lang.l('Harjutus lõpetatud!', 'Exercise Complete!') }}
           </h2>
           <p class="text-slate-400">
@@ -374,11 +374,11 @@ import { SubscriptionService } from '../services/subscription.service';
         <!-- Score Overview -->
         <div class="grid grid-cols-3 gap-4 mb-10">
           <div class="rounded-xl bg-white border border-slate-200 p-6 text-center">
-            <div class="text-3xl font-bold text-white mb-1">{{ results()?.totalScore || 0 }}</div>
+            <div class="text-3xl font-bold text-slate-900 mb-1">{{ results()?.totalScore || 0 }}</div>
             <div class="text-sm text-slate-400">/ {{ results()?.maxScore || 0 }} {{ lang.l('punkti', 'points') }}</div>
           </div>
           <div class="rounded-xl bg-white border border-slate-200 p-6 text-center">
-            <div class="text-3xl font-bold text-white mb-1">{{ results()?.percentage || 0 }}%</div>
+            <div class="text-3xl font-bold text-slate-900 mb-1">{{ results()?.percentage || 0 }}%</div>
             <div class="text-sm text-slate-400">{{ lang.l('Täpsus', 'Accuracy') }}</div>
           </div>
           <div class="rounded-xl bg-white border border-slate-200 p-6 text-center">
@@ -390,7 +390,7 @@ import { SubscriptionService } from '../services/subscription.service';
         <!-- Category Gauges -->
         @if (results()?.categories?.length) {
           <div class="rounded-xl bg-white border border-slate-200 p-6 mb-8">
-            <h3 class="text-lg font-semibold text-white mb-5">
+            <h3 class="text-lg font-semibold text-slate-900 mb-5">
               {{ lang.l('Kategooriate tulemused', 'Category Breakdown') }}
             </h3>
             <div class="space-y-4">
@@ -415,12 +415,12 @@ import { SubscriptionService } from '../services/subscription.service';
         <!-- Event-by-Event Replay -->
         @if (results()?.eventResults?.length) {
           <div class="rounded-xl bg-white border border-slate-200 p-6 mb-8">
-            <h3 class="text-lg font-semibold text-white mb-5">
+            <h3 class="text-lg font-semibold text-slate-900 mb-5">
               {{ lang.l('Sündmuste taasesitus', 'Event-by-Event Replay') }}
             </h3>
             <div class="space-y-3">
               @for (er of results()!.eventResults; track $index) {
-                <div class="flex items-center gap-4 p-3 rounded-lg bg-slate-900/40 border border-slate-200">
+                <div class="flex items-center gap-4 p-3 rounded-lg bg-slate-100/40 border border-slate-200">
                   <!-- Index -->
                   <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shrink-0"
                        [class]="er.pointsEarned > 0 ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'">
@@ -456,13 +456,13 @@ import { SubscriptionService } from '../services/subscription.service';
         <!-- Leaderboard -->
         @if (leaderboard().length > 0) {
           <div class="rounded-xl bg-white border border-slate-200 p-6 mb-8">
-            <h3 class="text-lg font-semibold text-white mb-5">
+            <h3 class="text-lg font-semibold text-slate-900 mb-5">
               {{ lang.l('Edetabel', 'Leaderboard') }}
             </h3>
             <div class="space-y-2">
               @for (entry of leaderboard(); track entry.rank) {
                 <div class="flex items-center gap-4 p-3 rounded-lg"
-                     [class]="entry.rank === results()?.leaderboardPosition ? 'bg-blue-500/10 border border-blue-500/30' : 'bg-slate-900/30'">
+                     [class]="entry.rank === results()?.leaderboardPosition ? 'bg-blue-500/10 border border-blue-500/30' : 'bg-slate-100/30'">
                   <span class="w-8 text-center font-bold text-lg"
                         [class]="entry.rank === 1 ? 'text-amber-400' : entry.rank === 2 ? 'text-slate-600' : entry.rank === 3 ? 'text-orange-400' : 'text-slate-500'">
                     {{ entry.rank }}
@@ -646,7 +646,7 @@ export class StressTestComponent implements OnInit, OnDestroy {
   // ─── Computed ───────────────────────────────────────
   timerColorClass = computed(() => {
     const t = this.timeRemaining();
-    if (t > 120) return 'text-white';
+    if (t > 120) return 'text-slate-900';
     if (t > 60) return 'text-amber-400';
     return 'text-red-400';
   });

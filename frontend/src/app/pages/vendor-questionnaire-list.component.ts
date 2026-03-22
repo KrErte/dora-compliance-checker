@@ -10,12 +10,12 @@ import { LangService } from '../lang.service';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   template: `
-    <div class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 pt-24 pb-16 px-4">
+    <div class="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 pt-24 pb-16 px-4">
       <div class="max-w-5xl mx-auto">
         <div class="flex items-center justify-between mb-8">
           <div>
             <a routerLink="/command-center" class="text-sm text-slate-500 hover:text-blue-600 transition-colors">&larr; {{ lang.t('vq.back') }}</a>
-            <h1 class="text-2xl font-bold text-white mt-1">{{ lang.t('vq.title') }}</h1>
+            <h1 class="text-2xl font-bold text-slate-900 mt-1">{{ lang.t('vq.title') }}</h1>
             <p class="text-sm text-slate-400 mt-1">{{ lang.t('vq.subtitle') }}</p>
           </div>
         </div>
@@ -38,17 +38,17 @@ import { LangService } from '../lang.service';
 
         <!-- Send new questionnaire -->
         <div class="glass-card p-6 mb-8">
-          <h2 class="text-lg font-semibold text-white mb-4">{{ lang.t('vq.send_new') }}</h2>
+          <h2 class="text-lg font-semibold text-slate-900 mb-4">{{ lang.t('vq.send_new') }}</h2>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label class="block text-sm text-slate-400 mb-1">{{ lang.t('vq.vendor_name') }}</label>
               <input type="text" [(ngModel)]="newVendorName" [placeholder]="lang.t('vq.vendor_placeholder')"
-                     class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                     class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
             </div>
             <div>
               <label class="block text-sm text-slate-400 mb-1">{{ lang.t('vq.vendor_email') }}</label>
               <input type="email" [(ngModel)]="newVendorEmail" placeholder="vendor@example.com"
-                     class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                     class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
             </div>
             <div class="flex items-end">
               <button (click)="sendQuestionnaire()" [disabled]="!newVendorName || !newVendorEmail || sending"
@@ -74,7 +74,7 @@ import { LangService } from '../lang.service';
                       {{ q.status === 'SUBMITTED' ? '&#9993;' : (q.status === 'REVIEWED' ? '&#10003;' : '&#9200;') }}
                     </div>
                     <div>
-                      <h3 class="font-medium text-white">{{ q.vendorName }}</h3>
+                      <h3 class="font-medium text-slate-900">{{ q.vendorName }}</h3>
                       <p class="text-xs text-slate-500">{{ q.vendorEmail }} &middot; {{ lang.t('vq.sent') }} {{ q.createdAt | date:'mediumDate' }}</p>
                     </div>
                   </div>
@@ -92,7 +92,7 @@ import { LangService } from '../lang.service';
                       {{ q.status === 'PENDING' ? lang.t('vq.pending') : (q.status === 'SUBMITTED' ? lang.t('vq.submitted') : lang.t('vq.reviewed')) }}
                     </span>
                     @if (q.status === 'PENDING') {
-                      <button (click)="resend(q)" class="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-xs">
+                      <button (click)="resend(q)" class="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-slate-900 rounded-lg text-xs">
                         {{ lang.t('vq.resend') }}
                       </button>
                     }
@@ -105,7 +105,7 @@ import { LangService } from '../lang.service';
                       </button>
                     }
                     @if (q.status === 'REVIEWED') {
-                      <button (click)="viewResponses(q)" class="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-xs">
+                      <button (click)="viewResponses(q)" class="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-slate-900 rounded-lg text-xs">
                         {{ lang.t('vq.view') }}
                       </button>
                     }
@@ -118,7 +118,7 @@ import { LangService } from '../lang.service';
                     <h4 class="text-sm font-semibold text-slate-600 mb-3">{{ lang.t('vq.responses') }}</h4>
                     <div class="space-y-2 max-h-96 overflow-y-auto">
                       @for (r of parseResponses(q.responses); track r.id) {
-                        <div class="flex items-start justify-between gap-4 p-3 rounded-lg bg-slate-800/30">
+                        <div class="flex items-start justify-between gap-4 p-3 rounded-lg bg-slate-100/30">
                           <div class="flex-1">
                             <span class="text-[10px] text-slate-500 font-mono">{{ r.id }}</span>
                             <p class="text-sm text-slate-600">{{ r.text || r.id }}</p>
@@ -138,7 +138,7 @@ import { LangService } from '../lang.service';
         } @else {
           <div class="glass-card p-8 text-center">
             <div class="text-4xl mb-3 opacity-30">&#128203;</div>
-            <h3 class="text-lg font-semibold text-white mb-2">{{ lang.t('vq.empty_title') }}</h3>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ lang.t('vq.empty_title') }}</h3>
             <p class="text-sm text-slate-400">{{ lang.t('vq.empty_desc') }}</p>
           </div>
         }
@@ -147,7 +147,7 @@ import { LangService } from '../lang.service';
   `,
   styles: [`
     .glass-card {
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(255, 255, 255, 0.8);
       border: 1px solid rgba(148, 163, 184, 0.1);
       border-radius: 12px;
       backdrop-filter: blur(12px);

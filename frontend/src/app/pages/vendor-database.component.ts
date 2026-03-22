@@ -46,7 +46,7 @@ interface VendorStats {
           </svg>
           {{ lang.t('vendor.crowdsourced_data') }}
         </div>
-        <h1 class="text-3xl font-bold text-white mb-2">
+        <h1 class="text-3xl font-bold text-slate-900 mb-2">
           {{ lang.t('vendor.ict_vendor_risk_database') }}
         </h1>
         <p class="text-slate-400 max-w-2xl mx-auto">
@@ -57,7 +57,7 @@ interface VendorStats {
       <!-- Stats cards -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4 text-center">
-          <p class="text-3xl font-bold text-white">{{ stats?.totalVendors || 0 }}</p>
+          <p class="text-3xl font-bold text-slate-900">{{ stats?.totalVendors || 0 }}</p>
           <p class="text-xs text-slate-500">{{ lang.t('vendor.vendors') }}</p>
         </div>
         <div class="bg-white backdrop-blur border border-slate-200 rounded-xl p-4 text-center">
@@ -83,19 +83,19 @@ interface VendorStats {
           <div class="flex-1 min-w-[200px]">
             <input type="text" [(ngModel)]="searchQuery" (ngModelChange)="filterVendors()"
                    [placeholder]="lang.t('vendor.search_vendor')"
-                   class="w-full px-4 py-2 rounded-lg bg-white border border-slate-200 text-white placeholder-slate-500
+                   class="w-full px-4 py-2 rounded-lg bg-white border border-slate-200 text-slate-900 placeholder-slate-500
                           focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/25 transition-all">
           </div>
           <!-- Category filter -->
           <select [(ngModel)]="selectedCategory" (ngModelChange)="filterVendors()"
-                  class="px-4 py-2 rounded-lg bg-white border border-slate-200 text-white
+                  class="px-4 py-2 rounded-lg bg-white border border-slate-200 text-slate-900
                          focus:outline-none focus:border-violet-500/50 transition-all">
             <option value="ALL">{{ lang.t('vendor.all_categories') }}</option>
             <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
           </select>
           <!-- Risk level filter -->
           <select [(ngModel)]="selectedRisk" (ngModelChange)="filterVendors()"
-                  class="px-4 py-2 rounded-lg bg-white border border-slate-200 text-white
+                  class="px-4 py-2 rounded-lg bg-white border border-slate-200 text-slate-900
                          focus:outline-none focus:border-violet-500/50 transition-all">
             <option value="ALL">{{ lang.t('vendor.all_risk_levels') }}</option>
             <option value="LOW">{{ lang.t('vendor.low_risk') }}</option>
@@ -104,7 +104,7 @@ interface VendorStats {
           </select>
           <!-- Sort -->
           <select [(ngModel)]="sortBy" (ngModelChange)="filterVendors()"
-                  class="px-4 py-2 rounded-lg bg-white border border-slate-200 text-white
+                  class="px-4 py-2 rounded-lg bg-white border border-slate-200 text-slate-900
                          focus:outline-none focus:border-violet-500/50 transition-all">
             <option value="score">{{ lang.t('vendor.by_score') }}</option>
             <option value="assessments">{{ lang.t('vendor.by_assessments') }}</option>
@@ -116,7 +116,7 @@ interface VendorStats {
       <!-- Vendor list -->
       <div class="space-y-3">
         <div *ngIf="loading" class="text-center py-12">
-          <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-700 border-t-violet-400 animate-spin"></div>
+          <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-200 border-t-violet-400 animate-spin"></div>
           <p class="text-slate-400">{{ lang.t('vendor.loading') }}</p>
         </div>
 
@@ -133,7 +133,7 @@ interface VendorStats {
             <!-- Vendor info -->
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-2">
-                <h3 class="text-lg font-semibold text-white">{{ vendor.vendorName }}</h3>
+                <h3 class="text-lg font-semibold text-slate-900">{{ vendor.vendorName }}</h3>
                 <span [class]="getRiskBadgeClass(vendor.riskLevel)">
                   {{ vendor.riskLevel === 'HIGH' ? lang.t('vendor.high')
                    : vendor.riskLevel === 'MEDIUM' ? lang.t('vendor.medium')
@@ -172,31 +172,31 @@ interface VendorStats {
           <!-- Expanded detail -->
           <div *ngIf="expandedVendor === vendor.id" class="mt-4 pt-4 border-t border-slate-200 animate-fade-in">
             <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
-              <div class="text-center p-3 bg-slate-900/30 rounded-lg">
+              <div class="text-center p-3 bg-slate-100/30 rounded-lg">
                 <p class="text-xs text-slate-500 mb-1">{{ lang.t('vendor.audit') }}</p>
                 <p class="text-lg font-semibold" [style.color]="getScoreColor(vendor.auditClauseScore)">
                   {{ vendor.auditClauseScore | number:'1.0-0' }}%
                 </p>
               </div>
-              <div class="text-center p-3 bg-slate-900/30 rounded-lg">
+              <div class="text-center p-3 bg-slate-100/30 rounded-lg">
                 <p class="text-xs text-slate-500 mb-1">{{ lang.t('vendor.exit') }}</p>
                 <p class="text-lg font-semibold" [style.color]="getScoreColor(vendor.exitStrategyScore)">
                   {{ vendor.exitStrategyScore | number:'1.0-0' }}%
                 </p>
               </div>
-              <div class="text-center p-3 bg-slate-900/30 rounded-lg">
+              <div class="text-center p-3 bg-slate-100/30 rounded-lg">
                 <p class="text-xs text-slate-500 mb-1">{{ lang.t('vendor.incidents') }}</p>
                 <p class="text-lg font-semibold" [style.color]="getScoreColor(vendor.incidentScore)">
                   {{ vendor.incidentScore | number:'1.0-0' }}%
                 </p>
               </div>
-              <div class="text-center p-3 bg-slate-900/30 rounded-lg">
+              <div class="text-center p-3 bg-slate-100/30 rounded-lg">
                 <p class="text-xs text-slate-500 mb-1">{{ lang.t('vendor.data') }}</p>
                 <p class="text-lg font-semibold" [style.color]="getScoreColor(vendor.dataProtectionScore)">
                   {{ vendor.dataProtectionScore | number:'1.0-0' }}%
                 </p>
               </div>
-              <div class="text-center p-3 bg-slate-900/30 rounded-lg">
+              <div class="text-center p-3 bg-slate-100/30 rounded-lg">
                 <p class="text-xs text-slate-500 mb-1">{{ lang.t('vendor.subcontr') }}</p>
                 <p class="text-lg font-semibold" [style.color]="getScoreColor(vendor.subcontractingScore)">
                   {{ vendor.subcontractingScore | number:'1.0-0' }}%
@@ -221,7 +221,7 @@ interface VendorStats {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
           </svg>
         </div>
-        <h3 class="text-xl font-semibold text-white mb-2">
+        <h3 class="text-xl font-semibold text-slate-900 mb-2">
           {{ lang.t('vendor.contribute_to_the_database') }}
         </h3>
         <p class="text-slate-400 mb-6 max-w-lg mx-auto">
@@ -229,7 +229,7 @@ interface VendorStats {
         </p>
         <a routerLink="/contract-analysis"
            class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-violet-500 to-purple-500
-                  text-white font-semibold hover:from-violet-400 hover:to-purple-400 hover:shadow-lg hover:shadow-violet-500/25 transition-all">
+                  text-slate-900 font-semibold hover:from-violet-400 hover:to-purple-400 hover:shadow-lg hover:shadow-violet-500/25 transition-all">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
           </svg>

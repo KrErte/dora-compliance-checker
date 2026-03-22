@@ -10,7 +10,7 @@ import { LangService } from '../lang.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 pt-16 pb-16 px-4">
+    <div class="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 pt-16 pb-16 px-4">
       <div class="max-w-3xl mx-auto">
 
         <!-- Loading -->
@@ -25,7 +25,7 @@ import { LangService } from '../lang.service';
         @if (!loading && error) {
           <div class="glass-card p-8 text-center">
             <div class="text-4xl mb-4 opacity-50">&#128683;</div>
-            <h2 class="text-xl font-bold text-white mb-2">{{ lang.t('vqp.not_found') }}</h2>
+            <h2 class="text-xl font-bold text-slate-900 mb-2">{{ lang.t('vqp.not_found') }}</h2>
             <p class="text-slate-400">{{ lang.t('vqp.not_found_desc') }}</p>
           </div>
         }
@@ -70,7 +70,7 @@ import { LangService } from '../lang.service';
             <div class="flex items-center gap-3 mb-4">
               <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center text-white font-bold text-lg">D</div>
               <div>
-                <h1 class="text-xl font-bold text-white">{{ lang.t('vqp.title') }}</h1>
+                <h1 class="text-xl font-bold text-slate-900">{{ lang.t('vqp.title') }}</h1>
                 <p class="text-sm text-slate-400">{{ lang.t('vqp.powered_by') }}</p>
               </div>
             </div>
@@ -84,7 +84,7 @@ import { LangService } from '../lang.service';
               <span>{{ lang.t('vqp.progress') }}</span>
               <span>{{ getAnsweredCount() }}/{{ questions.length }}</span>
             </div>
-            <div class="w-full bg-slate-800 rounded-full h-2">
+            <div class="w-full bg-white rounded-full h-2">
               <div class="h-2 rounded-full bg-blue-600 transition-all" [style.width.%]="(getAnsweredCount() / questions.length) * 100"></div>
             </div>
           </div>
@@ -92,10 +92,10 @@ import { LangService } from '../lang.service';
           <!-- Questions by category -->
           @for (category of getCategories(); track category) {
             <div class="glass-card p-6 mb-4">
-              <h2 class="text-lg font-semibold text-white mb-4">{{ category }}</h2>
+              <h2 class="text-lg font-semibold text-slate-900 mb-4">{{ category }}</h2>
               <div class="space-y-4">
                 @for (q of getQuestionsByCategory(category); track q.id) {
-                  <div class="p-4 rounded-lg bg-slate-800/30">
+                  <div class="p-4 rounded-lg bg-slate-100/30">
                     <p class="text-sm text-slate-600 mb-3">
                       <span class="text-[10px] font-mono text-slate-500 mr-2">{{ q.id }}</span>
                       {{ q.text }}
@@ -109,7 +109,7 @@ import { LangService } from '../lang.service';
                                 class="px-4 py-2 rounded-lg text-sm font-medium transition-all"
                                 [class]="answers[q.id] === opt
                                   ? (opt === 'yes' ? 'bg-blue-600 text-white' : (opt === 'partial' ? 'bg-amber-500 text-white' : (opt === 'no' ? 'bg-red-500 text-white' : 'bg-slate-500 text-white')))
-                                  : 'bg-slate-700/50 text-slate-400 hover:bg-slate-700'">
+                                  : 'bg-slate-700/50 text-slate-400 hover:bg-slate-50'">
                           {{ opt === 'yes' ? lang.t('vq.yes') : (opt === 'partial' ? lang.t('vq.partial') : (opt === 'no' ? lang.t('vq.no') : lang.t('vq.na'))) }}
                         </button>
                       }
@@ -137,7 +137,7 @@ import { LangService } from '../lang.service';
   `,
   styles: [`
     .glass-card {
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(255, 255, 255, 0.8);
       border: 1px solid rgba(148, 163, 184, 0.1);
       border-radius: 12px;
       backdrop-filter: blur(12px);
@@ -182,7 +182,7 @@ export class VendorQuestionnairePublicComponent implements OnInit {
   }
 
   getIntroHtml(): string {
-    return this.lang.t('vqp.intro').replace('{name}', '<strong class="text-white">' + this.vendorName + '</strong>');
+    return this.lang.t('vqp.intro').replace('{name}', '<strong class="text-slate-900">' + this.vendorName + '</strong>');
   }
 
   getCategories(): string[] {

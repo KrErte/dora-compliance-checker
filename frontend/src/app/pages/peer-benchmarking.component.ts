@@ -40,7 +40,7 @@ interface HistoryEntry {
       <!-- No assessment state -->
       @if (!latestEntry()) {
         <div class="glass-card p-12 text-center">
-          <div class="w-20 h-20 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-6 border border-slate-200">
+          <div class="w-20 h-20 rounded-2xl bg-white flex items-center justify-center mx-auto mb-6 border border-slate-200">
             <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
             </svg>
@@ -68,7 +68,7 @@ interface HistoryEntry {
             {{ lang.t('bench.better_than') }} <span class="text-blue-600 font-semibold">{{ benchmarkData()?.percentileRank || 50 | number:'1.0-0' }}%</span> {{ lang.t('bench.of_organizations') }}
           </p>
           <div class="mt-4 flex items-center justify-center gap-6 text-sm text-slate-500">
-            <span>{{ lang.t('bench.your_score') }}: <strong class="text-white">{{ latestEntry()!.scorePercentage | number:'1.0-0' }}%</strong></span>
+            <span>{{ lang.t('bench.your_score') }}: <strong class="text-slate-900">{{ latestEntry()!.scorePercentage | number:'1.0-0' }}%</strong></span>
             <span>{{ lang.t('bench.industry_avg') }}: <strong class="text-slate-600">{{ benchmarkData()?.industryAverage || 61 | number:'1.0-0' }}%</strong></span>
             <span>{{ lang.t('bench.median') }}: <strong class="text-slate-600">{{ benchmarkData()?.median || 58 | number:'1.0-0' }}%</strong></span>
           </div>
@@ -106,7 +106,7 @@ interface HistoryEntry {
               }
               <!-- Legend -->
               <circle cx="70" cy="305" r="5" fill="rgb(52 211 153)" fill-opacity="0.3" stroke="rgb(52 211 153)" stroke-width="1.5"/>
-              <text x="80" y="305" dominant-baseline="middle" class="fill-slate-300" style="font-size: 10px;">{{ lang.t('bench.your_score') }}</text>
+              <text x="80" y="305" dominant-baseline="middle" class="fill-slate-600" style="font-size: 10px;">{{ lang.t('bench.your_score') }}</text>
               <circle cx="170" cy="305" r="5" fill="rgb(148 163 184)" fill-opacity="0.2" stroke="rgb(148 163 184)" stroke-width="1.5" stroke-dasharray="3 1"/>
               <text x="180" y="305" dominant-baseline="middle" class="fill-slate-400" style="font-size: 10px;">{{ lang.t('bench.industry_avg') }}</text>
             </svg>
@@ -187,7 +187,7 @@ interface HistoryEntry {
                 <circle cx="60" cy="60" r="50" fill="none" stroke="rgb(239 68 68)" stroke-opacity="0.4" stroke-width="12" [attr.stroke-dasharray]="redArc + ' ' + (314.16 - redArc)" [attr.stroke-dashoffset]="redOffset"/>
                 <circle cx="60" cy="60" r="50" fill="none" stroke="rgb(251 191 36)" stroke-opacity="0.6" stroke-width="12" [attr.stroke-dasharray]="yellowArc + ' ' + (314.16 - yellowArc)" [attr.stroke-dashoffset]="yellowOffset"/>
                 <circle cx="60" cy="60" r="50" fill="none" stroke="rgb(52 211 153)" stroke-width="12" [attr.stroke-dasharray]="greenArc + ' ' + (314.16 - greenArc)" [attr.stroke-dashoffset]="greenOffset"/>
-                <text x="60" y="57" text-anchor="middle" class="fill-white" style="font-size: 16px; font-weight: 700;">{{ distTotal }}</text>
+                <text x="60" y="57" text-anchor="middle" class="fill-slate-900" style="font-size: 16px; font-weight: 700;">{{ distTotal }}</text>
                 <text x="60" y="72" text-anchor="middle" class="fill-slate-500" style="font-size: 8px;">{{ lang.t('bench.total_assessments') }}</text>
               </svg>
               <div class="space-y-3">

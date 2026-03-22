@@ -162,7 +162,7 @@ interface PillarCoverage {
                       {{ lang.l('Ühendatud', 'Connected') }}
                     </span>
                   } @else {
-                    <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-700/50 text-slate-500 border border-slate-600/30">
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 text-slate-500 border border-slate-300/30">
                       {{ lang.l('Ühendamata', 'Disconnected') }}
                     </span>
                   }
@@ -206,7 +206,7 @@ interface PillarCoverage {
                   } @else {
                     <button (click)="connect(def, $event)"
                             [disabled]="connecting()"
-                            class="flex-1 px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5 bg-slate-700/50 text-slate-600 border border-slate-600/30 hover:bg-slate-700 hover:text-white disabled:opacity-50">
+                            class="flex-1 px-3 py-2 rounded-lg text-xs font-semibold transition-all flex items-center justify-center gap-1.5 bg-slate-100 text-slate-600 border border-slate-300/30 hover:bg-slate-50 hover:text-slate-900 disabled:opacity-50">
                       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
                       {{ lang.l('Ühenda', 'Connect') }}
                     </button>
@@ -244,7 +244,7 @@ interface PillarCoverage {
                 </thead>
                 <tbody>
                   @for (rule of getMappingRules(selectedConnector()!.type); track rule.evidenceType) {
-                    <tr class="border-b border-slate-200 hover:bg-slate-700/20 transition-colors">
+                    <tr class="border-b border-slate-200 hover:bg-slate-50/20 transition-colors">
                       <td class="py-3 px-4 text-slate-600 text-xs">{{ lang.l(rule.labelEt, rule.labelEn) }}</td>
                       @for (pillar of pillarNames; track pillar.key) {
                         <td class="text-center py-3 px-2">
@@ -252,7 +252,7 @@ interface PillarCoverage {
                             <input type="checkbox"
                                    [checked]="rule.pillars.includes(pillar.key)"
                                    (change)="toggleMapping(selectedConnector()!.type, rule.evidenceType, pillar.key)"
-                                   class="w-4 h-4 rounded border-slate-600 bg-slate-700/50 text-blue-600 focus:ring-blue-500/30 focus:ring-offset-0 cursor-pointer">
+                                   class="w-4 h-4 rounded border-slate-300 bg-slate-100 text-blue-600 focus:ring-blue-500/30 focus:ring-offset-0 cursor-pointer">
                           </label>
                         </td>
                       }
@@ -321,7 +321,7 @@ interface PillarCoverage {
 
             @if (harvestFeed().length === 0) {
               <div class="text-center py-8">
-                <div class="w-12 h-12 rounded-xl bg-slate-700/50 flex items-center justify-center mx-auto mb-3">
+                <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center mx-auto mb-3">
                   <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
                 </div>
                 <p class="text-slate-500 text-sm">{{ lang.l('Kogumisi pole veel. Ühendage konnektor ja alustage.', 'No harvests yet. Connect a source and start harvesting.') }}</p>
@@ -329,7 +329,7 @@ interface PillarCoverage {
             } @else {
               <div class="space-y-2 max-h-80 overflow-y-auto pr-1 custom-scrollbar">
                 @for (event of harvestFeed(); track event.id) {
-                  <div class="flex items-start gap-3 p-3 rounded-lg bg-slate-700/20 border border-slate-200 hover:bg-slate-100 transition-colors">
+                  <div class="flex items-start gap-3 p-3 rounded-lg bg-slate-100 border border-slate-200 hover:bg-slate-100 transition-colors">
                     <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" [class]="getConnectorBg(event.connectorType)">
                       <span [innerHTML]="getConnectorIcon(event.connectorType)" class="w-4 h-4 flex items-center justify-center" [class]="getConnectorText(event.connectorType)"></span>
                     </div>
@@ -829,7 +829,7 @@ export class EvidenceHarvesterComponent implements OnInit {
 
   getConnectorBg(type: string): string {
     const def = this.connectorDefs.find(d => d.type === type);
-    return def?.bgClass || 'bg-slate-700/50';
+    return def?.bgClass || 'bg-slate-100';
   }
 
   getConnectorText(type: string): string {

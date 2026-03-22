@@ -64,7 +64,7 @@ interface RiskItem {
           </svg>
           DORA Art. 8
         </div>
-        <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">{{ lang.t('ict_map.title') }}</h1>
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">{{ lang.t('ict_map.title') }}</h1>
         <p class="text-slate-400 max-w-2xl mx-auto">
           {{ lang.t('ict_map.subtitle') }}
         </p>
@@ -85,7 +85,7 @@ interface RiskItem {
       <!-- Stats Cards -->
       <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
         <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-4 text-center">
-          <div class="text-2xl font-bold text-white">{{ functions().length }}</div>
+          <div class="text-2xl font-bold text-slate-900">{{ functions().length }}</div>
           <div class="text-xs text-slate-400 mt-1">{{ lang.t('ict_map.business_functions') }}</div>
         </div>
         <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-4 text-center">
@@ -118,7 +118,7 @@ interface RiskItem {
         </button>
         <button (click)="showAddLink = true"
                 class="px-4 py-2 border rounded-xl text-sm font-medium transition-all"
-                [class]="canAddLink() ? 'bg-blue-100 border-blue-200 text-blue-600 hover:bg-blue-600/30' : 'bg-slate-800/30 border-slate-200 text-slate-600 cursor-not-allowed'"
+                [class]="canAddLink() ? 'bg-blue-100 border-blue-200 text-blue-600 hover:bg-blue-600/30' : 'bg-slate-100/30 border-slate-200 text-slate-600 cursor-not-allowed'"
                 [disabled]="!canAddLink()">
           {{ lang.t('ict_map.add_link') }}
         </button>
@@ -131,17 +131,17 @@ interface RiskItem {
       <!-- Add Function Modal -->
       @if (showAddFunction) {
       <div class="bg-white backdrop-blur border border-blue-500/30 rounded-2xl p-6 space-y-4">
-        <h3 class="text-lg font-semibold text-white">{{ lang.t('ict_map.add_function') }}</h3>
+        <h3 class="text-lg font-semibold text-slate-900">{{ lang.t('ict_map.add_function') }}</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-xs text-slate-400 mb-1 block">{{ lang.t('ict_map.function_name') }}</label>
             <input [(ngModel)]="newFunction.name" placeholder="e.g. Payment Processing"
-                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:border-blue-500/50 focus:outline-none">
+                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:border-blue-500/50 focus:outline-none">
           </div>
           <div>
             <label class="text-xs text-slate-400 mb-1 block">{{ lang.t('ict_map.criticality') }}</label>
             <select [(ngModel)]="newFunction.criticality"
-                    class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:border-blue-500/50 focus:outline-none">
+                    class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:border-blue-500/50 focus:outline-none">
               <option value="CRITICAL">{{ lang.t('ict_map.critical') }}</option>
               <option value="IMPORTANT">{{ lang.t('ict_map.important') }}</option>
               <option value="NORMAL">{{ lang.t('ict_map.normal') }}</option>
@@ -151,10 +151,10 @@ interface RiskItem {
         <div>
           <label class="text-xs text-slate-400 mb-1 block">{{ lang.t('ict_map.description') }}</label>
           <input [(ngModel)]="newFunction.description" placeholder="Brief description..."
-                 class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:border-blue-500/50 focus:outline-none">
+                 class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:border-blue-500/50 focus:outline-none">
         </div>
         <div class="flex gap-3 justify-end">
-          <button (click)="showAddFunction = false" class="px-4 py-2 text-slate-400 text-sm hover:text-white">{{ lang.t('ict_map.cancel') }}</button>
+          <button (click)="showAddFunction = false" class="px-4 py-2 text-slate-400 text-sm hover:text-slate-900">{{ lang.t('ict_map.cancel') }}</button>
           <button (click)="addFunction()" class="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-600">{{ lang.t('ict_map.add') }}</button>
         </div>
       </div>
@@ -163,17 +163,17 @@ interface RiskItem {
       <!-- Add Asset Modal -->
       @if (showAddAsset) {
       <div class="bg-white backdrop-blur border border-violet-500/30 rounded-2xl p-6 space-y-4">
-        <h3 class="text-lg font-semibold text-white">{{ lang.t('ict_map.add_asset') }}</h3>
+        <h3 class="text-lg font-semibold text-slate-900">{{ lang.t('ict_map.add_asset') }}</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-xs text-slate-400 mb-1 block">{{ lang.t('ict_map.asset_name') }}</label>
             <input [(ngModel)]="newAsset.name" placeholder="e.g. Core Banking System"
-                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:border-violet-500/50 focus:outline-none">
+                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:border-violet-500/50 focus:outline-none">
           </div>
           <div>
             <label class="text-xs text-slate-400 mb-1 block">{{ lang.t('ict_map.asset_type') }}</label>
             <select [(ngModel)]="newAsset.assetType"
-                    class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:border-violet-500/50 focus:outline-none">
+                    class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:border-violet-500/50 focus:outline-none">
               <option value="APPLICATION">Application</option>
               <option value="DATABASE">Database</option>
               <option value="NETWORK">Network Infrastructure</option>
@@ -187,21 +187,21 @@ interface RiskItem {
           <div>
             <label class="text-xs text-slate-400 mb-1 block">RTO (hours)</label>
             <input type="number" [(ngModel)]="newAsset.rtoHours" placeholder="24"
-                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:border-violet-500/50 focus:outline-none">
+                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:border-violet-500/50 focus:outline-none">
           </div>
           <div>
             <label class="text-xs text-slate-400 mb-1 block">RPO (hours)</label>
             <input type="number" [(ngModel)]="newAsset.rpoHours" placeholder="4"
-                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:border-violet-500/50 focus:outline-none">
+                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:border-violet-500/50 focus:outline-none">
           </div>
         </div>
         <div>
           <label class="text-xs text-slate-400 mb-1 block">{{ lang.t('ict_map.description') }}</label>
           <input [(ngModel)]="newAsset.description" placeholder="Brief description..."
-                 class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:border-violet-500/50 focus:outline-none">
+                 class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:border-violet-500/50 focus:outline-none">
         </div>
         <div class="flex gap-3 justify-end">
-          <button (click)="showAddAsset = false" class="px-4 py-2 text-slate-400 text-sm hover:text-white">{{ lang.t('ict_map.cancel') }}</button>
+          <button (click)="showAddAsset = false" class="px-4 py-2 text-slate-400 text-sm hover:text-slate-900">{{ lang.t('ict_map.cancel') }}</button>
           <button (click)="addAsset()" class="px-4 py-2 bg-violet-500 text-white text-sm rounded-lg hover:bg-violet-600">{{ lang.t('ict_map.add') }}</button>
         </div>
       </div>
@@ -210,12 +210,12 @@ interface RiskItem {
       <!-- Add Link Modal -->
       @if (showAddLink) {
       <div class="bg-white backdrop-blur border border-blue-200 rounded-2xl p-6 space-y-4">
-        <h3 class="text-lg font-semibold text-white">{{ lang.t('ict_map.add_link') }}</h3>
+        <h3 class="text-lg font-semibold text-slate-900">{{ lang.t('ict_map.add_link') }}</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="text-xs text-slate-400 mb-1 block">{{ lang.t('ict_map.source') }}</label>
             <select [(ngModel)]="newLink.sourceId"
-                    class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:border-blue-500/50 focus:outline-none">
+                    class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:border-blue-500/50 focus:outline-none">
               <option value="">-- Select Source --</option>
               @for (f of functions(); track f.id) {
                 <option [value]="f.id">Function: {{ f.name }}</option>
@@ -228,7 +228,7 @@ interface RiskItem {
           <div>
             <label class="text-xs text-slate-400 mb-1 block">{{ lang.t('ict_map.target') }}</label>
             <select [(ngModel)]="newLink.targetId"
-                    class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:border-blue-500/50 focus:outline-none">
+                    class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:border-blue-500/50 focus:outline-none">
               <option value="">-- Select Target --</option>
               @for (a of assets(); track a.id) {
                 <option [value]="a.id">Asset: {{ a.name }}</option>
@@ -243,7 +243,7 @@ interface RiskItem {
           <div>
             <label class="text-xs text-slate-400 mb-1 block">{{ lang.t('ict_map.dep_type') }}</label>
             <select [(ngModel)]="newLink.dependency"
-                    class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:border-blue-500/50 focus:outline-none">
+                    class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:border-blue-500/50 focus:outline-none">
               <option value="REQUIRED">{{ lang.t('ict_map.required') }}</option>
               <option value="OPTIONAL">{{ lang.t('ict_map.optional') }}</option>
               <option value="BACKUP">{{ lang.t('ict_map.backup') }}</option>
@@ -252,11 +252,11 @@ interface RiskItem {
           <div>
             <label class="text-xs text-slate-400 mb-1 block">{{ lang.t('ict_map.label') }}</label>
             <input [(ngModel)]="newLink.label" placeholder="e.g. Primary DB connection"
-                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:border-blue-500/50 focus:outline-none">
+                   class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:border-blue-500/50 focus:outline-none">
           </div>
         </div>
         <div class="flex gap-3 justify-end">
-          <button (click)="showAddLink = false" class="px-4 py-2 text-slate-400 text-sm hover:text-white">{{ lang.t('ict_map.cancel') }}</button>
+          <button (click)="showAddLink = false" class="px-4 py-2 text-slate-400 text-sm hover:text-slate-900">{{ lang.t('ict_map.cancel') }}</button>
           <button (click)="addLink()" class="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700">{{ lang.t('ict_map.add') }}</button>
         </div>
       </div>
@@ -274,7 +274,7 @@ interface RiskItem {
           <div class="bg-white backdrop-blur border border-blue-500/20 rounded-xl p-4 hover:border-blue-500/40 transition-all group">
             <div class="flex items-start justify-between">
               <div>
-                <h4 class="text-sm font-medium text-white">{{ func.name }}</h4>
+                <h4 class="text-sm font-medium text-slate-900">{{ func.name }}</h4>
                 @if (func.description) {
                   <p class="text-xs text-slate-400 mt-1">{{ func.description }}</p>
                 }
@@ -289,7 +289,7 @@ interface RiskItem {
               <span class="px-2 py-0.5 rounded-full text-[10px] font-medium"
                     [class]="func.criticality === 'CRITICAL' ? 'bg-red-500/20 text-red-400 border border-red-500/30'
                            : func.criticality === 'IMPORTANT' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
-                           : 'bg-slate-700/50 text-slate-400 border border-slate-600/30'">
+                           : 'bg-slate-100/50 text-slate-400 border border-slate-300/30'">
                 {{ func.criticality }}
               </span>
               <span class="text-[10px] text-slate-500">{{ getLinksFrom(func.id).length }} {{ lang.t('ict_map.dependencies').toLowerCase() }}</span>
@@ -311,7 +311,7 @@ interface RiskItem {
           <div class="bg-white backdrop-blur border border-violet-500/20 rounded-xl p-4 hover:border-violet-500/40 transition-all group">
             <div class="flex items-start justify-between">
               <div>
-                <h4 class="text-sm font-medium text-white">{{ asset.name }}</h4>
+                <h4 class="text-sm font-medium text-slate-900">{{ asset.name }}</h4>
                 @if (asset.description) {
                   <p class="text-xs text-slate-400 mt-1">{{ asset.description }}</p>
                 }
@@ -344,7 +344,7 @@ interface RiskItem {
           @for (provider of providers(); track provider.id) {
           <div class="bg-white backdrop-blur border border-blue-200 rounded-xl p-4 hover:border-blue-500/40 transition-all">
             <div>
-              <h4 class="text-sm font-medium text-white">{{ provider.name }}</h4>
+              <h4 class="text-sm font-medium text-slate-900">{{ provider.name }}</h4>
               <p class="text-xs text-slate-400 mt-1">{{ provider.serviceType }} {{ provider.country ? '(' + provider.country + ')' : '' }}</p>
             </div>
             <div class="mt-2 flex items-center gap-2">
@@ -352,7 +352,7 @@ interface RiskItem {
               <span class="px-2 py-0.5 rounded-full text-[10px] font-medium"
                     [class]="provider.criticality === 'CRITICAL' ? 'bg-red-500/20 text-red-400 border border-red-500/30'
                            : provider.criticality === 'IMPORTANT' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
-                           : 'bg-slate-700/50 text-slate-400 border border-slate-600/30'">
+                           : 'bg-slate-100/50 text-slate-400 border border-slate-300/30'">
                 {{ provider.criticality }}
               </span>
               }
@@ -373,23 +373,23 @@ interface RiskItem {
       <!-- Dependency Links -->
       @if (links().length > 0) {
       <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
-        <h3 class="text-sm font-semibold text-white mb-4">{{ lang.t('ict_map.dep_links') }} ({{ links().length }})</h3>
+        <h3 class="text-sm font-semibold text-slate-900 mb-4">{{ lang.t('ict_map.dep_links') }} ({{ links().length }})</h3>
         <div class="space-y-2">
           @for (link of links(); track link.id) {
-          <div class="flex items-center gap-3 py-2 px-3 bg-slate-900/30 rounded-lg group">
-            <span class="text-sm text-white flex-shrink-0">{{ getNodeName(link.sourceId) }}</span>
+          <div class="flex items-center gap-3 py-2 px-3 bg-slate-100/30 rounded-lg group">
+            <span class="text-sm text-slate-900 flex-shrink-0">{{ getNodeName(link.sourceId) }}</span>
             <div class="flex-1 flex items-center gap-2">
               <div class="flex-1 h-px" [class]="link.dependency === 'REQUIRED' ? 'bg-red-500/30' : link.dependency === 'BACKUP' ? 'bg-blue-600/30' : 'bg-slate-600'"></div>
               <span class="px-2 py-0.5 rounded text-[10px]"
                     [class]="link.dependency === 'REQUIRED' ? 'bg-red-500/10 text-red-400'
                            : link.dependency === 'BACKUP' ? 'bg-blue-50 text-blue-600'
-                           : 'bg-slate-700/50 text-slate-400'">
+                           : 'bg-slate-100/50 text-slate-400'">
                 {{ link.dependency }}
               </span>
               <div class="flex-1 h-px" [class]="link.dependency === 'REQUIRED' ? 'bg-red-500/30' : link.dependency === 'BACKUP' ? 'bg-blue-600/30' : 'bg-slate-600'"></div>
               <svg class="w-3 h-3 text-slate-500" fill="currentColor" viewBox="0 0 24 24"><path d="M5 12h14m-4-4l4 4-4 4"/></svg>
             </div>
-            <span class="text-sm text-white flex-shrink-0">{{ getNodeName(link.targetId) }}</span>
+            <span class="text-sm text-slate-900 flex-shrink-0">{{ getNodeName(link.targetId) }}</span>
             <button (click)="deleteLink(link.id)" class="text-slate-600 hover:text-red-400 sm:opacity-0 sm:group-hover:opacity-100 transition-all ml-2">
               <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -404,7 +404,7 @@ interface RiskItem {
       <!-- Risk Analysis -->
       @if (riskAnalysis()) {
       <div class="space-y-4">
-        <h3 class="text-lg font-semibold text-white">{{ lang.t('ict_map.risk_analysis') }}</h3>
+        <h3 class="text-lg font-semibold text-slate-900">{{ lang.t('ict_map.risk_analysis') }}</h3>
 
         @if (riskAnalysis()!.singlePointsOfFailure.length > 0) {
         <div class="bg-red-500/5 border border-red-500/20 rounded-2xl p-5">
@@ -418,7 +418,7 @@ interface RiskItem {
           <div class="flex items-start gap-3 py-2 border-t border-red-500/10 first:border-0">
             <span class="px-2 py-0.5 rounded text-[10px] bg-red-500/20 text-red-400">{{ risk.severity }}</span>
             <div>
-              <div class="text-sm text-white">{{ risk.function }}</div>
+              <div class="text-sm text-slate-900">{{ risk.function }}</div>
               <div class="text-xs text-slate-400 mt-0.5">{{ risk.risk }}</div>
             </div>
           </div>
@@ -438,7 +438,7 @@ interface RiskItem {
           <div class="flex items-start gap-3 py-2 border-t border-amber-500/10 first:border-0">
             <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-400">{{ risk.severity }}</span>
             <div>
-              <div class="text-sm text-white">{{ risk.provider }}</div>
+              <div class="text-sm text-slate-900">{{ risk.provider }}</div>
               <div class="text-xs text-slate-400 mt-0.5">{{ risk.risk }}</div>
             </div>
           </div>
@@ -447,15 +447,15 @@ interface RiskItem {
         }
 
         @if (riskAnalysis()!.unmappedFunctions.length > 0) {
-        <div class="bg-slate-700/30 border border-slate-600/30 rounded-2xl p-5">
+        <div class="bg-slate-100/30 border border-slate-200 rounded-2xl p-5">
           <h4 class="text-sm font-semibold text-slate-600 mb-3">
             {{ lang.t('ict_map.unmapped') }} ({{ riskAnalysis()!.unmappedFunctions.length }})
           </h4>
           @for (risk of riskAnalysis()!.unmappedFunctions; track $index) {
           <div class="flex items-start gap-3 py-2 border-t border-slate-200 first:border-0">
-            <span class="px-2 py-0.5 rounded text-[10px] bg-slate-600/50 text-slate-600">{{ risk.severity }}</span>
+            <span class="px-2 py-0.5 rounded text-[10px] bg-slate-200/50 text-slate-600">{{ risk.severity }}</span>
             <div>
-              <div class="text-sm text-white">{{ risk.function }}</div>
+              <div class="text-sm text-slate-900">{{ risk.function }}</div>
               <div class="text-xs text-slate-400 mt-0.5">{{ risk.risk }}</div>
             </div>
           </div>
@@ -481,7 +481,7 @@ interface RiskItem {
           </svg>
           <span class="text-sm text-red-400">{{ error() }}</span>
         </div>
-        <button (click)="error.set(null)" class="text-slate-500 hover:text-white">
+        <button (click)="error.set(null)" class="text-slate-500 hover:text-slate-900">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>

@@ -30,7 +30,7 @@ interface PillarScore {
           </svg>
           {{ lang.t('boardrep.board_report') }}
         </div>
-        <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
           {{ lang.t('boardrep.dora_board_report_generator') }}
         </h1>
         <p class="text-slate-400 max-w-2xl mx-auto">
@@ -41,7 +41,7 @@ interface PillarScore {
       <!-- Auto-fill Banner -->
       <div class="bg-gradient-to-r from-blue-500/10 via-blue-600/10 to-blue-500/10 border border-blue-500/20 rounded-2xl p-5 flex flex-col sm:flex-row items-center gap-4">
         <div class="flex-1 text-center sm:text-left">
-          <h3 class="text-white font-semibold mb-1">{{ lang.t('boardrep.autofill_title') }}</h3>
+          <h3 class="text-slate-900 font-semibold mb-1">{{ lang.t('boardrep.autofill_title') }}</h3>
           <p class="text-sm text-slate-400">{{ lang.t('boardrep.autofill_desc') }}</p>
         </div>
         <button (click)="autoFillFromPlatform()"
@@ -89,7 +89,7 @@ interface PillarScore {
         <!-- LEFT: Input Section -->
         <div class="space-y-6">
           <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
-            <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <h2 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
               <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
               </svg>
@@ -102,7 +102,7 @@ interface PillarScore {
                 <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('boardrep.company_name') }}</label>
                 <input type="text" [(ngModel)]="companyName"
                        [placeholder]="lang.t('boardrep.enter_company_name')"
-                       class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-white placeholder-slate-500
+                       class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-slate-900 placeholder-slate-500
                               focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all">
               </div>
 
@@ -110,7 +110,7 @@ interface PillarScore {
               <div>
                 <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('boardrep.report_period') }}</label>
                 <select [(ngModel)]="reportPeriod"
-                        class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-white
+                        class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-slate-900
                                focus:outline-none focus:border-blue-500/50 transition-all">
                   <option value="Q1 2026">Q1 2026</option>
                   <option value="Q2 2026">Q2 2026</option>
@@ -137,7 +137,7 @@ interface PillarScore {
 
           <!-- Pillar Scores -->
           <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
-            <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <h2 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
               <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
               </svg>
@@ -161,7 +161,7 @@ interface PillarScore {
 
           <!-- Key Risks & Actions -->
           <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
-            <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <h2 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
               <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
               </svg>
@@ -176,7 +176,7 @@ interface PillarScore {
                 </label>
                 <textarea [(ngModel)]="keyRisks" rows="3"
                           [placeholder]="lang.t('boardrep.eg_thirdparty_concentration_risk_legacy')"
-                          class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-white placeholder-slate-500
+                          class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-slate-900 placeholder-slate-500
                                  focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all resize-none"></textarea>
               </div>
 
@@ -187,7 +187,7 @@ interface PillarScore {
                 </label>
                 <textarea [(ngModel)]="completedActions" rows="3"
                           [placeholder]="lang.t('boardrep.one_action_per_line')"
-                          class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-white placeholder-slate-500
+                          class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-slate-900 placeholder-slate-500
                                  focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all resize-none"></textarea>
               </div>
 
@@ -198,7 +198,7 @@ interface PillarScore {
                 </label>
                 <textarea [(ngModel)]="plannedActions" rows="3"
                           [placeholder]="lang.t('boardrep.one_action_per_line_51')"
-                          class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-white placeholder-slate-500
+                          class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-slate-900 placeholder-slate-500
                                  focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all resize-none"></textarea>
               </div>
             </div>
@@ -206,7 +206,7 @@ interface PillarScore {
 
           <!-- Key Metrics -->
           <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
-            <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <h2 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
               <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/>
               </svg>
@@ -217,13 +217,13 @@ interface PillarScore {
               <div>
                 <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('boardrep.open_incidents') }}</label>
                 <input type="number" [(ngModel)]="openIncidents" min="0"
-                       class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-white
+                       class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-slate-900
                               focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all">
               </div>
               <div>
                 <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('boardrep.thirdparty_providers') }}</label>
                 <input type="number" [(ngModel)]="thirdPartyCount" min="0"
-                       class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-white
+                       class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-slate-900
                               focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all">
               </div>
               <div>
@@ -239,7 +239,7 @@ interface PillarScore {
 
           <!-- Sign-off -->
           <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
-            <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <h2 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
               <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
               </svg>
@@ -250,19 +250,19 @@ interface PillarScore {
               <div>
                 <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('boardrep.prepared_by') }}</label>
                 <input type="text" [(ngModel)]="preparedBy"
-                       class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-white placeholder-slate-500
+                       class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-slate-900 placeholder-slate-500
                               focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all">
               </div>
               <div>
                 <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('boardrep.approved_by') }}</label>
                 <input type="text" [(ngModel)]="approvedBy"
-                       class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-white placeholder-slate-500
+                       class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-slate-900 placeholder-slate-500
                               focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all">
               </div>
               <div>
                 <label class="block text-sm text-slate-400 mb-1.5">{{ lang.t('boardrep.date') }}</label>
                 <input type="date" [(ngModel)]="reportDate"
-                       class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-white
+                       class="w-full px-4 py-2.5 rounded-lg bg-white border border-slate-200 text-slate-900
                               focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all">
               </div>
             </div>
@@ -286,7 +286,7 @@ interface PillarScore {
                     <path d="m6 9 6 6 6-6"/>
                   </svg>
                 </button>
-                <div *ngIf="exportMenuOpen" class="absolute left-0 top-full mt-1 w-56 bg-slate-800 border border-slate-200 rounded-xl shadow-xl py-2 z-50">
+                <div *ngIf="exportMenuOpen" class="absolute left-0 top-full mt-1 w-56 bg-white border border-slate-200 rounded-xl shadow-xl py-2 z-50">
                   <button (click)="exportAsPdf(); exportMenuOpen = false" [disabled]="pdfExporting()"
                           class="w-full text-left flex items-center gap-2.5 px-4 py-2 text-sm text-slate-600 hover:text-red-400 hover:bg-slate-100 transition-colors">
                     <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
@@ -316,7 +316,7 @@ interface PillarScore {
                 }
               </button>
               <button (click)="printReport()" [title]="lang.t('boardrep.print')"
-                      class="w-9 h-9 rounded-lg flex items-center justify-center bg-slate-700/50 border border-slate-200 text-slate-400 hover:text-slate-600 hover:bg-slate-700 transition-all">
+                      class="w-9 h-9 rounded-lg flex items-center justify-center bg-slate-700/50 border border-slate-200 text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
               </button>
             </div>
@@ -331,7 +331,7 @@ interface PillarScore {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                   </svg>
                 </div>
-                <h2 class="text-xl font-bold text-white print:text-black">
+                <h2 class="text-xl font-bold text-slate-900 print:text-black">
                   {{ companyName || lang.t('boardrep.company_name_47') }}
                 </h2>
                 <h3 class="text-lg font-semibold text-blue-600 print:text-blue-800 mt-1">
@@ -516,7 +516,7 @@ interface PillarScore {
                       </svg>
                     </div>
                     <div>
-                      <div class="text-sm font-medium text-white print:text-black">{{ deadline.date }}</div>
+                      <div class="text-sm font-medium text-slate-900 print:text-black">{{ deadline.date }}</div>
                       <div class="text-xs text-slate-400 print:text-gray-500">
                         {{ lang.l(deadline.descEt, deadline.descEn) }}
                       </div>
@@ -555,19 +555,19 @@ interface PillarScore {
                 <div class="grid grid-cols-2 gap-6">
                   <div>
                     <div class="text-xs text-slate-500 mb-1">{{ lang.t('boardrep.prepared_by_41') }}</div>
-                    <div class="text-sm text-white print:text-black font-medium border-b border-slate-200 pb-2 print:border-gray-300">
+                    <div class="text-sm text-slate-900 print:text-black font-medium border-b border-slate-200 pb-2 print:border-gray-300">
                       {{ preparedBy || '________________________' }}
                     </div>
                   </div>
                   <div>
                     <div class="text-xs text-slate-500 mb-1">{{ lang.t('boardrep.approved_by_42') }}</div>
-                    <div class="text-sm text-white print:text-black font-medium border-b border-slate-200 pb-2 print:border-gray-300">
+                    <div class="text-sm text-slate-900 print:text-black font-medium border-b border-slate-200 pb-2 print:border-gray-300">
                       {{ approvedBy || '________________________' }}
                     </div>
                   </div>
                   <div>
                     <div class="text-xs text-slate-500 mb-1">{{ lang.t('boardrep.date_43') }}</div>
-                    <div class="text-sm text-white print:text-black font-medium border-b border-slate-200 pb-2 print:border-gray-300">
+                    <div class="text-sm text-slate-900 print:text-black font-medium border-b border-slate-200 pb-2 print:border-gray-300">
                       {{ reportDate || '________________________' }}
                     </div>
                   </div>

@@ -9,14 +9,14 @@ import { LangService } from '../lang.service';
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <div class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-4">
+    <div class="min-h-screen bg-gradient-to-br from-white via-slate-50 to-slate-100 flex items-center justify-center px-4">
       <div class="max-w-md w-full">
         <div class="bg-white backdrop-blur-xl rounded-2xl border border-slate-200 p-8 text-center">
 
           <!-- Loading -->
           <div *ngIf="state === 'loading'">
-            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-700 animate-pulse"></div>
-            <p class="text-slate-400">{{ lang.t('verify.verifying_email') }}</p>
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-slate-200 animate-pulse"></div>
+            <p class="text-slate-500">{{ lang.t('verify.verifying_email') }}</p>
           </div>
 
           <!-- Success -->
@@ -26,10 +26,10 @@ import { LangService } from '../lang.service';
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
               </svg>
             </div>
-            <h2 class="text-xl font-bold text-white mb-2">
+            <h2 class="text-xl font-bold text-slate-900 mb-2">
               {{ lang.t('verify.email_verified') }}
             </h2>
-            <p class="text-slate-400 mb-6">
+            <p class="text-slate-500 mb-6">
               {{ lang.t('verify.your_email_address_has_been_successfully') }}
             </p>
             <a routerLink="/dashboard" class="inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all">
@@ -44,10 +44,10 @@ import { LangService } from '../lang.service';
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
               </svg>
             </div>
-            <h2 class="text-xl font-bold text-white mb-2">
+            <h2 class="text-xl font-bold text-slate-900 mb-2">
               {{ lang.t('verify.verification_failed') }}
             </h2>
-            <p class="text-slate-400 mb-6">
+            <p class="text-slate-500 mb-6">
               {{ lang.t('verify.invalid_or_expired_verification_link_ple') }}
             </p>
             <a routerLink="/login" class="inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:shadow-lg transition-all">

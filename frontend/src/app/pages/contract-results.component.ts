@@ -16,7 +16,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
   template: `
     <!-- Loading -->
     <div *ngIf="loading" class="text-center py-20">
-      <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-700 border-t-blue-500 animate-spin"></div>
+      <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-200 border-t-blue-500 animate-spin"></div>
       <p class="text-slate-400">{{ lang.t('contract.loading_results') }}</p>
     </div>
 
@@ -58,7 +58,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
                 {{ levelLabel }}
               </span>
             </div>
-            <h1 class="text-2xl font-bold text-white mb-1">{{ result.contractName }}</h1>
+            <h1 class="text-2xl font-bold text-slate-900 mb-1">{{ result.contractName }}</h1>
             <p class="text-slate-400 text-sm mb-3">{{ result.companyName }} &middot; {{ result.fileName }}</p>
             <p class="text-slate-600 text-sm leading-relaxed">{{ result.summary }}</p>
           </div>
@@ -117,7 +117,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
       <!-- Findings Table -->
       <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl overflow-hidden">
         <div class="p-4 border-b border-slate-200">
-          <h2 class="text-lg font-semibold text-white">{{ lang.t('contract.evidence_mapping') }}</h2>
+          <h2 class="text-lg font-semibold text-slate-900">{{ lang.t('contract.evidence_mapping') }}</h2>
           <p class="text-xs text-slate-500 mt-1">{{ lang.t('contract.evidence_desc') }}</p>
         </div>
 
@@ -141,7 +141,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
           <table class="w-full">
             <caption class="sr-only">{{ lang.t('contractres.contract_analysis_results') }}</caption>
             <thead>
-              <tr class="bg-slate-700/30">
+              <tr class="bg-slate-200/30">
                 <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400">#</th>
                 <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400">{{ lang.t('contract.th_article') }}</th>
                 <th class="px-4 py-3 text-left text-xs font-semibold text-slate-400">{{ lang.t('contract.th_requirement') }}</th>
@@ -150,7 +150,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let f of filteredFindings" class="border-t border-slate-200 hover:bg-slate-700/20 transition-colors">
+              <tr *ngFor="let f of filteredFindings" class="border-t border-slate-200 hover:bg-slate-50/20 transition-colors">
                 <td class="px-4 py-3 text-sm text-slate-400">{{ f.requirementId }}</td>
                 <td class="px-4 py-3 text-sm text-slate-600 whitespace-nowrap">{{ f.doraReference }}</td>
                 <td class="px-4 py-3 text-sm text-slate-600 max-w-xs">
@@ -172,7 +172,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
       <!-- Missing/Partial findings with recommendations and clause rewriter -->
       <div *ngIf="missingFindings.length > 0" class="space-y-4">
         <div class="flex items-center justify-between">
-          <h2 class="text-lg font-semibold text-white">{{ lang.t('contract.tab_gaps') }} ({{ missingFindings.length }})</h2>
+          <h2 class="text-lg font-semibold text-slate-900">{{ lang.t('contract.tab_gaps') }} ({{ missingFindings.length }})</h2>
           <span class="text-xs px-2 py-1 rounded-full bg-violet-500/20 text-violet-400 border border-violet-500/30">
             {{ lang.t('contractres.ai_clause_generator') }}
           </span>
@@ -181,8 +181,8 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
              class="bg-white backdrop-blur border border-slate-200 rounded-xl overflow-hidden">
           <div [class]="'px-4 sm:px-5 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 ' + (f.status === 'missing' ? 'bg-red-500/10' : 'bg-yellow-500/10')">
             <div class="flex items-start sm:items-center gap-2 sm:gap-3 min-w-0">
-              <span class="text-white font-bold text-sm shrink-0">{{ i + 1 }}.</span>
-              <span class="text-white text-sm font-medium shrink-0">{{ f.doraReference }}</span>
+              <span class="text-slate-900 font-bold text-sm shrink-0">{{ i + 1 }}.</span>
+              <span class="text-slate-900 text-sm font-medium shrink-0">{{ f.doraReference }}</span>
               <span class="text-slate-600 text-sm line-clamp-2 sm:line-clamp-1">{{ lang.l(f.requirementEt, f.requirementEn) }}</span>
             </div>
             <span [class]="statusBadge(f.status) + ' shrink-0 self-end sm:self-auto'">{{ statusLabel(f.status) }}</span>
@@ -220,7 +220,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
                   {{ lang.t('contractres.suggested_clause') }}
                 </h4>
                 <button type="button" (click)="copyClause(f.requirementId)"
-                        class="text-xs px-2 py-1 rounded bg-slate-700/50 text-slate-600 hover:bg-slate-100 transition-colors flex items-center gap-1">
+                        class="text-xs px-2 py-1 rounded bg-slate-200/50 text-slate-600 hover:bg-slate-100 transition-colors flex items-center gap-1">
                   <svg *ngIf="copiedClause !== f.requirementId" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                   </svg>
@@ -330,7 +330,7 @@ import { PremiumBadgeComponent } from '../components/premium-badge.component';
           </span>
         </button>
         <a routerLink="/contract-analysis"
-           class="px-6 py-2.5 rounded-xl bg-slate-700/50 border border-slate-200 text-slate-600 font-semibold text-sm hover:bg-slate-100 transition-all">
+           class="px-6 py-2.5 rounded-xl bg-slate-200/50 border border-slate-200 text-slate-600 font-semibold text-sm hover:bg-slate-100 transition-all">
           {{ lang.t('contract.new_analysis') }}
         </a>
       </div>
@@ -518,7 +518,7 @@ export class ContractResultsComponent implements OnInit {
     const base = 'px-3 py-1.5 rounded-lg text-xs font-medium transition-all';
     return filter === this.statusFilter
       ? base + ' bg-blue-100 text-blue-600 border border-blue-200'
-      : base + ' bg-slate-700/30 text-slate-400 border border-slate-600/30 hover:text-white';
+      : base + ' bg-slate-200/30 text-slate-400 border border-slate-300/30 hover:text-slate-900';
   }
 
   statusBadge(status: string): string {

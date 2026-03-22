@@ -75,7 +75,7 @@ interface ArticleOption {
               {{ lang.l('Dokumendi pealkiri', 'Document Title') }}
             </label>
             <input type="text" [(ngModel)]="documentTitle"
-                   class="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/30 rounded-xl text-slate-700 placeholder-slate-500 focus:outline-none focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/30"
+                   class="w-full px-4 py-3 bg-slate-100 border border-slate-300/30 rounded-xl text-slate-700 placeholder-slate-500 focus:outline-none focus:border-teal-500/50 focus:ring-1 focus:ring-teal-500/30"
                    [placeholder]="lang.l('nt IKT riskijuhtimise poliitika', 'e.g. ICT Risk Management Policy')">
           </div>
 
@@ -85,7 +85,7 @@ interface ArticleOption {
               {{ lang.l('Dokumendi kategooria', 'Document Category') }}
             </label>
             <select [(ngModel)]="documentCategory"
-                    class="w-full px-4 py-3 bg-slate-700/50 border border-slate-600/30 rounded-xl text-slate-700 focus:outline-none focus:border-teal-500/50">
+                    class="w-full px-4 py-3 bg-slate-100 border border-slate-300/30 rounded-xl text-slate-700 focus:outline-none focus:border-teal-500/50">
               <option value="POLICY">{{ lang.l('Poliitika', 'Policy') }}</option>
               <option value="PROCEDURE">{{ lang.l('Protseduur', 'Procedure') }}</option>
               <option value="TEST_REPORT">{{ lang.l('Testiaruanne', 'Test Report') }}</option>
@@ -113,7 +113,7 @@ interface ArticleOption {
               <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
                 <label *ngFor="let art of getArticlesByChapter('II')"
                        class="flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-colors border"
-                       [ngClass]="art.selected ? 'bg-teal-500/10 border-teal-500/30' : 'bg-slate-700/30 border-slate-600/20'">
+                       [ngClass]="art.selected ? 'bg-teal-500/10 border-teal-500/30' : 'bg-slate-100 border-slate-300/20'">
                   <input type="checkbox" [(ngModel)]="art.selected" class="accent-teal-500">
                   <div>
                     <div class="text-sm text-slate-700">Art. {{ art.articleNumber }}</div>
@@ -131,7 +131,7 @@ interface ArticleOption {
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 <label *ngFor="let art of getArticlesByChapter('III')"
                        class="flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-colors border"
-                       [ngClass]="art.selected ? 'bg-teal-500/10 border-teal-500/30' : 'bg-slate-700/30 border-slate-600/20'">
+                       [ngClass]="art.selected ? 'bg-teal-500/10 border-teal-500/30' : 'bg-slate-100 border-slate-300/20'">
                   <input type="checkbox" [(ngModel)]="art.selected" class="accent-teal-500">
                   <div>
                     <div class="text-sm text-slate-700">Art. {{ art.articleNumber }}</div>
@@ -149,7 +149,7 @@ interface ArticleOption {
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 <label *ngFor="let art of getArticlesByChapter('IV')"
                        class="flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-colors border"
-                       [ngClass]="art.selected ? 'bg-teal-500/10 border-teal-500/30' : 'bg-slate-700/30 border-slate-600/20'">
+                       [ngClass]="art.selected ? 'bg-teal-500/10 border-teal-500/30' : 'bg-slate-100 border-slate-300/20'">
                   <input type="checkbox" [(ngModel)]="art.selected" class="accent-teal-500">
                   <div>
                     <div class="text-sm text-slate-700">Art. {{ art.articleNumber }}</div>
@@ -167,7 +167,7 @@ interface ArticleOption {
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 <label *ngFor="let art of getArticlesByChapter('V')"
                        class="flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-colors border"
-                       [ngClass]="art.selected ? 'bg-teal-500/10 border-teal-500/30' : 'bg-slate-700/30 border-slate-600/20'">
+                       [ngClass]="art.selected ? 'bg-teal-500/10 border-teal-500/30' : 'bg-slate-100 border-slate-300/20'">
                   <input type="checkbox" [(ngModel)]="art.selected" class="accent-teal-500">
                   <div>
                     <div class="text-sm text-slate-700">Art. {{ art.articleNumber }}</div>
@@ -191,7 +191,7 @@ interface ArticleOption {
             <div (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
                  (click)="fileInput.click()"
                  class="border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-200"
-                 [ngClass]="isDragging ? 'border-teal-500/50 bg-teal-500/5' : 'border-slate-600/30 hover:border-teal-500/30'">
+                 [ngClass]="isDragging ? 'border-teal-500/50 bg-teal-500/5' : 'border-slate-300/30 hover:border-teal-500/30'">
               <input #fileInput type="file" (change)="onFileSelected($event)" accept=".pdf,.docx" class="hidden">
               <div *ngIf="!selectedFile">
                 <svg class="w-12 h-12 mx-auto text-slate-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -223,7 +223,7 @@ interface ArticleOption {
                   class="w-full py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-2"
                   [ngClass]="canAnalyze
                     ? 'bg-gradient-to-r from-teal-500 to-blue-500 text-slate-900 hover:from-teal-400 hover:to-blue-400 hover:shadow-lg hover:shadow-teal-500/25'
-                    : 'bg-slate-700/50 text-slate-500 cursor-not-allowed'">
+                    : 'bg-slate-100 text-slate-500 cursor-not-allowed'">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
             </svg>
@@ -295,7 +295,7 @@ interface ArticleOption {
             <h1 class="text-2xl font-bold text-slate-700">{{ result.documentTitle }}</h1>
             <p class="text-sm text-slate-500">{{ result.fileName }} &middot; {{ result.documentCategory }} &middot; {{ result.analysisDate | date:'dd.MM.yyyy HH:mm' }}</p>
           </div>
-          <button (click)="resetToUpload()" class="px-4 py-2 rounded-lg text-sm bg-slate-700/50 text-slate-600 border border-slate-600/30 hover:bg-slate-100 hover:text-teal-400 transition-colors">
+          <button (click)="resetToUpload()" class="px-4 py-2 rounded-lg text-sm bg-slate-100 text-slate-600 border border-slate-300/30 hover:bg-slate-100 hover:text-teal-400 transition-colors">
             {{ lang.l('Uus analüüs', 'New Analysis') }}
           </button>
         </div>
@@ -335,21 +335,21 @@ interface ArticleOption {
           <div class="glass-card p-6 flex flex-col items-center justify-center">
             <div class="text-3xl font-bold text-green-400 mb-1">{{ result.foundCount }}</div>
             <div class="text-sm text-slate-400">{{ lang.l('Leitud', 'Found') }}</div>
-            <div class="w-full bg-slate-700/30 rounded-full h-1.5 mt-3">
+            <div class="w-full bg-slate-100 rounded-full h-1.5 mt-3">
               <div class="bg-green-400 h-1.5 rounded-full transition-all" [style.width.%]="result.totalRequirements > 0 ? result.foundCount / result.totalRequirements * 100 : 0"></div>
             </div>
           </div>
           <div class="glass-card p-6 flex flex-col items-center justify-center">
             <div class="text-3xl font-bold text-yellow-400 mb-1">{{ result.partialCount }}</div>
             <div class="text-sm text-slate-400">{{ lang.l('Osaline', 'Partial') }}</div>
-            <div class="w-full bg-slate-700/30 rounded-full h-1.5 mt-3">
+            <div class="w-full bg-slate-100 rounded-full h-1.5 mt-3">
               <div class="bg-yellow-400 h-1.5 rounded-full transition-all" [style.width.%]="result.totalRequirements > 0 ? result.partialCount / result.totalRequirements * 100 : 0"></div>
             </div>
           </div>
           <div class="glass-card p-6 flex flex-col items-center justify-center">
             <div class="text-3xl font-bold text-red-400 mb-1">{{ result.missingCount }}</div>
             <div class="text-sm text-slate-400">{{ lang.l('Puudu', 'Missing') }}</div>
-            <div class="w-full bg-slate-700/30 rounded-full h-1.5 mt-3">
+            <div class="w-full bg-slate-100 rounded-full h-1.5 mt-3">
               <div class="bg-red-400 h-1.5 rounded-full transition-all" [style.width.%]="result.totalRequirements > 0 ? result.missingCount / result.totalRequirements * 100 : 0"></div>
             </div>
           </div>
@@ -366,7 +366,7 @@ interface ArticleOption {
           <h3 class="text-lg font-semibold text-slate-700">{{ lang.l('Detailsed tulemused', 'Detailed Findings') }}</h3>
 
           <div *ngFor="let group of groupedFindings" class="glass-card overflow-hidden">
-            <div class="px-6 py-4 bg-slate-700/20 border-b border-slate-200 flex items-center justify-between">
+            <div class="px-6 py-4 bg-slate-100 border-b border-slate-200 flex items-center justify-between">
               <div class="flex items-center gap-3">
                 <span class="px-2.5 py-1 rounded-lg bg-teal-500/20 text-teal-400 text-xs font-bold">Art. {{ group.articleNumber }}</span>
                 <span class="text-sm font-medium text-slate-700">{{ lang.l(group.nameEt, group.nameEn) }}</span>
@@ -436,7 +436,7 @@ interface ArticleOption {
             {{ syncing ? lang.l('Sünkroniseerin...', 'Syncing...') : lang.l('Sünkroniseeri Article Trackeriga', 'Sync to Article Tracker') }}
           </button>
           <button (click)="resetToUpload()"
-                  class="px-5 py-2.5 rounded-xl text-sm font-medium bg-slate-700/50 text-slate-600 border border-slate-600/30 hover:bg-slate-100 hover:text-teal-400 transition-colors flex items-center gap-2">
+                  class="px-5 py-2.5 rounded-xl text-sm font-medium bg-slate-100 text-slate-600 border border-slate-300/30 hover:bg-slate-100 hover:text-teal-400 transition-colors flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
             </svg>

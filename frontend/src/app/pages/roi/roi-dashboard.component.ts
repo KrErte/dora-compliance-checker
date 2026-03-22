@@ -9,12 +9,12 @@ import { RoiService, RoiRegister } from '../../services/roi.service';
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <div class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 pt-24 pb-16 px-4">
+    <div class="min-h-screen bg-gradient-to-b from-white via-slate-50 to-white pt-24 pb-16 px-4">
       <div class="max-w-6xl mx-auto">
         <!-- Header -->
         <div class="flex items-center justify-between mb-8">
           <div>
-            <h1 class="text-3xl font-bold text-white">{{ lang.t('roi.page_title') }}</h1>
+            <h1 class="text-3xl font-bold text-slate-900">{{ lang.t('roi.page_title') }}</h1>
             <p class="text-slate-400 mt-1">{{ lang.t('roi.page_subtitle') }}</p>
           </div>
           <a routerLink="/roi/new"
@@ -59,7 +59,7 @@ import { RoiService, RoiRegister } from '../../services/roi.service';
         } @else if (registers.length === 0) {
           <div class="glass-card p-12 text-center">
             <div class="text-6xl mb-4">&#128203;</div>
-            <h2 class="text-xl font-semibold text-white mb-2">{{ lang.t('roi.empty_title') }}</h2>
+            <h2 class="text-xl font-semibold text-slate-900 mb-2">{{ lang.t('roi.empty_title') }}</h2>
             <p class="text-slate-400 mb-6">{{ lang.t('roi.empty_desc') }}</p>
             <a routerLink="/roi/new"
                class="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-all">
@@ -73,7 +73,7 @@ import { RoiService, RoiRegister } from '../../services/roi.service';
                  class="glass-card p-6 block hover:border-blue-500/50 transition-all cursor-pointer">
                 <div class="flex items-center justify-between">
                   <div>
-                    <h3 class="text-lg font-semibold text-white">{{ reg.entityName }}</h3>
+                    <h3 class="text-lg font-semibold text-slate-900">{{ reg.entityName }}</h3>
                     <p class="text-sm text-slate-400 mt-1">
                       LEI: {{ reg.entityLei || '—' }} &middot;
                       {{ reg.country }} &middot;
@@ -105,8 +105,8 @@ import { RoiService, RoiRegister } from '../../services/roi.service';
   `,
   styles: [`
     .glass-card {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(148, 163, 184, 0.1);
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(226, 232, 240, 1);
       border-radius: 12px;
       backdrop-filter: blur(12px);
     }

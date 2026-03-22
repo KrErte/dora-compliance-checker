@@ -12,7 +12,7 @@ import { LangService } from '../lang.service';
       <div class="glass-card p-8 md:p-12 max-w-lg mx-auto text-center border border-slate-200">
         <!-- 404 number -->
         <div class="text-8xl font-extrabold gradient-text mb-4">404</div>
-        <h1 class="text-2xl font-bold text-white mb-2">{{ lang.t('notfound.title') }}</h1>
+        <h1 class="text-2xl font-bold text-slate-900 mb-2">{{ lang.t('notfound.title') }}</h1>
         <p class="text-slate-400 mb-8">{{ lang.t('notfound.desc') }}</p>
 
         <!-- Suggested pages -->

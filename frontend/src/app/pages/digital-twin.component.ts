@@ -51,7 +51,7 @@ interface SimulationResult {
       <!-- Empty State -->
       @if (!loading() && data() && data()!.nodes.length === 0) {
         <div class="glass-card p-12 text-center">
-          <div class="w-20 h-20 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-6 border border-slate-200">
+          <div class="w-20 h-20 rounded-2xl bg-white flex items-center justify-center mx-auto mb-6 border border-slate-200">
             <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2z"/></svg>
           </div>
           <h2 class="text-xl font-bold text-slate-700 mb-2">{{ lang.t('dt.empty_title') }}</h2>
@@ -148,39 +148,39 @@ interface SimulationResult {
             <div class="glass-card p-3 flex flex-wrap items-center gap-2">
               <!-- Simulation Toggle -->
               <button (click)="toggleSimulation()"
-                [class]="simulationMode() ? 'bg-red-500/20 border-red-500/50 text-red-300' : 'bg-slate-700/50 border-slate-200 text-slate-600 hover:bg-slate-100'"
+                [class]="simulationMode() ? 'bg-red-500/20 border-red-500/50 text-red-300' : 'bg-slate-100 border-slate-200 text-slate-600 hover:bg-slate-100'"
                 class="flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 {{ lang.t('dt.simulation_mode') }}
               </button>
 
-              <div class="w-px h-6 bg-slate-700"></div>
+              <div class="w-px h-6 bg-slate-200"></div>
 
               <!-- Overlay Buttons -->
               <button (click)="toggleOverlay('concentration')"
-                [class]="activeOverlay() === 'concentration' ? 'bg-amber-500/20 border-amber-500/50 text-amber-300' : 'bg-slate-700/50 border-slate-200 text-slate-400 hover:text-slate-600'"
+                [class]="activeOverlay() === 'concentration' ? 'bg-amber-500/20 border-amber-500/50 text-amber-300' : 'bg-slate-100 border-slate-200 text-slate-400 hover:text-slate-600'"
                 class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-all">
                 {{ lang.t('dt.overlay_concentration') }}
               </button>
               <button (click)="toggleOverlay('spof')"
-                [class]="activeOverlay() === 'spof' ? 'bg-red-500/20 border-red-500/50 text-red-300' : 'bg-slate-700/50 border-slate-200 text-slate-400 hover:text-slate-600'"
+                [class]="activeOverlay() === 'spof' ? 'bg-red-500/20 border-red-500/50 text-red-300' : 'bg-slate-100 border-slate-200 text-slate-400 hover:text-slate-600'"
                 class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-all">
                 {{ lang.t('dt.overlay_spof') }}
               </button>
               <button (click)="toggleOverlay('compliance')"
-                [class]="activeOverlay() === 'compliance' ? 'bg-violet-500/20 border-violet-500/50 text-violet-300' : 'bg-slate-700/50 border-slate-200 text-slate-400 hover:text-slate-600'"
+                [class]="activeOverlay() === 'compliance' ? 'bg-violet-500/20 border-violet-500/50 text-violet-300' : 'bg-slate-100 border-slate-200 text-slate-400 hover:text-slate-600'"
                 class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-all">
                 {{ lang.t('dt.overlay_compliance') }}
               </button>
 
               <div class="ml-auto flex items-center gap-1.5">
-                <button (click)="zoomIn()" class="p-1.5 rounded-lg bg-slate-700/50 border border-slate-200 text-slate-400 hover:text-slate-700 transition-all">
+                <button (click)="zoomIn()" class="p-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-400 hover:text-slate-700 transition-all">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
                 </button>
-                <button (click)="zoomOut()" class="p-1.5 rounded-lg bg-slate-700/50 border border-slate-200 text-slate-400 hover:text-slate-700 transition-all">
+                <button (click)="zoomOut()" class="p-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-400 hover:text-slate-700 transition-all">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"/></svg>
                 </button>
-                <button (click)="fitGraph()" class="p-1.5 rounded-lg bg-slate-700/50 border border-slate-200 text-slate-400 hover:text-slate-700 transition-all">
+                <button (click)="fitGraph()" class="p-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-400 hover:text-slate-700 transition-all">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
                 </button>
               </div>
@@ -387,8 +387,8 @@ interface SimulationResult {
   styles: [`
     :host { display: block; }
     .glass-card {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(51, 65, 85, 0.5);
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(226, 232, 240, 1);
       border-radius: 1rem;
       backdrop-filter: blur(12px);
     }

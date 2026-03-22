@@ -12,7 +12,7 @@ import { NegotiationResult, NegotiationItemResult, NegotiationMessageResult } fr
   template: `
     <!-- Loading -->
     <div *ngIf="loading" class="text-center py-20">
-      <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-700 border-t-violet-400 animate-spin"></div>
+      <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-200 border-t-violet-400 animate-spin"></div>
     </div>
 
     <div *ngIf="neg" class="max-w-5xl mx-auto space-y-6">
@@ -24,7 +24,7 @@ import { NegotiationResult, NegotiationItemResult, NegotiationMessageResult } fr
 
       <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
         <div class="flex items-center justify-between mb-2">
-          <h1 class="text-2xl font-bold text-white">{{ neg.contractName }}</h1>
+          <h1 class="text-2xl font-bold text-slate-900">{{ neg.contractName }}</h1>
           <span [class]="overallBadge(neg.overallStatus)">{{ overallLabel(neg.overallStatus) }}</span>
         </div>
         <p class="text-slate-500 text-sm mb-4">{{ neg.companyName }}
@@ -33,7 +33,7 @@ import { NegotiationResult, NegotiationItemResult, NegotiationMessageResult } fr
 
         <!-- Progress -->
         <div class="flex items-center gap-4 mb-4">
-          <div class="flex-1 h-2 bg-slate-700 rounded-full overflow-hidden">
+          <div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
             <div class="h-full bg-gradient-to-r from-violet-500 to-purple-500 rounded-full transition-all"
                  [style.width.%]="neg.totalItems > 0 ? (neg.resolvedItems / neg.totalItems) * 100 : 0"></div>
           </div>
@@ -77,13 +77,13 @@ import { NegotiationResult, NegotiationItemResult, NegotiationMessageResult } fr
 
       <!-- Items list -->
       <div>
-        <h2 class="text-lg font-semibold text-white mb-4">{{ lang.t('neg.items') }} ({{ neg.items.length }})</h2>
+        <h2 class="text-lg font-semibold text-slate-900 mb-4">{{ lang.t('neg.items') }} ({{ neg.items.length }})</h2>
 
         <div *ngFor="let item of neg.items; let i = index"
              class="bg-white backdrop-blur border border-slate-200 rounded-xl mb-3 overflow-hidden">
 
           <!-- Item header -->
-          <div class="px-5 py-3 flex items-center justify-between cursor-pointer hover:bg-slate-700/20 transition-colors"
+          <div class="px-5 py-3 flex items-center justify-between cursor-pointer hover:bg-slate-50/20 transition-colors"
                (click)="toggleItem(item.id)">
             <div class="flex items-center gap-3 min-w-0">
               <span class="text-slate-500 text-sm font-mono">{{ item.priority }}.</span>
@@ -110,7 +110,7 @@ import { NegotiationResult, NegotiationItemResult, NegotiationMessageResult } fr
             </div>
 
             <!-- Suggested clause -->
-            <div *ngIf="item.suggestedClause" class="bg-slate-700/30 rounded-lg p-3">
+            <div *ngIf="item.suggestedClause" class="bg-slate-100/30 rounded-lg p-3">
               <p class="text-xs font-semibold text-slate-500 uppercase mb-1">{{ lang.t('neg.suggested_clause') }}</p>
               <p class="text-sm text-slate-400 leading-relaxed">{{ item.suggestedClause }}</p>
             </div>
@@ -119,7 +119,7 @@ import { NegotiationResult, NegotiationItemResult, NegotiationMessageResult } fr
             <div class="flex flex-wrap gap-2">
               <button type="button" *ngFor="let s of statuses" (click)="updateStatus(item, s)"
                       [class]="'px-3 py-1.5 rounded-lg text-xs font-medium transition-all ' +
-                        (item.status === s ? 'bg-violet-500/30 text-violet-300 border border-violet-500/40' : 'bg-slate-700/30 text-slate-500 border border-slate-600/30 hover:text-slate-600')">
+                        (item.status === s ? 'bg-violet-500/30 text-violet-300 border border-violet-500/40' : 'bg-slate-100/30 text-slate-500 border border-slate-300/30 hover:text-slate-600')">
                 {{ itemStatusLabel(s) }}
               </button>
             </div>
@@ -127,7 +127,7 @@ import { NegotiationResult, NegotiationItemResult, NegotiationMessageResult } fr
             <!-- Item messages -->
             <div *ngIf="item.messages && item.messages.length > 0" class="space-y-2 pt-2 border-t border-slate-200">
               <div *ngFor="let msg of item.messages"
-                   [class]="'p-3 rounded-lg text-sm ' + (msg.direction === 'OUTBOUND' ? 'bg-blue-50 border border-blue-500/10' : 'bg-slate-700/30')">
+                   [class]="'p-3 rounded-lg text-sm ' + (msg.direction === 'OUTBOUND' ? 'bg-blue-50 border border-blue-500/10' : 'bg-slate-100/30')">
                 <p class="text-xs text-slate-500 mb-1">{{ msg.subject }} &middot; {{ msg.createdAt | date:'dd.MM HH:mm' }}</p>
                 <p class="text-slate-600 whitespace-pre-line">{{ msg.body }}</p>
               </div>

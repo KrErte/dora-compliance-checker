@@ -24,7 +24,7 @@ interface TimelineEvent {
     <div class="max-w-5xl mx-auto space-y-8">
       <!-- Header -->
       <div class="text-center">
-        <h1 class="text-3xl font-bold text-white mb-2">
+        <h1 class="text-3xl font-bold text-slate-900 mb-2">
           {{ lang.t('timeline.regulatory_timeline') }}
         </h1>
         <p class="text-slate-400">
@@ -37,10 +37,10 @@ interface TimelineEvent {
         <div *ngFor="let countdown of countdowns"
              class="bg-gradient-to-br rounded-2xl p-6 border animate-fade-in"
              [class]="countdown.urgent
-               ? 'from-red-900/30 to-slate-800/50 border-red-500/30'
+               ? 'from-red-900/30 to-slate-100/50 border-red-500/30'
                : countdown.soon
-                 ? 'from-amber-900/20 to-slate-800/50 border-amber-500/30'
-                 : 'from-slate-800/50 to-slate-800/30 border-slate-200'">
+                 ? 'from-amber-900/20 to-slate-100/50 border-amber-500/30'
+                 : 'from-slate-800/50 to-slate-100/30 border-slate-200'">
           <div class="flex items-start justify-between mb-4">
             <span [class]="'text-xs font-bold px-2 py-1 rounded-full ' + getRegulationClass(countdown.regulation)">
               {{ countdown.regulation }}
@@ -50,7 +50,7 @@ interface TimelineEvent {
               {{ lang.t('timeline.critical') }}
             </span>
           </div>
-          <h3 class="text-lg font-semibold text-white mb-2">
+          <h3 class="text-lg font-semibold text-slate-900 mb-2">
             {{ lang.l(countdown.titleEt, countdown.title) }}
           </h3>
           <p class="text-sm text-slate-400 mb-4">
@@ -71,7 +71,7 @@ interface TimelineEvent {
             </div>
           </div>
           <!-- Progress bar to deadline -->
-          <div class="mt-4 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+          <div class="mt-4 h-1.5 bg-slate-200 rounded-full overflow-hidden">
             <div class="h-full rounded-full transition-all duration-500"
                  [class]="countdown.urgent ? 'bg-red-500' : countdown.soon ? 'bg-amber-500' : 'bg-blue-600'"
                  [style.width.%]="countdown.progress">
@@ -82,7 +82,7 @@ interface TimelineEvent {
 
       <!-- Timeline -->
       <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
-        <h2 class="text-lg font-semibold text-white mb-6 flex items-center gap-2">
+        <h2 class="text-lg font-semibold text-slate-900 mb-6 flex items-center gap-2">
           <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
           </svg>
@@ -110,7 +110,7 @@ interface TimelineEvent {
             <!-- Timeline dot -->
             <div class="absolute left-[11px] top-1 w-[18px] h-[18px] rounded-full flex items-center justify-center"
                  [class]="event.status === 'past'
-                   ? 'bg-slate-700 border-2 border-slate-600'
+                   ? 'bg-slate-200 border-2 border-slate-300'
                    : event.status === 'critical'
                      ? 'bg-red-500/20 border-2 border-red-400'
                      : 'bg-blue-100 border-2 border-blue-400'">
@@ -133,7 +133,7 @@ interface TimelineEvent {
                 </div>
                 <span class="text-xs text-slate-500 whitespace-nowrap">{{ event.date | date:'dd.MM.yyyy' }}</span>
               </div>
-              <h3 class="text-sm font-semibold text-white mb-1">
+              <h3 class="text-sm font-semibold text-slate-900 mb-1">
                 {{ lang.l(event.titleEt, event.title) }}
               </h3>
               <p class="text-xs text-slate-400">
@@ -162,7 +162,7 @@ interface TimelineEvent {
               </svg>
             </div>
             <div>
-              <p class="text-sm font-semibold text-white group-hover:text-blue-600 transition-colors">DORA {{ lang.t('timeline.full_text') }}</p>
+              <p class="text-sm font-semibold text-slate-900 group-hover:text-blue-600 transition-colors">DORA {{ lang.t('timeline.full_text') }}</p>
               <p class="text-xs text-slate-500">EUR-Lex</p>
             </div>
           </div>
@@ -176,7 +176,7 @@ interface TimelineEvent {
               </svg>
             </div>
             <div>
-              <p class="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors">NIS2 {{ lang.t('timeline.directive') }}</p>
+              <p class="text-sm font-semibold text-slate-900 group-hover:text-blue-400 transition-colors">NIS2 {{ lang.t('timeline.directive') }}</p>
               <p class="text-xs text-slate-500">EUR-Lex</p>
             </div>
           </div>
@@ -190,7 +190,7 @@ interface TimelineEvent {
               </svg>
             </div>
             <div>
-              <p class="text-sm font-semibold text-white group-hover:text-amber-400 transition-colors">{{ lang.t('timeline.latest_updates') }}</p>
+              <p class="text-sm font-semibold text-slate-900 group-hover:text-amber-400 transition-colors">{{ lang.t('timeline.latest_updates') }}</p>
               <p class="text-xs text-slate-500">{{ lang.t('timeline.regulatory_changes') }}</p>
             </div>
           </div>
@@ -419,7 +419,7 @@ export class RegulatoryTimelineComponent implements OnInit, OnDestroy {
     const base = 'px-3 py-1.5 rounded-lg text-xs font-medium transition-all';
     return filter === this.filterRegulation
       ? base + ' bg-blue-600/20 text-blue-500 border border-blue-500/30'
-      : base + ' bg-slate-700/30 text-slate-400 border border-slate-600/30 hover:text-white';
+      : base + ' bg-slate-100/30 text-slate-400 border border-slate-300/30 hover:text-slate-900';
   }
 
   getRegulationClass(regulation: string): string {

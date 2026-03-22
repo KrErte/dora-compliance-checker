@@ -30,7 +30,7 @@ import { timeout, catchError, throwError } from 'rxjs';
           <div class="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center text-slate-900 font-bold text-2xl mx-auto mb-4">
             D
           </div>
-          <h1 class="text-2xl font-bold text-white mb-2">{{ lang.t('auth.login') }}</h1>
+          <h1 class="text-2xl font-bold text-slate-900 mb-2">{{ lang.t('auth.login') }}</h1>
           <p class="text-slate-400 text-sm">{{ lang.t('nav.brand') }}</p>
         </div>
 
@@ -91,12 +91,12 @@ import { timeout, catchError, throwError } from 'rxjs';
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                   </svg>
                 </div>
-                <h2 class="text-lg font-bold text-white">{{ lang.l('Kaheastmeline autentimine', 'Two-Factor Authentication') }}</h2>
+                <h2 class="text-lg font-bold text-slate-900">{{ lang.l('Kaheastmeline autentimine', 'Two-Factor Authentication') }}</h2>
                 <p class="text-slate-400 text-xs mt-1">{{ lang.l('Sisestage kood oma autentimisrakendusest', 'Enter the code from your authenticator app') }}</p>
               </div>
               <input type="text" [(ngModel)]="totpCode" name="totpCode" maxlength="8"
                      placeholder="000000"
-                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border border-slate-200 text-white text-center text-2xl tracking-[0.5em] font-mono placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25"
+                     class="w-full px-4 py-3 rounded-xl bg-slate-100/50 border border-slate-200 text-slate-900 text-center text-2xl tracking-[0.5em] font-mono placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25"
                      (keydown.enter)="onVerify2fa()">
               <button (click)="onVerify2fa()" [disabled]="loading || !totpCode"
                       class="w-full py-3 rounded-xl font-semibold text-sm bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 transition-all">
@@ -119,7 +119,7 @@ import { timeout, catchError, throwError } from 'rxjs';
             <div class="mb-5">
               <label for="login-email" class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('auth.email') }}</label>
               <input type="email" [(ngModel)]="email" name="email" id="login-email" required
-                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
+                     class="w-full px-4 py-3 rounded-xl bg-slate-100/50 border text-slate-900 placeholder-slate-500
                             focus:outline-none focus:ring-1 transition-all"
                      [class]="fieldErrors['email'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/25'"
                      placeholder="teie@ettevote.ee">
@@ -131,7 +131,7 @@ import { timeout, catchError, throwError } from 'rxjs';
             <div class="mb-6">
               <label for="login-password" class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('auth.password') }}</label>
               <input type="password" [(ngModel)]="password" name="password" id="login-password" required
-                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border text-white placeholder-slate-500
+                     class="w-full px-4 py-3 rounded-xl bg-slate-100/50 border text-slate-900 placeholder-slate-500
                             focus:outline-none focus:ring-1 transition-all"
                      [class]="fieldErrors['password'] ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/25' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/25'"
                      placeholder="********">

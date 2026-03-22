@@ -12,12 +12,12 @@ import { NegotiationResult } from '../models';
   template: `
     <div class="max-w-5xl mx-auto space-y-6">
       <div class="flex items-center justify-between">
-        <h1 class="text-2xl font-bold text-white">{{ lang.t('neg.title') }}</h1>
+        <h1 class="text-2xl font-bold text-slate-900">{{ lang.t('neg.title') }}</h1>
       </div>
 
       <!-- Loading -->
       <div *ngIf="loading" class="text-center py-20">
-        <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-700 border-t-blue-500 animate-spin"></div>
+        <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-200 border-t-blue-500 animate-spin"></div>
       </div>
 
       <!-- Empty state -->
@@ -37,7 +37,7 @@ import { NegotiationResult } from '../models';
          class="block bg-white backdrop-blur border border-slate-200 rounded-xl p-5 hover:border-violet-500/30 transition-all group">
         <div class="flex items-center justify-between mb-3">
           <div>
-            <h3 class="text-white font-semibold group-hover:text-violet-400 transition-colors">{{ neg.contractName }}</h3>
+            <h3 class="text-slate-900 font-semibold group-hover:text-violet-400 transition-colors">{{ neg.contractName }}</h3>
             <p class="text-slate-500 text-sm">{{ neg.companyName }}</p>
           </div>
           <span [class]="overallStatusBadge(neg.overallStatus)">
@@ -51,7 +51,7 @@ import { NegotiationResult } from '../models';
             <span>{{ lang.t('neg.progress') }}</span>
             <span>{{ neg.resolvedItems }}/{{ neg.totalItems }}</span>
           </div>
-          <div class="w-full h-2 bg-slate-700 rounded-full overflow-hidden">
+          <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
             <div class="h-full bg-gradient-to-r from-violet-500 to-purple-500 rounded-full transition-all duration-500"
                  [style.width.%]="neg.totalItems > 0 ? (neg.resolvedItems / neg.totalItems) * 100 : 0"></div>
           </div>

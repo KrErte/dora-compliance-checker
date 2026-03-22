@@ -17,7 +17,7 @@ import { RouterLink } from '@angular/router';
           </svg>
           {{ lang.t('tpm.badge') }}
         </div>
-        <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">{{ lang.t('tpm.title') }}</h1>
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">{{ lang.t('tpm.title') }}</h1>
         <p class="text-slate-400 max-w-2xl mx-auto">{{ lang.t('tpm.subtitle') }}</p>
       </div>
 
@@ -32,7 +32,7 @@ import { RouterLink } from '@angular/router';
         <!-- Summary Stats Row -->
         <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
           <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
-            <div class="text-2xl font-bold text-white">{{ dashboard()!.totalProviders }}</div>
+            <div class="text-2xl font-bold text-slate-900">{{ dashboard()!.totalProviders }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('tpm.total') }}</div>
           </div>
           <div class="bg-white border border-red-500/30 rounded-xl p-4 text-center">
@@ -48,7 +48,7 @@ import { RouterLink } from '@angular/router';
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('tpm.exit_coverage') }}</div>
           </div>
           <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
-            <div class="text-2xl font-bold text-white">{{ concentrationRisks().length }}</div>
+            <div class="text-2xl font-bold text-slate-900">{{ concentrationRisks().length }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('tpm.concentration_risks') }}</div>
           </div>
         </div>
@@ -78,7 +78,7 @@ import { RouterLink } from '@angular/router';
               <div class="bg-white border border-slate-200 rounded-xl p-5 hover:border-amber-500/30 transition-colors space-y-3">
                 <div class="flex items-center justify-between">
                   <div>
-                    <h3 class="text-white font-semibold text-sm">{{ vendor.providerName }}</h3>
+                    <h3 class="text-slate-900 font-semibold text-sm">{{ vendor.providerName }}</h3>
                     <p class="text-xs text-slate-400">{{ vendor.serviceType }}</p>
                   </div>
                   <span class="px-2 py-0.5 rounded text-xs font-medium"
@@ -143,7 +143,7 @@ import { RouterLink } from '@angular/router';
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- By Service Type -->
             <div class="bg-white border border-slate-200 rounded-xl p-5">
-              <h3 class="text-white font-semibold text-sm mb-3">{{ lang.t('tpm.by_service_type') }}</h3>
+              <h3 class="text-slate-900 font-semibold text-sm mb-3">{{ lang.t('tpm.by_service_type') }}</h3>
               @for (entry of getEntries(concentrationData()!.byServiceType); track entry.key) {
                 <div class="flex items-center gap-2 mb-2">
                   <span class="text-xs text-slate-400 w-28 truncate">{{ entry.key }}</span>
@@ -156,7 +156,7 @@ import { RouterLink } from '@angular/router';
             </div>
             <!-- By Country -->
             <div class="bg-white border border-slate-200 rounded-xl p-5">
-              <h3 class="text-white font-semibold text-sm mb-3">{{ lang.t('tpm.by_country') }}</h3>
+              <h3 class="text-slate-900 font-semibold text-sm mb-3">{{ lang.t('tpm.by_country') }}</h3>
               @for (entry of getEntries(concentrationData()!.byCountry); track entry.key) {
                 <div class="flex items-center gap-2 mb-2">
                   <span class="text-xs text-slate-400 w-28 truncate">{{ entry.key }}</span>

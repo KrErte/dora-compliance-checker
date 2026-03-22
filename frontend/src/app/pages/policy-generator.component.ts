@@ -213,7 +213,7 @@ const TEMPLATES: PolicyTemplate[] = [
         </svg>
         {{ lang.t('policy.free_tool') }}
       </div>
-      <h1 class="text-3xl sm:text-4xl font-bold text-white mb-3">
+      <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">
         {{ lang.t('policy.dora_policy_document_generator') }}
       </h1>
       <p class="text-slate-400 max-w-2xl mx-auto">
@@ -232,7 +232,7 @@ const TEMPLATES: PolicyTemplate[] = [
           <svg class="w-5 h-5 mb-2" [ngClass]="selectedTemplate?.id === t.id ? 'text-violet-400' : 'text-slate-500'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path [attr.d]="t.icon"/>
           </svg>
-          <p class="text-sm font-medium" [ngClass]="selectedTemplate?.id === t.id ? 'text-white' : 'text-slate-600'">
+          <p class="text-sm font-medium" [ngClass]="selectedTemplate?.id === t.id ? 'text-slate-900' : 'text-slate-600'">
             {{ lang.l(t.name.et, t.name.en) }}
           </p>
           <p class="text-xs text-slate-500 mt-1">{{ t.doraRef }}</p>
@@ -247,15 +247,15 @@ const TEMPLATES: PolicyTemplate[] = [
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="block text-xs text-slate-500 mb-1">{{ lang.t('policy.company_name') }}</label>
-            <input [(ngModel)]="companyName" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="AS Finants">
+            <input [(ngModel)]="companyName" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-200 text-slate-900 text-sm focus:border-violet-500 focus:outline-none" placeholder="AS Finants">
           </div>
           <div>
             <label class="block text-xs text-slate-500 mb-1">{{ lang.t('policy.registration_number') }}</label>
-            <input [(ngModel)]="regNumber" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="12345678">
+            <input [(ngModel)]="regNumber" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-200 text-slate-900 text-sm focus:border-violet-500 focus:outline-none" placeholder="12345678">
           </div>
           <div>
             <label class="block text-xs text-slate-500 mb-1">{{ lang.t('policy.sector') }}</label>
-            <select [(ngModel)]="sector" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none">
+            <select [(ngModel)]="sector" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-200 text-slate-900 text-sm focus:border-violet-500 focus:outline-none">
               <option value="banking">{{ lang.t('policy.banking') }}</option>
               <option value="insurance">{{ lang.t('policy.insurance') }}</option>
               <option value="investment">{{ lang.t('policy.investment') }}</option>
@@ -265,15 +265,15 @@ const TEMPLATES: PolicyTemplate[] = [
           </div>
           <div>
             <label class="block text-xs text-slate-500 mb-1">{{ lang.t('policy.country') }}</label>
-            <input [(ngModel)]="country" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="Estonia">
+            <input [(ngModel)]="country" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-200 text-slate-900 text-sm focus:border-violet-500 focus:outline-none" placeholder="Estonia">
           </div>
           <div>
             <label class="block text-xs text-slate-500 mb-1">CISO / IT {{ lang.t('policy.manager') }}</label>
-            <input [(ngModel)]="cisoName" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="Mari Mets">
+            <input [(ngModel)]="cisoName" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-200 text-slate-900 text-sm focus:border-violet-500 focus:outline-none" placeholder="Mari Mets">
           </div>
           <div>
             <label class="block text-xs text-slate-500 mb-1">{{ lang.t('policy.responsible_board_member') }}</label>
-            <input [(ngModel)]="boardMember" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-700 text-white text-sm focus:border-violet-500 focus:outline-none" placeholder="Jaan Tamm">
+            <input [(ngModel)]="boardMember" class="w-full px-3 py-2 rounded-lg bg-white border border-slate-200 text-slate-900 text-sm focus:border-violet-500 focus:outline-none" placeholder="Jaan Tamm">
           </div>
         </div>
       </div>
@@ -286,7 +286,7 @@ const TEMPLATES: PolicyTemplate[] = [
           </svg>
           {{ copied ? lang.t('policy.copied') : lang.t('policy.copy_text') }}
         </button>
-        <button (click)="printDoc()" class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-600 hover:bg-slate-700 transition-all flex items-center gap-2">
+        <button (click)="printDoc()" class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-200/50 text-slate-600 hover:bg-slate-50 transition-all flex items-center gap-2">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/>
           </svg>
@@ -299,7 +299,7 @@ const TEMPLATES: PolicyTemplate[] = [
         <!-- Header -->
         <div class="text-center mb-8 pb-6 border-b border-slate-200 print:border-gray-300">
           <p class="text-xs text-red-400 font-bold tracking-widest mb-4 print:text-red-600">{{ lang.t('policy.confidential') }}</p>
-          <h2 class="text-2xl font-bold text-white mb-2 print:text-black">{{ getCompanyName() }}</h2>
+          <h2 class="text-2xl font-bold text-slate-900 mb-2 print:text-black">{{ getCompanyName() }}</h2>
           <h3 class="text-lg font-semibold text-blue-600 mb-4 print:text-blue-800">{{ lang.l(selectedTemplate.name.et, selectedTemplate.name.en) }}</h3>
           <div class="flex justify-center gap-6 text-xs text-slate-400 print:text-gray-600">
             <span>{{ lang.t('policy.version') }}: 1.0</span>
@@ -309,7 +309,7 @@ const TEMPLATES: PolicyTemplate[] = [
         </div>
 
         <!-- Table of contents -->
-        <div class="mb-8 p-4 rounded-lg bg-slate-900/30 print:bg-gray-100">
+        <div class="mb-8 p-4 rounded-lg bg-slate-100/30 print:bg-gray-100">
           <p class="text-sm font-bold text-slate-600 mb-3 print:text-black">{{ lang.t('policy.table_of_contents') }}</p>
           @for (section of selectedTemplate.sections; track section.title.en) {
             <p class="text-sm text-slate-400 py-0.5 print:text-gray-700">{{ lang.l(section.title.et, section.title.en) }}</p>
@@ -319,7 +319,7 @@ const TEMPLATES: PolicyTemplate[] = [
         <!-- Sections -->
         @for (section of selectedTemplate.sections; track section.title.en) {
           <div class="mb-6">
-            <h4 class="text-base font-semibold text-white mb-2 print:text-black">{{ lang.l(section.title.et, section.title.en) }}</h4>
+            <h4 class="text-base font-semibold text-slate-900 mb-2 print:text-black">{{ lang.l(section.title.et, section.title.en) }}</h4>
             <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-line print:text-gray-800">{{ interpolate(lang.l(section.body.et, section.body.en)) }}</p>
           </div>
         }
@@ -345,7 +345,7 @@ const TEMPLATES: PolicyTemplate[] = [
           <div class="w-4 h-4 rounded bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center text-[7px] text-white font-bold">AI</div>
           Enterprise
         </div>
-        <h3 class="text-lg font-semibold text-white mb-2">
+        <h3 class="text-lg font-semibold text-slate-900 mb-2">
           {{ lang.l('Vaja professionaalsemat, ettevõttespetsiifilist poliitikat?', 'Need a more professional, company-specific policy?') }}
         </h3>
         <p class="text-sm text-slate-400 mb-4">

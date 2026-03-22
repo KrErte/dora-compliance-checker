@@ -18,9 +18,9 @@ interface MaturityArea {
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+        <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-fuchsia-500 to-pink-500 flex items-center justify-center">
-            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
             </svg>
           </div>
@@ -34,24 +34,24 @@ interface MaturityArea {
         <div class="flex items-center gap-6">
           <div class="relative w-28 h-28 flex-shrink-0">
             <svg class="w-28 h-28 -rotate-90" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="42" stroke-width="6" fill="none" class="stroke-slate-700"/>
+              <circle cx="50" cy="50" r="42" stroke-width="6" fill="none" class="stroke-slate-200"/>
               <circle cx="50" cy="50" r="42" stroke-width="6" fill="none" stroke-linecap="round"
                       [attr.stroke-dasharray]="264"
                       [attr.stroke-dashoffset]="264 - (264 * averageLevel() / 5)"
                       [class]="averageLevel() >= 4 ? 'stroke-blue-500' : averageLevel() >= 2.5 ? 'stroke-amber-400' : 'stroke-red-400'"/>
             </svg>
             <div class="absolute inset-0 flex flex-col items-center justify-center">
-              <span class="text-2xl font-bold text-white">{{ averageLevel().toFixed(1) }}</span>
+              <span class="text-2xl font-bold text-slate-900">{{ averageLevel().toFixed(1) }}</span>
               <span class="text-[10px] text-slate-400">/ 5</span>
             </div>
           </div>
           <div class="flex-1">
-            <h2 class="text-white font-semibold mb-2">{{ getMaturityLabel(averageLevel()) }}</h2>
+            <h2 class="text-slate-900 font-semibold mb-2">{{ getMaturityLabel(averageLevel()) }}</h2>
             <div class="flex gap-1">
               @for (level of [0,1,2,3,4,5]; track level) {
                 <div class="flex-1 text-center">
                   <div class="h-2 rounded-full mb-1"
-                       [class]="level <= averageLevel() ? (level >= 4 ? 'bg-blue-500' : level >= 2 ? 'bg-amber-400' : 'bg-red-400') : 'bg-slate-700'"></div>
+                       [class]="level <= averageLevel() ? (level >= 4 ? 'bg-blue-500' : level >= 2 ? 'bg-amber-400' : 'bg-red-400') : 'bg-slate-200'"></div>
                   <span class="text-[9px] text-slate-500">{{ level }}</span>
                 </div>
               }
@@ -73,7 +73,7 @@ interface MaturityArea {
         <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
           <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between cursor-pointer"
                (click)="togglePillar(pillar.id)">
-            <h2 class="text-lg font-semibold text-white">{{ lang.l(pillar.nameEt, pillar.nameEn) }}</h2>
+            <h2 class="text-lg font-semibold text-slate-900">{{ lang.l(pillar.nameEt, pillar.nameEn) }}</h2>
             <div class="flex items-center gap-3">
               <span class="text-sm font-bold" [class]="getPillarAverage(pillar.id) >= 4 ? 'text-blue-600' : getPillarAverage(pillar.id) >= 2.5 ? 'text-amber-400' : 'text-red-400'">
                 {{ getPillarAverage(pillar.id).toFixed(1) }}/5
@@ -85,18 +85,18 @@ interface MaturityArea {
             </div>
           </div>
           @if (expandedPillars.has(pillar.id)) {
-            <div class="divide-y divide-slate-700/30">
+            <div class="divide-y divide-slate-200">
               @for (area of getAreasForPillar(pillar.id); track area.id) {
                 <div class="px-6 py-3 flex items-center gap-4">
                   <div class="flex-1 min-w-0">
-                    <div class="text-sm text-white">{{ lang.l(area.name.et, area.name.en) }}</div>
+                    <div class="text-sm text-slate-900">{{ lang.l(area.name.et, area.name.en) }}</div>
                     <div class="text-[10px] text-slate-500">{{ area.articleRef }}</div>
                   </div>
                   <div class="flex gap-1">
                     @for (lvl of [0,1,2,3,4,5]; track lvl) {
                       <button (click)="setLevel(area, lvl)"
                               class="w-8 h-8 rounded-lg text-xs font-bold transition-all"
-                              [class]="area.level === lvl ? (lvl >= 4 ? 'bg-blue-600/30 text-blue-600 border border-blue-500/40' : lvl >= 2 ? 'bg-amber-500/30 text-amber-400 border border-amber-500/40' : 'bg-red-500/30 text-red-400 border border-red-500/40') : 'bg-slate-700/30 text-slate-500 hover:text-slate-600'">
+                              [class]="area.level === lvl ? (lvl >= 4 ? 'bg-blue-600/30 text-blue-600 border border-blue-500/40' : lvl >= 2 ? 'bg-amber-500/30 text-amber-400 border border-amber-500/40' : 'bg-red-500/30 text-red-400 border border-red-500/40') : 'bg-slate-100/30 text-slate-500 hover:text-slate-600'">
                         {{ lvl }}
                       </button>
                     }

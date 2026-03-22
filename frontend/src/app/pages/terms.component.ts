@@ -18,7 +18,7 @@ import { LangService } from '../lang.service';
       </a>
 
       <div class="text-center mb-10">
-        <h1 class="text-3xl font-bold text-white mb-2">{{ lang.t('terms.title') }}</h1>
+        <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ lang.t('terms.title') }}</h1>
         <p class="text-slate-600">{{ lang.t('terms.subtitle') }}</p>
       </div>
 
@@ -84,13 +84,13 @@ import { LangService } from '../lang.service';
         <h2 class="text-xl font-semibold text-blue-600 mb-4">{{ lang.t('terms.payment_title') }}</h2>
         <div class="space-y-4">
           <div class="grid sm:grid-cols-2 gap-4">
-            <div class="p-3 bg-slate-800/30 rounded-lg">
+            <div class="p-3 bg-slate-100/30 rounded-lg">
               <p class="text-slate-400 text-xs mb-1">{{ lang.t('terms.payment_processor') }}</p>
-              <p class="text-white text-sm font-medium">LemonSqueezy</p>
+              <p class="text-slate-900 text-sm font-medium">LemonSqueezy</p>
             </div>
-            <div class="p-3 bg-slate-800/30 rounded-lg">
+            <div class="p-3 bg-slate-100/30 rounded-lg">
               <p class="text-slate-400 text-xs mb-1">{{ lang.t('terms.payment_vat') }}</p>
-              <p class="text-white text-sm font-medium">{{ lang.t('terms.payment_vat_included') }}</p>
+              <p class="text-slate-900 text-sm font-medium">{{ lang.t('terms.payment_vat_included') }}</p>
             </div>
           </div>
 
@@ -127,7 +127,7 @@ import { LangService } from '../lang.service';
       </div>
 
       <!-- F) Liability Limitation -->
-      <div class="glass-card p-6 mb-6 border-slate-600/30">
+      <div class="glass-card p-6 mb-6 border-slate-300/30">
         <h2 class="text-xl font-semibold text-blue-600 mb-4">{{ lang.t('terms.liability_title') }}</h2>
         <ul class="text-slate-600 text-sm space-y-3">
           <li class="flex items-start gap-2">

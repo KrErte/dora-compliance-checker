@@ -57,7 +57,7 @@ import { AssessmentResult } from '../models';
 
         <!-- Loading state -->
         <div *ngIf="!result && !error" class="mb-8 animate-fade-in">
-          <div class="inline-block w-6 h-6 border-2 border-slate-700 border-t-blue-500 rounded-full animate-spin"></div>
+          <div class="inline-block w-6 h-6 border-2 border-slate-200 border-t-blue-500 rounded-full animate-spin"></div>
         </div>
 
         <!-- Action buttons -->
@@ -74,7 +74,7 @@ import { AssessmentResult } from '../models';
           </a>
           <button *ngIf="result" type="button" (click)="downloadPdf()"
                   [disabled]="downloading"
-                  class="inline-flex items-center gap-2 bg-slate-700 hover:bg-slate-600 text-slate-700
+                  class="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-50 text-slate-700
                          font-semibold px-6 py-3 rounded-xl transition-all duration-200 text-sm
                          w-full sm:w-auto justify-center">
             <svg *ngIf="!downloading" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

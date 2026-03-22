@@ -10,7 +10,7 @@ import { TrackingService } from '../../tracking.service';
   imports: [CommonModule],
   template: `
     <div *ngIf="showBanner"
-         class="fixed bottom-4 left-4 z-[9999] max-w-sm bg-slate-900/95 backdrop-blur-xl border border-teal-500/30 rounded-xl shadow-2xl shadow-black/30"
+         class="fixed bottom-4 left-4 z-[9999] max-w-sm bg-white/95 backdrop-blur-xl border border-teal-500/30 rounded-xl shadow-2xl shadow-black/30"
          role="dialog"
          aria-label="Cookie consent">
       <div class="px-4 py-4 space-y-3">

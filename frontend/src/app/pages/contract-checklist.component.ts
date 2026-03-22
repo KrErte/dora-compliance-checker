@@ -28,7 +28,7 @@ interface ChecklistSection {
       <!-- Header -->
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center">
               <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
@@ -41,7 +41,7 @@ interface ChecklistSection {
         <div class="flex items-center gap-3">
           <label class="flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
             <input type="checkbox" [(ngModel)]="criticalFunction"
-                   class="w-4 h-4 rounded border-slate-600 bg-slate-900 text-violet-500 focus:ring-violet-500">
+                   class="w-4 h-4 rounded border-slate-300 bg-white text-violet-500 focus:ring-violet-500">
             {{ lang.t('checklist.critical_function_support') }}
           </label>
         </div>
@@ -53,14 +53,14 @@ interface ChecklistSection {
           <!-- Score circle -->
           <div class="relative w-24 h-24 flex-shrink-0">
             <svg class="w-24 h-24 -rotate-90" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="42" stroke-width="8" fill="none" class="stroke-slate-700"/>
+              <circle cx="50" cy="50" r="42" stroke-width="8" fill="none" class="stroke-slate-200"/>
               <circle cx="50" cy="50" r="42" stroke-width="8" fill="none" stroke-linecap="round"
                       [attr.stroke-dasharray]="264"
                       [attr.stroke-dashoffset]="264 - (264 * scorePercent() / 100)"
                       [class]="scorePercent() >= 80 ? 'stroke-blue-500' : scorePercent() >= 50 ? 'stroke-amber-400' : 'stroke-red-400'"/>
             </svg>
             <div class="absolute inset-0 flex items-center justify-center">
-              <span class="text-xl font-bold text-white">{{ scorePercent() }}%</span>
+              <span class="text-xl font-bold text-slate-900">{{ scorePercent() }}%</span>
             </div>
           </div>
           <!-- Stats -->
@@ -90,10 +90,10 @@ interface ChecklistSection {
         <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
           <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between cursor-pointer"
                (click)="toggleSection(section.id)">
-            <h2 class="text-lg font-semibold text-white">{{ lang.l(section.title.et, section.title.en) }}</h2>
+            <h2 class="text-lg font-semibold text-slate-900">{{ lang.l(section.title.et, section.title.en) }}</h2>
             <div class="flex items-center gap-3">
               <span class="text-xs text-slate-400">{{ getSectionScore(section) }}%</span>
-              <div class="w-16 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+              <div class="w-16 h-1.5 bg-slate-200 rounded-full overflow-hidden">
                 <div class="h-full rounded-full transition-all"
                      [style.width.%]="getSectionScore(section)"
                      [class]="getSectionScore(section) >= 80 ? 'bg-blue-500' : getSectionScore(section) >= 50 ? 'bg-amber-400' : 'bg-red-400'"></div>
@@ -106,10 +106,10 @@ interface ChecklistSection {
           </div>
 
           @if (expandedSections.has(section.id)) {
-            <div class="divide-y divide-slate-700/30">
+            <div class="divide-y divide-slate-200">
               @for (item of section.items; track item.id) {
                 @if (!item.critical || criticalFunction) {
-                  <div class="px-6 py-4 hover:bg-slate-700/20 transition-colors">
+                  <div class="px-6 py-4 hover:bg-slate-50/20 transition-colors">
                     <div class="flex flex-col md:flex-row md:items-start gap-4">
                       <!-- Requirement text -->
                       <div class="flex-1 min-w-0">
@@ -119,26 +119,26 @@ interface ChecklistSection {
                             <span class="px-1.5 py-0.5 rounded text-[10px] font-bold text-amber-400 bg-amber-500/10">{{ lang.t('checklist.critical') }}</span>
                           }
                         </div>
-                        <h3 class="text-sm font-medium text-white">{{ lang.l(item.requirement.et, item.requirement.en) }}</h3>
+                        <h3 class="text-sm font-medium text-slate-900">{{ lang.l(item.requirement.et, item.requirement.en) }}</h3>
                         <p class="text-xs text-slate-400 mt-1">{{ lang.l(item.description.et, item.description.en) }}</p>
                       </div>
 
                       <!-- Status buttons -->
                       <div class="flex items-center gap-1.5 flex-shrink-0">
                         <button (click)="setStatus(item, 'yes')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
-                                [class]="item.status === 'yes' ? 'bg-blue-100 text-blue-600 border border-blue-500/40' : 'bg-slate-700/30 text-slate-500 hover:text-slate-600'">
+                                [class]="item.status === 'yes' ? 'bg-blue-100 text-blue-600 border border-blue-500/40' : 'bg-slate-200/30 text-slate-500 hover:text-slate-600'">
                           {{ lang.t('checklist.yes') }}
                         </button>
                         <button (click)="setStatus(item, 'partial')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
-                                [class]="item.status === 'partial' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : 'bg-slate-700/30 text-slate-500 hover:text-slate-600'">
+                                [class]="item.status === 'partial' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : 'bg-slate-200/30 text-slate-500 hover:text-slate-600'">
                           {{ lang.t('checklist.partial_9') }}
                         </button>
                         <button (click)="setStatus(item, 'no')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
-                                [class]="item.status === 'no' ? 'bg-red-500/20 text-red-400 border border-red-500/40' : 'bg-slate-700/30 text-slate-500 hover:text-slate-600'">
+                                [class]="item.status === 'no' ? 'bg-red-500/20 text-red-400 border border-red-500/40' : 'bg-slate-200/30 text-slate-500 hover:text-slate-600'">
                           {{ lang.t('checklist.no') }}
                         </button>
                         <button (click)="setStatus(item, 'na')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all"
-                                [class]="item.status === 'na' ? 'bg-slate-500/20 text-slate-600 border border-slate-500/40' : 'bg-slate-700/30 text-slate-500 hover:text-slate-600'">
+                                [class]="item.status === 'na' ? 'bg-slate-500/20 text-slate-600 border border-slate-500/40' : 'bg-slate-200/30 text-slate-500 hover:text-slate-600'">
                           N/A
                         </button>
                       </div>
@@ -147,7 +147,7 @@ interface ChecklistSection {
                     @if (item.status) {
                       <div class="mt-2">
                         <input type="text" [(ngModel)]="item.notes"
-                               class="w-full px-3 py-1.5 bg-slate-900/30 border border-slate-200 rounded-lg text-xs text-slate-600 placeholder-slate-600 focus:outline-none focus:border-violet-500/30"
+                               class="w-full px-3 py-1.5 bg-slate-100/30 border border-slate-200 rounded-lg text-xs text-slate-600 placeholder-slate-600 focus:outline-none focus:border-violet-500/30"
                                [placeholder]="lang.t('checklist.notes_optional')">
                       </div>
                     }

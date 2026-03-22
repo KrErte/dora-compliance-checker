@@ -18,13 +18,13 @@ import { SubscriptionService } from '../../services/subscription.service';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   template: `
-    <div class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 pt-24 pb-16 px-4">
+    <div class="min-h-screen bg-gradient-to-b from-white via-slate-50 to-white pt-24 pb-16 px-4">
       <div class="max-w-5xl mx-auto">
         <!-- Header -->
         <div class="flex items-center justify-between mb-6">
           <div>
             <a routerLink="/roi" class="text-sm text-slate-500 hover:text-blue-600 transition-colors">&larr; {{ lang.t('roi.back_to_list') }}</a>
-            <h1 class="text-2xl font-bold text-white mt-1">{{ register?.entityName || lang.t('roi.new_register') }}</h1>
+            <h1 class="text-2xl font-bold text-slate-900 mt-1">{{ register?.entityName || lang.t('roi.new_register') }}</h1>
           </div>
           <span class="text-xs px-3 py-1 rounded-full" [class]="register?.status === 'VALID' ? 'bg-blue-100 text-blue-600' : 'bg-slate-500/20 text-slate-400'">
             {{ register?.status ? lang.t('roi.status_' + register!.status.toLowerCase()) : lang.t('roi.status_draft') }}
@@ -36,9 +36,9 @@ import { SubscriptionService } from '../../services/subscription.service';
           @for (s of steps; track s.num; let i = $index) {
             <button (click)="currentStep = s.num"
                     class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all relative"
-                    [class]="currentStep === s.num ? 'bg-blue-100 text-blue-600 border border-blue-200' : (s.num < currentStep ? 'bg-white text-slate-400' : 'bg-slate-800/30 text-slate-500')">
+                    [class]="currentStep === s.num ? 'bg-blue-100 text-blue-600 border border-blue-200' : (s.num < currentStep ? 'bg-white text-slate-400' : 'bg-slate-100/30 text-slate-500')">
               <span class="w-6 h-6 flex items-center justify-center rounded-full text-xs"
-                    [class]="s.num < currentStep ? 'bg-blue-600 text-white' : (currentStep === s.num ? 'bg-blue-600/30 text-blue-600' : 'bg-slate-700 text-slate-500')">
+                    [class]="s.num < currentStep ? 'bg-blue-600 text-white' : (currentStep === s.num ? 'bg-blue-600/30 text-blue-600' : 'bg-slate-200 text-slate-500')">
                 {{ s.num < currentStep ? '&#10003;' : s.num }}
               </span>
               {{ s.label }}
@@ -61,17 +61,17 @@ import { SubscriptionService } from '../../services/subscription.service';
         <div class="glass-card p-6 md:p-8">
           <!-- STEP 1: Entity -->
           @if (currentStep === 1) {
-            <h2 class="text-xl font-semibold text-white mb-6">{{ lang.t('roi.step1_title') }}</h2>
+            <h2 class="text-xl font-semibold text-slate-900 mb-6">{{ lang.t('roi.step1_title') }}</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm text-slate-400 mb-1">{{ lang.t('roi.entity_name') }} *</label>
-                <input type="text" [(ngModel)]="form.entityName" class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white" [placeholder]="lang.t('roi.entity_name_example')">
+                <input type="text" [(ngModel)]="form.entityName" class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900" [placeholder]="lang.t('roi.entity_name_example')">
               </div>
               <div>
                 <label class="block text-sm text-slate-400 mb-1">{{ lang.t('roi.lei_label') }}</label>
                 <div class="flex gap-2">
-                  <input type="text" [(ngModel)]="form.entityLei" maxlength="20" class="flex-1 bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white font-mono" placeholder="529900T8BM49AURSDO55">
+                  <input type="text" [(ngModel)]="form.entityLei" maxlength="20" class="flex-1 bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 font-mono" placeholder="529900T8BM49AURSDO55">
                   <button (click)="lookupLei(form.entityLei)" class="px-3 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm">GLEIF</button>
                 </div>
                 @if (leiResult) {
@@ -80,11 +80,11 @@ import { SubscriptionService } from '../../services/subscription.service';
               </div>
               <div>
                 <label class="block text-sm text-slate-400 mb-1">{{ lang.t('roi.country') }}</label>
-                <input type="text" [(ngModel)]="form.country" maxlength="2" class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white" placeholder="EE">
+                <input type="text" [(ngModel)]="form.country" maxlength="2" class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900" placeholder="EE">
               </div>
               <div>
                 <label class="block text-sm text-slate-400 mb-1">{{ lang.t('roi.entity_type') }}</label>
-                <select [(ngModel)]="form.entityType" class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                <select [(ngModel)]="form.entityType" class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
                   <option value="">{{ lang.t('roi.select') }}...</option>
                   @for (t of entityTypes; track t.code) {
                     <option [value]="t.code">{{ t.label }}</option>
@@ -93,18 +93,18 @@ import { SubscriptionService } from '../../services/subscription.service';
               </div>
               <div>
                 <label class="block text-sm text-slate-400 mb-1">{{ lang.t('roi.competent_authority') }}</label>
-                <input type="text" [(ngModel)]="form.competentAuthority" class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white" [placeholder]="lang.t('roi.authority_example')">
+                <input type="text" [(ngModel)]="form.competentAuthority" class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900" [placeholder]="lang.t('roi.authority_example')">
               </div>
               <div>
                 <label class="block text-sm text-slate-400 mb-1">{{ lang.t('roi.consolidation_scope') }}</label>
-                <select [(ngModel)]="form.consolidationScope" class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                <select [(ngModel)]="form.consolidationScope" class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
                   <option value="IND">{{ lang.t('roi.scope_ind') }}</option>
                   <option value="CON">{{ lang.t('roi.scope_con') }}</option>
                 </select>
               </div>
               <div>
                 <label class="block text-sm text-slate-400 mb-1">{{ lang.t('roi.reporting_date') }}</label>
-                <input type="date" [(ngModel)]="form.reportingDate" class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                <input type="date" [(ngModel)]="form.reportingDate" class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
               </div>
             </div>
 
@@ -119,15 +119,15 @@ import { SubscriptionService } from '../../services/subscription.service';
               <div class="mt-4 space-y-3">
                 <h3 class="text-sm font-semibold text-slate-600">{{ lang.t('roi.group_entities') }} (B_01.02)</h3>
                 @for (ge of register.groupEntities; track ge.id) {
-                  <div class="flex items-center justify-between bg-slate-800/30 rounded-lg p-3">
-                    <span class="text-sm text-white">{{ ge.entityName }} <span class="text-slate-500">({{ ge.lei }})</span></span>
+                  <div class="flex items-center justify-between bg-slate-100/30 rounded-lg p-3">
+                    <span class="text-sm text-slate-900">{{ ge.entityName }} <span class="text-slate-500">({{ ge.lei }})</span></span>
                     <button (click)="removeGroupEntity(ge.id)" class="text-red-400 hover:text-red-300 text-sm">&#10005;</button>
                   </div>
                 }
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                  <input type="text" [(ngModel)]="newGroupEntity.entityName" placeholder="{{ lang.t('roi.entity_name') }}" class="bg-white border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
-                  <input type="text" [(ngModel)]="newGroupEntity.lei" placeholder="LEI" maxlength="20" class="bg-white border border-slate-700 rounded-lg px-3 py-2 text-sm text-white font-mono">
-                  <input type="text" [(ngModel)]="newGroupEntity.country" placeholder="{{ lang.t('roi.country') }}" maxlength="2" class="bg-white border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+                  <input type="text" [(ngModel)]="newGroupEntity.entityName" placeholder="{{ lang.t('roi.entity_name') }}" class="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-900">
+                  <input type="text" [(ngModel)]="newGroupEntity.lei" placeholder="LEI" maxlength="20" class="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-900 font-mono">
+                  <input type="text" [(ngModel)]="newGroupEntity.country" placeholder="{{ lang.t('roi.country') }}" maxlength="2" class="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-900">
                   <button (click)="addGroupEntity()" class="px-3 py-2 bg-blue-700 hover:bg-blue-600 text-white rounded-lg text-sm">+ {{ lang.t('roi.add') }}</button>
                 </div>
               </div>
@@ -136,14 +136,14 @@ import { SubscriptionService } from '../../services/subscription.service';
 
           <!-- STEP 2: Providers -->
           @if (currentStep === 2) {
-            <h2 class="text-xl font-semibold text-white mb-6">{{ lang.t('roi.step2_title') }}</h2>
+            <h2 class="text-xl font-semibold text-slate-900 mb-6">{{ lang.t('roi.step2_title') }}</h2>
 
             <div class="mb-6">
               <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.preset_providers') }}</h3>
               <div class="flex flex-wrap gap-2">
                 @for (preset of presetProviders; track preset.providerName) {
                   <button (click)="addPresetProvider(preset)"
-                          class="px-3 py-1.5 bg-white border border-slate-700 rounded-lg text-sm text-slate-600 hover:border-blue-500/50 hover:text-blue-600 transition-all"
+                          class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm text-slate-600 hover:border-blue-500/50 hover:text-blue-600 transition-all"
                           [class.opacity-50]="isProviderAdded(preset.providerName!)">
                     + {{ preset.providerName }}
                   </button>
@@ -154,10 +154,10 @@ import { SubscriptionService } from '../../services/subscription.service';
             @if (register?.providers?.length) {
               <div class="space-y-3 mb-6">
                 @for (p of register!.providers!; track p.id) {
-                  <div class="bg-slate-800/30 rounded-lg p-4">
+                  <div class="bg-slate-100/30 rounded-lg p-4">
                     <div class="flex items-center justify-between">
                       <div>
-                        <span class="font-medium text-white">{{ p.providerName }}</span>
+                        <span class="font-medium text-slate-900">{{ p.providerName }}</span>
                         <span class="text-xs text-slate-500 ml-2">{{ p.countryOfHq }} &middot; {{ p.providerIdentifier || '—' }}</span>
                       </div>
                       <button (click)="removeProvider(p.id)" class="text-red-400 hover:text-red-300 text-sm">&#10005;</button>
@@ -173,20 +173,20 @@ import { SubscriptionService } from '../../services/subscription.service';
             <div class="border-t border-slate-200 pt-4">
               <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.add_provider') }}</h3>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <input type="text" [(ngModel)]="newProvider.providerName" placeholder="{{ lang.t('roi.provider_name') }} *" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                <input type="text" [(ngModel)]="newProvider.providerName" placeholder="{{ lang.t('roi.provider_name') }} *" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
                 <div class="flex gap-2">
-                  <input type="text" [(ngModel)]="newProvider.providerIdentifier" [placeholder]="lang.t('roi.lei_identifier')" class="flex-1 bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white font-mono">
+                  <input type="text" [(ngModel)]="newProvider.providerIdentifier" [placeholder]="lang.t('roi.lei_identifier')" class="flex-1 bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 font-mono">
                   <button (click)="lookupProviderLei()" class="px-3 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm">GLEIF</button>
                 </div>
-                <select [(ngModel)]="newProvider.providerType" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                <select [(ngModel)]="newProvider.providerType" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
                   <option value="">{{ lang.t('roi.provider_type') }}...</option>
                   @for (t of providerTypes; track t.code) {
                     <option [value]="t.code">{{ t.label }}</option>
                   }
                 </select>
-                <input type="text" [(ngModel)]="newProvider.countryOfHq" placeholder="{{ lang.t('roi.country') }} (EE)" maxlength="2" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
-                <input type="text" [(ngModel)]="newProvider.currencyOfContract" placeholder="{{ lang.t('roi.currency') }} (EUR)" maxlength="3" value="EUR" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
-                <input type="number" [(ngModel)]="newProvider.totalAnnualSpend" placeholder="{{ lang.t('roi.annual_spend') }}" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                <input type="text" [(ngModel)]="newProvider.countryOfHq" placeholder="{{ lang.t('roi.country') }} (EE)" maxlength="2" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
+                <input type="text" [(ngModel)]="newProvider.currencyOfContract" placeholder="{{ lang.t('roi.currency') }} (EUR)" maxlength="3" value="EUR" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
+                <input type="number" [(ngModel)]="newProvider.totalAnnualSpend" placeholder="{{ lang.t('roi.annual_spend') }}" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
               </div>
               <button (click)="addProvider()" class="mt-3 px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white rounded-lg text-sm" [disabled]="!newProvider.providerName">
                 + {{ lang.t('roi.add_provider') }}
@@ -196,14 +196,14 @@ import { SubscriptionService } from '../../services/subscription.service';
 
           <!-- STEP 3: Functions -->
           @if (currentStep === 3) {
-            <h2 class="text-xl font-semibold text-white mb-6">{{ lang.t('roi.step3_title') }}</h2>
+            <h2 class="text-xl font-semibold text-slate-900 mb-6">{{ lang.t('roi.step3_title') }}</h2>
 
             <div class="mb-6">
               <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.common_functions') }}</h3>
               <div class="flex flex-wrap gap-2">
                 @for (fn of commonFunctions; track fn) {
                   <button (click)="addCommonFunction(fn)"
-                          class="px-3 py-1.5 bg-white border border-slate-700 rounded-lg text-sm text-slate-600 hover:border-blue-500/50 hover:text-blue-600 transition-all">
+                          class="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm text-slate-600 hover:border-blue-500/50 hover:text-blue-600 transition-all">
                     + {{ fn }}
                   </button>
                 }
@@ -213,9 +213,9 @@ import { SubscriptionService } from '../../services/subscription.service';
             @if (register?.functions?.length) {
               <div class="space-y-3 mb-6">
                 @for (f of register!.functions!; track f.id) {
-                  <div class="bg-slate-800/30 rounded-lg p-4 flex items-center justify-between">
+                  <div class="bg-slate-100/30 rounded-lg p-4 flex items-center justify-between">
                     <div>
-                      <span class="font-medium text-white">{{ f.functionName }}</span>
+                      <span class="font-medium text-slate-900">{{ f.functionName }}</span>
                       <span class="text-xs ml-2 px-2 py-0.5 rounded-full"
                             [class]="f.criticalityAssessment === 'Critical' ? 'bg-red-500/20 text-red-400' : (f.criticalityAssessment === 'Important' ? 'bg-amber-500/20 text-amber-400' : 'bg-slate-500/20 text-slate-400')">
                         {{ f.criticalityAssessment || lang.t('roi.neither') }}
@@ -230,13 +230,13 @@ import { SubscriptionService } from '../../services/subscription.service';
             <div class="border-t border-slate-200 pt-4">
               <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.add_function') }}</h3>
               <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                <input type="text" [(ngModel)]="newFunction.functionName" placeholder="{{ lang.t('roi.function_name') }} *" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
-                <select [(ngModel)]="newFunction.criticalityAssessment" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                <input type="text" [(ngModel)]="newFunction.functionName" placeholder="{{ lang.t('roi.function_name') }} *" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
+                <select [(ngModel)]="newFunction.criticalityAssessment" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
                   @for (c of criticalityOptions; track c.code) {
                     <option [value]="c.code">{{ c.label }}</option>
                   }
                 </select>
-                <input type="text" [(ngModel)]="newFunction.licensedActivity" placeholder="{{ lang.t('roi.licensed_activity') }}" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                <input type="text" [(ngModel)]="newFunction.licensedActivity" placeholder="{{ lang.t('roi.licensed_activity') }}" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
               </div>
               <button (click)="addFunction()" class="mt-3 px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white rounded-lg text-sm" [disabled]="!newFunction.functionName">
                 + {{ lang.t('roi.add_function') }}
@@ -246,15 +246,15 @@ import { SubscriptionService } from '../../services/subscription.service';
 
           <!-- STEP 4: Contracts -->
           @if (currentStep === 4) {
-            <h2 class="text-xl font-semibold text-white mb-6">{{ lang.t('roi.step4_title') }}</h2>
+            <h2 class="text-xl font-semibold text-slate-900 mb-6">{{ lang.t('roi.step4_title') }}</h2>
 
             @if (register?.contracts?.length) {
               <div class="space-y-3 mb-6">
                 @for (c of register!.contracts!; track c.id) {
-                  <div class="bg-slate-800/30 rounded-lg p-4">
+                  <div class="bg-slate-100/30 rounded-lg p-4">
                     <div class="flex items-center justify-between">
                       <div>
-                        <span class="font-medium text-white">{{ c.contractRefNumber }}</span>
+                        <span class="font-medium text-slate-900">{{ c.contractRefNumber }}</span>
                         <span class="text-xs text-slate-500 ml-2">{{ c.contractType }} &middot; {{ c.currency }} {{ c.annualCost }}</span>
                       </div>
                       <button (click)="removeContract(c.id)" class="text-red-400 hover:text-red-300 text-sm">&#10005;</button>
@@ -268,19 +268,19 @@ import { SubscriptionService } from '../../services/subscription.service';
             <div class="border-t border-slate-200 pt-4">
               <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.add_contract') }}</h3>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <input type="text" [(ngModel)]="newContract.contractRefNumber" placeholder="{{ lang.t('roi.contract_ref') }} * ({{ lang.t('roi.example_short') }} ARR-0001)" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
-                <select [(ngModel)]="newContract.contractType" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                <input type="text" [(ngModel)]="newContract.contractRefNumber" placeholder="{{ lang.t('roi.contract_ref') }} * ({{ lang.t('roi.example_short') }} ARR-0001)" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
+                <select [(ngModel)]="newContract.contractType" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
                   <option value="">{{ lang.t('roi.contract_type') }}...</option>
                   @for (t of contractTypes; track t.code) {
                     <option [value]="t.code">{{ t.label }}</option>
                   }
                 </select>
-                <input type="text" [(ngModel)]="newContract.currency" placeholder="{{ lang.t('roi.currency') }}" value="EUR" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
-                <input type="number" [(ngModel)]="newContract.annualCost" placeholder="{{ lang.t('roi.annual_cost') }}" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
-                <input type="date" [(ngModel)]="newContract.startDate" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
-                <input type="date" [(ngModel)]="newContract.endDate" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
-                <input type="number" [(ngModel)]="newContract.noticePeriodDays" placeholder="{{ lang.t('roi.notice_period') }}" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
-                <textarea [(ngModel)]="newContract.reasonForCriticality" placeholder="{{ lang.t('roi.reason_criticality') }}" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white" rows="2"></textarea>
+                <input type="text" [(ngModel)]="newContract.currency" placeholder="{{ lang.t('roi.currency') }}" value="EUR" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
+                <input type="number" [(ngModel)]="newContract.annualCost" placeholder="{{ lang.t('roi.annual_cost') }}" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
+                <input type="date" [(ngModel)]="newContract.startDate" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
+                <input type="date" [(ngModel)]="newContract.endDate" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
+                <input type="number" [(ngModel)]="newContract.noticePeriodDays" placeholder="{{ lang.t('roi.notice_period') }}" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
+                <textarea [(ngModel)]="newContract.reasonForCriticality" placeholder="{{ lang.t('roi.reason_criticality') }}" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900" rows="2"></textarea>
               </div>
               <button (click)="addContract()" class="mt-3 px-4 py-2 bg-blue-700 hover:bg-blue-600 text-white rounded-lg text-sm" [disabled]="!newContract.contractRefNumber">
                 + {{ lang.t('roi.add_contract') }}
@@ -291,26 +291,26 @@ import { SubscriptionService } from '../../services/subscription.service';
               <div class="border-t border-slate-200 pt-6 mt-6">
                 <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.contract_details') }} (B_02.02)</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <select [(ngModel)]="newContractDetail.contractRefNumber" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                  <select [(ngModel)]="newContractDetail.contractRefNumber" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
                     <option value="">{{ lang.t('roi.select_contract') }}...</option>
                     @for (c of register!.contracts!; track c.id) {
                       <option [value]="c.contractRefNumber">{{ c.contractRefNumber }}</option>
                     }
                   </select>
-                  <select [(ngModel)]="newContractDetail.ictServiceType" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                  <select [(ngModel)]="newContractDetail.ictServiceType" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
                     <option value="">{{ lang.t('roi.ict_service_type') }}...</option>
                     @for (t of ictServiceTypes; track t.code) {
                       <option [value]="t.code">{{ t.label }}</option>
                     }
                   </select>
-                  <select [(ngModel)]="newContractDetail.functionIdentifier" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                  <select [(ngModel)]="newContractDetail.functionIdentifier" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
                     <option value="">{{ lang.t('roi.link_function') }}...</option>
                     @for (f of register!.functions!; track f.id) {
                       <option [value]="f.functionIdentifier">{{ f.functionName }}</option>
                     }
                   </select>
-                  <input type="text" [(ngModel)]="newContractDetail.dataLocationStorage" placeholder="{{ lang.t('roi.data_location_storage') }} (EE)" maxlength="2" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
-                  <input type="text" [(ngModel)]="newContractDetail.dataLocationProcessing" placeholder="{{ lang.t('roi.data_location_processing') }} (EE)" maxlength="2" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                  <input type="text" [(ngModel)]="newContractDetail.dataLocationStorage" placeholder="{{ lang.t('roi.data_location_storage') }} (EE)" maxlength="2" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
+                  <input type="text" [(ngModel)]="newContractDetail.dataLocationProcessing" placeholder="{{ lang.t('roi.data_location_processing') }} (EE)" maxlength="2" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
                   <div class="flex items-center gap-3">
                     <label class="text-sm text-slate-400">{{ lang.t('roi.exit_plan') }}:</label>
                     <input type="checkbox" [(ngModel)]="newContractDetail.exitPlanExists" class="w-4 h-4 accent-blue-600">
@@ -323,7 +323,7 @@ import { SubscriptionService } from '../../services/subscription.service';
                 @if (register?.contractDetails?.length) {
                   <div class="mt-4 space-y-2">
                     @for (d of register!.contractDetails!; track d.id) {
-                      <div class="flex items-center justify-between bg-slate-800/20 rounded-lg p-3 text-xs">
+                      <div class="flex items-center justify-between bg-slate-100/20 rounded-lg p-3 text-xs">
                         <span class="text-slate-600">{{ d.contractRefNumber }} &rarr; {{ d.ictServiceType }} &rarr; {{ d.functionIdentifier || '—' }}</span>
                         <button (click)="removeContractDetail(d.id)" class="text-red-400 hover:text-red-300">&#10005;</button>
                       </div>
@@ -336,7 +336,7 @@ import { SubscriptionService } from '../../services/subscription.service';
 
           <!-- STEP 5: Linking -->
           @if (currentStep === 5) {
-            <h2 class="text-xl font-semibold text-white mb-4">{{ lang.t('roi.step5_title') }}</h2>
+            <h2 class="text-xl font-semibold text-slate-900 mb-4">{{ lang.t('roi.step5_title') }}</h2>
             <p class="text-slate-400 text-sm mb-6">{{ lang.t('roi.step5_desc') }}</p>
 
             <button (click)="runAutoFillLinking()" class="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-semibold mb-6">
@@ -345,19 +345,19 @@ import { SubscriptionService } from '../../services/subscription.service';
 
             @if (register) {
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-slate-800/30 rounded-lg p-4">
+                <div class="bg-slate-100/30 rounded-lg p-4">
                   <h4 class="text-sm font-semibold text-slate-600 mb-2">B_03.01 — {{ lang.t('roi.recipients') }}</h4>
                   <p class="text-2xl font-bold text-blue-600">{{ register.recipients?.length || 0 }}</p>
                 </div>
-                <div class="bg-slate-800/30 rounded-lg p-4">
+                <div class="bg-slate-100/30 rounded-lg p-4">
                   <h4 class="text-sm font-semibold text-slate-600 mb-2">B_03.02 — {{ lang.t('roi.provider_signings') }}</h4>
                   <p class="text-2xl font-bold text-blue-400">{{ register.providerSignings?.length || 0 }}</p>
                 </div>
-                <div class="bg-slate-800/30 rounded-lg p-4">
+                <div class="bg-slate-100/30 rounded-lg p-4">
                   <h4 class="text-sm font-semibold text-slate-600 mb-2">B_04.01 — {{ lang.t('roi.service_users') }}</h4>
                   <p class="text-2xl font-bold text-purple-400">{{ register.serviceUsers?.length || 0 }}</p>
                 </div>
-                <div class="bg-slate-800/30 rounded-lg p-4">
+                <div class="bg-slate-100/30 rounded-lg p-4">
                   <h4 class="text-sm font-semibold text-slate-600 mb-2">B_03.03 — {{ lang.t('roi.internal_providers') }}</h4>
                   <p class="text-2xl font-bold text-amber-400">{{ register.internalProviders?.length || 0 }}</p>
                 </div>
@@ -367,14 +367,14 @@ import { SubscriptionService } from '../../services/subscription.service';
 
           <!-- STEP 6: Assessment -->
           @if (currentStep === 6) {
-            <h2 class="text-xl font-semibold text-white mb-6">{{ lang.t('roi.step6_title') }}</h2>
+            <h2 class="text-xl font-semibold text-slate-900 mb-6">{{ lang.t('roi.step6_title') }}</h2>
 
             @if (register?.assessments?.length) {
               <div class="space-y-3 mb-6">
                 @for (a of register!.assessments!; track a.id) {
-                  <div class="bg-slate-800/30 rounded-lg p-4 flex items-center justify-between">
+                  <div class="bg-slate-100/30 rounded-lg p-4 flex items-center justify-between">
                     <div>
-                      <span class="font-medium text-white">{{ a.contractRefNumber }}</span>
+                      <span class="font-medium text-slate-900">{{ a.contractRefNumber }}</span>
                       <span class="text-xs ml-2 px-2 py-0.5 rounded-full"
                             [class]="a.riskLevel === 'Critical' ? 'bg-red-500/20 text-red-400' : (a.riskLevel === 'High' ? 'bg-amber-500/20 text-amber-400' : 'bg-blue-100 text-blue-600')">
                         {{ a.riskLevel }}
@@ -390,19 +390,19 @@ import { SubscriptionService } from '../../services/subscription.service';
             @if (register?.contracts?.length) {
               <div class="border-t border-slate-200 pt-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <select [(ngModel)]="newAssessment.contractRefNumber" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                  <select [(ngModel)]="newAssessment.contractRefNumber" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
                     <option value="">{{ lang.t('roi.select_contract') }}...</option>
                     @for (c of register!.contracts!; track c.id) {
                       <option [value]="c.contractRefNumber">{{ c.contractRefNumber }}</option>
                     }
                   </select>
-                  <select [(ngModel)]="newAssessment.riskLevel" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                  <select [(ngModel)]="newAssessment.riskLevel" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
                     @for (r of riskLevels; track r.code) {
                       <option [value]="r.code">{{ r.label }}</option>
                     }
                   </select>
-                  <input type="date" [(ngModel)]="newAssessment.assessmentDate" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
-                  <input type="date" [(ngModel)]="newAssessment.lastAuditDate" placeholder="{{ lang.t('roi.last_audit') }}" class="bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                  <input type="date" [(ngModel)]="newAssessment.assessmentDate" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
+                  <input type="date" [(ngModel)]="newAssessment.lastAuditDate" placeholder="{{ lang.t('roi.last_audit') }}" class="bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
                   <div class="flex items-center gap-3">
                     <label class="text-sm text-slate-400">{{ lang.t('roi.exit_strategy') }}:</label>
                     <input type="checkbox" [(ngModel)]="newAssessment.exitStrategyExists" class="w-4 h-4 accent-blue-600">
@@ -421,7 +421,7 @@ import { SubscriptionService } from '../../services/subscription.service';
 
           <!-- STEP 7: Validate & Export (REDESIGNED) -->
           @if (currentStep === 7) {
-            <h2 class="text-xl font-semibold text-white mb-6">{{ lang.t('roi.step7_title') }}</h2>
+            <h2 class="text-xl font-semibold text-slate-900 mb-6">{{ lang.t('roi.step7_title') }}</h2>
 
             <button (click)="runValidation()" class="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-semibold mb-6"
                     [disabled]="validating">
@@ -481,12 +481,12 @@ import { SubscriptionService } from '../../services/subscription.service';
                   <div class="border rounded-lg overflow-hidden"
                        [class]="ts.status === 'GREEN' ? 'border-blue-200' : (ts.status === 'YELLOW' ? 'border-amber-500/20' : 'border-red-500/20')">
                     <button (click)="toggleTemplateSection(ts.templateCode)"
-                            class="w-full flex items-center justify-between px-4 py-3 bg-slate-800/30 hover:bg-white transition-colors">
+                            class="w-full flex items-center justify-between px-4 py-3 bg-slate-100/30 hover:bg-white transition-colors">
                       <div class="flex items-center gap-3">
                         <span class="w-3 h-3 rounded-full"
                               [class]="ts.status === 'GREEN' ? 'bg-blue-600' : (ts.status === 'YELLOW' ? 'bg-amber-500' : 'bg-red-500')"></span>
                         <span class="font-mono text-xs text-slate-400">{{ ts.templateCode }}</span>
-                        <span class="text-sm text-white">{{ ts.templateName }}</span>
+                        <span class="text-sm text-slate-900">{{ ts.templateName }}</span>
                       </div>
                       <div class="flex items-center gap-2">
                         @if (ts.errors > 0) {
@@ -502,7 +502,7 @@ import { SubscriptionService } from '../../services/subscription.service';
                       </div>
                     </button>
                     @if (expandedTemplates[ts.templateCode]) {
-                      <div class="px-4 py-2 space-y-1.5 bg-slate-900/30">
+                      <div class="px-4 py-2 space-y-1.5 bg-slate-100/30">
                         @for (issue of getIssuesForTemplate(ts.templateCode); track $index) {
                           <div class="flex items-start gap-3 p-2 rounded-lg cursor-pointer hover:bg-white text-sm"
                                [class]="issue.severity === 'ERROR' ? 'bg-red-500/5' : (issue.severity === 'WARNING' ? 'bg-amber-500/5' : 'bg-blue-500/5')"
@@ -532,15 +532,15 @@ import { SubscriptionService } from '../../services/subscription.service';
                   <h3 class="text-sm font-semibold text-slate-400 mb-3">{{ lang.t('roi.template_completeness') }}</h3>
                   <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
                     @for (entry of getReportCompletenessEntries(); track entry.templateCode) {
-                      <div class="bg-slate-800/30 rounded-lg p-3">
+                      <div class="bg-slate-100/30 rounded-lg p-3">
                         <div class="flex items-center justify-between mb-1">
                           <span class="text-xs font-mono text-slate-400">{{ entry.templateCode }}</span>
                           <span class="text-xs font-bold" [class]="entry.percentage >= 80 ? 'text-blue-600' : (entry.percentage >= 50 ? 'text-amber-400' : 'text-red-400')">
                             {{ entry.percentage }}%
                           </span>
                         </div>
-                        <p class="text-sm text-white mb-1">{{ entry.templateName }}</p>
-                        <div class="w-full bg-slate-700 rounded-full h-1.5">
+                        <p class="text-sm text-slate-900 mb-1">{{ entry.templateName }}</p>
+                        <div class="w-full bg-slate-200 rounded-full h-1.5">
                           <div class="h-1.5 rounded-full transition-all" [style.width.%]="entry.percentage"
                                [class]="entry.percentage >= 80 ? 'bg-blue-600' : (entry.percentage >= 50 ? 'bg-amber-500' : 'bg-red-500')"></div>
                         </div>
@@ -587,7 +587,7 @@ import { SubscriptionService } from '../../services/subscription.service';
         <!-- Navigation -->
         <div class="flex justify-between mt-6">
           <button (click)="prevStep()" [disabled]="currentStep === 1"
-                  class="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white rounded-lg disabled:opacity-30 disabled:cursor-not-allowed">
+                  class="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-900 rounded-lg disabled:opacity-30 disabled:cursor-not-allowed">
             &larr; {{ lang.t('roi.prev') }}
           </button>
           <button (click)="nextStep()"
@@ -617,12 +617,12 @@ import { SubscriptionService } from '../../services/subscription.service';
   `,
   styles: [`
     .glass-card {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(148, 163, 184, 0.1);
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(226, 232, 240, 1);
       border-radius: 12px;
       backdrop-filter: blur(12px);
     }
-    select option { background: #1e293b; color: #e2e8f0; }
+    select option { background: #ffffff; color: #1e293b; }
   `]
 })
 export class RoiWizardComponent implements OnInit {

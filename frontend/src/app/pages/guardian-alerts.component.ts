@@ -18,7 +18,7 @@ import { ContractAlert } from '../models';
           <a routerLink="/guardian" class="text-sm text-slate-500 hover:text-blue-600 transition-colors mb-2 inline-block">
             &larr; {{ lang.t('guardian.back') }}
           </a>
-          <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
             <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
             </svg>
@@ -37,7 +37,7 @@ import { ContractAlert } from '../models';
 
       <!-- Loading -->
       <div *ngIf="loading" class="text-center py-16">
-        <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-700 border-t-blue-400 animate-spin"></div>
+        <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-200 border-t-blue-400 animate-spin"></div>
       </div>
 
       <!-- Empty -->
@@ -69,7 +69,7 @@ import { ContractAlert } from '../models';
             <!-- Content -->
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2 mb-1">
-                <h3 class="text-white font-semibold text-sm">{{ alert.title }}</h3>
+                <h3 class="text-slate-900 font-semibold text-sm">{{ alert.title }}</h3>
                 <span [class]="severityTag(alert.severity)">{{ severityLabel(alert.severity) }}</span>
                 <span *ngIf="!alert.read" class="w-2 h-2 rounded-full bg-blue-400"></span>
               </div>
@@ -88,7 +88,7 @@ import { ContractAlert } from '../models';
 
             <!-- Mark read button -->
             <button type="button" *ngIf="!alert.read" (click)="markRead(alert)"
-                    class="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-700/50 text-slate-600 border border-slate-600/30 hover:bg-slate-100 transition-all">
+                    class="flex-shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 text-slate-600 border border-slate-300/30 hover:bg-slate-100 transition-all">
               {{ lang.t('guardian.mark_read') }}
             </button>
           </div>
@@ -153,7 +153,7 @@ export class GuardianAlertsComponent implements OnInit, OnDestroy {
     const base = 'px-3 py-1.5 rounded-lg text-xs font-medium transition-all';
     return active
       ? base + ' bg-blue-500/20 text-blue-400 border border-blue-500/30'
-      : base + ' bg-slate-700/30 text-slate-400 border border-slate-600/30 hover:text-white';
+      : base + ' bg-slate-100 text-slate-400 border border-slate-300/30 hover:text-slate-900';
   }
 
   severityBg(severity: string): string {

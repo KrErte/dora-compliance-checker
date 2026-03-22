@@ -17,7 +17,7 @@ interface AuditEntry {
     <div class="space-y-8">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-500 to-zinc-500 flex items-center justify-center">
               <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -37,7 +37,7 @@ interface AuditEntry {
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
         @for (cat of categories; track cat.key) {
           <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
-            <div class="text-2xl font-bold text-white">{{ countByCategory(cat.key) }}</div>
+            <div class="text-2xl font-bold text-slate-900">{{ countByCategory(cat.key) }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.l(cat.labelEt, cat.labelEn) }}</div>
           </div>
         }
@@ -50,7 +50,7 @@ interface AuditEntry {
             <div class="px-6 py-3 flex items-center gap-4">
               <div class="text-xs text-slate-500 w-36 flex-shrink-0 font-mono">{{ entry.timestamp }}</div>
               <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-700/50 text-slate-600 flex-shrink-0">{{ entry.category }}</span>
-              <div class="flex-1 text-sm text-white">{{ entry.action }}</div>
+              <div class="flex-1 text-sm text-slate-900">{{ entry.action }}</div>
               <div class="text-xs text-slate-400 truncate max-w-[200px]">{{ entry.details }}</div>
             </div>
           }

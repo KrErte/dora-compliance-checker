@@ -11,13 +11,13 @@ import { LangService } from '../lang.service';
   template: `
     <div class="max-w-3xl mx-auto">
       <div *ngIf="loading" class="text-center py-16 animate-fade-in">
-        <div class="inline-block w-10 h-10 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin"></div>
+        <div class="inline-block w-10 h-10 border-4 border-slate-200 border-t-blue-500 rounded-full animate-spin"></div>
       </div>
 
       <div *ngIf="result" class="animate-scale-in">
         <!-- Certificate -->
         <div class="certificate-border p-1">
-          <div class="bg-slate-900 rounded-xl p-5 sm:p-10 text-center relative overflow-hidden">
+          <div class="bg-white rounded-xl p-5 sm:p-10 text-center relative overflow-hidden">
             <!-- Background pattern -->
             <div class="absolute inset-0 opacity-5">
               <svg width="100%" height="100%">

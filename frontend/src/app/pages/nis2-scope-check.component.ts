@@ -71,7 +71,7 @@ interface Sector {
         <!-- Input Form -->
         <div class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6 space-y-6">
           <div class="flex items-center justify-between">
-            <h2 class="text-lg font-semibold text-white flex items-center gap-2">
+            <h2 class="text-lg font-semibold text-slate-900 flex items-center gap-2">
               <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
               </svg>
@@ -99,7 +99,7 @@ interface Sector {
                 maxlength="8"
                 placeholder="12345678"
                 (keyup.enter)="lookupCompany()"
-                class="flex-1 px-4 py-3 rounded-xl bg-white border border-slate-200 text-white focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-mono tracking-wider"
+                class="flex-1 px-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-900 focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all font-mono tracking-wider"
               />
               <button
                 type="button"
@@ -108,7 +108,7 @@ interface Sector {
                 class="px-5 py-3 rounded-xl font-medium transition-all flex items-center gap-2"
                 [ngClass]="registryCode.length === 8 && !lookupLoading
                   ? 'bg-blue-600/20 text-blue-500 border border-blue-500/30 hover:bg-blue-600/30 cursor-pointer'
-                  : 'bg-slate-700/30 text-slate-500 border border-slate-600/30 cursor-not-allowed'">
+                  : 'bg-slate-100/30 text-slate-500 border border-slate-300/30 cursor-not-allowed'">
                 <svg *ngIf="lookupLoading" class="w-4 h-4 animate-spin" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
@@ -174,7 +174,7 @@ interface Sector {
           <!-- Sector Select -->
           <div class="space-y-2">
             <label for="nis2-sector" class="text-sm font-medium text-slate-600">{{ lang.t('nis2.sector') }} *</label>
-            <select [(ngModel)]="sector" (ngModelChange)="autoSave()" id="nis2-sector" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-white focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all">
+            <select [(ngModel)]="sector" (ngModelChange)="autoSave()" id="nis2-sector" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-900 focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all">
               <option value="">{{ lang.t('nis2.select_sector') }}</option>
               <optgroup [label]="lang.t('nis2.essential_sectors')">
                 <option *ngFor="let s of essentialSectors" [value]="s.code">{{ lang.l(s.nameEt, s.nameEn) }}</option>
@@ -189,7 +189,7 @@ interface Sector {
           <div class="space-y-2">
             <label for="nis2-employees" class="text-sm font-medium text-slate-600">{{ lang.t('nis2.employees') }} *</label>
             <input type="number" [(ngModel)]="employees" (ngModelChange)="autoSave()" id="nis2-employees" min="0" placeholder="0"
-                   class="w-full px-4 py-3 rounded-xl bg-white border text-white focus:ring-2 transition-all"
+                   class="w-full px-4 py-3 rounded-xl bg-white border text-slate-900 focus:ring-2 transition-all"
                    [ngClass]="employees !== null && employees < 0 ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/20'">
             <p *ngIf="employees !== null && employees < 0" class="text-xs text-red-400">{{ lang.t('validation.positive_required') }}</p>
             <p *ngIf="employees === null || employees >= 0" class="text-xs text-slate-500">{{ lang.t('nis2.employees_hint') }}</p>
@@ -200,7 +200,7 @@ interface Sector {
             <label for="nis2-revenue" class="text-sm font-medium text-slate-600">{{ lang.t('nis2.revenue') }} *</label>
             <div class="relative">
               <input type="number" [(ngModel)]="revenue" (ngModelChange)="autoSave()" id="nis2-revenue" min="0" placeholder="0"
-                     class="w-full px-4 py-3 pr-12 rounded-xl bg-white border text-white focus:ring-2 transition-all"
+                     class="w-full px-4 py-3 pr-12 rounded-xl bg-white border text-slate-900 focus:ring-2 transition-all"
                      [ngClass]="revenue !== null && revenue < 0 ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/20'">
               <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">EUR</span>
             </div>
@@ -213,7 +213,7 @@ interface Sector {
             <label for="nis2-balance" class="text-sm font-medium text-slate-600">{{ lang.t('nis2.balance') }} *</label>
             <div class="relative">
               <input type="number" [(ngModel)]="balance" (ngModelChange)="autoSave()" id="nis2-balance" min="0" placeholder="0"
-                     class="w-full px-4 py-3 pr-12 rounded-xl bg-white border text-white focus:ring-2 transition-all"
+                     class="w-full px-4 py-3 pr-12 rounded-xl bg-white border text-slate-900 focus:ring-2 transition-all"
                      [ngClass]="balance !== null && balance < 0 ? 'border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20' : 'border-slate-200 focus:border-blue-500/50 focus:ring-blue-500/20'">
               <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">EUR</span>
             </div>
@@ -222,7 +222,7 @@ interface Sector {
           </div>
 
           <!-- Thresholds info -->
-          <div class="p-4 rounded-xl bg-slate-900/30 border border-slate-200 space-y-3">
+          <div class="p-4 rounded-xl bg-slate-100/30 border border-slate-200 space-y-3">
             <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">{{ lang.t('nis2.thresholds_title') }}</p>
             <div class="grid grid-cols-2 gap-4 text-xs">
               <div>
@@ -251,7 +251,7 @@ interface Sector {
           <div class="bg-white backdrop-blur-sm rounded-2xl border p-6" [ngClass]="resultBorderClass">
             <ng-container *ngIf="!hasInput">
               <div class="text-center py-8 space-y-3">
-                <div class="w-16 h-16 mx-auto rounded-full bg-slate-700/50 flex items-center justify-center">
+                <div class="w-16 h-16 mx-auto rounded-full bg-slate-100/50 flex items-center justify-center">
                   <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
@@ -311,7 +311,7 @@ interface Sector {
 
           <!-- Info Panel (shown when applicable) -->
           <div *ngIf="classification === 'essential' || classification === 'important'" class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6 space-y-5">
-            <h3 class="text-lg font-semibold text-white">{{ lang.t('nis2.what_this_means') }}</h3>
+            <h3 class="text-lg font-semibold text-slate-900">{{ lang.t('nis2.what_this_means') }}</h3>
 
             <!-- Supervision Type -->
             <div class="flex items-start gap-3">
@@ -356,7 +356,7 @@ interface Sector {
 
           <!-- What to do section -->
           <div class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6 space-y-4">
-            <h3 class="text-lg font-semibold text-white">{{ lang.t('nis2.what_to_do') }}</h3>
+            <h3 class="text-lg font-semibold text-slate-900">{{ lang.t('nis2.what_to_do') }}</h3>
 
             <div class="flex items-start gap-3">
               <div class="w-10 h-10 rounded-lg bg-violet-500/10 flex items-center justify-center flex-shrink-0">
@@ -409,7 +409,7 @@ interface Sector {
 
           <!-- Next steps CTA section -->
           <div class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6 space-y-4">
-            <h3 class="text-lg font-semibold text-white">{{ lang.t('nis2.next_steps') }}</h3>
+            <h3 class="text-lg font-semibold text-slate-900">{{ lang.t('nis2.next_steps') }}</h3>
 
             <!-- Assessment card - primary -->
             <div class="p-4 rounded-xl bg-teal-500/5 border border-teal-500/30 space-y-3">
@@ -431,7 +431,7 @@ interface Sector {
             </div>
 
             <!-- Board report card - secondary -->
-            <div class="p-4 rounded-xl bg-slate-700/30 border border-slate-600/30 space-y-3">
+            <div class="p-4 rounded-xl bg-slate-100/30 border border-slate-300/30 space-y-3">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <span class="text-lg">📄</span>
@@ -443,7 +443,7 @@ interface Sector {
               <a [href]="paymentConfig.lemonsqueezy.products.nis2Report.checkoutUrl" target="_blank"
                  class="block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium
                         bg-slate-600/50 text-slate-700 border border-slate-500/30
-                        hover:bg-slate-500/50 hover:text-white
+                        hover:bg-slate-500/50 hover:text-slate-900
                         transition-all duration-200">
                 {{ lang.t('nis2.cta_report_btn') }} →
               </a>
@@ -473,7 +473,7 @@ interface Sector {
 
           <!-- Not applicable info -->
           <div *ngIf="classification === 'not_applicable' && hasInput" class="bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6 space-y-4">
-            <h3 class="text-lg font-semibold text-white">{{ lang.t('nis2.not_applicable_title') }}</h3>
+            <h3 class="text-lg font-semibold text-slate-900">{{ lang.t('nis2.not_applicable_title') }}</h3>
             <p class="text-sm text-slate-400">{{ lang.t('nis2.not_applicable_desc') }}</p>
             <ul class="text-sm text-slate-500 space-y-1">
               <li class="flex items-center gap-2">
@@ -496,7 +496,7 @@ interface Sector {
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-white">{{ lang.t('nis2.email_cta_title') }}</h3>
+              <h3 class="text-lg font-semibold text-slate-900">{{ lang.t('nis2.email_cta_title') }}</h3>
             </div>
 
             <div class="flex gap-2">
@@ -504,7 +504,7 @@ interface Sector {
                 type="email"
                 [(ngModel)]="leadEmail"
                 [placeholder]="lang.t('nis2.email_placeholder')"
-                class="flex-1 px-4 py-3 rounded-xl bg-white border border-slate-200 text-white placeholder-slate-500 focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all"
+                class="flex-1 px-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder-slate-500 focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all"
               />
               <button
                 type="button"
@@ -513,7 +513,7 @@ interface Sector {
                 class="px-6 py-3 rounded-xl font-medium transition-all flex items-center gap-2"
                 [ngClass]="isValidEmail(leadEmail) && !emailSending
                   ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white hover:from-violet-400 hover:to-purple-400 hover:shadow-lg hover:shadow-violet-500/25'
-                  : 'bg-slate-700/50 text-slate-500 cursor-not-allowed'">
+                  : 'bg-slate-100/50 text-slate-500 cursor-not-allowed'">
                 <svg *ngIf="emailSending" class="w-4 h-4 animate-spin" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
@@ -539,8 +539,8 @@ interface Sector {
       </div>
 
       <!-- Info section -->
-      <div class="bg-slate-800/30 rounded-2xl border border-slate-200 p-6 space-y-4">
-        <h3 class="text-lg font-semibold text-white">{{ lang.t('nis2.about_title') }}</h3>
+      <div class="bg-slate-100/30 rounded-2xl border border-slate-200 p-6 space-y-4">
+        <h3 class="text-lg font-semibold text-slate-900">{{ lang.t('nis2.about_title') }}</h3>
         <p class="text-sm text-slate-400">{{ lang.t('nis2.about_desc') }}</p>
         <div class="flex flex-wrap gap-3 pt-2">
           <a href="https://eur-lex.europa.eu/eli/dir/2022/2555" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-500 transition-colors">

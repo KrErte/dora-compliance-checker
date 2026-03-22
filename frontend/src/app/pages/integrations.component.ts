@@ -11,12 +11,12 @@ import { ApiService } from '../api.service';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   template: `
-    <div class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 pt-24 pb-16 px-4">
+    <div class="min-h-screen bg-gradient-to-b from-white via-slate-50 to-slate-100 pt-24 pb-16 px-4">
       <div class="max-w-4xl mx-auto">
         <div class="flex items-center justify-between mb-8">
           <div>
             <a routerLink="/command-center" class="text-sm text-slate-500 hover:text-blue-600 transition-colors">&larr; {{ lang.t('intg.back') }}</a>
-            <h1 class="text-2xl font-bold text-white mt-1">{{ lang.t('intg.title') }}</h1>
+            <h1 class="text-2xl font-bold text-slate-900 mt-1">{{ lang.t('intg.title') }}</h1>
             <p class="text-sm text-slate-400 mt-1">{{ lang.t('intg.subtitle') }}</p>
           </div>
         </div>
@@ -33,13 +33,13 @@ import { ApiService } from '../api.service';
                       {{ config.type === 'SLACK' ? '#' : (config.type === 'TEAMS' ? 'T' : (config.type === 'WEBHOOK' ? '{}' : '@')) }}
                     </div>
                     <div>
-                      <h3 class="font-medium text-white">{{ config.name || config.type }}</h3>
+                      <h3 class="font-medium text-slate-900">{{ config.name || config.type }}</h3>
                       <p class="text-xs text-slate-500 font-mono">{{ config.webhookUrl ? (config.webhookUrl.substring(0, 50) + '...') : lang.t('intg.no_url') }}</p>
                     </div>
                   </div>
                   <div class="flex items-center gap-2">
                     <button (click)="toggleDeliveryHistory(config.id)" class="px-3 py-1 rounded-lg text-xs font-medium transition-colors"
-                            [class]="expandedDeliveryId === config.id ? 'bg-indigo-500/20 text-indigo-400' : 'bg-slate-700/50 text-slate-400 hover:text-slate-600'">
+                            [class]="expandedDeliveryId === config.id ? 'bg-indigo-500/20 text-indigo-400' : 'bg-slate-100/50 text-slate-400 hover:text-slate-600'">
                       {{ expandedDeliveryId === config.id ? 'Hide History' : 'Delivery History' }}
                     </button>
                     <button (click)="toggleEnabled(config)" class="px-3 py-1 rounded-full text-xs font-medium transition-colors"
@@ -82,7 +82,7 @@ import { ApiService } from '../api.service';
                           <div class="bg-white border border-slate-200 rounded-lg px-3 py-2.5">
                             <div class="flex items-center justify-between gap-2">
                               <div class="flex items-center gap-2 min-w-0">
-                                <span class="text-xs font-medium text-white truncate">{{ delivery.eventType }}</span>
+                                <span class="text-xs font-medium text-slate-900 truncate">{{ delivery.eventType }}</span>
                                 <!-- Status badge -->
                                 @if (delivery.success) {
                                   <span class="flex-shrink-0 px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-100 text-blue-600">
@@ -123,19 +123,19 @@ import { ApiService } from '../api.service';
         } @else {
           <div class="glass-card p-8 text-center mb-8">
             <div class="text-4xl mb-3 opacity-30">&#128279;</div>
-            <h3 class="text-lg font-semibold text-white mb-2">{{ lang.t('intg.empty_title') }}</h3>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ lang.t('intg.empty_title') }}</h3>
             <p class="text-sm text-slate-400">{{ lang.t('intg.empty_desc') }}</p>
           </div>
         }
 
         <!-- Add new integration -->
         <div class="glass-card p-6">
-          <h2 class="text-lg font-semibold text-white mb-4">{{ lang.t('intg.add') }}</h2>
+          <h2 class="text-lg font-semibold text-slate-900 mb-4">{{ lang.t('intg.add') }}</h2>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div>
               <label class="block text-sm text-slate-400 mb-1">{{ lang.t('intg.type') }}</label>
-              <select [(ngModel)]="newConfig.type" class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+              <select [(ngModel)]="newConfig.type" class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
                 <option value="SLACK">Slack</option>
                 <option value="TEAMS">Microsoft Teams</option>
                 <option value="WEBHOOK">Custom Webhook</option>
@@ -144,7 +144,7 @@ import { ApiService } from '../api.service';
             <div>
               <label class="block text-sm text-slate-400 mb-1">{{ lang.t('intg.name') }}</label>
               <input type="text" [(ngModel)]="newConfig.name" [placeholder]="lang.t('intg.name_placeholder')"
-                     class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white">
+                     class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900">
             </div>
           </div>
 
@@ -152,7 +152,7 @@ import { ApiService } from '../api.service';
             <label class="block text-sm text-slate-400 mb-1">{{ lang.t('intg.webhook_url') }}</label>
             <input type="url" [(ngModel)]="newConfig.webhookUrl"
                    [placeholder]="newConfig.type === 'SLACK' ? 'https://hooks.slack.com/services/...' : (newConfig.type === 'TEAMS' ? 'https://outlook.office.com/webhook/...' : 'https://your-api.com/webhook')"
-                   class="w-full bg-white border border-slate-700 rounded-lg px-4 py-2.5 text-white font-mono text-sm">
+                   class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 font-mono text-sm">
           </div>
 
           <!-- Event selection -->
@@ -160,7 +160,7 @@ import { ApiService } from '../api.service';
             <label class="block text-sm text-slate-400 mb-2">{{ lang.t('intg.events') }}</label>
             <div class="flex flex-wrap gap-2">
               @for (event of eventTypes; track event.code) {
-                <label class="flex items-center gap-2 px-3 py-2 bg-slate-800/30 rounded-lg cursor-pointer hover:bg-white transition-colors">
+                <label class="flex items-center gap-2 px-3 py-2 bg-slate-100/30 rounded-lg cursor-pointer hover:bg-white transition-colors">
                   <input type="checkbox" [checked]="isEventSelected(event.code)" (change)="toggleEvent(event.code)" class="w-4 h-4 accent-blue-600">
                   <span class="text-sm text-slate-600">{{ event.label }}</span>
                 </label>
@@ -169,7 +169,7 @@ import { ApiService } from '../api.service';
           </div>
 
           <!-- Setup instructions -->
-          <div class="bg-slate-800/30 rounded-lg p-4 mb-4">
+          <div class="bg-slate-100/30 rounded-lg p-4 mb-4">
             @if (newConfig.type === 'SLACK') {
               <h4 class="text-sm font-semibold text-slate-600 mb-2">{{ lang.t('intg.slack_setup') }}</h4>
               <ol class="text-xs text-slate-400 space-y-1 list-decimal list-inside">
@@ -203,12 +203,12 @@ import { ApiService } from '../api.service';
   `,
   styles: [`
     .glass-card {
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(255, 255, 255, 0.9);
       border: 1px solid rgba(148, 163, 184, 0.1);
       border-radius: 12px;
       backdrop-filter: blur(12px);
     }
-    select option { background: #1e293b; color: #e2e8f0; }
+    select option { background: #f1f5f9; color: #e2e8f0; }
     .custom-scrollbar::-webkit-scrollbar { width: 4px; }
     .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
     .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.3); border-radius: 2px; }

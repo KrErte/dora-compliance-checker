@@ -23,7 +23,7 @@ interface RegulatorToken {
   standalone: true,
   imports: [CommonModule, RouterLink, FormsModule],
   template: `
-    <div class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 pt-24 pb-16 px-4">
+    <div class="min-h-screen bg-gradient-to-b from-white via-slate-50 to-slate-100 pt-24 pb-16 px-4">
       <div class="max-w-5xl mx-auto">
 
         <!-- Back link -->
@@ -53,13 +53,13 @@ interface RegulatorToken {
 
         <!-- Premium Gate -->
         @if (!subService.isPremium()) {
-          <div class="bg-gradient-to-br from-violet-500/10 via-slate-800/50 to-blue-500/10 border border-violet-500/20 rounded-2xl p-8 text-center mb-10">
+          <div class="bg-gradient-to-br from-violet-500/10 via-slate-100/50 to-blue-500/10 border border-violet-500/20 rounded-2xl p-8 text-center mb-10">
             <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center shadow-lg shadow-violet-500/20">
               <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
               </svg>
             </div>
-            <h2 class="text-xl font-bold text-white mb-2">
+            <h2 class="text-xl font-bold text-slate-900 mb-2">
               {{ lang.l('Premium funktsioon', 'Premium Feature') }}
             </h2>
             <p class="text-slate-400 mb-6 max-w-md mx-auto">
@@ -103,7 +103,7 @@ interface RegulatorToken {
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                 </svg>
               </div>
-              <h2 class="text-lg font-semibold text-white">
+              <h2 class="text-lg font-semibold text-slate-900">
                 {{ lang.l('Loo uus ligip\u00e4\u00e4sulink', 'Create New Access Link') }}
               </h2>
             </div>
@@ -116,7 +116,7 @@ interface RegulatorToken {
                 </label>
                 <input type="text" [(ngModel)]="formLabel"
                        [placeholder]="lang.l('nt. Finantsinspektsioon 2026', 'e.g. Financial Authority 2026')"
-                       class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white text-sm
+                       class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm
                               placeholder-slate-500 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 transition-all">
               </div>
               <!-- Expiry -->
@@ -126,7 +126,7 @@ interface RegulatorToken {
                 </label>
                 <input type="date" [(ngModel)]="formExpiry"
                        [min]="minDate"
-                       class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white text-sm
+                       class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm
                               focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 transition-all">
               </div>
             </div>
@@ -142,7 +142,7 @@ interface RegulatorToken {
                           class="px-3.5 py-2 rounded-lg text-xs font-medium border transition-all flex items-center gap-2"
                           [class]="formPermissions().includes(perm.key)
                             ? 'bg-violet-500/15 border-violet-500/40 text-violet-300'
-                            : 'bg-slate-700/20 border-slate-200 text-slate-400 hover:border-slate-300'">
+                            : 'bg-slate-200/20 border-slate-200 text-slate-400 hover:border-slate-300'">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       @if (formPermissions().includes(perm.key)) {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
@@ -193,12 +193,12 @@ interface RegulatorToken {
                     {{ lang.l('Kopeeri see link ja jaga seda regulaatoriga:', 'Copy this link and share it with the regulator:') }}
                   </p>
                   <div class="flex items-center gap-2">
-                    <div class="flex-1 bg-slate-900/60 rounded-lg px-3 py-2 font-mono text-xs text-blue-500 truncate border border-slate-200">
+                    <div class="flex-1 bg-slate-100/60 rounded-lg px-3 py-2 font-mono text-xs text-blue-500 truncate border border-slate-200">
                       {{ getShareUrl(createdToken()!) }}
                     </div>
                     <button (click)="copyToClipboard(getShareUrl(createdToken()!))"
                             class="px-3 py-2 rounded-lg text-xs font-medium transition-all flex-shrink-0"
-                            [class]="copiedId() === 'new' ? 'bg-blue-100 text-blue-600' : 'bg-slate-700/50 text-slate-600 hover:bg-slate-100'">
+                            [class]="copiedId() === 'new' ? 'bg-blue-100 text-blue-600' : 'bg-slate-200/50 text-slate-600 hover:bg-slate-100'">
                       {{ copiedId() === 'new' ? lang.l('Kopeeritud!', 'Copied!') : lang.l('Kopeeri', 'Copy') }}
                     </button>
                   </div>
@@ -215,7 +215,7 @@ interface RegulatorToken {
           <!-- Loading -->
           @if (loading()) {
             <div class="text-center py-16">
-              <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-700 border-t-violet-400 animate-spin"></div>
+              <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-200 border-t-violet-400 animate-spin"></div>
               <p class="text-sm text-slate-500">{{ lang.l('Laadimine...', 'Loading...') }}</p>
             </div>
           }
@@ -223,12 +223,12 @@ interface RegulatorToken {
           <!-- Empty state -->
           @if (!loading() && tokens().length === 0) {
             <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
-              <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-slate-700/30 flex items-center justify-center">
+              <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-slate-200/30 flex items-center justify-center">
                 <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-white mb-2">
+              <h3 class="text-lg font-semibold text-slate-900 mb-2">
                 {{ lang.l('\u00dchtegi linki pole loodud', 'No Links Created Yet') }}
               </h3>
               <p class="text-sm text-slate-400 max-w-sm mx-auto">
@@ -243,7 +243,7 @@ interface RegulatorToken {
           <!-- Active Tokens Grid -->
           @if (!loading() && tokens().length > 0) {
             <div class="space-y-4">
-              <h2 class="text-lg font-semibold text-white flex items-center gap-2">
+              <h2 class="text-lg font-semibold text-slate-900 flex items-center gap-2">
                 <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
                 </svg>
@@ -271,7 +271,7 @@ interface RegulatorToken {
                         }
                       </div>
                       <div>
-                        <h3 class="text-sm font-semibold text-white">{{ t.label }}</h3>
+                        <h3 class="text-sm font-semibold text-slate-900">{{ t.label }}</h3>
                         <div class="flex items-center gap-2 mt-0.5">
                           <span class="px-2 py-0.5 rounded-full text-[10px] font-medium"
                                 [class]="t.active && !isExpired(t) ? 'bg-blue-50 text-blue-600' : 'bg-red-500/10 text-red-400'">
@@ -294,13 +294,13 @@ interface RegulatorToken {
 
                   <!-- Share URL -->
                   <div class="flex items-center gap-2 mb-3">
-                    <div class="flex-1 bg-slate-900/60 rounded-lg px-3 py-2 font-mono text-xs text-blue-500/80 truncate border border-slate-200">
+                    <div class="flex-1 bg-slate-100/60 rounded-lg px-3 py-2 font-mono text-xs text-blue-500/80 truncate border border-slate-200">
                       {{ getShareUrl(t.token) }}
                     </div>
                     <button (click)="copyToClipboard(getShareUrl(t.token), t.id)"
                             [disabled]="!t.active || isExpired(t)"
                             class="px-3 py-2 rounded-lg text-xs font-medium transition-all flex-shrink-0 disabled:opacity-30 disabled:cursor-not-allowed"
-                            [class]="copiedId() === t.id ? 'bg-blue-100 text-blue-600' : 'bg-slate-700/50 text-slate-600 hover:bg-slate-100'">
+                            [class]="copiedId() === t.id ? 'bg-blue-100 text-blue-600' : 'bg-slate-200/50 text-slate-600 hover:bg-slate-100'">
                       {{ copiedId() === t.id ? lang.l('Kopeeritud!', 'Copied!') : lang.l('Kopeeri', 'Copy') }}
                     </button>
                   </div>
@@ -309,7 +309,7 @@ interface RegulatorToken {
                   <div class="flex flex-wrap items-center justify-between gap-2">
                     <div class="flex flex-wrap gap-1.5">
                       @for (p of t.permissions; track p) {
-                        <span class="px-2 py-0.5 rounded-full text-[10px] bg-slate-700/40 text-slate-400 border border-slate-600/30">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] bg-slate-200/40 text-slate-400 border border-slate-300/30">
                           {{ getPermissionLabel(p) }}
                         </span>
                       }
@@ -356,7 +356,7 @@ interface RegulatorToken {
 
           <!-- Info section -->
           <div class="mt-10 bg-gradient-to-br from-violet-500/5 to-indigo-500/5 border border-violet-500/15 rounded-xl p-6">
-            <h3 class="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+            <h3 class="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2">
               <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>

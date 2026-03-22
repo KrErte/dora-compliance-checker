@@ -12,12 +12,12 @@ import { AdminService, LeadCompany, LeadPage, LeadStats } from '../services/admi
       <!-- Header -->
       <div class="flex items-center justify-between mb-6">
         <div>
-          <h1 class="text-2xl font-bold text-white">Lead Dashboard</h1>
+          <h1 class="text-2xl font-bold text-slate-900">Lead Dashboard</h1>
           <p class="text-sm text-slate-400 mt-1">Baltic financial company leads for DORA outreach</p>
         </div>
         <div class="flex items-center gap-3">
           <button (click)="exportCsv()"
-                  class="px-4 py-2 text-sm bg-slate-700 hover:bg-slate-600 text-slate-600 rounded-lg transition-colors flex items-center gap-2">
+                  class="px-4 py-2 text-sm bg-slate-100 hover:bg-slate-50 text-slate-600 rounded-lg transition-colors flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             Export CSV
           </button>
@@ -48,7 +48,7 @@ import { AdminService, LeadCompany, LeadPage, LeadStats } from '../services/admi
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div class="bg-white border border-slate-200 rounded-xl p-4">
             <p class="text-xs text-slate-400 uppercase tracking-wider">Total Leads</p>
-            <p class="text-2xl font-bold text-white mt-1">{{ stats()!.total }}</p>
+            <p class="text-2xl font-bold text-slate-900 mt-1">{{ stats()!.total }}</p>
           </div>
           <div class="bg-white border border-slate-200 rounded-xl p-4">
             <p class="text-xs text-slate-400 uppercase tracking-wider">Estonia</p>
@@ -90,10 +90,10 @@ import { AdminService, LeadCompany, LeadPage, LeadStats } from '../services/admi
         <div class="flex flex-wrap items-center gap-3">
           <input type="text" [(ngModel)]="searchQuery" (ngModelChange)="onFilterChange()"
                  placeholder="Search company name or registry code..."
-                 class="flex-1 min-w-[200px] bg-slate-700 border border-slate-600 text-slate-600 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
+                 class="flex-1 min-w-[200px] bg-white border border-slate-300 text-slate-600 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
 
           <select [(ngModel)]="filterCountry" (ngModelChange)="onFilterChange()"
-                  class="bg-slate-700 border border-slate-600 text-slate-600 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
+                  class="bg-white border border-slate-300 text-slate-600 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
             <option value="">All Countries</option>
             <option value="EE">Estonia</option>
             <option value="LV">Latvia</option>
@@ -101,7 +101,7 @@ import { AdminService, LeadCompany, LeadPage, LeadStats } from '../services/admi
           </select>
 
           <select [(ngModel)]="filterLicenseType" (ngModelChange)="onFilterChange()"
-                  class="bg-slate-700 border border-slate-600 text-slate-600 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
+                  class="bg-white border border-slate-300 text-slate-600 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
             <option value="">All License Types</option>
             <option value="BANK">Bank</option>
             <option value="INSURANCE">Insurance</option>
@@ -113,7 +113,7 @@ import { AdminService, LeadCompany, LeadPage, LeadStats } from '../services/admi
           </select>
 
           <select [(ngModel)]="filterStatus" (ngModelChange)="onFilterChange()"
-                  class="bg-slate-700 border border-slate-600 text-slate-600 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
+                  class="bg-white border border-slate-300 text-slate-600 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
             <option value="">All Statuses</option>
             <option value="NEW">New</option>
             <option value="CONTACTED">Contacted</option>
@@ -122,7 +122,7 @@ import { AdminService, LeadCompany, LeadPage, LeadStats } from '../services/admi
           </select>
 
           <select [(ngModel)]="filterSector" (ngModelChange)="onFilterChange()"
-                  class="bg-slate-700 border border-slate-600 text-slate-600 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
+                  class="bg-white border border-slate-300 text-slate-600 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
             <option value="">All Sectors</option>
             <option value="Banking">Banking</option>
             <option value="Insurance">Insurance</option>
@@ -133,7 +133,7 @@ import { AdminService, LeadCompany, LeadPage, LeadStats } from '../services/admi
 
           @if (hasActiveFilters()) {
             <button (click)="clearFilters()"
-                    class="px-3 py-2 text-xs text-slate-400 hover:text-white border border-slate-600 hover:border-slate-500 rounded-lg transition-colors">
+                    class="px-3 py-2 text-xs text-slate-400 hover:text-slate-900 border border-slate-300 hover:border-slate-500 rounded-lg transition-colors">
               Clear Filters
             </button>
           }
@@ -148,7 +148,7 @@ import { AdminService, LeadCompany, LeadPage, LeadStats } from '../services/admi
       } @else if (error()) {
         <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-6 text-center">
           <p class="text-red-400">{{ error() }}</p>
-          <button (click)="loadLeads()" class="mt-3 px-4 py-2 text-sm bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors">
+          <button (click)="loadLeads()" class="mt-3 px-4 py-2 text-sm bg-slate-100 hover:bg-slate-50 text-slate-700 rounded-lg transition-colors">
             Retry
           </button>
         </div>
@@ -159,7 +159,7 @@ import { AdminService, LeadCompany, LeadPage, LeadStats } from '../services/admi
             <table class="w-full text-sm">
               <thead>
                 <tr class="border-b border-slate-200">
-                  <th (click)="sortBy('companyName')" class="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-white">
+                  <th (click)="sortBy('companyName')" class="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-slate-900">
                     Company {{ sortIcon('companyName') }}
                   </th>
                   <th class="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Country</th>
@@ -167,14 +167,14 @@ import { AdminService, LeadCompany, LeadPage, LeadStats } from '../services/admi
                   <th class="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Sector</th>
                   <th class="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Status</th>
                   <th class="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Website</th>
-                  <th (click)="sortBy('createdAt')" class="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-white">
+                  <th (click)="sortBy('createdAt')" class="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-slate-900">
                     Added {{ sortIcon('createdAt') }}
                   </th>
                 </tr>
               </thead>
               <tbody>
                 @for (lead of leads(); track lead.id) {
-                  <tr (click)="openLead(lead)" class="border-b border-slate-200 hover:bg-slate-700/20 transition-colors cursor-pointer">
+                  <tr (click)="openLead(lead)" class="border-b border-slate-200 hover:bg-slate-50/20 transition-colors cursor-pointer">
                     <td class="px-4 py-3">
                       <div class="text-slate-700 font-medium">{{ lead.companyName }}</div>
                       @if (lead.registryCode) {
@@ -228,18 +228,18 @@ import { AdminService, LeadCompany, LeadPage, LeadStats } from '../services/admi
               </p>
               <div class="flex items-center gap-1">
                 <button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 0"
-                        class="px-3 py-1 text-xs text-slate-400 hover:text-white bg-slate-700/50 hover:bg-slate-700 rounded disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                        class="px-3 py-1 text-xs text-slate-400 hover:text-slate-900 bg-slate-100/50 hover:bg-slate-50 rounded disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
                   Prev
                 </button>
                 @for (p of pageNumbers(); track p) {
                   <button (click)="goToPage(p)"
                           class="px-3 py-1 text-xs rounded transition-colors"
-                          [class]="p === currentPage() ? 'bg-blue-700 text-white' : 'text-slate-400 hover:text-white bg-slate-700/50 hover:bg-slate-700'">
+                          [class]="p === currentPage() ? 'bg-blue-700 text-white' : 'text-slate-400 hover:text-slate-900 bg-slate-100/50 hover:bg-slate-50'">
                     {{ p + 1 }}
                   </button>
                 }
                 <button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() >= totalPages() - 1"
-                        class="px-3 py-1 text-xs text-slate-400 hover:text-white bg-slate-700/50 hover:bg-slate-700 rounded disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
+                        class="px-3 py-1 text-xs text-slate-400 hover:text-slate-900 bg-slate-100/50 hover:bg-slate-50 rounded disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
                   Next
                 </button>
               </div>
@@ -250,9 +250,9 @@ import { AdminService, LeadCompany, LeadPage, LeadStats } from '../services/admi
 
       <!-- Bulk actions -->
       @if (selectedIds().length > 0) {
-        <div class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-slate-800 border border-slate-600 rounded-xl px-6 py-3 shadow-2xl flex items-center gap-4 z-50">
+        <div class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-white border border-slate-200 rounded-xl px-6 py-3 shadow-2xl flex items-center gap-4 z-50">
           <span class="text-sm text-slate-600">{{ selectedIds().length }} selected</span>
-          <select [(ngModel)]="bulkStatus" class="bg-slate-700 border border-slate-600 text-slate-600 text-xs rounded-lg px-2 py-1">
+          <select [(ngModel)]="bulkStatus" class="bg-white border border-slate-300 text-slate-600 text-xs rounded-lg px-2 py-1">
             <option value="">Change status...</option>
             <option value="CONTACTED">Contacted</option>
             <option value="QUALIFIED">Qualified</option>
@@ -262,7 +262,7 @@ import { AdminService, LeadCompany, LeadPage, LeadStats } from '../services/admi
                   class="px-3 py-1 text-xs bg-blue-700 hover:bg-blue-600 disabled:bg-slate-600 text-white rounded-lg transition-colors">
             Apply
           </button>
-          <button (click)="clearSelection()" class="text-xs text-slate-500 hover:text-white transition-colors">Cancel</button>
+          <button (click)="clearSelection()" class="text-xs text-slate-500 hover:text-slate-900 transition-colors">Cancel</button>
         </div>
       }
     </div>

@@ -98,7 +98,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 <path d="m6 9 6 6 6-6"/>
               </svg>
             </button>
-            <div *ngIf="moreMenu" class="absolute left-0 top-full mt-1 w-64 bg-slate-800 border border-slate-200 rounded-xl shadow-xl py-2 z-50 max-h-[calc(100vh-5rem)] overflow-y-auto">
+            <div *ngIf="moreMenu" class="absolute left-0 top-full mt-1 w-64 bg-white border border-slate-200 rounded-xl shadow-xl py-2 z-50 max-h-[calc(100vh-5rem)] overflow-y-auto">
               <a routerLink="/workspace" (click)="closeAllMenus()"
                  class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-600 hover:text-violet-400 hover:bg-slate-100 transition-colors">
                 <svg class="w-4 h-4 text-violet-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -107,8 +107,8 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 {{ lang.t('nav.contracts_short') }}
               </a>
               <a routerLink="/chat" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-white hover:text-blue-500 hover:bg-blue-50 transition-colors mx-1 rounded-lg bg-gradient-to-r from-blue-700/10 to-blue-600/10 border border-blue-200 mb-1">
-                <div class="w-5 h-5 rounded bg-blue-600 flex items-center justify-center text-slate-900 text-[8px] font-bold shrink-0">AI</div>
+                 class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-900 hover:text-blue-500 hover:bg-blue-50 transition-colors mx-1 rounded-lg bg-gradient-to-r from-blue-700/10 to-blue-600/10 border border-blue-200 mb-1">
+                <div class="w-5 h-5 rounded bg-blue-600 flex items-center justify-center text-white text-[8px] font-bold shrink-0">AI</div>
                 DoraBot
               </a>
               <!-- Compliance Management -->
@@ -215,7 +215,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
             </div>
           </div>
           }
-          <div class="w-px h-5 bg-slate-700/50 mx-0.5"></div>
+          <div class="w-px h-5 bg-slate-200/50 mx-0.5"></div>
           <!-- Theme toggle -->
           <button type="button" (click)="themeService.toggle()"
                   [attr.aria-label]="lang.t('theme.toggle')"
@@ -258,9 +258,9 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   </span>
                 }
               </button>
-              <div *ngIf="notifMenu" class="absolute right-0 top-full mt-1 w-80 bg-slate-800 border border-slate-200 rounded-xl shadow-xl z-50 overflow-hidden">
+              <div *ngIf="notifMenu" class="absolute right-0 top-full mt-1 w-80 bg-white border border-slate-200 rounded-xl shadow-xl z-50 overflow-hidden">
                 <div class="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-                  <span class="text-sm font-semibold text-white">{{ lang.t('notifications.title') }}</span>
+                  <span class="text-sm font-semibold text-slate-900">{{ lang.t('notifications.title') }}</span>
                   <div class="flex items-center gap-2">
                     @if (notificationService.notifications().length > 0) {
                       <button type="button" (click)="notificationService.markAllAsRead()" class="text-[10px] text-slate-400 hover:text-slate-600 font-medium">{{ lang.t('notifications.mark_all_read') }}</button>
@@ -294,7 +294,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                               [class]="alert.severity === 'CRITICAL' ? 'bg-red-500/10 text-red-400' : alert.severity === 'WARNING' ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-500/10 text-blue-400'">
                           {{ alert.severity }}
                         </span>
-                        <p class="text-xs text-white font-medium truncate mt-0.5">{{ alert.title }}</p>
+                        <p class="text-xs text-slate-900 font-medium truncate mt-0.5">{{ alert.title }}</p>
                         <p class="text-[10px] text-slate-500 truncate">{{ alert.message }}</p>
                       </div>
                     </a>
@@ -308,11 +308,11 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                   </div>
                   @for (notif of notificationService.notifications().slice(0, 5); track notif.id) {
                     <div (click)="onNotificationClick(notif)" class="flex items-start gap-3 px-4 py-2.5 hover:bg-slate-100 transition-colors cursor-pointer border-b border-slate-200 last:border-0">
-                      <div class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 bg-slate-700/50">
+                      <div class="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 bg-slate-200/50">
                         <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                       </div>
                       <div class="min-w-0 flex-1">
-                        <p class="text-xs font-medium truncate" [class]="notif.read ? 'text-slate-400' : 'text-white'">{{ notif.title }}</p>
+                        <p class="text-xs font-medium truncate" [class]="notif.read ? 'text-slate-400' : 'text-slate-900'">{{ notif.title }}</p>
                         <p class="text-[10px] text-slate-500 truncate">{{ notif.message }}</p>
                         <p class="text-[9px] text-slate-600 mt-0.5">{{ notificationService.timeAgo(notif.createdAt) }}</p>
                       </div>
@@ -341,7 +341,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
             </div>
           }
           <!-- Separator between lang and user -->
-          <div class="w-px h-5 bg-slate-700/50 mx-1"></div>
+          <div class="w-px h-5 bg-slate-200/50 mx-1"></div>
           <!-- User avatar / Auth -->
           @if (auth.isLoggedIn()) {
             <div class="relative nav-dropdown-trigger">
@@ -350,7 +350,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                              hover:shadow-lg hover:shadow-lg transition-all duration-200 hover:scale-105">
                 {{ getUserInitials() }}
               </button>
-              <div *ngIf="userMenu" class="absolute right-0 top-full mt-1 w-48 bg-slate-800 border border-slate-200 rounded-xl shadow-xl py-2 z-50">
+              <div *ngIf="userMenu" class="absolute right-0 top-full mt-1 w-48 bg-white border border-slate-200 rounded-xl shadow-xl py-2 z-50">
                 @if (auth.user()?.fullName) {
                   <span class="block px-4 pt-1.5 text-sm font-semibold text-slate-700 truncate">{{ auth.user()?.fullName }}</span>
                 }
@@ -466,8 +466,8 @@ import { GuidedTourComponent } from './components/guided-tour.component';
             </button>
             <div *ngIf="mobileMoreOpen" class="flex flex-col gap-0.5">
               <a routerLink="/chat" (click)="mobileMenu = false"
-                 class="flex items-center gap-2 text-sm text-white px-3 py-2.5 rounded-lg bg-gradient-to-r from-blue-700/10 to-blue-600/10 border border-blue-200 mb-1">
-                <div class="w-5 h-5 rounded bg-blue-600 flex items-center justify-center text-slate-900 text-[8px] font-bold">AI</div>
+                 class="flex items-center gap-2 text-sm text-slate-900 px-3 py-2.5 rounded-lg bg-gradient-to-r from-blue-700/10 to-blue-600/10 border border-blue-200 mb-1">
+                <div class="w-5 h-5 rounded bg-blue-600 flex items-center justify-center text-white text-[8px] font-bold">AI</div>
                 DoraBot
               </a>
               <!-- Compliance Management -->
@@ -548,7 +548,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
               <a routerLink="/login" (click)="mobileMenu = false"
                  class="text-sm text-blue-600 px-3 py-2 rounded-lg hover:bg-slate-100">{{ lang.t('auth.login') }}</a>
               <a routerLink="/register" (click)="mobileMenu = false"
-                 class="text-sm text-white bg-blue-100 px-3 py-2 rounded-lg hover:bg-blue-600/30 text-center">{{ lang.t('auth.register') }}</a>
+                 class="text-sm text-blue-700 bg-blue-100 px-3 py-2 rounded-lg hover:bg-blue-600/30 text-center">{{ lang.t('auth.register') }}</a>
             </div>
           }
           <div class="border-t border-slate-200 mt-2 pt-2 flex flex-col gap-1">
@@ -575,7 +575,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
     <main id="main-content" [class]="hideNav ? 'max-w-5xl mx-auto px-3 sm:px-4 py-6 sm:py-8 min-h-screen' : 'max-w-5xl mx-auto px-3 sm:px-4 py-6 sm:py-8'">
       <router-outlet />
     </main>
-    <footer *ngIf="!hideFooter" class="border-t border-slate-800 mt-16 py-10">
+    <footer *ngIf="!hideFooter" class="border-t border-slate-200 mt-16 py-10">
       <div class="max-w-5xl mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <!-- Brand -->
@@ -634,7 +634,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
         </div>
 
         <!-- Bottom bar -->
-        <div class="border-t border-slate-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="border-t border-slate-200 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p class="text-xs text-slate-600">&copy; 2026 DoraAudit.eu. {{ lang.t('footer.rights') }}</p>
           <div class="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-center">
             <p class="text-[10px] text-slate-700">{{ lang.t('footer.regulation') }}</p>
@@ -660,7 +660,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
              'bg-red-500/90 text-white border-red-400': t.type === 'error',
              'bg-amber-500/90 text-white border-amber-400': t.type === 'warning',
              'bg-blue-600/90 text-white border-blue-400': t.type === 'success',
-             'bg-slate-700/90 text-white border-slate-600': t.type === 'info'
+             'bg-slate-100/90 text-slate-900 border-slate-300': t.type === 'info'
            }">
         {{ t.message }}
       </div>

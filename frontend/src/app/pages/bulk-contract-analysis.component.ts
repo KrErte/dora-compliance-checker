@@ -38,7 +38,7 @@ interface BulkResponse {
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   template: `
-    <div class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 pt-24 pb-16 px-4">
+    <div class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-50 to-slate-950 pt-24 pb-16 px-4">
       <div class="max-w-5xl mx-auto">
 
         <!-- Header -->
@@ -49,7 +49,7 @@ interface BulkResponse {
             </svg>
             Bulk Analysis
           </div>
-          <h1 class="text-3xl font-bold text-white mb-2">Bulk Contract Analysis</h1>
+          <h1 class="text-3xl font-bold text-slate-900 mb-2">Bulk Contract Analysis</h1>
           <p class="text-slate-400 max-w-xl mx-auto">Upload up to 50 contracts at once. Get a portfolio-level DORA compliance overview and identify your weakest vendor contracts.</p>
         </div>
 
@@ -59,12 +59,12 @@ interface BulkResponse {
             <div class="mb-6">
               <label class="block text-sm text-slate-400 mb-2">Company / Organization Name</label>
               <input type="text" [(ngModel)]="companyName" placeholder="e.g. My Financial Institution"
-                     class="w-full bg-white border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none">
+                     class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-slate-900 placeholder-slate-500 focus:border-blue-500 focus:outline-none">
             </div>
 
             <!-- Drop Zone -->
             <div class="border-2 border-dashed rounded-2xl p-12 text-center transition-all cursor-pointer"
-                 [class]="files.length > 0 ? 'border-blue-500/50 bg-blue-50' : 'border-slate-700 hover:border-slate-500 bg-slate-800/30'"
+                 [class]="files.length > 0 ? 'border-blue-500/50 bg-blue-50' : 'border-slate-200 hover:border-slate-500 bg-slate-100/30'"
                  (click)="fileInput.click()"
                  (drop)="onDrop($event)" (dragover)="$event.preventDefault()">
               <input #fileInput type="file" multiple accept=".pdf,.docx,.doc,.txt" (change)="onFilesSelected($event)" class="hidden">
@@ -81,7 +81,7 @@ interface BulkResponse {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
                 </div>
-                <p class="text-lg text-white mb-1">{{ files.length }} contract{{ files.length > 1 ? 's' : '' }} selected</p>
+                <p class="text-lg text-slate-900 mb-1">{{ files.length }} contract{{ files.length > 1 ? 's' : '' }} selected</p>
                 <p class="text-sm text-slate-400">Click to add more or drag additional files</p>
               }
             </div>
@@ -90,7 +90,7 @@ interface BulkResponse {
             @if (files.length > 0) {
               <div class="mt-6 space-y-2 max-h-60 overflow-y-auto">
                 @for (file of files; track file.name; let i = $index) {
-                  <div class="flex items-center justify-between py-2 px-3 rounded-lg bg-slate-800/30">
+                  <div class="flex items-center justify-between py-2 px-3 rounded-lg bg-slate-100/30">
                     <div class="flex items-center gap-3 min-w-0">
                       <svg class="w-5 h-5 text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -125,9 +125,9 @@ interface BulkResponse {
         @if (analyzing) {
           <div class="glass-card p-8 text-center mb-8">
             <div class="animate-spin w-12 h-12 border-3 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
-            <p class="text-lg text-white mb-2">Analyzing contracts...</p>
+            <p class="text-lg text-slate-900 mb-2">Analyzing contracts...</p>
             <p class="text-sm text-slate-400">{{ progressText }}</p>
-            <div class="mt-4 w-full bg-slate-800 rounded-full h-2">
+            <div class="mt-4 w-full bg-white rounded-full h-2">
               <div class="h-2 rounded-full bg-blue-600 transition-all duration-500" [style.width.%]="progressPercent"></div>
             </div>
           </div>
@@ -138,7 +138,7 @@ interface BulkResponse {
           <!-- Portfolio Summary -->
           <div class="glass-card p-6 mb-6">
             <div class="flex items-center justify-between mb-6">
-              <h2 class="text-xl font-bold text-white">Portfolio Summary</h2>
+              <h2 class="text-xl font-bold text-slate-900">Portfolio Summary</h2>
               <button (click)="resetAnalysis()" class="px-4 py-2 bg-slate-700 text-slate-600 rounded-lg hover:bg-slate-600 text-sm">
                 New Analysis
               </button>
@@ -171,7 +171,7 @@ interface BulkResponse {
                 <span>Portfolio Compliance</span>
                 <span>{{ response.averageScore }}%</span>
               </div>
-              <div class="w-full bg-slate-800 rounded-full h-3">
+              <div class="w-full bg-white rounded-full h-3">
                 <div class="h-3 rounded-full transition-all"
                      [style.width.%]="response.averageScore"
                      [class]="response.portfolioLevel === 'GREEN' ? 'bg-blue-600' : (response.portfolioLevel === 'YELLOW' ? 'bg-amber-500' : 'bg-red-500')">
@@ -192,7 +192,7 @@ interface BulkResponse {
                         <span class="text-red-400 font-bold text-sm">{{ weak.score }}%</span>
                       </div>
                       <div>
-                        <p class="text-sm font-medium text-white">{{ weak.contractName }}</p>
+                        <p class="text-sm font-medium text-slate-900">{{ weak.contractName }}</p>
                         <p class="text-xs text-slate-500">{{ weak.missingCount }} missing requirements</p>
                       </div>
                     </div>
@@ -207,10 +207,10 @@ interface BulkResponse {
 
           <!-- All Results -->
           <div class="glass-card p-6">
-            <h3 class="text-lg font-semibold text-white mb-4">All Contracts</h3>
+            <h3 class="text-lg font-semibold text-slate-900 mb-4">All Contracts</h3>
             <div class="space-y-3">
               @for (r of response.results; track r.fileName) {
-                <div class="flex items-center justify-between p-4 rounded-xl bg-slate-800/30 border border-slate-200">
+                <div class="flex items-center justify-between p-4 rounded-xl bg-slate-100/30 border border-slate-200">
                   <div class="flex items-center gap-4 min-w-0 flex-1">
                     @if (r.status === 'success') {
                       <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
@@ -221,7 +221,7 @@ interface BulkResponse {
                         </span>
                       </div>
                       <div class="min-w-0">
-                        <p class="text-sm font-medium text-white truncate">{{ r.contractName || r.fileName }}</p>
+                        <p class="text-sm font-medium text-slate-900 truncate">{{ r.contractName || r.fileName }}</p>
                         <p class="text-xs text-slate-500">
                           Found: {{ r.foundCount }} &middot; Partial: {{ r.partialCount }} &middot; Missing: {{ r.missingCount }}
                         </p>
@@ -233,7 +233,7 @@ interface BulkResponse {
                         </svg>
                       </div>
                       <div class="min-w-0">
-                        <p class="text-sm font-medium text-white truncate">{{ r.fileName }}</p>
+                        <p class="text-sm font-medium text-slate-900 truncate">{{ r.fileName }}</p>
                         <p class="text-xs text-red-400">Analysis failed: {{ r.error }}</p>
                       </div>
                     }

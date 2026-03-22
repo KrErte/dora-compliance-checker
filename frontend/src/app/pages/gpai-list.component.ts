@@ -70,14 +70,14 @@ interface NewGpaiModel {
       <!-- Inline Create Form -->
       @if (showForm()) {
         <div class="bg-white border border-slate-200 rounded-xl p-6 mb-8 animate-fade-in-up">
-          <h2 class="text-lg font-semibold text-white mb-5">{{ lang.l('Uue mudeli lisamine', 'Add New GPAI Model') }}</h2>
+          <h2 class="text-lg font-semibold text-slate-900 mb-5">{{ lang.l('Uue mudeli lisamine', 'Add New GPAI Model') }}</h2>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             <!-- Name -->
             <div>
               <label class="block text-sm font-medium text-slate-600 mb-1.5">{{ lang.l('Nimi', 'Name') }} *</label>
               <input type="text" [(ngModel)]="formData.name"
-                     class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white text-sm
+                     class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 text-sm
                             placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                      [placeholder]="lang.l('nt. GPT-4o', 'e.g. GPT-4o')"/>
             </div>
@@ -86,7 +86,7 @@ interface NewGpaiModel {
             <div>
               <label class="block text-sm font-medium text-slate-600 mb-1.5">{{ lang.l('Pakkuja', 'Provider') }} *</label>
               <input type="text" [(ngModel)]="formData.provider"
-                     class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white text-sm
+                     class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 text-sm
                             placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                      [placeholder]="lang.l('nt. OpenAI', 'e.g. OpenAI')"/>
             </div>
@@ -95,7 +95,7 @@ interface NewGpaiModel {
             <div>
               <label class="block text-sm font-medium text-slate-600 mb-1.5">{{ lang.l('Mudeli tuup', 'Model Type') }}</label>
               <select [(ngModel)]="formData.modelType"
-                      class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white text-sm
+                      class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 text-sm
                              focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all">
                 <option value="GENERAL">{{ lang.l('Uldotstarbeline', 'General') }}</option>
                 <option value="FOUNDATION">{{ lang.l('Alusmudel', 'Foundation') }}</option>
@@ -107,7 +107,7 @@ interface NewGpaiModel {
             <div>
               <label class="block text-sm font-medium text-slate-600 mb-1.5">{{ lang.l('Versioon', 'Version') }}</label>
               <input type="text" [(ngModel)]="formData.version"
-                     class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white text-sm
+                     class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 text-sm
                             placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                      [placeholder]="lang.l('nt. 1.0', 'e.g. 1.0')"/>
             </div>
@@ -116,7 +116,7 @@ interface NewGpaiModel {
             <div>
               <label class="block text-sm font-medium text-slate-600 mb-1.5">{{ lang.l('Treeningu arvutus (FLOPS)', 'Training Compute (FLOPS)') }}</label>
               <input type="number" [(ngModel)]="formData.trainingComputeFlops"
-                     class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white text-sm
+                     class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 text-sm
                             placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                      [placeholder]="lang.l('nt. 1e25', 'e.g. 1e25')"/>
             </div>
@@ -125,7 +125,7 @@ interface NewGpaiModel {
             <div class="md:col-span-2">
               <label class="block text-sm font-medium text-slate-600 mb-1.5">{{ lang.l('Kirjeldus', 'Description') }}</label>
               <textarea [(ngModel)]="formData.description" rows="3"
-                        class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white text-sm
+                        class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 text-sm
                                placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all resize-none"
                         [placeholder]="lang.l('Mudeli kirjeldus...', 'Model description...')"></textarea>
             </div>
@@ -135,8 +135,8 @@ interface NewGpaiModel {
               <!-- Systemic Risk -->
               <label class="flex items-center gap-2.5 cursor-pointer group">
                 <input type="checkbox" [(ngModel)]="formData.hasSystemicRisk"
-                       class="w-4.5 h-4.5 rounded border-slate-600 bg-slate-900 text-blue-600 focus:ring-blue-500/50 focus:ring-offset-0 cursor-pointer"/>
-                <span class="text-sm text-slate-600 group-hover:text-white transition-colors">
+                       class="w-4.5 h-4.5 rounded border-slate-300 bg-white text-blue-600 focus:ring-blue-500/50 focus:ring-offset-0 cursor-pointer"/>
+                <span class="text-sm text-slate-600 group-hover:text-slate-900 transition-colors">
                   {{ lang.l('Susteemne risk', 'Systemic Risk') }}
                 </span>
               </label>
@@ -144,8 +144,8 @@ interface NewGpaiModel {
               <!-- Open Source -->
               <label class="flex items-center gap-2.5 cursor-pointer group">
                 <input type="checkbox" [(ngModel)]="formData.openSource"
-                       class="w-4.5 h-4.5 rounded border-slate-600 bg-slate-900 text-blue-600 focus:ring-blue-500/50 focus:ring-offset-0 cursor-pointer"/>
-                <span class="text-sm text-slate-600 group-hover:text-white transition-colors">
+                       class="w-4.5 h-4.5 rounded border-slate-300 bg-white text-blue-600 focus:ring-blue-500/50 focus:ring-offset-0 cursor-pointer"/>
+                <span class="text-sm text-slate-600 group-hover:text-slate-900 transition-colors">
                   {{ lang.l('Avatud lahtekood', 'Open Source') }}
                 </span>
               </label>
@@ -155,7 +155,7 @@ interface NewGpaiModel {
           <!-- Form Actions -->
           <div class="flex items-center justify-end gap-3 mt-6 pt-5 border-t border-slate-200">
             <button type="button" (click)="toggleForm()"
-                    class="px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-100 transition-all">
+                    class="px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-all">
               {{ lang.l('Tuhista', 'Cancel') }}
             </button>
             <button type="button" (click)="createModel()" [disabled]="saving() || !formData.name || !formData.provider"
@@ -174,7 +174,7 @@ interface NewGpaiModel {
       <!-- Loading -->
       @if (loading()) {
         <div class="text-center py-20 animate-fade-in">
-          <div class="inline-block w-10 h-10 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin"></div>
+          <div class="inline-block w-10 h-10 border-4 border-slate-200 border-t-blue-500 rounded-full animate-spin"></div>
           <p class="text-slate-500 text-sm mt-4">{{ lang.l('Laadin mudeleid...', 'Loading models...') }}</p>
         </div>
       }
@@ -200,7 +200,7 @@ interface NewGpaiModel {
                     d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
             </svg>
           </div>
-          <h3 class="text-xl font-semibold text-white mb-2">{{ lang.l('GPAI mudeleid ei leitud', 'No GPAI Models Found') }}</h3>
+          <h3 class="text-xl font-semibold text-slate-900 mb-2">{{ lang.l('GPAI mudeleid ei leitud', 'No GPAI Models Found') }}</h3>
           <p class="text-slate-400 text-sm max-w-md mx-auto mb-6">
             {{ lang.l('Alustage oma uldotstarbelise tehisintellekti mudelite haldamist, lisades oma esimese mudeli.',
                        'Start managing your general-purpose AI models by adding your first model.') }}
@@ -227,7 +227,7 @@ interface NewGpaiModel {
               <div class="p-5 cursor-pointer" (click)="toggleExpand(model.id)">
                 <div class="flex items-start justify-between gap-3 mb-3">
                   <div class="min-w-0">
-                    <h3 class="text-base font-semibold text-white truncate">{{ model.name }}</h3>
+                    <h3 class="text-base font-semibold text-slate-900 truncate">{{ model.name }}</h3>
                     <p class="text-xs text-slate-500 mt-0.5">{{ model.provider }}</p>
                   </div>
                   <button type="button" (click)="deleteModel(model.id, $event)"
@@ -294,7 +294,7 @@ interface NewGpaiModel {
                 <div class="border-t border-slate-200 px-5 pb-5 pt-4 animate-fade-in">
                   @if (obligationsLoading()) {
                     <div class="flex items-center justify-center py-6">
-                      <div class="w-6 h-6 border-2 border-slate-700 border-t-blue-500 rounded-full animate-spin"></div>
+                      <div class="w-6 h-6 border-2 border-slate-200 border-t-blue-500 rounded-full animate-spin"></div>
                     </div>
                   } @else if (obligations().length === 0) {
                     <p class="text-sm text-slate-500 text-center py-4">
@@ -309,7 +309,7 @@ interface NewGpaiModel {
                         <div class="bg-white border border-slate-200 rounded-lg p-3.5">
                           <div class="flex items-start justify-between gap-3">
                             <div class="min-w-0 flex-1">
-                              <p class="text-sm font-medium text-white">{{ obligation.title }}</p>
+                              <p class="text-sm font-medium text-slate-900">{{ obligation.title }}</p>
                               @if (obligation.articleReference) {
                                 <p class="text-[11px] text-slate-500 mt-0.5">{{ obligation.articleReference }}</p>
                               }
@@ -476,7 +476,7 @@ export class GpaiListComponent implements OnInit {
       case 'OPEN_SOURCE':
         return 'bg-blue-600/15 text-blue-500 border border-blue-500/20';
       default:
-        return 'bg-slate-700/50 text-slate-600 border border-slate-600/30';
+        return 'bg-slate-100 text-slate-600 border border-slate-300/30';
     }
   }
 
@@ -495,9 +495,9 @@ export class GpaiListComponent implements OnInit {
       case 'IN_PROGRESS':
         return 'bg-amber-500/15 text-amber-400 border-amber-500/20';
       case 'NOT_APPLICABLE':
-        return 'bg-slate-700/50 text-slate-400 border-slate-600/30';
+        return 'bg-slate-100 text-slate-400 border-slate-300/30';
       default:
-        return 'bg-slate-800 text-slate-400 border-slate-700';
+        return 'bg-white text-slate-400 border-slate-200';
     }
   }
 }

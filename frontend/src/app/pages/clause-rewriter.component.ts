@@ -32,7 +32,7 @@ interface ClauseSuggestionResult {
           </svg>
           {{ lang.t('clause.badge') }}
         </div>
-        <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">{{ lang.t('clause.title') }}</h1>
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">{{ lang.t('clause.title') }}</h1>
         <p class="text-slate-400 max-w-2xl mx-auto">{{ lang.t('clause.subtitle') }}</p>
       </div>
 
@@ -41,12 +41,12 @@ interface ClauseSuggestionResult {
         <div class="bg-white border border-slate-200 rounded-xl p-1 flex gap-1">
           <button (click)="mode.set('rewrite')"
                   class="px-5 py-2 rounded-lg text-sm font-medium transition-all"
-                  [class]="mode() === 'rewrite' ? 'bg-violet-500 text-white' : 'text-slate-400 hover:text-white'">
+                  [class]="mode() === 'rewrite' ? 'bg-violet-500 text-white' : 'text-slate-400 hover:text-slate-900'">
             {{ lang.t('clause.mode_rewrite') }}
           </button>
           <button (click)="mode.set('suggest')"
                   class="px-5 py-2 rounded-lg text-sm font-medium transition-all"
-                  [class]="mode() === 'suggest' ? 'bg-violet-500 text-white' : 'text-slate-400 hover:text-white'">
+                  [class]="mode() === 'suggest' ? 'bg-violet-500 text-white' : 'text-slate-400 hover:text-slate-900'">
             {{ lang.t('clause.mode_suggest') }}
           </button>
         </div>
@@ -59,7 +59,7 @@ interface ClauseSuggestionResult {
           <div>
             <label class="block text-sm font-medium text-slate-600 mb-1.5">{{ lang.t('clause.requirement') }}</label>
             <select [(ngModel)]="selectedRequirement"
-                    class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-violet-500/50">
+                    class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 text-sm focus:outline-none focus:border-violet-500/50">
               <option value="">{{ lang.t('clause.select_requirement') }}</option>
               <option value="art30_exit">Art. 30 — Exit Strategy</option>
               <option value="art30_audit">Art. 30 — Audit Rights</option>
@@ -79,7 +79,7 @@ interface ClauseSuggestionResult {
             </label>
             <textarea [(ngModel)]="inputText"
                       rows="12"
-                      class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-white text-sm font-mono resize-none focus:outline-none focus:border-violet-500/50"
+                      class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-slate-900 text-sm font-mono resize-none focus:outline-none focus:border-violet-500/50"
                       [placeholder]="mode() === 'rewrite' ? lang.t('clause.placeholder_rewrite') : lang.t('clause.placeholder_suggest')">
             </textarea>
           </div>
@@ -115,10 +115,10 @@ interface ClauseSuggestionResult {
                         fill="none" [attr.stroke]="getScoreColor(getScore())" stroke-width="3"
                         [attr.stroke-dasharray]="getScore() + ', 100'"/>
                 </svg>
-                <span class="absolute inset-0 flex items-center justify-center text-sm font-bold text-white">{{ getScore() }}%</span>
+                <span class="absolute inset-0 flex items-center justify-center text-sm font-bold text-slate-900">{{ getScore() }}%</span>
               </div>
               <div>
-                <div class="text-white font-semibold">{{ lang.t('clause.compliance_score') }}</div>
+                <div class="text-slate-900 font-semibold">{{ lang.t('clause.compliance_score') }}</div>
                 <div class="text-sm" [class]="getScore() >= 80 ? 'text-blue-600' : getScore() >= 50 ? 'text-amber-400' : 'text-red-400'">
                   {{ getScore() >= 80 ? lang.t('clause.score_good') : getScore() >= 50 ? lang.t('clause.score_partial') : lang.t('clause.score_low') }}
                 </div>
@@ -129,9 +129,9 @@ interface ClauseSuggestionResult {
             @if (mode() === 'rewrite' && rewriteResult()) {
               <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
                 <div class="flex items-center justify-between">
-                  <h3 class="text-white font-semibold">{{ lang.t('clause.rewritten_clause') }}</h3>
+                  <h3 class="text-slate-900 font-semibold">{{ lang.t('clause.rewritten_clause') }}</h3>
                   <button (click)="copyToClipboard(rewriteResult()!.rewrittenClause)"
-                          class="text-xs px-3 py-1 rounded-lg bg-slate-700/50 text-slate-600 hover:text-white transition-colors">
+                          class="text-xs px-3 py-1 rounded-lg bg-slate-700/50 text-slate-600 hover:text-slate-900 transition-colors">
                     {{ copied() ? lang.t('clause.copied') : lang.t('clause.copy') }}
                   </button>
                 </div>
@@ -143,7 +143,7 @@ interface ClauseSuggestionResult {
               <!-- Changes -->
               @if (rewriteResult()!.changes && rewriteResult()!.changes.length > 0) {
                 <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-2">
-                  <h3 class="text-white font-semibold text-sm">{{ lang.t('clause.changes_made') }}</h3>
+                  <h3 class="text-slate-900 font-semibold text-sm">{{ lang.t('clause.changes_made') }}</h3>
                   @for (change of rewriteResult()!.changes; track change) {
                     <div class="flex items-start gap-2 text-sm">
                       <svg class="w-4 h-4 text-violet-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -160,9 +160,9 @@ interface ClauseSuggestionResult {
             @if (mode() === 'suggest' && suggestionResult()) {
               <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-3">
                 <div class="flex items-center justify-between">
-                  <h3 class="text-white font-semibold">{{ lang.t('clause.suggested_clause') }}</h3>
+                  <h3 class="text-slate-900 font-semibold">{{ lang.t('clause.suggested_clause') }}</h3>
                   <button (click)="copyToClipboard(suggestionResult()!.suggestedClause)"
-                          class="text-xs px-3 py-1 rounded-lg bg-slate-700/50 text-slate-600 hover:text-white transition-colors">
+                          class="text-xs px-3 py-1 rounded-lg bg-slate-700/50 text-slate-600 hover:text-slate-900 transition-colors">
                     {{ copied() ? lang.t('clause.copied') : lang.t('clause.copy') }}
                   </button>
                 </div>
@@ -180,7 +180,7 @@ interface ClauseSuggestionResult {
             <!-- Legal References -->
             @if (getReferences().length > 0) {
               <div class="bg-white border border-slate-200 rounded-xl p-4 space-y-2">
-                <h3 class="text-white font-semibold text-sm">{{ lang.t('clause.legal_refs') }}</h3>
+                <h3 class="text-slate-900 font-semibold text-sm">{{ lang.t('clause.legal_refs') }}</h3>
                 <div class="flex flex-wrap gap-2">
                   @for (ref of getReferences(); track ref) {
                     <span class="px-2.5 py-1 rounded-lg bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs">{{ ref }}</span>
@@ -189,7 +189,7 @@ interface ClauseSuggestionResult {
               </div>
             }
           } @else if (!loading()) {
-            <div class="bg-slate-800/30 border border-slate-200 rounded-xl p-12 flex flex-col items-center justify-center text-center">
+            <div class="bg-slate-100/30 border border-slate-200 rounded-xl p-12 flex flex-col items-center justify-center text-center">
               <svg class="w-12 h-12 text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
               </svg>

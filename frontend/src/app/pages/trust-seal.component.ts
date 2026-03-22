@@ -19,7 +19,7 @@ type SealSize = 'sm' | 'md' | 'lg';
       <!-- Header -->
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl md:text-3xl font-extrabold text-white flex items-center gap-3">
+          <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-md">
               <svg class="w-5 h-5 text-slate-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
@@ -50,7 +50,7 @@ type SealSize = 'sm' | 'md' | 'lg';
             </h2>
 
             <!-- Preview container simulating a website -->
-            <div class="rounded-xl overflow-hidden border border-slate-600/30">
+            <div class="rounded-xl overflow-hidden border border-slate-300/30">
               <!-- Fake browser bar -->
               <div class="bg-slate-700/60 px-4 py-2 flex items-center gap-2">
                 <div class="flex gap-1.5">
@@ -64,7 +64,7 @@ type SealSize = 'sm' | 'md' | 'lg';
               </div>
               <!-- Website simulation -->
               <div class="p-8 flex items-center justify-center"
-                   [class]="selectedTheme === 'dark' ? 'bg-slate-900' : selectedTheme === 'light' ? 'bg-white' : 'bg-slate-100'">
+                   [class]="selectedTheme === 'dark' ? 'bg-white' : selectedTheme === 'light' ? 'bg-white' : 'bg-slate-100'">
 
                 @if (selectedVariant === 'shield') {
                   <!-- Shield variant -->
@@ -90,7 +90,7 @@ type SealSize = 'sm' | 'md' | 'lg';
                       </svg>
                     </div>
                     <div class="text-center">
-                      <div class="font-bold text-xs" [ngClass]="selectedTheme === 'light' ? 'text-slate-800' : 'text-white'">
+                      <div class="font-bold text-xs" [ngClass]="selectedTheme === 'light' ? 'text-slate-800' : 'text-slate-900'">
                         {{ sealVerified() ? 'DORA Verified' : 'Pending Verification' }}
                       </div>
                       <div class="text-[10px] mt-0.5" [ngClass]="selectedTheme === 'light' ? 'text-slate-500' : 'text-slate-400'">
@@ -119,7 +119,7 @@ type SealSize = 'sm' | 'md' | 'lg';
                       }
                     </svg>
                     <div>
-                      <div class="font-bold text-sm" [ngClass]="selectedTheme === 'light' ? 'text-slate-800' : 'text-white'">
+                      <div class="font-bold text-sm" [ngClass]="selectedTheme === 'light' ? 'text-slate-800' : 'text-slate-900'">
                         {{ sealVerified() ? 'DORA Compliant' : 'Pending' }}
                       </div>
                       <div class="text-[10px]" [ngClass]="selectedTheme === 'light' ? 'text-slate-500' : 'text-slate-400'">
@@ -226,7 +226,7 @@ type SealSize = 'sm' | 'md' | 'lg';
               <div>
                 <label class="block text-xs text-slate-400 mb-2">{{ lang.t('seal.website_domain') }}</label>
                 <input [(ngModel)]="domain" type="text" placeholder="your-company.eu"
-                       class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white text-sm focus:outline-none focus:border-blue-500/50">
+                       class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:border-blue-500/50">
               </div>
             </div>
           </div>
@@ -238,7 +238,7 @@ type SealSize = 'sm' | 'md' | 'lg';
                 {{ lang.t('seal.embed_code') }}
               </h2>
               <button (click)="copyCode()" class="text-xs px-3 py-1.5 rounded-lg transition-all"
-                      [ngClass]="copied() ? 'bg-blue-100 text-blue-600' : 'bg-slate-700/50 text-slate-400 hover:text-white'">
+                      [ngClass]="copied() ? 'bg-blue-100 text-blue-600' : 'bg-slate-700/50 text-slate-400 hover:text-slate-900'">
                 {{ copied() ? lang.t('seal.copied') : lang.t('seal.copy') }}
               </button>
             </div>
@@ -252,7 +252,7 @@ type SealSize = 'sm' | 'md' | 'lg';
 
           <!-- Benefits -->
           <div class="bg-gradient-to-br from-blue-600/5 to-blue-500/5 border border-blue-200 rounded-xl p-5">
-            <h2 class="text-sm font-semibold text-white mb-3">
+            <h2 class="text-sm font-semibold text-slate-900 mb-3">
               {{ lang.t('seal.why_dora_trust_seal') }}
             </h2>
             <div class="space-y-2.5">
@@ -273,14 +273,14 @@ type SealSize = 'sm' | 'md' | 'lg';
       <div class="bg-white border border-slate-200 rounded-xl p-6">
         <div class="flex flex-col md:flex-row items-center gap-6">
           <div class="flex-1">
-            <h2 class="text-lg font-bold text-white mb-2">
+            <h2 class="text-lg font-bold text-slate-900 mb-2">
               {{ lang.t('seal.public_verification_page') }}
             </h2>
             <p class="text-sm text-slate-400">
               {{ lang.t('seal.each_seal_includes_a_unique_link_to_a_pu') }}
             </p>
           </div>
-          <div class="flex-shrink-0 bg-slate-700/30 rounded-lg px-4 py-3 border border-slate-600/30">
+          <div class="flex-shrink-0 bg-slate-700/30 rounded-lg px-4 py-3 border border-slate-300/30">
             <div class="text-[10px] text-slate-500 mb-1">{{ lang.t('seal.verification_url') }}</div>
             <div class="text-xs font-mono text-blue-500">doraaudit.eu/verify/{{ getSealId() }}</div>
           </div>
@@ -384,14 +384,14 @@ export class TrustSealComponent implements OnInit {
     if (this.selectedTheme === 'light') {
       return this.sealVerified() ? 'bg-white border-blue-300' : 'bg-white border-slate-200';
     }
-    return this.sealVerified() ? 'bg-white border-blue-200' : 'bg-white border-slate-600';
+    return this.sealVerified() ? 'bg-white border-blue-200' : 'bg-white border-slate-300';
   }
 
   getMinimalContainerClass(): string {
     if (this.selectedTheme === 'light') {
       return this.sealVerified() ? 'border-blue-400 bg-blue-50' : 'border-slate-300 bg-slate-50';
     }
-    return this.sealVerified() ? 'border-blue-200 bg-blue-50' : 'border-slate-600 bg-white';
+    return this.sealVerified() ? 'border-blue-200 bg-blue-50' : 'border-slate-300 bg-white';
   }
 
   getSealIconSize(): number {

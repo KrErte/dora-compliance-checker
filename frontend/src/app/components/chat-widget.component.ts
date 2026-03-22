@@ -47,30 +47,30 @@ interface ChatApiResponse {
 
       <!-- Chat panel -->
       @if (isOpen()) {
-        <div class="fixed bottom-5 right-5 z-[9999] w-[360px] h-[520px] max-h-[80vh] bg-slate-900 border border-slate-200 rounded-2xl shadow-2xl shadow-black/40 flex flex-col overflow-hidden animate-scale-in">
+        <div class="fixed bottom-5 right-5 z-[9999] w-[360px] h-[520px] max-h-[80vh] bg-white border border-slate-200 rounded-2xl shadow-2xl shadow-black/40 flex flex-col overflow-hidden animate-scale-in">
           <!-- Header -->
           <div class="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-blue-700/20 to-blue-600/20 border-b border-slate-200">
             <div class="flex items-center gap-2.5">
               <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-slate-900 font-bold text-xs">AI</div>
               <div>
-                <div class="text-sm font-semibold text-white">DoraBot</div>
+                <div class="text-sm font-semibold text-slate-900">DoraBot</div>
                 <div class="text-[10px] text-blue-600">{{ lang.t('chat.subtitle') }}</div>
               </div>
             </div>
             <div class="flex items-center gap-1">
               <button (click)="exportChat()" [disabled]="messages().length === 0"
-                      class="p-1.5 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed"
+                      class="p-1.5 text-slate-400 hover:text-slate-900 transition-colors rounded-lg hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed"
                       [attr.aria-label]="lang.t('chat.export')">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
                 </svg>
               </button>
-              <button (click)="openFullPage()" class="p-1.5 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-100" [attr.aria-label]="lang.t('chat.fullpage')">
+              <button (click)="openFullPage()" class="p-1.5 text-slate-400 hover:text-slate-900 transition-colors rounded-lg hover:bg-slate-100" [attr.aria-label]="lang.t('chat.fullpage')">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
                 </svg>
               </button>
-              <button (click)="toggle()" class="p-1.5 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-100" [attr.aria-label]="lang.t('chat.close')">
+              <button (click)="toggle()" class="p-1.5 text-slate-400 hover:text-slate-900 transition-colors rounded-lg hover:bg-slate-100" [attr.aria-label]="lang.t('chat.close')">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
                 </svg>
@@ -89,12 +89,12 @@ interface ChatApiResponse {
                   </svg>
                 </div>
                 <div>
-                  <p class="text-sm font-medium text-white">{{ lang.t('chat.welcome_title') }}</p>
+                  <p class="text-sm font-medium text-slate-900">{{ lang.t('chat.welcome_title') }}</p>
                   <p class="text-xs text-slate-400 mt-1">{{ contextGreeting() || lang.t('chat.welcome_desc') }}</p>
                 </div>
                 <div class="space-y-2">
                   @for (q of quickQuestions(); track q) {
-                    <button (click)="sendQuickQuestion(q)" class="w-full text-left text-xs px-3 py-2 rounded-lg bg-slate-800 border border-slate-200 text-slate-600 hover:text-blue-600 hover:border-blue-200 transition-all">
+                    <button (click)="sendQuickQuestion(q)" class="w-full text-left text-xs px-3 py-2 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-blue-600 hover:border-blue-200 transition-all">
                       {{ q }}
                     </button>
                   }
@@ -108,7 +108,7 @@ interface ChatApiResponse {
                      [class.whitespace-pre-wrap]="msg.role === 'user'"
                      [ngClass]="msg.role === 'user'
                        ? 'bg-blue-700/20 text-blue-100 border border-blue-200 rounded-br-sm'
-                       : 'bg-slate-800 text-slate-700 border border-slate-200 rounded-bl-sm'">
+                       : 'bg-white text-slate-700 border border-slate-200 rounded-bl-sm'">
                   @if (msg.role === 'user') { {{ msg.content }} }
                   @else {
                     <div [innerHTML]="msg.content | markdown"></div>
@@ -140,7 +140,7 @@ interface ChatApiResponse {
             <!-- Typing indicator -->
             @if (loading()) {
               <div class="flex">
-                <div class="bg-slate-800 border border-slate-200 rounded-xl rounded-bl-sm px-4 py-3">
+                <div class="bg-white border border-slate-200 rounded-xl rounded-bl-sm px-4 py-3">
                   <div class="flex items-center gap-2">
                     <div class="flex gap-1">
                       <span class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-bounce [animation-delay:0ms]"></span>
@@ -175,11 +175,11 @@ interface ChatApiResponse {
 
           <!-- Rate limit counter -->
           @if (messagesUsed() > 0 && messagesLimit() > 0) {
-            <div class="px-3 py-1.5 border-t border-slate-800 flex items-center justify-between">
+            <div class="px-3 py-1.5 border-t border-slate-200 flex items-center justify-between">
               <div class="flex items-center gap-1.5">
                 <div class="flex gap-0.5">
                   @for (i of limitDots(); track i) {
-                    <span class="w-1.5 h-1.5 rounded-full" [ngClass]="i < messagesUsed() ? 'bg-blue-500' : 'bg-slate-700'"></span>
+                    <span class="w-1.5 h-1.5 rounded-full" [ngClass]="i < messagesUsed() ? 'bg-blue-500' : 'bg-slate-200'"></span>
                   }
                 </div>
                 <span class="text-[10px] text-slate-500">{{ messagesUsed() }}/{{ messagesLimit() }}</span>
@@ -201,7 +201,7 @@ interface ChatApiResponse {
                 [disabled]="loading()"
                 (keydown)="onKeydown($event)"
                 rows="1"
-                class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 disabled:opacity-50 resize-none max-h-24 overflow-y-auto"
+                class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 disabled:opacity-50 resize-none max-h-24 overflow-y-auto"
                 autocomplete="off"
               ></textarea>
               <button type="submit" [disabled]="loading() || !inputText.trim()"

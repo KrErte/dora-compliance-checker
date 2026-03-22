@@ -23,7 +23,7 @@ interface WizardStep {
 
       <!-- Loading -->
       <div *ngIf="loading" class="text-center py-16 animate-fade-in">
-        <div class="inline-block w-10 h-10 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin"></div>
+        <div class="inline-block w-10 h-10 border-4 border-slate-200 border-t-blue-500 rounded-full animate-spin"></div>
         <p class="text-slate-400 mt-4">{{ lang.t('assessment.loading') }}</p>
       </div>
 
@@ -45,7 +45,7 @@ interface WizardStep {
             </span>
             <span class="text-xs text-slate-500">{{ progressPercent | number:'1.0-0' }}%</span>
           </div>
-          <div class="w-full bg-slate-700/50 rounded-full h-2">
+          <div class="w-full bg-slate-100/50 rounded-full h-2">
             <div class="h-2 rounded-full bg-gradient-to-r from-blue-600 to-blue-400 transition-all duration-500"
                  [style.width.%]="progressPercent"></div>
           </div>
@@ -157,12 +157,12 @@ interface WizardStep {
                             class="w-5 h-5 rounded-full border flex items-center justify-center text-[10px] font-bold transition-all duration-200 shrink-0"
                             [class]="expandedExplanations[q.id]
                               ? 'border-blue-500/50 text-blue-600 bg-blue-50'
-                              : 'border-slate-600 text-slate-500 hover:border-slate-500 hover:text-slate-400'">
+                              : 'border-slate-300 text-slate-500 hover:border-slate-500 hover:text-slate-400'">
                       i
                     </button>
                   </div>
                   <div *ngIf="expandedExplanations[q.id]"
-                       class="mt-2 p-3 bg-slate-700/40 border border-slate-600/30 rounded-lg text-xs text-slate-600 animate-fade-in">
+                       class="mt-2 p-3 bg-slate-100/40 border border-slate-300/30 rounded-lg text-xs text-slate-600 animate-fade-in">
                     <div class="font-semibold mb-1 text-blue-600">{{ q.articleReference }}</div>
                     {{ lang.currentLang === 'et' ? q.explanation : q.explanationEn }}
                   </div>
@@ -173,7 +173,7 @@ interface WizardStep {
                           class="cursor-pointer"
                           [ngClass]="answers[q.id] === 'yes'
                             ? 'px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-blue-600 to-blue-400 text-slate-900 shadow-lg shadow-md scale-105 transition-all duration-200'
-                            : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-all duration-200'">
+                            : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-100/50 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-all duration-200'">
                     {{ lang.t('assessment.yes') }}
                   </button>
                   <button type="button"
@@ -181,7 +181,7 @@ interface WizardStep {
                           class="cursor-pointer"
                           [ngClass]="answers[q.id] === 'partial'
                             ? 'px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-amber-500 to-amber-400 text-slate-900 shadow-lg shadow-amber-500/20 scale-105 transition-all duration-200'
-                            : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-all duration-200'">
+                            : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-100/50 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-all duration-200'">
                     {{ lang.t('assessment.partial') }}
                   </button>
                   <button type="button"
@@ -189,7 +189,7 @@ interface WizardStep {
                           class="cursor-pointer"
                           [ngClass]="answers[q.id] === 'no'
                             ? 'px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-red-500 to-red-400 text-white shadow-lg shadow-red-500/20 scale-105 transition-all duration-200'
-                            : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-all duration-200'">
+                            : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-100/50 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-all duration-200'">
                     {{ lang.t('assessment.no') }}
                   </button>
                 </div>
@@ -200,7 +200,7 @@ interface WizardStep {
 
         <!-- Navigation bar -->
         <div class="sticky bottom-2 sm:bottom-4 mt-8 mb-2 animate-fade-in-up">
-          <div class="bg-slate-800/90 backdrop-blur-md border border-slate-200 rounded-xl p-4 shadow-2xl">
+          <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-xl p-4 shadow-2xl">
 
             <!-- Live score (visible when we have answers) -->
             <div *ngIf="answeredCount > 0 && currentStep > 0" class="flex items-center gap-3 mb-3 pb-3 border-b border-slate-200">
@@ -234,8 +234,8 @@ interface WizardStep {
               <!-- Left: Back + Save -->
               <div class="flex items-center gap-2">
                 <button *ngIf="currentStep > 0" type="button" (click)="prevStep()"
-                        class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700 text-slate-600
-                               hover:bg-slate-600 transition-all duration-200 flex items-center gap-1.5">
+                        class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-100 text-slate-600
+                               hover:bg-slate-50 transition-all duration-200 flex items-center gap-1.5">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
                   </svg>
@@ -277,7 +277,7 @@ interface WizardStep {
                         [disabled]="!canSubmit || submitting"
                         [class]="canSubmit && !submitting
                           ? 'bg-blue-600 hover:bg-blue-700 text-slate-900 font-semibold px-6 py-2 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-lg flex items-center gap-2 text-sm'
-                          : 'bg-slate-700 text-slate-500 font-semibold px-6 py-2 rounded-lg cursor-not-allowed flex items-center gap-2 text-sm'">
+                          : 'bg-slate-100 text-slate-500 font-semibold px-6 py-2 rounded-lg cursor-not-allowed flex items-center gap-2 text-sm'">
                   <span *ngIf="!submitting">{{ lang.t('wizard.finish') }}</span>
                   <span *ngIf="submitting" class="flex items-center gap-2">
                     <span class="w-4 h-4 border-2 border-slate-900/30 border-t-slate-900 rounded-full animate-spin"></span>
@@ -297,7 +297,7 @@ interface WizardStep {
       <!-- Confirmation dialog -->
       <div *ngIf="showConfirmDialog" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in"
            (click)="showConfirmDialog = false">
-        <div class="bg-slate-800 border border-slate-200 rounded-2xl p-6 max-w-md w-full mx-4 shadow-2xl animate-scale-in"
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 max-w-md w-full mx-4 shadow-2xl animate-scale-in"
              (click)="$event.stopPropagation()">
           <div class="flex items-center gap-3 mb-4">
             <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
@@ -323,7 +323,7 @@ interface WizardStep {
 
           <div class="flex items-center gap-3 justify-end">
             <button type="button" (click)="showConfirmDialog = false"
-                    class="px-5 py-2 rounded-lg text-sm font-medium bg-slate-700 text-slate-600 hover:bg-slate-600 transition-all duration-200">
+                    class="px-5 py-2 rounded-lg text-sm font-medium bg-slate-100 text-slate-600 hover:bg-slate-50 transition-all duration-200">
               {{ lang.t('assessment.confirm_cancel') }}
             </button>
             <button type="button" (click)="confirmSubmit()"

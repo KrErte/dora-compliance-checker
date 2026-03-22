@@ -63,7 +63,7 @@ interface AssessmentResult {
       <!-- Header -->
       <div class="flex items-center gap-3 mb-6 animate-fade-in">
         <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-6 h-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
           </svg>
         </div>
@@ -79,7 +79,7 @@ interface AssessmentResult {
           <span class="text-sm text-slate-400">{{ lang.t('nis2_assess.progress') }}</span>
           <span class="text-sm font-medium text-amber-400">{{ answeredCount }} / {{ totalQuestions }}</span>
         </div>
-        <div class="w-full bg-slate-700 rounded-full h-2">
+        <div class="w-full bg-slate-200 rounded-full h-2">
           <div class="h-2 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-500"
                [style.width.%]="progressPercent"></div>
         </div>
@@ -87,7 +87,7 @@ interface AssessmentResult {
 
       <!-- Loading -->
       <div *ngIf="loading" class="text-center py-16 animate-fade-in">
-        <div class="inline-block w-10 h-10 border-4 border-slate-700 border-t-amber-400 rounded-full animate-spin"></div>
+        <div class="inline-block w-10 h-10 border-4 border-slate-200 border-t-amber-400 rounded-full animate-spin"></div>
         <p class="text-slate-400 mt-4">{{ lang.t('nis2_assess.loading') }}</p>
       </div>
 
@@ -123,7 +123,7 @@ interface AssessmentResult {
           {{ lang.t('nis2_assess.scenario_weak') }}
         </button>
         <button type="button" (click)="clearAll()"
-                class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-700/50 text-slate-400 border border-slate-600/30
+                class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100/50 text-slate-400 border border-slate-300/30
                        hover:bg-slate-100 transition-all duration-200">
           {{ lang.t('nis2_assess.clear') }}
         </button>
@@ -151,7 +151,7 @@ interface AssessmentResult {
               {{ lang.l(domains[activeDomain].nameEt, domains[activeDomain].nameEn) }}
             </h2>
             <span class="text-xs px-2 py-1 rounded-full"
-                  [class]="getDomainProgress(domains[activeDomain]) === 100 ? 'bg-blue-50 text-blue-600' : 'bg-slate-700/50 text-slate-400'">
+                  [class]="getDomainProgress(domains[activeDomain]) === 100 ? 'bg-blue-50 text-blue-600' : 'bg-slate-100/50 text-slate-400'">
               {{ getDomainAnsweredCount(domains[activeDomain]) }} / {{ domains[activeDomain].questions.length }}
             </span>
           </div>
@@ -178,7 +178,7 @@ interface AssessmentResult {
                         (click)="setAnswer(q.id, score)"
                         [class]="answers[q.id] === score
                           ? getScoreButtonActiveClass(score)
-                          : 'px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-700 border border-slate-200 hover:bg-slate-100 hover:text-white transition-all duration-200'">
+                          : 'px-4 py-2 rounded-lg text-sm font-medium bg-slate-100/50 text-slate-700 border border-slate-200 hover:bg-slate-100 hover:text-slate-900 transition-all duration-200'">
                   {{ score }}
                   <span class="hidden sm:inline ml-1 text-xs opacity-75">{{ getScoreLabel(score) }}</span>
                 </button>
@@ -195,7 +195,7 @@ interface AssessmentResult {
               </div>
               <div class="flex flex-wrap gap-2">
                 <button type="button" *ngFor="let score of [1,2,3,4,5]" type="button"
-                        class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 border border-slate-600/30">
+                        class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-100/50 text-slate-400 border border-slate-300/30">
                   {{ score }}
                 </button>
               </div>
@@ -226,7 +226,7 @@ interface AssessmentResult {
                 <a [href]="paymentConfig.lemonsqueezy.products.comboPackage.checkoutUrl"
                    target="_blank"
                    class="w-full py-2.5 px-4 rounded-xl text-center font-medium text-sm
-                          bg-slate-700/50 text-slate-600 border border-slate-200
+                          bg-slate-100/50 text-slate-600 border border-slate-200
                           hover:bg-slate-100 hover:text-amber-400 hover:border-amber-500/30
                           transition-all duration-200">
                   {{ lang.t('paywall.buy_combo') }}
@@ -239,7 +239,7 @@ interface AssessmentResult {
           <div class="flex justify-between mt-6 pt-4 border-t border-slate-200">
             <button type="button" *ngIf="activeDomain > 0"
                     (click)="activeDomain = activeDomain - 1"
-                    class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-600 hover:bg-slate-100 transition-colors flex items-center gap-2">
+                    class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-100/50 text-slate-600 hover:bg-slate-100 transition-colors flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
               </svg>
@@ -259,7 +259,7 @@ interface AssessmentResult {
 
         <!-- Submit section -->
         <div class="sticky bottom-4 mt-8">
-          <div class="bg-slate-800/90 backdrop-blur-md border border-slate-200 rounded-xl p-4 shadow-2xl">
+          <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-xl p-4 shadow-2xl">
             <!-- Live score preview -->
             <div *ngIf="answeredCount > 0" class="flex items-center gap-4 mb-3 pb-3 border-b border-slate-200">
               <div class="relative w-12 h-12 shrink-0">
@@ -285,7 +285,7 @@ interface AssessmentResult {
 
             <div class="flex items-center justify-between">
               <button type="button" (click)="saveDraft()"
-                      class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-600 hover:bg-slate-100 transition-colors">
+                      class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-100/50 text-slate-600 hover:bg-slate-100 transition-colors">
                 {{ lang.t('nis2_assess.save_draft') }}
               </button>
               <button type="button"
@@ -293,7 +293,7 @@ interface AssessmentResult {
                       [disabled]="!canSubmit || submitting"
                       [class]="canSubmit && !submitting
                         ? 'bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-semibold px-8 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/25 flex items-center gap-2'
-                        : 'bg-slate-700 text-slate-500 font-semibold px-8 py-2.5 rounded-lg cursor-not-allowed flex items-center gap-2'">
+                        : 'bg-slate-200 text-slate-500 font-semibold px-8 py-2.5 rounded-lg cursor-not-allowed flex items-center gap-2'">
                 <span *ngIf="!submitting">{{ lang.t('nis2_assess.submit') }}</span>
                 <span *ngIf="submitting" class="flex items-center gap-2">
                   <span class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
@@ -308,7 +308,7 @@ interface AssessmentResult {
         </div>
 
         <!-- Results modal -->
-        <div *ngIf="result" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div *ngIf="result" class="fixed inset-0 bg-white/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div class="glass-card p-8 max-w-lg w-full animate-scale-in">
             <div class="text-center mb-6">
               <div class="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center"
@@ -337,7 +337,7 @@ interface AssessmentResult {
               <div *ngFor="let ds of result.domainScores" class="flex items-center justify-between text-sm">
                 <span class="text-slate-400">{{ lang.l(ds.nameEt, ds.nameEn) }}</span>
                 <div class="flex items-center gap-2">
-                  <div class="w-20 h-1.5 bg-slate-700 rounded-full">
+                  <div class="w-20 h-1.5 bg-slate-200 rounded-full">
                     <div class="h-1.5 rounded-full transition-all"
                          [style.width.%]="ds.score"
                          [class]="ds.score >= 80 ? 'bg-blue-600' : ds.score >= 60 ? 'bg-amber-500' : 'bg-red-500'"></div>

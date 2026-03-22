@@ -10,7 +10,7 @@ import { AdminService, AdminUser } from '../services/admin.service';
     <div class="max-w-6xl mx-auto">
       <div class="flex items-center justify-between mb-6">
         <div>
-          <h1 class="text-2xl font-bold text-white">Admin Panel</h1>
+          <h1 class="text-2xl font-bold text-slate-900">Admin Panel</h1>
           <p class="text-sm text-slate-400 mt-1">User management — {{ users().length }} users</p>
         </div>
       </div>
@@ -30,7 +30,7 @@ import { AdminService, AdminUser } from '../services/admin.service';
       } @else if (error()) {
         <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-6 text-center">
           <p class="text-red-400">{{ error() }}</p>
-          <button (click)="loadUsers()" class="mt-3 px-4 py-2 text-sm bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors">
+          <button (click)="loadUsers()" class="mt-3 px-4 py-2 text-sm bg-slate-100 hover:bg-slate-50 text-slate-700 rounded-lg transition-colors">
             Retry
           </button>
         </div>
@@ -50,7 +50,7 @@ import { AdminService, AdminUser } from '../services/admin.service';
               </thead>
               <tbody>
                 @for (user of users(); track user.id) {
-                  <tr class="border-b border-slate-200 hover:bg-slate-700/20 transition-colors">
+                  <tr class="border-b border-slate-200 hover:bg-slate-50/20 transition-colors">
                     <td class="px-4 py-3 text-slate-600">
                       {{ user.fullName || '—' }}
                       @if (user.earlyAdopter) {
@@ -60,14 +60,14 @@ import { AdminService, AdminUser } from '../services/admin.service';
                     <td class="px-4 py-3 text-slate-400 font-mono text-xs">{{ user.email }}</td>
                     <td class="px-4 py-3">
                       <select [ngModel]="user.role" (ngModelChange)="updateUser(user, 'role', $event)"
-                              class="bg-slate-700 border border-slate-600 text-slate-600 text-xs rounded-lg px-2 py-1 focus:border-blue-500 focus:outline-none cursor-pointer">
+                              class="bg-white border border-slate-300 text-slate-600 text-xs rounded-lg px-2 py-1 focus:border-blue-500 focus:outline-none cursor-pointer">
                         <option value="USER">USER</option>
                         <option value="ADMIN">ADMIN</option>
                       </select>
                     </td>
                     <td class="px-4 py-3">
                       <select [ngModel]="user.accountTier" (ngModelChange)="updateUser(user, 'accountTier', $event)"
-                              class="bg-slate-700 border border-slate-600 text-slate-600 text-xs rounded-lg px-2 py-1 focus:border-blue-500 focus:outline-none cursor-pointer">
+                              class="bg-white border border-slate-300 text-slate-600 text-xs rounded-lg px-2 py-1 focus:border-blue-500 focus:outline-none cursor-pointer">
                         <option value="FREE">FREE</option>
                         <option value="PREMIUM">PREMIUM</option>
                         <option value="STANDARD">STANDARD</option>

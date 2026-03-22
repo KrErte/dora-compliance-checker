@@ -120,7 +120,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
                 {{ lang.t('prosecutor.badge_regulator') }}
               </span>
             </div>
-            <h1 class="text-3xl font-bold text-white mb-2">{{ lang.t('prosecutor.title') }}</h1>
+            <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ lang.t('prosecutor.title') }}</h1>
             <p class="text-slate-400 max-w-2xl">{{ lang.t('prosecutor.subtitle') }}</p>
           </div>
         </div>
@@ -168,7 +168,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
                    (click)="!scenario.locked && selectedScenario.set(scenario.id)">
                 <!-- Locked overlay -->
                 @if (scenario.locked) {
-                  <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm z-10 flex flex-col items-center justify-center gap-3 rounded-xl">
+                  <div class="absolute inset-0 bg-white/70 backdrop-blur-sm z-10 flex flex-col items-center justify-center gap-3 rounded-xl">
                     <span class="material-symbols-outlined text-3xl text-slate-500">lock</span>
                     <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
                       {{ scenario.tier === 'ENTERPRISE' ? 'Enterprise' : 'Standard' }}
@@ -202,7 +202,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
 
                 <div class="flex flex-wrap gap-1">
                   @for (art of scenario.doraArticles; track art) {
-                    <span class="px-1.5 py-0.5 rounded text-[9px] font-medium bg-slate-700/50 text-slate-400">{{ art }}</span>
+                    <span class="px-1.5 py-0.5 rounded text-[9px] font-medium bg-slate-200/50 text-slate-400">{{ art }}</span>
                   }
                 </div>
               </div>
@@ -277,7 +277,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
             </div>
           </div>
           <!-- Progress bar -->
-          <div class="h-2 bg-slate-700/50 rounded-full overflow-hidden">
+          <div class="h-2 bg-slate-200/50 rounded-full overflow-hidden">
             <div class="h-full bg-gradient-to-r from-indigo-600 to-violet-500 rounded-full transition-all duration-500"
                  [style.width.%]="progressPct()"></div>
           </div>
@@ -373,8 +373,8 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
           <button (click)="submitAnswer()"
                   [disabled]="submitting() || !answerText.trim()"
                   class="w-full py-3.5 rounded-xl font-bold text-sm transition-all duration-300 flex items-center justify-center gap-2"
-                  [class]="submitting() ? 'bg-slate-700 text-slate-400 cursor-wait'
-                         : !answerText.trim() ? 'bg-slate-700 text-slate-500 cursor-not-allowed'
+                  [class]="submitting() ? 'bg-slate-200 text-slate-400 cursor-wait'
+                         : !answerText.trim() ? 'bg-slate-200 text-slate-500 cursor-not-allowed'
                          : 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-500 hover:to-violet-500 hover:shadow-xl hover:shadow-indigo-500/25 hover:-translate-y-0.5'">
             @if (submitting()) {
               <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -403,7 +403,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
             @if (showHistory()) {
               <div class="mt-3 space-y-3">
                 @for (qa of qaHistory(); track qa.questionNumber) {
-                  <div class="rounded-lg bg-slate-800/30 border border-slate-200 p-3">
+                  <div class="rounded-lg bg-slate-100/30 border border-slate-200 p-3">
                     <div class="flex items-center gap-2 mb-2">
                       <span class="text-[10px] font-bold text-indigo-400 uppercase">Q{{ qa.questionNumber }}</span>
                       @if (qa.weaknessFound) {
@@ -426,7 +426,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
             <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-violet-500/20 border border-indigo-500/30 flex items-center justify-center mx-auto mb-6">
               <span class="material-symbols-outlined text-4xl text-indigo-400 animate-pulse">balance</span>
             </div>
-            <h2 class="text-2xl font-bold text-white mb-2">{{ lang.t('prosecutor.generating_verdict') }}</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">{{ lang.t('prosecutor.generating_verdict') }}</h2>
             <p class="text-slate-400 text-sm mb-6">{{ lang.t('prosecutor.verdict_wait') }}</p>
             <svg class="w-8 h-8 animate-spin text-indigo-400 mx-auto" fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -494,7 +494,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
             </h3>
             <div class="space-y-3">
               @for (item of verdict()!.prosecutionBrief; track $index) {
-                <div class="rounded-xl bg-slate-800/30 border border-slate-200 p-4">
+                <div class="rounded-xl bg-slate-100/30 border border-slate-200 p-4">
                   <div class="flex items-center gap-2 mb-2">
                     <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase"
                           [class]="getSeverityClass(item.severity)">
@@ -525,7 +525,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
             </h3>
             <div class="space-y-3">
               @for (step of verdict()!.defensePlaybook; track step.step) {
-                <div class="flex items-start gap-3 rounded-xl bg-slate-800/30 border border-slate-200 p-4">
+                <div class="flex items-start gap-3 rounded-xl bg-slate-100/30 border border-slate-200 p-4">
                   <div class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center text-sm font-bold text-indigo-400 shrink-0">
                     {{ step.step }}
                   </div>
@@ -534,7 +534,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
                       {{ lang.lang() === 'et' ? step.actionEt : step.action }}
                     </p>
                     <div class="flex items-center gap-2 flex-wrap">
-                      <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-slate-700/50 text-slate-400">
+                      <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-slate-200/50 text-slate-400">
                         {{ step.timeline }}
                       </span>
                       <span class="px-1.5 py-0.5 rounded text-[9px] font-bold"
@@ -591,7 +591,7 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
       <!-- ==================== HISTORY SCREEN ==================== -->
       @if (screen() === 'history') {
         <div class="flex items-center justify-between mb-6">
-          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+          <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
             <span class="material-symbols-outlined text-indigo-400">history</span>
             {{ lang.t('prosecutor.past_audits') }}
           </h2>
@@ -639,8 +639,8 @@ type Screen = 'setup' | 'questioning' | 'awaiting-verdict' | 'verdict' | 'histor
   styles: [`
     :host { display: block; padding: 1.5rem 1rem; }
     .glass-card {
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(51, 65, 85, 0.4);
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(226, 232, 240, 0.8);
       border-radius: 0.75rem;
       backdrop-filter: blur(12px);
     }

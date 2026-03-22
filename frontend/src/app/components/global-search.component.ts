@@ -24,7 +24,7 @@ interface CommandAction {
     @if (isOpen()) {
       <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-start justify-center pt-[15vh]"
            (click)="close()">
-        <div class="w-full max-w-xl bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden"
+        <div class="w-full max-w-xl bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden"
              (click)="$event.stopPropagation()">
           <!-- Search input -->
           <div class="flex items-center gap-3 px-5 py-4 border-b border-slate-200">
@@ -33,9 +33,9 @@ interface CommandAction {
             </svg>
             <input #searchInput type="text" [(ngModel)]="query" (ngModelChange)="onQueryChange($event)"
                    [placeholder]="lang.t('cmd.placeholder')"
-                   class="flex-1 bg-transparent text-white placeholder-slate-500 outline-none text-sm"
+                   class="flex-1 bg-transparent text-slate-900 placeholder-slate-500 outline-none text-sm"
                    (keydown)="onKeydown($event)" autofocus>
-            <kbd class="px-2 py-0.5 rounded bg-slate-700 text-slate-400 text-[10px] font-mono">ESC</kbd>
+            <kbd class="px-2 py-0.5 rounded bg-slate-100 text-slate-400 text-[10px] font-mono">ESC</kbd>
           </div>
 
           <div class="max-h-[50vh] overflow-y-auto">
@@ -45,7 +45,7 @@ interface CommandAction {
               <div class="px-3 pt-3 pb-1">
                 <div class="px-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">{{ lang.t('cmd.quick_actions') }}</div>
                 @for (action of quickActions; track action.id; let i = $index) {
-                  <div (click)="executeAction(action)" [class]="'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer' + (selectedIndex() === i ? ' bg-slate-700/30' : '')">
+                  <div (click)="executeAction(action)" [class]="'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer' + (selectedIndex() === i ? ' bg-slate-100/30' : '')">
                     <div class="w-7 h-7 rounded-lg flex items-center justify-center text-sm shrink-0" [class]="action.iconBg">{{ action.icon }}</div>
                     <span class="text-sm text-slate-600">{{ lang.t(action.labelKey) }}</span>
                   </div>
@@ -56,7 +56,7 @@ interface CommandAction {
               <div class="px-3 pt-2 pb-1">
                 <div class="px-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">{{ lang.t('cmd.navigation') }}</div>
                 @for (action of navActions; track action.id; let i = $index) {
-                  <div (click)="executeAction(action)" [class]="'w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer' + (selectedIndex() === quickActions.length + i ? ' bg-slate-700/30' : '')">
+                  <div (click)="executeAction(action)" [class]="'w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer' + (selectedIndex() === quickActions.length + i ? ' bg-slate-100/30' : '')">
                     <div class="w-7 h-7 rounded-lg flex items-center justify-center text-sm shrink-0" [class]="action.iconBg">{{ action.icon }}</div>
                     <span class="text-sm text-slate-600">{{ lang.t(action.labelKey) }}</span>
                   </div>
@@ -85,7 +85,7 @@ interface CommandAction {
             <!-- Loading -->
             @if (loading()) {
               <div class="px-5 py-8 text-center">
-                <div class="w-6 h-6 mx-auto rounded-full border-2 border-slate-700 border-t-blue-500 animate-spin"></div>
+                <div class="w-6 h-6 mx-auto rounded-full border-2 border-slate-200 border-t-blue-500 animate-spin"></div>
               </div>
             }
 
@@ -99,7 +99,7 @@ interface CommandAction {
               <div class="px-3 pt-3 pb-1">
                 <div class="px-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">{{ lang.t('cmd.actions') }}</div>
                 @for (action of matchingActions(); track action.id; let i = $index) {
-                  <div (click)="executeAction(action)" [class]="'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer' + (selectedIndex() === i ? ' bg-slate-700/30' : '')">
+                  <div (click)="executeAction(action)" [class]="'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer' + (selectedIndex() === i ? ' bg-slate-100/30' : '')">
                     <div class="w-7 h-7 rounded-lg flex items-center justify-center text-sm shrink-0" [class]="action.iconBg">{{ action.icon }}</div>
                     <span class="text-sm text-slate-600">{{ lang.t(action.labelKey) }}</span>
                   </div>
@@ -113,12 +113,12 @@ interface CommandAction {
                 <div class="px-3 pt-3 pb-1">
                   <div class="px-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-1">{{ group.label }}</div>
                   @for (item of group.items; track item.url + item.title; let i = $index) {
-                    <div (click)="navigate(item.url)" [class]="'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 transition-colors text-left group cursor-pointer' + (selectedIndex() === getGlobalIndex(group, i) ? ' bg-slate-700/30' : '')">
+                    <div (click)="navigate(item.url)" [class]="'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-100 transition-colors text-left group cursor-pointer' + (selectedIndex() === getGlobalIndex(group, i) ? ' bg-slate-100/30' : '')">
                       <div class="w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-bold shrink-0" [class]="getTypeColor(group.type)">
                         {{ getTypeIcon(group.type) }}
                       </div>
                       <div class="flex-1 min-w-0">
-                        <div class="text-sm text-white truncate">{{ item.title }}</div>
+                        <div class="text-sm text-slate-900 truncate">{{ item.title }}</div>
                         <div class="text-[11px] text-slate-500 truncate">{{ item.snippet }}</div>
                       </div>
                     </div>
@@ -130,9 +130,9 @@ interface CommandAction {
 
           <!-- Footer hints -->
           <div class="px-4 py-2.5 border-t border-slate-200 flex items-center justify-between text-[10px] text-slate-500">
-            <span><kbd class="px-1.5 py-0.5 rounded bg-slate-700 text-slate-400 font-mono mr-1">&uarr;&darr;</kbd> {{ lang.t('cmd.navigate') }}</span>
-            <span><kbd class="px-1.5 py-0.5 rounded bg-slate-700 text-slate-400 font-mono mr-1">Enter</kbd> {{ lang.t('cmd.open') }}</span>
-            <span><kbd class="px-1.5 py-0.5 rounded bg-slate-700 text-slate-400 font-mono mr-1">Ctrl+K</kbd> {{ lang.t('cmd.toggle') }}</span>
+            <span><kbd class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-400 font-mono mr-1">&uarr;&darr;</kbd> {{ lang.t('cmd.navigate') }}</span>
+            <span><kbd class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-400 font-mono mr-1">Enter</kbd> {{ lang.t('cmd.open') }}</span>
+            <span><kbd class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-400 font-mono mr-1">Ctrl+K</kbd> {{ lang.t('cmd.toggle') }}</span>
           </div>
         </div>
       </div>

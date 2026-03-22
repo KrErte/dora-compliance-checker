@@ -21,10 +21,10 @@ interface OnboardingStep {
       <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" (click)="skip()"></div>
 
       <!-- Modal -->
-      <div class="relative w-full max-w-lg bg-slate-900 border border-slate-200 rounded-2xl shadow-2xl overflow-hidden">
+      <div class="relative w-full max-w-lg bg-white border border-slate-200 rounded-2xl shadow-2xl overflow-hidden">
 
         <!-- Progress bar -->
-        <div class="h-1 bg-slate-800">
+        <div class="h-1 bg-white">
           <div class="h-full bg-blue-600 transition-all duration-500"
                [style.width.%]="((currentStep + 1) / steps.length) * 100"></div>
         </div>
@@ -53,7 +53,7 @@ interface OnboardingStep {
                       ? 'w-8 h-2 rounded-full bg-blue-600 transition-all duration-300'
                       : i < currentStep
                         ? 'w-2 h-2 rounded-full bg-blue-500 transition-all duration-300 hover:bg-blue-600/70'
-                        : 'w-2 h-2 rounded-full bg-slate-700 transition-all duration-300 hover:bg-slate-600'">
+                        : 'w-2 h-2 rounded-full bg-slate-200 transition-all duration-300 hover:bg-slate-400'">
             </button>
           </div>
 
@@ -66,13 +66,13 @@ interface OnboardingStep {
           </div>
 
           <!-- Title & Description -->
-          <h2 class="text-xl font-bold text-white mb-3 text-center">{{ lang.t(steps[currentStep].titleKey) }}</h2>
+          <h2 class="text-xl font-bold text-slate-900 mb-3 text-center">{{ lang.t(steps[currentStep].titleKey) }}</h2>
           <p class="text-sm text-slate-400 text-center leading-relaxed mb-6">{{ lang.t(steps[currentStep].descKey) }}</p>
 
           <!-- Quick action link -->
           <button type="button" (click)="goToStep()"
                   class="w-full py-2.5 px-4 rounded-xl text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2
-                         bg-slate-800 border border-slate-200 text-slate-600 hover:border-blue-200 hover:text-blue-600">
+                         bg-white border border-slate-200 text-slate-600 hover:border-blue-200 hover:text-blue-600">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
             </svg>
@@ -83,8 +83,8 @@ interface OnboardingStep {
         <!-- Navigation buttons -->
         <div class="px-8 pb-8 flex items-center gap-3">
           <button *ngIf="currentStep > 0" type="button" (click)="prev()"
-                  class="px-5 py-2.5 rounded-xl text-sm font-medium bg-slate-800 border border-slate-200 text-slate-600
-                         hover:bg-slate-700 hover:text-white transition-all duration-200">
+                  class="px-5 py-2.5 rounded-xl text-sm font-medium bg-white border border-slate-200 text-slate-600
+                         hover:bg-slate-50 hover:text-slate-900 transition-all duration-200">
             {{ lang.t('onboarding.prev') }}
           </button>
           <div class="flex-1"></div>

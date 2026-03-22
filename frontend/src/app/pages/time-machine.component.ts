@@ -15,13 +15,13 @@ import { SubscriptionService } from '../services/subscription.service';
       <!-- ======== PAGE HEADER ======== -->
       <div class="flex items-start gap-4">
         <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-6 h-6 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
         </div>
         <div>
-          <h1 class="text-2xl font-bold text-white">
+          <h1 class="text-2xl font-bold text-slate-900">
             {{ lang.l('Regulatiivne Ajamasin', 'Regulatory Time Machine') }}
           </h1>
           <p class="text-slate-400 text-sm mt-1">
@@ -248,19 +248,19 @@ import { SubscriptionService } from '../services/subscription.service';
 
             <!-- Stats row -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
-              <div class="bg-slate-900/40 rounded-xl p-3 text-center transition-all duration-500">
+              <div class="bg-slate-100/40 rounded-xl p-3 text-center transition-all duration-500">
                 <div class="text-lg font-bold text-sky-400">{{ stateAtDate().evidenceCount ?? 0 }}</div>
                 <div class="text-[10px] text-slate-500 uppercase">
                   {{ lang.l('Toendeid', 'Evidence') }}
                 </div>
               </div>
-              <div class="bg-slate-900/40 rounded-xl p-3 text-center transition-all duration-500">
+              <div class="bg-slate-100/40 rounded-xl p-3 text-center transition-all duration-500">
                 <div class="text-lg font-bold text-blue-600">{{ stateAtDate().validEvidence ?? 0 }}</div>
                 <div class="text-[10px] text-slate-500 uppercase">
                   {{ lang.l('Kehtivad', 'Valid') }}
                 </div>
               </div>
-              <div class="bg-slate-900/40 rounded-xl p-3 text-center transition-all duration-500">
+              <div class="bg-slate-100/40 rounded-xl p-3 text-center transition-all duration-500">
                 <div class="text-lg font-bold text-amber-400">
                   {{ stateAtDate().remediationsCompleted ?? 0 }}/{{ stateAtDate().remediationsTotal ?? 0 }}
                 </div>
@@ -268,7 +268,7 @@ import { SubscriptionService } from '../services/subscription.service';
                   {{ lang.l('Parandused', 'Remediations') }}
                 </div>
               </div>
-              <div class="bg-slate-900/40 rounded-xl p-3 text-center transition-all duration-500">
+              <div class="bg-slate-100/40 rounded-xl p-3 text-center transition-all duration-500">
                 <div class="text-lg font-bold text-red-400">{{ stateAtDate().incidentCount ?? 0 }}</div>
                 <div class="text-[10px] text-slate-500 uppercase">
                   {{ lang.l('Intsidendid', 'Incidents') }}
@@ -281,7 +281,7 @@ import { SubscriptionService } from '../services/subscription.service';
         <!-- ======== SCORE TRAJECTORY CHART ======== -->
         <div class="bg-white border border-slate-200 rounded-2xl p-6">
           <div class="flex items-center justify-between mb-4">
-            <h2 class="text-sm font-semibold text-white">
+            <h2 class="text-sm font-semibold text-slate-900">
               {{ lang.l('Skoori trajektoor', 'Score Trajectory') }}
             </h2>
             <div class="flex items-center gap-4 text-[10px]">
@@ -407,7 +407,7 @@ import { SubscriptionService } from '../services/subscription.service';
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
-              <h2 class="text-sm font-semibold text-white">
+              <h2 class="text-sm font-semibold text-slate-900">
                 {{ lang.l('Mis siis, kui...?', 'What If...?') }}
               </h2>
             </div>
@@ -419,7 +419,7 @@ import { SubscriptionService } from '../services/subscription.service';
                         class="w-full text-left px-3 py-2.5 rounded-xl border transition-all duration-200 text-sm"
                         [class]="isScenarioActive('started_6m_ago')
                           ? 'bg-blue-50 border-blue-500/40 text-blue-500'
-                          : 'bg-slate-900/40 border-slate-200 text-slate-600 hover:border-blue-200'">
+                          : 'bg-slate-100/40 border-slate-200 text-slate-600 hover:border-blue-200'">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
                       <div class="w-2 h-2 rounded-full bg-blue-500"></div>
@@ -438,7 +438,7 @@ import { SubscriptionService } from '../services/subscription.service';
                         class="w-full text-left px-3 py-2.5 rounded-xl border transition-all duration-200 text-sm"
                         [class]="isScenarioActive('do_nothing_3m')
                           ? 'bg-red-500/15 border-red-500/40 text-red-300'
-                          : 'bg-slate-900/40 border-slate-200 text-slate-600 hover:border-red-500/30'">
+                          : 'bg-slate-100/40 border-slate-200 text-slate-600 hover:border-red-500/30'">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
                       <div class="w-2 h-2 rounded-full bg-red-400"></div>
@@ -457,7 +457,7 @@ import { SubscriptionService } from '../services/subscription.service';
                         class="w-full text-left px-3 py-2.5 rounded-xl border transition-all duration-200 text-sm"
                         [class]="isScenarioActive('double_pace')
                           ? 'bg-purple-500/15 border-purple-500/40 text-purple-300'
-                          : 'bg-slate-900/40 border-slate-200 text-slate-600 hover:border-purple-500/30'">
+                          : 'bg-slate-100/40 border-slate-200 text-slate-600 hover:border-purple-500/30'">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
                       <div class="w-2 h-2 rounded-full bg-purple-400"></div>
@@ -476,7 +476,7 @@ import { SubscriptionService } from '../services/subscription.service';
                         class="w-full text-left px-3 py-2.5 rounded-xl border transition-all duration-200 text-sm"
                         [class]="isScenarioActive('regulatory_change')
                           ? 'bg-amber-500/15 border-amber-500/40 text-amber-300'
-                          : 'bg-slate-900/40 border-slate-200 text-slate-600 hover:border-amber-500/30'">
+                          : 'bg-slate-100/40 border-slate-200 text-slate-600 hover:border-amber-500/30'">
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2">
                       <div class="w-2 h-2 rounded-full bg-amber-400"></div>
@@ -523,7 +523,7 @@ import { SubscriptionService } from '../services/subscription.service';
           <!-- Event Feed (2 cols) -->
           <div class="lg:col-span-2 bg-white border border-slate-200 rounded-2xl p-6">
             <div class="flex items-center justify-between mb-4">
-              <h2 class="text-sm font-semibold text-white flex items-center gap-2">
+              <h2 class="text-sm font-semibold text-slate-900 flex items-center gap-2">
                 <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>

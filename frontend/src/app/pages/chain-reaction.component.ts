@@ -117,7 +117,7 @@ interface SimulationResult {
                 {{ lang.l('Reaalajas simulatsioon', 'Live Simulation') }}
               </span>
             </div>
-            <h1 class="text-3xl font-bold text-white mb-2">
+            <h1 class="text-3xl font-bold text-slate-900 mb-2">
               {{ lang.l('Doominoefekti mootor', 'Chain Reaction Engine') }}
             </h1>
             <p class="text-slate-400 max-w-2xl">
@@ -268,13 +268,13 @@ interface SimulationResult {
             }
 
             @if (!loadingTriggers() && triggers().length === 0) {
-              <div class="text-center py-12 bg-slate-800/30 rounded-2xl border border-slate-200">
-                <div class="w-16 h-16 rounded-2xl bg-slate-700/50 flex items-center justify-center mx-auto mb-4">
+              <div class="text-center py-12 bg-slate-100/30 rounded-2xl border border-slate-200">
+                <div class="w-16 h-16 rounded-2xl bg-slate-200/50 flex items-center justify-center mx-auto mb-4">
                   <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
                   </svg>
                 </div>
-                <h3 class="text-lg font-semibold text-white mb-2">
+                <h3 class="text-lg font-semibold text-slate-900 mb-2">
                   {{ lang.l('Triggereid pole veel', 'No Triggers Available Yet') }}
                 </h3>
                 <p class="text-slate-400 text-sm mb-6">
@@ -302,7 +302,7 @@ interface SimulationResult {
                 <div class="w-4 h-16 bg-gradient-to-t from-orange-500 to-orange-400 rounded-sm origin-bottom animate-pulse"></div>
                 <div class="w-4 h-16 bg-gradient-to-t from-amber-500 to-amber-400 rounded-sm origin-bottom"></div>
               </div>
-              <h3 class="text-xl font-bold text-white mb-2">
+              <h3 class="text-xl font-bold text-slate-900 mb-2">
                 {{ lang.l('Simuleerin kaskaadmõjusid...', 'Simulating cascade impacts...') }}
               </h3>
               <p class="text-slate-400 text-sm">
@@ -849,9 +849,9 @@ export class ChainReactionComponent implements OnInit {
   }
 
   getStepNodeClass(impact: number): string {
-    if (impact >= 15) return 'border-red-500 bg-slate-900';
-    if (impact >= 8) return 'border-orange-500 bg-slate-900';
-    return 'border-amber-500 bg-slate-900';
+    if (impact >= 15) return 'border-red-500 bg-white';
+    if (impact >= 8) return 'border-orange-500 bg-white';
+    return 'border-amber-500 bg-white';
   }
 
   getStepDotClass(impact: number): string {

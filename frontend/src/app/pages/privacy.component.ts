@@ -18,7 +18,7 @@ import { LangService } from '../lang.service';
       </a>
 
       <div class="text-center mb-10">
-        <h1 class="text-3xl font-bold text-white mb-2">{{ lang.t('privacy.title') }}</h1>
+        <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ lang.t('privacy.title') }}</h1>
         <p class="text-slate-400">{{ lang.t('privacy.subtitle') }}</p>
       </div>
 
@@ -39,27 +39,27 @@ import { LangService } from '../lang.service';
 
         <div class="space-y-4">
           <div>
-            <h3 class="text-white font-medium mb-2">{{ lang.t('privacy.data_contact') }}</h3>
+            <h3 class="text-slate-900 font-medium mb-2">{{ lang.t('privacy.data_contact') }}</h3>
             <p class="text-slate-400 text-sm">{{ lang.t('privacy.data_contact_desc') }}</p>
           </div>
 
           <div>
-            <h3 class="text-white font-medium mb-2">{{ lang.t('privacy.data_company') }}</h3>
+            <h3 class="text-slate-900 font-medium mb-2">{{ lang.t('privacy.data_company') }}</h3>
             <p class="text-slate-400 text-sm">{{ lang.t('privacy.data_company_desc') }}</p>
           </div>
 
           <div>
-            <h3 class="text-white font-medium mb-2">{{ lang.t('privacy.data_payment') }}</h3>
+            <h3 class="text-slate-900 font-medium mb-2">{{ lang.t('privacy.data_payment') }}</h3>
             <p class="text-slate-400 text-sm">{{ lang.t('privacy.data_payment_desc') }}</p>
           </div>
 
           <div>
-            <h3 class="text-white font-medium mb-2">{{ lang.t('privacy.data_technical') }}</h3>
+            <h3 class="text-slate-900 font-medium mb-2">{{ lang.t('privacy.data_technical') }}</h3>
             <p class="text-slate-400 text-sm">{{ lang.t('privacy.data_technical_desc') }}</p>
           </div>
 
           <div>
-            <h3 class="text-white font-medium mb-2">{{ lang.t('privacy.data_cookies') }}</h3>
+            <h3 class="text-slate-900 font-medium mb-2">{{ lang.t('privacy.data_cookies') }}</h3>
             <p class="text-slate-400 text-sm">{{ lang.t('privacy.data_cookies_desc') }}</p>
           </div>
         </div>
@@ -116,17 +116,17 @@ import { LangService } from '../lang.service';
         <p class="text-slate-400 text-sm mb-4">{{ lang.t('privacy.third_intro') }}</p>
 
         <div class="space-y-3">
-          <div class="flex items-start gap-3 p-3 bg-slate-800/30 rounded-lg">
+          <div class="flex items-start gap-3 p-3 bg-slate-100/30 rounded-lg">
             <div class="w-2 h-2 rounded-full bg-blue-500 mt-1.5"></div>
             <div>
-              <span class="text-white text-sm font-medium">LemonSqueezy</span>
+              <span class="text-slate-900 text-sm font-medium">LemonSqueezy</span>
               <p class="text-slate-400 text-xs mt-1">{{ lang.t('privacy.third_lemonsqueezy') }}</p>
             </div>
           </div>
-          <div class="flex items-start gap-3 p-3 bg-slate-800/30 rounded-lg">
+          <div class="flex items-start gap-3 p-3 bg-slate-100/30 rounded-lg">
             <div class="w-2 h-2 rounded-full bg-blue-500 mt-1.5"></div>
             <div>
-              <span class="text-white text-sm font-medium">Hetzner</span>
+              <span class="text-slate-900 text-sm font-medium">Hetzner</span>
               <p class="text-slate-400 text-xs mt-1">{{ lang.t('privacy.third_hetzner') }}</p>
             </div>
           </div>
@@ -178,15 +178,15 @@ import { LangService } from '../lang.service';
         <h2 class="text-xl font-semibold text-blue-600 mb-4">{{ lang.t('privacy.cookies_title') }}</h2>
 
         <div class="space-y-3">
-          <div class="flex items-center gap-3 p-3 bg-slate-800/30 rounded-lg">
+          <div class="flex items-center gap-3 p-3 bg-slate-100/30 rounded-lg">
             <span class="text-xs px-2 py-1 rounded bg-blue-500/20 text-blue-600">{{ lang.t('privacy.cookies_required') }}</span>
             <span class="text-slate-600 text-sm">{{ lang.t('privacy.cookies_functional') }}</span>
           </div>
-          <div class="flex items-center gap-3 p-3 bg-slate-800/30 rounded-lg">
+          <div class="flex items-center gap-3 p-3 bg-slate-100/30 rounded-lg">
             <span class="text-xs px-2 py-1 rounded bg-amber-400/20 text-amber-400">{{ lang.t('privacy.cookies_optional') }}</span>
             <span class="text-slate-600 text-sm">{{ lang.t('privacy.cookies_analytics') }}</span>
           </div>
-          <div class="flex items-center gap-3 p-3 bg-slate-800/30 rounded-lg">
+          <div class="flex items-center gap-3 p-3 bg-slate-100/30 rounded-lg">
             <span class="text-xs px-2 py-1 rounded bg-slate-400/20 text-slate-400">{{ lang.t('privacy.cookies_none') }}</span>
             <span class="text-slate-600 text-sm">{{ lang.t('privacy.cookies_marketing') }}</span>
           </div>

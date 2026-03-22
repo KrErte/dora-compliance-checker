@@ -772,20 +772,20 @@ const ARTICLES: BlogArticle[] = [
           <span class="text-xs text-slate-500">{{ selectedArticle.readTime }} min {{ lang.t('blog.read') }}</span>
         </div>
 
-        <h1 class="text-3xl sm:text-4xl font-bold text-white mb-6 leading-tight">
+        <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-6 leading-tight">
           {{ lang.l(selectedArticle.title.et, selectedArticle.title.en) }}
         </h1>
 
         <div class="prose prose-invert prose-blue max-w-none
-                    prose-headings:text-white prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4
+                    prose-headings:text-slate-900 prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4
                     prose-h3:text-lg prose-h3:text-slate-700 prose-h3:mt-6 prose-h3:mb-3
                     prose-p:text-slate-600 prose-p:leading-relaxed prose-p:mb-4
                     prose-li:text-slate-600 prose-li:mb-1
-                    prose-strong:text-white
+                    prose-strong:text-slate-900
                     prose-ul:mb-4 prose-ol:mb-4
                     prose-table:border-collapse prose-table:w-full
-                    prose-th:bg-slate-700/50 prose-th:text-slate-700 prose-th:px-4 prose-th:py-2 prose-th:text-left prose-th:border prose-th:border-slate-600
-                    prose-td:px-4 prose-td:py-2 prose-td:border prose-td:border-slate-700 prose-td:text-slate-600"
+                    prose-th:bg-slate-700/50 prose-th:text-slate-700 prose-th:px-4 prose-th:py-2 prose-th:text-left prose-th:border prose-th:border-slate-300
+                    prose-td:px-4 prose-td:py-2 prose-td:border prose-td:border-slate-200 prose-td:text-slate-600"
              [innerHTML]="lang.l(selectedArticle.content.et, selectedArticle.content.en)">
         </div>
 
@@ -797,7 +797,7 @@ const ARTICLES: BlogArticle[] = [
 
         <!-- CTA -->
         <div class="mt-10 p-6 rounded-2xl bg-gradient-to-br from-blue-600/10 to-blue-500/10 border border-blue-200">
-          <h3 class="text-lg font-semibold text-white mb-2">
+          <h3 class="text-lg font-semibold text-slate-900 mb-2">
             {{ lang.t('blog.start_your_dora_compliance_assessment') }}
           </h3>
           <p class="text-sm text-slate-400 mb-4">
@@ -818,7 +818,7 @@ const ARTICLES: BlogArticle[] = [
           </svg>
           {{ lang.t('blog.articles_guides') }}
         </div>
-        <h1 class="text-3xl sm:text-4xl font-bold text-white mb-3">
+        <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">
           {{ lang.t('blog.dora_nis2_blog') }}
         </h1>
         <p class="text-slate-400 max-w-2xl mx-auto">
@@ -830,17 +830,17 @@ const ARTICLES: BlogArticle[] = [
       <div class="flex items-center justify-center gap-2 mb-8">
         <button (click)="filterCategory = null"
                 class="px-4 py-2 rounded-lg text-sm font-medium transition-all"
-                [ngClass]="filterCategory === null ? 'bg-blue-100 text-blue-600 border border-blue-200' : 'text-slate-400 hover:text-white hover:bg-slate-100'">
+                [ngClass]="filterCategory === null ? 'bg-blue-100 text-blue-600 border border-blue-200' : 'text-slate-400 hover:text-slate-900 hover:bg-slate-100'">
           {{ lang.t('blog.all') }}
         </button>
         <button (click)="filterCategory = 'DORA'"
                 class="px-4 py-2 rounded-lg text-sm font-medium transition-all"
-                [ngClass]="filterCategory === 'DORA' ? 'bg-blue-100 text-blue-600 border border-blue-200' : 'text-slate-400 hover:text-white hover:bg-slate-100'">
+                [ngClass]="filterCategory === 'DORA' ? 'bg-blue-100 text-blue-600 border border-blue-200' : 'text-slate-400 hover:text-slate-900 hover:bg-slate-100'">
           DORA
         </button>
         <button (click)="filterCategory = 'NIS2'"
                 class="px-4 py-2 rounded-lg text-sm font-medium transition-all"
-                [ngClass]="filterCategory === 'NIS2' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-100'">
+                [ngClass]="filterCategory === 'NIS2' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'text-slate-400 hover:text-slate-900 hover:bg-slate-100'">
           NIS2
         </button>
       </div>
@@ -858,7 +858,7 @@ const ARTICLES: BlogArticle[] = [
               <span class="text-xs text-slate-500">{{ article.date }}</span>
               <span class="text-xs text-slate-500">{{ article.readTime }} min</span>
             </div>
-            <h2 class="text-lg font-semibold text-white group-hover:text-blue-600 transition-colors mb-2 leading-snug">
+            <h2 class="text-lg font-semibold text-slate-900 group-hover:text-blue-600 transition-colors mb-2 leading-snug">
               {{ lang.l(article.title.et, article.title.en) }}
             </h2>
             <p class="text-sm text-slate-400 leading-relaxed line-clamp-3">
@@ -873,8 +873,8 @@ const ARTICLES: BlogArticle[] = [
       </div>
 
       <!-- Newsletter CTA -->
-      <div class="mt-12 p-8 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-800/40 border border-slate-200 text-center">
-        <h3 class="text-xl font-semibold text-white mb-2">
+      <div class="mt-12 p-8 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-100/40 border border-slate-200 text-center">
+        <h3 class="text-xl font-semibold text-slate-900 mb-2">
           {{ lang.t('blog.stay_informed') }}
         </h3>
         <p class="text-sm text-slate-400 mb-4 max-w-lg mx-auto">

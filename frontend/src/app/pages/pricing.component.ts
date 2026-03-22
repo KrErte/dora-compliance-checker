@@ -48,29 +48,29 @@ import { SubscriptionService } from '../services/subscription.service';
               <thead>
                 <tr class="bg-white">
                   <th class="px-4 py-3 text-left text-sm font-medium text-slate-400 w-1/3"></th>
-                  <th class="px-4 py-3 text-center text-sm font-medium text-slate-400 w-1/3 bg-slate-700/30">{{ lang.t('pricing.compare_header_lawyer') }}</th>
+                  <th class="px-4 py-3 text-center text-sm font-medium text-slate-400 w-1/3 bg-slate-200/30">{{ lang.t('pricing.compare_header_lawyer') }}</th>
                   <th class="px-4 py-3 text-center text-sm font-medium text-blue-600 w-1/3 bg-blue-50 border-l border-blue-200">{{ lang.t('pricing.compare_header_doraaudit') }}</th>
                 </tr>
               </thead>
             <tbody>
               <tr class="border-t border-slate-200">
                 <td class="px-4 py-4 text-sm font-medium text-slate-600">{{ lang.t('pricing.compare_price') }}</td>
-                <td class="px-4 py-4 text-center text-sm text-slate-400 bg-slate-700/10">{{ lang.t('pricing.compare_price_lawyer') }}</td>
+                <td class="px-4 py-4 text-center text-sm text-slate-400 bg-slate-200/10">{{ lang.t('pricing.compare_price_lawyer') }}</td>
                 <td class="px-4 py-4 text-center text-sm font-semibold text-blue-600 bg-blue-50 border-l border-blue-200">{{ lang.t('pricing.compare_price_doraaudit') }}</td>
               </tr>
               <tr class="border-t border-slate-200">
                 <td class="px-4 py-4 text-sm font-medium text-slate-600">{{ lang.t('pricing.compare_time') }}</td>
-                <td class="px-4 py-4 text-center text-sm text-slate-400 bg-slate-700/10">{{ lang.t('pricing.compare_time_lawyer') }}</td>
+                <td class="px-4 py-4 text-center text-sm text-slate-400 bg-slate-200/10">{{ lang.t('pricing.compare_time_lawyer') }}</td>
                 <td class="px-4 py-4 text-center text-sm font-semibold text-blue-600 bg-blue-50 border-l border-blue-200">{{ lang.t('pricing.compare_time_doraaudit') }}</td>
               </tr>
               <tr class="border-t border-slate-200">
                 <td class="px-4 py-4 text-sm font-medium text-slate-600">{{ lang.t('pricing.compare_result') }}</td>
-                <td class="px-4 py-4 text-center text-sm text-slate-400 bg-slate-700/10">{{ lang.t('pricing.compare_result_lawyer') }}</td>
+                <td class="px-4 py-4 text-center text-sm text-slate-400 bg-slate-200/10">{{ lang.t('pricing.compare_result_lawyer') }}</td>
                 <td class="px-4 py-4 text-center text-sm font-semibold text-blue-600 bg-blue-50 border-l border-blue-200">{{ lang.t('pricing.compare_result_doraaudit') }}</td>
               </tr>
               <tr class="border-t border-slate-200">
                 <td class="px-4 py-4 text-sm font-medium text-slate-600">{{ lang.t('pricing.compare_update') }}</td>
-                <td class="px-4 py-4 text-center text-sm text-slate-400 bg-slate-700/10">{{ lang.t('pricing.compare_update_lawyer') }}</td>
+                <td class="px-4 py-4 text-center text-sm text-slate-400 bg-slate-200/10">{{ lang.t('pricing.compare_update_lawyer') }}</td>
                 <td class="px-4 py-4 text-center text-sm font-semibold text-blue-600 bg-blue-50 border-l border-blue-200">{{ lang.t('pricing.compare_update_doraaudit') }}</td>
               </tr>
             </tbody>
@@ -85,7 +85,7 @@ import { SubscriptionService } from '../services/subscription.service';
         <!-- Card 1: Free -->
         <div class="group glass-card p-5 rounded-2xl border border-slate-200 flex flex-col feature-card hover:border-slate-300/70 transition-all duration-300">
           <div class="mb-5">
-            <div class="w-10 h-10 rounded-xl bg-slate-700/50 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+            <div class="w-10 h-10 rounded-xl bg-slate-200/50 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
               <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
               </svg>
@@ -119,7 +119,7 @@ import { SubscriptionService } from '../services/subscription.service';
 
           <a routerLink="/nis2/scope-check"
              class="w-full py-3 px-4 rounded-xl text-center font-semibold text-sm
-                    bg-slate-700/50 text-slate-700 border border-slate-200
+                    bg-slate-200/50 text-slate-700 border border-slate-200
                     hover:bg-slate-100 hover:border-blue-200 hover:text-blue-600
                     transition-all duration-300">
             {{ lang.t('pricing.free_cta') }}
@@ -371,63 +371,63 @@ import { SubscriptionService } from '../services/subscription.service';
               </tr>
             </thead>
             <tbody class="text-slate-600">
-              <tr class="border-b border-slate-800/50">
+              <tr class="border-b border-slate-200/50">
                 <td class="py-3 px-4">{{ lang.t('pricing.feat_scope') }}</td>
                 <td class="text-center py-3 px-2 text-blue-600">✓</td>
                 <td class="text-center py-3 px-2 text-blue-600">✓</td>
                 <td class="text-center py-3 px-2 text-blue-600">✓</td>
                 <td class="text-center py-3 px-2 text-blue-600">✓</td>
               </tr>
-              <tr class="border-b border-slate-800/50">
+              <tr class="border-b border-slate-200/50">
                 <td class="py-3 px-4">{{ lang.t('pricing.feat_full_assess') }}</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-blue-500">DORA / NIS2</td>
                 <td class="text-center py-3 px-2 text-blue-600">DORA + NIS2</td>
                 <td class="text-center py-3 px-2 text-blue-600">DORA + NIS2</td>
               </tr>
-              <tr class="border-b border-slate-800/50">
+              <tr class="border-b border-slate-200/50">
                 <td class="py-3 px-4">{{ lang.t('pricing.feat_supply_chain') }}</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-blue-600">✓</td>
                 <td class="text-center py-3 px-2 text-blue-600">✓</td>
               </tr>
-              <tr class="border-b border-slate-800/50">
+              <tr class="border-b border-slate-200/50">
                 <td class="py-3 px-4">{{ lang.t('pricing.feat_ict_providers') }}</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-blue-600">20</td>
                 <td class="text-center py-3 px-2 text-purple-400">{{ lang.t('pricing.unlimited') }}</td>
               </tr>
-              <tr class="border-b border-slate-800/50">
+              <tr class="border-b border-slate-200/50">
                 <td class="py-3 px-4">{{ lang.t('pricing.feat_subcontractor') }}</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-blue-600">✓</td>
               </tr>
-              <tr class="border-b border-slate-800/50">
+              <tr class="border-b border-slate-200/50">
                 <td class="py-3 px-4">{{ lang.t('pricing.feat_realtime') }}</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-blue-600">✓</td>
               </tr>
-              <tr class="border-b border-slate-800/50">
+              <tr class="border-b border-slate-200/50">
                 <td class="py-3 px-4">{{ lang.t('pricing.feat_roi') }}</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-blue-600">✓</td>
               </tr>
-              <tr class="border-b border-slate-800/50">
+              <tr class="border-b border-slate-200/50">
                 <td class="py-3 px-4">{{ lang.t('pricing.feat_branding') }}</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-blue-600">✓</td>
               </tr>
-              <tr class="border-b border-slate-800/50">
+              <tr class="border-b border-slate-200/50">
                 <td class="py-3 px-4">{{ lang.t('pricing.feat_gap_analyzer') }}</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>
                 <td class="text-center py-3 px-2 text-slate-600">—</td>

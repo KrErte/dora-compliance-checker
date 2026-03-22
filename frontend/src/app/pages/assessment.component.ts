@@ -20,21 +20,21 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
         <div class="flex items-center gap-2">
           <div [class]="step >= 1
             ? 'w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-slate-900 text-sm font-bold'
-            : 'w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-slate-400 text-sm font-bold'">1</div>
+            : 'w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 text-sm font-bold'">1</div>
           <span class="text-sm hidden sm:inline" [class]="step >= 1 ? 'text-blue-600' : 'text-slate-500'">{{ lang.t('assessment.step_data') }}</span>
         </div>
-        <div class="w-12 h-px" [class]="step >= 2 ? 'bg-blue-600' : 'bg-slate-700'"></div>
+        <div class="w-12 h-px" [class]="step >= 2 ? 'bg-blue-600' : 'bg-slate-100'"></div>
         <div class="flex items-center gap-2">
           <div [class]="step >= 2
             ? 'w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-slate-900 text-sm font-bold'
-            : 'w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-slate-400 text-sm font-bold'">2</div>
+            : 'w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 text-sm font-bold'">2</div>
           <span class="text-sm hidden sm:inline" [class]="step >= 2 ? 'text-blue-600' : 'text-slate-500'">{{ lang.t('assessment.step_questions') }}</span>
         </div>
-        <div class="w-12 h-px" [class]="step >= 3 ? 'bg-blue-600' : 'bg-slate-700'"></div>
+        <div class="w-12 h-px" [class]="step >= 3 ? 'bg-blue-600' : 'bg-slate-100'"></div>
         <div class="flex items-center gap-2">
           <div [class]="step >= 3
             ? 'w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-slate-900 text-sm font-bold'
-            : 'w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-slate-400 text-sm font-bold'">3</div>
+            : 'w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 text-sm font-bold'">3</div>
           <span class="text-sm hidden sm:inline" [class]="step >= 3 ? 'text-blue-600' : 'text-slate-500'">{{ lang.t('assessment.step_results') }}</span>
         </div>
       </div>
@@ -46,7 +46,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
 
 
       <div *ngIf="loading" class="text-center py-16 animate-fade-in">
-        <div class="inline-block w-10 h-10 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin"></div>
+        <div class="inline-block w-10 h-10 border-4 border-slate-200 border-t-blue-500 rounded-full animate-spin"></div>
         <p class="text-slate-400 mt-4">{{ lang.t('assessment.loading') }}</p>
       </div>
 
@@ -81,7 +81,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
           {{ lang.t('assessment.scenario_weak') }}
         </button>
         <button type="button" (click)="clearAll()"
-                class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-700/50 text-slate-400 border border-slate-600/30
+                class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100/50 text-slate-400 border border-slate-300/30
                        hover:bg-slate-100 transition-all duration-200">
           {{ lang.t('assessment.clear') }}
         </button>
@@ -164,16 +164,16 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
                 <div class="flex items-center gap-2 flex-wrap">
                   <div class="group relative inline-block">
                     <span class="text-xs cursor-help border-b border-dashed transition-colors"
-                          [class]="isExtendedQuestion(q.id) ? 'text-amber-500 border-amber-600 hover:text-amber-400' : 'text-slate-500 border-slate-600 hover:text-blue-600'">
+                          [class]="isExtendedQuestion(q.id) ? 'text-amber-500 border-amber-600 hover:text-amber-400' : 'text-slate-500 border-slate-300 hover:text-blue-600'">
                       {{ q.articleReference }}
                     </span>
                     <div class="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200
-                                absolute z-10 bottom-full left-0 mb-2 w-80 p-4 bg-slate-700/95 backdrop-blur
+                                absolute z-10 bottom-full left-0 mb-2 w-80 p-4 bg-slate-100/95 backdrop-blur
                                 text-slate-700 text-xs rounded-xl shadow-2xl border border-slate-200">
                       <div class="font-semibold mb-1" [class]="isExtendedQuestion(q.id) ? 'text-amber-400' : 'text-blue-600'">{{ q.articleReference }}</div>
                       <div *ngIf="isExtendedQuestion(q.id)" class="text-amber-300/80 text-[10px] mb-2 italic">{{ lang.t('assessment.extended_tooltip') }}</div>
                       {{ lang.currentLang === 'et' ? q.explanation : q.explanationEn }}
-                      <div class="absolute bottom-0 left-4 translate-y-1/2 rotate-45 w-2 h-2 bg-slate-700 border-r border-b border-slate-200"></div>
+                      <div class="absolute bottom-0 left-4 translate-y-1/2 rotate-45 w-2 h-2 bg-slate-100 border-r border-b border-slate-200"></div>
                     </div>
                   </div>
                   <span *ngIf="isExtendedQuestion(q.id)"
@@ -187,21 +187,21 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
                         (click)="answers[q.id] = 'yes'; autoSave()"
                         [class]="answers[q.id] === 'yes'
                           ? 'px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-blue-600 to-blue-400 text-slate-900 shadow-lg shadow-md scale-105 transition-all duration-200'
-                          : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-all duration-200'">
+                          : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-100/50 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-all duration-200'">
                   {{ lang.t('assessment.yes') }}
                 </button>
                 <button type="button"
                         (click)="answers[q.id] = 'partial'; autoSave()"
                         [class]="answers[q.id] === 'partial'
                           ? 'px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-amber-500 to-amber-400 text-slate-900 shadow-lg shadow-amber-500/20 scale-105 transition-all duration-200'
-                          : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-all duration-200'">
+                          : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-100/50 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-all duration-200'">
                   {{ lang.t('assessment.partial') }}
                 </button>
                 <button type="button"
                         (click)="answers[q.id] = 'no'; autoSave()"
                         [class]="answers[q.id] === 'no'
                           ? 'px-3 py-1.5 rounded-lg text-sm font-medium bg-gradient-to-r from-red-500 to-red-400 text-white shadow-lg shadow-red-500/20 scale-105 transition-all duration-200'
-                          : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-all duration-200'">
+                          : 'px-3 py-1.5 rounded-lg text-sm font-medium bg-slate-100/50 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-all duration-200'">
                   {{ lang.t('assessment.no') }}
                 </button>
               </div>
@@ -211,7 +211,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
 
         <!-- Submit bar -->
         <div class="sticky bottom-4 mt-8 animate-fade-in-up delay-300">
-          <div class="bg-slate-800/90 backdrop-blur-md border border-slate-200 rounded-xl p-4 shadow-2xl">
+          <div class="bg-white/90 backdrop-blur-md border border-slate-200 rounded-xl p-4 shadow-2xl">
             <!-- Live score preview -->
             <div *ngIf="answeredCount > 0" class="flex items-center gap-2 sm:gap-4 mb-3 pb-3 border-b border-slate-200">
               <div class="flex items-center gap-2 flex-1">
@@ -255,7 +255,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
             <div class="flex items-center justify-between">
             <div>
               <div class="flex items-center gap-3">
-                <div class="w-full bg-slate-700 rounded-full h-2 w-20 sm:w-32">
+                <div class="w-full bg-slate-100 rounded-full h-2 w-20 sm:w-32">
                   <div class="h-2 rounded-full bg-gradient-to-r from-blue-600 to-blue-400 transition-all duration-500"
                        [style.width.%]="(answeredCount / totalQuestions) * 100">
                   </div>
@@ -267,7 +267,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
                     [disabled]="!canSubmit || submitting"
                     [class]="canSubmit && !submitting
                       ? 'bg-blue-600 hover:bg-blue-700 text-slate-900 font-semibold px-8 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-lg flex items-center gap-2'
-                      : 'bg-slate-700 text-slate-500 font-semibold px-8 py-2.5 rounded-lg cursor-not-allowed flex items-center gap-2'">
+                      : 'bg-slate-100 text-slate-500 font-semibold px-8 py-2.5 rounded-lg cursor-not-allowed flex items-center gap-2'">
               <span *ngIf="!submitting">{{ lang.t('assessment.submit') }}</span>
               <span *ngIf="submitting" class="flex items-center gap-2">
                 <span class="w-4 h-4 border-2 border-slate-900/30 border-t-slate-900 rounded-full animate-spin"></span>
@@ -285,7 +285,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
       <!-- Confirmation dialog -->
       <div *ngIf="showConfirmDialog" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in"
            (click)="cancelSubmit()">
-        <div class="bg-slate-800 border border-slate-200 rounded-2xl p-6 max-w-md w-full mx-4 shadow-2xl animate-scale-in"
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 max-w-md w-full mx-4 shadow-2xl animate-scale-in"
              (click)="$event.stopPropagation()">
           <div class="flex items-center gap-3 mb-4">
             <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
@@ -301,7 +301,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
           </div>
 
           <div *ngIf="!isComplete" class="mb-6">
-            <div class="flex items-center gap-3 mb-3 px-4 py-3 bg-slate-700/50 rounded-xl">
+            <div class="flex items-center gap-3 mb-3 px-4 py-3 bg-slate-100/50 rounded-xl">
               <div class="relative w-10 h-10 shrink-0">
                 <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
                   <circle cx="50" cy="50" r="42" fill="none" stroke="#e2e8f0" stroke-width="8"/>
@@ -334,7 +334,7 @@ import { DoraQuestion, AssessmentRequest, CATEGORY_LABELS, PILLAR_CATEGORIES } f
 
           <div class="flex items-center gap-3 justify-end">
             <button type="button" (click)="cancelSubmit()"
-                    class="px-5 py-2 rounded-lg text-sm font-medium bg-slate-700 text-slate-600 hover:bg-slate-600 transition-all duration-200">
+                    class="px-5 py-2 rounded-lg text-sm font-medium bg-slate-100 text-slate-600 hover:bg-slate-50 transition-all duration-200">
               {{ lang.t('assessment.confirm_cancel') }}
             </button>
             <button type="button" (click)="confirmSubmit()"

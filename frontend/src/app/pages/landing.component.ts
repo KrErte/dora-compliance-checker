@@ -47,7 +47,7 @@ interface DoraRequirement {
     <!-- Hero section -->
     <div class="relative overflow-hidden">
       <!-- Subtle gradient background -->
-      <div class="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-white via-slate-50 to-slate-100"></div>
       <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-50 rounded-full blur-3xl"></div>
 
       <div class="relative flex flex-col items-center justify-center min-h-[60vh] text-center z-10 py-16 px-4">
@@ -73,7 +73,7 @@ interface DoraRequirement {
           @if (auth.isLoggedIn()) {
             <a routerLink="/dashboard"
                class="group inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700
-                      text-white font-bold px-10 py-4 rounded-xl text-lg w-full sm:w-auto justify-center
+                      text-slate-900 font-bold px-10 py-4 rounded-xl text-lg w-full sm:w-auto justify-center
                       hover:shadow-lg hover:shadow-lg transition-all duration-300">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
@@ -178,12 +178,12 @@ interface DoraRequirement {
           </div>
           <!-- Right: Chat preview mockup -->
           <div class="relative">
-            <div class="bg-slate-900 border border-slate-200 rounded-2xl shadow-2xl shadow-black/30 overflow-hidden max-w-sm mx-auto">
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-2xl shadow-black/30 overflow-hidden max-w-sm mx-auto">
               <!-- Chat header -->
               <div class="flex items-center gap-2.5 px-4 py-3 bg-gradient-to-r from-blue-700/20 to-blue-600/20 border-b border-slate-200">
                 <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-slate-900 font-bold text-xs">AI</div>
                 <div>
-                  <div class="text-sm font-semibold text-white">DoraBot</div>
+                  <div class="text-sm font-semibold text-slate-900">DoraBot</div>
                   <div class="text-[10px] text-blue-600">{{ lang.t('chat.subtitle') }}</div>
                 </div>
               </div>
@@ -195,7 +195,7 @@ interface DoraRequirement {
                   </div>
                 </div>
                 <div class="flex">
-                  <div class="max-w-[85%] px-3 py-2 rounded-xl rounded-bl-sm bg-slate-800 text-slate-700 border border-slate-200 text-sm leading-relaxed">
+                  <div class="max-w-[85%] px-3 py-2 rounded-xl rounded-bl-sm bg-white text-slate-700 border border-slate-200 text-sm leading-relaxed">
                     {{ lang.t('landing.ai_a') }}
                   </div>
                 </div>
@@ -213,7 +213,7 @@ interface DoraRequirement {
               <!-- Mock input -->
               <div class="px-3 py-3 border-t border-slate-200">
                 <div class="flex gap-2">
-                  <div class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-500">{{ lang.t('chat.placeholder') }}</div>
+                  <div class="flex-1 bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-500">{{ lang.t('chat.placeholder') }}</div>
                   <div class="px-3 py-2 rounded-xl bg-blue-700 text-white">
                     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                   </div>
@@ -267,7 +267,7 @@ interface DoraRequirement {
     </div>
 
     <!-- Social Proof — Testimonials -->
-    <div class="py-10 px-4 bg-gradient-to-b from-slate-800/60 to-slate-900/60 border-y border-slate-200">
+    <div class="py-10 px-4 bg-gradient-to-b from-slate-100/60 to-slate-100/60 border-y border-slate-200">
       <div class="max-w-4xl mx-auto">
         <p class="text-center text-xs font-medium text-slate-500 uppercase tracking-wider mb-6">{{ lang.l('Mida meie kliendid ütlevad', 'What our clients say') }}</p>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -343,7 +343,7 @@ interface DoraRequirement {
                   <input type="checkbox" [(ngModel)]="req.checked" (click)="$event.stopPropagation()"
                          [id]="'req-checkbox-' + req.id"
                          [attr.aria-label]="(req.nameKey ? lang.t(req.nameKey) : req.name) + ' - ' + (req.checked ? lang.t('landing.table_ok') : lang.t('landing.table_missing'))"
-                         class="w-5 h-5 rounded border-slate-600 bg-slate-700 text-teal-500 focus:ring-teal-500 cursor-pointer">
+                         class="w-5 h-5 rounded border-slate-300 bg-slate-200 text-teal-500 focus:ring-teal-500 cursor-pointer">
                   <label [for]="'req-checkbox-' + req.id" class="sr-only">{{ req.nameKey ? lang.t(req.nameKey) : req.name }}</label>
                 </td>
                 <td class="px-4 py-4">
@@ -369,7 +369,7 @@ interface DoraRequirement {
                   </span>
                 </td>
               </tr>
-              <tr *ngIf="req.expanded" class="bg-slate-800/30 animate-slide-down">
+              <tr *ngIf="req.expanded" class="bg-slate-100/30 animate-slide-down">
                 <td colspan="3" class="px-4 py-4">
                   <div class="text-sm text-slate-400 pl-9">
                     <p class="mb-3 leading-relaxed">{{ req.descKey ? lang.t(req.descKey) : req.description }}</p>
@@ -558,7 +558,7 @@ interface DoraRequirement {
           <!-- FAQ 1 -->
           <div class="glass-card rounded-xl border border-slate-200 overflow-hidden">
             <button (click)="toggleFaq(0)" [attr.aria-expanded]="expandedFaq === 0"
-                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-100/30 transition-colors">
               <span class="font-medium text-slate-700">{{ lang.t('landing.faq1_q') }}</span>
               <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -572,7 +572,7 @@ interface DoraRequirement {
           <!-- FAQ 2 -->
           <div class="glass-card rounded-xl border border-slate-200 overflow-hidden">
             <button (click)="toggleFaq(1)" [attr.aria-expanded]="expandedFaq === 1"
-                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-100/30 transition-colors">
               <span class="font-medium text-slate-700">{{ lang.t('landing.faq2_q') }}</span>
               <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -586,7 +586,7 @@ interface DoraRequirement {
           <!-- FAQ 3 -->
           <div class="glass-card rounded-xl border border-slate-200 overflow-hidden">
             <button (click)="toggleFaq(2)" [attr.aria-expanded]="expandedFaq === 2"
-                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-100/30 transition-colors">
               <span class="font-medium text-slate-700">{{ lang.t('landing.faq3_q') }}</span>
               <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -600,7 +600,7 @@ interface DoraRequirement {
           <!-- FAQ 4 -->
           <div class="glass-card rounded-xl border border-slate-200 overflow-hidden">
             <button (click)="toggleFaq(3)" [attr.aria-expanded]="expandedFaq === 3"
-                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-100/30 transition-colors">
               <span class="font-medium text-slate-700">{{ lang.t('landing.faq4_q') }}</span>
               <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -614,7 +614,7 @@ interface DoraRequirement {
           <!-- FAQ 5: Gap Analyzer -->
           <div class="glass-card rounded-xl border border-slate-200 overflow-hidden">
             <button (click)="toggleFaq(4)" [attr.aria-expanded]="expandedFaq === 4"
-                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-100/30 transition-colors">
               <span class="font-medium text-slate-700">{{ lang.t('landing.faq5_q') }}</span>
               <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -653,8 +653,8 @@ interface DoraRequirement {
                 <div>
                   <label for="contact-name" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('auth.full_name') }}</label>
                   <input type="text" [(ngModel)]="contactName" name="name" id="contact-name" required
-                         [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-700 placeholder-slate-500 focus:outline-none transition-colors ' +
-                                  (contactNameError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
+                         [class]="'w-full px-4 py-3 rounded-xl bg-white border text-slate-700 placeholder-slate-500 focus:outline-none transition-colors ' +
+                                  (contactNameError ? 'border-red-500 focus:border-red-400' : 'border-slate-200 focus:border-teal-500')"
                          [placeholder]="lang.t('landing.contact_name_placeholder')">
                   <p *ngIf="contactNameError" class="text-red-400 text-xs mt-1 animate-fade-in">
                     {{ lang.t('landing.contact_error_name') }}
@@ -663,8 +663,8 @@ interface DoraRequirement {
                 <div>
                   <label for="contact-email" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('auth.email') }}</label>
                   <input type="email" [(ngModel)]="contactEmail" name="email" id="contact-email" [placeholder]="lang.t('landing.contact_email_placeholder')"
-                         [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-700 placeholder-slate-500 focus:outline-none transition-colors ' +
-                                  (contactEmailError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
+                         [class]="'w-full px-4 py-3 rounded-xl bg-white border text-slate-700 placeholder-slate-500 focus:outline-none transition-colors ' +
+                                  (contactEmailError ? 'border-red-500 focus:border-red-400' : 'border-slate-200 focus:border-teal-500')"
                          required>
                   <p *ngIf="contactEmailError" class="text-red-400 text-xs mt-1 animate-fade-in">
                     {{ lang.t('landing.contact_error') }}
@@ -673,8 +673,8 @@ interface DoraRequirement {
                 <div>
                   <label for="contact-reason" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('landing.contact_reason_label') }}</label>
                   <select [(ngModel)]="contactReason" name="reason" id="contact-reason"
-                          [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-700 focus:outline-none transition-colors cursor-pointer ' +
-                                   (contactReasonError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')">
+                          [class]="'w-full px-4 py-3 rounded-xl bg-white border text-slate-700 focus:outline-none transition-colors cursor-pointer ' +
+                                   (contactReasonError ? 'border-red-500 focus:border-red-400' : 'border-slate-200 focus:border-teal-500')">
                     <option value="" disabled>{{ lang.t('landing.contact_reason_placeholder') }}</option>
                     <option *ngFor="let reason of contactReasons" [value]="reason.value">{{ lang.t(reason.labelKey) }}</option>
                   </select>
@@ -685,8 +685,8 @@ interface DoraRequirement {
                 <div>
                   <label for="contact-message" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('landing.contact_message_label') }}</label>
                   <textarea [(ngModel)]="contactMessage" name="message" id="contact-message" rows="3"
-                            [class]="'w-full px-4 py-3 rounded-xl bg-slate-800 border text-slate-700 placeholder-slate-500 focus:outline-none transition-colors resize-none ' +
-                                     (contactMessageError ? 'border-red-500 focus:border-red-400' : 'border-slate-700 focus:border-teal-500')"
+                            [class]="'w-full px-4 py-3 rounded-xl bg-white border text-slate-700 placeholder-slate-500 focus:outline-none transition-colors resize-none ' +
+                                     (contactMessageError ? 'border-red-500 focus:border-red-400' : 'border-slate-200 focus:border-teal-500')"
                             [placeholder]="lang.t('landing.contact_message_placeholder')"></textarea>
                   <p *ngIf="contactMessageError" class="text-red-400 text-xs mt-1 animate-fade-in">
                     {{ lang.t('landing.contact_error_message') }}
@@ -818,7 +818,7 @@ interface DoraRequirement {
       max-height: 220px;
       border-radius: 1rem;
       border: 1px solid rgba(100, 116, 139, 0.3);
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(8px);
       transition: all 0.3s ease;
       animation: fadeInUp 0.6s ease-out both;

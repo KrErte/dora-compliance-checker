@@ -27,9 +27,9 @@ import { SubscriptionService } from '../services/subscription.service';
     .section-closed { max-height: 0; opacity: 0; }
   `],
   template: `
-    <div class="min-h-screen bg-slate-950 text-slate-700">
+    <div class="min-h-screen bg-white text-slate-700">
       <!-- Header -->
-      <div class="bg-gradient-to-b from-slate-900 via-slate-900/95 to-slate-950 border-b border-purple-900/30">
+      <div class="bg-gradient-to-b from-white via-slate-50/95 to-white border-b border-purple-900/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
           <div class="flex items-center gap-4 mb-2">
             <div class="w-12 h-12 rounded-lg bg-purple-900/30 border border-purple-800/40 flex items-center justify-center">
@@ -39,7 +39,7 @@ import { SubscriptionService } from '../services/subscription.service';
               </svg>
             </div>
             <div>
-              <h1 class="text-3xl font-bold text-white tracking-tight">
+              <h1 class="text-3xl font-bold text-slate-900 tracking-tight">
                 {{ lang.l('Regulatiivne tõlkija', 'Live Regulatory Translator') }}
               </h1>
               <p class="text-slate-400 text-sm mt-1">
@@ -60,7 +60,7 @@ import { SubscriptionService } from '../services/subscription.service';
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
               </svg>
             </div>
-            <h2 class="text-xl font-bold text-white mb-2">{{ lang.l('Premium funktsioon', 'Premium Feature') }}</h2>
+            <h2 class="text-xl font-bold text-slate-900 mb-2">{{ lang.l('Premium funktsioon', 'Premium Feature') }}</h2>
             <p class="text-slate-400 mb-6 max-w-lg mx-auto">
               {{ lang.l('Regulatiivne tõlkija on saadaval Standard ja Enterprise tellijatele. Uuenda oma paketti personaalsete regulatiivsete tõlgete saamiseks.',
                          'Live Regulatory Translator is available for Standard and Enterprise subscribers. Upgrade to get personalized regulatory translations.') }}
@@ -77,7 +77,7 @@ import { SubscriptionService } from '../services/subscription.service';
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <div class="bg-white border border-slate-200 rounded-xl p-4">
               <div class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.l('Kokku tõlkeid', 'Total Translations') }}</div>
-              <div class="text-2xl font-bold text-white">{{ stats()?.total || 0 }}</div>
+              <div class="text-2xl font-bold text-slate-900">{{ stats()?.total || 0 }}</div>
             </div>
             <div class="bg-white border border-slate-200 rounded-xl p-4">
               <div class="text-xs text-slate-500 uppercase tracking-wider mb-1">{{ lang.l('Keskm. mõjuskoor', 'Avg Impact Score') }}</div>
@@ -146,7 +146,7 @@ import { SubscriptionService } from '../services/subscription.service';
                           </span>
                         }
                       </div>
-                      <h3 class="text-white font-medium text-sm mb-1 break-words">{{ update.title }}</h3>
+                      <h3 class="text-slate-900 font-medium text-sm mb-1 break-words">{{ update.title }}</h3>
                       @if (update.summary) {
                         <p class="text-slate-400 text-xs line-clamp-2">{{ update.summary }}</p>
                       }
@@ -182,7 +182,7 @@ import { SubscriptionService } from '../services/subscription.service';
             @if ((updates()?.totalElements || 0) > 20) {
               <div class="flex justify-center gap-2 mt-8">
                 <button (click)="loadUpdates(currentPage() - 1)" [disabled]="currentPage() === 0"
-                        class="px-3 py-1.5 text-xs bg-slate-800 text-slate-400 rounded-lg hover:bg-slate-700 disabled:opacity-30">
+                        class="px-3 py-1.5 text-xs bg-white text-slate-400 rounded-lg hover:bg-slate-50 disabled:opacity-30">
                   {{ lang.l('Eelmine', 'Previous') }}
                 </button>
                 <span class="px-3 py-1.5 text-xs text-slate-500">
@@ -190,7 +190,7 @@ import { SubscriptionService } from '../services/subscription.service';
                 </span>
                 <button (click)="loadUpdates(currentPage() + 1)"
                         [disabled]="(currentPage() + 1) * 20 >= (updates()?.totalElements || 0)"
-                        class="px-3 py-1.5 text-xs bg-slate-800 text-slate-400 rounded-lg hover:bg-slate-700 disabled:opacity-30">
+                        class="px-3 py-1.5 text-xs bg-white text-slate-400 rounded-lg hover:bg-slate-50 disabled:opacity-30">
                   {{ lang.l('Järgmine', 'Next') }}
                 </button>
               </div>
@@ -233,7 +233,7 @@ import { SubscriptionService } from '../services/subscription.service';
                           </span>
                           <span class="text-[10px] text-slate-500">{{ t.createdAt | date:'dd.MM.yyyy HH:mm' }}</span>
                         </div>
-                        <h3 class="text-white font-medium text-sm break-words">{{ t.updateTitle }}</h3>
+                        <h3 class="text-slate-900 font-medium text-sm break-words">{{ t.updateTitle }}</h3>
                       </div>
                       <div class="flex items-center gap-4 shrink-0">
                         <!-- Impact gauge -->
@@ -275,7 +275,7 @@ import { SubscriptionService } from '../services/subscription.service';
                             {{ expandedDetail()?.personalImpactScore }}
                           </div>
                           <div>
-                            <div class="text-sm font-medium text-white">{{ lang.l('Isiklik mõjuskoor', 'Personal Impact Score') }}</div>
+                            <div class="text-sm font-medium text-slate-900">{{ lang.l('Isiklik mõjuskoor', 'Personal Impact Score') }}</div>
                             <div class="text-xs text-slate-400">
                               {{ lang.l('Hindamisskoor tõlke ajal', 'Assessment score at time of translation') }}: {{ expandedDetail()?.assessmentScoreAtTime | number:'1.0-0' }}%
                             </div>
@@ -380,22 +380,22 @@ import { SubscriptionService } from '../services/subscription.service';
                           </div>
                           <div class="space-y-2">
                             @for (item of expandedDetail()?.actionItems || []; track $index) {
-                              <div class="bg-slate-900/40 border border-slate-200 rounded-lg p-3 flex items-start gap-3">
+                              <div class="bg-slate-100/40 border border-slate-200 rounded-lg p-3 flex items-start gap-3">
                                 @if (expandedDetail()?.status !== 'FULLY_APPLIED') {
                                   <input type="checkbox"
                                          [checked]="selectedIndices().includes($index)"
                                          (change)="toggleIndex($index)"
-                                         class="mt-1 rounded border-slate-600 bg-slate-800 text-purple-500 focus:ring-purple-500">
+                                         class="mt-1 rounded border-slate-300 bg-white text-purple-500 focus:ring-purple-500">
                                 }
                                 <div class="flex-1 min-w-0">
                                   <div class="flex items-center gap-2 mb-1 flex-wrap">
-                                    <span class="text-sm font-medium text-white">{{ item.title }}</span>
+                                    <span class="text-sm font-medium text-slate-900">{{ item.title }}</span>
                                     <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full uppercase"
                                           [class]="getRiskBadgeClass(item.priority)">
                                       {{ item.priority }}
                                     </span>
                                     @if (item.pillar) {
-                                      <span class="text-[9px] text-slate-500 bg-slate-700/30 px-1.5 py-0.5 rounded">{{ item.pillar?.replace('_', ' ') }}</span>
+                                      <span class="text-[9px] text-slate-500 bg-slate-100/30 px-1.5 py-0.5 rounded">{{ item.pillar?.replace('_', ' ') }}</span>
                                     }
                                     @if (item.articleReference) {
                                       <span class="text-[9px] text-purple-400">{{ item.articleReference }}</span>

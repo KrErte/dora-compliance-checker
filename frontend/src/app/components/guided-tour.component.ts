@@ -41,7 +41,7 @@ interface TourStep {
       </div>
 
       <!-- Tooltip bubble -->
-      <div class="fixed z-[201] w-80 bg-slate-800 border border-slate-200 rounded-2xl shadow-2xl shadow-black/40 p-5"
+      <div class="fixed z-[201] w-80 bg-white border border-slate-200 rounded-2xl shadow-2xl shadow-black/40 p-5"
            [style.left.px]="tooltipPos().x" [style.top.px]="tooltipPos().y"
            (click)="$event.stopPropagation()">
         <!-- Step icon -->
@@ -50,7 +50,7 @@ interface TourStep {
             {{ currentStepData().icon }}
           </div>
           <div>
-            <p class="text-sm font-bold text-white">{{ lang.t(currentStepData().titleKey) }}</p>
+            <p class="text-sm font-bold text-slate-900">{{ lang.t(currentStepData().titleKey) }}</p>
             <p class="text-[10px] text-slate-400">{{ currentStep() + 1 }} / {{ steps.length }}</p>
           </div>
         </div>
@@ -60,7 +60,7 @@ interface TourStep {
         <div class="flex items-center gap-1.5 mb-4">
           @for (step of steps; track step.titleKey; let i = $index) {
             <div class="h-1.5 rounded-full transition-all duration-300"
-                 [class]="i === currentStep() ? 'w-6 bg-blue-500' : i < currentStep() ? 'w-1.5 bg-blue-500/50' : 'w-1.5 bg-slate-600'"></div>
+                 [class]="i === currentStep() ? 'w-6 bg-blue-500' : i < currentStep() ? 'w-1.5 bg-blue-500/50' : 'w-1.5 bg-slate-300'"></div>
           }
         </div>
 
@@ -73,7 +73,7 @@ interface TourStep {
           <div class="flex items-center gap-2">
             @if (currentStep() > 0) {
               <button type="button" (click)="prev()"
-                      class="px-3 py-1.5 text-xs rounded-lg border border-slate-600 text-slate-600 hover:bg-slate-700 transition-colors">
+                      class="px-3 py-1.5 text-xs rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-50 transition-colors">
                 {{ lang.t('tour.prev') }}
               </button>
             }

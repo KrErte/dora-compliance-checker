@@ -35,7 +35,7 @@ interface PlaybookItem {
           </svg>
           DORA Art. 17-23
         </div>
-        <h1 class="text-3xl font-bold text-white mb-2">
+        <h1 class="text-3xl font-bold text-slate-900 mb-2">
           {{ lang.t('playbook.title') }}
         </h1>
         <p class="text-slate-400 max-w-2xl mx-auto">
@@ -45,7 +45,7 @@ interface PlaybookItem {
 
       <!-- Configuration -->
       <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
-        <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+        <h2 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
           <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -58,13 +58,13 @@ interface PlaybookItem {
             <label class="block text-sm text-slate-400 mb-2">{{ lang.t('playbook.org_name') }}</label>
             <input type="text" [(ngModel)]="orgName"
                    [placeholder]="lang.t('playbook.org_name_placeholder')"
-                   class="w-full px-4 py-2 rounded-lg bg-white border border-slate-200 text-white placeholder-slate-500
+                   class="w-full px-4 py-2 rounded-lg bg-white border border-slate-200 text-slate-900 placeholder-slate-500
                           focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all">
           </div>
           <div>
             <label class="block text-sm text-slate-400 mb-2">{{ lang.t('playbook.incident_type') }}</label>
             <select [(ngModel)]="incidentType"
-                    class="w-full px-4 py-2 rounded-lg bg-white border border-slate-200 text-white
+                    class="w-full px-4 py-2 rounded-lg bg-white border border-slate-200 text-slate-900
                            focus:outline-none focus:border-blue-500/50 transition-all">
               <option value="cyber">{{ lang.t('playbook.type_cyber') }}</option>
               <option value="data_breach">{{ lang.t('playbook.type_data_breach') }}</option>
@@ -75,7 +75,7 @@ interface PlaybookItem {
           <div>
             <label class="block text-sm text-slate-400 mb-2">{{ lang.t('playbook.competent_authority') }}</label>
             <select [(ngModel)]="authority"
-                    class="w-full px-4 py-2 rounded-lg bg-white border border-slate-200 text-white
+                    class="w-full px-4 py-2 rounded-lg bg-white border border-slate-200 text-slate-900
                            focus:outline-none focus:border-blue-500/50 transition-all">
               <option value="fi">Finantsinspektsioon (Estonia)</option>
               <option value="bafin">BaFin (Germany)</option>
@@ -87,7 +87,7 @@ interface PlaybookItem {
           <div>
             <label class="block text-sm text-slate-400 mb-2">{{ lang.t('playbook.severity_level') }}</label>
             <select [(ngModel)]="severity"
-                    class="w-full px-4 py-2 rounded-lg bg-white border border-slate-200 text-white
+                    class="w-full px-4 py-2 rounded-lg bg-white border border-slate-200 text-slate-900
                            focus:outline-none focus:border-blue-500/50 transition-all">
               <option value="critical">{{ lang.t('playbook.severity_critical') }}</option>
               <option value="major">{{ lang.t('playbook.severity_major') }}</option>
@@ -119,7 +119,7 @@ interface PlaybookItem {
         <!-- Download/Print buttons -->
         <div class="flex justify-end gap-3">
           <button type="button" (click)="printPlaybook()"
-                  class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-600 border border-slate-200
+                  class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-200/50 text-slate-600 border border-slate-200
                          hover:bg-slate-100 transition-all flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
@@ -140,7 +140,7 @@ interface PlaybookItem {
         <div class="bg-gradient-to-r from-red-900/30 to-orange-900/30 border border-red-500/30 rounded-2xl p-6">
           <div class="flex items-start justify-between">
             <div>
-              <h2 class="text-2xl font-bold text-white mb-1">
+              <h2 class="text-2xl font-bold text-slate-900 mb-1">
                 {{ lang.t('playbook.playbook_title') }}
               </h2>
               <p class="text-slate-400">{{ orgName || lang.t('playbook.your_org') }}</p>
@@ -156,7 +156,7 @@ interface PlaybookItem {
 
         <!-- Timeline -->
         <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
-          <h3 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <h3 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
             <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
@@ -185,9 +185,9 @@ interface PlaybookItem {
         <!-- Playbook Sections -->
         <div *ngFor="let section of playbookSections; let i = index"
              class="bg-white backdrop-blur border border-slate-200 rounded-2xl overflow-hidden">
-          <div class="px-6 py-4 bg-slate-700/30 flex items-center justify-between cursor-pointer"
+          <div class="px-6 py-4 bg-slate-200/30 flex items-center justify-between cursor-pointer"
                (click)="toggleSection(section.id)">
-            <h3 class="text-lg font-semibold text-white flex items-center gap-2">
+            <h3 class="text-lg font-semibold text-slate-900 flex items-center gap-2">
               <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center text-white text-sm font-bold">
                 {{ i + 1 }}
               </span>
@@ -199,9 +199,9 @@ interface PlaybookItem {
           </div>
           <div *ngIf="expandedSections[section.id]" class="p-6 space-y-3 animate-fade-in">
             <div *ngFor="let item of section.items"
-                 class="flex items-start gap-3 p-3 rounded-lg bg-slate-900/30 hover:bg-white transition-colors">
+                 class="flex items-start gap-3 p-3 rounded-lg bg-slate-100/30 hover:bg-white transition-colors">
               <input type="checkbox" [(ngModel)]="item.checked"
-                     class="mt-1 w-4 h-4 rounded border-slate-600 bg-slate-800 text-blue-600 focus:ring-blue-500/25">
+                     class="mt-1 w-4 h-4 rounded border-slate-300 bg-white text-blue-600 focus:ring-blue-500/25">
               <div class="flex-1">
                 <p class="text-sm text-slate-700">{{ l(item.textEt, item.text) }}</p>
                 <div class="flex items-center gap-4 mt-1">
@@ -220,14 +220,14 @@ interface PlaybookItem {
         <!-- Notification Template -->
         <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
           <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold text-white flex items-center gap-2">
+            <h3 class="text-lg font-semibold text-slate-900 flex items-center gap-2">
               <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
               </svg>
               {{ lang.t('playbook.notification_template') }}
             </h3>
             <button type="button" (click)="copyTemplate()"
-                    class="text-xs px-3 py-1.5 rounded-lg bg-slate-700/50 text-slate-600 hover:bg-slate-100 transition-colors flex items-center gap-1">
+                    class="text-xs px-3 py-1.5 rounded-lg bg-slate-200/50 text-slate-600 hover:bg-slate-100 transition-colors flex items-center gap-1">
               <svg *ngIf="!templateCopied" class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
               </svg>
@@ -242,21 +242,21 @@ interface PlaybookItem {
 
         <!-- Contacts -->
         <div class="bg-white backdrop-blur border border-slate-200 rounded-2xl p-6">
-          <h3 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <h3 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
             <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
             </svg>
             {{ lang.t('playbook.contacts_escalation') }}
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-slate-900/30 rounded-lg p-4">
+            <div class="bg-slate-100/30 rounded-lg p-4">
               <p class="text-xs text-slate-500 mb-2">{{ lang.t('playbook.competent_authority') }}</p>
-              <p class="text-sm text-white font-medium">{{ getAuthorityName() }}</p>
+              <p class="text-sm text-slate-900 font-medium">{{ getAuthorityName() }}</p>
               <p class="text-xs text-slate-400 mt-1">{{ getAuthorityContact() }}</p>
             </div>
-            <div class="bg-slate-900/30 rounded-lg p-4">
+            <div class="bg-slate-100/30 rounded-lg p-4">
               <p class="text-xs text-slate-500 mb-2">{{ lang.t('playbook.internal_escalation') }}</p>
-              <p class="text-sm text-white font-medium">CISO \u2192 CRO \u2192 CEO \u2192 Board</p>
+              <p class="text-sm text-slate-900 font-medium">CISO \u2192 CRO \u2192 CEO \u2192 Board</p>
               <p class="text-xs text-slate-400 mt-1">{{ lang.t('playbook.based_on_severity') }}</p>
             </div>
           </div>

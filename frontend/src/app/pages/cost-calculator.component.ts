@@ -43,7 +43,7 @@ interface CalculationResult {
               {{ lang.t('costcalc.unique_roi_tool') }}
             </span>
           </div>
-          <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
             {{ lang.t('costcalc.dora_compliance_cost_calculator') }}
           </h1>
           <p class="text-slate-400 max-w-2xl">
@@ -54,7 +54,7 @@ interface CalculationResult {
 
       <!-- Input Form -->
       <div class="max-w-3xl mx-auto bg-white backdrop-blur-sm rounded-2xl border border-slate-200 p-6 md:p-8 space-y-6">
-        <h2 class="text-xl font-semibold text-white flex items-center gap-2">
+        <h2 class="text-xl font-semibold text-slate-900 flex items-center gap-2">
           <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
           </svg>
@@ -67,7 +67,7 @@ interface CalculationResult {
             {{ lang.t('costcalc.company_size') }} *
           </label>
           <select [(ngModel)]="companySize"
-                  class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-white
+                  class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-900
                          focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all">
             <option value="" disabled>{{ lang.t('costcalc.select_size') }}</option>
             <option value="small">{{ lang.t('costcalc.small_50_employees') }}</option>
@@ -83,7 +83,7 @@ interface CalculationResult {
             {{ lang.t('costcalc.sector') }} *
           </label>
           <select [(ngModel)]="sector"
-                  class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-white
+                  class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-900
                          focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all">
             <option value="" disabled>{{ lang.t('costcalc.select_sector') }}</option>
             <option value="banking">{{ lang.t('costcalc.banking') }}</option>
@@ -106,7 +106,7 @@ interface CalculationResult {
                    [value]="formatInputNumber(revenue)"
                    (input)="onRevenueInput($event)"
                    placeholder="10,000,000"
-                   class="w-full pl-10 pr-4 py-3 rounded-xl bg-white border border-slate-200 text-white
+                   class="w-full pl-10 pr-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-900
                           focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all
                           [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
           </div>
@@ -115,7 +115,7 @@ interface CalculationResult {
                  [max]="2000000000"
                  [step]="500000"
                  [(ngModel)]="revenue"
-                 class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer slider-primary mt-2" />
+                 class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer slider-primary mt-2" />
           <div class="flex justify-between text-xs text-slate-500">
             <span>&#8364;500K</span>
             <span>&#8364;2B</span>
@@ -132,7 +132,7 @@ interface CalculationResult {
                     class="p-3 rounded-xl border text-center transition-all text-sm font-medium"
                     [ngClass]="maturity === m.value
                       ? 'bg-blue-100 border-blue-500/40 text-blue-600'
-                      : 'bg-slate-900/30 border-slate-200 text-slate-400 hover:border-slate-500'">
+                      : 'bg-slate-100/30 border-slate-200 text-slate-400 hover:border-slate-500'">
               {{ lang.l(m.labelEt, m.labelEn) }}
             </button>
           </div>
@@ -151,12 +151,12 @@ interface CalculationResult {
           </p>
           <div class="space-y-2">
             <label *ngFor="let cert of certOptions"
-                   class="flex items-center gap-3 p-3 rounded-xl bg-slate-900/30 border border-slate-200 cursor-pointer hover:border-slate-500 transition-all"
+                   class="flex items-center gap-3 p-3 rounded-xl bg-slate-100/30 border border-slate-200 cursor-pointer hover:border-slate-500 transition-all"
                    [ngClass]="cert.checked ? 'border-blue-200 bg-blue-50' : ''">
               <input type="checkbox" [(ngModel)]="cert.checked"
-                     class="w-4 h-4 rounded border-slate-600 bg-slate-800 text-blue-600 focus:ring-blue-500/20" />
+                     class="w-4 h-4 rounded border-slate-300 bg-white text-blue-600 focus:ring-blue-500/20" />
               <div class="flex-1">
-                <span class="text-sm text-white font-medium">{{ cert.name }}</span>
+                <span class="text-sm text-slate-900 font-medium">{{ cert.name }}</span>
                 <span class="text-xs text-slate-500 ml-2">
                   {{ lang.t('costcalc.reduces') }}{{ cert.discount }}%
                 </span>
@@ -172,8 +172,8 @@ interface CalculationResult {
           </label>
           <div class="flex items-center gap-4">
             <input type="range" [min]="1" [max]="100" [(ngModel)]="providerCount"
-                   class="flex-1 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer slider-primary" />
-            <div class="w-16 px-3 py-2 rounded-lg bg-white border border-slate-200 text-center text-white text-sm font-medium">
+                   class="flex-1 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer slider-primary" />
+            <div class="w-16 px-3 py-2 rounded-lg bg-white border border-slate-200 text-center text-slate-900 text-sm font-medium">
               {{ providerCount }}{{ providerCount >= 100 ? '+' : '' }}
             </div>
           </div>
@@ -190,7 +190,7 @@ interface CalculationResult {
                   class="w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all flex items-center justify-center gap-2"
                   [ngClass]="isFormValid()
                     ? 'bg-blue-600 hover:bg-blue-700 text-white hover:shadow-lg hover:shadow-lg cursor-pointer'
-                    : 'bg-slate-700 text-slate-500 cursor-not-allowed'">
+                    : 'bg-slate-200 text-slate-500 cursor-not-allowed'">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
             </svg>
@@ -214,11 +214,11 @@ interface CalculationResult {
             {{ lang.t('costcalc.onetime_implementation_cost') }}
           </p>
           <div class="mt-4 inline-flex items-center gap-4 text-sm">
-            <div class="px-4 py-2 rounded-lg bg-slate-800/70">
+            <div class="px-4 py-2 rounded-lg bg-white/70">
               <span class="text-slate-400">{{ lang.t('costcalc.annual_cost') }}: </span>
               <span class="text-blue-500 font-semibold">&#8364; {{ formatNumber(result.annualAfterDiscount) }}</span>
             </div>
-            <div class="px-4 py-2 rounded-lg bg-slate-800/70">
+            <div class="px-4 py-2 rounded-lg bg-white/70">
               <span class="text-slate-400">{{ lang.t('costcalc.costemployee') }}: </span>
               <span class="text-blue-500 font-semibold">&#8364; {{ formatNumber(result.costPerEmployee) }}</span>
             </div>
@@ -227,7 +227,7 @@ interface CalculationResult {
 
         <!-- Cost Breakdown Chart -->
         <div class="max-w-3xl mx-auto bg-white rounded-2xl border border-slate-200 p-6 md:p-8">
-          <h3 class="text-lg font-semibold text-white mb-6 flex items-center gap-2">
+          <h3 class="text-lg font-semibold text-slate-900 mb-6 flex items-center gap-2">
             <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
             </svg>
@@ -237,7 +237,7 @@ interface CalculationResult {
             <div *ngFor="let line of result.lines" class="space-y-1.5">
               <div class="flex items-center justify-between text-sm">
                 <span class="text-slate-600">{{ lang.l(line.labelEt, line.labelEn) }}</span>
-                <span class="text-white font-medium tabular-nums">&#8364; {{ formatNumber(line.amount) }}</span>
+                <span class="text-slate-900 font-medium tabular-nums">&#8364; {{ formatNumber(line.amount) }}</span>
               </div>
               <div class="h-3 bg-white rounded-full overflow-hidden">
                 <div class="h-full rounded-full transition-all duration-700 ease-out"
@@ -251,7 +251,7 @@ interface CalculationResult {
 
         <!-- Certification Savings -->
         <div *ngIf="result.certDiscount > 0" class="max-w-3xl mx-auto bg-blue-50 rounded-2xl border border-blue-200 p-6 md:p-8">
-          <h3 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <h3 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
             <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
             </svg>
@@ -284,7 +284,7 @@ interface CalculationResult {
 
         <!-- ROI Comparison: Investment vs Fine -->
         <div class="max-w-3xl mx-auto bg-white rounded-2xl border border-slate-200 p-6 md:p-8">
-          <h3 class="text-lg font-semibold text-white mb-6 flex items-center gap-2">
+          <h3 class="text-lg font-semibold text-slate-900 mb-6 flex items-center gap-2">
             <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/>
             </svg>
@@ -358,7 +358,7 @@ interface CalculationResult {
 
         <!-- Break-even Period -->
         <div class="max-w-3xl mx-auto bg-white rounded-2xl border border-slate-200 p-6 md:p-8">
-          <h3 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <h3 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
             <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
@@ -405,7 +405,7 @@ interface CalculationResult {
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('costcalc.fine_risk') }}</div>
           </div>
           <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
-            <div class="text-2xl font-bold text-white tabular-nums">{{ getRoiMultiple() }}x</div>
+            <div class="text-2xl font-bold text-slate-900 tabular-nums">{{ getRoiMultiple() }}x</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('costcalc.roi_multiple') }}</div>
           </div>
         </div>
@@ -436,7 +436,7 @@ interface CalculationResult {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
             </svg>
           </div>
-          <h3 class="text-xl font-bold text-white mb-2">
+          <h3 class="text-xl font-bold text-slate-900 mb-2">
             {{ lang.t('costcalc.want_a_more_accurate_estimate') }}
           </h3>
           <p class="text-slate-400 text-sm mb-6 max-w-lg mx-auto">

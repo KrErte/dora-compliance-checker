@@ -27,7 +27,7 @@ interface RegulatoryImpactUpdate {
       <!-- Header -->
       <div class="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
               <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
@@ -54,36 +54,36 @@ interface RegulatoryImpactUpdate {
         <button (click)="filterSeverity.set('ALL')"
                 class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
                 [ngClass]="filterSeverity() === 'ALL'
-                  ? 'bg-slate-600/50 text-white border border-slate-500/50'
-                  : 'bg-slate-800/30 text-slate-400 border border-slate-200 hover:text-white'">
+                  ? 'bg-slate-600/50 text-slate-900 border border-slate-500/50'
+                  : 'bg-slate-100/30 text-slate-400 border border-slate-200 hover:text-slate-900'">
           All ({{ updates().length }})
         </button>
         <button (click)="filterSeverity.set('CRITICAL')"
                 class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
                 [ngClass]="filterSeverity() === 'CRITICAL'
                   ? 'bg-red-500/20 text-red-400 border border-red-500/30'
-                  : 'bg-slate-800/30 text-slate-400 border border-slate-200 hover:text-red-400'">
+                  : 'bg-slate-100/30 text-slate-400 border border-slate-200 hover:text-red-400'">
           Critical ({{ countBySeverity('CRITICAL') }})
         </button>
         <button (click)="filterSeverity.set('HIGH')"
                 class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
                 [ngClass]="filterSeverity() === 'HIGH'
                   ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
-                  : 'bg-slate-800/30 text-slate-400 border border-slate-200 hover:text-orange-400'">
+                  : 'bg-slate-100/30 text-slate-400 border border-slate-200 hover:text-orange-400'">
           High ({{ countBySeverity('HIGH') }})
         </button>
         <button (click)="filterSeverity.set('MEDIUM')"
                 class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
                 [ngClass]="filterSeverity() === 'MEDIUM'
                   ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
-                  : 'bg-slate-800/30 text-slate-400 border border-slate-200 hover:text-amber-400'">
+                  : 'bg-slate-100/30 text-slate-400 border border-slate-200 hover:text-amber-400'">
           Medium ({{ countBySeverity('MEDIUM') }})
         </button>
         <button (click)="filterSeverity.set('LOW')"
                 class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
                 [ngClass]="filterSeverity() === 'LOW'
                   ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
-                  : 'bg-slate-800/30 text-slate-400 border border-slate-200 hover:text-blue-400'">
+                  : 'bg-slate-100/30 text-slate-400 border border-slate-200 hover:text-blue-400'">
           Low ({{ countBySeverity('LOW') }})
         </button>
       </div>
@@ -91,7 +91,7 @@ interface RegulatoryImpactUpdate {
       <!-- Loading -->
       @if (loading()) {
         <div class="text-center py-16">
-          <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-700 border-t-orange-400 animate-spin"></div>
+          <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-200 border-t-orange-400 animate-spin"></div>
         </div>
       }
 
@@ -109,7 +109,7 @@ interface RegulatoryImpactUpdate {
       @if (!loading() && filteredUpdates().length > 0) {
         <div class="relative">
           <!-- Timeline line -->
-          <div class="absolute left-5 top-0 bottom-0 w-px bg-slate-700/50"></div>
+          <div class="absolute left-5 top-0 bottom-0 w-px bg-slate-200/50"></div>
 
           <div class="space-y-4">
             @for (update of filteredUpdates(); track update.id) {
@@ -121,7 +121,7 @@ interface RegulatoryImpactUpdate {
 
                 <div class="rounded-xl border p-5 transition-all"
                      [ngClass]="update.acknowledged
-                       ? 'bg-slate-800/30 border-slate-200 opacity-70'
+                       ? 'bg-slate-100/30 border-slate-200 opacity-70'
                        : 'bg-white border-slate-200'">
                   <!-- Header row -->
                   <div class="flex items-start justify-between gap-3">
@@ -131,7 +131,7 @@ interface RegulatoryImpactUpdate {
                               [ngClass]="severityBadgeClass(update.severity)">
                           {{ update.severity }}
                         </span>
-                        <h3 class="text-sm font-semibold text-white">{{ update.title }}</h3>
+                        <h3 class="text-sm font-semibold text-slate-900">{{ update.title }}</h3>
                       </div>
                       <p class="text-sm text-slate-400 leading-relaxed">{{ update.description }}</p>
                     </div>
@@ -139,7 +139,7 @@ interface RegulatoryImpactUpdate {
 
                   <!-- Impact summary -->
                   @if (update.impactSummary) {
-                    <div class="mt-3 bg-slate-900/30 rounded-lg p-3 border border-slate-200">
+                    <div class="mt-3 bg-slate-100/30 rounded-lg p-3 border border-slate-200">
                       <p class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Impact Assessment</p>
                       <p class="text-xs text-slate-600">{{ update.impactSummary }}</p>
                     </div>
@@ -157,7 +157,7 @@ interface RegulatoryImpactUpdate {
                   @if (update.affectedPillars && update.affectedPillars.length > 0) {
                     <div class="mt-3 flex flex-wrap gap-1.5">
                       @for (pillar of update.affectedPillars; track pillar) {
-                        <span class="px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-700/40 text-slate-600 border border-slate-600/30">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-200/40 text-slate-600 border border-slate-300/30">
                           {{ pillar }}
                         </span>
                       }

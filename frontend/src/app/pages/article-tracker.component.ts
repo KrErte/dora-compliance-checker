@@ -43,7 +43,7 @@ interface TrackerData {
       <!-- Header -->
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center">
               <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -58,7 +58,7 @@ interface TrackerData {
       <!-- Loading -->
       @if (loading()) {
         <div class="text-center py-24">
-          <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-700 border-t-violet-400 animate-spin"></div>
+          <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-200 border-t-violet-400 animate-spin"></div>
           <p class="text-slate-400 text-sm">{{ lang.t('tracker.loading') }}</p>
         </div>
       }
@@ -67,7 +67,7 @@ interface TrackerData {
         <!-- Overview Section -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- Circular Progress Indicator -->
-          <div class="lg:col-span-1 bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-200 rounded-2xl p-8 text-center relative overflow-hidden">
+          <div class="lg:col-span-1 bg-gradient-to-br from-white to-slate-50 border border-slate-200 rounded-2xl p-8 text-center relative overflow-hidden">
             <div class="absolute inset-0 opacity-15"
                  [style.background]="'radial-gradient(circle at 50% 50%, ' + getOverallColor() + ' 0%, transparent 60%)'"></div>
             <div class="relative">
@@ -82,7 +82,7 @@ interface TrackerData {
                           class="transition-all duration-[2000ms] ease-out"/>
                 </svg>
                 <div class="absolute inset-0 flex flex-col items-center justify-center">
-                  <span class="text-5xl font-black text-white">{{ data()!.overallPercentage }}</span>
+                  <span class="text-5xl font-black text-slate-900">{{ data()!.overallPercentage }}</span>
                   <span class="text-sm text-slate-400 mt-1">{{ lang.t('tracker.pct_compliant') }}</span>
                 </div>
               </div>
@@ -137,7 +137,7 @@ interface TrackerData {
         </div>
 
         <!-- Status Legend -->
-        <div class="bg-slate-800/30 border border-slate-200 rounded-xl px-6 py-3 flex flex-wrap items-center gap-6">
+        <div class="bg-slate-50 border border-slate-200 rounded-xl px-6 py-3 flex flex-wrap items-center gap-6">
           <span class="text-xs text-slate-500 font-medium uppercase tracking-wider">{{ lang.t('tracker.legend') }}</span>
           <div class="flex items-center gap-2">
             <div class="w-3 h-3 rounded-full bg-blue-500"></div>
@@ -165,14 +165,14 @@ interface TrackerData {
                     <span class="text-sm font-bold text-violet-400">{{ chapter.number }}</span>
                   </div>
                   <div class="min-w-0">
-                    <h2 class="text-lg font-semibold text-white truncate">{{ chapter.title }}</h2>
+                    <h2 class="text-lg font-semibold text-slate-900 truncate">{{ chapter.title }}</h2>
                     <p class="text-xs text-slate-500 mt-0.5">{{ chapter.articleRange }}</p>
                   </div>
                 </div>
                 <div class="flex items-center gap-4 flex-shrink-0">
                   <!-- Chapter progress bar -->
                   <div class="hidden sm:flex items-center gap-3">
-                    <div class="w-32 h-2 rounded-full bg-slate-700/50 overflow-hidden">
+                    <div class="w-32 h-2 rounded-full bg-slate-100/50 overflow-hidden">
                       <div class="h-full rounded-full transition-all duration-500"
                            [style.width.%]="chapter.progress"
                            [class]="chapter.progress >= 80 ? 'bg-blue-500' : chapter.progress >= 40 ? 'bg-amber-400' : 'bg-red-400'"></div>
@@ -193,7 +193,7 @@ interface TrackerData {
               <!-- Mobile progress (shown below header on small screens) -->
               <div class="sm:hidden px-6 pb-3 -mt-2">
                 <div class="flex items-center gap-3">
-                  <div class="flex-1 h-2 rounded-full bg-slate-700/50 overflow-hidden">
+                  <div class="flex-1 h-2 rounded-full bg-slate-100/50 overflow-hidden">
                     <div class="h-full rounded-full transition-all duration-500"
                          [style.width.%]="chapter.progress"
                          [class]="chapter.progress >= 80 ? 'bg-blue-500' : chapter.progress >= 40 ? 'bg-amber-400' : 'bg-red-400'"></div>
@@ -210,7 +210,7 @@ interface TrackerData {
                 <div class="border-t border-slate-200">
                   <div class="p-4 space-y-2">
                     @for (article of chapter.articles; track article.id) {
-                      <div [class]="'border rounded-xl transition-all hover:border-slate-200 ' + (expandedArticle === article.id ? 'bg-slate-900/60 border-violet-500/30' : 'bg-slate-900/40 border-slate-200')">
+                      <div [class]="'border rounded-xl transition-all hover:border-slate-200 ' + (expandedArticle === article.id ? 'bg-slate-50 border-violet-500/30' : 'bg-white border-slate-200')">
 
                         <!-- Article Row -->
                         <div class="px-5 py-4 cursor-pointer flex items-center gap-4"
@@ -225,7 +225,7 @@ interface TrackerData {
 
                           <!-- Article Title & Pillar -->
                           <div class="flex-1 min-w-0">
-                            <h3 class="text-sm font-medium text-white truncate">{{ article.title }}</h3>
+                            <h3 class="text-sm font-medium text-slate-900 truncate">{{ article.title }}</h3>
                             <div class="flex items-center gap-2 mt-1">
                               <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-violet-500/10 text-violet-400 border border-violet-500/20">
                                 {{ formatPillar(article.pillar) }}
@@ -269,7 +269,7 @@ interface TrackerData {
                                 <textarea [(ngModel)]="article.notes"
                                           rows="3"
                                           [placeholder]="lang.t('tracker.notes_placeholder')"
-                                          class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-white placeholder-slate-600 focus:outline-none focus:border-violet-500/50 resize-none"></textarea>
+                                          class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-600 focus:outline-none focus:border-violet-500/50 resize-none"></textarea>
                               </div>
 
                               <!-- Responsible Person -->
@@ -278,7 +278,7 @@ interface TrackerData {
                                 <input [(ngModel)]="article.responsiblePerson"
                                        type="text"
                                        placeholder="e.g. John Smith, CISO"
-                                       class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-white placeholder-slate-600 focus:outline-none focus:border-violet-500/50">
+                                       class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-600 focus:outline-none focus:border-violet-500/50">
                               </div>
 
                               <!-- Target Date -->
@@ -303,11 +303,11 @@ interface TrackerData {
                               <!-- Evidence Count (read-only info) -->
                               <div>
                                 <label class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('tracker.evidence') }}</label>
-                                <div class="flex items-center gap-3 px-4 py-2.5 bg-slate-900/30 border border-slate-200 rounded-xl">
+                                <div class="flex items-center gap-3 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl">
                                   <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
                                   </svg>
-                                  <span class="text-sm text-white font-medium">{{ article.evidenceCount }} {{ lang.t('tracker.docs_attached') }}</span>
+                                  <span class="text-sm text-slate-900 font-medium">{{ article.evidenceCount }} {{ lang.t('tracker.docs_attached') }}</span>
                                 </div>
                               </div>
                             </div>
@@ -315,7 +315,7 @@ interface TrackerData {
                             <!-- Action Buttons -->
                             <div class="flex justify-end gap-3 mt-5 pt-4 border-t border-slate-200">
                               <button (click)="cancelArticleEdit(article); $event.stopPropagation()"
-                                      class="px-4 py-2 rounded-xl bg-slate-700/50 text-slate-600 text-sm hover:bg-slate-700 transition-all">
+                                      class="px-4 py-2 rounded-xl bg-slate-100/50 text-slate-600 text-sm hover:bg-slate-50 transition-all">
                                 {{ lang.t('ict_map.cancel') }}
                               </button>
                               <button (click)="saveArticle(article); $event.stopPropagation()"
@@ -354,10 +354,10 @@ interface TrackerData {
         </div>
 
         <!-- Summary Footer -->
-        <div class="bg-slate-800/30 border border-slate-200 rounded-2xl p-6">
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h3 class="text-sm font-semibold text-white mb-1">{{ lang.t('tracker.regulation') }}</h3>
+              <h3 class="text-sm font-semibold text-slate-900 mb-1">{{ lang.t('tracker.regulation') }}</h3>
               <p class="text-xs text-slate-500">{{ lang.t('tracker.regulation_desc') }}. {{ lang.t('tracker.covering') }} {{ data()!.totalArticles }} {{ lang.t('tracker.articles') }} {{ lang.t('tracker.across') }} {{ data()!.chapters.length }} {{ lang.t('tracker.chapters') }}.</p>
             </div>
             <div class="flex items-center gap-4">
@@ -388,7 +388,7 @@ interface TrackerData {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
             </svg>
           </div>
-          <h3 class="text-lg font-semibold text-white mb-2">{{ lang.t('tracker.unable_load') }}</h3>
+          <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ lang.t('tracker.unable_load') }}</h3>
           <p class="text-sm text-slate-400 mb-4">{{ error() }}</p>
           <button (click)="loadData()"
                   class="px-5 py-2.5 rounded-xl bg-violet-500/20 text-violet-400 border border-violet-500/30 text-sm font-medium hover:bg-violet-500/30 transition-all">
@@ -400,12 +400,12 @@ interface TrackerData {
       <!-- Empty State -->
       @if (!loading() && !error() && !data()) {
         <div class="bg-white border border-slate-200 rounded-2xl p-12 text-center">
-          <div class="w-16 h-16 mx-auto rounded-2xl bg-slate-700/50 flex items-center justify-center mb-4">
+          <div class="w-16 h-16 mx-auto rounded-2xl bg-slate-100 flex items-center justify-center mb-4">
             <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
           </div>
-          <h3 class="text-lg font-semibold text-white mb-2">{{ lang.t('tracker.no_data') }}</h3>
+          <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ lang.t('tracker.no_data') }}</h3>
           <p class="text-sm text-slate-400">{{ lang.t('tracker.no_data_desc') }}</p>
         </div>
       }

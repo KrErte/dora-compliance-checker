@@ -12,17 +12,17 @@ import { ContractAnalysisResult } from '../models';
   template: `
     <!-- Paywall Modal -->
     <div *ngIf="showPaywall" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white backdrop-blur-sm animate-fade-in">
-      <div class="bg-slate-800 border border-slate-700 rounded-2xl p-8 max-w-md w-full shadow-2xl animate-fade-in-up">
+      <div class="bg-white border border-slate-200 rounded-2xl p-8 max-w-md w-full shadow-2xl animate-fade-in-up">
         <div class="text-center">
           <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mx-auto mb-4">
             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
             </svg>
           </div>
-          <h2 class="text-xl font-bold text-white mb-2">{{ lang.t('paywall.title') }}</h2>
+          <h2 class="text-xl font-bold text-slate-900 mb-2">{{ lang.t('paywall.title') }}</h2>
           <p class="text-slate-400 text-sm mb-6">{{ lang.t('paywall.desc') }}</p>
 
-          <div class="bg-slate-700/50 rounded-xl p-4 mb-6 text-left">
+          <div class="bg-slate-100/50 rounded-xl p-4 mb-6 text-left">
             <p class="text-xs text-slate-500 uppercase tracking-wide mb-2">{{ lang.t('paywall.includes') }}</p>
             <ul class="space-y-2">
               <li class="flex items-center gap-2 text-sm text-slate-600">
@@ -149,7 +149,7 @@ import { ContractAnalysisResult } from '../models';
                (dragleave)="onDragLeave($event)"
                (drop)="onDropPaywall($event)"
                [class]="'border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300 ' +
-                        (dragOver ? 'border-amber-400 bg-amber-400/5' : 'border-slate-200 hover:border-amber-500/30 hover:bg-slate-800/30')">
+                        (dragOver ? 'border-amber-400 bg-amber-400/5' : 'border-slate-200 hover:border-amber-500/30 hover:bg-slate-100/30')">
             <div>
               <svg class="w-10 h-10 mx-auto mb-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
@@ -170,7 +170,7 @@ import { ContractAnalysisResult } from '../models';
 
     <!-- Loading state -->
     <div *ngIf="analyzing" class="flex flex-col items-center justify-center py-20 animate-fade-in">
-      <div class="w-16 h-16 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin mb-6"></div>
+      <div class="w-16 h-16 border-4 border-slate-200 border-t-blue-500 rounded-full animate-spin mb-6"></div>
       <h2 class="text-xl font-semibold text-slate-700 mb-2">{{ lang.t('contract.analyzing') }}</h2>
       <p class="text-sm text-slate-500 text-center max-w-md">{{ lang.t('contract.ai_note') }}</p>
       <div class="flex items-center gap-2 mt-4 px-3 py-1.5 rounded-full bg-white border border-slate-200">
@@ -205,7 +205,7 @@ import { ContractAnalysisResult } from '../models';
           <!-- Score circle -->
           <div class="relative w-28 h-28 shrink-0">
             <svg class="w-28 h-28 -rotate-90" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="42" fill="none" stroke="rgb(30,41,59)" stroke-width="8"/>
+              <circle cx="50" cy="50" r="42" fill="none" stroke="#e2e8f0" stroke-width="8"/>
               <circle cx="50" cy="50" r="42" fill="none"
                       [attr.stroke]="result.complianceLevel === 'GREEN' ? 'rgb(16,185,129)' : result.complianceLevel === 'YELLOW' ? 'rgb(245,158,11)' : 'rgb(239,68,68)'"
                       stroke-width="8" stroke-linecap="round"
@@ -267,7 +267,7 @@ import { ContractAnalysisResult } from '../models';
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2 mb-1">
               <h3 class="text-sm font-semibold text-slate-700">{{ lang.l(finding.requirementEt, finding.requirementEn) }}</h3>
-              <span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-700/50 text-slate-400 shrink-0">
+              <span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-100/50 text-slate-400 shrink-0">
                 {{ finding.doraReference }}
               </span>
             </div>
@@ -288,7 +288,7 @@ import { ContractAnalysisResult } from '../models';
       <!-- CTA for own contract -->
       <div class="glass-card p-6 mb-6 border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-orange-500/5">
         <div class="text-center">
-          <h3 class="text-lg font-semibold text-white mb-2">{{ lang.t('paywall.liked_demo') }}</h3>
+          <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ lang.t('paywall.liked_demo') }}</h3>
           <p class="text-sm text-slate-400 mb-4">{{ lang.t('paywall.analyze_own') }}</p>
           <a href="mailto:info@doraaudit.eu?subject=DORA%20lepingu%20anal%C3%BC%C3%BCs%20-%20hinnapakkumine"
              class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-400 hover:to-orange-400 transition-all">
@@ -300,7 +300,7 @@ import { ContractAnalysisResult } from '../models';
       <!-- Action buttons -->
       <div class="flex items-center justify-center gap-3 mt-8">
         <button type="button" (click)="resetForm()"
-                class="px-6 py-2.5 rounded-lg font-medium text-sm bg-slate-700/50 text-slate-600 border border-slate-600/30
+                class="px-6 py-2.5 rounded-lg font-medium text-sm bg-slate-100/50 text-slate-600 border border-slate-300/30
                        hover:bg-slate-100 hover:text-blue-600 transition-all duration-200">
           {{ lang.t('contract.new_analysis') }}
         </button>

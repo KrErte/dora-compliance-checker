@@ -18,7 +18,7 @@ import { ApiService } from '../api.service';
           </svg>
           {{ lang.t('forecast.badge') }}
         </div>
-        <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">{{ lang.t('forecast.title') }}</h1>
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">{{ lang.t('forecast.title') }}</h1>
         <p class="text-slate-400 max-w-2xl mx-auto">{{ lang.t('forecast.subtitle') }}</p>
       </div>
 
@@ -43,11 +43,11 @@ import { ApiService } from '../api.service';
                           fill="none" [attr.stroke]="getScoreColor(getWindowScore(window))" stroke-width="3"
                           [attr.stroke-dasharray]="getWindowScore(window) + ', 100'"/>
                   </svg>
-                  <span class="absolute inset-0 flex items-center justify-center text-xl font-bold text-white">
+                  <span class="absolute inset-0 flex items-center justify-center text-xl font-bold text-slate-900">
                     {{ getWindowScore(window) }}
                   </span>
                 </div>
-                <div class="text-white font-semibold">{{ window === '30d' ? '30' : window === '60d' ? '60' : '90' }} {{ lang.t('forecast.days') }}</div>
+                <div class="text-slate-900 font-semibold">{{ window === '30d' ? '30' : window === '60d' ? '60' : '90' }} {{ lang.t('forecast.days') }}</div>
                 <div class="text-xs mt-1" [class]="getWindowScore(window) >= 70 ? 'text-blue-600' : getWindowScore(window) >= 40 ? 'text-amber-400' : 'text-red-400'">
                   {{ getWindowScore(window) >= 70 ? lang.t('forecast.healthy') : getWindowScore(window) >= 40 ? lang.t('forecast.at_risk') : lang.t('forecast.critical') }}
                 </div>
@@ -60,13 +60,13 @@ import { ApiService } from '../api.service';
         <div class="flex flex-wrap gap-2">
           <button (click)="activeFilter.set('ALL')"
                   class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all"
-                  [class]="activeFilter() === 'ALL' ? 'bg-teal-500 text-white' : 'bg-white border border-slate-200 text-slate-400 hover:text-white'">
+                  [class]="activeFilter() === 'ALL' ? 'bg-teal-500 text-white' : 'bg-white border border-slate-200 text-slate-400 hover:text-slate-900'">
             {{ lang.t('forecast.all') }} ({{ forecastData()?.totalItems || 0 }})
           </button>
           @for (cat of categories(); track cat.key) {
             <button (click)="activeFilter.set(cat.key)"
                     class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all flex items-center gap-1.5"
-                    [class]="activeFilter() === cat.key ? 'bg-teal-500 text-white' : 'bg-white border border-slate-200 text-slate-400 hover:text-white'">
+                    [class]="activeFilter() === cat.key ? 'bg-teal-500 text-white' : 'bg-white border border-slate-200 text-slate-400 hover:text-slate-900'">
               {{ cat.icon }} {{ cat.label }} ({{ cat.count }})
             </button>
           }
@@ -76,7 +76,7 @@ import { ApiService } from '../api.service';
         @if (filteredItems().length > 0) {
           <div class="relative">
             <!-- Vertical line -->
-            <div class="absolute left-6 top-0 bottom-0 w-px bg-slate-700/50"></div>
+            <div class="absolute left-6 top-0 bottom-0 w-px bg-slate-200/50"></div>
 
             <div class="space-y-4">
               @for (item of filteredItems(); track $index) {
@@ -91,7 +91,7 @@ import { ApiService } from '../api.service';
                     <div class="flex items-start justify-between gap-3">
                       <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-2 mb-1">
-                          <h3 class="text-white font-semibold text-sm truncate">{{ item.title }}</h3>
+                          <h3 class="text-slate-900 font-semibold text-sm truncate">{{ item.title }}</h3>
                           <span class="px-2 py-0.5 rounded text-xs flex-shrink-0"
                                 [class]="item.urgency >= 80 ? 'bg-red-500/10 text-red-400' : item.urgency >= 50 ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-50 text-blue-600'">
                             {{ item.urgency >= 80 ? lang.t('forecast.urgent') : item.urgency >= 50 ? lang.t('forecast.upcoming') : lang.t('forecast.planned') }}
@@ -103,13 +103,13 @@ import { ApiService } from '../api.service';
                             <span class="text-slate-500">{{ item.deadline.substring(0, 10) }}</span>
                           }
                           @if (item.pillar) {
-                            <span class="px-2 py-0.5 rounded bg-slate-700/50 text-slate-400">{{ item.pillar }}</span>
+                            <span class="px-2 py-0.5 rounded bg-slate-200/50 text-slate-400">{{ item.pillar }}</span>
                           }
                         </div>
                       </div>
                       <!-- Urgency bar -->
                       <div class="flex flex-col items-center gap-1 flex-shrink-0">
-                        <div class="w-2 h-16 bg-slate-700/50 rounded-full overflow-hidden flex flex-col-reverse">
+                        <div class="w-2 h-16 bg-slate-200/50 rounded-full overflow-hidden flex flex-col-reverse">
                           <div class="w-full rounded-full transition-all"
                                [style.height.%]="item.urgency"
                                [class]="item.urgency >= 80 ? 'bg-red-500' : item.urgency >= 50 ? 'bg-amber-500' : 'bg-blue-600'">

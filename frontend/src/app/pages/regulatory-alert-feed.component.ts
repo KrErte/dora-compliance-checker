@@ -14,7 +14,7 @@ import { UserAlert, AlertDetail } from '../models';
       <!-- Header -->
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-white">{{ lang.t('alerts.title') }}</h1>
+          <h1 class="text-2xl font-bold text-slate-900">{{ lang.t('alerts.title') }}</h1>
           <p class="text-sm text-slate-400 mt-1">{{ lang.t('alerts.subtitle') }}</p>
         </div>
         <div class="flex items-center gap-3">
@@ -25,7 +25,7 @@ import { UserAlert, AlertDetail } from '../models';
             </button>
           }
           <a routerLink="/alert-profile"
-             class="px-4 py-2 text-sm font-medium text-slate-600 border border-slate-600 rounded-lg hover:bg-slate-100 transition-colors">
+             class="px-4 py-2 text-sm font-medium text-slate-600 border border-slate-300 rounded-lg hover:bg-slate-100 transition-colors">
             {{ lang.t('alerts.edit_profile') }}
           </a>
         </div>
@@ -35,32 +35,32 @@ import { UserAlert, AlertDetail } from '../models';
       @if (alerts().length > 0) {
         <div class="flex flex-wrap gap-2">
           <button (click)="filterSeverity.set('')"
-                  [class]="!filterSeverity() ? 'bg-blue-100 text-blue-600 border-blue-200' : 'bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-100'"
+                  [class]="!filterSeverity() ? 'bg-blue-100 text-blue-600 border-blue-200' : 'bg-white text-slate-400 border-slate-200 hover:bg-slate-100'"
                   class="px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors">
             {{ lang.t('alerts.filter_all') }} ({{ alerts().length }})
           </button>
           @for (sev of severities; track sev) {
             @if (countBySeverity(sev) > 0) {
               <button (click)="filterSeverity.set(sev)"
-                      [class]="filterSeverity() === sev ? severityActiveClass(sev) : 'bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-100'"
+                      [class]="filterSeverity() === sev ? severityActiveClass(sev) : 'bg-white text-slate-400 border-slate-200 hover:bg-slate-100'"
                       class="px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors">
                 {{ sev }} ({{ countBySeverity(sev) }})
               </button>
             }
           }
-          <div class="w-px bg-slate-700 mx-1"></div>
+          <div class="w-px bg-slate-200 mx-1"></div>
           <button (click)="filterRead.set('')"
-                  [class]="!filterRead() ? 'bg-slate-600/30 text-slate-600 border-slate-500/30' : 'bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-100'"
+                  [class]="!filterRead() ? 'bg-slate-600/30 text-slate-600 border-slate-500/30' : 'bg-white text-slate-400 border-slate-200 hover:bg-slate-100'"
                   class="px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors">
             {{ lang.t('alerts.filter_all_status') }}
           </button>
           <button (click)="filterRead.set('unread')"
-                  [class]="filterRead() === 'unread' ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' : 'bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-100'"
+                  [class]="filterRead() === 'unread' ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' : 'bg-white text-slate-400 border-slate-200 hover:bg-slate-100'"
                   class="px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors">
             {{ lang.t('alerts.unread') }} ({{ unreadCount() }})
           </button>
           <button (click)="filterRead.set('read')"
-                  [class]="filterRead() === 'read' ? 'bg-slate-500/20 text-slate-600 border-slate-500/30' : 'bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-100'"
+                  [class]="filterRead() === 'read' ? 'bg-slate-500/20 text-slate-600 border-slate-500/30' : 'bg-white text-slate-400 border-slate-200 hover:bg-slate-100'"
                   class="px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors">
             {{ lang.t('alerts.read') }}
           </button>
@@ -82,7 +82,7 @@ import { UserAlert, AlertDetail } from '../models';
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
             </svg>
           </div>
-          <h3 class="text-lg font-semibold text-white mb-2">{{ lang.t('alerts.empty_title') }}</h3>
+          <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ lang.t('alerts.empty_title') }}</h3>
           <p class="text-sm text-slate-400 mb-6 max-w-md mx-auto">{{ lang.t('alerts.empty_message') }}</p>
           <a routerLink="/alert-profile"
              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 transition-all">
@@ -108,7 +108,7 @@ import { UserAlert, AlertDetail } from '../models';
                   <!-- Content -->
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2">
-                      <h3 class="text-sm font-medium truncate" [class]="alert.isRead ? 'text-slate-400' : 'text-white'">
+                      <h3 class="text-sm font-medium truncate" [class]="alert.isRead ? 'text-slate-400' : 'text-slate-900'">
                         {{ alert.title }}
                       </h3>
                       @if (!alert.isRead) {
@@ -144,7 +144,7 @@ import { UserAlert, AlertDetail } from '../models';
 
               <!-- Expanded detail -->
               @if (expandedId().has(alert.id)) {
-                <div class="border-t border-slate-200 px-5 py-4 bg-slate-900/30 space-y-4">
+                <div class="border-t border-slate-200 px-5 py-4 bg-slate-100/30 space-y-4">
                   @if (alertDetails()[alert.id]; as detail) {
                     <!-- AI Summary -->
                     @if (detail.message) {
@@ -217,7 +217,7 @@ import { UserAlert, AlertDetail } from '../models';
 
       <!-- Filtered empty -->
       @if (!loading() && alerts().length > 0 && filteredAlerts().length === 0) {
-        <div class="bg-slate-800/30 border border-slate-200 rounded-xl p-8 text-center">
+        <div class="bg-slate-100/30 border border-slate-200 rounded-xl p-8 text-center">
           <p class="text-sm text-slate-500">{{ lang.t('alerts.no_match') }}</p>
         </div>
       }

@@ -14,7 +14,7 @@ import { ComplianceAlert, NotificationItem } from '../models';
       <!-- Header -->
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-pink-500 flex items-center justify-center">
               <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
@@ -34,7 +34,7 @@ import { ComplianceAlert, NotificationItem } from '../models';
 
       @if (loading()) {
         <div class="text-center py-24">
-          <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-700 border-t-rose-400 animate-spin"></div>
+          <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-200 border-t-rose-400 animate-spin"></div>
           <p class="text-slate-400 text-sm">{{ lang.t('notifications.loading') }}</p>
         </div>
       }
@@ -62,7 +62,7 @@ import { ComplianceAlert, NotificationItem } from '../models';
         <div class="flex gap-1 bg-white border border-slate-200 rounded-xl p-1">
           <button (click)="activeTab.set('alerts')"
                   class="flex-1 text-sm font-medium px-4 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2"
-                  [class]="activeTab() === 'alerts' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-100'">
+                  [class]="activeTab() === 'alerts' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/30' : 'text-slate-400 hover:text-slate-900 hover:bg-slate-100'">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
             </svg>
@@ -73,7 +73,7 @@ import { ComplianceAlert, NotificationItem } from '../models';
           </button>
           <button (click)="activeTab.set('history')"
                   class="flex-1 text-sm font-medium px-4 py-2.5 rounded-lg transition-all flex items-center justify-center gap-2"
-                  [class]="activeTab() === 'history' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-100'">
+                  [class]="activeTab() === 'history' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/30' : 'text-slate-400 hover:text-slate-900 hover:bg-slate-100'">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
@@ -87,19 +87,19 @@ import { ComplianceAlert, NotificationItem } from '../models';
         <!-- Alerts Tab -->
         @if (activeTab() === 'alerts') {
           @if (alerts().length === 0) {
-            <div class="text-center py-16 bg-slate-800/30 border border-slate-200 rounded-2xl">
+            <div class="text-center py-16 bg-slate-100/30 border border-slate-200 rounded-2xl">
               <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-blue-50 flex items-center justify-center">
                 <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-white mb-1">{{ lang.t('notifications.all_clear') }}</h3>
+              <h3 class="text-lg font-semibold text-slate-900 mb-1">{{ lang.t('notifications.all_clear') }}</h3>
               <p class="text-sm text-slate-400">{{ lang.t('notifications.no_alerts') }}</p>
             </div>
           }
 
           @for (alert of alerts(); track alert.alertKey) {
-            <div class="bg-white border rounded-xl p-4 hover:bg-slate-800/70 transition-all group"
+            <div class="bg-white border rounded-xl p-4 hover:bg-slate-100/70 transition-all group"
                  [class]="getAlertBorderClass(alert.severity)">
               <div class="flex items-start gap-4">
                 <!-- Severity icon -->
@@ -126,11 +126,11 @@ import { ComplianceAlert, NotificationItem } from '../models';
                           [class]="getSeverityBadgeClass(alert.severity)">
                       {{ alert.severity }}
                     </span>
-                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-700/50 text-slate-400 font-medium">
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-200/50 text-slate-400 font-medium">
                       {{ getCategoryLabel(alert.category) }}
                     </span>
                   </div>
-                  <h3 class="text-sm font-semibold text-white mb-1">{{ alert.title }}</h3>
+                  <h3 class="text-sm font-semibold text-slate-900 mb-1">{{ alert.title }}</h3>
                   <p class="text-xs text-slate-400 leading-relaxed">{{ alert.message }}</p>
                 </div>
                 <!-- Action -->
@@ -150,13 +150,13 @@ import { ComplianceAlert, NotificationItem } from '../models';
         <!-- History Tab -->
         @if (activeTab() === 'history') {
           @if (notifications().length === 0) {
-            <div class="text-center py-16 bg-slate-800/30 border border-slate-200 rounded-2xl">
-              <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-slate-700/30 flex items-center justify-center">
+            <div class="text-center py-16 bg-slate-100/30 border border-slate-200 rounded-2xl">
+              <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-slate-200/30 flex items-center justify-center">
                 <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-white mb-1">{{ lang.t('notifications.no_history') }}</h3>
+              <h3 class="text-lg font-semibold text-slate-900 mb-1">{{ lang.t('notifications.no_history') }}</h3>
               <p class="text-sm text-slate-400">{{ lang.t('notifications.history_empty') }}</p>
             </div>
           }
@@ -176,12 +176,12 @@ import { ComplianceAlert, NotificationItem } from '../models';
                     @if (!notif.read) {
                       <div class="w-2 h-2 rounded-full bg-rose-400 flex-shrink-0"></div>
                     }
-                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-700/50 text-slate-400 font-medium">
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-200/50 text-slate-400 font-medium">
                       {{ notif.type }}
                     </span>
                     <span class="text-[10px] text-slate-600">{{ formatDate(notif.createdAt) }}</span>
                   </div>
-                  <h3 class="text-sm font-medium" [class]="notif.read ? 'text-slate-400' : 'text-white'">{{ notif.title }}</h3>
+                  <h3 class="text-sm font-medium" [class]="notif.read ? 'text-slate-400' : 'text-slate-900'">{{ notif.title }}</h3>
                   <p class="text-xs text-slate-500 mt-0.5">{{ notif.message }}</p>
                 </div>
                 <div class="flex items-center gap-2 flex-shrink-0">
@@ -193,7 +193,7 @@ import { ComplianceAlert, NotificationItem } from '../models';
                   }
                   @if (!notif.read) {
                     <button (click)="markRead(notif.id)"
-                            class="text-xs text-slate-500 hover:text-white px-2 py-1.5 rounded-lg hover:bg-slate-100 transition-all"
+                            class="text-xs text-slate-500 hover:text-slate-900 px-2 py-1.5 rounded-lg hover:bg-slate-100 transition-all"
                             [title]="lang.t('notifications.mark_read')">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
@@ -316,7 +316,7 @@ export class NotificationCenterComponent implements OnInit {
     switch (severity) {
       case 'CRITICAL': return 'bg-red-500/10';
       case 'WARNING': return 'bg-amber-500/10';
-      default: return 'bg-slate-700/50';
+      default: return 'bg-slate-200/50';
     }
   }
 

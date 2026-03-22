@@ -21,7 +21,7 @@ interface TenantBranding {
     <div class="space-y-6 max-w-3xl mx-auto">
       <!-- Header -->
       <div>
-        <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+        <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
@@ -29,7 +29,7 @@ interface TenantBranding {
           </div>
           White-Label Settings
         </h1>
-        <p class="text-slate-400 text-sm mt-1">
+        <p class="text-slate-500 text-sm mt-1">
           Customize the platform appearance for your organization. Changes apply across all exports and dashboards.
         </p>
       </div>
@@ -37,25 +37,25 @@ interface TenantBranding {
       <!-- Loading -->
       @if (loading()) {
         <div class="text-center py-16">
-          <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-700 border-t-violet-400 animate-spin"></div>
+          <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-200 border-t-violet-400 animate-spin"></div>
         </div>
       }
 
       @if (!loading()) {
         <!-- Company Name -->
         <div class="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-          <h2 class="text-lg font-semibold text-white">Company Identity</h2>
+          <h2 class="text-lg font-semibold text-slate-900">Company Identity</h2>
 
           <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1.5">Company Name</label>
+            <label class="block text-xs font-medium text-slate-500 mb-1.5">Company Name</label>
             <input [(ngModel)]="companyName" type="text" placeholder="Your Company Name"
-                   class="w-full px-4 py-2.5 bg-slate-700/50 border border-slate-200 rounded-xl text-sm text-white
+                   class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900
                           placeholder-slate-500 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 transition-all">
           </div>
 
           <!-- Logo Upload -->
           <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1.5">Company Logo</label>
+            <label class="block text-xs font-medium text-slate-500 mb-1.5">Company Logo</label>
 
             @if (logoPreviewUrl()) {
               <div class="flex items-center gap-4 mb-3">
@@ -69,11 +69,11 @@ interface TenantBranding {
             }
 
             <div (click)="fileInput.click()"
-                 class="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center cursor-pointer hover:border-violet-500/30 hover:bg-slate-700/20 transition-all">
+                 class="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center cursor-pointer hover:border-violet-500/30 hover:bg-slate-50/20 transition-all">
               <svg class="w-8 h-8 mx-auto mb-2 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
               </svg>
-              <p class="text-sm text-slate-400">Click to upload logo</p>
+              <p class="text-sm text-slate-500">Click to upload logo</p>
               <p class="text-xs text-slate-500 mt-1">PNG, JPG, SVG &middot; max 2MB</p>
             </div>
             <input #fileInput type="file" accept="image/png,image/jpeg,image/svg+xml" class="hidden" (change)="onFileSelected($event)">
@@ -85,16 +85,16 @@ interface TenantBranding {
 
         <!-- Colors -->
         <div class="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-          <h2 class="text-lg font-semibold text-white">Brand Colors</h2>
+          <h2 class="text-lg font-semibold text-slate-900">Brand Colors</h2>
 
           <!-- Primary Color -->
           <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1.5">Primary Color</label>
+            <label class="block text-xs font-medium text-slate-500 mb-1.5">Primary Color</label>
             <div class="flex items-center gap-3">
               <input type="color" [(ngModel)]="primaryColor"
                      class="w-10 h-10 rounded-lg border border-slate-200 bg-transparent cursor-pointer">
               <input type="text" [(ngModel)]="primaryColor" maxlength="7" placeholder="#10b981"
-                     class="w-32 px-4 py-2.5 bg-slate-700/50 border border-slate-200 rounded-xl text-sm text-white font-mono
+                     class="w-32 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 font-mono
                             placeholder-slate-500 focus:outline-none focus:border-violet-500/50 transition-all">
               <div class="w-8 h-8 rounded-lg border border-slate-200" [style.background-color]="primaryColor"></div>
               <span class="text-xs text-slate-500">Used for buttons, links, key UI elements</span>
@@ -103,12 +103,12 @@ interface TenantBranding {
 
           <!-- Accent Color -->
           <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1.5">Accent Color</label>
+            <label class="block text-xs font-medium text-slate-500 mb-1.5">Accent Color</label>
             <div class="flex items-center gap-3">
               <input type="color" [(ngModel)]="accentColor"
                      class="w-10 h-10 rounded-lg border border-slate-200 bg-transparent cursor-pointer">
               <input type="text" [(ngModel)]="accentColor" maxlength="7" placeholder="#06b6d4"
-                     class="w-32 px-4 py-2.5 bg-slate-700/50 border border-slate-200 rounded-xl text-sm text-white font-mono
+                     class="w-32 px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 font-mono
                             placeholder-slate-500 focus:outline-none focus:border-violet-500/50 transition-all">
               <div class="w-8 h-8 rounded-lg border border-slate-200" [style.background-color]="accentColor"></div>
               <span class="text-xs text-slate-500">Used for gradients, highlights, badges</span>
@@ -118,9 +118,9 @@ interface TenantBranding {
 
         <!-- Live Preview -->
         <div class="bg-white border border-slate-200 rounded-2xl p-6">
-          <h2 class="text-lg font-semibold text-white mb-4">Live Preview</h2>
+          <h2 class="text-lg font-semibold text-slate-900 mb-4">Live Preview</h2>
 
-          <div class="bg-slate-900 rounded-xl border border-slate-200 overflow-hidden">
+          <div class="bg-slate-50 rounded-xl border border-slate-200 overflow-hidden">
             <!-- Preview navbar -->
             <div class="px-5 py-3 border-b border-slate-200 flex items-center justify-between"
                  [style.background]="'linear-gradient(135deg, ' + primaryColor + '10, ' + accentColor + '10)'">
@@ -133,12 +133,12 @@ interface TenantBranding {
                     {{ (companyName || 'WL').substring(0, 2).toUpperCase() }}
                   </div>
                 }
-                <span class="text-sm font-semibold text-white">{{ companyName || 'Your Company' }}</span>
+                <span class="text-sm font-semibold text-slate-900">{{ companyName || 'Your Company' }}</span>
               </div>
               <div class="flex gap-2">
                 <span class="px-2 py-1 rounded text-[10px] font-medium text-white"
                       [style.background-color]="primaryColor">Dashboard</span>
-                <span class="px-2 py-1 rounded text-[10px] text-slate-400">Reports</span>
+                <span class="px-2 py-1 rounded text-[10px] text-slate-500">Reports</span>
               </div>
             </div>
 
@@ -150,12 +150,12 @@ interface TenantBranding {
                   85
                 </div>
                 <div>
-                  <p class="text-sm font-semibold text-white">Compliance Score</p>
-                  <p class="text-xs text-slate-400">Last updated today</p>
+                  <p class="text-sm font-semibold text-slate-900">Compliance Score</p>
+                  <p class="text-xs text-slate-500">Last updated today</p>
                 </div>
               </div>
 
-              <div class="h-2 rounded-full bg-slate-700/50 overflow-hidden">
+              <div class="h-2 rounded-full bg-slate-50 overflow-hidden">
                 <div class="h-full rounded-full transition-all" style="width: 85%"
                      [style.background]="'linear-gradient(90deg, ' + primaryColor + ', ' + accentColor + ')'"></div>
               </div>

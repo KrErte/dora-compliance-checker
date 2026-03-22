@@ -85,7 +85,7 @@ interface RiskCalculationResult {
               (focus)="showDropdown = true"
               [placeholder]="lang.t('board_risk.search_placeholder')"
               [disabled]="companies.length >= 10"
-              class="w-full pl-12 pr-4 py-3.5 rounded-xl bg-white border border-slate-200 text-white placeholder-slate-500
+              class="w-full pl-12 pr-4 py-3.5 rounded-xl bg-white border border-slate-200 text-slate-900 placeholder-slate-500
                      focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20 transition-all
                      disabled:opacity-50 disabled:cursor-not-allowed"
             />
@@ -99,14 +99,14 @@ interface RiskCalculationResult {
 
           <!-- Autocomplete Dropdown -->
           <div *ngIf="showDropdown && autocompleteResults.length > 0"
-               class="absolute z-50 w-full mt-1 max-h-72 overflow-y-auto rounded-xl bg-slate-800 border border-slate-200 shadow-xl">
+               class="absolute z-50 w-full mt-1 max-h-72 overflow-y-auto rounded-xl bg-white border border-slate-200 shadow-xl">
             <button
               *ngFor="let result of autocompleteResults"
               type="button"
               (click)="selectCompany(result)"
               class="w-full px-4 py-3 text-left hover:bg-teal-500/10 transition-colors border-b border-slate-200 last:border-b-0 group">
               <div class="flex items-center justify-between">
-                <span class="font-medium text-white group-hover:text-teal-400 transition-colors">{{ result.name }}</span>
+                <span class="font-medium text-slate-900 group-hover:text-teal-400 transition-colors">{{ result.name }}</span>
                 <span class="text-xs text-slate-500 font-mono">{{ result.reg_code }}</span>
               </div>
               <div class="text-xs text-slate-500 mt-0.5">{{ result.legal_address }}</div>
@@ -151,7 +151,7 @@ interface RiskCalculationResult {
                 </svg>
               </div>
               <div>
-                <div class="font-medium text-white">{{ company.get('name')?.value }}</div>
+                <div class="font-medium text-slate-900">{{ company.get('name')?.value }}</div>
                 <div class="text-xs text-slate-500 font-mono">{{ company.get('registryCode')?.value }}</div>
               </div>
             </div>
@@ -163,7 +163,7 @@ interface RiskCalculationResult {
                 <label class="block text-xs font-medium text-slate-400">{{ lang.t('board_risk.sector') }} *</label>
                 <select
                   [formControl]="$any(company.get('sector'))"
-                  class="w-full px-3 py-2.5 rounded-lg bg-slate-800 border border-slate-200 text-white text-sm
+                  class="w-full px-3 py-2.5 rounded-lg bg-white border border-slate-200 text-slate-900 text-sm
                          focus:border-teal-500/50 focus:ring-2 focus:ring-teal-500/20 transition-all">
                   <option value="" disabled>{{ lang.t('board_risk.select_sector') }}</option>
                   <optgroup [label]="lang.t('board_risk.sectors_nis2_essential')">
@@ -192,7 +192,7 @@ interface RiskCalculationResult {
                          class="relative flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer transition-all"
                          [class]="company.get('role')?.value === role.value
                            ? 'bg-teal-500/20 border border-teal-500/40 text-teal-400'
-                           : 'bg-slate-800 border border-slate-200 text-slate-400 hover:border-slate-500'">
+                           : 'bg-white border border-slate-200 text-slate-400 hover:border-slate-500'">
                     <input
                       type="radio"
                       [formControl]="$any(company.get('role'))"
@@ -212,7 +212,7 @@ interface RiskCalculationResult {
                   [formControl]="$any(company.get('employees'))"
                   min="0"
                   placeholder="0"
-                  class="w-full px-3 py-2.5 rounded-lg bg-slate-800 border text-white text-sm transition-all
+                  class="w-full px-3 py-2.5 rounded-lg bg-white border text-slate-900 text-sm transition-all
                          [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                   [ngClass]="company.get('employees')?.value !== null && company.get('employees')?.value < 0
                     ? 'border-red-500/50 focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20'
@@ -232,7 +232,7 @@ interface RiskCalculationResult {
                     [formControl]="$any(company.get('revenue'))"
                     min="0"
                     placeholder="0"
-                    class="w-full px-3 py-2.5 pr-12 rounded-lg bg-slate-800 border text-white text-sm transition-all
+                    class="w-full px-3 py-2.5 pr-12 rounded-lg bg-white border text-slate-900 text-sm transition-all
                            [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     [ngClass]="company.get('revenue')?.value !== null && company.get('revenue')?.value < 0
                       ? 'border-red-500/50 focus:border-red-500/50 focus:ring-2 focus:ring-red-500/20'
@@ -310,7 +310,7 @@ interface RiskCalculationResult {
 
         <!-- Company Result Cards -->
         <div class="space-y-4">
-          <h3 class="text-lg font-semibold text-white">{{ lang.t('board_risk.breakdown_title') }}</h3>
+          <h3 class="text-lg font-semibold text-slate-900">{{ lang.t('board_risk.breakdown_title') }}</h3>
 
           <div *ngFor="let company of results.companies"
                class="bg-white backdrop-blur-sm rounded-xl border border-slate-200 p-5 space-y-4">
@@ -318,7 +318,7 @@ interface RiskCalculationResult {
             <!-- Header -->
             <div class="flex items-center justify-between pb-3 border-b border-slate-200">
               <div>
-                <div class="font-medium text-white">{{ company.name }}</div>
+                <div class="font-medium text-slate-900">{{ company.name }}</div>
                 <div class="text-xs text-slate-500 font-mono">{{ company.registryCode }}</div>
               </div>
               <div class="px-3 py-1 rounded-full text-xs font-medium"
@@ -343,11 +343,11 @@ interface RiskCalculationResult {
               </div>
               <div class="space-y-1">
                 <p class="text-xs text-slate-500">{{ lang.t('board_risk.nis2_max_fine') }}</p>
-                <p class="text-sm font-medium text-white">€ {{ formatNumber(company.nis2Fine) }}</p>
+                <p class="text-sm font-medium text-slate-900">€ {{ formatNumber(company.nis2Fine) }}</p>
               </div>
               <div class="space-y-1">
                 <p class="text-xs text-slate-500">{{ lang.t('board_risk.dora_max_fine') }}</p>
-                <p class="text-sm font-medium text-white">€ {{ formatNumber(company.doraFine) }}</p>
+                <p class="text-sm font-medium text-slate-900">€ {{ formatNumber(company.doraFine) }}</p>
               </div>
             </div>
 
@@ -404,8 +404,8 @@ interface RiskCalculationResult {
             <button
               type="button"
               (click)="toggleAccordion(i)"
-              class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-slate-700/20 transition-colors">
-              <span class="font-medium text-white flex items-center gap-2">
+              class="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-slate-50/20 transition-colors">
+              <span class="font-medium text-slate-900 flex items-center gap-2">
                 <span>{{ item.icon }}</span>
                 {{ lang.t(item.titleKey) }}
               </span>
@@ -422,13 +422,13 @@ interface RiskCalculationResult {
 
         <!-- CTA Section -->
         <div class="space-y-6 pt-4">
-          <h3 class="text-xl font-bold text-white text-center">{{ lang.t('board_risk.cta_title') }}</h3>
+          <h3 class="text-xl font-bold text-slate-900 text-center">{{ lang.t('board_risk.cta_title') }}</h3>
 
           <div class="grid md:grid-cols-3 gap-4">
             <!-- CTA 1 - Highlighted -->
             <div class="relative bg-white rounded-xl border-2 border-teal-500/50 p-5 space-y-3 animate-pulse-border">
               <div class="text-2xl">📄</div>
-              <h4 class="font-semibold text-white">{{ lang.t('board_risk.cta1_title') }}</h4>
+              <h4 class="font-semibold text-slate-900">{{ lang.t('board_risk.cta1_title') }}</h4>
               <p class="text-sm text-slate-400">{{ lang.t('board_risk.cta1_desc') }}</p>
               <a routerLink="/pricing"
                  class="inline-flex items-center gap-1 text-sm font-medium text-teal-400 hover:text-teal-300 transition-colors">
@@ -442,7 +442,7 @@ interface RiskCalculationResult {
             <!-- CTA 2 -->
             <div class="bg-white rounded-xl border border-slate-200 p-5 space-y-3">
               <div class="text-2xl">📊</div>
-              <h4 class="font-semibold text-white">{{ lang.t('board_risk.cta2_title') }}</h4>
+              <h4 class="font-semibold text-slate-900">{{ lang.t('board_risk.cta2_title') }}</h4>
               <p class="text-sm text-slate-400">{{ lang.t('board_risk.cta2_desc') }}</p>
               <a routerLink="/pricing"
                  class="inline-flex items-center gap-1 text-sm font-medium text-teal-400 hover:text-teal-300 transition-colors">
@@ -459,7 +459,7 @@ interface RiskCalculationResult {
                 {{ lang.t('board_risk.save_badge') }}
               </div>
               <div class="text-2xl">🎯</div>
-              <h4 class="font-semibold text-white">{{ lang.t('board_risk.cta3_title') }}</h4>
+              <h4 class="font-semibold text-slate-900">{{ lang.t('board_risk.cta3_title') }}</h4>
               <p class="text-sm text-slate-400">{{ lang.t('board_risk.cta3_desc') }}</p>
               <a routerLink="/pricing"
                  class="inline-flex items-center gap-1 text-sm font-medium text-teal-400 hover:text-teal-300 transition-colors">
@@ -484,7 +484,7 @@ interface RiskCalculationResult {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
               </svg>
             </div>
-            <h3 class="font-semibold text-white">{{ lang.t('board_risk.nis2_title') }}</h3>
+            <h3 class="font-semibold text-slate-900">{{ lang.t('board_risk.nis2_title') }}</h3>
           </div>
           <p class="text-sm text-slate-400 leading-relaxed">{{ lang.t('board_risk.nis2_desc') }}</p>
         </div>
@@ -496,7 +496,7 @@ interface RiskCalculationResult {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
               </svg>
             </div>
-            <h3 class="font-semibold text-white">{{ lang.t('board_risk.dora_title') }}</h3>
+            <h3 class="font-semibold text-slate-900">{{ lang.t('board_risk.dora_title') }}</h3>
           </div>
           <p class="text-sm text-slate-400 leading-relaxed">{{ lang.t('board_risk.dora_desc') }}</p>
         </div>
@@ -913,7 +913,7 @@ export class BoardRiskComponent implements OnInit, OnDestroy {
       case 'medium': return 'text-yellow-400';
       case 'high': return 'text-orange-400';
       case 'critical': return 'text-red-400';
-      default: return 'text-white';
+      default: return 'text-slate-900';
     }
   }
 

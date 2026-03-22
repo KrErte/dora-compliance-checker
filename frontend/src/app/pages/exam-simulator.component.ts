@@ -81,7 +81,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                 {{ lang.t('exam.badge_exam') }}
               </span>
             </div>
-            <h1 class="text-3xl font-bold text-white mb-2">{{ lang.t('exam.title') }}</h1>
+            <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ lang.t('exam.title') }}</h1>
             <p class="text-slate-400 max-w-2xl">{{ lang.t('exam.subtitle') }}</p>
           </div>
         </div>
@@ -117,7 +117,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                           ? 'bg-violet-500/15 border-violet-500/40 ring-1 ring-violet-500/30'
                           : 'bg-white border-slate-200 hover:border-violet-500/20 hover:bg-violet-500/5'">
                   <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm shrink-0"
-                       [class]="selectedFocus() === f.value ? 'bg-violet-500/20 text-violet-400' : 'bg-slate-700/50 text-slate-500'">
+                       [class]="selectedFocus() === f.value ? 'bg-violet-500/20 text-violet-400' : 'bg-slate-100 text-slate-500'">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="f.icon"/>
                     </svg>
@@ -196,7 +196,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                     [disabled]="starting()"
                     class="w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-3"
                     [class]="starting()
-                      ? 'bg-slate-700 text-slate-400 cursor-wait'
+                      ? 'bg-slate-200 text-slate-400 cursor-wait'
                       : 'bg-gradient-to-r from-violet-600 to-purple-600 text-white hover:from-violet-500 hover:to-purple-500 hover:shadow-xl hover:shadow-violet-500/25 hover:-translate-y-0.5'">
               @if (starting()) {
                 <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -236,7 +236,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
               <p class="text-lg font-bold text-violet-400">{{ earnedPoints() }}<span class="text-slate-600 text-sm"> / {{ maxPossiblePoints() }}</span></p>
             </div>
           </div>
-          <div class="h-2 bg-slate-700/50 rounded-full overflow-hidden">
+          <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
             <div class="h-full bg-gradient-to-r from-violet-600 to-purple-500 rounded-full transition-all duration-500"
                  [style.width.%]="progressPercent()"></div>
           </div>
@@ -261,7 +261,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
               <span class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-violet-500/15 text-violet-400 border border-violet-500/20">
                 {{ currentQuestion()!.category }}
               </span>
-              <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-700/50 text-slate-400 border border-slate-600/30">
+              <span class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-400 border border-slate-300/30">
                 {{ currentQuestion()!.articleReference }}
               </span>
               <span class="px-2.5 py-1 rounded-lg text-xs font-medium border"
@@ -294,7 +294,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                             rows="6"
                             maxlength="5000"
                             [placeholder]="lang.t('exam.answer_placeholder')"
-                            class="mt-2 w-full bg-slate-900/60 border border-slate-200 rounded-xl px-4 py-3 text-slate-700 text-sm placeholder-slate-600 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 resize-y transition-all">
+                            class="mt-2 w-full bg-slate-100/60 border border-slate-200 rounded-xl px-4 py-3 text-slate-700 text-sm placeholder-slate-600 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 resize-y transition-all">
                   </textarea>
                 </label>
                 <div class="flex items-center justify-between">
@@ -308,8 +308,8 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                   <button (click)="submitAnswer()"
                           [disabled]="submitting() || currentAnswer.trim().length === 0"
                           class="px-6 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center gap-2"
-                          [class]="submitting() ? 'bg-slate-700 text-slate-400 cursor-wait'
-                                 : currentAnswer.trim().length === 0 ? 'bg-slate-700 text-slate-500 cursor-not-allowed'
+                          [class]="submitting() ? 'bg-slate-200 text-slate-400 cursor-wait'
+                                 : currentAnswer.trim().length === 0 ? 'bg-slate-200 text-slate-500 cursor-not-allowed'
                                  : 'bg-gradient-to-r from-violet-600 to-purple-600 text-white hover:from-violet-500 hover:to-purple-500 hover:shadow-lg hover:shadow-violet-500/25'">
                     @if (submitting()) {
                       <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -404,7 +404,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                           [disabled]="completing()"
                           class="px-6 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center gap-2"
                           [class]="completing()
-                            ? 'bg-slate-700 text-slate-400 cursor-wait'
+                            ? 'bg-slate-200 text-slate-400 cursor-wait'
                             : 'bg-gradient-to-r from-violet-600 to-purple-600 text-white hover:from-violet-500 hover:to-purple-500 hover:shadow-lg hover:shadow-violet-500/25'">
                     @if (completing()) {
                       <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -440,7 +440,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
                    [class]="getGradeBorderClass(examResult()!.grade)">
                 <span class="text-6xl font-black" [class]="getGradeTextClass(examResult()!.grade)">{{ examResult()!.grade }}</span>
               </div>
-              <p class="text-3xl font-bold text-white mb-1">{{ examResult()!.percentage | number:'1.0-0' }}%</p>
+              <p class="text-3xl font-bold text-slate-900 mb-1">{{ examResult()!.percentage | number:'1.0-0' }}%</p>
               <p class="text-slate-400 mb-4">{{ examResult()!.earnedPoints }} / {{ examResult()!.totalPoints }} {{ lang.t('exam.points') }}</p>
               <div class="inline-block px-5 py-2 rounded-xl text-sm font-semibold border"
                    [class]="getVerdictClass(examResult()!.grade)">
@@ -507,12 +507,12 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
               {{ lang.t('exam.take_another') }}
             </button>
             <button (click)="screen.set('history')"
-                    class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-slate-800 border border-slate-700 text-slate-600 hover:border-violet-500/30 transition-all">
+                    class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-white border border-slate-200 text-slate-600 hover:border-violet-500/30 transition-all">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               {{ lang.t('exam.view_history') }}
             </button>
             <a routerLink="/dashboard"
-               class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-slate-800 border border-slate-700 text-slate-600 hover:border-slate-300 transition-all">
+               class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm bg-white border border-slate-200 text-slate-600 hover:border-slate-300 transition-all">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
               {{ lang.t('exam.dashboard') }}
             </a>
@@ -526,7 +526,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
           <!-- Header -->
           <div class="flex items-center justify-between">
             <div>
-              <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+              <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center">
                   <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -555,7 +555,7 @@ type Screen = 'setup' | 'exam' | 'feedback' | 'results' | 'history';
 
           @if (!historyLoading() && history().length === 0) {
             <div class="glass-card p-12 text-center">
-              <div class="w-20 h-20 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-6 border border-slate-200">
+              <div class="w-20 h-20 rounded-2xl bg-white flex items-center justify-center mx-auto mb-6 border border-slate-200">
                 <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                 </svg>
@@ -825,7 +825,7 @@ export class ExamSimulatorComponent implements OnInit {
 
   getQuestionDotClass(index: number): string {
     const feedback = this.feedbackScores().find(f => f.index === index);
-    if (!feedback) return 'bg-slate-700/50 border border-slate-200 text-slate-500';
+    if (!feedback) return 'bg-slate-100 border border-slate-200 text-slate-500';
     const pct = this.scorePct(feedback.score, feedback.max);
     if (pct >= 70) return 'bg-blue-100 border border-blue-500/40 text-blue-600';
     if (pct >= 40) return 'bg-amber-500/20 border border-amber-500/40 text-amber-400';

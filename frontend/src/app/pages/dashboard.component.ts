@@ -92,7 +92,7 @@ interface ChartPoint {
             </button>
           }
           <button (click)="downloadDashboardPdf()" [disabled]="generatingDashPdf()"
-            class="bg-slate-700/50 border border-slate-200 text-slate-600 font-semibold px-5 py-2.5 rounded-lg transition-all hover:border-blue-500/30 hover:bg-white flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+            class="bg-slate-200/50 border border-slate-200 text-slate-600 font-semibold px-5 py-2.5 rounded-lg transition-all hover:border-blue-500/30 hover:bg-white flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed">
             @if (generatingDashPdf()) {
               <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg>
               Generating...
@@ -166,7 +166,7 @@ interface ChartPoint {
                   </svg>
                 </div>
                 <div>
-                  <h3 class="text-sm font-semibold text-white">{{ lang.l('Vastavuse koondskoor', 'Compliance Score') }}</h3>
+                  <h3 class="text-sm font-semibold text-slate-900">{{ lang.l('Vastavuse koondskoor', 'Compliance Score') }}</h3>
                   <p class="text-[11px] text-slate-500">{{ lang.l('Auditiks valmisolek', 'Audit Readiness Overview') }}</p>
                 </div>
               </div>
@@ -198,7 +198,7 @@ interface ChartPoint {
                 @for (mod of auditModules(); track mod.key) {
                   <div class="flex items-center gap-2">
                     <span class="text-[10px] text-slate-400 w-24 truncate">{{ mod.label }}</span>
-                    <div class="flex-1 h-2 bg-slate-700/50 rounded-full overflow-hidden">
+                    <div class="flex-1 h-2 bg-slate-200/50 rounded-full overflow-hidden">
                       <div class="h-full rounded-full transition-all duration-500"
                            [style.width.%]="mod.score"
                            [class]="mod.score >= 80 ? 'bg-blue-600' : mod.score >= 60 ? 'bg-amber-500' : mod.score >= 40 ? 'bg-orange-500' : 'bg-red-500'"></div>
@@ -225,7 +225,7 @@ interface ChartPoint {
                   </svg>
                 </div>
                 <div>
-                  <h3 class="text-sm font-semibold text-white flex items-center gap-2">
+                  <h3 class="text-sm font-semibold text-slate-900 flex items-center gap-2">
                     {{ lang.l('Saavutused', 'Achievements') }}
                     @if (newAchievementCount() > 0) {
                       <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-amber-500 text-white animate-pulse">{{ newAchievementCount() }} {{ lang.l('uut', 'new') }}</span>
@@ -240,7 +240,7 @@ interface ChartPoint {
                 <div class="group relative flex flex-col items-center"
                      (click)="badge.unlocked && !badge.seen && markAchievementSeen(badge.key)">
                   <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg transition-all"
-                       [class]="badge.unlocked ? 'bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30 shadow-lg shadow-amber-500/10' : 'bg-slate-700/30 border border-slate-200 opacity-40'">
+                       [class]="badge.unlocked ? 'bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30 shadow-lg shadow-amber-500/10' : 'bg-slate-200/30 border border-slate-200 opacity-40'">
                     {{ getAchievementEmoji(badge.icon) }}
                   </div>
                   @if (badge.unlocked && !badge.seen) {
@@ -269,7 +269,7 @@ interface ChartPoint {
                   </svg>
                 </div>
                 <div>
-                  <h3 class="text-sm font-semibold text-white flex items-center gap-2">
+                  <h3 class="text-sm font-semibold text-slate-900 flex items-center gap-2">
                     {{ lang.t('autopilot.title') }}
                     @if (autopilotCounts()!.new > 0) {
                       <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-violet-500 text-white animate-pulse">{{ autopilotCounts()!.new }} {{ lang.t('autopilot.widget_new') }}</span>
@@ -286,10 +286,10 @@ interface ChartPoint {
             @if (autopilotTop().length > 0) {
               <div class="space-y-2">
                 @for (insight of autopilotTop(); track insight.id) {
-                  <a [routerLink]="insight.actionLink || '/autopilot'" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-slate-900/40 hover:bg-slate-900/60 border border-slate-200 transition-colors group">
+                  <a [routerLink]="insight.actionLink || '/autopilot'" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-white/40 hover:bg-slate-50/60 border border-slate-200 transition-colors group">
                     <div class="w-1.5 h-8 rounded-full shrink-0" [class]="insight.severity === 'CRITICAL' ? 'bg-red-500' : insight.severity === 'HIGH' ? 'bg-orange-500' : insight.severity === 'MEDIUM' ? 'bg-amber-500' : 'bg-blue-500'"></div>
                     <div class="flex-1 min-w-0">
-                      <p class="text-xs font-medium text-slate-700 truncate group-hover:text-white">{{ insight.title }}</p>
+                      <p class="text-xs font-medium text-slate-700 truncate group-hover:text-slate-900">{{ insight.title }}</p>
                       <p class="text-[10px] text-slate-500 truncate">{{ insight.recommendedAction }}</p>
                     </div>
                     <span class="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded shrink-0"
@@ -316,7 +316,7 @@ interface ChartPoint {
                   </svg>
                 </div>
                 <div>
-                  <h3 class="text-sm font-semibold text-white">{{ lang.t('dashboard.ai_systems') }}</h3>
+                  <h3 class="text-sm font-semibold text-slate-900">{{ lang.t('dashboard.ai_systems') }}</h3>
                   <p class="text-[11px] text-slate-500">{{ aiSystemStats()!.total }} {{ lang.t('dashboard.ai_systems_total') }}</p>
                 </div>
               </div>
@@ -326,23 +326,23 @@ interface ChartPoint {
               </a>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
-              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-200">
+              <div class="bg-white/40 rounded-lg px-3 py-2 border border-slate-200">
                 <p class="text-[10px] text-red-400 uppercase tracking-wider font-semibold">{{ lang.t('dashboard.risk_unacceptable') }}</p>
                 <p class="text-lg font-bold text-red-400">{{ aiSystemStats()!.unacceptable || 0 }}</p>
               </div>
-              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-200">
+              <div class="bg-white/40 rounded-lg px-3 py-2 border border-slate-200">
                 <p class="text-[10px] text-orange-400 uppercase tracking-wider font-semibold">{{ lang.t('dashboard.risk_high') }}</p>
                 <p class="text-lg font-bold text-orange-400">{{ aiSystemStats()!.high || 0 }}</p>
               </div>
-              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-200">
+              <div class="bg-white/40 rounded-lg px-3 py-2 border border-slate-200">
                 <p class="text-[10px] text-amber-400 uppercase tracking-wider font-semibold">{{ lang.t('dashboard.risk_limited') }}</p>
                 <p class="text-lg font-bold text-amber-400">{{ aiSystemStats()!.limited || 0 }}</p>
               </div>
-              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-200">
+              <div class="bg-white/40 rounded-lg px-3 py-2 border border-slate-200">
                 <p class="text-[10px] text-blue-600 uppercase tracking-wider font-semibold">{{ lang.t('dashboard.risk_minimal') }}</p>
                 <p class="text-lg font-bold text-blue-600">{{ aiSystemStats()!.minimal || 0 }}</p>
               </div>
-              <div class="bg-slate-900/40 rounded-lg px-3 py-2 border border-slate-200">
+              <div class="bg-white/40 rounded-lg px-3 py-2 border border-slate-200">
                 <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">{{ lang.t('dashboard.risk_not_classified') }}</p>
                 <p class="text-lg font-bold text-slate-600">{{ aiSystemStats()!.notClassified || 0 }}</p>
               </div>
@@ -353,7 +353,7 @@ interface ChartPoint {
 
       <!-- Empty state -->
       <div *ngIf="history.length === 0" class="text-center py-20 animate-scale-in">
-        <div class="w-20 h-20 rounded-2xl bg-slate-800 flex items-center justify-center mx-auto mb-6 border border-slate-200">
+        <div class="w-20 h-20 rounded-2xl bg-white flex items-center justify-center mx-auto mb-6 border border-slate-200">
           <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
           </svg>
@@ -379,7 +379,7 @@ interface ChartPoint {
             <div>
               <h3 class="text-sm text-slate-400 mb-1">{{ lang.t('prop.title') }}</h3>
               <div class="flex items-center gap-3">
-                <span class="text-white font-semibold">{{ proportionalityScope().entityType }}</span>
+                <span class="text-slate-900 font-semibold">{{ proportionalityScope().entityType }}</span>
                 <span class="px-2 py-0.5 rounded-full text-xs font-bold"
                       [class]="proportionalityScope().sizeCategory === 'MICRO' ? 'bg-blue-500/20 text-blue-400' :
                                (proportionalityScope().sizeCategory === 'SMALL' ? 'bg-blue-600/20 text-blue-500' :
@@ -397,7 +397,7 @@ interface ChartPoint {
                 </span>
               </p>
             </div>
-            <a routerLink="/proportionality" class="px-4 py-2 bg-slate-700/50 hover:bg-slate-100 text-slate-600 rounded-lg text-sm transition-colors">
+            <a routerLink="/proportionality" class="px-4 py-2 bg-slate-200/50 hover:bg-slate-100 text-slate-600 rounded-lg text-sm transition-colors">
               {{ lang.t('roi.step_export') === 'Export' ? 'View' : 'Vaata' }}
             </a>
           </div>
@@ -468,20 +468,20 @@ interface ChartPoint {
             </div>
             <div class="mt-3">
               <div class="flex items-center gap-2">
-                <div class="flex-1 bg-slate-700/50 rounded-full h-2.5 overflow-hidden">
+                <div class="flex-1 bg-slate-200/50 rounded-full h-2.5 overflow-hidden">
                   <div class="h-full rounded-full bg-gradient-to-r from-blue-600 to-blue-400 transition-all duration-1000"
                        [style.width.%]="history.length > 0 ? (greenCount / history.length) * 100 : 0"></div>
                 </div>
                 <span class="text-xs text-slate-400 font-medium">{{ history.length > 0 ? ((greenCount / history.length) * 100 | number:'1.0-0') : 0 }}%</span>
               </div>
               <div class="flex gap-1 mt-2">
-                <div class="flex-1 bg-slate-700/50 rounded-full h-1.5 overflow-hidden">
+                <div class="flex-1 bg-slate-200/50 rounded-full h-1.5 overflow-hidden">
                   <div class="h-full rounded-full bg-blue-600" [style.width.%]="history.length > 0 ? (greenCount / history.length) * 100 : 0"></div>
                 </div>
-                <div class="flex-1 bg-slate-700/50 rounded-full h-1.5 overflow-hidden">
+                <div class="flex-1 bg-slate-200/50 rounded-full h-1.5 overflow-hidden">
                   <div class="h-full rounded-full bg-amber-500" [style.width.%]="history.length > 0 ? (yellowCount / history.length) * 100 : 0"></div>
                 </div>
-                <div class="flex-1 bg-slate-700/50 rounded-full h-1.5 overflow-hidden">
+                <div class="flex-1 bg-slate-200/50 rounded-full h-1.5 overflow-hidden">
                   <div class="h-full rounded-full bg-red-500" [style.width.%]="history.length > 0 ? (redCount / history.length) * 100 : 0"></div>
                 </div>
               </div>
@@ -548,7 +548,7 @@ interface ChartPoint {
                 <span *ngIf="entry.rank === 1" class="w-7 h-7 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center text-xs font-bold">1</span>
                 <span *ngIf="entry.rank === 2" class="w-7 h-7 rounded-full bg-slate-400/20 text-slate-600 border border-slate-400/30 flex items-center justify-center text-xs font-bold">2</span>
                 <span *ngIf="entry.rank === 3" class="w-7 h-7 rounded-full bg-orange-600/20 text-orange-400 border border-orange-600/30 flex items-center justify-center text-xs font-bold">3</span>
-                <span *ngIf="entry.rank > 3" class="w-7 h-7 rounded-full bg-slate-700/50 text-slate-500 flex items-center justify-center text-xs font-medium">{{ entry.rank }}</span>
+                <span *ngIf="entry.rank > 3" class="w-7 h-7 rounded-full bg-slate-200/50 text-slate-500 flex items-center justify-center text-xs font-medium">{{ entry.rank }}</span>
               </div>
 
               <!-- Company -->
@@ -626,7 +626,7 @@ interface ChartPoint {
                       <span class="text-lg">{{ pillar.icon }}</span>
                       <p class="text-sm font-medium text-slate-700 truncate">{{ lang.t(pillar.labelKey) }}</p>
                     </div>
-                    <div class="w-full bg-slate-700/50 rounded-full h-1.5 mt-1.5">
+                    <div class="w-full bg-slate-200/50 rounded-full h-1.5 mt-1.5">
                       <div class="h-full rounded-full transition-all duration-1000"
                            [style.width.%]="pillar.percentage"
                            [style.background]="pillar.color"></div>
@@ -774,28 +774,28 @@ interface ChartPoint {
                         [attr.transform]="'rotate(' + ((greenRatio + yellowRatio) * 360 - 90) + ' 100 100)'"
                         class="animate-draw-circle" style="animation-delay: 400ms;"/>
                 <!-- Center text -->
-                <text x="100" y="95" text-anchor="middle" font-size="22" font-weight="bold" class="fill-slate-100">{{ history.length }}</text>
+                <text x="100" y="95" text-anchor="middle" font-size="22" font-weight="bold" class="fill-slate-900">{{ history.length }}</text>
                 <text x="100" y="115" text-anchor="middle" font-size="10" class="fill-slate-500">{{ lang.t('dashboard.donut_assessments') }}</text>
               </svg>
             </div>
 
             <!-- Legend -->
             <div class="space-y-2">
-              <div class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-700/20 transition-colors">
+              <div class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-50/20 transition-colors">
                 <div class="flex items-center gap-2">
                   <div class="w-3 h-3 rounded-full bg-blue-500"></div>
                   <span class="text-sm text-slate-600">{{ lang.t('dashboard.level_green') }}</span>
                 </div>
                 <span class="text-sm font-semibold text-blue-600">{{ greenCount }} ({{ history.length > 0 ? (greenRatio * 100 | number:'1.0-0') : 0 }}%)</span>
               </div>
-              <div class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-700/20 transition-colors">
+              <div class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-50/20 transition-colors">
                 <div class="flex items-center gap-2">
                   <div class="w-3 h-3 rounded-full bg-amber-400"></div>
                   <span class="text-sm text-slate-600">{{ lang.t('dashboard.level_yellow') }}</span>
                 </div>
                 <span class="text-sm font-semibold text-amber-400">{{ yellowCount }} ({{ history.length > 0 ? (yellowRatio * 100 | number:'1.0-0') : 0 }}%)</span>
               </div>
-              <div class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-700/20 transition-colors">
+              <div class="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-slate-50/20 transition-colors">
                 <div class="flex items-center gap-2">
                   <div class="w-3 h-3 rounded-full bg-red-400"></div>
                   <span class="text-sm text-slate-600">{{ lang.t('dashboard.level_red') }}</span>
@@ -819,7 +819,7 @@ interface ChartPoint {
               {{ lang.t('dashboard.new_assessment') }}
             </a>
             <a routerLink="/history"
-               class="bg-slate-700/50 hover:bg-slate-100 text-slate-700 font-semibold px-6 py-2.5 rounded-lg
+               class="bg-slate-200/50 hover:bg-slate-100 text-slate-700 font-semibold px-6 py-2.5 rounded-lg
                       transition-all duration-300 border border-slate-200 hover:border-slate-500/50 flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>

@@ -12,7 +12,7 @@ import { LangService } from '../lang.service';
       <!-- Header -->
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center">
               <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
@@ -26,14 +26,14 @@ import { LangService } from '../lang.service';
 
       @if (loading()) {
         <div class="text-center py-24">
-          <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-700 border-t-amber-400 animate-spin"></div>
+          <div class="w-12 h-12 mx-auto mb-4 rounded-full border-4 border-slate-200 border-t-amber-400 animate-spin"></div>
           <p class="text-slate-400 text-sm">{{ lang.t('readiness.calculating') }}</p>
         </div>
       }
 
       @if (!loading() && data()) {
         <!-- Hero Score -->
-        <div class="bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-200 rounded-2xl p-8 text-center relative overflow-hidden">
+        <div class="bg-gradient-to-br from-white to-slate-50 border border-slate-200 rounded-2xl p-8 text-center relative overflow-hidden">
           <!-- Background glow -->
           <div class="absolute inset-0 opacity-20"
                [style.background]="'radial-gradient(circle at 50% 50%, ' + getLevelColor(data().level) + ' 0%, transparent 60%)'"></div>
@@ -50,7 +50,7 @@ import { LangService } from '../lang.service';
                         class="transition-all duration-[2000ms] ease-out"/>
               </svg>
               <div class="absolute inset-0 flex flex-col items-center justify-center">
-                <span class="text-5xl font-black text-white">{{ animatedScore() }}</span>
+                <span class="text-5xl font-black text-slate-900">{{ animatedScore() }}</span>
                 <span class="text-sm text-slate-400 mt-1">/100</span>
               </div>
             </div>
@@ -66,7 +66,7 @@ import { LangService } from '../lang.service';
 
         <!-- Module Breakdown -->
         <div>
-          <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <h2 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
             <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
             </svg>
@@ -81,12 +81,12 @@ import { LangService } from '../lang.service';
                          [class]="getModuleIconClass(mod.key)">
                       <span class="text-xs font-bold">{{ getModuleEmoji(mod.key) }}</span>
                     </div>
-                    <span class="text-sm font-medium text-white">{{ mod.label }}</span>
+                    <span class="text-sm font-medium text-slate-900">{{ mod.label }}</span>
                   </div>
                   <span class="text-lg font-bold" [class]="getScoreColor(mod.score)">{{ mod.score | number:'1.0-0' }}</span>
                 </div>
                 <!-- Progress bar -->
-                <div class="w-full bg-slate-700/50 rounded-full h-2 mb-2">
+                <div class="w-full bg-slate-100/50 rounded-full h-2 mb-2">
                   <div class="h-2 rounded-full transition-all duration-1000 ease-out"
                        [class]="getBarColor(mod.score)"
                        [style.width.%]="mod.score"></div>
@@ -99,7 +99,7 @@ import { LangService } from '../lang.service';
 
         <!-- Pillar Radar -->
         <div>
-          <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <h2 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
             <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
             </svg>
@@ -119,10 +119,10 @@ import { LangService } from '../lang.service';
                             [attr.stroke-dashoffset]="176 - (176 * p.score / 100)"/>
                   </svg>
                   <div class="absolute inset-0 flex items-center justify-center">
-                    <span class="text-sm font-bold text-white">{{ p.score }}</span>
+                    <span class="text-sm font-bold text-slate-900">{{ p.score }}</span>
                   </div>
                 </div>
-                <h3 class="text-xs font-medium text-white mb-1">{{ lang.t('readiness.pillar_' + p.key.toLowerCase()) }}</h3>
+                <h3 class="text-xs font-medium text-slate-900 mb-1">{{ lang.t('readiness.pillar_' + p.key.toLowerCase()) }}</h3>
                 <div class="text-[10px] text-slate-500">
                   {{ p.evidenceCount }} {{ lang.t('readiness.evidence_short') }} · {{ p.remediationCompleted }}/{{ p.remediationTotal }} {{ lang.t('readiness.fixed') }}
                 </div>
@@ -134,7 +134,7 @@ import { LangService } from '../lang.service';
         <!-- Action Items -->
         @if (data().actions?.length > 0) {
           <div>
-            <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <h2 class="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
               <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
               </svg>
@@ -149,7 +149,7 @@ import { LangService } from '../lang.service';
                     {{ i + 1 }}
                   </div>
                   <div class="flex-1 min-w-0">
-                    <p class="text-sm text-white font-medium">{{ action.action }}</p>
+                    <p class="text-sm text-slate-900 font-medium">{{ action.action }}</p>
                     <div class="flex items-center gap-3 mt-1">
                       <span class="text-[10px] px-1.5 py-0.5 rounded font-bold"
                             [class]="action.priority === 'CRITICAL' ? 'bg-red-500/10 text-red-400' : action.priority === 'HIGH' ? 'bg-orange-500/10 text-orange-400' : 'bg-amber-500/10 text-amber-400'">

@@ -14,7 +14,7 @@ import { SubscriptionService } from '../services/subscription.service';
     <div class="space-y-8 max-w-3xl mx-auto">
       <!-- Header -->
       <div>
-        <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+        <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center">
             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
@@ -32,7 +32,7 @@ import { SubscriptionService } from '../services/subscription.service';
         <svg class="w-16 h-16 mx-auto mb-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
         </svg>
-        <h2 class="text-lg font-bold text-white mb-2">
+        <h2 class="text-lg font-bold text-slate-900 mb-2">
           {{ lang.t('branding.premium_feature') }}
         </h2>
         <p class="text-slate-400 text-sm mb-4">
@@ -48,7 +48,7 @@ import { SubscriptionService } from '../services/subscription.service';
       <div *ngIf="subscriptionService.isPremium()" class="space-y-6">
         <!-- Logo Section -->
         <div class="bg-white border border-slate-200 rounded-2xl p-6">
-          <h2 class="text-lg font-semibold text-white mb-4">
+          <h2 class="text-lg font-semibold text-slate-900 mb-4">
             {{ lang.t('branding.company_logo') }}
           </h2>
 
@@ -66,7 +66,7 @@ import { SubscriptionService } from '../services/subscription.service';
           <div (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
                (click)="fileInput.click()"
                [class]="'border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all ' +
-                         (dragOver ? 'border-violet-400 bg-violet-500/5' : 'border-slate-200 hover:border-slate-500/50 hover:bg-slate-700/20')">
+                         (dragOver ? 'border-violet-400 bg-violet-500/5' : 'border-slate-200 hover:border-slate-500/50 hover:bg-slate-50/20')">
             <svg class="w-10 h-10 mx-auto mb-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
             </svg>
@@ -82,7 +82,7 @@ import { SubscriptionService } from '../services/subscription.service';
 
         <!-- Company Name & Color -->
         <div class="bg-white border border-slate-200 rounded-2xl p-6">
-          <h2 class="text-lg font-semibold text-white mb-4">
+          <h2 class="text-lg font-semibold text-slate-900 mb-4">
             {{ lang.t('branding.company_details') }}
           </h2>
 
@@ -94,7 +94,7 @@ import { SubscriptionService } from '../services/subscription.service';
               </label>
               <input type="text" [(ngModel)]="companyName"
                      [placeholder]="lang.t('branding.your_company_name')"
-                     class="w-full px-4 py-2.5 rounded-xl bg-slate-700/50 border border-slate-200 text-white text-sm
+                     class="w-full px-4 py-2.5 rounded-xl bg-slate-700/50 border border-slate-200 text-slate-900 text-sm
                             placeholder-slate-500 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 transition-all">
               <p *ngIf="nameError" class="text-red-400 text-xs mt-1">{{ nameError }}</p>
             </div>
@@ -109,7 +109,7 @@ import { SubscriptionService } from '../services/subscription.service';
                        class="w-10 h-10 rounded-lg border border-slate-200 bg-transparent cursor-pointer">
                 <input type="text" [(ngModel)]="primaryColor"
                        placeholder="#22c55e" maxlength="7"
-                       class="w-32 px-4 py-2.5 rounded-xl bg-slate-700/50 border border-slate-200 text-white text-sm font-mono
+                       class="w-32 px-4 py-2.5 rounded-xl bg-slate-700/50 border border-slate-200 text-slate-900 text-sm font-mono
                               placeholder-slate-500 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 transition-all">
                 <div class="w-8 h-8 rounded-lg border border-slate-200" [style.background-color]="primaryColor"></div>
               </div>
@@ -120,7 +120,7 @@ import { SubscriptionService } from '../services/subscription.service';
 
         <!-- Preview -->
         <div class="bg-white border border-slate-200 rounded-2xl p-6">
-          <h2 class="text-lg font-semibold text-white mb-4">
+          <h2 class="text-lg font-semibold text-slate-900 mb-4">
             {{ lang.t('branding.pdf_preview') }}
           </h2>
           <div class="bg-white rounded-xl p-6 shadow-lg">
@@ -138,7 +138,7 @@ import { SubscriptionService } from '../services/subscription.service';
             <div class="h-2 rounded-full mb-2" [style.background-color]="primaryColor" style="opacity: 0.2"></div>
             <div class="h-2 rounded-full w-3/4 mb-2" [style.background-color]="primaryColor" style="opacity: 0.15"></div>
             <div class="h-2 rounded-full w-1/2" [style.background-color]="primaryColor" style="opacity: 0.1"></div>
-            <p class="text-gray-400 text-[10px] mt-4 text-right">
+            <p class="text-slate-500 text-[10px] mt-4 text-right">
               {{ lang.t('branding.generated_by') }} {{ companyName || 'DoraAudit.eu' }} | {{ today }}
             </p>
           </div>

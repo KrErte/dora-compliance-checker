@@ -17,7 +17,7 @@ import { LangService } from '../lang.service';
           <div class="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center text-slate-900 font-bold text-2xl mx-auto mb-4">
             D
           </div>
-          <h1 class="text-2xl font-bold text-white mb-2">{{ lang.t('auth.forgot_password_title') }}</h1>
+          <h1 class="text-2xl font-bold text-slate-900 mb-2">{{ lang.t('auth.forgot_password_title') }}</h1>
           <p class="text-slate-400 text-sm max-w-sm mx-auto">{{ lang.t('auth.forgot_password_desc') }}</p>
         </div>
 
@@ -51,7 +51,7 @@ import { LangService } from '../lang.service';
             <div class="mb-6">
               <label for="reset-email" class="block text-sm font-medium text-slate-600 mb-2">{{ lang.t('auth.email') }}</label>
               <input type="email" [(ngModel)]="email" name="email" id="reset-email" required
-                     class="w-full px-4 py-3 rounded-xl bg-slate-700/50 border border-slate-200 text-white placeholder-slate-500
+                     class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-500
                             focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 transition-all"
                      placeholder="teie@ettevote.ee">
             </div>

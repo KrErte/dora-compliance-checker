@@ -101,7 +101,7 @@ interface OptInStatus {
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                   {{ lang.l('Taiesti anonuumne', 'Fully Anonymous') }}
                 </div>
-                <h2 class="text-2xl font-bold text-white mb-2">{{ lang.l('Liitu Vastavuse Vorgustikuga', 'Join the Compliance Network') }}</h2>
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">{{ lang.l('Liitu Vastavuse Vorgustikuga', 'Join the Compliance Network') }}</h2>
                 <p class="text-slate-600 mb-4 max-w-2xl">
                   {{ lang.l(
                     'Jaga anonuumseid vastavusandmeid ja saa ligipaeaeaeaesu kogu vorgustiku aruannetele. Sinu ettevotte nime ega konkreetseid tulemusi ei jagata kunagi.',
@@ -269,7 +269,7 @@ interface OptInStatus {
                         </svg>
                       </div>
                       <div>
-                        <h3 class="text-sm font-bold text-white">{{ threat.type }}</h3>
+                        <h3 class="text-sm font-bold text-slate-900">{{ threat.type }}</h3>
                         <p class="text-[10px] text-slate-500">{{ lang.l('Esmakordselt naehtud', 'First seen') }}: {{ threat.firstSeen }}</p>
                       </div>
                     </div>
@@ -282,7 +282,7 @@ interface OptInStatus {
                   <!-- Affected sectors -->
                   <div class="flex flex-wrap gap-1.5 mb-3">
                     @for (sector of threat.affectedSectors; track sector) {
-                      <span class="px-2 py-0.5 rounded-md bg-slate-700/50 text-[10px] text-slate-600 font-medium">{{ sector }}</span>
+                      <span class="px-2 py-0.5 rounded-md bg-slate-200/50 text-[10px] text-slate-600 font-medium">{{ sector }}</span>
                     }
                   </div>
 
@@ -347,7 +347,7 @@ interface OptInStatus {
                   </div>
                 </div>
 
-                <h3 class="text-sm font-bold text-white mb-1">{{ sector.sector }}</h3>
+                <h3 class="text-sm font-bold text-slate-900 mb-1">{{ sector.sector }}</h3>
                 <p class="text-[10px] text-slate-500 mb-3">{{ sector.participantCount }} {{ lang.l('osalejat', 'participants') }}</p>
 
                 <!-- Score bar -->
@@ -356,7 +356,7 @@ interface OptInStatus {
                     <span class="text-slate-400">{{ lang.l('Keskmine skoor', 'Avg Score') }}</span>
                     <span class="font-bold" [class]="getScoreColor(sector.averageScore)">{{ sector.averageScore }}%</span>
                   </div>
-                  <div class="w-full bg-slate-700/50 rounded-full h-2">
+                  <div class="w-full bg-slate-200/50 rounded-full h-2">
                     <div class="h-2 rounded-full transition-all duration-700"
                          [class]="getScoreBarColor(sector.averageScore)"
                          [style.width.%]="sector.averageScore"></div>
@@ -376,12 +376,12 @@ interface OptInStatus {
         <!-- Peer Comparison Section - Premium gated -->
         <div class="relative">
           @if (!subService.isPremium()) {
-            <div class="absolute inset-0 z-20 flex items-center justify-center backdrop-blur-sm bg-slate-900/40 rounded-2xl">
+            <div class="absolute inset-0 z-20 flex items-center justify-center backdrop-blur-sm bg-white/40 rounded-2xl">
               <div class="text-center p-8">
                 <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-violet-500/20">
                   <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                 </div>
-                <h3 class="text-lg font-bold text-white mb-2">{{ lang.l('Partnerite vordlus', 'Peer Comparison') }}</h3>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">{{ lang.l('Partnerite vordlus', 'Peer Comparison') }}</h3>
                 <p class="text-sm text-slate-400 mb-4 max-w-sm">{{ lang.l('Uuenda plaani, et naeha oma positsiooni teiste organisatsioonide seas', 'Upgrade your plan to see how you compare against other organizations') }}</p>
                 <a routerLink="/pricing" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-violet-500/25 transition-all">
                   {{ lang.l('Uuenda plaani', 'Upgrade Plan') }}
@@ -412,7 +412,7 @@ interface OptInStatus {
 
                 <!-- VS badge -->
                 <div class="flex flex-col items-center gap-3">
-                  <div class="w-12 h-12 rounded-full bg-slate-700/50 border border-slate-200 flex items-center justify-center">
+                  <div class="w-12 h-12 rounded-full bg-slate-200/50 border border-slate-200 flex items-center justify-center">
                     <span class="text-xs font-bold text-slate-400">VS</span>
                   </div>
                   <!-- Percentile badge -->
@@ -443,7 +443,7 @@ interface OptInStatus {
                         <span class="text-slate-400">{{ pillar.peerAverage }}%</span>
                       </div>
                     </div>
-                    <div class="relative h-3 bg-slate-700/30 rounded-full overflow-hidden">
+                    <div class="relative h-3 bg-slate-200/30 rounded-full overflow-hidden">
                       <!-- Peer average bar (background) -->
                       <div class="absolute inset-0 h-3 bg-slate-600/40 rounded-full transition-all duration-700" [style.width.%]="pillar.peerAverage"></div>
                       <!-- Your score bar (foreground) -->
@@ -498,7 +498,7 @@ interface OptInStatus {
                         {{ baltic.countryCode }}
                       </div>
                       <div>
-                        <h3 class="text-lg font-bold text-white">{{ baltic.country }}</h3>
+                        <h3 class="text-lg font-bold text-slate-900">{{ baltic.country }}</h3>
                         <p class="text-xs text-slate-400">{{ baltic.participantCount }} {{ lang.l('osalejat', 'participants') }}</p>
                       </div>
                     </div>
@@ -561,12 +561,12 @@ interface OptInStatus {
         <!-- Network Activity Feed (Premium gated) -->
         <div class="relative">
           @if (!subService.isPremium()) {
-            <div class="absolute inset-0 z-20 flex items-center justify-center backdrop-blur-sm bg-slate-900/40 rounded-2xl">
+            <div class="absolute inset-0 z-20 flex items-center justify-center backdrop-blur-sm bg-white/40 rounded-2xl">
               <div class="text-center p-6">
                 <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center mx-auto mb-3 shadow-lg shadow-violet-500/20">
                   <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                 </div>
-                <h3 class="text-base font-bold text-white mb-1">{{ lang.l('Vorgustiku tegevusvoog', 'Network Activity Feed') }}</h3>
+                <h3 class="text-base font-bold text-slate-900 mb-1">{{ lang.l('Vorgustiku tegevusvoog', 'Network Activity Feed') }}</h3>
                 <p class="text-xs text-slate-400 mb-3">{{ lang.l('Reaalajas uuendused vorgustikust', 'Real-time updates from the network') }}</p>
                 <a routerLink="/pricing" class="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-gradient-to-r from-violet-500 to-purple-600 text-white font-semibold text-xs hover:shadow-lg hover:shadow-violet-500/25 transition-all">
                   {{ lang.l('Uuenda plaani', 'Upgrade Plan') }}
@@ -603,7 +603,7 @@ interface OptInStatus {
         <!-- Bottom CTA -->
         @if (!optInStatus()?.optedIn) {
           <div class="bg-gradient-to-r from-violet-500/10 via-purple-500/10 to-indigo-500/10 border border-violet-500/20 rounded-2xl p-8 text-center">
-            <h2 class="text-xl font-bold text-white mb-2">{{ lang.l('Valmis liituma?', 'Ready to Join?') }}</h2>
+            <h2 class="text-xl font-bold text-slate-900 mb-2">{{ lang.l('Valmis liituma?', 'Ready to Join?') }}</h2>
             <p class="text-slate-400 text-sm mb-4 max-w-lg mx-auto">
               {{ lang.l(
                 'Lisa oma anonuumsed andmed vorgustikku ja saa ligipaeaeaeaesu kogu partnerite luureandmetele.',
@@ -966,16 +966,16 @@ export class ComplianceNetworkComponent implements OnInit {
 
   getBalticGradient(code: string): string {
     switch (code) {
-      case 'EE': return 'bg-gradient-to-br from-blue-600 via-slate-900 to-white';
+      case 'EE': return 'bg-gradient-to-br from-blue-600 via-slate-50 to-white';
       case 'LV': return 'bg-gradient-to-br from-rose-800 via-white to-rose-800';
       case 'LT': return 'bg-gradient-to-br from-yellow-400 via-green-600 to-red-500';
-      default: return 'bg-slate-800';
+      default: return 'bg-white';
     }
   }
 
   getBalticStripe(code: string): string {
     switch (code) {
-      case 'EE': return 'bg-gradient-to-r from-blue-600 via-slate-900 to-white';
+      case 'EE': return 'bg-gradient-to-r from-blue-600 via-slate-50 to-white';
       case 'LV': return 'bg-gradient-to-r from-rose-800 via-white to-rose-800';
       case 'LT': return 'bg-gradient-to-r from-yellow-400 via-green-600 to-red-500';
       default: return 'bg-slate-600';
@@ -987,7 +987,7 @@ export class ComplianceNetworkComponent implements OnInit {
       case 'EE': return 'bg-gradient-to-br from-blue-600 to-blue-800 text-white shadow-blue-500/20';
       case 'LV': return 'bg-gradient-to-br from-rose-700 to-rose-900 text-white shadow-rose-500/20';
       case 'LT': return 'bg-gradient-to-br from-yellow-500 to-green-600 text-white shadow-yellow-500/20';
-      default: return 'bg-slate-700 text-white';
+      default: return 'bg-slate-200 text-slate-900';
     }
   }
 

@@ -33,9 +33,9 @@ interface TlptFinding {
     <div class="space-y-8">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center">
-              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
               </svg>
             </div>
@@ -74,7 +74,7 @@ interface TlptFinding {
         <div class="bg-white border border-slate-200 rounded-xl p-5">
           <div class="flex items-start justify-between mb-3">
             <div>
-              <h3 class="text-white font-semibold">{{ test.name }}</h3>
+              <h3 class="text-slate-900 font-semibold">{{ test.name }}</h3>
               <p class="text-xs text-slate-400 mt-0.5">{{ test.framework }} &bull; {{ test.testerType === 'EXTERNAL' ? (lang.t('tlpt.external_tester')) : (lang.t('tlpt.internal_tester')) }}: {{ test.testerName }}</p>
             </div>
             <span class="px-3 py-1 rounded-lg text-xs font-semibold"
@@ -99,7 +99,7 @@ interface TlptFinding {
           }
           <div class="flex gap-2 mt-3">
             <select [(ngModel)]="test.status" (ngModelChange)="saveTests()"
-                    class="px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs text-white focus:outline-none">
+                    class="px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs text-slate-900 focus:outline-none">
               <option value="PLANNED">Planned</option>
               <option value="IN_PROGRESS">In Progress</option>
               <option value="COMPLETED">Completed</option>
@@ -114,36 +114,36 @@ interface TlptFinding {
 
       <!-- Create form modal -->
       @if (showForm) {
-        <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" (click)="showForm = false">
-          <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 w-full max-w-lg" (click)="$event.stopPropagation()">
-            <h2 class="text-lg font-bold text-white mb-4">{{ lang.t('tlpt.plan_tlpt_test') }}</h2>
+        <div class="fixed inset-0 bg-white/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" (click)="showForm = false">
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 w-full max-w-lg" (click)="$event.stopPropagation()">
+            <h2 class="text-lg font-bold text-slate-900 mb-4">{{ lang.t('tlpt.plan_tlpt_test') }}</h2>
             <div class="space-y-4">
               <input [(ngModel)]="newTest.name" type="text" [placeholder]="lang.t('tlpt.test_name')"
-                     class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none">
+                     class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 focus:outline-none">
               <textarea [(ngModel)]="newTest.scope" rows="2" [placeholder]="lang.t('tlpt.scope')"
-                        class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none"></textarea>
+                        class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 focus:outline-none"></textarea>
               <div class="grid grid-cols-2 gap-4">
-                <select [(ngModel)]="newTest.framework" class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
+                <select [(ngModel)]="newTest.framework" class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:outline-none">
                   <option value="TIBER-EU">TIBER-EU</option>
                   <option value="CBEST">CBEST</option>
                   <option value="iCAST">iCAST</option>
                   <option value="OTHER">{{ lang.t('tlpt.other') }}</option>
                 </select>
-                <select [(ngModel)]="newTest.testerType" class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
+                <select [(ngModel)]="newTest.testerType" class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:outline-none">
                   <option value="EXTERNAL">{{ lang.t('tlpt.external') }}</option>
                   <option value="INTERNAL">{{ lang.t('tlpt.internal') }}</option>
                 </select>
               </div>
               <input [(ngModel)]="newTest.testerName" type="text" [placeholder]="lang.t('tlpt.tester_name')"
-                     class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
+                     class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:outline-none">
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs text-slate-400 mb-1">{{ lang.t('tlpt.start') }}</label>
-                  <input [(ngModel)]="newTest.startDate" type="date" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
+                  <input [(ngModel)]="newTest.startDate" type="date" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:outline-none">
                 </div>
                 <div>
                   <label class="block text-xs text-slate-400 mb-1">{{ lang.t('tlpt.end') }}</label>
-                  <input [(ngModel)]="newTest.endDate" type="date" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-white text-sm focus:outline-none">
+                  <input [(ngModel)]="newTest.endDate" type="date" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm focus:outline-none">
                 </div>
               </div>
               <div class="flex justify-end gap-3">

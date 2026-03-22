@@ -41,20 +41,20 @@ interface SimulationResult {
               {{ lang.t('sim.badge') }}
             </span>
           </div>
-          <h1 class="text-3xl font-bold text-white mb-2">{{ lang.t('sim.title') }}</h1>
+          <h1 class="text-3xl font-bold text-slate-900 mb-2">{{ lang.t('sim.title') }}</h1>
           <p class="text-slate-400 max-w-2xl">{{ lang.t('sim.subtitle') }}</p>
         </div>
       </div>
 
       @if (!hasAssessmentData()) {
         <!-- No data state -->
-        <div class="text-center py-16 bg-slate-800/30 rounded-2xl border border-slate-200">
-          <div class="w-16 h-16 rounded-2xl bg-slate-700/50 flex items-center justify-center mx-auto mb-4">
+        <div class="text-center py-16 bg-slate-100/30 rounded-2xl border border-slate-200">
+          <div class="w-16 h-16 rounded-2xl bg-slate-100/50 flex items-center justify-center mx-auto mb-4">
             <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
             </svg>
           </div>
-          <h3 class="text-lg font-semibold text-white mb-2">{{ lang.t('sim.no_data_title') }}</h3>
+          <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ lang.t('sim.no_data_title') }}</h3>
           <p class="text-slate-400 text-sm mb-6">{{ lang.t('sim.no_data_desc') }}</p>
           <a routerLink="/assessment"
              class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 text-white font-medium text-sm
@@ -66,7 +66,7 @@ interface SimulationResult {
         <!-- Scenario Selection -->
         @if (!activeSimulation()) {
           <div>
-            <h2 class="text-lg font-semibold text-white mb-1">{{ lang.t('sim.choose_scenario') }}</h2>
+            <h2 class="text-lg font-semibold text-slate-900 mb-1">{{ lang.t('sim.choose_scenario') }}</h2>
             <p class="text-sm text-slate-400 mb-6">{{ lang.t('sim.choose_desc') }}</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -81,7 +81,7 @@ interface SimulationResult {
                     </div>
                     <div class="flex-1 min-w-0">
                       <div class="flex items-center gap-2 mb-1">
-                        <h3 class="font-semibold text-white group-hover:text-white/90">{{ lang.t('sim.scenario_' + scenario.id) }}</h3>
+                        <h3 class="font-semibold text-slate-900 group-hover:text-slate-900/90">{{ lang.t('sim.scenario_' + scenario.id) }}</h3>
                         <span class="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase"
                               [class]="getCascadeClass(scenario.cascadeRisk)">
                           {{ scenario.cascadeRisk }}
@@ -110,7 +110,7 @@ interface SimulationResult {
           </div>
 
           <!-- Assessment context -->
-          <div class="p-4 rounded-xl bg-slate-800/30 border border-slate-200">
+          <div class="p-4 rounded-xl bg-slate-100/30 border border-slate-200">
             <div class="flex items-center gap-3">
               <div class="w-10 h-10 rounded-lg flex items-center justify-center"
                    [class]="latestAssessment()!.complianceLevel === 'GREEN' ? 'bg-blue-100 text-blue-600' :
@@ -119,7 +119,7 @@ interface SimulationResult {
                 <span class="text-lg font-bold">{{ latestAssessment()!.scorePercentage }}%</span>
               </div>
               <div>
-                <p class="text-sm text-white font-medium">{{ lang.t('sim.using_assessment') }}: {{ latestAssessment()!.companyName }}</p>
+                <p class="text-sm text-slate-900 font-medium">{{ lang.t('sim.using_assessment') }}: {{ latestAssessment()!.companyName }}</p>
                 <p class="text-xs text-slate-500">{{ latestAssessment()!.contractName }} &middot; {{ latestAssessment()!.assessmentDate | date:'dd.MM.yyyy' }}</p>
               </div>
             </div>
@@ -145,7 +145,7 @@ interface SimulationResult {
                 {{ sim.scenario.icon }}
               </div>
               <div>
-                <h2 class="text-xl font-bold text-white">{{ lang.t('sim.scenario_' + sim.scenario.id) }}</h2>
+                <h2 class="text-xl font-bold text-slate-900">{{ lang.t('sim.scenario_' + sim.scenario.id) }}</h2>
                 <p class="text-sm text-slate-400">{{ lang.t('sim.scenario_' + sim.scenario.id + '_desc') }}</p>
               </div>
             </div>
@@ -168,7 +168,7 @@ interface SimulationResult {
               </div>
               <div class="p-4 rounded-xl bg-white border border-slate-200">
                 <p class="text-xs text-slate-500 mb-1">{{ lang.t('sim.response_time') }}</p>
-                <p class="text-2xl font-bold text-white">{{ sim.estimatedResponseTimeDays }}{{ lang.t('sim.days') }}</p>
+                <p class="text-2xl font-bold text-slate-900">{{ sim.estimatedResponseTimeDays }}{{ lang.t('sim.days') }}</p>
               </div>
             </div>
 
@@ -193,7 +193,7 @@ interface SimulationResult {
                   </svg>
                 </div>
                 <div>
-                  <h3 class="font-semibold text-white">{{ lang.t('sim.regulatory_outcome') }}</h3>
+                  <h3 class="font-semibold text-slate-900">{{ lang.t('sim.regulatory_outcome') }}</h3>
                   <p class="text-sm" [class]="sim.regulatoryOutcome === 'FINE' ? 'text-red-400' :
                               sim.regulatoryOutcome === 'PRESCRIPTION' ? 'text-orange-400' :
                               sim.regulatoryOutcome === 'WARNING' ? 'text-yellow-400' :
@@ -212,7 +212,7 @@ interface SimulationResult {
 
             <!-- Incident Timeline -->
             <div>
-              <h3 class="text-lg font-semibold text-white mb-4">{{ lang.t('sim.timeline') }}</h3>
+              <h3 class="text-lg font-semibold text-slate-900 mb-4">{{ lang.t('sim.timeline') }}</h3>
               <div class="relative pl-8 space-y-0">
                 @for (event of sim.timelineEvents; track event.phase; let i = $index) {
                   <div class="relative pb-8" [class.pb-0]="i === sim.timelineEvents.length - 1">
@@ -222,9 +222,9 @@ interface SimulationResult {
                                   event.risk === 'MEDIUM' ? 'bg-yellow-500 border-yellow-400' :
                                   'bg-blue-600 border-blue-400'"></div>
                     @if (i < sim.timelineEvents.length - 1) {
-                      <div class="absolute left-[-16px] top-4 w-0.5 h-full bg-slate-700/50"></div>
+                      <div class="absolute left-[-16px] top-4 w-0.5 h-full bg-slate-100/50"></div>
                     }
-                    <div class="p-4 rounded-xl bg-slate-800/30 border border-slate-200">
+                    <div class="p-4 rounded-xl bg-slate-100/30 border border-slate-200">
                       <div class="flex items-center gap-2 mb-1">
                         <span class="text-xs font-mono text-slate-500">{{ lang.t('sim.day') }} {{ event.daysFromIncident }}</span>
                         <span class="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase"
@@ -235,7 +235,7 @@ interface SimulationResult {
                           {{ event.risk }}
                         </span>
                       </div>
-                      <h4 class="font-medium text-white text-sm">{{ lang.t('sim.tl_' + sim.scenario.id + '_' + event.phase) }}</h4>
+                      <h4 class="font-medium text-slate-900 text-sm">{{ lang.t('sim.tl_' + sim.scenario.id + '_' + event.phase) }}</h4>
                       <p class="text-xs text-slate-400 mt-1">{{ lang.t('sim.tl_' + sim.scenario.id + '_' + event.phase + '_desc') }}</p>
                     </div>
                   </div>
@@ -246,7 +246,7 @@ interface SimulationResult {
             <!-- Vulnerable Gaps -->
             @if (sim.vulnerableGaps.length > 0) {
               <div>
-                <h3 class="text-lg font-semibold text-white mb-4">
+                <h3 class="text-lg font-semibold text-slate-900 mb-4">
                   <span class="text-red-400">{{ sim.vulnerableGaps.length }}</span> {{ lang.t('sim.exploited_gaps') }}
                 </h3>
                 <div class="space-y-2">
@@ -258,7 +258,7 @@ interface SimulationResult {
                         </svg>
                       </div>
                       <div class="flex-1 min-w-0">
-                        <p class="text-sm text-white">{{ gap.question }}</p>
+                        <p class="text-sm text-slate-900">{{ gap.question }}</p>
                         <p class="text-xs text-slate-500">{{ gap.articleReference }} &middot; {{ gap.category }}</p>
                       </div>
                     </div>
@@ -270,7 +270,7 @@ interface SimulationResult {
             <!-- Protected areas -->
             @if (sim.protectedAreas.length > 0) {
               <div>
-                <h3 class="text-lg font-semibold text-white mb-4">
+                <h3 class="text-lg font-semibold text-slate-900 mb-4">
                   <span class="text-blue-600">{{ sim.protectedAreas.length }}</span> {{ lang.t('sim.protected_areas') }}
                 </h3>
                 <div class="space-y-2">
@@ -282,7 +282,7 @@ interface SimulationResult {
                         </svg>
                       </div>
                       <div class="flex-1 min-w-0">
-                        <p class="text-sm text-white">{{ area.question }}</p>
+                        <p class="text-sm text-slate-900">{{ area.question }}</p>
                         <p class="text-xs text-slate-500">{{ area.category }}</p>
                       </div>
                     </div>
@@ -292,7 +292,7 @@ interface SimulationResult {
             }
 
             <!-- Real world example -->
-            <div class="p-6 rounded-2xl bg-slate-800/30 border border-slate-200">
+            <div class="p-6 rounded-2xl bg-slate-100/30 border border-slate-200">
               <h3 class="text-sm font-semibold text-slate-600 mb-2">{{ lang.t('sim.real_world') }}</h3>
               <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center">
@@ -301,7 +301,7 @@ interface SimulationResult {
                   </svg>
                 </div>
                 <div>
-                  <p class="text-white font-medium">{{ sim.scenario.realWorldExample.company }} ({{ sim.scenario.realWorldExample.year }})</p>
+                  <p class="text-slate-900 font-medium">{{ sim.scenario.realWorldExample.company }} ({{ sim.scenario.realWorldExample.year }})</p>
                   <p class="text-sm text-slate-400">{{ lang.t('sim.loss') }}: {{ sim.scenario.realWorldExample.loss }}</p>
                 </div>
               </div>
@@ -310,7 +310,7 @@ interface SimulationResult {
             <!-- CTA -->
             <div class="flex flex-wrap gap-3">
               <button type="button" (click)="clearSimulation()"
-                      class="px-6 py-3 rounded-xl bg-slate-700/50 text-white font-medium text-sm hover:bg-slate-700 transition-colors">
+                      class="px-6 py-3 rounded-xl bg-slate-100/50 text-slate-900 font-medium text-sm hover:bg-slate-50 transition-colors">
                 {{ lang.t('sim.try_another') }}
               </button>
               <a routerLink="/assessment"
@@ -478,7 +478,7 @@ export class IncidentSimulatorComponent {
   }
 
   getScenarioCardClass(s: IncidentScenario): string {
-    const base = 'bg-slate-800/30 border-slate-200 hover:border-';
+    const base = 'bg-slate-100/30 border-slate-200 hover:border-';
     const colorMap: Record<string, string> = {
       red: 'red-500/50 hover:bg-red-500/5',
       orange: 'orange-500/50 hover:bg-orange-500/5',

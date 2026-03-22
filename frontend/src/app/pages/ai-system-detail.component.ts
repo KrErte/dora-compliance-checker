@@ -23,7 +23,7 @@ import { ApiService } from '../api.service';
               <a routerLink="/ai-systems" class="text-slate-400 hover:text-blue-400 transition-colors">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
               </a>
-              <h1 class="text-2xl font-bold text-white">{{ system()!.name }}</h1>
+              <h1 class="text-2xl font-bold text-slate-900">{{ system()!.name }}</h1>
               <span class="px-2 py-0.5 rounded-full text-xs font-bold" [class]="riskBadgeClass(system()!.riskLevel)">
                 {{ system()!.riskLevel || lang.l('Klassifitseerimata', 'Not Classified') }}
               </span>
@@ -44,7 +44,7 @@ import { ApiService } from '../api.service';
           @for (t of tabs; track t.key) {
             <button type="button" (click)="activeTab.set(t.key)"
                     class="px-4 py-2.5 text-sm font-medium transition-all border-b-2 -mb-px"
-                    [class]="activeTab() === t.key ? 'text-blue-400 border-blue-400' : 'text-slate-400 border-transparent hover:text-white hover:border-slate-300'">
+                    [class]="activeTab() === t.key ? 'text-blue-400 border-blue-400' : 'text-slate-400 border-transparent hover:text-slate-900 hover:border-slate-300'">
               {{ lang.l(t.labelEt, t.labelEn) }}
             </button>
           }
@@ -72,21 +72,21 @@ import { ApiService } from '../api.service';
               <div class="bg-white border border-slate-200 rounded-xl p-5 space-y-3">
                 <div>
                   <p class="text-[10px] text-slate-500 uppercase tracking-wider">{{ lang.l('Staatus', 'Status') }}</p>
-                  <p class="text-sm text-white font-medium">{{ system()!.status }}</p>
+                  <p class="text-sm text-slate-900 font-medium">{{ system()!.status }}</p>
                 </div>
                 <div>
                   <p class="text-[10px] text-slate-500 uppercase tracking-wider">{{ lang.l('Juurutuskontekst', 'Deployment') }}</p>
-                  <p class="text-sm text-white font-medium">{{ system()!.deploymentContext }}</p>
+                  <p class="text-sm text-slate-900 font-medium">{{ system()!.deploymentContext }}</p>
                 </div>
                 <div>
                   <p class="text-[10px] text-slate-500 uppercase tracking-wider">{{ lang.l('Organisatsiooni roll', 'Org Role') }}</p>
-                  <p class="text-sm text-white font-medium">{{ system()!.organizationRole }}</p>
+                  <p class="text-sm text-slate-900 font-medium">{{ system()!.organizationRole }}</p>
                 </div>
                 @if (system()!.complianceScore != null) {
                   <div>
                     <p class="text-[10px] text-slate-500 uppercase tracking-wider mb-1">{{ lang.l('Vastavusskoor', 'Compliance Score') }}</p>
                     <div class="flex items-center gap-2">
-                      <div class="flex-1 h-2 bg-slate-700/50 rounded-full overflow-hidden">
+                      <div class="flex-1 h-2 bg-slate-100/50 rounded-full overflow-hidden">
                         <div class="h-full rounded-full transition-all duration-500"
                              [style.width.%]="system()!.complianceScore"
                              [class]="system()!.complianceScore >= 80 ? 'bg-blue-600' : system()!.complianceScore >= 50 ? 'bg-amber-500' : 'bg-red-500'"></div>
@@ -116,7 +116,7 @@ import { ApiService } from '../api.service';
                 <div class="bg-white border border-slate-200 rounded-xl p-4 flex items-start gap-4">
                   <button type="button" (click)="toggleObligationStatus(ob)"
                           class="w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 transition-all"
-                          [class]="ob.status === 'COMPLETED' ? 'border-blue-500 bg-blue-100' : ob.status === 'IN_PROGRESS' ? 'border-amber-500 bg-amber-500/10' : 'border-slate-600 hover:border-slate-500'">
+                          [class]="ob.status === 'COMPLETED' ? 'border-blue-500 bg-blue-100' : ob.status === 'IN_PROGRESS' ? 'border-amber-500 bg-amber-500/10' : 'border-slate-300 hover:border-slate-500'">
                     @if (ob.status === 'COMPLETED') {
                       <svg class="w-3 h-3 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 12 5 5L20 7"/></svg>
                     }
@@ -124,12 +124,12 @@ import { ApiService } from '../api.service';
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2 mb-1">
                       <span class="text-xs font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded">{{ ob.articleRef }}</span>
-                      <span class="text-sm font-medium text-white">{{ ob.articleTitle }}</span>
+                      <span class="text-sm font-medium text-slate-900">{{ ob.articleTitle }}</span>
                     </div>
                     <p class="text-xs text-slate-400">{{ ob.description }}</p>
                   </div>
                   <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded shrink-0"
-                        [class]="ob.status === 'COMPLETED' ? 'bg-blue-100 text-blue-600' : ob.status === 'IN_PROGRESS' ? 'bg-amber-500/20 text-amber-400' : ob.status === 'NOT_APPLICABLE' ? 'bg-slate-700/50 text-slate-500' : 'bg-slate-700/50 text-slate-400'">
+                        [class]="ob.status === 'COMPLETED' ? 'bg-blue-100 text-blue-600' : ob.status === 'IN_PROGRESS' ? 'bg-amber-500/20 text-amber-400' : ob.status === 'NOT_APPLICABLE' ? 'bg-slate-100/50 text-slate-500' : 'bg-slate-100/50 text-slate-400'">
                     {{ ob.status }}
                   </span>
                 </div>
@@ -156,7 +156,7 @@ import { ApiService } from '../api.service';
               @for (doc of documents(); track doc.id) {
                 <div class="bg-white border border-slate-200 rounded-lg p-4 flex items-center justify-between">
                   <div>
-                    <p class="text-sm font-medium text-white">{{ doc.title }}</p>
+                    <p class="text-sm font-medium text-slate-900">{{ doc.title }}</p>
                     <p class="text-xs text-slate-500">{{ doc.documentType }} &middot; {{ doc.status }}</p>
                   </div>
                   <span class="text-xs px-2 py-0.5 rounded-full font-bold"
@@ -238,7 +238,7 @@ export class AiSystemDetailComponent implements OnInit {
       case 'HIGH': return 'bg-orange-500/20 text-orange-400 border border-orange-500/30';
       case 'LIMITED': return 'bg-amber-500/20 text-amber-400 border border-amber-500/30';
       case 'MINIMAL': return 'bg-blue-100 text-blue-600 border border-blue-200';
-      default: return 'bg-slate-700/50 text-slate-400 border border-slate-200';
+      default: return 'bg-slate-100/50 text-slate-400 border border-slate-200';
     }
   }
 }

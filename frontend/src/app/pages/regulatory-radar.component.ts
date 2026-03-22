@@ -17,7 +17,7 @@ import { ApiService } from '../api.service';
           </svg>
           {{ lang.t('radar.badge') }}
         </div>
-        <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">{{ lang.t('radar.title') }}</h1>
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2">{{ lang.t('radar.title') }}</h1>
         <p class="text-slate-400 max-w-2xl mx-auto">{{ lang.t('radar.subtitle') }}</p>
       </div>
 
@@ -25,7 +25,7 @@ import { ApiService } from '../api.service';
       @if (data()) {
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
           <div class="bg-white border border-slate-200 rounded-xl p-4 text-center">
-            <div class="text-2xl font-bold text-white">{{ data()!.totalCount }}</div>
+            <div class="text-2xl font-bold text-slate-900">{{ data()!.totalCount }}</div>
             <div class="text-xs text-slate-400 mt-1">{{ lang.t('radar.total_updates') }}</div>
           </div>
           <div class="bg-white border border-red-500/30 rounded-xl p-4 text-center">
@@ -46,7 +46,7 @@ import { ApiService } from '../api.service';
       <!-- Filters -->
       <div class="flex flex-wrap gap-3">
         <select [(ngModel)]="filterSeverity" (ngModelChange)="loadData()"
-                class="bg-white border border-slate-200 rounded-xl px-4 py-2 text-white text-sm focus:outline-none focus:border-blue-500/50">
+                class="bg-white border border-slate-200 rounded-xl px-4 py-2 text-slate-900 text-sm focus:outline-none focus:border-blue-500/50">
           <option value="">{{ lang.t('radar.all_severity') }}</option>
           <option value="CRITICAL">Critical</option>
           <option value="HIGH">High</option>
@@ -55,7 +55,7 @@ import { ApiService } from '../api.service';
           <option value="INFO">Info</option>
         </select>
         <select [(ngModel)]="filterRegulation" (ngModelChange)="loadData()"
-                class="bg-white border border-slate-200 rounded-xl px-4 py-2 text-white text-sm focus:outline-none focus:border-blue-500/50">
+                class="bg-white border border-slate-200 rounded-xl px-4 py-2 text-slate-900 text-sm focus:outline-none focus:border-blue-500/50">
           <option value="">{{ lang.t('radar.all_regulations') }}</option>
           <option value="DORA">DORA</option>
           <option value="NIS2">NIS2</option>
@@ -88,14 +88,14 @@ import { ApiService } from '../api.service';
                   </span>
                 </div>
                 <div class="flex-1 min-w-0">
-                  <h3 class="text-white font-semibold text-sm mb-1 line-clamp-2">{{ item.title }}</h3>
+                  <h3 class="text-slate-900 font-semibold text-sm mb-1 line-clamp-2">{{ item.title }}</h3>
                   <p class="text-slate-400 text-xs mb-2 line-clamp-2">{{ item.summary }}</p>
                   <div class="flex flex-wrap items-center gap-2 text-xs">
                     @if (item.publishedDate) {
                       <span class="text-slate-500">{{ item.publishedDate }}</span>
                     }
                     @if (item.source) {
-                      <span class="px-2 py-0.5 rounded bg-slate-700/50 text-slate-400">{{ item.source }}</span>
+                      <span class="px-2 py-0.5 rounded bg-slate-200/50 text-slate-400">{{ item.source }}</span>
                     }
                     @if (item.affectedContractCount > 0) {
                       <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-400">{{ item.affectedContractCount }} {{ lang.t('radar.contracts') }}</span>
@@ -157,11 +157,11 @@ import { ApiService } from '../api.service';
 
       <!-- Impact Modal -->
       @if (impactData()) {
-        <div class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" (click)="impactData.set(null)">
-          <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto" (click)="$event.stopPropagation()">
+        <div class="fixed inset-0 bg-white/60 z-50 flex items-center justify-center p-4" (click)="impactData.set(null)">
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto" (click)="$event.stopPropagation()">
             <div class="flex items-center justify-between mb-4">
-              <h2 class="text-lg font-bold text-white">{{ lang.t('radar.impact_title') }}</h2>
-              <button (click)="impactData.set(null)" class="text-slate-400 hover:text-white">&times;</button>
+              <h2 class="text-lg font-bold text-slate-900">{{ lang.t('radar.impact_title') }}</h2>
+              <button (click)="impactData.set(null)" class="text-slate-400 hover:text-slate-900">&times;</button>
             </div>
             @if (impactData()!.affectedContracts?.length > 0) {
               <h3 class="text-sm font-medium text-slate-600 mb-2">{{ lang.t('radar.affected_contracts') }}</h3>
@@ -169,7 +169,7 @@ import { ApiService } from '../api.service';
                 @for (c of impactData()!.affectedContracts; track c.id) {
                   <div class="bg-white rounded-lg p-3 flex items-center justify-between">
                     <div>
-                      <div class="text-sm text-white">{{ c.companyName }}</div>
+                      <div class="text-sm text-slate-900">{{ c.companyName }}</div>
                       <div class="text-xs text-slate-400">{{ c.contractName }}</div>
                     </div>
                     <span class="px-2 py-0.5 rounded text-xs" [class]="c.currentLevel === 'GREEN' ? 'bg-blue-50 text-blue-600' : c.currentLevel === 'YELLOW' ? 'bg-amber-500/10 text-amber-400' : 'bg-red-500/10 text-red-400'">
@@ -185,11 +185,11 @@ import { ApiService } from '../api.service';
                 @for (p of impactData()!.affectedProviders; track p.id) {
                   <div class="bg-white rounded-lg p-3 flex items-center justify-between">
                     <div>
-                      <div class="text-sm text-white">{{ p.providerName }}</div>
+                      <div class="text-sm text-slate-900">{{ p.providerName }}</div>
                       <div class="text-xs text-slate-400">{{ p.serviceType }}</div>
                     </div>
                     @if (p.criticality) {
-                      <span class="px-2 py-0.5 rounded text-xs" [class]="p.criticality === 'CRITICAL' ? 'bg-red-500/10 text-red-400' : 'bg-slate-700 text-slate-400'">
+                      <span class="px-2 py-0.5 rounded text-xs" [class]="p.criticality === 'CRITICAL' ? 'bg-red-500/10 text-red-400' : 'bg-slate-200 text-slate-500'">
                         {{ p.criticality }}
                       </span>
                     }
@@ -252,7 +252,7 @@ export class RegulatoryRadarComponent implements OnInit {
       case 'HIGH': return 'bg-orange-500/10 border border-orange-500/30 text-orange-400';
       case 'MEDIUM': return 'bg-amber-500/10 border border-amber-500/30 text-amber-400';
       case 'LOW': return 'bg-blue-500/10 border border-blue-500/30 text-blue-400';
-      default: return 'bg-slate-700/50 border border-slate-600/30 text-slate-400';
+      default: return 'bg-slate-200/50 border border-slate-300/30 text-slate-400';
     }
   }
 }

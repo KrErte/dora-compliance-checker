@@ -39,12 +39,12 @@ interface ChatApiResponse {
             </svg>
             AI {{ lang.t('chat.badge') }}
           </div>
-          <h1 class="text-2xl sm:text-3xl font-bold text-white mb-2">DoraBot</h1>
+          <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">DoraBot</h1>
           <p class="text-slate-400 text-sm">{{ lang.t('chat.page_desc') }}</p>
         </div>
 
         <!-- Chat container -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden min-h-[60vh] flex flex-col">
+        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden min-h-[60vh] flex flex-col">
           <!-- Messages area -->
           <div class="flex-1 overflow-y-auto px-4 sm:px-6 py-6 space-y-4" #scrollArea>
             @if (messages().length === 0) {
@@ -56,13 +56,13 @@ interface ChatApiResponse {
                       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                     </svg>
                   </div>
-                  <h2 class="text-lg font-semibold text-white">{{ lang.t('chat.welcome_title') }}</h2>
+                  <h2 class="text-lg font-semibold text-slate-900">{{ lang.t('chat.welcome_title') }}</h2>
                   <p class="text-sm text-slate-400 mt-1 max-w-md mx-auto">{{ lang.t('chat.welcome_desc') }}</p>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg mx-auto">
                   @for (q of suggestedQuestions(); track q) {
                     <button (click)="sendQuickQuestion(q)"
-                            class="text-left px-4 py-3 rounded-xl bg-slate-800 border border-slate-200 text-sm text-slate-600 hover:text-blue-600 hover:border-blue-200 transition-all hover:bg-white">
+                            class="text-left px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm text-slate-600 hover:text-blue-600 hover:border-blue-200 transition-all hover:bg-white">
                       {{ q }}
                     </button>
                   }
@@ -83,7 +83,7 @@ interface ChatApiResponse {
                          [class.whitespace-pre-wrap]="msg.role === 'user'"
                          [ngClass]="msg.role === 'user'
                            ? 'bg-blue-700/20 text-blue-100 border border-blue-200 rounded-tr-sm'
-                           : 'bg-slate-800 text-slate-700 border border-slate-200 rounded-tl-sm'">
+                           : 'bg-white text-slate-700 border border-slate-200 rounded-tl-sm'">
                       @if (msg.role === 'user') { {{ msg.content }} }
                       @else {
                         <div [innerHTML]="msg.content | markdown"></div>
@@ -123,7 +123,7 @@ interface ChatApiResponse {
             @if (loading()) {
               <div class="flex gap-3">
                 <div class="shrink-0 w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-xs font-bold text-slate-900">AI</div>
-                <div class="bg-slate-800 border border-slate-200 rounded-xl rounded-tl-sm px-4 py-3">
+                <div class="bg-white border border-slate-200 rounded-xl rounded-tl-sm px-4 py-3">
                   <div class="flex items-center gap-2.5">
                     <div class="flex gap-1">
                       <span class="w-2 h-2 bg-blue-500 rounded-full animate-bounce [animation-delay:0ms]"></span>
@@ -157,7 +157,7 @@ interface ChatApiResponse {
 
           <!-- Actions bar -->
           @if (messages().length > 0) {
-            <div class="px-4 py-2 border-t border-slate-800 flex items-center justify-between">
+            <div class="px-4 py-2 border-t border-slate-200 flex items-center justify-between">
               @if (messagesLimit() > 0) {
                 <div class="flex items-center gap-2">
                   <div class="flex gap-0.5">
@@ -186,7 +186,7 @@ interface ChatApiResponse {
           }
 
           <!-- Input -->
-          <div class="px-4 sm:px-6 py-4 border-t border-slate-800 bg-white">
+          <div class="px-4 sm:px-6 py-4 border-t border-slate-200 bg-white">
             <form (submit)="send($event)" class="flex gap-3 items-end">
               <textarea
                 [(ngModel)]="inputText"
@@ -195,7 +195,7 @@ interface ChatApiResponse {
                 [disabled]="loading()"
                 (keydown)="onKeydown($event)"
                 rows="1"
-                class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 disabled:opacity-50 resize-none max-h-32 overflow-y-auto"
+                class="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/25 disabled:opacity-50 resize-none max-h-32 overflow-y-auto"
                 autocomplete="off"
               ></textarea>
               <button type="submit" [disabled]="loading() || !inputText.trim()"

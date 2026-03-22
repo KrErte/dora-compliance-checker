@@ -40,7 +40,7 @@ interface GlossaryTerm {
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
           EU 2022/2554
         </div>
-        <h1 class="text-3xl md:text-4xl font-bold text-white mb-3">
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
           {{ lang.t('explorer.dora_regulation_explorer') }}
         </h1>
         <p class="text-slate-400 max-w-2xl mx-auto text-sm md:text-base">
@@ -78,10 +78,10 @@ interface GlossaryTerm {
           [(ngModel)]="searchQuery"
           (ngModelChange)="onSearch()"
           [placeholder]="lang.t('explorer.search_placeholder')"
-          class="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all text-sm"
+          class="w-full pl-12 pr-4 py-3.5 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all text-sm"
         />
         <div *ngIf="searchQuery" class="absolute inset-y-0 right-0 pr-4 flex items-center">
-          <button (click)="searchQuery = ''; onSearch()" class="text-slate-400 hover:text-white transition-colors">
+          <button (click)="searchQuery = ''; onSearch()" class="text-slate-400 hover:text-slate-900 transition-colors">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
@@ -151,8 +151,8 @@ interface GlossaryTerm {
                   <div class="px-2 py-1.5 rounded text-xs text-blue-500 cursor-help hover:bg-blue-50 transition-colors">
                     {{ l(term.term.et, term.term.en) }}
                   </div>
-                  <div class="absolute left-0 bottom-full mb-1 w-64 p-3 bg-slate-900 border border-slate-600 rounded-lg shadow-xl text-xs text-slate-600 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 pointer-events-none">
-                    <div class="font-semibold text-white mb-1">{{ l(term.term.et, term.term.en) }}</div>
+                  <div class="absolute left-0 bottom-full mb-1 w-64 p-3 bg-white border border-slate-300 rounded-lg shadow-xl text-xs text-slate-600 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 pointer-events-none">
+                    <div class="font-semibold text-slate-900 mb-1">{{ l(term.term.et, term.term.en) }}</div>
                     {{ l(term.definition.et, term.definition.en) }}
                     <div class="absolute left-4 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-slate-600"></div>
                   </div>
@@ -188,7 +188,7 @@ interface GlossaryTerm {
           <div *ngFor="let ch of getVisibleChapters()" class="mb-8">
             <div class="flex items-center gap-2 mb-3 pb-2 border-b border-slate-200">
               <span class="text-lg" [innerHTML]="ch.icon"></span>
-              <h2 class="text-base font-semibold text-white">{{ ch.id }}: {{ l(ch.name.et, ch.name.en) }}</h2>
+              <h2 class="text-base font-semibold text-slate-900">{{ ch.id }}: {{ l(ch.name.et, ch.name.en) }}</h2>
               <span class="text-xs text-slate-500 ml-1">({{ ch.articles }})</span>
             </div>
 
@@ -209,14 +209,14 @@ interface GlossaryTerm {
                   <!-- Article info -->
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2 flex-wrap">
-                      <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-700/60 text-slate-600">
+                      <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-200 text-slate-600">
                         Art. {{ article.number }}
                       </span>
                       <span [class]="'text-xs px-2 py-0.5 rounded-full font-medium ' + getSeverityBadge(article.severity)">
                         {{ getSeverityLabel(article.severity) }}
                       </span>
                     </div>
-                    <h3 class="text-sm font-semibold text-white mt-1.5">
+                    <h3 class="text-sm font-semibold text-slate-900 mt-1.5">
                       {{ l(article.title.et, article.title.en) }}
                     </h3>
                     <p *ngIf="!expandedArticles.has(article.number)" class="text-xs text-slate-400 mt-1 line-clamp-2">
@@ -284,7 +284,7 @@ interface GlossaryTerm {
 
           <!-- CTA Footer -->
           <div class="mt-10 bg-gradient-to-br from-blue-50 to-blue-50 border border-blue-200 rounded-xl p-6 text-center">
-            <h3 class="text-lg font-semibold text-white mb-2">
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">
               {{ lang.t('explorer.ready_to_check_your_compliance') }}
             </h3>
             <p class="text-sm text-slate-400 mb-4 max-w-lg mx-auto">
@@ -297,7 +297,7 @@ interface GlossaryTerm {
                 {{ lang.t('explorer.start_assessment') }}
               </a>
               <a routerLink="/contract-analysis"
-                 class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium rounded-lg transition-colors">
+                 class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-200 hover:bg-slate-100 text-slate-900 text-sm font-medium rounded-lg transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                 {{ lang.t('explorer.analyze_contract') }}
               </a>

@@ -16,7 +16,7 @@ import { RegulatoryUpdate } from '../models';
         <a routerLink="/guardian" class="text-sm text-slate-500 hover:text-blue-600 transition-colors mb-2 inline-block">
           &larr; {{ lang.t('guardian.back') }}
         </a>
-        <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+        <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
           <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
           </svg>
@@ -26,7 +26,7 @@ import { RegulatoryUpdate } from '../models';
 
       <!-- Loading -->
       <div *ngIf="loading" class="text-center py-16">
-        <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-700 border-t-blue-400 animate-spin"></div>
+        <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-200 border-t-blue-400 animate-spin"></div>
       </div>
 
       <!-- Empty -->
@@ -53,7 +53,7 @@ import { RegulatoryUpdate } from '../models';
             <!-- Content -->
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2 mb-1 flex-wrap">
-                <h3 class="text-white font-semibold text-sm">{{ update.title }}</h3>
+                <h3 class="text-slate-900 font-semibold text-sm">{{ update.title }}</h3>
                 <span [class]="statusTag(update.status)">{{ update.status }}</span>
               </div>
               <p *ngIf="update.summary" class="text-sm text-slate-400 mb-2 line-clamp-2">{{ update.summary }}</p>

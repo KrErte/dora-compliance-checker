@@ -11,11 +11,11 @@ import { AdminService, LeadCompany } from '../services/admin.service';
     <div class="max-w-4xl mx-auto">
       <!-- Back + Header -->
       <div class="flex items-center gap-4 mb-6">
-        <button (click)="goBack()" class="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-100 transition-colors">
+        <button (click)="goBack()" class="p-2 text-slate-400 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         </button>
         <div class="flex-1">
-          <h1 class="text-2xl font-bold text-white">{{ lead()?.companyName || 'Loading...' }}</h1>
+          <h1 class="text-2xl font-bold text-slate-900">{{ lead()?.companyName || 'Loading...' }}</h1>
           @if (lead()?.registryCode) {
             <p class="text-sm text-slate-400 mt-0.5 font-mono">{{ lead()?.registryCode }} &middot; {{ countryName(lead()?.country || '') }}</p>
           }
@@ -52,15 +52,15 @@ import { AdminService, LeadCompany } from '../services/admin.service';
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs text-slate-500 mb-1">Company Name</label>
-                <input type="text" [(ngModel)]="edit.companyName" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
+                <input type="text" [(ngModel)]="edit.companyName" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
               </div>
               <div>
                 <label class="block text-xs text-slate-500 mb-1">Registry Code</label>
-                <input type="text" [(ngModel)]="edit.registryCode" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
+                <input type="text" [(ngModel)]="edit.registryCode" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
               </div>
               <div>
                 <label class="block text-xs text-slate-500 mb-1">Country</label>
-                <select [(ngModel)]="edit.country" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
+                <select [(ngModel)]="edit.country" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
                   <option value="EE">Estonia</option>
                   <option value="LV">Latvia</option>
                   <option value="LT">Lithuania</option>
@@ -68,7 +68,7 @@ import { AdminService, LeadCompany } from '../services/admin.service';
               </div>
               <div>
                 <label class="block text-xs text-slate-500 mb-1">License Type</label>
-                <select [(ngModel)]="edit.licenseType" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
+                <select [(ngModel)]="edit.licenseType" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
                   <option value="">—</option>
                   <option value="BANK">Bank</option>
                   <option value="INSURANCE">Insurance</option>
@@ -81,7 +81,7 @@ import { AdminService, LeadCompany } from '../services/admin.service';
               </div>
               <div>
                 <label class="block text-xs text-slate-500 mb-1">Sector</label>
-                <select [(ngModel)]="edit.sector" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
+                <select [(ngModel)]="edit.sector" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
                   <option value="">—</option>
                   <option value="Banking">Banking</option>
                   <option value="Insurance">Insurance</option>
@@ -92,7 +92,7 @@ import { AdminService, LeadCompany } from '../services/admin.service';
               </div>
               <div>
                 <label class="block text-xs text-slate-500 mb-1">Company Size</label>
-                <select [(ngModel)]="edit.companySize" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
+                <select [(ngModel)]="edit.companySize" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
                   <option value="">Unknown</option>
                   <option value="MICRO">Micro</option>
                   <option value="SMALL">Small</option>
@@ -102,38 +102,38 @@ import { AdminService, LeadCompany } from '../services/admin.service';
               </div>
               <div>
                 <label class="block text-xs text-slate-500 mb-1">Website</label>
-                <input type="url" [(ngModel)]="edit.website" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
+                <input type="url" [(ngModel)]="edit.website" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
               </div>
               <div>
                 <label class="block text-xs text-slate-500 mb-1">Email</label>
-                <input type="email" [(ngModel)]="edit.email" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
+                <input type="email" [(ngModel)]="edit.email" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
               </div>
               <div>
                 <label class="block text-xs text-slate-500 mb-1">Phone</label>
-                <input type="text" [(ngModel)]="edit.phone" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
+                <input type="text" [(ngModel)]="edit.phone" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
               </div>
               <div>
                 <label class="block text-xs text-slate-500 mb-1">City</label>
-                <input type="text" [(ngModel)]="edit.city" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
+                <input type="text" [(ngModel)]="edit.city" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
               </div>
               <div class="md:col-span-2">
                 <label class="block text-xs text-slate-500 mb-1">Address</label>
-                <input type="text" [(ngModel)]="edit.address" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
+                <input type="text" [(ngModel)]="edit.address" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
               </div>
               <div class="md:col-span-2">
                 <label class="block text-xs text-slate-500 mb-1">LinkedIn Company URL</label>
-                <input type="url" [(ngModel)]="edit.linkedinUrl" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
+                <input type="url" [(ngModel)]="edit.linkedinUrl" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
               </div>
             </div>
 
             <!-- DORA/NIS2 flags -->
             <div class="flex items-center gap-6 mt-4 pt-4 border-t border-slate-200">
               <label class="flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
-                <input type="checkbox" [(ngModel)]="edit.doraApplicable" class="rounded bg-slate-700 border-slate-600 text-blue-600 focus:ring-blue-500" />
+                <input type="checkbox" [(ngModel)]="edit.doraApplicable" class="rounded bg-white border-slate-300 text-blue-600 focus:ring-blue-500" />
                 DORA Applicable
               </label>
               <label class="flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
-                <input type="checkbox" [(ngModel)]="edit.nis2Applicable" class="rounded bg-slate-700 border-slate-600 text-blue-600 focus:ring-blue-500" />
+                <input type="checkbox" [(ngModel)]="edit.nis2Applicable" class="rounded bg-white border-slate-300 text-blue-600 focus:ring-blue-500" />
                 NIS2 Applicable
               </label>
             </div>
@@ -145,19 +145,19 @@ import { AdminService, LeadCompany } from '../services/admin.service';
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs text-slate-500 mb-1">CTO / Tech Lead Name</label>
-                <input type="text" [(ngModel)]="edit.ctoName" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
+                <input type="text" [(ngModel)]="edit.ctoName" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
               </div>
               <div>
                 <label class="block text-xs text-slate-500 mb-1">CTO LinkedIn</label>
-                <input type="url" [(ngModel)]="edit.ctoLinkedin" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
+                <input type="url" [(ngModel)]="edit.ctoLinkedin" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
               </div>
               <div>
                 <label class="block text-xs text-slate-500 mb-1">Compliance Officer Name</label>
-                <input type="text" [(ngModel)]="edit.complianceOfficerName" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
+                <input type="text" [(ngModel)]="edit.complianceOfficerName" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
               </div>
               <div>
                 <label class="block text-xs text-slate-500 mb-1">Compliance Officer LinkedIn</label>
-                <input type="url" [(ngModel)]="edit.complianceOfficerLinkedin" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
+                <input type="url" [(ngModel)]="edit.complianceOfficerLinkedin" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
               </div>
             </div>
           </div>
@@ -168,7 +168,7 @@ import { AdminService, LeadCompany } from '../services/admin.service';
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-xs text-slate-500 mb-1">Lead Status</label>
-                <select [(ngModel)]="edit.leadStatus" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
+                <select [(ngModel)]="edit.leadStatus" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none cursor-pointer">
                   <option value="NEW">New</option>
                   <option value="CONTACTED">Contacted</option>
                   <option value="QUALIFIED">Qualified</option>
@@ -177,12 +177,12 @@ import { AdminService, LeadCompany } from '../services/admin.service';
               </div>
               <div>
                 <label class="block text-xs text-slate-500 mb-1">Last Contacted</label>
-                <input type="date" [(ngModel)]="editLastContactedDate" class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
+                <input type="date" [(ngModel)]="editLastContactedDate" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none" />
               </div>
               <div class="md:col-span-2">
                 <label class="block text-xs text-slate-500 mb-1">Notes</label>
                 <textarea [(ngModel)]="edit.notes" rows="4"
-                          class="w-full bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none resize-none"></textarea>
+                          class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-2 focus:border-blue-500 focus:outline-none resize-none"></textarea>
               </div>
             </div>
           </div>
@@ -211,17 +211,17 @@ import { AdminService, LeadCompany } from '../services/admin.service';
             <div class="flex items-center gap-4 mb-4">
               <label class="text-xs text-slate-400">Language:</label>
               <button (click)="outreachLang.set('ET')" class="px-3 py-1 text-xs rounded-lg transition-colors"
-                      [class]="outreachLang() === 'ET' ? 'bg-blue-700 text-white' : 'bg-slate-700 text-slate-400 hover:text-white'">
+                      [class]="outreachLang() === 'ET' ? 'bg-blue-700 text-white' : 'bg-white text-slate-400 hover:text-slate-900'">
                 Estonian
               </button>
               <button (click)="outreachLang.set('EN')" class="px-3 py-1 text-xs rounded-lg transition-colors"
-                      [class]="outreachLang() === 'EN' ? 'bg-blue-700 text-white' : 'bg-slate-700 text-slate-400 hover:text-white'">
+                      [class]="outreachLang() === 'EN' ? 'bg-blue-700 text-white' : 'bg-white text-slate-400 hover:text-slate-900'">
                 English
               </button>
               <div class="flex-1"></div>
               <label class="text-xs text-slate-400">Contact name:</label>
               <input type="text" [ngModel]="outreachName()" (ngModelChange)="outreachName.set($event)" placeholder="Name"
-                     class="w-40 bg-slate-700 border border-slate-600 text-slate-700 text-sm rounded-lg px-3 py-1.5 focus:border-blue-500 focus:outline-none" />
+                     class="w-40 bg-white border border-slate-300 text-slate-700 text-sm rounded-lg px-3 py-1.5 focus:border-blue-500 focus:outline-none" />
             </div>
 
             <div class="bg-white rounded-lg p-4 font-mono text-sm text-slate-600 relative">
@@ -230,7 +230,7 @@ import { AdminService, LeadCompany } from '../services/admin.service';
                 <span class="text-[10px] font-mono" [class]="messageLength() > 300 ? 'text-red-400' : 'text-slate-500'">
                   {{ messageLength() }}/300
                 </span>
-                <button (click)="copyMessage()" class="px-2 py-1 text-xs bg-slate-700 hover:bg-slate-600 text-slate-600 rounded transition-colors">
+                <button (click)="copyMessage()" class="px-2 py-1 text-xs bg-slate-100 hover:bg-slate-50 text-slate-600 rounded transition-colors">
                   {{ copied() ? 'Copied!' : 'Copy' }}
                 </button>
               </div>

@@ -9,13 +9,13 @@ import { LangService } from '../lang.service';
   template: `
     @if (showBanner()) {
       <div class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-96 z-50 animate-slide-up">
-        <div class="bg-slate-800 border border-blue-200 rounded-xl p-4 shadow-2xl shadow-black/40 backdrop-blur-xl">
+        <div class="bg-white border border-blue-200 rounded-xl p-4 shadow-2xl shadow-black/40 backdrop-blur-xl">
           <div class="flex items-start gap-3">
             <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center text-slate-900 font-bold text-xs flex-shrink-0">
               DA
             </div>
             <div class="flex-1 min-w-0">
-              <h3 class="text-sm font-semibold text-white">{{ lang.l('Paigalda DoraAudit', 'Install DoraAudit') }}</h3>
+              <h3 class="text-sm font-semibold text-slate-900">{{ lang.l('Paigalda DoraAudit', 'Install DoraAudit') }}</h3>
               <p class="text-xs text-slate-400 mt-0.5">{{ lang.l('Lisa oma avaekraanile kiireks ligipääsuks', 'Add to your home screen for quick access') }}</p>
             </div>
             <button (click)="dismiss()" class="text-slate-500 hover:text-slate-600 transition-colors flex-shrink-0">
@@ -30,7 +30,7 @@ import { LangService } from '../lang.service';
               {{ lang.l('Paigalda', 'Install') }}
             </button>
             <button (click)="dismiss()"
-                    class="px-4 py-2 rounded-lg bg-slate-700/50 text-slate-400 text-xs hover:text-white transition-colors">
+                    class="px-4 py-2 rounded-lg bg-slate-100/50 text-slate-500 text-xs hover:text-slate-900 transition-colors">
               {{ lang.l('Mitte praegu', 'Not now') }}
             </button>
           </div>

@@ -12,9 +12,9 @@ import { LangService } from '../lang.service';
     <div class="space-y-6 max-w-2xl mx-auto">
       <!-- Header -->
       <div>
-        <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+        <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-500 flex items-center justify-center">
-            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
             </svg>
           </div>
@@ -28,7 +28,7 @@ import { LangService } from '../lang.service';
       <!-- Loading -->
       @if (loading()) {
         <div class="text-center py-16">
-          <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-700 border-t-blue-500 animate-spin"></div>
+          <div class="w-10 h-10 mx-auto mb-3 rounded-full border-4 border-slate-200 border-t-blue-500 animate-spin"></div>
           <p class="text-slate-400 text-sm">Loading 2FA status...</p>
         </div>
       }
@@ -43,7 +43,7 @@ import { LangService } from '../lang.service';
               </svg>
             </div>
             <div class="flex-1">
-              <h3 class="text-lg font-semibold text-white">2FA is Enabled</h3>
+              <h3 class="text-lg font-semibold text-slate-900">2FA is Enabled</h3>
               <p class="text-sm text-slate-400">Your account is protected with two-factor authentication.</p>
             </div>
             <button (click)="showDisableSection.set(true)"
@@ -61,7 +61,7 @@ import { LangService } from '../lang.service';
             <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
             </svg>
-            <h3 class="text-lg font-semibold text-white">Disable Two-Factor Authentication</h3>
+            <h3 class="text-lg font-semibold text-slate-900">Disable Two-Factor Authentication</h3>
           </div>
           <p class="text-sm text-slate-400">
             Enter your current 2FA code to disable two-factor authentication. This will make your account less secure.
@@ -69,7 +69,7 @@ import { LangService } from '../lang.service';
           <div>
             <label class="block text-xs font-medium text-slate-400 mb-1.5">Verification Code</label>
             <input [(ngModel)]="disableCode" type="text" maxlength="6" placeholder="000000"
-                   class="w-48 px-4 py-2.5 bg-slate-700/50 border border-slate-200 rounded-xl text-white text-center text-lg tracking-[0.5em] font-mono
+                   class="w-48 px-4 py-2.5 bg-slate-700/50 border border-slate-200 rounded-xl text-slate-900 text-center text-lg tracking-[0.5em] font-mono
                           placeholder-slate-600 focus:outline-none focus:border-red-500/50 focus:ring-1 focus:ring-red-500/30 transition-all">
           </div>
           @if (disableError()) {
@@ -88,7 +88,7 @@ import { LangService } from '../lang.service';
               }
             </button>
             <button (click)="showDisableSection.set(false); disableCode = ''; disableError.set('')"
-                    class="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors">
+                    class="px-4 py-2 text-sm text-slate-400 hover:text-slate-900 transition-colors">
               Cancel
             </button>
           </div>
@@ -105,7 +105,7 @@ import { LangService } from '../lang.service';
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-white">Enable Two-Factor Authentication</h3>
+            <h3 class="text-lg font-semibold text-slate-900">Enable Two-Factor Authentication</h3>
             <p class="text-sm text-slate-400 max-w-md mx-auto">
               Add an extra layer of security to your account. You will need an authenticator app like Google Authenticator, Authy, or 1Password.
             </p>
@@ -128,7 +128,7 @@ import { LangService } from '../lang.service';
         @if (step() === 'scan') {
           <div class="bg-white border border-slate-200 rounded-2xl p-6 space-y-5">
             <div>
-              <h3 class="text-lg font-semibold text-white mb-1">Step 1: Scan or Enter Secret</h3>
+              <h3 class="text-lg font-semibold text-slate-900 mb-1">Step 1: Scan or Enter Secret</h3>
               <p class="text-sm text-slate-400">
                 Open your authenticator app and scan the QR code, or manually enter the secret key below.
               </p>
@@ -148,10 +148,10 @@ import { LangService } from '../lang.service';
             <div class="bg-white border border-slate-200 rounded-xl p-5">
               <p class="text-xs text-slate-500 uppercase tracking-wider mb-2">Secret Key (Manual Entry)</p>
               <div class="flex items-center gap-3">
-                <code class="flex-1 text-lg font-mono text-white tracking-widest select-all bg-white px-4 py-2 rounded-lg border border-slate-600/30">
+                <code class="flex-1 text-lg font-mono text-slate-900 tracking-widest select-all bg-white px-4 py-2 rounded-lg border border-slate-300/30">
                   {{ secret() }}
                 </code>
-                <button (click)="copySecret()" class="px-3 py-2 rounded-lg text-xs font-medium bg-slate-700/50 text-slate-600 border border-slate-600/30 hover:bg-slate-100 transition-all">
+                <button (click)="copySecret()" class="px-3 py-2 rounded-lg text-xs font-medium bg-slate-700/50 text-slate-600 border border-slate-300/30 hover:bg-slate-100 transition-all">
                   {{ copied() ? 'Copied!' : 'Copy' }}
                 </button>
               </div>
@@ -159,7 +159,7 @@ import { LangService } from '../lang.service';
 
             <!-- Verify code -->
             <div class="border-t border-slate-200 pt-5">
-              <h3 class="text-lg font-semibold text-white mb-1">Step 2: Enter Verification Code</h3>
+              <h3 class="text-lg font-semibold text-slate-900 mb-1">Step 2: Enter Verification Code</h3>
               <p class="text-sm text-slate-400 mb-3">
                 Enter the 6-digit code from your authenticator app to verify the setup.
               </p>
@@ -167,7 +167,7 @@ import { LangService } from '../lang.service';
                 <div>
                   <label class="block text-xs font-medium text-slate-400 mb-1.5">Verification Code</label>
                   <input [(ngModel)]="verifyCode" type="text" maxlength="6" placeholder="000000"
-                         class="w-48 px-4 py-2.5 bg-slate-700/50 border border-slate-200 rounded-xl text-white text-center text-lg tracking-[0.5em] font-mono
+                         class="w-48 px-4 py-2.5 bg-slate-700/50 border border-slate-200 rounded-xl text-slate-900 text-center text-lg tracking-[0.5em] font-mono
                                 placeholder-slate-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/30 transition-all">
                 </div>
                 <button (click)="verifySetup()" [disabled]="verifying() || verifyCode.length !== 6"
@@ -197,7 +197,7 @@ import { LangService } from '../lang.service';
                 </svg>
               </div>
               <div>
-                <h3 class="text-lg font-semibold text-white">2FA Enabled Successfully!</h3>
+                <h3 class="text-lg font-semibold text-slate-900">2FA Enabled Successfully!</h3>
                 <p class="text-sm text-slate-400">Your account is now protected with two-factor authentication.</p>
               </div>
             </div>
@@ -216,12 +216,12 @@ import { LangService } from '../lang.service';
               <div class="grid grid-cols-2 gap-2">
                 @for (code of backupCodes(); track code) {
                   <div class="bg-white px-3 py-2 rounded-lg text-center">
-                    <code class="text-sm font-mono text-white select-all">{{ code }}</code>
+                    <code class="text-sm font-mono text-slate-900 select-all">{{ code }}</code>
                   </div>
                 }
               </div>
               <button (click)="copyBackupCodes()"
-                      class="mt-4 px-4 py-2 text-sm font-medium rounded-lg bg-slate-700/50 text-slate-600 border border-slate-600/30 hover:bg-slate-100 transition-all w-full">
+                      class="mt-4 px-4 py-2 text-sm font-medium rounded-lg bg-slate-700/50 text-slate-600 border border-slate-300/30 hover:bg-slate-100 transition-all w-full">
                 {{ backupCopied() ? 'Copied to Clipboard!' : 'Copy All Codes' }}
               </button>
             </div>

@@ -65,9 +65,9 @@ import { SubscriptionService } from '../services/subscription.service';
     }
   `],
   template: `
-    <div class="min-h-screen bg-slate-950 text-slate-700">
+    <div class="min-h-screen bg-white text-slate-700">
       <!-- Header -->
-      <div class="bg-gradient-to-b from-slate-900 via-slate-900/95 to-slate-950 border-b border-red-900/30">
+      <div class="bg-gradient-to-b from-white via-slate-50/95 to-slate-950 border-b border-red-900/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
           <div class="flex items-center gap-4 mb-2">
             <div class="w-12 h-12 rounded-lg bg-red-900/30 border border-red-800/40 flex items-center justify-center">
@@ -77,7 +77,7 @@ import { SubscriptionService } from '../services/subscription.service';
               </svg>
             </div>
             <div>
-              <h1 class="text-3xl font-bold text-white tracking-tight">
+              <h1 class="text-3xl font-bold text-slate-900 tracking-tight">
                 {{ lang.lang() === 'et' ? 'Vastavuse Lahkamine' : 'Compliance Autopsy' }}
               </h1>
               <p class="text-slate-400 text-sm mt-1">
@@ -92,7 +92,7 @@ import { SubscriptionService } from '../services/subscription.service';
           <div class="flex gap-1 mt-6">
             <button (click)="activeTab.set('events')"
               [class]="activeTab() === 'events'
-                ? 'px-5 py-2.5 rounded-t-lg text-sm font-medium bg-slate-800 text-red-400 border border-b-0 border-red-900/40'
+                ? 'px-5 py-2.5 rounded-t-lg text-sm font-medium bg-white text-red-400 border border-b-0 border-red-900/40'
                 : 'px-5 py-2.5 rounded-t-lg text-sm font-medium text-slate-400 hover:text-slate-600 border border-b-0 border-transparent hover:border-slate-200'">
               <span class="flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -103,7 +103,7 @@ import { SubscriptionService } from '../services/subscription.service';
             </button>
             <button (click)="activeTab.set('report')"
               [class]="activeTab() === 'report'
-                ? 'px-5 py-2.5 rounded-t-lg text-sm font-medium bg-slate-800 text-red-400 border border-b-0 border-red-900/40'
+                ? 'px-5 py-2.5 rounded-t-lg text-sm font-medium bg-white text-red-400 border border-b-0 border-red-900/40'
                 : 'px-5 py-2.5 rounded-t-lg text-sm font-medium text-slate-400 hover:text-slate-600 border border-b-0 border-transparent hover:border-slate-200'"
               [disabled]="!report()">
               <span class="flex items-center gap-2">
@@ -115,7 +115,7 @@ import { SubscriptionService } from '../services/subscription.service';
             </button>
             <button (click)="activeTab.set('history')"
               [class]="activeTab() === 'history'
-                ? 'px-5 py-2.5 rounded-t-lg text-sm font-medium bg-slate-800 text-red-400 border border-b-0 border-red-900/40'
+                ? 'px-5 py-2.5 rounded-t-lg text-sm font-medium bg-white text-red-400 border border-b-0 border-red-900/40'
                 : 'px-5 py-2.5 rounded-t-lg text-sm font-medium text-slate-400 hover:text-slate-600 border border-b-0 border-transparent hover:border-slate-200'">
               <span class="flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -142,7 +142,7 @@ import { SubscriptionService } from '../services/subscription.service';
 
         <!-- Performing Autopsy Overlay -->
         @if (performing()) {
-          <div class="fixed inset-0 bg-slate-950/90 z-50 flex items-center justify-center">
+          <div class="fixed inset-0 bg-white/90 z-50 flex items-center justify-center">
             <div class="text-center max-w-md">
               <div class="w-24 h-24 mx-auto mb-6 rounded-full border-2 border-red-800/60 bg-red-900/20 flex items-center justify-center">
                 <svg class="w-12 h-12 text-red-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -158,7 +158,7 @@ import { SubscriptionService } from '../services/subscription.service';
                   ? 'Analüüsitakse vastavuse tõrke algpõhjuseid...'
                   : 'Analyzing root causes of compliance failure...' }}
               </p>
-              <div class="mt-6 h-1 bg-slate-800 rounded-full overflow-hidden">
+              <div class="mt-6 h-1 bg-white rounded-full overflow-hidden">
                 <div class="h-full bg-red-600 rounded-full flatline-anim"></div>
               </div>
             </div>
@@ -216,11 +216,11 @@ import { SubscriptionService } from '../services/subscription.service';
                                 [class]="getSeverityBadgeClass(event.severity)">
                                 {{ event.severity }}
                               </span>
-                              <span class="text-[10px] text-slate-500 px-2 py-0.5 rounded-full bg-slate-700/50">
+                              <span class="text-[10px] text-slate-500 px-2 py-0.5 rounded-full bg-slate-200/50">
                                 {{ getEventTypeLabel(event.type) }}
                               </span>
                             </div>
-                            <h3 class="text-base font-semibold text-white mb-1">
+                            <h3 class="text-base font-semibold text-slate-900 mb-1">
                               {{ lang.lang() === 'et' ? (event.titleEt || event.title) : event.title }}
                             </h3>
                             <p class="text-sm text-slate-400 line-clamp-2 mb-2">
@@ -285,7 +285,7 @@ import { SubscriptionService } from '../services/subscription.service';
                     {{ lang.lang() === 'et' ? 'AMETLIK DOKUMENT' : 'OFFICIAL DOCUMENT' }}
                   </span>
                 </div>
-                <h2 class="text-2xl font-bold text-white medical-font tracking-wide mb-4">
+                <h2 class="text-2xl font-bold text-slate-900 medical-font tracking-wide mb-4">
                   {{ lang.lang() === 'et' ? 'LAHKAMISARUANNE' : 'AUTOPSY REPORT' }}
                 </h2>
 
@@ -326,7 +326,7 @@ import { SubscriptionService } from '../services/subscription.service';
                       {{ lang.lang() === 'et' ? 'Uldskoor' : 'Overall Score' }}
                     </span>
                     <div class="flex items-center gap-2">
-                      <div class="w-32 h-3 bg-slate-800 rounded-full overflow-hidden">
+                      <div class="w-32 h-3 bg-white rounded-full overflow-hidden">
                         <div class="h-full rounded-full transition-all duration-700"
                           [style.width.%]="report().overallScore"
                           [style.background]="getScoreColor(report().overallScore)">
@@ -342,9 +342,9 @@ import { SubscriptionService } from '../services/subscription.service';
             </div>
 
             <!-- ---- 1. Cause of Death ---- -->
-            <div class="bg-slate-900/60 border-l-4 border-red-600 rounded-r-xl overflow-hidden">
+            <div class="bg-white/60 border-l-4 border-red-600 rounded-r-xl overflow-hidden">
               <button (click)="toggleSection('causeOfDeath')"
-                class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+                class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-100/30 transition-colors">
                 <div class="flex items-center gap-3">
                   <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -376,7 +376,7 @@ import { SubscriptionService } from '../services/subscription.service';
                           {{ lang.lang() === 'et' ? 'Raskusaste' : 'Severity' }}
                         </span>
                         <div class="flex items-center gap-2">
-                          <div class="flex-1 h-2.5 bg-slate-700 rounded-full overflow-hidden">
+                          <div class="flex-1 h-2.5 bg-slate-200 rounded-full overflow-hidden">
                             <div class="h-full rounded-full severity-pulse"
                               [style.width]="getSeverityWidth(report().causeOfDeath.severity)"
                               [style.background]="getSeverityBarColor(report().causeOfDeath.severity)">
@@ -415,9 +415,9 @@ import { SubscriptionService } from '../services/subscription.service';
             </div>
 
             <!-- ---- 2. Contributing Factors ---- -->
-            <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl overflow-hidden">
+            <div class="bg-white/60 border border-slate-200 rounded-xl overflow-hidden">
               <button (click)="toggleSection('contributingFactors')"
-                class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+                class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-100/30 transition-colors">
                 <div class="flex items-center gap-3">
                   <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
@@ -426,7 +426,7 @@ import { SubscriptionService } from '../services/subscription.service';
                     {{ lang.lang() === 'et' ? 'KAASNEVAD TEGURID' : 'CONTRIBUTING FACTORS' }}
                   </h3>
                   @if (report().contributingFactors?.length) {
-                    <span class="text-xs text-slate-500 bg-slate-800 px-2 py-0.5 rounded-full">
+                    <span class="text-xs text-slate-500 bg-white px-2 py-0.5 rounded-full">
                       {{ report().contributingFactors.length }}
                     </span>
                   }
@@ -451,7 +451,7 @@ import { SubscriptionService } from '../services/subscription.service';
                               {{ factor.impact }}
                             </span>
                             @if (factor.type) {
-                              <span class="text-[10px] text-slate-500 px-2 py-0.5 rounded bg-slate-700/50">
+                              <span class="text-[10px] text-slate-500 px-2 py-0.5 rounded bg-slate-200/50">
                                 {{ factor.type }}
                               </span>
                             }
@@ -468,9 +468,9 @@ import { SubscriptionService } from '../services/subscription.service';
             </div>
 
             <!-- ---- 3. Timeline ("Time of Death") ---- -->
-            <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl overflow-hidden">
+            <div class="bg-white/60 border border-slate-200 rounded-xl overflow-hidden">
               <button (click)="toggleSection('timeline')"
-                class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+                class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-100/30 transition-colors">
                 <div class="flex items-center gap-3">
                   <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -511,7 +511,7 @@ import { SubscriptionService } from '../services/subscription.service';
                     }
                     <!-- Timeline entries -->
                     <div class="relative pl-8 space-y-4">
-                      <div class="absolute left-3 top-2 bottom-2 w-px bg-slate-700/60"></div>
+                      <div class="absolute left-3 top-2 bottom-2 w-px bg-slate-200/60"></div>
                       @for (entry of report().timeline; track $index; let isFirst = $first; let isLast = $last) {
                         <div class="relative">
                           <div class="absolute left-[-25px] top-1 w-3 h-3 rounded-full border-2 z-10"
@@ -544,9 +544,9 @@ import { SubscriptionService } from '../services/subscription.service';
             </div>
 
             <!-- ---- 4. Toxicology Report ---- -->
-            <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl overflow-hidden">
+            <div class="bg-white/60 border border-slate-200 rounded-xl overflow-hidden">
               <button (click)="toggleSection('toxicology')"
-                class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+                class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-100/30 transition-colors">
                 <div class="flex items-center gap-3">
                   <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -595,9 +595,9 @@ import { SubscriptionService } from '../services/subscription.service';
             </div>
 
             <!-- ---- 5. Organ Analysis (5 DORA Pillars) ---- -->
-            <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl overflow-hidden">
+            <div class="bg-white/60 border border-slate-200 rounded-xl overflow-hidden">
               <button (click)="toggleSection('organAnalysis')"
-                class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+                class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-100/30 transition-colors">
                 <div class="flex items-center gap-3">
                   <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -660,9 +660,9 @@ import { SubscriptionService } from '../services/subscription.service';
             </div>
 
             <!-- ---- 6. Prevention Rx (Recommendations) ---- -->
-            <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl overflow-hidden">
+            <div class="bg-white/60 border border-slate-200 rounded-xl overflow-hidden">
               <button (click)="toggleSection('recommendations')"
-                class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+                class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-100/30 transition-colors">
                 <div class="flex items-center gap-3">
                   <span class="text-xl font-bold text-blue-500 medical-font">Rx</span>
                   <h3 class="text-base font-bold text-blue-500 medical-font tracking-wide uppercase">
@@ -723,9 +723,9 @@ import { SubscriptionService } from '../services/subscription.service';
             </div>
 
             <!-- ---- 7. Evidence Chain (Lab Results) ---- -->
-            <div class="bg-slate-900/60 border border-slate-800/60 rounded-xl overflow-hidden">
+            <div class="bg-white/60 border border-slate-200 rounded-xl overflow-hidden">
               <button (click)="toggleSection('evidenceChain')"
-                class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+                class="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-100/30 transition-colors">
                 <div class="flex items-center gap-3">
                   <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -743,7 +743,7 @@ import { SubscriptionService } from '../services/subscription.service';
               <div class="section-collapse" [class.section-open]="expandedSections().has('evidenceChain')" [class.section-closed]="!expandedSections().has('evidenceChain')">
                 @if (report().evidenceChain?.length) {
                   <div class="px-6 pb-6">
-                    <div class="bg-slate-800/30 rounded-lg border border-slate-200 overflow-hidden">
+                    <div class="bg-white/30 rounded-lg border border-slate-200 overflow-hidden">
                       <!-- Table Header -->
                       <div class="grid grid-cols-12 gap-2 px-4 py-3 bg-white border-b border-slate-200 text-[10px] text-slate-500 uppercase tracking-wider font-bold">
                         <div class="col-span-2">{{ lang.lang() === 'et' ? 'Sammas' : 'Pillar' }}</div>
@@ -753,7 +753,7 @@ import { SubscriptionService } from '../services/subscription.service';
                         <div class="col-span-2 text-center">{{ lang.lang() === 'et' ? 'Staatus' : 'Status' }}</div>
                       </div>
                       @for (chain of report().evidenceChain; track $index) {
-                        <div class="grid grid-cols-12 gap-2 px-4 py-3 border-b border-slate-800/40 items-center hover:bg-slate-800/20">
+                        <div class="grid grid-cols-12 gap-2 px-4 py-3 border-b border-slate-200 items-center hover:bg-slate-100/20">
                           <div class="col-span-2">
                             <span class="text-xs font-mono text-slate-400">{{ chain.pillar }}</span>
                           </div>
@@ -763,7 +763,7 @@ import { SubscriptionService } from '../services/subscription.service';
                           <div class="col-span-3">
                             <div class="flex flex-wrap gap-1">
                               @for (article of chain.articles; track article) {
-                                <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-700/60 text-slate-400 font-mono">
+                                <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-200/60 text-slate-400 font-mono">
                                   {{ article }}
                                 </span>
                               }
@@ -837,10 +837,10 @@ import { SubscriptionService } from '../services/subscription.service';
               <div class="space-y-3">
                 @for (entry of history(); track entry.id) {
                   <button (click)="loadReport(entry.id)"
-                    class="w-full text-left bg-white border border-slate-200 rounded-lg p-5 hover:bg-slate-800/90 hover:border-slate-200 transition-colors group">
+                    class="w-full text-left bg-white border border-slate-200 rounded-lg p-5 hover:bg-slate-100/90 hover:border-slate-200 transition-colors group">
                     <div class="flex items-center justify-between gap-4 flex-wrap">
                       <div class="flex items-center gap-4 flex-1 min-w-0">
-                        <div class="w-10 h-10 rounded-lg bg-slate-700/50 border border-slate-600/30 flex items-center justify-center shrink-0">
+                        <div class="w-10 h-10 rounded-lg bg-slate-200/50 border border-slate-300/30 flex items-center justify-center shrink-0">
                           <svg class="w-5 h-5 text-slate-400 group-hover:text-red-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                               d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -1008,7 +1008,7 @@ export class ComplianceAutopsyComponent implements OnInit {
       case 'CRITICAL': return 'bg-red-900/60 text-red-300 border border-red-800/40';
       case 'HIGH': return 'bg-orange-900/60 text-orange-300 border border-orange-800/40';
       case 'MEDIUM': return 'bg-amber-900/60 text-amber-300 border border-amber-800/40';
-      default: return 'bg-slate-700/60 text-slate-600 border border-slate-200';
+      default: return 'bg-slate-200/60 text-slate-600 border border-slate-200';
     }
   }
 
@@ -1039,7 +1039,7 @@ export class ComplianceAutopsyComponent implements OnInit {
       case 'SURVIVABLE': return 'bg-blue-950/60 text-blue-500 border border-blue-900/40';
       case 'CRITICAL_CONDITION': return 'bg-amber-900/60 text-amber-300 border border-amber-800/40';
       case 'TERMINAL': return 'bg-red-900/60 text-red-300 border border-red-800/40';
-      default: return 'bg-slate-700/60 text-slate-600 border border-slate-200';
+      default: return 'bg-slate-200/60 text-slate-600 border border-slate-200';
     }
   }
 
@@ -1050,7 +1050,7 @@ export class ComplianceAutopsyComponent implements OnInit {
       case 'HIGH': return 'bg-red-900/60 text-red-300';
       case 'MEDIUM': return 'bg-amber-900/60 text-amber-300';
       case 'LOW': return 'bg-blue-950/60 text-blue-500';
-      default: return 'bg-slate-700/60 text-slate-600';
+      default: return 'bg-slate-200/60 text-slate-600';
     }
   }
 
@@ -1060,8 +1060,8 @@ export class ComplianceAutopsyComponent implements OnInit {
       case 'URGENT': return 'bg-red-900/60 text-red-300 border border-red-800/40';
       case 'HIGH': return 'bg-orange-900/60 text-orange-300 border border-orange-800/40';
       case 'MEDIUM': return 'bg-amber-900/60 text-amber-300 border border-amber-800/40';
-      case 'LOW': return 'bg-slate-700/60 text-slate-600 border border-slate-200';
-      default: return 'bg-slate-700/60 text-slate-600 border border-slate-200';
+      case 'LOW': return 'bg-slate-200/60 text-slate-600 border border-slate-200';
+      default: return 'bg-slate-200/60 text-slate-600 border border-slate-200';
     }
   }
 
@@ -1072,7 +1072,7 @@ export class ComplianceAutopsyComponent implements OnInit {
       case 'ADEQUATE': return 'bg-blue-950/60 text-blue-500';
       case 'PARTIAL': return 'bg-amber-900/60 text-amber-300';
       case 'MISSING': return 'bg-red-900/60 text-red-300';
-      default: return 'bg-slate-700/60 text-slate-600';
+      default: return 'bg-slate-200/60 text-slate-600';
     }
   }
 

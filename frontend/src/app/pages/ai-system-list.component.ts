@@ -35,7 +35,7 @@ interface PagedResult {
       <!-- Header -->
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
               <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
@@ -64,12 +64,12 @@ interface PagedResult {
             </svg>
             <input type="text" [(ngModel)]="searchQuery" (ngModelChange)="onFilterChange()"
                    [placeholder]="lang.l('Otsi suesteeme...', 'Search systems...')"
-                   class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 text-sm">
+                   class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder-slate-500 focus:outline-none focus:border-blue-500/50 text-sm">
           </div>
 
           <!-- Risk Level Filter -->
           <select [(ngModel)]="filterRiskLevel" (ngModelChange)="onFilterChange()"
-                  class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none focus:border-blue-500/50 text-sm min-w-[160px]">
+                  class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-blue-500/50 text-sm min-w-[160px]">
             <option value="">{{ lang.l('Koik riskitasemed', 'All Risk Levels') }}</option>
             <option value="MINIMAL">{{ lang.l('Minimaalne', 'Minimal') }}</option>
             <option value="LIMITED">{{ lang.l('Piiratud', 'Limited') }}</option>
@@ -79,7 +79,7 @@ interface PagedResult {
 
           <!-- Status Filter -->
           <select [(ngModel)]="filterStatus" (ngModelChange)="onFilterChange()"
-                  class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-white focus:outline-none focus:border-blue-500/50 text-sm min-w-[140px]">
+                  class="px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:border-blue-500/50 text-sm min-w-[140px]">
             <option value="">{{ lang.l('Koik staatused', 'All Statuses') }}</option>
             <option value="DRAFT">{{ lang.l('Mustand', 'Draft') }}</option>
             <option value="ACTIVE">{{ lang.l('Aktiivne', 'Active') }}</option>
@@ -91,7 +91,7 @@ interface PagedResult {
       <!-- Loading State -->
       @if (loading()) {
         <div class="flex justify-center py-16">
-          <div class="w-8 h-8 border-2 border-slate-700 border-t-blue-500 rounded-full animate-spin"></div>
+          <div class="w-8 h-8 border-2 border-slate-200 border-t-blue-500 rounded-full animate-spin"></div>
         </div>
       }
 
@@ -110,12 +110,12 @@ interface PagedResult {
                   <th class="text-right px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">{{ lang.l('Tegevused', 'Actions') }}</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-slate-700/30">
+              <tbody class="divide-y divide-slate-200">
                 @for (system of systems(); track system.id) {
-                  <tr class="hover:bg-slate-700/20 transition-colors cursor-pointer" (click)="navigateToDetail(system.id)">
+                  <tr class="hover:bg-slate-50/20 transition-colors cursor-pointer" (click)="navigateToDetail(system.id)">
                     <!-- Name -->
                     <td class="px-6 py-4">
-                      <div class="text-sm font-medium text-white">{{ system.name }}</div>
+                      <div class="text-sm font-medium text-slate-900">{{ system.name }}</div>
                       @if (system.version) {
                         <div class="text-xs text-slate-500 mt-0.5">v{{ system.version }}</div>
                       }
@@ -145,7 +145,7 @@ interface PagedResult {
                     <!-- Compliance Score Progress Bar -->
                     <td class="px-6 py-4">
                       <div class="flex items-center gap-3">
-                        <div class="flex-1 h-2 bg-slate-700/50 rounded-full overflow-hidden max-w-[120px]">
+                        <div class="flex-1 h-2 bg-slate-100/50 rounded-full overflow-hidden max-w-[120px]">
                           <div class="h-full rounded-full transition-all duration-500"
                                [class]="getScoreBarClass(system.complianceScore)"
                                [style.width.%]="system.complianceScore">
@@ -192,19 +192,19 @@ interface PagedResult {
               </div>
               <div class="flex items-center gap-1">
                 <button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 0"
-                        class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-slate-400 hover:text-white hover:bg-slate-100">
+                        class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-slate-400 hover:text-slate-900 hover:bg-slate-100">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                   </svg>
                 </button>
                 @for (p of pageNumbers(); track p) {
                   <button (click)="goToPage(p)" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
-                          [class]="p === currentPage() ? 'bg-blue-600/20 text-blue-500 border border-blue-500/30' : 'text-slate-400 hover:text-white hover:bg-slate-100'">
+                          [class]="p === currentPage() ? 'bg-blue-600/20 text-blue-500 border border-blue-500/30' : 'text-slate-400 hover:text-slate-900 hover:bg-slate-100'">
                     {{ p + 1 }}
                   </button>
                 }
                 <button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() >= totalPages() - 1"
-                        class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-slate-400 hover:text-white hover:bg-slate-100">
+                        class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-slate-400 hover:text-slate-900 hover:bg-slate-100">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                   </svg>
@@ -223,7 +223,7 @@ interface PagedResult {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
             </svg>
           </div>
-          <h3 class="text-lg font-semibold text-white mb-2">{{ lang.l('AI-suesteeme ei leitud', 'No AI Systems Found') }}</h3>
+          <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ lang.l('AI-suesteeme ei leitud', 'No AI Systems Found') }}</h3>
           <p class="text-slate-400 text-sm mb-6 max-w-md mx-auto">
             {{ lang.l('Alustage oma AI-suesteemide registreerimist, et jalgida EU AI Act vastavust.', 'Start registering your AI systems to track EU AI Act compliance.') }}
           </p>
@@ -240,16 +240,16 @@ interface PagedResult {
       <!-- Delete Confirmation Modal -->
       @if (systemToDelete()) {
         <div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" (click)="systemToDelete.set(null)">
-          <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 max-w-md w-full shadow-2xl" (click)="$event.stopPropagation()">
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 max-w-md w-full shadow-2xl" (click)="$event.stopPropagation()">
             <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mx-auto mb-4">
               <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-white text-center mb-2">{{ lang.l('Kustuta suesteem', 'Delete System') }}</h3>
+            <h3 class="text-lg font-semibold text-slate-900 text-center mb-2">{{ lang.l('Kustuta suesteem', 'Delete System') }}</h3>
             <p class="text-slate-400 text-sm text-center mb-6">
               {{ lang.l('Kas olete kindel, et soovite kustutada', 'Are you sure you want to delete') }}
-              <strong class="text-white">{{ systemToDelete()!.name }}</strong>?
+              <strong class="text-slate-900">{{ systemToDelete()!.name }}</strong>?
               {{ lang.l('Seda toimingut ei saa tagasi votta.', 'This action cannot be undone.') }}
             </p>
             <div class="flex gap-3">

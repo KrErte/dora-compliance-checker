@@ -43,8 +43,8 @@ import { ContractAnalysisResult } from '../models';
               {{ lang.t('contract.view_cached') }}
             </button>
             <button type="button" (click)="startFreshAnalysis()"
-                    class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-600
-                           border border-slate-600/30 hover:bg-slate-100 hover:text-blue-600
+                    class="px-4 py-2 rounded-lg text-sm font-medium bg-slate-200/50 text-slate-600
+                           border border-slate-300/30 hover:bg-slate-100 hover:text-blue-600
                            transition-all duration-200">
               {{ lang.t('contract.run_new') }}
             </button>
@@ -110,7 +110,7 @@ import { ContractAnalysisResult } from '../models';
         </div>
 
         <!-- Mock Report Preview -->
-        <div class="bg-slate-900/70 rounded-xl border border-slate-200 overflow-hidden">
+        <div class="bg-white/70 rounded-xl border border-slate-200 overflow-hidden">
           <!-- Report Header -->
           <div class="bg-gradient-to-r from-blue-600/10 to-blue-500/10 border-b border-slate-200 p-4">
             <div class="flex items-center justify-between">
@@ -126,7 +126,7 @@ import { ContractAnalysisResult } from '../models';
           </div>
 
           <!-- Report Stats Row -->
-          <div class="grid grid-cols-3 gap-px bg-slate-700/30">
+          <div class="grid grid-cols-3 gap-px bg-slate-200/30">
             <div class="bg-white p-3 text-center">
               <div class="text-lg font-bold text-blue-600">3</div>
               <div class="text-[10px] text-slate-500 uppercase">{{ lang.t('contract.found') }}</div>
@@ -261,7 +261,7 @@ import { ContractAnalysisResult } from '../models';
                (dragleave)="onDragLeave($event)"
                (drop)="onDrop($event)"
                [class]="'border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300 ' +
-                        (dragOver ? 'border-blue-400 bg-blue-500/5' : 'border-slate-200 hover:border-slate-500 hover:bg-slate-800/30')">
+                        (dragOver ? 'border-blue-400 bg-blue-500/5' : 'border-slate-200 hover:border-slate-500 hover:bg-slate-100/30')">
             <div *ngIf="!selectedFile">
               <svg class="w-10 h-10 mx-auto mb-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
@@ -295,13 +295,13 @@ import { ContractAnalysisResult } from '../models';
           <button type="button" (click)="onSubmitOrValidate()"
                   [class]="'flex-1 py-3 rounded-lg font-semibold transition-all duration-300 ' +
                            (canSubmit ? 'bg-blue-600 hover:bg-blue-700 text-slate-900 hover:shadow-lg hover:shadow-lg' :
-                                        'bg-slate-700/50 text-slate-400 hover:text-slate-600 hover:bg-slate-100')">
+                                        'bg-slate-200/50 text-slate-400 hover:text-slate-600 hover:bg-slate-100')">
             {{ lang.t('contract.analyze') }}
           </button>
           <!-- Demo Mock button - only for non-logged-in users -->
           <button type="button" *ngIf="!auth.isLoggedIn()" (click)="loadMockResult()"
                   class="px-6 py-3 rounded-lg font-semibold transition-all duration-300
-                         bg-slate-700/50 text-slate-600 border border-slate-200
+                         bg-slate-200/50 text-slate-600 border border-slate-200
                          hover:bg-slate-100 hover:text-blue-600 hover:border-blue-200">
             Demo
           </button>
@@ -311,7 +311,7 @@ import { ContractAnalysisResult } from '../models';
 
     <!-- Loading state -->
     <div *ngIf="analyzing" class="flex flex-col items-center justify-center py-20 animate-fade-in">
-      <div class="w-16 h-16 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin mb-6"></div>
+      <div class="w-16 h-16 border-4 border-slate-200 border-t-blue-500 rounded-full animate-spin mb-6"></div>
       <h2 class="text-xl font-semibold text-slate-700 mb-2">{{ lang.t('contract.analyzing') }}</h2>
       <p class="text-sm text-slate-500 text-center max-w-md">{{ lang.t('contract.ai_note') }}</p>
     </div>
@@ -350,7 +350,7 @@ import { ContractAnalysisResult } from '../models';
           <!-- Score circle -->
           <div class="relative w-28 h-28 shrink-0">
             <svg class="w-28 h-28 -rotate-90" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" r="42" fill="none" stroke="rgb(30,41,59)" stroke-width="8"/>
+              <circle cx="50" cy="50" r="42" fill="none" stroke="#e2e8f0" stroke-width="8"/>
               <circle cx="50" cy="50" r="42" fill="none"
                       [attr.stroke]="result.complianceLevel === 'GREEN' ? 'rgb(16,185,129)' : result.complianceLevel === 'YELLOW' ? 'rgb(245,158,11)' : 'rgb(239,68,68)'"
                       stroke-width="8" stroke-linecap="round"
@@ -440,7 +440,7 @@ import { ContractAnalysisResult } from '../models';
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2 mb-1">
               <h3 class="text-sm font-semibold text-slate-700">{{ lang.l(finding.requirementEt, finding.requirementEn) }}</h3>
-              <span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-700/50 text-slate-400 shrink-0">
+              <span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-200/50 text-slate-400 shrink-0">
                 {{ finding.doraReference }}
               </span>
             </div>
@@ -594,7 +594,7 @@ import { ContractAnalysisResult } from '../models';
           </div>
         </div>
         <button type="button" (click)="resetForm()"
-                class="px-6 py-2.5 rounded-lg font-medium text-sm bg-slate-700/50 text-slate-600 border border-slate-600/30
+                class="px-6 py-2.5 rounded-lg font-medium text-sm bg-slate-200/50 text-slate-600 border border-slate-300/30
                        hover:bg-slate-100 hover:text-blue-600 transition-all duration-200">
           {{ lang.t('contract.new_analysis') }}
         </button>

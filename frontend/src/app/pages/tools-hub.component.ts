@@ -56,18 +56,18 @@ interface ToolCategory {
         <div class="mb-10 animate-fade-in-up">
           <div class="flex items-center gap-2.5 mb-4">
             <span class="text-xl">{{ cat.icon }}</span>
-            <h2 class="text-lg font-semibold text-white">{{ lang.l(cat.titleEt, cat.titleEn) }}</h2>
+            <h2 class="text-lg font-semibold text-slate-900">{{ lang.l(cat.titleEt, cat.titleEn) }}</h2>
             <span class="text-xs text-slate-500 ml-1">{{ cat.tools.length }}</span>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
             @for (tool of cat.tools; track tool.link) {
               <a [routerLink]="tool.link"
-                 class="group bg-white hover:bg-slate-800 border border-slate-200 hover:border-slate-200
+                 class="group bg-white hover:bg-slate-100 border border-slate-200 hover:border-slate-200
                         rounded-xl p-4 transition-all duration-200 hover:shadow-lg hover:shadow-black/10 hover:-translate-y-0.5">
                 <div class="flex items-start gap-3">
                   <span class="text-lg shrink-0 mt-0.5">{{ tool.icon }}</span>
                   <div class="min-w-0">
-                    <p class="text-sm font-medium text-white group-hover:text-blue-600 transition-colors truncate">
+                    <p class="text-sm font-medium text-slate-900 group-hover:text-blue-600 transition-colors truncate">
                       {{ lang.l(tool.titleEt, tool.titleEn) }}
                     </p>
                     <p class="text-[11px] text-slate-500 mt-0.5 line-clamp-2">

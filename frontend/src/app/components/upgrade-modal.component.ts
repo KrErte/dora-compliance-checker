@@ -52,7 +52,7 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
         </div>
 
         <!-- Data saved notice -->
-        <div class="bg-slate-700/30 rounded-xl p-4 mb-6 border border-slate-600/30">
+        <div class="bg-slate-50 rounded-xl p-4 mb-6 border border-slate-200">
           <div class="flex items-start gap-3">
             <div class="w-8 h-8 rounded-full bg-blue-600/20 flex items-center justify-center shrink-0">
               <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -112,7 +112,7 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
           <a routerLink="/pricing"
              (click)="close()"
              class="w-full py-3 px-4 rounded-xl text-center font-medium text-sm block
-                    bg-slate-700/50 text-slate-600 border border-slate-200
+                    bg-slate-50 text-slate-600 border border-slate-200
                     hover:bg-slate-100 hover:text-slate-700 transition-all">
             {{ lang.t('paywall.view_plans') }}
           </a>

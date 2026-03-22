@@ -67,7 +67,7 @@ interface DocTypeOption {
 
           <!-- Document Type Dropdown -->
           @if (showDropdown()) {
-            <div class="absolute right-0 mt-2 w-72 bg-slate-800 border border-slate-200 rounded-xl shadow-2xl shadow-black/30 z-50 overflow-hidden animate-fade-in">
+            <div class="absolute right-0 mt-2 w-72 bg-white border border-slate-200 rounded-xl shadow-2xl shadow-black/30 z-50 overflow-hidden animate-fade-in">
               <div class="p-2">
                 <p class="text-xs uppercase tracking-wider text-slate-500 font-medium px-3 py-2">
                   {{ lang.l('Vali dokumendi tuup', 'Select Document Type') }}
@@ -75,7 +75,7 @@ interface DocTypeOption {
                 @for (docType of documentTypes; track docType.value) {
                   <button type="button" (click)="selectDocType(docType.value)"
                           class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left text-sm transition-all
-                                 hover:bg-slate-100 text-slate-600 hover:text-white group">
+                                 hover:bg-slate-100 text-slate-600 hover:text-slate-900 group">
                     <span class="text-lg shrink-0">{{ docType.icon }}</span>
                     <span class="font-medium">{{ lang.l(docType.labelEt, docType.labelEn) }}</span>
                   </button>
@@ -89,7 +89,7 @@ interface DocTypeOption {
       <!-- Generate Dialog (additional context) -->
       @if (selectedDocType()) {
         <div class="bg-white border border-slate-200 rounded-xl p-6 mb-8 animate-fade-in-up">
-          <h2 class="text-lg font-semibold text-white mb-1">
+          <h2 class="text-lg font-semibold text-slate-900 mb-1">
             {{ lang.l('Genereeri dokument', 'Generate Document') }}
           </h2>
           <p class="text-xs text-slate-500 mb-5">
@@ -101,7 +101,7 @@ interface DocTypeOption {
               {{ lang.l('Lisakontekst (valikuline)', 'Additional Context (optional)') }}
             </label>
             <textarea [(ngModel)]="additionalContext" rows="3"
-                      class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white text-sm
+                      class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-slate-900 text-sm
                              placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all resize-none"
                       [placeholder]="lang.l('Lisa spetsiifilist konteksti dokumendi genereerimiseks...', 'Add specific context for document generation...')">
             </textarea>
@@ -109,7 +109,7 @@ interface DocTypeOption {
 
           <div class="flex items-center justify-end gap-3 mt-5 pt-4 border-t border-slate-200">
             <button type="button" (click)="cancelGenerate()"
-                    class="px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-100 transition-all">
+                    class="px-4 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-all">
               {{ lang.l('Tuhista', 'Cancel') }}
             </button>
             <button type="button" (click)="generateDocument()" [disabled]="generating()"
@@ -128,7 +128,7 @@ interface DocTypeOption {
       <!-- Loading -->
       @if (loading()) {
         <div class="text-center py-20 animate-fade-in">
-          <div class="inline-block w-10 h-10 border-4 border-slate-700 border-t-blue-500 rounded-full animate-spin"></div>
+          <div class="inline-block w-10 h-10 border-4 border-slate-200 border-t-blue-500 rounded-full animate-spin"></div>
           <p class="text-slate-500 text-sm mt-4">{{ lang.l('Laadin dokumente...', 'Loading documents...') }}</p>
         </div>
       }
@@ -154,7 +154,7 @@ interface DocTypeOption {
                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
             </svg>
           </div>
-          <h3 class="text-xl font-semibold text-white mb-2">{{ lang.l('Dokumente ei leitud', 'No Documents Found') }}</h3>
+          <h3 class="text-xl font-semibold text-slate-900 mb-2">{{ lang.l('Dokumente ei leitud', 'No Documents Found') }}</h3>
           <p class="text-slate-400 text-sm max-w-md mx-auto mb-6">
             {{ lang.l('Genereerige oma esimene vastavusdokument, vajutades nuppu "Genereeri uus".',
                        'Generate your first compliance document by clicking the "Generate New" button.') }}
@@ -188,11 +188,11 @@ interface DocTypeOption {
               </thead>
               <tbody>
                 @for (doc of documents(); track doc.id) {
-                  <tr class="border-b border-slate-200 hover:bg-slate-700/20 transition-colors cursor-pointer"
+                  <tr class="border-b border-slate-200 hover:bg-slate-50/20 transition-colors cursor-pointer"
                       (click)="toggleDocView(doc.id)">
                     <!-- Title -->
                     <td class="px-5 py-4">
-                      <p class="text-sm font-medium text-white">{{ doc.title }}</p>
+                      <p class="text-sm font-medium text-slate-900">{{ doc.title }}</p>
                     </td>
 
                     <!-- Type Badge -->
@@ -259,13 +259,13 @@ interface DocTypeOption {
                   @if (viewingDocId() === doc.id && doc.status === 'COMPLETED' && doc.content) {
                     <tr>
                       <td colspan="5" class="px-5 py-0">
-                        <div class="bg-slate-900/70 border border-slate-200 rounded-lg mb-4 animate-fade-in">
+                        <div class="bg-slate-50 border border-slate-200 rounded-lg mb-4 animate-fade-in">
                           <div class="flex items-center justify-between px-4 py-3 border-b border-slate-200">
                             <h4 class="text-sm font-medium text-slate-600">
                               {{ lang.l('Dokumendi sisu', 'Document Content') }}
                             </h4>
                             <button type="button" (click)="toggleDocView(doc.id)"
-                                    class="p-1 rounded text-slate-500 hover:text-white hover:bg-slate-100 transition-all">
+                                    class="p-1 rounded text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-all">
                               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                               </svg>
@@ -466,7 +466,7 @@ export class AiActDocumentsComponent implements OnInit, OnDestroy {
       case 'TRANSPARENCY_NOTICE':
         return 'bg-pink-500/15 text-pink-400 border border-pink-500/20';
       default:
-        return 'bg-slate-700/50 text-slate-600 border border-slate-600/30';
+        return 'bg-slate-100/50 text-slate-600 border border-slate-300/30';
     }
   }
 
