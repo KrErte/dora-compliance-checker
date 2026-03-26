@@ -162,6 +162,7 @@ export class ToolsHubComponent {
       tools: [
         { icon: '\u{1F4E6}', titleEt: 'T\u00f5endite hoidla', titleEn: 'Evidence Vault', descEt: 'T\u00f5endite \u00fcleslaadimine ja haldamine', descEn: 'Upload and manage compliance evidence', link: '/evidence-vault', essential: true },
         { icon: '\u{1F50D}', titleEt: 'T\u00f5endite puuduste anal\u00fc\u00fcs', titleEn: 'Evidence Gap Analyzer', descEt: 'AI-p\u00f5hine t\u00f5endite puuduste tuvastamine', descEn: 'AI-powered evidence gap detection', link: '/evidence-gap-analyzer' },
+        { icon: '\u{1F512}', titleEt: 'Dokumendianalüüs (Zero-Upload)', titleEn: 'Document Analyzer (Zero-Upload)', descEt: 'DORA dokumendi analüüs 100% brauseris', descEn: 'DORA document analysis 100% in browser', link: '/document-analyzer', essential: true },
         { icon: '\u{1F4E5}', titleEt: 'T\u00f5endite koguja', titleEn: 'Evidence Harvester', descEt: 'Automaatne t\u00f5endite kogumine Jira, GitHub jm', descEn: 'Auto-harvest from Jira, GitHub etc', link: '/evidence-harvester' },
         { icon: '\u{1F4D1}', titleEt: 'Juhatuse raport', titleEn: 'Board Report', descEt: 'Professionaalne raport juhatusele', descEn: 'Professional board compliance report', link: '/board-report', essential: true },
         { icon: '\u{1F4C5}', titleEt: 'Ajastatud aruanded', titleEn: 'Scheduled Reports', descEt: 'Automaatsed perioodilised raportid', descEn: 'Automated periodic reports', link: '/scheduled-reports' },

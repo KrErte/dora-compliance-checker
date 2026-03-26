@@ -407,6 +407,25 @@ interface DoraRequirement {
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Document Analyzer (Zero-Upload) -->
+          <a routerLink="/document-analyzer"
+             class="glass-card p-5 rounded-xl border border-emerald-500/30 hover:border-emerald-400 cursor-pointer transition-all duration-300 hover:bg-emerald-500/5 hover:shadow-lg hover:shadow-emerald-500/10 group">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center shrink-0 group-hover:bg-emerald-500/20 transition-colors">
+                <svg class="w-6 h-6 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                  <h3 class="text-sm font-semibold text-slate-700 group-hover:text-emerald-500 transition-colors">{{ lang.l('Dokumendianalüüs (Zero-Upload)', 'Document Analyzer (Zero-Upload)') }}</h3>
+                  <span class="px-1.5 py-0.5 text-[10px] font-bold bg-emerald-100 text-emerald-700 rounded">{{ lang.l('UUS', 'NEW') }}</span>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">{{ lang.l('Analüüsige DORA dokumente otse brauseris. Teie failid ei lahku kunagi teie seadmest. 10 DORA artiklit, reeglipõhine + valikuline AI analüüs.', 'Analyze DORA documents directly in your browser. Your files never leave your device. 10 DORA articles, rule-based + optional AI analysis.') }}</p>
+              </div>
+            </div>
+          </a>
+
           <!-- Evidence Gap Analyzer -->
           <a routerLink="/evidence-gap-analyzer"
              class="glass-card p-5 rounded-xl border border-teal-500/30 hover:border-teal-400 cursor-pointer transition-all duration-300 hover:bg-teal-500/5 hover:shadow-lg hover:shadow-teal-500/10 group">
