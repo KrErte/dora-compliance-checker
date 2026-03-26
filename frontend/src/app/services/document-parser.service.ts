@@ -67,7 +67,12 @@ export class DocumentParserService {
 
   private async parsePdf(file: File): Promise<ParsedDocument> {
     const pdfjsLib = await import('pdfjs-dist');
-    pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/pdf.worker.min.js';
+    // Load worker source as text and create blob URL to bypass MIME type issues
+    // (Caddy reverse proxy can serve .mjs with wrong content-type)
+    const resp = await fetch('/assets/pdf.worker.min.mjs');
+    const workerCode = await resp.text();
+    const blob = new Blob([workerCode], { type: 'text/javascript' });
+    pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(blob);
 
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
