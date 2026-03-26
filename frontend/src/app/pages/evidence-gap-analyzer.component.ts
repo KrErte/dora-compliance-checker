@@ -6,6 +6,7 @@ import { ApiService } from '../api.service';
 import { LangService } from '../lang.service';
 import { AuthService } from '../auth/auth.service';
 import { SubscriptionService } from '../services/subscription.service';
+import { DocumentParserService } from '../services/document-parser.service';
 import { GapAnalysisResult, GapFinding } from '../models';
 
 interface ArticleOption {
@@ -192,7 +193,7 @@ interface ArticleOption {
                  (click)="fileInput.click()"
                  class="border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-200"
                  [ngClass]="isDragging ? 'border-teal-500/50 bg-teal-500/5' : 'border-slate-300/30 hover:border-teal-500/30'">
-              <input #fileInput type="file" (change)="onFileSelected($event)" accept=".pdf,.docx" class="hidden">
+              <input #fileInput type="file" (change)="onFileSelected($event)" accept=".pdf,.docx,.txt,.xlsx,.csv" class="hidden">
               <div *ngIf="!selectedFile">
                 <svg class="w-12 h-12 mx-auto text-slate-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
@@ -464,6 +465,7 @@ export class EvidenceGapAnalyzerComponent implements OnInit {
   private sub = inject(SubscriptionService);
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
+  private documentParser = inject(DocumentParserService);
 
   state: 'upload' | 'loading' | 'results' = 'upload';
   isEnterprise = false;
@@ -562,8 +564,9 @@ export class EvidenceGapAnalyzerComponent implements OnInit {
 
   private selectFile(file: File) {
     const name = file.name.toLowerCase();
-    if (!name.endsWith('.pdf') && !name.endsWith('.docx')) {
-      this.errorMsg = this.lang.l('Toetatud on ainult PDF ja DOCX failid', 'Only PDF and DOCX files are supported');
+    const supported = ['.pdf', '.docx', '.txt', '.xlsx', '.csv'];
+    if (!supported.some(ext => name.endsWith(ext))) {
+      this.errorMsg = this.lang.l('Toetatud on PDF, DOCX, XLSX, CSV ja TXT failid', 'Supported formats: PDF, DOCX, XLSX, CSV, TXT');
       return;
     }
     if (file.size > 10 * 1024 * 1024) {
@@ -579,26 +582,42 @@ export class EvidenceGapAnalyzerComponent implements OnInit {
     this.selectedFile = null;
   }
 
-  startAnalysis() {
+  async startAnalysis() {
     if (!this.canAnalyze || !this.selectedFile) return;
 
     this.state = 'loading';
     this.errorMsg = '';
 
     const articleNumbers = this.articles.filter(a => a.selected).map(a => a.articleNumber);
+    const fileName = this.selectedFile.name;
 
-    this.api.analyzeGap(this.selectedFile, this.documentTitle, this.documentCategory, articleNumbers).subscribe({
-      next: (res) => {
-        this.result = res;
-        this.buildGroupedFindings();
-        this.state = 'results';
-        this.loadHistory();
-      },
-      error: (err) => {
-        this.errorMsg = err.error?.error || this.lang.l('Analüüs ebaõnnestus. Palun proovige uuesti.', 'Analysis failed. Please try again.');
+    try {
+      // Client-side parsing: extract text in browser
+      const parsed = await this.documentParser.parseFile(this.selectedFile);
+      const text = parsed.pages.map(p => p.text).join('\n');
+
+      if (!text.trim()) {
+        this.errorMsg = this.lang.l('Failist ei õnnestunud teksti eraldada', 'Could not extract text from file');
         this.state = 'upload';
+        return;
       }
-    });
+
+      this.api.analyzeGapText(text, this.documentTitle, this.documentCategory, articleNumbers, fileName).subscribe({
+        next: (res) => {
+          this.result = res;
+          this.buildGroupedFindings();
+          this.state = 'results';
+          this.loadHistory();
+        },
+        error: (err) => {
+          this.errorMsg = err.error?.error || this.lang.l('Analüüs ebaõnnestus. Palun proovige uuesti.', 'Analysis failed. Please try again.');
+          this.state = 'upload';
+        }
+      });
+    } catch (e) {
+      this.errorMsg = this.lang.l('Faili parsimine ebaõnnestus', 'Failed to parse file');
+      this.state = 'upload';
+    }
   }
 
   loadResult(item: GapAnalysisResult) {

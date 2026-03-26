@@ -9,6 +9,7 @@ import { AuthService } from '../auth/auth.service';
 import { SubscriptionService } from '../services/subscription.service';
 import { ChecklistService } from '../services/checklist.service';
 import { PaywallService } from '../services/paywall.service';
+import { DocumentParserService } from '../services/document-parser.service';
 import { PAYMENT_CONFIG } from '../config/payment.config';
 import { ContractAnalysisResult } from '../models';
 
@@ -285,7 +286,7 @@ import { ContractAnalysisResult } from '../models';
             </div>
           </div>
 
-          <input #fileInput type="file" accept=".pdf,.docx" (change)="onFileSelect($event)" class="hidden">
+          <input #fileInput type="file" accept=".pdf,.docx,.txt,.xlsx,.csv" (change)="onFileSelect($event)" class="hidden">
         </div>
 
         <div *ngIf="showValidation && !canSubmit" class="mb-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm animate-fade-in">
@@ -659,6 +660,8 @@ export class ContractAnalysisComponent implements OnInit {
   paymentConfig = PAYMENT_CONFIG;
   isSampleFile = false;
 
+  private documentParser = inject(DocumentParserService);
+
   constructor(
     private api: ApiService,
     public lang: LangService,
@@ -783,7 +786,7 @@ export class ContractAnalysisComponent implements OnInit {
     if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
       const file = event.dataTransfer.files[0];
       const name = file.name.toLowerCase();
-      if (name.endsWith('.pdf') || name.endsWith('.docx')) {
+      if (name.endsWith('.pdf') || name.endsWith('.docx') || name.endsWith('.txt') || name.endsWith('.xlsx') || name.endsWith('.csv')) {
         this.selectedFile = file;
       }
     }
@@ -809,26 +812,42 @@ export class ContractAnalysisComponent implements OnInit {
     this.onSubmit();
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (!this.canSubmit || !this.selectedFile) return;
     this.showValidation = false;
     this.showCachedBanner = false;
     this.analyzing = true;
     this.error = '';
     const fileName = this.selectedFile.name;
-    this.api.analyzeContract(this.selectedFile, this.companyName, this.contractName)
-      .subscribe({
-        next: (res) => {
-          this.result = res;
-          this.analyzing = false;
-          this.cacheResult(res, fileName);
-          this.checklistService.markComplete('analyze_contract');
-        },
-        error: () => {
-          this.error = 'Analysis failed';
-          this.analyzing = false;
-        }
-      });
+
+    try {
+      // Client-side parsing: extract text in browser, send only text to server
+      const parsed = await this.documentParser.parseFile(this.selectedFile);
+      const text = parsed.pages.map(p => p.text).join('\n');
+
+      if (!text.trim()) {
+        this.error = 'Could not extract text from file';
+        this.analyzing = false;
+        return;
+      }
+
+      this.api.analyzeContractText(text, this.companyName, this.contractName, fileName)
+        .subscribe({
+          next: (res) => {
+            this.result = res;
+            this.analyzing = false;
+            this.cacheResult(res, fileName);
+            this.checklistService.markComplete('analyze_contract');
+          },
+          error: () => {
+            this.error = 'Analysis failed';
+            this.analyzing = false;
+          }
+        });
+    } catch (e) {
+      this.error = 'Failed to parse file';
+      this.analyzing = false;
+    }
   }
 
   loadMockResult() {

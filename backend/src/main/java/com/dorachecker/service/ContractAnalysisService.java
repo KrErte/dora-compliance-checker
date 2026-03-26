@@ -47,6 +47,14 @@ public class ContractAnalysisService {
         this.model = model;
     }
 
+    public ContractAnalysisResult analyzeText(String companyName, String contractName, String fileName, String text) {
+        if (text == null || text.isBlank()) {
+            throw new IllegalArgumentException("Text content is empty");
+        }
+        String contractText = text.length() > MAX_CONTRACT_LENGTH ? text.substring(0, MAX_CONTRACT_LENGTH) : text;
+        return doAnalyze(companyName, contractName, fileName, contractText);
+    }
+
     public ContractAnalysisResult analyze(String companyName, String contractName, MultipartFile file) {
         String contractText = extractionService.extractText(file);
 
@@ -58,6 +66,10 @@ public class ContractAnalysisService {
             contractText = contractText.substring(0, MAX_CONTRACT_LENGTH);
         }
 
+        return doAnalyze(companyName, contractName, file.getOriginalFilename(), contractText);
+    }
+
+    private ContractAnalysisResult doAnalyze(String companyName, String contractName, String fileName, String contractText) {
         ClaudeResponse claudeResponse = callClaudeApi(contractText);
         List<ContractFinding> findings = claudeResponse.findings;
         String summary = claudeResponse.summary;
@@ -84,13 +96,13 @@ public class ContractAnalysisService {
         }
 
         ContractAnalysisEntity entity = new ContractAnalysisEntity(
-                companyName, contractName, file.getOriginalFilename(),
+                companyName, contractName, fileName,
                 LocalDateTime.now(), total, foundCount, missingCount, partialCount,
                 Math.round(score * 10.0) / 10.0, level, summary, findingsJson);
         entity = repository.save(entity);
 
         return new ContractAnalysisResult(
-                entity.getId(), companyName, contractName, file.getOriginalFilename(),
+                entity.getId(), companyName, contractName, fileName,
                 entity.getAnalysisDate(), total, foundCount, missingCount, partialCount,
                 entity.getScorePercentage(), level, summary, findings);
     }

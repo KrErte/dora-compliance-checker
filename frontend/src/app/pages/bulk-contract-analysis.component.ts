@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { LangService } from '../lang.service';
 import { SubscriptionService } from '../services/subscription.service';
+import { DocumentParserService } from '../services/document-parser.service';
+import { ApiService } from '../api.service';
 
 interface BulkResult {
   id?: string;
@@ -269,6 +271,9 @@ export class BulkContractAnalysisComponent {
   progressPercent = 0;
   response: BulkResponse | null = null;
 
+  private documentParser = inject(DocumentParserService);
+  private api = inject(ApiService);
+
   constructor(
     public lang: LangService,
     private http: HttpClient,
@@ -317,36 +322,54 @@ export class BulkContractAnalysisComponent {
     return (bytes / 1048576).toFixed(1) + ' MB';
   }
 
-  startAnalysis(): void {
+  async startAnalysis(): Promise<void> {
     if (this.files.length === 0 || !this.companyName) return;
 
     this.analyzing = true;
-    this.progressText = `Uploading ${this.files.length} contracts...`;
-    this.progressPercent = 10;
+    this.progressText = `Parsing ${this.files.length} contracts client-side...`;
+    this.progressPercent = 5;
 
-    const formData = new FormData();
-    formData.append('companyName', this.companyName);
-    for (const file of this.files) {
-      formData.append('files', file);
+    // Parse all files client-side
+    const contracts: { text: string; contractName: string; fileName: string }[] = [];
+    for (let i = 0; i < this.files.length; i++) {
+      const file = this.files[i];
+      this.progressText = `Parsing file ${i + 1} of ${this.files.length}...`;
+      this.progressPercent = 5 + (i / this.files.length) * 25;
+      try {
+        const parsed = await this.documentParser.parseFile(file);
+        const text = parsed.pages.map(p => p.text).join('\n');
+        if (text.trim()) {
+          contracts.push({
+            text,
+            contractName: file.name.replace(/\.[^.]+$/, ''),
+            fileName: file.name
+          });
+        }
+      } catch (e) {
+        contracts.push({ text: '', contractName: file.name, fileName: file.name });
+      }
     }
 
-    // Simulate progress
+    this.progressText = `Sending extracted text for AI analysis...`;
+    this.progressPercent = 35;
+
+    // Simulate progress during AI analysis
     const interval = setInterval(() => {
-      if (this.progressPercent < 85) {
-        this.progressPercent += Math.random() * 8;
-        const count = Math.floor((this.progressPercent / 85) * this.files.length);
-        this.progressText = `Analyzing contract ${Math.min(count + 1, this.files.length)} of ${this.files.length}...`;
+      if (this.progressPercent < 90) {
+        this.progressPercent += Math.random() * 6;
+        const count = Math.floor(((this.progressPercent - 35) / 55) * contracts.length);
+        this.progressText = `Analyzing contract ${Math.min(count + 1, contracts.length)} of ${contracts.length}...`;
       }
     }, 2000);
 
-    this.http.post<BulkResponse>('/api/contracts/analyze/bulk', formData).subscribe({
-      next: (response) => {
+    this.api.analyzeBulkText(this.companyName, contracts).subscribe({
+      next: (response: BulkResponse) => {
         clearInterval(interval);
         this.progressPercent = 100;
         this.analyzing = false;
         this.response = response;
       },
-      error: (err) => {
+      error: () => {
         clearInterval(interval);
         this.analyzing = false;
         this.progressText = 'Analysis failed. Please try again.';

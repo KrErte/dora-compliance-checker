@@ -37,6 +37,15 @@ public class GapAnalysisService {
         this.objectMapper = objectMapper;
     }
 
+    public GapAnalysisResult analyzeText(String userId, String documentTitle, String documentCategory,
+                                          List<String> articleNumbers, String fileName, String text) {
+        if (text == null || text.isBlank()) {
+            throw new IllegalArgumentException("Text content is empty");
+        }
+        String documentText = text.length() > MAX_DOCUMENT_LENGTH ? text.substring(0, MAX_DOCUMENT_LENGTH) : text;
+        return doAnalyze(userId, documentTitle, documentCategory, articleNumbers, fileName, documentText);
+    }
+
     public GapAnalysisResult analyze(String userId, String documentTitle, String documentCategory,
                                       List<String> articleNumbers, MultipartFile file) {
         String documentText = extractionService.extractText(file);
@@ -49,6 +58,12 @@ public class GapAnalysisService {
             documentText = documentText.substring(0, MAX_DOCUMENT_LENGTH);
         }
 
+        return doAnalyze(userId, documentTitle, documentCategory, articleNumbers,
+                         file.getOriginalFilename(), documentText);
+    }
+
+    private GapAnalysisResult doAnalyze(String userId, String documentTitle, String documentCategory,
+                                         List<String> articleNumbers, String fileName, String documentText) {
         List<Requirement> requirements = DoraArticleRequirements.getByArticles(articleNumbers);
         if (requirements.isEmpty()) {
             throw new IllegalArgumentException("No valid article numbers provided");
@@ -85,7 +100,7 @@ public class GapAnalysisService {
         GapAnalysisEntity entity = new GapAnalysisEntity();
         entity.setUserId(userId);
         entity.setDocumentTitle(documentTitle);
-        entity.setFileName(file.getOriginalFilename());
+        entity.setFileName(fileName);
         entity.setDocumentCategory(documentCategory);
         entity.setArticleNumbers(articleNumbersStr);
         entity.setAnalysisDate(LocalDateTime.now());

@@ -29,6 +29,14 @@ export class ApiService {
     return this.http.post<ContractAnalysisResult>(`${this.baseUrl}/contracts/analyze`, formData);
   }
 
+  analyzeContractText(text: string, companyName: string, contractName: string, fileName: string): Observable<ContractAnalysisResult> {
+    return this.http.post<ContractAnalysisResult>(`${this.baseUrl}/contracts/analyze-text`, { text, companyName, contractName, fileName });
+  }
+
+  analyzeBulkText(companyName: string, contracts: { text: string; contractName: string; fileName: string }[]): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/contracts/analyze-text/bulk`, { companyName, contracts });
+  }
+
   getContractAnalysis(id: string): Observable<ContractAnalysisResult> {
     return this.http.get<ContractAnalysisResult>(`${this.baseUrl}/contracts/${id}`);
   }
@@ -399,6 +407,12 @@ export class ApiService {
     formData.append('documentCategory', documentCategory);
     formData.append('articleNumbers', articleNumbers.join(','));
     return this.http.post<GapAnalysisResult>(`${this.baseUrl}/gap-analysis/analyze`, formData);
+  }
+
+  analyzeGapText(text: string, documentTitle: string, documentCategory: string, articleNumbers: string[], fileName: string): Observable<GapAnalysisResult> {
+    return this.http.post<GapAnalysisResult>(`${this.baseUrl}/gap-analysis/analyze-text`, {
+      text, documentTitle, documentCategory, articleNumbers: articleNumbers.join(','), fileName
+    });
   }
   getGapAnalysisHistory(): Observable<GapAnalysisResult[]> {
     return this.http.get<GapAnalysisResult[]>(`${this.baseUrl}/gap-analysis`);

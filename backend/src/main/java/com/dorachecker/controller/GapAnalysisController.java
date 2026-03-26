@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/gap-analysis")
@@ -71,6 +72,48 @@ public class GapAnalysisController {
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             log.error("Gap analysis failed for user {}: {}", userId, e.getMessage(), e);
+            return ResponseEntity.internalServerError().body(Map.of("error", "Analysis failed: " + e.getMessage()));
+        }
+    }
+
+    /**
+     * Zero-upload: accept pre-extracted text from client-side parsing.
+     */
+    @PostMapping("/analyze-text")
+    public ResponseEntity<?> analyzeText(
+            @RequestBody Map<String, String> body,
+            Authentication authentication) {
+
+        String userId = authentication.getName();
+
+        if (!subscriptionGuardService.canAccess(userId, null, SubscriptionGuardService.Feature.EVIDENCE_GAP_ANALYZER)) {
+            return ResponseEntity.status(403).body(Map.of("error", "Evidence Gap Analyzer requires an Enterprise subscription"));
+        }
+
+        String text = body.get("text");
+        String documentTitle = body.getOrDefault("documentTitle", "");
+        String documentCategory = body.getOrDefault("documentCategory", "POLICY");
+        String articleNumbers = body.getOrDefault("articleNumbers", "");
+        String fileName = body.getOrDefault("fileName", "client-parsed.txt");
+
+        if (text == null || text.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Text content is required"));
+        }
+
+        List<String> articles = Arrays.stream(articleNumbers.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .toList();
+
+        if (articles.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "At least one article number is required"));
+        }
+
+        try {
+            GapAnalysisResult result = gapAnalysisService.analyzeText(userId, documentTitle, documentCategory, articles, fileName, text);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("Gap analysis (text) failed for user {}: {}", userId, e.getMessage(), e);
             return ResponseEntity.internalServerError().body(Map.of("error", "Analysis failed: " + e.getMessage()));
         }
     }
