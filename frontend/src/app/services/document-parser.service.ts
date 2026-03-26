@@ -67,7 +67,7 @@ export class DocumentParserService {
 
   private async parsePdf(file: File): Promise<ParsedDocument> {
     const pdfjsLib = await import('pdfjs-dist');
-    pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/pdf.worker.min.mjs';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/pdf.worker.min.mjs?v=2';
 
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
