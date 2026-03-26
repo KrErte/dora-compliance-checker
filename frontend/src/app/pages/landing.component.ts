@@ -569,13 +569,13 @@ interface DoraRequirement {
     </div>
 
     <!-- FAQ Section -->
-    <div class="py-16 px-4">
+    <div class="py-16 px-4 bg-gradient-to-b from-blue-50/30 to-transparent">
       <div class="max-w-3xl mx-auto">
         <h2 class="text-2xl font-bold text-slate-900 text-center mb-8">{{ lang.t('landing.faq_title') }}</h2>
 
         <div class="space-y-3">
           <!-- FAQ 1 -->
-          <div class="rounded-xl border border-blue-100 bg-blue-50/40 overflow-hidden">
+          <div class="rounded-xl border border-blue-200 bg-blue-50 overflow-hidden">
             <button (click)="toggleFaq(0)" [attr.aria-expanded]="expandedFaq === 0"
                     class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-blue-50 transition-colors">
               <span class="font-medium text-blue-900">{{ lang.t('landing.faq1_q') }}</span>
@@ -589,7 +589,7 @@ interface DoraRequirement {
           </div>
 
           <!-- FAQ 2 -->
-          <div class="rounded-xl border border-blue-100 bg-blue-50/40 overflow-hidden">
+          <div class="rounded-xl border border-blue-200 bg-blue-50 overflow-hidden">
             <button (click)="toggleFaq(1)" [attr.aria-expanded]="expandedFaq === 1"
                     class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-blue-50 transition-colors">
               <span class="font-medium text-blue-900">{{ lang.t('landing.faq2_q') }}</span>
@@ -603,7 +603,7 @@ interface DoraRequirement {
           </div>
 
           <!-- FAQ 3 -->
-          <div class="rounded-xl border border-blue-100 bg-blue-50/40 overflow-hidden">
+          <div class="rounded-xl border border-blue-200 bg-blue-50 overflow-hidden">
             <button (click)="toggleFaq(2)" [attr.aria-expanded]="expandedFaq === 2"
                     class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-blue-50 transition-colors">
               <span class="font-medium text-blue-900">{{ lang.t('landing.faq3_q') }}</span>
@@ -617,7 +617,7 @@ interface DoraRequirement {
           </div>
 
           <!-- FAQ 4 -->
-          <div class="rounded-xl border border-blue-100 bg-blue-50/40 overflow-hidden">
+          <div class="rounded-xl border border-blue-200 bg-blue-50 overflow-hidden">
             <button (click)="toggleFaq(3)" [attr.aria-expanded]="expandedFaq === 3"
                     class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-blue-50 transition-colors">
               <span class="font-medium text-blue-900">{{ lang.t('landing.faq4_q') }}</span>
@@ -631,7 +631,7 @@ interface DoraRequirement {
           </div>
 
           <!-- FAQ 5: Gap Analyzer -->
-          <div class="rounded-xl border border-blue-100 bg-blue-50/40 overflow-hidden">
+          <div class="rounded-xl border border-blue-200 bg-blue-50 overflow-hidden">
             <button (click)="toggleFaq(4)" [attr.aria-expanded]="expandedFaq === 4"
                     class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-blue-50 transition-colors">
               <span class="font-medium text-blue-900">{{ lang.t('landing.faq5_q') }}</span>
