@@ -553,6 +553,7 @@ img { max-width: 100%; height: auto; }
 
 /* Primary blue backgrounds */
 .bg-blue-50 { background-color: #eff6ff; }
+.bg-blue-50\/40 { background-color: rgba(239, 246, 255, 0.4); }
 .bg-blue-100 { background-color: #dbeafe; }
 .bg-blue-200 { background-color: #bfdbfe; }
 .bg-blue-400 { background-color: #60a5fa; }
@@ -727,6 +728,7 @@ img { max-width: 100%; height: auto; }
 .text-slate-800 { color: #1e293b; }
 .text-slate-900 { color: #0f172a; }
 
+.text-blue-900 { color: #1e3a5f; }
 .text-blue-300 { color: #60a5fa; }
 .text-blue-400 { color: #3b82f6; }
 .text-blue-500 { color: #2563eb; }

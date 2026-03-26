@@ -556,71 +556,71 @@ interface DoraRequirement {
 
         <div class="space-y-3">
           <!-- FAQ 1 -->
-          <div class="glass-card rounded-xl border border-slate-200 overflow-hidden">
+          <div class="rounded-xl border border-blue-100 bg-blue-50/40 overflow-hidden">
             <button (click)="toggleFaq(0)" [attr.aria-expanded]="expandedFaq === 0"
-                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-100/30 transition-colors">
-              <span class="font-medium text-slate-700">{{ lang.t('landing.faq1_q') }}</span>
-              <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-blue-50 transition-colors">
+              <span class="font-medium text-blue-900">{{ lang.t('landing.faq1_q') }}</span>
+              <svg class="w-5 h-5 text-blue-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
               </svg>
             </button>
-            <div *ngIf="expandedFaq === 0" class="px-6 pb-4 text-sm text-slate-400 animate-slide-down">
+            <div *ngIf="expandedFaq === 0" class="px-6 pb-4 text-sm text-slate-500 animate-slide-down">
               {{ lang.t('landing.faq1_a') }}
             </div>
           </div>
 
           <!-- FAQ 2 -->
-          <div class="glass-card rounded-xl border border-slate-200 overflow-hidden">
+          <div class="rounded-xl border border-blue-100 bg-blue-50/40 overflow-hidden">
             <button (click)="toggleFaq(1)" [attr.aria-expanded]="expandedFaq === 1"
-                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-100/30 transition-colors">
-              <span class="font-medium text-slate-700">{{ lang.t('landing.faq2_q') }}</span>
-              <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-blue-50 transition-colors">
+              <span class="font-medium text-blue-900">{{ lang.t('landing.faq2_q') }}</span>
+              <svg class="w-5 h-5 text-blue-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
               </svg>
             </button>
-            <div *ngIf="expandedFaq === 1" class="px-6 pb-4 text-sm text-slate-400 animate-slide-down">
+            <div *ngIf="expandedFaq === 1" class="px-6 pb-4 text-sm text-slate-500 animate-slide-down">
               {{ lang.t('landing.faq2_a') }}
             </div>
           </div>
 
           <!-- FAQ 3 -->
-          <div class="glass-card rounded-xl border border-slate-200 overflow-hidden">
+          <div class="rounded-xl border border-blue-100 bg-blue-50/40 overflow-hidden">
             <button (click)="toggleFaq(2)" [attr.aria-expanded]="expandedFaq === 2"
-                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-100/30 transition-colors">
-              <span class="font-medium text-slate-700">{{ lang.t('landing.faq3_q') }}</span>
-              <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-blue-50 transition-colors">
+              <span class="font-medium text-blue-900">{{ lang.t('landing.faq3_q') }}</span>
+              <svg class="w-5 h-5 text-blue-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
               </svg>
             </button>
-            <div *ngIf="expandedFaq === 2" class="px-6 pb-4 text-sm text-slate-400 animate-slide-down">
+            <div *ngIf="expandedFaq === 2" class="px-6 pb-4 text-sm text-slate-500 animate-slide-down">
               {{ lang.t('landing.faq3_a') }}
             </div>
           </div>
 
           <!-- FAQ 4 -->
-          <div class="glass-card rounded-xl border border-slate-200 overflow-hidden">
+          <div class="rounded-xl border border-blue-100 bg-blue-50/40 overflow-hidden">
             <button (click)="toggleFaq(3)" [attr.aria-expanded]="expandedFaq === 3"
-                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-100/30 transition-colors">
-              <span class="font-medium text-slate-700">{{ lang.t('landing.faq4_q') }}</span>
-              <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-blue-50 transition-colors">
+              <span class="font-medium text-blue-900">{{ lang.t('landing.faq4_q') }}</span>
+              <svg class="w-5 h-5 text-blue-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
               </svg>
             </button>
-            <div *ngIf="expandedFaq === 3" class="px-6 pb-4 text-sm text-slate-400 animate-slide-down">
+            <div *ngIf="expandedFaq === 3" class="px-6 pb-4 text-sm text-slate-500 animate-slide-down">
               {{ lang.t('landing.faq4_a') }}
             </div>
           </div>
 
           <!-- FAQ 5: Gap Analyzer -->
-          <div class="glass-card rounded-xl border border-slate-200 overflow-hidden">
+          <div class="rounded-xl border border-blue-100 bg-blue-50/40 overflow-hidden">
             <button (click)="toggleFaq(4)" [attr.aria-expanded]="expandedFaq === 4"
-                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-100/30 transition-colors">
-              <span class="font-medium text-slate-700">{{ lang.t('landing.faq5_q') }}</span>
-              <svg class="w-5 h-5 text-slate-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-blue-50 transition-colors">
+              <span class="font-medium text-blue-900">{{ lang.t('landing.faq5_q') }}</span>
+              <svg class="w-5 h-5 text-blue-400 transition-transform duration-200" [class.rotate-180]="expandedFaq === 4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
               </svg>
             </button>
-            <div *ngIf="expandedFaq === 4" class="px-6 pb-4 text-sm text-slate-400 animate-slide-down">
+            <div *ngIf="expandedFaq === 4" class="px-6 pb-4 text-sm text-slate-500 animate-slide-down">
               {{ lang.t('landing.faq5_a') }}
             </div>
           </div>
