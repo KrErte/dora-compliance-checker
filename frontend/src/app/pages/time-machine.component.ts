@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { LangService } from '../lang.service';
 import { ApiService } from '../api.service';
 import { SubscriptionService } from '../services/subscription.service';
+import { TimeMachineWhatifService } from '../services/time-machine-whatif.service';
 
 @Component({
   selector: 'app-time-machine',
@@ -619,6 +620,7 @@ export class TimeMachineComponent implements OnInit, OnDestroy {
   lang = inject(LangService);
   api = inject(ApiService);
   sub = inject(SubscriptionService);
+  private whatifService = inject(TimeMachineWhatifService);
 
   @ViewChild('scrubberContainer') scrubberRef!: ElementRef<HTMLDivElement>;
   @ViewChild('chartContainer') chartRef!: ElementRef<HTMLDivElement>;
@@ -877,17 +879,12 @@ export class TimeMachineComponent implements OnInit, OnDestroy {
       return;
     }
 
-    (this.api as any).whatIfScenario(scenarioId).subscribe({
-      next: (data: any) => {
-        const curr = this.scenarios();
-        const idx = curr.findIndex(s => s.scenarioId === scenarioId);
-        if (idx >= 0) {
-          this.scenarios.set(curr.filter(s => s.scenarioId !== scenarioId));
-        } else {
-          this.scenarios.set([...curr, data]);
-        }
-      }
-    });
+    // Run what-if locally (no API call)
+    const currentScore = this.timeline()?.currentScore ?? this.stateAtDate()?.overallScore ?? 50;
+    const result = this.whatifService.simulateScenario(scenarioId, currentScore);
+    if (result) {
+      this.scenarios.set([...current, result]);
+    }
   }
 
   isScenarioActive(scenarioId: string): boolean {

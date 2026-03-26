@@ -2,54 +2,9 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { LangService } from '../lang.service';
 import { SubscriptionService } from '../services/subscription.service';
-
-interface Trigger {
-  id: string;
-  title: string;
-  titleEt: string;
-  description: string;
-  descriptionEt: string;
-  severity: 'CRITICAL' | 'HIGH' | 'MEDIUM';
-  category: string;
-  icon: string;
-}
-
-interface CascadeStep {
-  stepNumber: number;
-  name: string;
-  nameEt: string;
-  affectedPillar: string;
-  impactPercent: number;
-  delayDays: number;
-  description: string;
-  descriptionEt: string;
-}
-
-interface RemediationStep {
-  priority: number;
-  action: string;
-  actionEt: string;
-  effort: 'LOW' | 'MEDIUM' | 'HIGH';
-  timelineDays: number;
-  article: string;
-}
-
-interface SimulationResult {
-  triggerId: string;
-  triggerName: string;
-  triggerNameEt: string;
-  scoreBefore: number;
-  scoreAfter: number;
-  riskLevel: 'CRITICAL' | 'HIGH' | 'MEDIUM';
-  affectedPillars: string[];
-  cascadeSteps: CascadeStep[];
-  remediationSteps: RemediationStep[];
-  totalDegradation: number;
-  estimatedRecoveryDays: number;
-}
+import { ChainReactionService, Trigger, CascadeStep, RemediationStep, SimulationResult } from '../services/chain-reaction.service';
 
 @Component({
   selector: 'app-chain-reaction',
@@ -706,7 +661,7 @@ interface SimulationResult {
 })
 export class ChainReactionComponent implements OnInit {
   lang = inject(LangService);
-  private http = inject(HttpClient);
+  private chainService = inject(ChainReactionService);
   subService = inject(SubscriptionService);
 
   triggers = signal<Trigger[]>([]);
@@ -722,54 +677,33 @@ export class ChainReactionComponent implements OnInit {
 
   loadTriggers(): void {
     this.loadingTriggers.set(true);
-    this.http.get<Trigger[]>('/api/chain-reaction/triggers').subscribe({
-      next: (data) => {
-        this.triggers.set(data);
-        this.loadingTriggers.set(false);
-      },
-      error: () => {
-        this.triggers.set(this.getFallbackTriggers());
-        this.loadingTriggers.set(false);
-      }
-    });
+    // Load triggers from local service (no API call)
+    setTimeout(() => {
+      this.triggers.set(this.chainService.getTriggers());
+      this.loadingTriggers.set(false);
+    }, 300);
   }
 
   runSimulation(triggerId: string): void {
     this.simulating.set(true);
     this.simulationResult.set(null);
-    this.http.post<SimulationResult>('/api/chain-reaction/simulate', { triggerId }).subscribe({
-      next: (result) => {
-        setTimeout(() => {
-          this.simulationResult.set(result);
-          this.simulating.set(false);
-        }, 2000);
-      },
-      error: () => {
-        setTimeout(() => {
-          this.simulationResult.set(this.getFallbackResult(triggerId));
-          this.simulating.set(false);
-        }, 2000);
-      }
-    });
+    // Run simulation locally with a UX delay
+    setTimeout(() => {
+      const result = this.chainService.simulateCascade(triggerId, 50);
+      this.simulationResult.set(result);
+      this.simulating.set(false);
+    }, 2000);
   }
 
   runQuickScenario(scenario: string): void {
     this.simulating.set(true);
     this.simulationResult.set(null);
-    this.http.post<SimulationResult>('/api/chain-reaction/simulate/scenario', { scenario }).subscribe({
-      next: (result) => {
-        setTimeout(() => {
-          this.simulationResult.set(result);
-          this.simulating.set(false);
-        }, 2000);
-      },
-      error: () => {
-        setTimeout(() => {
-          this.simulationResult.set(this.getFallbackScenarioResult(scenario));
-          this.simulating.set(false);
-        }, 2000);
-      }
-    });
+    // Run scenario locally with a UX delay
+    setTimeout(() => {
+      const result = this.chainService.simulateScenario(scenario, 50);
+      this.simulationResult.set(result);
+      this.simulating.set(false);
+    }, 2000);
   }
 
   resetSimulation(): void {

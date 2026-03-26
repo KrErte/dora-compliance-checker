@@ -3,29 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { LangService } from '../lang.service';
-
-interface ClassificationQuestion {
-  id: string;
-  questionKey: string;
-  questionTextEn: string;
-  questionTextEt: string;
-  questionType: string;
-  options: string | null;
-  category: string;
-  helpTextEn: string | null;
-  helpTextEt: string | null;
-  sortOrder: number;
-  dependsOnKey: string | null;
-  dependsOnAnswer: string | null;
-}
-
-interface ClassificationResult {
-  riskLevel: string;
-  rationale: string;
-  applicableArticles: string[];
-  recommendedActions: string[];
-  deadline: string;
-}
+import { AiActClassifierService, ClassificationQuestion, ClassificationResult } from '../services/ai-act-classifier.service';
 
 type Phase = 'loading' | 'questionnaire' | 'submitting' | 'result' | 'error';
 
@@ -443,6 +421,7 @@ export class AiActClassifierComponent implements OnInit {
   private http = inject(HttpClient);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private classifier = inject(AiActClassifierService);
 
   phase = signal<Phase>('loading');
   errorMessage = signal('');
@@ -505,22 +484,18 @@ export class AiActClassifierComponent implements OnInit {
 
   loadQuestions(): void {
     this.phase.set('loading');
-    this.http.get<ClassificationQuestion[]>(`/api/ai-systems/${this.systemId()}/classification/questions`).subscribe({
-      next: (questions) => {
-        const sorted = [...questions].sort((a, b) => {
-          const catA = CATEGORY_ORDER.indexOf(a.category);
-          const catB = CATEGORY_ORDER.indexOf(b.category);
-          if (catA !== catB) return catA - catB;
-          return a.sortOrder - b.sortOrder;
-        });
-        this.allQuestions.set(sorted);
-        this.phase.set('questionnaire');
-      },
-      error: (err) => {
-        this.errorMessage.set(err?.error?.error || err?.message || 'Unknown error');
-        this.phase.set('error');
-      }
-    });
+    // Load questions from local service (no API call)
+    setTimeout(() => {
+      const questions = this.classifier.getQuestions();
+      const sorted = [...questions].sort((a, b) => {
+        const catA = CATEGORY_ORDER.indexOf(a.category);
+        const catB = CATEGORY_ORDER.indexOf(b.category);
+        if (catA !== catB) return catA - catB;
+        return a.sortOrder - b.sortOrder;
+      });
+      this.allQuestions.set(sorted);
+      this.phase.set('questionnaire');
+    }, 300);
   }
 
   getHelpText(q: ClassificationQuestion): string {
@@ -570,17 +545,14 @@ export class AiActClassifierComponent implements OnInit {
 
   submitClassification(): void {
     this.phase.set('submitting');
-    const payload = { answers: this.answers() };
-    this.http.post<ClassificationResult>(`/api/ai-systems/${this.systemId()}/classification/run`, payload).subscribe({
-      next: (res) => {
-        this.result.set(res);
-        this.phase.set('result');
-      },
-      error: (err) => {
-        this.errorMessage.set(err?.error?.error || err?.message || 'Classification failed');
-        this.phase.set('error');
-      }
-    });
+    // Classify locally, then persist to backend
+    setTimeout(() => {
+      const res = this.classifier.classify(this.answers());
+      this.result.set(res);
+      this.phase.set('result');
+      // Persist result to user's AI system (fire-and-forget)
+      this.http.post(`/api/ai-systems/${this.systemId()}/classification/run`, { answers: this.answers() }).subscribe();
+    }, 800);
   }
 
   resetClassification(): void {
