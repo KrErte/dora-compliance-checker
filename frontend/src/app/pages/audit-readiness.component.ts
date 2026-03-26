@@ -41,7 +41,7 @@ import { LangService } from '../lang.service';
             <!-- Score ring -->
             <div class="relative w-44 h-44 mx-auto mb-6">
               <svg class="w-full h-full -rotate-90" viewBox="0 0 160 160">
-                <circle cx="80" cy="80" r="70" fill="none" stroke="#1e293b" stroke-width="12"/>
+                <circle cx="80" cy="80" r="70" fill="none" stroke="#e2e8f0" stroke-width="12"/>
                 <circle cx="80" cy="80" r="70" fill="none"
                         [attr.stroke]="getLevelColor(data().level)"
                         stroke-width="12" stroke-linecap="round"
@@ -111,7 +111,7 @@ import { LangService } from '../lang.service';
                 <!-- Circular mini score -->
                 <div class="relative w-16 h-16 mx-auto mb-2">
                   <svg class="w-full h-full -rotate-90" viewBox="0 0 64 64">
-                    <circle cx="32" cy="32" r="28" fill="none" stroke="#1e293b" stroke-width="5"/>
+                    <circle cx="32" cy="32" r="28" fill="none" stroke="#e2e8f0" stroke-width="5"/>
                     <circle cx="32" cy="32" r="28" fill="none"
                             [attr.stroke]="getScoreHex(p.score)"
                             stroke-width="5" stroke-linecap="round"

@@ -1432,7 +1432,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
     .slide-panel {
       position: fixed;
       top: 0; right: 0; bottom: 0; left: 0;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.4);
       display: flex;
       justify-content: flex-end;
       z-index: 1000;
@@ -1987,7 +1987,7 @@ type ViewType = 'main' | 'vendors' | 'roi' | 'incidents';
     /* xBRL Readiness Panel */
     .xbrl-readiness-panel {
       margin-top: 24px;
-      background: rgba(30, 33, 40, 0.8);
+      background: rgba(255, 255, 255, 0.9);
       border: 1px solid rgba(99, 102, 241, 0.3);
       border-radius: 12px;
       padding: 20px;

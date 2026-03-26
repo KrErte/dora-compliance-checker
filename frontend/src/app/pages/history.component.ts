@@ -80,7 +80,7 @@ interface HistoryEntry {
             <!-- Dots -->
             <circle *ngFor="let point of chartPoints; let i = index"
                     [attr.cx]="point.x" [attr.cy]="point.y" r="4"
-                    [attr.fill]="point.color" stroke="#1e293b" stroke-width="2"
+                    [attr.fill]="point.color" stroke="#e2e8f0" stroke-width="2"
                     class="animate-scale-in" [style.animation-delay]="(i * 100 + 500) + 'ms'"/>
             <defs>
               <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">

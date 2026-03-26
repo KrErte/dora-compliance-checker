@@ -204,7 +204,7 @@ interface AssessmentResult {
 
           <!-- Paywall overlay for this domain -->
           <div *ngIf="showPaywallInDomain(activeDomain)" class="relative -mx-6 -mb-6 mt-4 p-6 rounded-b-xl"
-               style="background: linear-gradient(to bottom, transparent, rgba(15,23,42,0.95) 20%);">
+               style="background: linear-gradient(to bottom, transparent, rgba(241,245,249,0.95) 20%);">
             <div class="absolute inset-0 backdrop-blur-sm rounded-b-xl"></div>
             <div class="relative glass-card p-6 border border-amber-500/30 text-center max-w-md mx-auto">
               <div class="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">

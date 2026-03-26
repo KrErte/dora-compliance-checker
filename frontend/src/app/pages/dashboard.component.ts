@@ -688,7 +688,7 @@ interface ChartPoint {
               <!-- Dots -->
               <circle *ngFor="let point of trendPoints; let i = index"
                       [attr.cx]="point.x" [attr.cy]="point.y" r="5"
-                      [attr.fill]="point.color" stroke="#1e293b" stroke-width="2.5"
+                      [attr.fill]="point.color" stroke="#e2e8f0" stroke-width="2.5"
                       class="animate-scale-in" [style.animation-delay]="(i * 80 + 700) + 'ms'"/>
 
               <!-- X-axis date labels -->

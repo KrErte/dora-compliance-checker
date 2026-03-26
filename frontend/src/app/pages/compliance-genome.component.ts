@@ -125,7 +125,7 @@ import { SubscriptionService } from '../services/subscription.service';
                     <!-- Radial gradient for background -->
                     <radialGradient id="bg-gradient" cx="50%" cy="50%" r="50%">
                       <stop offset="0%" stop-color="#10b981" stop-opacity="0.03"/>
-                      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+                      <stop offset="100%" stop-color="#e2e8f0" stop-opacity="0"/>
                     </radialGradient>
                   </defs>
 
@@ -869,7 +869,7 @@ import { SubscriptionService } from '../services/subscription.service';
       height: 6px;
     }
     .overflow-x-auto::-webkit-scrollbar-track {
-      background: #1e293b;
+      background: #f1f5f9;
     }
     .overflow-x-auto::-webkit-scrollbar-thumb {
       background: #475569;

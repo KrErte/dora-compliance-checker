@@ -499,7 +499,7 @@ export class DigitalTwinComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       edges: {
         smooth: { enabled: true, type: 'continuous', roundness: 0.2 },
-        font: { color: '#64748b', size: 9, face: 'Inter, system-ui, sans-serif', strokeWidth: 3, strokeColor: '#0f172a' }
+        font: { color: '#64748b', size: 9, face: 'Inter, system-ui, sans-serif', strokeWidth: 3, strokeColor: '#ffffff' }
       },
       physics: {
         enabled: true,
@@ -540,7 +540,7 @@ export class DigitalTwinComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     // Style background
-    container.style.background = 'radial-gradient(ellipse at center, rgba(30,41,59,0.8) 0%, rgba(15,23,42,0.95) 70%)';
+    container.style.background = 'radial-gradient(ellipse at center, rgba(241,245,249,0.9) 0%, rgba(226,232,240,0.95) 70%)';
   }
 
   private getNodeStyle(node: GraphNode): any {

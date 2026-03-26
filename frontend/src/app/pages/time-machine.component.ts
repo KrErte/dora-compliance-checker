@@ -378,7 +378,7 @@ import { SubscriptionService } from '../services/subscription.service';
                 @for (pt of timeline().trajectory; track pt.date) {
                   <circle [attr.cx]="dateToChartX(pt.date)"
                           [attr.cy]="scoreToY(pt.score)"
-                          r="3" fill="#38bdf8" stroke="#0f172a" stroke-width="1.5"
+                          r="3" fill="#38bdf8" stroke="#e2e8f0" stroke-width="1.5"
                           class="transition-all duration-300"/>
                 }
               }
@@ -386,7 +386,7 @@ import { SubscriptionService } from '../services/subscription.service';
               <!-- Hover tooltip -->
               @if (chartTooltip()) {
                 <g [attr.transform]="'translate(' + chartTooltip()!.x + ',' + (chartTooltip()!.y - 30) + ')'">
-                  <rect x="-40" y="-16" width="80" height="28" rx="6" fill="#1e293b" stroke="#475569" stroke-width="0.5"/>
+                  <rect x="-40" y="-16" width="80" height="28" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="0.5"/>
                   <text x="0" y="-2" text-anchor="middle" class="text-[9px]" fill="#94a3b8">{{ chartTooltip()!.date }}</text>
                   <text x="0" y="8" text-anchor="middle" class="text-[10px] font-bold" fill="#e2e8f0">{{ chartTooltip()!.score }}</text>
                 </g>

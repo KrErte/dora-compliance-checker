@@ -73,7 +73,7 @@ interface TrackerData {
             <div class="relative">
               <div class="relative w-44 h-44 mx-auto mb-4">
                 <svg class="w-full h-full -rotate-90" viewBox="0 0 160 160">
-                  <circle cx="80" cy="80" r="70" fill="none" stroke="#1e293b" stroke-width="12"/>
+                  <circle cx="80" cy="80" r="70" fill="none" stroke="#e2e8f0" stroke-width="12"/>
                   <circle cx="80" cy="80" r="70" fill="none"
                           [attr.stroke]="getOverallColor()"
                           stroke-width="12" stroke-linecap="round"

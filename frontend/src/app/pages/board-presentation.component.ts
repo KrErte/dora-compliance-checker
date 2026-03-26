@@ -341,7 +341,7 @@ const PILLAR_ID_MAP: Record<string, string> = {
     /* Loading */
     .bp-loading {
       position: fixed; inset: 0; z-index: 10000;
-      background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif;
     }
@@ -354,7 +354,7 @@ const PILLAR_ID_MAP: Record<string, string> = {
     /* Container */
     .bp-container {
       position: fixed; inset: 0; z-index: 9999;
-      background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
       color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif;
       display: flex; flex-direction: column; overflow: hidden;
       user-select: none;
@@ -427,7 +427,7 @@ const PILLAR_ID_MAP: Record<string, string> = {
     .bp-pillar-label { text-align: left; }
     .bp-pillar-name { font-size: 1.125rem; font-weight: 600; display: block; }
     .bp-pillar-ref { font-size: 0.8rem; color: #64748b; }
-    .bp-bar-track { height: 28px; background: #1e293b; border-radius: 14px; overflow: hidden; position: relative; }
+    .bp-bar-track { height: 28px; background: #e2e8f0; border-radius: 14px; overflow: hidden; position: relative; }
     .bp-bar-fill {
       height: 100%; border-radius: 14px; width: 0;
       animation: bp-barGrow 1s cubic-bezier(0.4,0,0.2,1) forwards;
@@ -472,7 +472,7 @@ const PILLAR_ID_MAP: Record<string, string> = {
       animation: bp-fadeIn 0.5s ease-out both;
     }
     .bp-trend-value { font-size: 0.875rem; font-weight: 700; margin-bottom: 8px; font-variant-numeric: tabular-nums; }
-    .bp-trend-bar-wrap { width: 100%; height: 240px; background: #1e293b; border-radius: 8px; overflow: hidden; display: flex; align-items: flex-end; }
+    .bp-trend-bar-wrap { width: 100%; height: 240px; background: #e2e8f0; border-radius: 8px; overflow: hidden; display: flex; align-items: flex-end; }
     .bp-trend-bar {
       width: 100%; border-radius: 8px 8px 0 0; height: 0;
       animation: bp-trendGrow 0.8s cubic-bezier(0.4,0,0.2,1) forwards;

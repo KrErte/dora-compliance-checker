@@ -882,11 +882,11 @@ interface DoraRequirement {
     }
 
     .requirements-table {
-      background: rgba(30, 41, 59, 0.5);
+      background: rgba(241, 245, 249, 0.8);
     }
 
     .requirement-row.expanded {
-      background: rgba(30, 41, 59, 0.8);
+      background: rgba(226, 232, 240, 0.8);
     }
 
     .animate-slide-down {

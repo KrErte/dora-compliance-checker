@@ -4,8 +4,8 @@
   "description": "DORA & NIS2 Compliance Platform for European Financial Institutions",
   "start_url": "/dashboard",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#0f172a",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
   "categories": ["business", "finance", "productivity"],
   "icons": [
     {

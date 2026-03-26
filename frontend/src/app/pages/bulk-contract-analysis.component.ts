@@ -254,7 +254,7 @@ interface BulkResponse {
   `,
   styles: [`
     .glass-card {
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(255, 255, 255, 0.8);
       border: 1px solid rgba(148, 163, 184, 0.1);
       border-radius: 12px;
       backdrop-filter: blur(12px);

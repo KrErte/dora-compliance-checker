@@ -29,7 +29,7 @@ interface TourStep {
               }
             </mask>
           </defs>
-          <rect width="100%" height="100%" fill="rgba(0,0,0,0.75)" mask="url(#tour-mask)"/>
+          <rect width="100%" height="100%" fill="rgba(0,0,0,0.5)" mask="url(#tour-mask)"/>
         </svg>
         <!-- Highlight ring around target -->
         @if (cutout()) {

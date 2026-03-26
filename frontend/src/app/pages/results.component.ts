@@ -142,7 +142,7 @@ interface HeatmapCell {
                 <circle *ngFor="let p of radarDataPoints; let i = index"
                         [attr.cx]="p.x" [attr.cy]="p.y" r="4"
                         [attr.fill]="p.value >= 100 ? '#34d399' : (p.value > 0 ? '#fbbf24' : '#f87171')"
-                        stroke="#1e293b" stroke-width="2"
+                        stroke="#e2e8f0" stroke-width="2"
                         class="animate-scale-in"
                         [style.animation-delay]="(i * 80 + 600) + 'ms'"/>
                 <!-- Labels -->
@@ -176,7 +176,7 @@ interface HeatmapCell {
                           width="56" height="56" rx="4"
                           [attr.fill]="cell.color"
                           [attr.fill-opacity]="cell.opacity"
-                          stroke="#1e293b" stroke-width="2"
+                          stroke="#e2e8f0" stroke-width="2"
                           class="animate-scale-in"
                           [style.animation-delay]="((cell.row * 3 + cell.col) * 80 + 500) + 'ms'"/>
                     <text *ngIf="cell.count > 0"

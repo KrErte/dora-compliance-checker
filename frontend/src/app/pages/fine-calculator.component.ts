@@ -471,7 +471,7 @@ interface FineResult {
       border-radius: 50%;
       background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
       cursor: pointer;
-      border: 2px solid #1e293b;
+      border: 2px solid #e2e8f0;
     }
 
     .slider-red::-moz-range-thumb {
@@ -480,7 +480,7 @@ interface FineResult {
       border-radius: 50%;
       background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
       cursor: pointer;
-      border: 2px solid #1e293b;
+      border: 2px solid #e2e8f0;
     }
 
     .roi-cta {

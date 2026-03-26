@@ -465,7 +465,7 @@ interface CalculationResult {
       border-radius: 50%;
       background: linear-gradient(135deg, #10b981, #06b6d4);
       cursor: pointer;
-      border: 2px solid #1e293b;
+      border: 2px solid #e2e8f0;
     }
     .slider-primary::-moz-range-thumb {
       width: 18px;
@@ -473,7 +473,7 @@ interface CalculationResult {
       border-radius: 50%;
       background: linear-gradient(135deg, #10b981, #06b6d4);
       cursor: pointer;
-      border: 2px solid #1e293b;
+      border: 2px solid #e2e8f0;
     }
     .animate-fade-in {
       animation: fadeIn 0.5s ease-out;

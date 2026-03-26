@@ -308,8 +308,8 @@ import { LangService } from '../lang.service';
     }
 
     .price-card {
-      background: #111827;
-      border: 1px solid #1e293b;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
       border-radius: 16px;
       padding: 32px 28px;
       text-align: center;
@@ -384,7 +384,7 @@ import { LangService } from '../lang.service';
       font-size: 13px;
       color: #64748b;
       padding-top: 16px;
-      border-top: 1px solid #1e293b;
+      border-top: 1px solid #e2e8f0;
     }
 
     /* FEATURE TABLE */
@@ -416,7 +416,7 @@ import { LangService } from '../lang.service';
       text-transform: uppercase;
       letter-spacing: 0.5px;
       color: #64748b;
-      border-bottom: 2px solid #1e293b;
+      border-bottom: 2px solid #e2e8f0;
     }
 
     thead th:nth-child(2) {
@@ -426,7 +426,7 @@ import { LangService } from '../lang.service';
 
     tbody td {
       padding: 14px 16px;
-      border-bottom: 1px solid #1e293b;
+      border-bottom: 1px solid #e2e8f0;
       vertical-align: middle;
     }
 
@@ -557,7 +557,7 @@ import { LangService } from '../lang.service';
     .btn-secondary {
       background: transparent;
       color: #e2e8f0;
-      border: 1px solid #1e293b;
+      border: 1px solid #e2e8f0;
     }
 
     .btn-secondary:hover {
@@ -580,7 +580,7 @@ import { LangService } from '../lang.service';
     }
 
     .faq-item {
-      border-bottom: 1px solid #1e293b;
+      border-bottom: 1px solid #e2e8f0;
       padding: 20px 0;
     }
 
