@@ -10,6 +10,7 @@ import { SubscriptionService } from '../services/subscription.service';
 import { ChecklistService } from '../services/checklist.service';
 import { PaywallService } from '../services/paywall.service';
 import { DocumentParserService } from '../services/document-parser.service';
+import { ContractComplianceCheckerService } from '../services/contract-compliance-checker.service';
 import { PAYMENT_CONFIG } from '../config/payment.config';
 import { ContractAnalysisResult } from '../models';
 
@@ -289,6 +290,43 @@ import { ContractAnalysisResult } from '../models';
           <input #fileInput type="file" accept=".pdf,.docx,.txt,.xlsx,.csv" (change)="onFileSelect($event)" class="hidden">
         </div>
 
+        <!-- Zero-Upload Badge -->
+        <div class="mb-4 flex items-center gap-3">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-medium">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            {{ lang.l('Fail ei lahku brauserist', 'File never leaves your browser') }}
+          </div>
+        </div>
+
+        <!-- AI Opt-in Toggle -->
+        <div class="mb-4 p-4 rounded-xl border border-slate-200 bg-slate-50">
+          <label class="flex items-center justify-between cursor-pointer">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
+                <span class="text-xs font-bold text-blue-600">AI</span>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-slate-700">
+                  {{ lang.l('Täpsem AI analüüs', 'Enhanced AI Analysis') }}
+                </p>
+                <p class="text-xs text-slate-500">
+                  {{ useAi
+                    ? lang.l('Tekst saadetakse serverisse AI analüüsiks', 'Text will be sent to server for AI analysis')
+                    : lang.l('Kiire rule-based analüüs 100% brauseris', 'Fast rule-based analysis 100% in browser') }}
+                </p>
+              </div>
+            </div>
+            <div class="relative">
+              <input type="checkbox" [(ngModel)]="useAi" class="sr-only">
+              <div [class]="'w-11 h-6 rounded-full transition-colors ' + (useAi ? 'bg-blue-500' : 'bg-slate-300')" (click)="useAi = !useAi">
+                <div [class]="'w-5 h-5 bg-white rounded-full shadow-md transform transition-transform mt-0.5 ' + (useAi ? 'translate-x-5.5 ml-[22px]' : 'translate-x-0.5 ml-[2px]')"></div>
+              </div>
+            </div>
+          </label>
+        </div>
+
         <div *ngIf="showValidation && !canSubmit" class="mb-3 p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm animate-fade-in">
           {{ lang.t('contract.validation_hint') }}
         </div>
@@ -297,7 +335,7 @@ import { ContractAnalysisResult } from '../models';
                   [class]="'flex-1 py-3 rounded-lg font-semibold transition-all duration-300 ' +
                            (canSubmit ? 'bg-blue-600 hover:bg-blue-700 text-slate-900 hover:shadow-lg hover:shadow-lg' :
                                         'bg-slate-200/50 text-slate-400 hover:text-slate-600 hover:bg-slate-100')">
-            {{ lang.t('contract.analyze') }}
+            {{ useAi ? lang.l('Analüüsi AI-ga', 'Analyze with AI') : lang.t('contract.analyze') }}
           </button>
           <!-- Demo Mock button - only for non-logged-in users -->
           <button type="button" *ngIf="!auth.isLoggedIn()" (click)="loadMockResult()"
@@ -661,6 +699,9 @@ export class ContractAnalysisComponent implements OnInit {
   isSampleFile = false;
 
   private documentParser = inject(DocumentParserService);
+  private contractChecker = inject(ContractComplianceCheckerService);
+  useAi = false;
+  parsedText = '';
 
   constructor(
     private api: ApiService,
@@ -821,7 +862,7 @@ export class ContractAnalysisComponent implements OnInit {
     const fileName = this.selectedFile.name;
 
     try {
-      // Client-side parsing: extract text in browser, send only text to server
+      // Client-side parsing: extract text in browser
       const parsed = await this.documentParser.parseFile(this.selectedFile);
       const text = parsed.pages.map(p => p.text).join('\n');
 
@@ -831,19 +872,45 @@ export class ContractAnalysisComponent implements OnInit {
         return;
       }
 
-      this.api.analyzeContractText(text, this.companyName, this.contractName, fileName)
-        .subscribe({
-          next: (res) => {
-            this.result = res;
-            this.analyzing = false;
-            this.cacheResult(res, fileName);
-            this.checklistService.markComplete('analyze_contract');
-          },
-          error: () => {
-            this.error = 'Analysis failed';
-            this.analyzing = false;
-          }
-        });
+      this.parsedText = text;
+
+      if (this.useAi) {
+        // AI mode: send text to server
+        this.api.analyzeContractText(text, this.companyName, this.contractName, fileName)
+          .subscribe({
+            next: (res) => {
+              this.result = res;
+              this.analyzing = false;
+              this.cacheResult(res, fileName);
+              this.checklistService.markComplete('analyze_contract');
+            },
+            error: () => {
+              this.error = 'Analysis failed';
+              this.analyzing = false;
+            }
+          });
+      } else {
+        // Rule-based: 100% in browser
+        const ruleResult = this.contractChecker.analyze(text);
+        this.result = {
+          id: 'local-' + Date.now(),
+          companyName: this.companyName,
+          contractName: this.contractName,
+          fileName,
+          analysisDate: new Date().toISOString(),
+          scorePercentage: ruleResult.scorePercentage,
+          complianceLevel: ruleResult.complianceLevel,
+          foundCount: ruleResult.foundCount,
+          partialCount: ruleResult.partialCount,
+          missingCount: ruleResult.missingCount,
+          totalRequirements: ruleResult.totalRequirements,
+          summary: ruleResult.summary,
+          findings: ruleResult.findings
+        };
+        this.analyzing = false;
+        this.cacheResult(this.result!, fileName);
+        this.checklistService.markComplete('analyze_contract');
+      }
     } catch (e) {
       this.error = 'Failed to parse file';
       this.analyzing = false;

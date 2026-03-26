@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { LangService } from '../lang.service';
 import { SubscriptionService } from '../services/subscription.service';
 import { DocumentParserService } from '../services/document-parser.service';
+import { ContractComplianceCheckerService } from '../services/contract-compliance-checker.service';
 import { ApiService } from '../api.service';
 
 interface BulkResult {
@@ -109,7 +110,23 @@ interface BulkResponse {
                 }
               </div>
 
-              <div class="mt-6 flex items-center gap-4">
+              <!-- Zero-Upload Badge + AI Toggle -->
+              <div class="mt-6 flex items-center gap-3 mb-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-medium">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                  </svg>
+                  Zero-Upload
+                </div>
+                <label class="flex items-center gap-2 cursor-pointer px-3 py-1.5 rounded-full border text-xs font-medium"
+                       [class]="useAi ? 'bg-blue-50 border-blue-200 text-blue-700' : 'bg-slate-50 border-slate-200 text-slate-500'">
+                  <input type="checkbox" [(ngModel)]="useAi" class="sr-only">
+                  <span class="w-3 h-3 rounded-full" [class]="useAi ? 'bg-blue-500' : 'bg-slate-300'" (click)="useAi = !useAi"></span>
+                  {{ useAi ? 'AI Analysis (server)' : 'Rule-based (browser)' }}
+                </label>
+              </div>
+
+              <div class="flex items-center gap-4">
                 <button (click)="startAnalysis()" [disabled]="analyzing || !companyName"
                         class="flex-1 px-6 py-3 bg-blue-600 text-slate-900 rounded-xl font-semibold text-lg
                                hover:shadow-lg hover:shadow-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed">
@@ -272,7 +289,9 @@ export class BulkContractAnalysisComponent {
   response: BulkResponse | null = null;
 
   private documentParser = inject(DocumentParserService);
+  private contractChecker = inject(ContractComplianceCheckerService);
   private api = inject(ApiService);
+  useAi = false;
 
   constructor(
     public lang: LangService,
@@ -326,7 +345,7 @@ export class BulkContractAnalysisComponent {
     if (this.files.length === 0 || !this.companyName) return;
 
     this.analyzing = true;
-    this.progressText = `Parsing ${this.files.length} contracts client-side...`;
+    this.progressText = `Parsing ${this.files.length} contracts in browser...`;
     this.progressPercent = 5;
 
     // Parse all files client-side
@@ -334,47 +353,100 @@ export class BulkContractAnalysisComponent {
     for (let i = 0; i < this.files.length; i++) {
       const file = this.files[i];
       this.progressText = `Parsing file ${i + 1} of ${this.files.length}...`;
-      this.progressPercent = 5 + (i / this.files.length) * 25;
+      this.progressPercent = 5 + (i / this.files.length) * 30;
       try {
         const parsed = await this.documentParser.parseFile(file);
         const text = parsed.pages.map(p => p.text).join('\n');
-        if (text.trim()) {
-          contracts.push({
-            text,
-            contractName: file.name.replace(/\.[^.]+$/, ''),
-            fileName: file.name
-          });
-        }
+        contracts.push({
+          text: text.trim() ? text : '',
+          contractName: file.name.replace(/\.[^.]+$/, ''),
+          fileName: file.name
+        });
       } catch (e) {
         contracts.push({ text: '', contractName: file.name, fileName: file.name });
       }
     }
 
-    this.progressText = `Sending extracted text for AI analysis...`;
-    this.progressPercent = 35;
+    if (this.useAi) {
+      // AI mode: send to server
+      this.progressText = `Sending text for AI analysis...`;
+      this.progressPercent = 35;
 
-    // Simulate progress during AI analysis
-    const interval = setInterval(() => {
-      if (this.progressPercent < 90) {
-        this.progressPercent += Math.random() * 6;
-        const count = Math.floor(((this.progressPercent - 35) / 55) * contracts.length);
-        this.progressText = `Analyzing contract ${Math.min(count + 1, contracts.length)} of ${contracts.length}...`;
-      }
-    }, 2000);
+      const interval = setInterval(() => {
+        if (this.progressPercent < 90) {
+          this.progressPercent += Math.random() * 6;
+          const count = Math.floor(((this.progressPercent - 35) / 55) * contracts.length);
+          this.progressText = `AI analyzing contract ${Math.min(count + 1, contracts.length)} of ${contracts.length}...`;
+        }
+      }, 2000);
 
-    this.api.analyzeBulkText(this.companyName, contracts).subscribe({
-      next: (response: BulkResponse) => {
-        clearInterval(interval);
-        this.progressPercent = 100;
-        this.analyzing = false;
-        this.response = response;
-      },
-      error: () => {
-        clearInterval(interval);
-        this.analyzing = false;
-        this.progressText = 'Analysis failed. Please try again.';
+      this.api.analyzeBulkText(this.companyName, contracts).subscribe({
+        next: (response: BulkResponse) => {
+          clearInterval(interval);
+          this.progressPercent = 100;
+          this.analyzing = false;
+          this.response = response;
+        },
+        error: () => {
+          clearInterval(interval);
+          this.analyzing = false;
+          this.progressText = 'Analysis failed. Please try again.';
+        }
+      });
+    } else {
+      // Rule-based: 100% in browser
+      const results: BulkResult[] = [];
+      let totalFound = 0, totalPartial = 0, totalMissing = 0, scoreSum = 0, successCount = 0;
+      const weakest: { contractName: string; score: number; missingCount: number; id: string }[] = [];
+
+      for (let i = 0; i < contracts.length; i++) {
+        this.progressText = `Analyzing contract ${i + 1} of ${contracts.length}...`;
+        this.progressPercent = 35 + (i / contracts.length) * 60;
+
+        const c = contracts[i];
+        if (!c.text) {
+          results.push({ fileName: c.fileName, status: 'error', error: 'Could not extract text' });
+          continue;
+        }
+
+        const r = this.contractChecker.analyze(c.text);
+        const id = 'local-' + Date.now() + '-' + i;
+        results.push({
+          id, contractName: c.contractName, fileName: c.fileName,
+          scorePercentage: r.scorePercentage, complianceLevel: r.complianceLevel,
+          foundCount: r.foundCount, partialCount: r.partialCount, missingCount: r.missingCount,
+          totalRequirements: r.totalRequirements, summary: r.summary, status: 'success'
+        });
+
+        totalFound += r.foundCount;
+        totalPartial += r.partialCount;
+        totalMissing += r.missingCount;
+        scoreSum += r.scorePercentage;
+        successCount++;
+
+        if (r.scorePercentage < 60) {
+          weakest.push({ contractName: c.contractName, score: r.scorePercentage, missingCount: r.missingCount, id });
+        }
       }
-    });
+
+      weakest.sort((a, b) => a.score - b.score);
+
+      this.progressPercent = 100;
+      this.analyzing = false;
+      this.response = {
+        results,
+        totalContracts: contracts.length,
+        successCount,
+        averageScore: successCount > 0 ? Math.round(scoreSum / successCount * 10) / 10 : 0,
+        portfolioTotalFound: totalFound,
+        portfolioTotalPartial: totalPartial,
+        portfolioTotalMissing: totalMissing,
+        weakestContracts: weakest,
+        portfolioLevel: successCount > 0
+          ? (scoreSum / successCount >= 80 ? 'GREEN' : (scoreSum / successCount >= 50 ? 'YELLOW' : 'RED'))
+          : 'UNKNOWN'
+      };
+    }
   }
 
   resetAnalysis(): void {

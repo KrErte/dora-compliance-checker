@@ -7,6 +7,7 @@ import { LangService } from '../lang.service';
 import { AuthService } from '../auth/auth.service';
 import { SubscriptionService } from '../services/subscription.service';
 import { DocumentParserService } from '../services/document-parser.service';
+import { DoraComplianceCheckerService } from '../services/dora-compliance-checker.service';
 import { GapAnalysisResult, GapFinding } from '../models';
 
 interface ArticleOption {
@@ -216,6 +217,22 @@ interface ArticleOption {
                 </button>
               </div>
             </div>
+          </div>
+
+          <!-- Zero-Upload Badge + AI Toggle -->
+          <div class="flex items-center gap-3 mb-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-medium">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+              </svg>
+              {{ lang.l('Fail ei lahku brauserist', 'File stays in browser') }}
+            </div>
+            <label class="flex items-center gap-2 cursor-pointer px-3 py-1.5 rounded-full border text-xs font-medium"
+                   [ngClass]="useAi ? 'bg-blue-50 border-blue-200 text-blue-700' : 'bg-slate-50 border-slate-200 text-slate-500'">
+              <input type="checkbox" [(ngModel)]="useAi" class="sr-only">
+              <span class="w-3 h-3 rounded-full" [ngClass]="useAi ? 'bg-blue-500' : 'bg-slate-300'" (click)="useAi = !useAi"></span>
+              {{ useAi ? lang.l('AI analüüs (server)', 'AI Analysis (server)') : lang.l('Rule-based (brauser)', 'Rule-based (browser)') }}
+            </label>
           </div>
 
           <!-- Analyze Button -->
@@ -466,6 +483,8 @@ export class EvidenceGapAnalyzerComponent implements OnInit {
   private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
   private documentParser = inject(DocumentParserService);
+  private doraChecker = inject(DoraComplianceCheckerService);
+  useAi = true; // Default to AI for gap analyzer since it's enterprise-only
 
   state: 'upload' | 'loading' | 'results' = 'upload';
   isEnterprise = false;
@@ -602,18 +621,82 @@ export class EvidenceGapAnalyzerComponent implements OnInit {
         return;
       }
 
-      this.api.analyzeGapText(text, this.documentTitle, this.documentCategory, articleNumbers, fileName).subscribe({
-        next: (res) => {
-          this.result = res;
-          this.buildGroupedFindings();
-          this.state = 'results';
-          this.loadHistory();
-        },
-        error: (err) => {
-          this.errorMsg = err.error?.error || this.lang.l('Analüüs ebaõnnestus. Palun proovige uuesti.', 'Analysis failed. Please try again.');
-          this.state = 'upload';
-        }
-      });
+      if (this.useAi) {
+        // AI mode: send text to server
+        this.api.analyzeGapText(text, this.documentTitle, this.documentCategory, articleNumbers, fileName).subscribe({
+          next: (res) => {
+            this.result = res;
+            this.buildGroupedFindings();
+            this.state = 'results';
+            this.loadHistory();
+          },
+          error: (err) => {
+            this.errorMsg = err.error?.error || this.lang.l('Analüüs ebaõnnestus. Palun proovige uuesti.', 'Analysis failed. Please try again.');
+            this.state = 'upload';
+          }
+        });
+      } else {
+        // Rule-based: 100% in browser using DoraComplianceCheckerService
+        const ruleResult = this.doraChecker.analyzeCompliance({
+          fileName,
+          fileType: 'pdf',
+          totalPages: parsed.pages.length,
+          pages: parsed.pages,
+          extractedText: text,
+          extractedAt: new Date()
+        });
+
+        // Map rule-based results to GapAnalysisResult format
+        const findings: GapFinding[] = ruleResult.checks
+          .filter(c => {
+            // Only include checks for selected articles
+            const artNum = c.article.replace(/[^0-9,-]/g, '').split('-')[0].split(',')[0];
+            return articleNumbers.some(an => c.article.includes(an) || artNum === an);
+          })
+          .map((c, idx) => {
+            const status = !c.found ? 'missing' : c.gaps.length > 0 ? 'partial' : 'found';
+            const artNum = c.article.replace(/[^0-9,-]/g, '').split('-')[0];
+            return {
+              requirementId: idx + 1,
+              articleNumber: artNum,
+              subRequirementEt: c.title,
+              subRequirementEn: c.title,
+              status,
+              quoteFromDocument: '',
+              recommendationEt: status !== 'found' ? (c.gaps.length > 0 ? 'Puuduvad elemendid: ' + c.gaps.join(', ') : 'Lisage selle valdkonna käsitlus') : '',
+              recommendationEn: status !== 'found' ? (c.gaps.length > 0 ? 'Missing elements: ' + c.gaps.join(', ') : 'Add coverage for this area') : '',
+              doraReference: c.article
+            };
+          });
+
+        const foundCount = findings.filter(f => f.status === 'found').length;
+        const partialCount = findings.filter(f => f.status === 'partial').length;
+        const missingCount = findings.filter(f => f.status === 'missing').length;
+        const total = findings.length;
+        const score = total > 0 ? Math.round((foundCount + partialCount * 0.5) / total * 1000) / 10 : 0;
+
+        this.result = {
+          id: 'local-' + Date.now(),
+          userId: '',
+          documentTitle: this.documentTitle,
+          fileName,
+          documentCategory: this.documentCategory,
+          articleNumbers: articleNumbers.join(','),
+          analysisDate: new Date().toISOString(),
+          totalRequirements: total,
+          foundCount, missingCount, partialCount,
+          scorePercentage: score,
+          complianceLevel: score >= 80 ? 'GREEN' : score >= 50 ? 'YELLOW' : 'RED',
+          summaryEt: `Rule-based analüüs: ${foundCount} leitud, ${partialCount} osaline, ${missingCount} puudu.`,
+          summaryEn: `Rule-based analysis: ${foundCount} found, ${partialCount} partial, ${missingCount} missing.`,
+          findings,
+          linkedEvidenceId: undefined,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+        this.buildGroupedFindings();
+        this.state = 'results';
+      }
     } catch (e) {
       this.errorMsg = this.lang.l('Faili parsimine ebaõnnestus', 'Failed to parse file');
       this.state = 'upload';
