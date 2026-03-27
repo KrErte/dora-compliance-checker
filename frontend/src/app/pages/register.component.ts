@@ -187,8 +187,8 @@ import { AuthService } from '../auth/auth.service';
 
             <button type="submit" [disabled]="loading"
                     class="w-full py-3 rounded-xl font-semibold text-sm transition-all duration-200
-                           bg-blue-500 text-white
-                           hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30
+                           bg-sky-500 text-white
+                           hover:bg-sky-600 hover:shadow-lg hover:shadow-sky-500/30
                            disabled:opacity-50 disabled:cursor-not-allowed">
               @if (loading) {
                 <span class="inline-flex items-center gap-2">

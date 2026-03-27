@@ -256,8 +256,8 @@ import { SubscriptionService } from '../services/subscription.service';
           <a [href]="paymentConfig.lemonsqueezy.products.business?.checkoutUrl || '#'"
              target="_blank"
              class="magnetic-btn w-full py-3 px-4 rounded-xl text-center font-bold text-sm
-                    bg-blue-500 text-white
-                    hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/30
+                    bg-sky-500 text-white
+                    hover:bg-sky-600 hover:shadow-lg hover:shadow-sky-500/30
                     transition-all duration-300">
             {{ lang.t('pricing.biz_cta') }}
           </a>
