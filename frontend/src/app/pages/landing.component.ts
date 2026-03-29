@@ -108,7 +108,7 @@ interface DoraRequirement {
               <svg class="w-3.5 h-3.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
               </svg>
-              {{ lang.l('Andmed on krüpteeritud ja neid ei jagata kolmandate osapooltega', 'Your data is encrypted and never shared with third parties') }}
+              {{ lang.l('Andmed on krüpteeritud ja kustutatakse pärast analüüsi', 'Your data is encrypted and deleted after analysis') }}
             </p>
           }
         </div>

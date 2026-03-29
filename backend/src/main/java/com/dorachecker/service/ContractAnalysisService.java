@@ -95,16 +95,16 @@ public class ContractAnalysisService {
             throw new RuntimeException("Failed to serialize findings", e);
         }
 
-        ContractAnalysisEntity entity = new ContractAnalysisEntity(
-                companyName, contractName, fileName,
-                LocalDateTime.now(), total, foundCount, missingCount, partialCount,
-                Math.round(score * 10.0) / 10.0, level, summary, findingsJson);
-        entity = repository.save(entity);
+        double roundedScore = Math.round(score * 10.0) / 10.0;
+        LocalDateTime now = LocalDateTime.now();
+        String transientId = java.util.UUID.randomUUID().toString();
 
+        // Results are returned to the client but NOT persisted to the database.
+        // Contract data is analyzed in real-time and deleted after analysis.
         return new ContractAnalysisResult(
-                entity.getId(), companyName, contractName, fileName,
-                entity.getAnalysisDate(), total, foundCount, missingCount, partialCount,
-                entity.getScorePercentage(), level, summary, findings);
+                transientId, companyName, contractName, fileName,
+                now, total, foundCount, missingCount, partialCount,
+                roundedScore, level, summary, findings);
     }
 
     /**
@@ -136,23 +136,14 @@ public class ContractAnalysisService {
         double score = total > 0 ? (foundCount + partialCount * 0.5) / total * 100.0 : 0;
         String level = score >= 80 ? "GREEN" : score >= 50 ? "YELLOW" : "RED";
 
-        String findingsJson;
-        try {
-            findingsJson = objectMapper.writeValueAsString(findings);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to serialize findings", e);
-        }
-
-        ContractAnalysisEntity entity = new ContractAnalysisEntity(
-                companyName, contractName, fileName,
-                LocalDateTime.now(), total, foundCount, missingCount, partialCount,
-                Math.round(score * 10.0) / 10.0, level, summary, findingsJson);
-        entity = repository.save(entity);
+        double roundedScore = Math.round(score * 10.0) / 10.0;
+        LocalDateTime now = LocalDateTime.now();
+        String transientId = java.util.UUID.randomUUID().toString();
 
         return new ContractAnalysisResult(
-                entity.getId(), companyName, contractName, fileName,
-                entity.getAnalysisDate(), total, foundCount, missingCount, partialCount,
-                entity.getScorePercentage(), level, summary, findings);
+                transientId, companyName, contractName, fileName,
+                now, total, foundCount, missingCount, partialCount,
+                roundedScore, level, summary, findings);
     }
 
     public ContractAnalysisResult getById(String id) {
