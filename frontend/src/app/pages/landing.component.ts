@@ -47,7 +47,7 @@ interface DoraRequirement {
     <!-- Hero section -->
     <div class="relative overflow-hidden">
       <!-- Subtle gradient background -->
-      <div class="absolute inset-0 bg-gradient-to-b from-white via-slate-50 to-slate-100"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-white via-blue-50/50 to-blue-100/40"></div>
       <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-50 rounded-full blur-3xl"></div>
 
       <div class="relative flex flex-col items-center justify-center min-h-[60vh] text-center z-10 py-16 px-4">
@@ -88,7 +88,7 @@ interface DoraRequirement {
             </p>
           } @else {
             <a routerLink="/contract-analysis"
-               class="group inline-flex items-center gap-3 bg-white hover:bg-slate-100
+               class="group inline-flex items-center gap-3 bg-white hover:bg-blue-50
                       text-slate-900 font-bold px-10 py-4 rounded-xl text-lg w-full sm:w-auto justify-center
                       hover:shadow-lg hover:shadow-white/20 transition-all duration-300">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -267,12 +267,12 @@ interface DoraRequirement {
     </div>
 
     <!-- Social Proof — Testimonials -->
-    <div class="py-10 px-4 bg-gradient-to-b from-slate-100/60 to-slate-100/60 border-y border-slate-200">
+    <div class="py-10 px-4 bg-gradient-to-b from-blue-50/60 to-blue-100/50 border-y border-blue-200/50">
       <div class="max-w-4xl mx-auto">
         <p class="text-center text-xs font-medium text-slate-500 uppercase tracking-wider mb-6">{{ lang.l('Mida meie kliendid ütlevad', 'What our clients say') }}</p>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <!-- Testimonial 1 -->
-          <div class="glass-card p-5 rounded-xl border border-slate-200">
+          <div class="glass-card p-5 rounded-xl border border-blue-200/50">
             <div class="flex gap-1 mb-3">
               <svg *ngFor="let s of [1,2,3,4,5]" class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
             </div>
@@ -286,7 +286,7 @@ interface DoraRequirement {
             </div>
           </div>
           <!-- Testimonial 2 -->
-          <div class="glass-card p-5 rounded-xl border border-slate-200">
+          <div class="glass-card p-5 rounded-xl border border-blue-200/50">
             <div class="flex gap-1 mb-3">
               <svg *ngFor="let s of [1,2,3,4,5]" class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
             </div>
@@ -300,7 +300,7 @@ interface DoraRequirement {
             </div>
           </div>
           <!-- Testimonial 3 -->
-          <div class="glass-card p-5 rounded-xl border border-slate-200">
+          <div class="glass-card p-5 rounded-xl border border-blue-200/50">
             <div class="flex gap-1 mb-3">
               <svg *ngFor="let s of [1,2,3,4,5]" class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
             </div>
@@ -325,7 +325,7 @@ interface DoraRequirement {
         <p class="text-slate-500 text-sm mt-2">{{ lang.t('landing.interactive_desc') }}</p>
       </div>
 
-      <div class="requirements-table rounded-xl overflow-x-auto border border-slate-200">
+      <div class="requirements-table rounded-xl overflow-x-auto border border-blue-200/50">
         <table class="w-full min-w-[480px]">
           <caption class="sr-only">{{ lang.t('landing.table_caption') }}</caption>
           <thead class="bg-white">
@@ -337,13 +337,13 @@ interface DoraRequirement {
           </thead>
           <tbody>
             <ng-container *ngFor="let req of requirements; let i = index">
-              <tr class="requirement-row border-t border-slate-200 cursor-pointer hover:bg-white transition-colors"
+              <tr class="requirement-row border-t border-blue-200/40 cursor-pointer hover:bg-blue-50/30 transition-colors"
                   (click)="toggleRequirement(req)" [class.expanded]="req.expanded">
                 <td class="px-4 py-4">
                   <input type="checkbox" [(ngModel)]="req.checked" (click)="$event.stopPropagation()"
                          [id]="'req-checkbox-' + req.id"
                          [attr.aria-label]="(req.nameKey ? lang.t(req.nameKey) : req.name) + ' - ' + (req.checked ? lang.t('landing.table_ok') : lang.t('landing.table_missing'))"
-                         class="w-5 h-5 rounded border-slate-300 bg-slate-200 text-teal-500 focus:ring-teal-500 cursor-pointer">
+                         class="w-5 h-5 rounded border-blue-300 bg-blue-100 text-teal-500 focus:ring-teal-500 cursor-pointer">
                   <label [for]="'req-checkbox-' + req.id" class="sr-only">{{ req.nameKey ? lang.t(req.nameKey) : req.name }}</label>
                 </td>
                 <td class="px-4 py-4">
@@ -369,7 +369,7 @@ interface DoraRequirement {
                   </span>
                 </td>
               </tr>
-              <tr *ngIf="req.expanded" class="bg-slate-100/30 animate-slide-down">
+              <tr *ngIf="req.expanded" class="bg-blue-50/30 animate-slide-down">
                 <td colspan="3" class="px-4 py-4">
                   <div class="text-sm text-slate-400 pl-9">
                     <p class="mb-3 leading-relaxed">{{ req.descKey ? lang.t(req.descKey) : req.description }}</p>
@@ -549,7 +549,7 @@ interface DoraRequirement {
              (mouseenter)="onPillarHover($event, i)"
              (mouseleave)="onPillarLeave($event, i)"
              (mousemove)="onPillarMove($event, i)">
-            <div class="tilt-card-inner feature-card glass-card p-5 text-center rounded-xl border border-slate-200 group-hover:border-blue-500/40 transition-all duration-300 relative overflow-hidden">
+            <div class="tilt-card-inner feature-card glass-card p-5 text-center rounded-xl border border-blue-200/50 group-hover:border-blue-500/40 transition-all duration-300 relative overflow-hidden">
               <div class="tilt-card-shine"></div>
               <div class="feature-card-icon mb-3 floating-label">
                 <svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -673,7 +673,7 @@ interface DoraRequirement {
                   <label for="contact-name" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('auth.full_name') }}</label>
                   <input type="text" [(ngModel)]="contactName" name="name" id="contact-name" required
                          [class]="'w-full px-4 py-3 rounded-xl bg-white border text-slate-700 placeholder-slate-500 focus:outline-none transition-colors ' +
-                                  (contactNameError ? 'border-red-500 focus:border-red-400' : 'border-slate-200 focus:border-teal-500')"
+                                  (contactNameError ? 'border-red-500 focus:border-red-400' : 'border-blue-200 focus:border-teal-500')"
                          [placeholder]="lang.t('landing.contact_name_placeholder')">
                   <p *ngIf="contactNameError" class="text-red-400 text-xs mt-1 animate-fade-in">
                     {{ lang.t('landing.contact_error_name') }}
@@ -683,7 +683,7 @@ interface DoraRequirement {
                   <label for="contact-email" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('auth.email') }}</label>
                   <input type="email" [(ngModel)]="contactEmail" name="email" id="contact-email" [placeholder]="lang.t('landing.contact_email_placeholder')"
                          [class]="'w-full px-4 py-3 rounded-xl bg-white border text-slate-700 placeholder-slate-500 focus:outline-none transition-colors ' +
-                                  (contactEmailError ? 'border-red-500 focus:border-red-400' : 'border-slate-200 focus:border-teal-500')"
+                                  (contactEmailError ? 'border-red-500 focus:border-red-400' : 'border-blue-200 focus:border-teal-500')"
                          required>
                   <p *ngIf="contactEmailError" class="text-red-400 text-xs mt-1 animate-fade-in">
                     {{ lang.t('landing.contact_error') }}
@@ -693,7 +693,7 @@ interface DoraRequirement {
                   <label for="contact-reason" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('landing.contact_reason_label') }}</label>
                   <select [(ngModel)]="contactReason" name="reason" id="contact-reason"
                           [class]="'w-full px-4 py-3 rounded-xl bg-white border text-slate-700 focus:outline-none transition-colors cursor-pointer ' +
-                                   (contactReasonError ? 'border-red-500 focus:border-red-400' : 'border-slate-200 focus:border-teal-500')">
+                                   (contactReasonError ? 'border-red-500 focus:border-red-400' : 'border-blue-200 focus:border-teal-500')">
                     <option value="" disabled>{{ lang.t('landing.contact_reason_placeholder') }}</option>
                     <option *ngFor="let reason of contactReasons" [value]="reason.value">{{ lang.t(reason.labelKey) }}</option>
                   </select>
@@ -705,7 +705,7 @@ interface DoraRequirement {
                   <label for="contact-message" class="block text-xs font-medium text-slate-400 mb-1.5">{{ lang.t('landing.contact_message_label') }}</label>
                   <textarea [(ngModel)]="contactMessage" name="message" id="contact-message" rows="3"
                             [class]="'w-full px-4 py-3 rounded-xl bg-white border text-slate-700 placeholder-slate-500 focus:outline-none transition-colors resize-none ' +
-                                     (contactMessageError ? 'border-red-500 focus:border-red-400' : 'border-slate-200 focus:border-teal-500')"
+                                     (contactMessageError ? 'border-red-500 focus:border-red-400' : 'border-blue-200 focus:border-teal-500')"
                             [placeholder]="lang.t('landing.contact_message_placeholder')"></textarea>
                   <p *ngIf="contactMessageError" class="text-red-400 text-xs mt-1 animate-fade-in">
                     {{ lang.t('landing.contact_error_message') }}
@@ -787,18 +787,18 @@ interface DoraRequirement {
               </div>
 
               <!-- LinkedIn -->
-              <div class="pt-4 border-t border-slate-200">
+              <div class="pt-4 border-t border-blue-200/50">
                 <p class="text-xs text-slate-500 mb-3">{{ lang.t('landing.contact_social') }}</p>
                 <div class="flex flex-col gap-2">
                   <a href="https://www.linkedin.com/company/doraaudit" target="_blank" rel="noopener"
-                     class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white border border-slate-200 hover:border-blue-500/30 hover:bg-slate-100 transition-all group">
+                     class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white border border-blue-200 hover:border-blue-500/30 hover:bg-blue-50 transition-all group">
                     <svg class="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                     </svg>
                     <span class="text-sm text-slate-600 group-hover:text-blue-300">DoraAudit.eu <span class="text-xs text-slate-500">{{ lang.l('(ametlik leht)', '(company page)') }}</span></span>
                   </a>
                   <a href="https://www.linkedin.com/in/kristo-erte-52b73918a/" target="_blank" rel="noopener"
-                     class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white border border-slate-200 hover:border-blue-500/30 hover:bg-slate-100 transition-all group">
+                     class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white border border-blue-200 hover:border-blue-500/30 hover:bg-blue-50 transition-all group">
                     <svg class="w-5 h-5 text-blue-300" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                     </svg>
