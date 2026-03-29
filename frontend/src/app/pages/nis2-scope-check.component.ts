@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 import { PAYMENT_CONFIG } from '../config/payment.config';
+import { PaymentService } from '../services/payment.service';
 
 interface CompanyInfo {
   registryCode: string;
@@ -421,13 +422,13 @@ interface Sector {
                 <span class="text-lg font-bold text-teal-400">{{ lang.t('nis2.cta_assessment_price') }}</span>
               </div>
               <p class="text-xs text-slate-400">{{ lang.t('nis2.cta_assessment_desc') }}</p>
-              <a [href]="paymentConfig.lemonsqueezy.products.nis2Assessment.checkoutUrl" target="_blank"
+              <button (click)="checkoutNis2()"
                  class="block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium
                         bg-gradient-to-r from-teal-500 to-blue-500 text-white
                         hover:from-teal-400 hover:to-blue-400 hover:shadow-lg hover:shadow-teal-500/25
-                        transition-all duration-200">
+                        transition-all duration-200 cursor-pointer">
                 {{ lang.t('nis2.cta_assessment_btn') }} →
-              </a>
+              </button>
             </div>
 
             <!-- Board report card - secondary -->
@@ -440,13 +441,13 @@ interface Sector {
                 <span class="text-lg font-bold text-slate-600">{{ lang.t('nis2.cta_report_price') }}</span>
               </div>
               <p class="text-xs text-slate-400">{{ lang.t('nis2.cta_report_desc') }}</p>
-              <a [href]="paymentConfig.lemonsqueezy.products.nis2Report.checkoutUrl" target="_blank"
+              <button (click)="checkoutNis2Report()"
                  class="block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium
                         bg-slate-600/50 text-slate-700 border border-slate-500/30
                         hover:bg-slate-500/50 hover:text-slate-900
-                        transition-all duration-200">
+                        transition-all duration-200 cursor-pointer">
                 {{ lang.t('nis2.cta_report_btn') }} →
-              </a>
+              </button>
             </div>
 
             <!-- Combo card - highlight -->
@@ -459,13 +460,13 @@ interface Sector {
                 <span class="text-lg font-bold text-amber-400">{{ lang.t('nis2.cta_combo_price') }}</span>
               </div>
               <p class="text-xs text-slate-400">{{ lang.t('nis2.cta_combo_desc') }}</p>
-              <a [href]="paymentConfig.lemonsqueezy.products.comboPackage.checkoutUrl" target="_blank"
+              <button (click)="checkoutCombo()"
                  class="block w-full py-2.5 px-4 rounded-lg text-center text-sm font-medium
                         bg-gradient-to-r from-amber-500 to-orange-500 text-white
                         hover:from-amber-400 hover:to-orange-400 hover:shadow-lg hover:shadow-amber-500/25
-                        transition-all duration-200">
+                        transition-all duration-200 cursor-pointer">
                 {{ lang.t('nis2.cta_combo_btn') }} →
-              </a>
+              </button>
             </div>
 
             <p class="text-xs text-slate-500 text-center pt-2">{{ lang.t('nis2.cta_footer') }}</p>
@@ -562,6 +563,8 @@ interface Sector {
 })
 export class Nis2ScopeCheckComponent implements OnInit {
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private paymentService = inject(PaymentService);
+
   constructor(
     public lang: LangService,
     private http: HttpClient,
@@ -570,6 +573,18 @@ export class Nis2ScopeCheckComponent implements OnInit {
   ) {}
 
   paymentConfig = PAYMENT_CONFIG;
+
+  checkoutNis2(): void {
+    this.paymentService.createCheckout(PAYMENT_CONFIG.stripe.products.nis2Assessment.priceId);
+  }
+
+  checkoutNis2Report(): void {
+    this.paymentService.createCheckout(PAYMENT_CONFIG.stripe.products.nis2Report.priceId);
+  }
+
+  checkoutCombo(): void {
+    this.paymentService.createCheckout(PAYMENT_CONFIG.stripe.products.comboPackage.priceId);
+  }
 
   // Demo mode
   isDemoMode = false;

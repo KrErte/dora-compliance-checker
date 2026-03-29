@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, ActivatedRoute } from '@angular/router';
 import { LangService } from '../lang.service';
+import { SubscriptionService } from '../services/subscription.service';
 
 @Component({
   selector: 'app-payment-success',
@@ -211,11 +212,16 @@ export class PaymentSuccessComponent implements OnInit {
 
   constructor(
     public lang: LangService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private subscriptionService: SubscriptionService
   ) {}
 
   ngOnInit() {
-    // Payment verification is handled server-side via SubscriptionService.verifyCheckout().
-    // We do NOT store payment status in localStorage from URL params to prevent bypass.
+    const sessionId = this.route.snapshot.queryParamMap.get('session_id');
+    if (sessionId) {
+      this.subscriptionService.verifyCheckout(sessionId).subscribe({
+        error: (e: unknown) => console.warn('Stripe verification failed:', e)
+      });
+    }
   }
 }

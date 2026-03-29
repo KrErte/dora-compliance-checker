@@ -9,7 +9,10 @@ import java.time.LocalDateTime;
     @Index(name = "idx_subscriptions_session_id", columnList = "sessionId"),
     @Index(name = "idx_subscriptions_ls_sub_id", columnList = "lemon_squeezy_subscription_id"),
     @Index(name = "idx_subscriptions_ls_order_id", columnList = "lemon_squeezy_order_id"),
-    @Index(name = "idx_subscriptions_ls_customer_id", columnList = "lemon_squeezy_customer_id")
+    @Index(name = "idx_subscriptions_ls_customer_id", columnList = "lemon_squeezy_customer_id"),
+    @Index(name = "idx_subscriptions_stripe_sub_id", columnList = "stripe_subscription_id"),
+    @Index(name = "idx_subscriptions_stripe_customer_id", columnList = "stripe_customer_id"),
+    @Index(name = "idx_subscriptions_stripe_session_id", columnList = "stripe_session_id")
 })
 public class UserSubscriptionEntity {
 
@@ -42,6 +45,15 @@ public class UserSubscriptionEntity {
 
     @Column(name = "lemon_squeezy_order_id")
     private String lemonSqueezyOrderId;
+
+    @Column(name = "stripe_subscription_id")
+    private String stripeSubscriptionId;
+
+    @Column(name = "stripe_customer_id")
+    private String stripeCustomerId;
+
+    @Column(name = "stripe_session_id")
+    private String stripeSessionId;
 
     @Column(name = "valid_until")
     private LocalDateTime validUntil;
@@ -87,6 +99,15 @@ public class UserSubscriptionEntity {
     public void setLemonSqueezyOrderId(String lemonSqueezyOrderId) {
         this.lemonSqueezyOrderId = lemonSqueezyOrderId;
     }
+
+    public String getStripeSubscriptionId() { return stripeSubscriptionId; }
+    public void setStripeSubscriptionId(String stripeSubscriptionId) { this.stripeSubscriptionId = stripeSubscriptionId; }
+
+    public String getStripeCustomerId() { return stripeCustomerId; }
+    public void setStripeCustomerId(String stripeCustomerId) { this.stripeCustomerId = stripeCustomerId; }
+
+    public String getStripeSessionId() { return stripeSessionId; }
+    public void setStripeSessionId(String stripeSessionId) { this.stripeSessionId = stripeSessionId; }
 
     public LocalDateTime getValidUntil() { return validUntil; }
     public void setValidUntil(LocalDateTime validUntil) { this.validUntil = validUntil; }

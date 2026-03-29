@@ -144,19 +144,6 @@
   }
   </script>
 
-  <!-- LemonSqueezy Checkout (loaded dynamically to suppress console errors) -->
-  <script>
-    window.lemonSqueezyLoadFailed = false;
-    window.lemonSqueezyLoaded = false;
-    (function() {
-      var s = document.createElement('script');
-      s.src = 'https://app.lemonsqueezy.com/js/lemon.js';
-      s.defer = true;
-      s.onload = function() { window.lemonSqueezyLoaded = true; };
-      s.onerror = function() { window.lemonSqueezyLoadFailed = true; };
-      document.head.appendChild(s);
-    })();
-  </script>
 </head>
 <body>
   <app-root></app-root>

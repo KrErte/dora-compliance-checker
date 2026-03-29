@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import com.stripe.model.checkout.Session;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -105,7 +106,40 @@ public class SubscriptionController {
             ));
         }
 
-        // Check if this checkoutId was already used (prevent replay)
+        // Try Stripe session verification first (session IDs start with "cs_")
+        if (request.checkoutId().startsWith("cs_")) {
+            try {
+                Session stripeSession = Session.retrieve(request.checkoutId());
+                if ("complete".equals(stripeSession.getStatus())) {
+                    // Already handled by webhook, just confirm success
+                    Optional<UserSubscriptionEntity> stripeSub = subscriptionRepository.findByStripeSessionId(request.checkoutId());
+                    if (stripeSub.isPresent()) {
+                        return ResponseEntity.ok(Map.of(
+                                "success", true,
+                                "plan", stripeSub.get().getPlan().name(),
+                                "message", "Subscription activated successfully"
+                        ));
+                    }
+                    // Webhook hasn't processed yet — return pending
+                    return ResponseEntity.ok(Map.of(
+                            "success", true,
+                            "plan", "STANDARD",
+                            "message", "Payment received, subscription activating..."
+                    ));
+                }
+                return ResponseEntity.badRequest().body(Map.of(
+                        "error", "CHECKOUT_INCOMPLETE",
+                        "message", "Checkout session is not complete"
+                ));
+            } catch (Exception e) {
+                return ResponseEntity.badRequest().body(Map.of(
+                        "error", "STRIPE_ERROR",
+                        "message", "Failed to verify Stripe session"
+                ));
+            }
+        }
+
+        // Legacy LemonSqueezy verification
         Optional<UserSubscriptionEntity> existingSub = subscriptionRepository.findByLemonSqueezyOrderId(request.checkoutId());
         if (existingSub.isPresent()) {
             return ResponseEntity.badRequest().body(Map.of(
@@ -114,8 +148,6 @@ public class SubscriptionController {
             ));
         }
 
-        // Map product type to plan — only allow STANDARD from frontend verification.
-        // ENTERPRISE upgrades must be handled via webhook or admin.
         UserSubscriptionEntity.Plan plan = switch (request.productType()) {
             case "standard", "single" -> UserSubscriptionEntity.Plan.STANDARD;
             default -> UserSubscriptionEntity.Plan.STANDARD;

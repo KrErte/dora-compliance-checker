@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { LangService } from '../lang.service';
 import { PaywallService } from '../services/paywall.service';
 import { PAYMENT_CONFIG } from '../config/payment.config';
+import { PaymentService } from '../services/payment.service';
 
 interface Question {
   id: string;
@@ -215,22 +216,20 @@ interface AssessmentResult {
               <h3 class="text-lg font-semibold text-slate-700 mb-2">{{ lang.t('paywall.unlock_title') }}</h3>
               <p class="text-sm text-slate-400 mb-6">{{ lang.t('paywall.nis2_desc') }}</p>
               <div class="flex flex-col gap-3">
-                <a [href]="paymentConfig.lemonsqueezy.products.nis2Assessment.checkoutUrl"
-                   target="_blank"
+                <button (click)="checkoutNis2()"
                    class="w-full py-3 px-4 rounded-xl text-center font-medium text-sm
                           bg-gradient-to-r from-amber-500 to-orange-500 text-white
                           hover:from-amber-400 hover:to-orange-400 hover:shadow-lg hover:shadow-amber-500/25
-                          transition-all duration-200">
+                          transition-all duration-200 cursor-pointer">
                   {{ lang.t('paywall.buy_nis2') }}
-                </a>
-                <a [href]="paymentConfig.lemonsqueezy.products.comboPackage.checkoutUrl"
-                   target="_blank"
+                </button>
+                <button (click)="checkoutCombo()"
                    class="w-full py-2.5 px-4 rounded-xl text-center font-medium text-sm
                           bg-slate-100/50 text-slate-600 border border-slate-200
                           hover:bg-slate-100 hover:text-amber-400 hover:border-amber-500/30
-                          transition-all duration-200">
+                          transition-all duration-200 cursor-pointer">
                   {{ lang.t('paywall.buy_combo') }}
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -386,12 +385,25 @@ export class Nis2AssessmentComponent implements OnInit {
   paymentConfig = PAYMENT_CONFIG;
   private freeQuestionsLimit = 5;
 
+  private paymentService: PaymentService;
+
   constructor(
     private http: HttpClient,
     private router: Router,
     public lang: LangService,
-    public paywall: PaywallService
-  ) {}
+    public paywall: PaywallService,
+    paymentService: PaymentService
+  ) {
+    this.paymentService = paymentService;
+  }
+
+  checkoutNis2(): void {
+    this.paymentService.createCheckout(PAYMENT_CONFIG.stripe.products.nis2Assessment.priceId);
+  }
+
+  checkoutCombo(): void {
+    this.paymentService.createCheckout(PAYMENT_CONFIG.stripe.products.comboPackage.priceId);
+  }
 
   ngOnInit() {
     this.loadDraft();

@@ -134,14 +134,13 @@ export class SubscriptionService {
   /**
    * Verify checkout and activate subscription
    */
-  verifyCheckout(checkoutId: string, productType: string): Observable<any> {
+  verifyCheckout(sessionId: string, productType: string = 'standard'): Observable<any> {
     return this.http.post('/api/subscription/verify', {
-      checkoutId,
+      checkoutId: sessionId,
       productType
     }, { headers: this.getHeaders() }).pipe(
       tap(() => {
         this.refreshStatus();
-        this.savePaymentCompleted(checkoutId);
       })
     );
   }
@@ -249,15 +248,7 @@ export class SubscriptionService {
    * This is only used to trigger a server-side verification — not for granting access.
    */
   hasLegacyPaymentHint(): boolean {
-    if (!this.isBrowser) return false;
-    const payment = localStorage.getItem('paymentCompleted');
-    if (!payment) return false;
-    try {
-      const data = JSON.parse(payment);
-      return !!data.checkoutId;
-    } catch {
-      return false;
-    }
+    return false;
   }
 
   private ensureSessionId(): void {
@@ -288,28 +279,11 @@ export class SubscriptionService {
       } catch {}
     }
 
-    // Check legacy payment and migrate if needed
-    if (this.hasLegacyPaymentHint() && !this.isPremium()) {
-      const payment = JSON.parse(localStorage.getItem('paymentCompleted') || '{}');
-      this.verifyCheckout(payment.checkoutId, 'standard').subscribe({
-        error: (e: unknown) => console.warn('Legacy payment migration failed:', e)
-      });
-    }
   }
 
   private saveToStorage(status: SubscriptionStatus): void {
     if (!this.isBrowser) return;
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(status));
-  }
-
-  private savePaymentCompleted(checkoutId: string): void {
-    if (!this.isBrowser) return;
-    const data = {
-      checkoutId,
-      timestamp: new Date().toISOString(),
-      products: ['subscription']
-    };
-    localStorage.setItem('paymentCompleted', JSON.stringify(data));
   }
 
   private trackPaywallEvent(event: string, feature: PremiumFeature | null): void {

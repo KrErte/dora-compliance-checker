@@ -5,6 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 import { PAYMENT_CONFIG } from '../config/payment.config';
 import { SubscriptionService } from '../services/subscription.service';
+import { PaymentService } from '../services/payment.service';
 
 @Component({
   selector: 'app-pricing',
@@ -174,14 +175,13 @@ import { SubscriptionService } from '../services/subscription.service';
             </li>
           </ul>
 
-          <a [href]="paymentConfig.lemonsqueezy.products.professional?.checkoutUrl || '#'"
-             target="_blank"
+          <button (click)="checkout('professional')"
              class="w-full py-3 px-4 rounded-xl text-center font-semibold text-sm
                     bg-blue-600/20 text-blue-500 border border-blue-500/30
                     hover:bg-blue-600/30 hover:border-blue-500/50
-                    transition-all duration-300">
+                    transition-all duration-300 cursor-pointer">
             {{ lang.t('pricing.pro_cta') }}
-          </a>
+          </button>
 
           <a routerLink="/register" class="block mt-2 text-center text-xs text-blue-600 hover:text-blue-500 transition-colors">
             {{ lang.l('Proovi enne 14 päeva tasuta', 'Try 14 days free first') }}
@@ -253,14 +253,13 @@ import { SubscriptionService } from '../services/subscription.service';
             </li>
           </ul>
 
-          <a [href]="paymentConfig.lemonsqueezy.products.business?.checkoutUrl || '#'"
-             target="_blank"
+          <button (click)="checkout('business')"
              class="magnetic-btn w-full py-3 px-4 rounded-xl text-center font-bold text-sm
                     bg-sky-500 text-white
                     hover:bg-sky-600 hover:shadow-lg hover:shadow-sky-500/30
-                    transition-all duration-300">
+                    transition-all duration-300 cursor-pointer">
             {{ lang.t('pricing.biz_cta') }}
-          </a>
+          </button>
 
           <a routerLink="/register" class="block mt-2 text-center text-xs text-blue-600 hover:text-blue-500 transition-colors">
             {{ lang.l('Proovi enne 14 päeva tasuta', 'Try 14 days free first') }}
@@ -341,14 +340,13 @@ import { SubscriptionService } from '../services/subscription.service';
             </li>
           </ul>
 
-          <a [href]="paymentConfig.lemonsqueezy.products.enterprise?.checkoutUrl || '#'"
-             target="_blank"
+          <button (click)="checkout('enterprise')"
              class="magnetic-btn w-full py-3 px-4 rounded-xl text-center font-bold text-sm
                     bg-gradient-to-r from-purple-500 to-pink-500 text-white
                     hover:from-purple-400 hover:to-pink-400 hover:shadow-lg hover:shadow-purple-500/30
-                    transition-all duration-300">
+                    transition-all duration-300 cursor-pointer">
             {{ lang.t('pricing.ent_cta') }}
-          </a>
+          </button>
 
           <div class="mt-3 pt-3 border-t border-slate-200 text-center">
             <p class="text-xs text-slate-500">{{ lang.t('pricing.lawyer_ent') }}</p>
@@ -477,11 +475,16 @@ import { SubscriptionService } from '../services/subscription.service';
 export class PricingComponent implements OnInit {
   paymentConfig = PAYMENT_CONFIG;
 
+  private paymentService: PaymentService;
+
   constructor(
     public lang: LangService,
     private titleService: Title,
-    public subscriptionService: SubscriptionService
-  ) {}
+    public subscriptionService: SubscriptionService,
+    paymentService: PaymentService
+  ) {
+    this.paymentService = paymentService;
+  }
 
   ngOnInit(): void {
     this.titleService.setTitle(this.lang.t('title.pricing'));
@@ -493,5 +496,10 @@ export class PricingComponent implements OnInit {
 
   get isPremium(): boolean {
     return this.subscriptionService.isPremium();
+  }
+
+  checkout(plan: 'professional' | 'business' | 'enterprise'): void {
+    const priceId = PAYMENT_CONFIG.stripe.subscriptions[plan].priceId;
+    this.paymentService.createCheckout(priceId, this.subscriptionService.getSessionId());
   }
 }

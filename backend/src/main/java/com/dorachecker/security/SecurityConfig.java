@@ -59,6 +59,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/subscription/check/**").permitAll()
                 .requestMatchers("/api/exports/**").permitAll()
                 .requestMatchers("/api/webhooks/**").permitAll()
+                .requestMatchers("/api/stripe/webhook").permitAll()
                 .requestMatchers("/api/benchmarks/**").permitAll()
                 .requestMatchers("/api/global-providers/**").permitAll()
                 .requestMatchers("/api/branding/logo").permitAll()

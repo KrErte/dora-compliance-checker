@@ -97,6 +97,9 @@ services:
       - GOOGLE_SEARCH_ENGINE_ID=${GOOGLE_SEARCH_ENGINE_ID:-}
       - RESEND_API_KEY=${RESEND_API_KEY}
       - RESEND_TO_EMAIL=${RESEND_TO_EMAIL:-info@doraaudit.eu}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY:-}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET:-}
+      - STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY:-}
     depends_on:
       postgres:
         condition: service_healthy

@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { SubscriptionService, PremiumFeature } from '../services/subscription.service';
 import { LangService } from '../lang.service';
 import { PAYMENT_CONFIG } from '../config/payment.config';
+import { PaymentService } from '../services/payment.service';
 
 @Component({
   selector: 'app-upgrade-modal',
@@ -96,18 +97,16 @@ import { PAYMENT_CONFIG } from '../config/payment.config';
 
         <!-- CTA Buttons -->
         <div class="space-y-3">
-          <a [href]="paymentConfig.lemonsqueezy.subscriptions?.professional?.checkoutUrl || paymentConfig.lemonsqueezy.products.doraAssessment.checkoutUrl"
-             target="_blank"
-             (click)="onUpgrade()"
+          <button (click)="onUpgradeCheckout()"
              class="w-full py-3.5 px-4 rounded-xl text-center font-bold text-sm block
                     bg-blue-600 text-slate-900
                     hover:bg-blue-700 hover:shadow-lg hover:shadow-lg
-                    transition-all duration-300">
+                    transition-all duration-300 cursor-pointer">
             {{ lang.t('paywall.upgrade_cta') }}
             <svg class="w-4 h-4 inline-block ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
             </svg>
-          </a>
+          </button>
 
           <a routerLink="/pricing"
              (click)="close()"
@@ -151,6 +150,7 @@ export class UpgradeModalComponent {
 
   constructor(
     private subscriptionService: SubscriptionService,
+    private paymentService: PaymentService,
     public lang: LangService
   ) {}
 
@@ -160,5 +160,13 @@ export class UpgradeModalComponent {
 
   onUpgrade(): void {
     this.subscriptionService.onUpgradeClick();
+  }
+
+  onUpgradeCheckout(): void {
+    this.onUpgrade();
+    this.paymentService.createCheckout(
+      PAYMENT_CONFIG.stripe.subscriptions.professional.priceId,
+      this.subscriptionService.getSessionId()
+    );
   }
 }
