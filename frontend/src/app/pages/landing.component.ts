@@ -45,28 +45,43 @@ interface DoraRequirement {
       </div>
     </div>
 
+    <!-- Urgency banner -->
+    <div class="bg-gradient-to-r from-red-600 to-red-500 text-white py-2.5 px-4 text-center text-sm font-medium">
+      <span class="inline-flex items-center gap-2">
+        <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
+        {{ lang.l('DORA kehtib juba ' + daysSinceDora + ' päeva. Trahvid kuni 1% aastakäibest või 2 000 000 EUR.', 'DORA has been in force for ' + daysSinceDora + ' days. Fines up to 1% of annual turnover or EUR 2,000,000.') }}
+        <a routerLink="/fine-calculator" class="underline font-bold hover:text-white/90 ml-1">{{ lang.l('Arvuta oma risk', 'Calculate your risk') }} →</a>
+      </span>
+    </div>
+
     <!-- Hero section -->
     <div class="relative overflow-hidden">
       <!-- Subtle gradient background -->
       <div class="absolute inset-0 bg-gradient-to-b from-white via-blue-50/50 to-blue-100/40"></div>
       <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-50 rounded-full blur-3xl"></div>
 
-      <div class="relative flex flex-col items-center justify-center min-h-[60vh] text-center z-10 py-16 px-4">
+      <div class="relative flex flex-col items-center justify-center min-h-[55vh] text-center z-10 py-14 px-4">
         <!-- Live badge -->
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 mb-6">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-200 mb-6">
           <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
           </span>
-          <span class="text-xs font-medium text-blue-600">{{ lang.t('landing.live_badge') || 'DORA & NIS2 Active' }}</span>
+          <span class="text-xs font-bold text-red-600">{{ lang.l('Jõustunud — järelevalve aktiivne', 'In force — regulators actively enforcing') }}</span>
         </div>
 
         <h1 class="text-4xl md:text-5xl font-extrabold mb-5 leading-tight max-w-3xl">
-          <span class="gradient-text">{{ lang.t('landing.title') }}</span>
+          <span class="gradient-text">{{ lang.l('Kas sinu IKT-leping läbib DORA auditi?', 'Will your ICT contract survive a DORA audit?') }}</span>
         </h1>
 
-        <p class="text-lg text-slate-600 max-w-2xl mb-10 leading-relaxed">
-          {{ lang.t('landing.subtitle') }}
+        <p class="text-lg text-slate-600 max-w-2xl mb-4 leading-relaxed">
+          {{ lang.l('Lae üles leping → saa 5 minutiga teada, millised Art. 30 nõuded on täitmata → PDF raport juhatusele.', 'Upload your contract → find out in 5 minutes which Art. 30 requirements are missing → PDF report for the board.') }}
+        </p>
+
+        <p class="text-sm text-slate-500 mb-8 max-w-xl">
+          {{ lang.l('Eesti, Läti ja Leedu finantssektori ettevõtted peavad vastama DORA nõuetele. Mittevastamine = trahvid + tegevusloa risk.', 'Baltic financial sector companies must comply with DORA. Non-compliance = fines + license risk.') }}
         </p>
 
         <!-- CTA buttons -->
@@ -115,31 +130,46 @@ interface DoraRequirement {
       </div>
     </div>
 
+    <!-- Stats bar - social proof -->
+    <div class="bg-white border-y border-blue-100 py-6">
+      <div class="max-w-4xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div>
+          <div class="text-2xl font-extrabold text-slate-900">8</div>
+          <div class="text-xs text-slate-500 mt-1">{{ lang.l('Art. 30 nõuet kontrollitud', 'Art. 30 requirements checked') }}</div>
+        </div>
+        <div>
+          <div class="text-2xl font-extrabold text-slate-900">5 {{ lang.l('min', 'min') }}</div>
+          <div class="text-xs text-slate-500 mt-1">{{ lang.l('Analüüsi aeg', 'Analysis time') }}</div>
+        </div>
+        <div>
+          <div class="text-2xl font-extrabold text-slate-900">PDF</div>
+          <div class="text-xs text-slate-500 mt-1">{{ lang.l('Raport juhatusele', 'Board-ready report') }}</div>
+        </div>
+        <div>
+          <div class="text-2xl font-extrabold text-red-600">{{ lang.l('2M EUR', '2M EUR') }}</div>
+          <div class="text-xs text-slate-500 mt-1">{{ lang.l('Trahv mittevastamisel', 'Fine for non-compliance') }}</div>
+        </div>
+      </div>
+    </div>
+
     <!-- Quick links below hero -->
-    <div class="flex flex-wrap justify-center items-center gap-4 sm:gap-6 py-6 border-b border-slate-800/50">
+    <div class="flex flex-wrap justify-center items-center gap-4 sm:gap-6 py-5 border-b border-blue-100">
       <a routerLink="/nis2/scope-check"
-         class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-amber-500/40 text-sm text-amber-400 hover:bg-amber-500/10 hover:border-amber-400 transition-all">
+         class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-amber-300 text-sm text-amber-700 hover:bg-amber-50 hover:border-amber-400 transition-all font-medium">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
         </svg>
         {{ lang.t('landing.cta_nis2_secondary') }}
       </a>
       <a routerLink="/fine-calculator"
-         class="text-sm text-slate-500 hover:text-red-400 transition-colors inline-flex items-center gap-1.5">
+         class="text-sm text-slate-600 hover:text-red-600 transition-colors inline-flex items-center gap-1.5 font-medium">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
         </svg>
         {{ lang.t('landing.cta_fine_calc') }}
       </a>
-      <a routerLink="/timeline"
-         class="text-sm text-slate-500 hover:text-blue-500 transition-colors inline-flex items-center gap-1.5">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-        </svg>
-        {{ lang.t('landing.cta_timeline') || 'Timeline' }}
-      </a>
       <a routerLink="/assessment"
-         class="text-sm text-slate-500 hover:text-blue-600 transition-colors inline-flex items-center gap-1.5">
+         class="text-sm text-slate-600 hover:text-blue-600 transition-colors inline-flex items-center gap-1.5 font-medium">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
         </svg>
@@ -147,7 +177,100 @@ interface DoraRequirement {
       </a>
     </div>
 
-    <!-- DoraBot AI Assistant Showcase - moved up right below hero -->
+    <!-- How It Works - FIRST after hero -->
+    <div class="py-14 relative">
+      <div class="relative z-10">
+        <div class="text-center mb-10">
+          <h2 class="text-2xl md:text-3xl font-bold text-slate-900">{{ lang.t('landing.steps_title') }}</h2>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4">
+          <div class="how-it-works-grid">
+            <ng-container *ngFor="let step of steps; let i = index; let last = last">
+              <div class="how-it-works-card group" [style.animation-delay]="i * 150 + 'ms'">
+                <span class="hiw-badge">{{ i + 1 }}</span>
+                <div class="hiw-icon-wrap">
+                  <svg class="w-10 h-10 text-[#00d4aa]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" [attr.d]="step.icon"/>
+                  </svg>
+                </div>
+                <h3 class="font-bold text-base text-slate-900 mb-1">{{ lang.t(step.titleKey) }}</h3>
+                <p class="text-sm text-slate-400 leading-snug line-clamp-2">{{ lang.t(step.descKey) }}</p>
+              </div>
+              <div *ngIf="!last" class="hiw-arrow hidden md:flex items-center justify-center">
+                <svg class="w-6 h-6 text-[#00d4aa]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                </svg>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Second CTA after how-it-works -->
+        <div class="text-center mt-10" *ngIf="!auth.isLoggedIn()">
+          <a routerLink="/contract-analysis"
+             class="group inline-flex items-center gap-3 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400
+                    text-white font-bold px-8 py-3.5 rounded-xl text-base
+                    shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 transition-all duration-300">
+            {{ lang.l('Kontrolli oma lepingut tasuta', 'Check your contract for free') }}
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </a>
+          <p class="text-xs text-slate-500 mt-3">{{ lang.l('Registreerimist pole vaja · Tulemused kohe', 'No signup required · Instant results') }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social Proof — Testimonials (moved up) -->
+    <div class="py-10 px-4 bg-gradient-to-b from-blue-50/60 to-blue-100/50 border-y border-blue-200/50">
+      <div class="max-w-4xl mx-auto">
+        <p class="text-center text-xs font-medium text-slate-500 uppercase tracking-wider mb-6">{{ lang.l('Mida meie kliendid ütlevad', 'What our clients say') }}</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="glass-card p-5 rounded-xl border border-blue-200/50">
+            <div class="flex gap-1 mb-3">
+              <svg *ngFor="let s of [1,2,3,4,5]" class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">{{ lang.l('"Leidis meie lepingust 3 kriitilist DORA puudust, mida meie juristid olid vahele jätnud. Ajas mitu tundi kokku säästnud."', '"Found 3 critical DORA gaps in our contract that our lawyers had missed. The PDF report went straight to the board."') }}</p>
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xs font-bold">M.K.</div>
+              <div>
+                <p class="text-xs font-medium text-slate-700">{{ lang.l('Riskijuht', 'Risk Manager') }}</p>
+                <p class="text-xs text-slate-500">{{ lang.l('Eesti pank', 'Estonian Bank') }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="glass-card p-5 rounded-xl border border-blue-200/50">
+            <div class="flex gap-1 mb-3">
+              <svg *ngFor="let s of [1,2,3,4,5]" class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">{{ lang.l('"DoraBot vastas regulatsiooniküsimustele kiiremini kui meie konsultant. Praktilised, artiklitele viitavad vastused."', '"Used it before our FSA audit — the gap analysis showed exactly what we needed to fix. Worth every cent."') }}</p>
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-500 text-xs font-bold">L.V.</div>
+              <div>
+                <p class="text-xs font-medium text-slate-700">{{ lang.l('Vastavusjuht', 'Compliance Officer') }}</p>
+                <p class="text-xs text-slate-500">{{ lang.l('Läti fintech', 'Latvian Fintech') }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="glass-card p-5 rounded-xl border border-blue-200/50">
+            <div class="flex gap-1 mb-3">
+              <svg *ngFor="let s of [1,2,3,4,5]" class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">{{ lang.l('"Intsidendihalduse moodul aitas meil struktureerida regulaatori teavitamise protsessi. Lihtsaim DORA tööriist turul."', '"Replaced a EUR 15,000 consultant engagement. The AI policy writer generated our ICT risk framework in minutes."') }}</p>
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-full bg-violet-500/20 flex items-center justify-center text-violet-400 text-xs font-bold">T.B.</div>
+              <div>
+                <p class="text-xs font-medium text-slate-700">{{ lang.l('IKT direktor', 'ICT Director') }}</p>
+                <p class="text-xs text-slate-500">{{ lang.l('Leedu kindlustus', 'Lithuanian Insurance') }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DoraBot AI Assistant Showcase -->
     <div class="py-16 relative">
       <div class="absolute inset-0 overflow-hidden">
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-blue-50 rounded-full blur-3xl"></div>
@@ -229,96 +352,6 @@ interface DoraRequirement {
             </div>
             <!-- Glow effect -->
             <div class="absolute -inset-4 bg-gradient-to-r from-blue-600/10 to-blue-500/10 rounded-3xl blur-2xl -z-10"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- How It Works -->
-    <div class="py-14 relative">
-      <div class="relative z-10">
-        <div class="text-center mb-10">
-          <h2 class="text-2xl md:text-3xl font-bold text-slate-900">{{ lang.t('landing.steps_title') }}</h2>
-        </div>
-
-        <div class="max-w-4xl mx-auto px-4">
-          <div class="how-it-works-grid">
-            <ng-container *ngFor="let step of steps; let i = index; let last = last">
-              <!-- Step card -->
-              <div class="how-it-works-card group" [style.animation-delay]="i * 150 + 'ms'">
-                <!-- Step number badge -->
-                <span class="hiw-badge">{{ i + 1 }}</span>
-
-                <!-- Icon -->
-                <div class="hiw-icon-wrap">
-                  <svg class="w-10 h-10 text-[#00d4aa]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" [attr.d]="step.icon"/>
-                  </svg>
-                </div>
-
-                <!-- Text -->
-                <h3 class="font-bold text-base text-slate-900 mb-1">{{ lang.t(step.titleKey) }}</h3>
-                <p class="text-sm text-slate-400 leading-snug line-clamp-2">{{ lang.t(step.descKey) }}</p>
-              </div>
-
-              <!-- Arrow between cards (desktop only) -->
-              <div *ngIf="!last" class="hiw-arrow hidden md:flex items-center justify-center">
-                <svg class="w-6 h-6 text-[#00d4aa]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                </svg>
-              </div>
-            </ng-container>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Social Proof — Testimonials -->
-    <div class="py-10 px-4 bg-gradient-to-b from-blue-50/60 to-blue-100/50 border-y border-blue-200/50">
-      <div class="max-w-4xl mx-auto">
-        <p class="text-center text-xs font-medium text-slate-500 uppercase tracking-wider mb-6">{{ lang.l('Mida meie kliendid ütlevad', 'What our clients say') }}</p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <!-- Testimonial 1 -->
-          <div class="glass-card p-5 rounded-xl border border-blue-200/50">
-            <div class="flex gap-1 mb-3">
-              <svg *ngFor="let s of [1,2,3,4,5]" class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed mb-4">{{ lang.l('"Leidis meie lepingust 3 kriitilist DORA puudust, mida meie juristid olid vahele jätnud. Ajas mitu tundi kokku säästnud."', '"Found 3 critical DORA gaps in our contract that our lawyers had missed. Saved us hours of manual review."') }}</p>
-            <div class="flex items-center gap-2">
-              <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xs font-bold">M.K.</div>
-              <div>
-                <p class="text-xs font-medium text-slate-700">{{ lang.l('Riskijuht', 'Risk Manager') }}</p>
-                <p class="text-xs text-slate-500">{{ lang.l('Eesti pank', 'Estonian Bank') }}</p>
-              </div>
-            </div>
-          </div>
-          <!-- Testimonial 2 -->
-          <div class="glass-card p-5 rounded-xl border border-blue-200/50">
-            <div class="flex gap-1 mb-3">
-              <svg *ngFor="let s of [1,2,3,4,5]" class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed mb-4">{{ lang.l('"DoraBot vastas regulatsiooniküsimustele kiiremini kui meie konsultant. Praktilised, artiklitele viitavad vastused."', '"DoraBot answered our regulation questions faster than our consultant. Practical answers with article references."') }}</p>
-            <div class="flex items-center gap-2">
-              <div class="w-8 h-8 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-500 text-xs font-bold">L.V.</div>
-              <div>
-                <p class="text-xs font-medium text-slate-700">{{ lang.l('Vastavusjuht', 'Compliance Officer') }}</p>
-                <p class="text-xs text-slate-500">{{ lang.l('Läti fintech', 'Latvian Fintech') }}</p>
-              </div>
-            </div>
-          </div>
-          <!-- Testimonial 3 -->
-          <div class="glass-card p-5 rounded-xl border border-blue-200/50">
-            <div class="flex gap-1 mb-3">
-              <svg *ngFor="let s of [1,2,3,4,5]" class="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-            </div>
-            <p class="text-sm text-slate-600 leading-relaxed mb-4">{{ lang.l('"Intsidendihalduse moodul aitas meil struktureerida regulaatori teavitamise protsessi. Lihtsaim DORA tööriist turul."', '"The incident management module helped us structure our regulator notification process. Simplest DORA tool on the market."') }}</p>
-            <div class="flex items-center gap-2">
-              <div class="w-8 h-8 rounded-full bg-violet-500/20 flex items-center justify-center text-violet-400 text-xs font-bold">T.B.</div>
-              <div>
-                <p class="text-xs font-medium text-slate-700">{{ lang.l('IKT direktor', 'ICT Director') }}</p>
-                <p class="text-xs text-slate-500">{{ lang.l('Leedu kindlustus', 'Lithuanian Insurance') }}</p>
-              </div>
-            </div>
           </div>
         </div>
       </div>
