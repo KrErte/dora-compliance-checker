@@ -612,7 +612,7 @@ import { GuidedTourComponent } from './components/guided-tour.component';
               <a routerLink="/blog" class="text-xs text-slate-500 hover:text-blue-600 transition-colors">{{ lang.t('nav.blog') }}</a>
               <a routerLink="/privacy" class="text-xs text-slate-500 hover:text-blue-600 transition-colors">{{ lang.t('footer.privacy') }}</a>
               <a routerLink="/terms" class="text-xs text-slate-500 hover:text-blue-600 transition-colors">{{ lang.t('footer.terms') }}</a>
-              <button type="button" (click)="openCookieSettings()" class="text-xs text-slate-500 hover:text-blue-600 transition-colors text-left">{{ lang.t('cookie.settings') }}</button>
+              <button type="button" (click)="openCookieSettings()" class="text-xs text-slate-500 hover:text-blue-600 transition-colors text-left bg-transparent border-none cursor-pointer p-0">{{ lang.t('cookie.settings') }}</button>
             </div>
           </div>
 
