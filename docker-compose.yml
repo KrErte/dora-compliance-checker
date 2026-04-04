@@ -55,6 +55,8 @@ services:
       - DATABASE_TYPE=postgresql
       - APP_SECRET=${UMAMI_APP_SECRET:-replace-me-with-a-random-string}
       - TRACKER_SCRIPT_NAME=${UMAMI_TRACKER_SCRIPT_NAME:-script.js}
+    ports:
+      - "3001:3000"
     depends_on:
       umami-db:
         condition: service_healthy
