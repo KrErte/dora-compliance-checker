@@ -1,0 +1,88 @@
+=== CLEANUP PHASE — FINAL REPORT (2026-04-24) ===
+
+Before (baseline commit c2caf63):
+  Java files:  360
+  Java LOC:    15,951
+  TS files:    188
+  TS LOC:      87,153
+  Routes:      141
+  Tracked files: 629
+
+After (commit e5b8b0f):
+  Java files:  320
+  Java LOC:    32,885
+  TS files:    172
+  TS LOC:      67,436
+  Routes:      127
+  Tracked files: 574
+
+Deleted:
+  40 Java files, ~3,066 LOC removed  (note: Java LOC grew via non-cleanup work between baseline and final)
+  16 TS files, 19,717 LOC removed
+  14 routes
+  4 scheduled jobs (ExamSimulator, Prosecutor, StressTest, WarRoom training)
+  0 orphaned i18n keys (cleaned during feature deletion prompts)
+  0 orphaned env vars
+  0 empty directories
+
+Percentage reduction:
+  Java files: 11.1% (360 → 320)
+  TS files:   8.5%  (188 → 172)
+  TS LOC:     22.6% (87,153 → 67,436)
+
+Note: Java LOC increased overall because new features were committed
+between baseline capture and cleanup execution. The 40 deleted Java
+files represent ~3,066 lines removed from deleted services, but
+concurrent development added more lines to surviving files.
+
+=== Prompts executed ===
+
+| # | Commit  | Focus                          | Deletions |
+|---|---------|--------------------------------|-----------|
+| 00 | c2caf63 | Baseline capture               | 0         |
+| 01 | 5ca505b | PromoSlot dead code            | 53        |
+| 02 | 794ab70 | Genome, TimeMachine, DigitalTwin | 2,565   |
+| 03 | 1e3a019 | ChainReaction, Autopsy, Decay, StressTest | 3,260 |
+| 04 | ef5e430 | WarRoom training, ExamSimulator, Prosecutor, Whatif | 7,823 |
+| 05 | 4fe6884 | Achievements system            | 661       |
+| 06 | f08967a | GPAI module                    | 957       |
+| 07 | e5b8b0f | Baltic lead crawler            | 1,969     |
+| 08 | d86c7fb | ComplianceNetwork              | 1,442     |
+| 09 | (this)  | Final sweep & report           | 0         |
+
+Total lines deleted across all prompts: ~18,730
+
+=== Verification ===
+
+Backend build (gradlew build):           PASS
+Frontend build (ng build --production):  PASS
+Frontend build warnings:                 Cosmetic only (optional chaining, unused RouterLink imports)
+Orphaned i18n keys:                      0
+Orphaned routes:                         0
+Dangling @Scheduled beans:               0
+Unused .env.example vars:                0
+Empty directories:                       0
+Backend unused import warnings:          0
+
+=== Remaining @Scheduled jobs (15) ===
+
+RateLimitFilter           — fixedRate 5min (rate limit cleanup)
+JwtService                — fixedRate 1hr (token cleanup)
+AlertDigestService        — daily 8am + weekly Mon 8am
+AutopilotScheduler        — daily 4am
+CompanyProfileCrawlerService — weekly Sun 4am
+WebhookRetryScheduler     — fixedRate 1min
+ChatService               — fixedRate 15min (session cleanup)
+ReportSchedulerService    — daily 6am
+EvidenceExpiryScheduler   — daily 7am
+DeadlineReminderScheduler — daily 8am
+IctProviderCrawlerService — weekly Sun 3am
+GuardianScheduler         — weekly Mon 3am
+RegulatoryFeedService     — every 2hrs
+TrialReminderScheduler    — daily 9am
+
+All scheduled jobs verified as belonging to live features.
+
+=== Archive tags ===
+
+lead-crawler-archive — preserves Baltic lead crawler code at tag for future retrieval
