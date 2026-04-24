@@ -168,7 +168,6 @@ export class ToolsHubComponent {
       tools: [
         { icon: '\u{1F4CB}', titleEt: 'Intsidentidest teavitamine', titleEn: 'Incident Reporting', descEt: 'DORA Art. 19 intsidendi t\u00f6\u00f6voog', descEn: 'DORA Art. 19 incident workflow', link: '/incident-reporting' },
         { icon: '\u{1F333}', titleEt: 'Intsidendi klassifikaator', titleEn: 'Incident Classifier', descEt: 'Interaktiivne otsustuspuu', descEn: 'Interactive decision tree', link: '/incident-decision-tree' },
-        { icon: '\u{1F3AF}', titleEt: 'Intsidendi s\u00f5jaruum', titleEn: 'Incident War Room', descEt: 'Reaalajas intsidendi halduskeskus', descEn: 'Real-time incident command center', link: '/war-room' },
       ]
     },
     {
@@ -192,8 +191,6 @@ export class ToolsHubComponent {
       titleEt: '\u00d5ppimine', titleEn: 'Learning', icon: '\u{1F393}', color: 'pink',
       tools: [
         { icon: '\u{1F4DD}', titleEt: 'Koolitustest', titleEn: 'Training Quiz', descEt: 'Interaktiivne DORA koolitustest', descEn: 'Interactive DORA training quiz', link: '/training-quiz' },
-        { icon: '\u{1F3AD}', titleEt: 'Eksami simulaator', titleEn: 'Exam Simulator', descEt: 'AI-p\u00f5hine regulatiivne eksam', descEn: 'AI-powered regulatory examination', link: '/exam-simulator' },
-        { icon: '\u2696\uFE0F', titleEt: 'AI prokur\u00f6r', titleEn: 'AI Prosecutor', descEt: 'AI regulaator k\u00fcsitleb sind', descEn: 'AI regulator interrogates you', link: '/prosecutor' },
         { icon: '\u{1F5FA}\uFE0F', titleEt: 'Raamistike kaardistus', titleEn: 'Framework Mapping', descEt: 'DORA vs ISO 27001, NIS2, GDPR', descEn: 'DORA vs ISO 27001, NIS2, GDPR', link: '/framework-mapping' },
       ]
     },

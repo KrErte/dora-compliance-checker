@@ -739,8 +739,6 @@ export class AppComponent implements OnInit, OnDestroy {
     '/team': { et: 'Meeskonna Haldus | DoraAudit.eu', en: 'Team Management | DoraAudit.eu' },
     '/group-entities': { et: 'Grupi Ettevõtted | DoraAudit.eu', en: 'Group Entity Management | DoraAudit.eu' },
     '/command-center': { et: 'Juhtimiskeskus | DoraAudit.eu', en: 'Compliance Command Center | DoraAudit.eu' },
-    '/exam-simulator': { et: 'Regulatiivse eksami simulaator | DoraAudit.eu', en: 'Regulatory Examination Simulator | DoraAudit.eu' },
-    '/war-room': { et: 'DORA intsidendi sõjaruum | DoraAudit.eu', en: 'DORA Incident War Room | DoraAudit.eu' },
     '/article-tracker': { et: 'DORA artiklite jälgimine | DoraAudit.eu', en: 'DORA Article Compliance Tracker | DoraAudit.eu' },
     '/ict-asset-map': { et: 'IKT varade kaardistus | DoraAudit.eu', en: 'ICT Asset & Dependency Map | DoraAudit.eu' },
     '/trust-seal': { et: 'DORA Usaldusmärk | DoraAudit.eu', en: 'DORA Trust Seal | DoraAudit.eu' },

@@ -230,12 +230,6 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'Peer Benchmarking', seoDescription: 'Compare your DORA compliance scores against industry peers. Anonymous benchmarking with radar charts and percentile rankings.' }
   },
   {
-    path: 'whatif-simulator',
-    loadComponent: () => import('./pages/whatif-simulator.component').then(m => m.WhatifSimulatorComponent),
-    canActivate: [authGuard],
-    data: { seoTitle: 'What-If Scenario Simulator', seoDescription: 'Simulate ICT provider failure scenarios. Analyze impact on services, estimate recovery time, and plan mitigations per DORA requirements.' }
-  },
-  {
     path: 'audit-readiness',
     loadComponent: () => import('./pages/audit-readiness.component').then(m => m.AuditReadinessComponent),
     canActivate: [authGuard],
@@ -287,24 +281,6 @@ const coreRoutes: Routes = [
     path: 'deadline-calendar',
     loadComponent: () => import('./pages/deadline-calendar.component').then(m => m.DeadlineCalendarComponent),
     data: { seoTitle: 'DORA Compliance Calendar', seoDescription: 'Personalized DORA compliance deadline calendar. Track RoI submissions, TLPT cycles, contract reviews, and training deadlines.' }
-  },
-  {
-    path: 'exam-simulator',
-    loadComponent: () => import('./pages/exam-simulator.component').then(m => m.ExamSimulatorComponent),
-    canActivate: [authGuard],
-    data: { seoTitle: 'DORA Regulatory Examination Simulator', seoDescription: 'AI-powered mock regulatory audit simulating a DORA supervisor examining your organization. Practice with scenario-based questions and receive detailed feedback.' }
-  },
-  {
-    path: 'war-room',
-    loadComponent: () => import('./pages/war-room.component').then(m => m.WarRoomComponent),
-    canActivate: [authGuard],
-    data: { seoTitle: 'DORA Incident War Room', seoDescription: 'Interactive DORA incident response simulation with multi-phase decision trees, cascade effects, and DORA deadline tracking.' }
-  },
-  {
-    path: 'prosecutor',
-    loadComponent: () => import('./pages/prosecutor.component').then(m => m.ProsecutorComponent),
-    canActivate: [authGuard],
-    data: { seoTitle: 'DORA AI Prosecutor | Regulatory Audit Simulator', seoDescription: 'AI-powered mock regulatory audit where an aggressive EU financial regulator interrogates your DORA compliance. Get a prosecution verdict with fine risk score and remediation playbook.' }
   },
   {
     path: 'training',
