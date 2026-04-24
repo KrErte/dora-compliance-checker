@@ -1,0 +1,19 @@
+# Normalize line endings on commit
+* text=auto eol=lf
+
+# Binary files (safety net)
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.xlsx binary
+*.docx binary
+*.zip binary
+*.jar binary
+
+# Preserve CRLF for Windows-specific files
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
