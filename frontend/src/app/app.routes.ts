@@ -691,12 +691,6 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'Evidence Auto-Harvester', seoDescription: 'Connect Jira, GitHub, Azure DevOps, AWS, Slack, Confluence, and Google Drive to automatically harvest compliance evidence.' }
   },
   {
-    path: 'compliance-network',
-    loadComponent: () => import('./pages/compliance-network.component').then(m => m.ComplianceNetworkComponent),
-    canActivate: [authGuard],
-    data: { seoTitle: 'Compliance Network', seoDescription: 'Anonymous peer intelligence from DoraAudit users. Industry benchmarks, threat radar, peer comparison, and Baltic compliance heat map.' }
-  },
-  {
     path: 'regulatory-translator',
     loadComponent: () => import('./pages/regulatory-translator.component').then(m => m.RegulatoryTranslatorComponent),
     canActivate: [authGuard],

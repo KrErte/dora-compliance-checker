@@ -752,7 +752,6 @@ export class AppComponent implements OnInit, OnDestroy {
     '/regulator-portal': { et: 'Regulaatori Portaal | DoraAudit.eu', en: 'Regulator Portal | DoraAudit.eu' },
     '/regulator-view': { et: 'Regulaatori Vaade | DoraAudit.eu', en: 'Regulator Compliance View | DoraAudit.eu' },
     '/evidence-harvester': { et: 'Tõendite Automaatne Kogumine | DoraAudit.eu', en: 'Evidence Auto-Harvester | DoraAudit.eu' },
-    '/compliance-network': { et: 'Vastavusvõrgustik | DoraAudit.eu', en: 'Compliance Network | DoraAudit.eu' },
     '/regulatory-translator': { et: 'Regulatiivne Tõlkija | DoraAudit.eu', en: 'Live Regulatory Translator | DoraAudit.eu' },
     '/tools': { et: 'Tööriistad | DoraAudit.eu', en: 'Tools | DoraAudit.eu' },
   };
@@ -832,7 +831,6 @@ export class AppComponent implements OnInit, OnDestroy {
     '/regulator-portal': { et: 'Loo turvalisi, ainult-lugemise vastavusportaale regulaatoritele ja audiitoritele.', en: 'Create secure, read-only compliance portals for regulators and auditors via token-based links.' },
     '/regulator-view': { et: 'Regulaatori vastavusülevaade. Ainult-lugemise juurdepääs hindamistele ja tõenditele.', en: 'Regulator compliance overview. Read-only access to assessments and evidence.' },
     '/evidence-harvester': { et: 'Ühenda Jira, GitHub, Azure, AWS, Slack ja Confluence tõendite automaatseks kogumiseks.', en: 'Connect Jira, GitHub, Azure, AWS, Slack and Confluence to automatically harvest compliance evidence.' },
-    '/compliance-network': { et: 'Anonüümne kollegiaalne luure DoraAudit kasutajatelt. Tööstuse võrdlus ja Baltikumi soojuskaart.', en: 'Anonymous peer intelligence from DoraAudit users. Industry benchmarks, threat radar, and Baltic heat map.' },
     '/tools': { et: 'Kõik DoraAudit.eu tööriistad ühes kohas. DORA ja NIS2 vastavuskontrolli tööriistade kataloog.', en: 'All DoraAudit.eu tools in one place. Complete catalog of DORA and NIS2 compliance tools.' },
   };
 

@@ -713,29 +713,6 @@ export class ApiService {
     return this.http.post<any>(`${this.baseUrl}/evidence-harvester/connectors/${connectorId}/harvest`, {});
   }
 
-  // ─── Compliance Network ───────────────────────────
-  getNetworkOptIn(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/compliance-network/opt-in`);
-  }
-  toggleNetworkOptIn(data: { optIn: boolean; sector?: string; country?: string; companySize?: string }): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/compliance-network/opt-in`, data);
-  }
-  getNetworkStats(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/compliance-network/stats`);
-  }
-  getIndustryPulse(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/compliance-network/industry-pulse`);
-  }
-  getThreatRadar(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/compliance-network/threat-radar`);
-  }
-  getPeerComparison(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/compliance-network/peer-comparison`);
-  }
-  getComplianceHeatMap(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/compliance-network/heat-map`);
-  }
-
   // ─── Regulatory Impact ──────────────────────────────
   getRegulatoryImpactUpdates(severity?: string): Observable<any[]> {
     let url = `${this.baseUrl}/regulatory-impact`;
