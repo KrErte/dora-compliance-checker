@@ -141,49 +141,6 @@ interface ChartPoint {
         </div>
       }
 
-      <!-- Achievement Badges Widget -->
-      @if (history.length > 0 && achievements().length > 0) {
-        <div class="mb-6 animate-fade-in-up">
-          <div class="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-5">
-            <div class="flex items-center justify-between mb-4">
-              <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/20 flex items-center justify-center">
-                  <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
-                  </svg>
-                </div>
-                <div>
-                  <h3 class="text-sm font-semibold text-white flex items-center gap-2">
-                    {{ lang.l('Saavutused', 'Achievements') }}
-                    @if (newAchievementCount() > 0) {
-                      <span class="px-1.5 py-0.5 text-[9px] font-bold rounded-full bg-amber-500 text-white animate-pulse">{{ newAchievementCount() }} {{ lang.l('uut', 'new') }}</span>
-                    }
-                  </h3>
-                  <p class="text-[11px] text-slate-500">{{ unlockedCount() }}/{{ achievements().length }} {{ lang.l('avatud', 'unlocked') }}</p>
-                </div>
-              </div>
-            </div>
-            <div class="grid grid-cols-5 sm:grid-cols-10 gap-2">
-              @for (badge of achievements(); track badge.key) {
-                <div class="group relative flex flex-col items-center"
-                     (click)="badge.unlocked && !badge.seen && markAchievementSeen(badge.key)">
-                  <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg transition-all"
-                       [class]="badge.unlocked ? 'bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30 shadow-lg shadow-amber-500/10' : 'bg-slate-700/30 border border-slate-700/50 opacity-40'">
-                    {{ getAchievementEmoji(badge.icon) }}
-                  </div>
-                  @if (badge.unlocked && !badge.seen) {
-                    <div class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></div>
-                  }
-                  <!-- Tooltip -->
-                  <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-slate-700 rounded text-[9px] text-white whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-10">
-                    {{ lang.lang() === 'et' ? badge.titleEt : badge.titleEn }}
-                  </div>
-                </div>
-              }
-            </div>
-          </div>
-        </div>
-      }
 
       <!-- Autopilot Widget (premium only) -->
       @if (subService.isPremium() && autopilotCounts() && (autopilotCounts()!.total > 0)) {
@@ -847,10 +804,6 @@ export class DashboardComponent implements OnInit {
   auditReadiness = signal<any>(null);
   auditModules = signal<{ key: string; label: string; score: number }[]>([]);
 
-  // Achievement badges
-  achievements = signal<any[]>([]);
-  newAchievementCount = signal(0);
-  unlockedCount = signal(0);
 
   history: HistoryEntry[] = [];
   leaderboard: LeaderboardEntry[] = [];
@@ -885,7 +838,6 @@ export class DashboardComponent implements OnInit {
     this.lastUpdated = this.formatDate(new Date().toISOString());
     this.loadAutopilotWidget();
     this.loadAuditReadiness();
-    this.loadAchievements();
     this.loadProportionalityScope();
 
     // Load AI system stats
@@ -1304,50 +1256,6 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  private loadAchievements() {
-    // Trigger check first, then load
-    this.api.checkAchievements().subscribe({
-      next: () => {
-        this.api.getAchievements().subscribe({
-          next: (badges) => {
-            this.achievements.set(badges);
-            this.unlockedCount.set(badges.filter((b: any) => b.unlocked).length);
-            this.newAchievementCount.set(badges.filter((b: any) => b.unlocked && !b.seen).length);
-          },
-          error: () => {}
-        });
-      },
-      error: () => {}
-    });
-  }
-
-  markAchievementSeen(key: string) {
-    this.api.markAchievementSeen(key).subscribe({
-      next: () => {
-        const updated = this.achievements().map(b =>
-          b.key === key ? { ...b, seen: true } : b
-        );
-        this.achievements.set(updated);
-        this.newAchievementCount.set(updated.filter((b: any) => b.unlocked && !b.seen).length);
-      }
-    });
-  }
-
-  getAchievementEmoji(icon: string): string {
-    const map: Record<string, string> = {
-      'clipboard-check': '\u{1F4CB}',
-      'file-text': '\u{1F4C4}',
-      'upload': '\u{1F4E4}',
-      'archive': '\u{1F4E6}',
-      'award': '\u{1F3C6}',
-      'shield': '\u{1F6E1}',
-      'check-circle': '\u{2705}',
-      'alert-triangle': '\u{26A0}',
-      'database': '\u{1F5C4}',
-      'star': '\u{2B50}'
-    };
-    return map[icon] || '\u{1F3C5}';
-  }
 
   private get dateLocale(): string {
     return this.lang.lang() === 'et' ? 'et-EE' : 'en-GB';

@@ -505,16 +505,6 @@ export class ApiService {
     return this.http.get<any>(`${this.baseUrl}/public/verify/${token}`);
   }
 
-  // Achievements
-  getAchievements(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/achievements`);
-  }
-  checkAchievements(): Observable<{ newlyUnlocked: string[] }> {
-    return this.http.post<{ newlyUnlocked: string[] }>(`${this.baseUrl}/achievements/check`, {});
-  }
-  markAchievementSeen(key: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/achievements/${key}/seen`, {});
-  }
 
   // Autopilot
   getAutopilotInsights(status?: string, severity?: string): Observable<AutopilotInsight[]> {
