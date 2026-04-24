@@ -1,0 +1,21 @@
+=== BASELINE INVENTORY (2026-04-24) ===
+
+--- Backend Java files ---
+360
+
+--- Backend Java LOC ---
+ 15951 total
+
+--- Frontend TypeScript files ---
+188
+
+--- Frontend TypeScript LOC ---
+  87153 total
+
+--- Total tracked files ---
+629
+
+--- Build status ---
+Backend (gradlew clean build): PASS
+Frontend (ng build): PASS
+Frontend tests (ng test): FAIL (2 components slated for deletion: compliance-genome, exam-simulator)
