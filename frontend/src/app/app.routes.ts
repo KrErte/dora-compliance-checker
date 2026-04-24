@@ -739,18 +739,6 @@ const coreRoutes: Routes = [
     canActivate: [adminGuard],
     data: { seoTitle: 'Admin \u2013 Users' }
   },
-  {
-    path: 'admin/leads',
-    loadComponent: () => import('./pages/admin-leads.component').then(m => m.AdminLeadsComponent),
-    canActivate: [adminGuard],
-    data: { seoTitle: 'Admin \u2013 Leads' }
-  },
-  {
-    path: 'admin/leads/:id',
-    loadComponent: () => import('./pages/admin-lead-detail.component').then(m => m.AdminLeadDetailComponent),
-    canActivate: [adminGuard],
-    data: { seoTitle: 'Lead Details' }
-  },
 ];
 
 const langRoutes: Routes = ['en', 'et'].map(lang => ({
