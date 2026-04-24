@@ -1910,8 +1910,6 @@ const TRANSLATIONS: { [key: string]: { et: string; en: string; [key: string]: st
   'nav.my_account': { et: 'Minu konto', en: 'My Account', fi: 'My Account', lv: 'My Account', lt: 'My Account', pl: 'My Account' },
   'nav.ai_systems': { et: 'AI süsteemid', en: 'AI Systems', fi: 'AI Systems', lv: 'AI Systems', lt: 'AI Systems', pl: 'AI Systems' },
   'nav.ai_act_classifier': { et: 'AI Act klassifikaator', en: 'AI Act Classifier', fi: 'AI Act Classifier', lv: 'AI Act Classifier', lt: 'AI Act Classifier', pl: 'AI Act Classifier' },
-  'nav.gpai_models': { et: 'GPAI mudelid', en: 'GPAI Models', fi: 'GPAI Models', lv: 'GPAI Models', lt: 'GPAI Models', pl: 'GPAI Models' },
-
   // Workspace
   'nav.workspace': { et: 'Lepingu töölaud', en: 'Contract Workspace', fi: 'Contract Workspace', lv: 'Contract Workspace', lt: 'Contract Workspace', pl: 'Contract Workspace' },
   'workspace.badge': { et: 'Multi-regulatsiooni kontroll', en: 'Multi-Regulation Check', fi: 'Multi-Regulation Check', lv: 'Multi-Regulation Check', lt: 'Multi-Regulation Check', pl: 'Multi-Regulation Check' },

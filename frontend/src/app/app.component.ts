@@ -189,13 +189,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                 </svg>
                 {{ lang.t('nav.ai_act_classifier') }}
               </a>
-              <a routerLink="/gpai-models" (click)="closeAllMenus()"
-                 class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-teal-400 hover:bg-slate-700/30 transition-colors">
-                <svg class="w-4 h-4 text-teal-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                </svg>
-                {{ lang.t('nav.gpai_models') }}
-              </a>
               <!-- Reference -->
               <p class="px-4 pt-3 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">{{ lang.l('Teave', 'Reference') }}</p>
               <a routerLink="/dora-explorer" (click)="closeAllMenus()"
@@ -497,8 +490,6 @@ import { GuidedTourComponent } from './components/guided-tour.component';
                  class="text-sm text-slate-400 hover:text-blue-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.ai_systems') }}</a>
               <a routerLink="/ai-act-classifier" (click)="mobileMenu = false"
                  class="text-sm text-slate-400 hover:text-purple-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.ai_act_classifier') }}</a>
-              <a routerLink="/gpai-models" (click)="mobileMenu = false"
-                 class="text-sm text-slate-400 hover:text-teal-400 px-3 py-2 rounded-lg hover:bg-slate-700/30">{{ lang.t('nav.gpai_models') }}</a>
               <!-- Reference -->
               <p class="px-3 pt-2 pb-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-600">{{ lang.l('Teave', 'Reference') }}</p>
               <a routerLink="/dora-explorer" (click)="mobileMenu = false"

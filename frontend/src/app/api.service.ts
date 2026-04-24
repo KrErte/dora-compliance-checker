@@ -821,23 +821,6 @@ export class ApiService {
     return this.http.patch<any>(`${this.baseUrl}/ai-systems/${aiSystemId}/obligations/${obligationId}`, data);
   }
 
-  // GPAI Models
-  getGpaiModels(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/gpai-models`);
-  }
-  createGpaiModel(data: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/gpai-models`, data);
-  }
-  deleteGpaiModel(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/gpai-models/${id}`);
-  }
-  getGpaiObligations(modelId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/gpai-models/${modelId}/obligations`);
-  }
-  updateGpaiObligation(modelId: string, obligationId: string, status: string): Observable<any> {
-    return this.http.patch<any>(`${this.baseUrl}/gpai-models/${modelId}/obligations/${obligationId}`, { status });
-  }
-
   // AI Act Documents
   getAiActDocuments(aiSystemId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/ai-systems/${aiSystemId}/documents`);

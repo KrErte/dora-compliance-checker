@@ -740,12 +740,6 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'EU AI Act Risk Classifier', seoDescription: 'Free EU AI Act risk classification tool. Determine if your AI system is prohibited, high-risk, limited-risk, or minimal-risk.' }
   },
   {
-    path: 'gpai-models',
-    loadComponent: () => import('./pages/gpai-list.component').then(m => m.GpaiListComponent),
-    canActivate: [authGuard],
-    data: { seoTitle: 'GPAI Models', seoDescription: 'Manage General Purpose AI models and track Article 53/55 compliance obligations.' }
-  },
-  {
     path: 'admin/users',
     loadComponent: () => import('./pages/admin-users.component').then(m => m.AdminUsersComponent),
     canActivate: [adminGuard],
