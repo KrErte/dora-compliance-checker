@@ -150,11 +150,9 @@ export class ToolsHubComponent {
         { icon: '\u{1F525}', titleEt: 'Riski soojuskaart', titleEn: 'Risk Heatmap', descEt: 'Visuaalne riskide kaardistus', descEn: 'Visual risk mapping by pillar', link: '/risk-heatmap' },
         { icon: '\u{1F4CA}', titleEt: 'K\u00fcpsusmudel', titleEn: 'Maturity Model', descEt: 'Vastavuse k\u00fcpsuse hindamine 0-5', descEn: 'Compliance maturity assessment 0-5', link: '/maturity' },
         { icon: '\u{1F50E}', titleEt: 'Kontsentratsiooni risk', titleEn: 'Concentration Risk', descEt: 'IKT teenusepakkujate kontsentratsioonianalüüs', descEn: 'ICT provider concentration analysis', link: '/concentration-risk' },
-        { icon: '\u{1F300}', titleEt: 'Digitaalne kaksik', titleEn: 'Digital Twin', descEt: 'IKT keskkonna interaktiivne graaf', descEn: 'Interactive ICT environment graph', link: '/digital-twin' },
         { icon: '\u{1F3AE}', titleEt: 'Stressitest', titleEn: 'Stress Test', descEt: '5-minutiline kriisisimulaator', descEn: '5-minute crisis simulator', link: '/stress-test' },
         { icon: '\u26A1', titleEt: 'Doominoefekt', titleEn: 'Chain Reaction', descEt: 'Vastavuse kaskaadefektide simulatsioon', descEn: 'Compliance cascade effect simulation', link: '/chain-reaction' },
         { icon: '\u{1F52C}', titleEt: 'Vastavuse lahkamine', titleEn: 'Compliance Autopsy', descEt: 'Kohtumeditsiiniline algp\u00f5hjuste anal\u00fc\u00fcs', descEn: 'Forensic root cause analysis', link: '/autopsy' },
-        { icon: '\u23F3', titleEt: 'Ajamasin', titleEn: 'Time Machine', descEt: 'Ajareis l\u00e4bi vastavusseisundite', descEn: 'Time-travel through compliance states', link: '/time-machine' },
       ]
     },
     {

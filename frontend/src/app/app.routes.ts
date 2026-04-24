@@ -236,12 +236,6 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'What-If Scenario Simulator', seoDescription: 'Simulate ICT provider failure scenarios. Analyze impact on services, estimate recovery time, and plan mitigations per DORA requirements.' }
   },
   {
-    path: 'digital-twin',
-    loadComponent: () => import('./pages/digital-twin.component').then(m => m.DigitalTwinComponent),
-    canActivate: [authGuard],
-    data: { seoTitle: 'ICT Digital Twin', seoDescription: 'Interactive network graph of your ICT environment. Visualize dependencies, run failure simulations, and identify concentration risks and compliance gaps.' }
-  },
-  {
     path: 'audit-readiness',
     loadComponent: () => import('./pages/audit-readiness.component').then(m => m.AuditReadinessComponent),
     canActivate: [authGuard],
@@ -731,18 +725,6 @@ const coreRoutes: Routes = [
     loadComponent: () => import('./pages/compliance-network.component').then(m => m.ComplianceNetworkComponent),
     canActivate: [authGuard],
     data: { seoTitle: 'Compliance Network', seoDescription: 'Anonymous peer intelligence from DoraAudit users. Industry benchmarks, threat radar, peer comparison, and Baltic compliance heat map.' }
-  },
-  {
-    path: 'genome',
-    loadComponent: () => import('./pages/compliance-genome.component').then(m => m.ComplianceGenomeComponent),
-    canActivate: [authGuard],
-    data: { seoTitle: 'Compliance Genome', seoDescription: 'Circular bioinformatics-style visualization encoding your entire DORA compliance state as a unique genetic fingerprint.' }
-  },
-  {
-    path: 'time-machine',
-    loadComponent: () => import('./pages/time-machine.component').then(m => m.TimeMachineComponent),
-    canActivate: [authGuard],
-    data: { seoTitle: 'Regulatory Time Machine', seoDescription: 'Interactive time-travel through past, present, and AI-predicted future compliance states with what-if scenarios.' }
   },
   {
     path: 'stress-test',

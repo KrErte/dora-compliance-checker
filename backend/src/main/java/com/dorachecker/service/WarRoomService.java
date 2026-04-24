@@ -16,14 +16,11 @@ public class WarRoomService {
     private static final long SESSION_TTL_MS = 3_600_000 * 4; // 4 hours
     private static final int MAX_SESSIONS = 5_000;
 
-    private final DigitalTwinService digitalTwinService;
     private final SubscriptionGuardService subscriptionGuard;
 
     private final ConcurrentHashMap<String, WarRoomSession> sessions = new ConcurrentHashMap<>();
 
-    public WarRoomService(DigitalTwinService digitalTwinService,
-                          SubscriptionGuardService subscriptionGuard) {
-        this.digitalTwinService = digitalTwinService;
+    public WarRoomService(SubscriptionGuardService subscriptionGuard) {
         this.subscriptionGuard = subscriptionGuard;
     }
 
@@ -745,39 +742,9 @@ public class WarRoomService {
         String simSessionId = UUID.randomUUID().toString();
         String sessionKey = userId + ":" + simSessionId;
 
-        // Get graph data from digital twin
-        Map<String, Object> graphData = null;
-        String targetNodeId = null;
+        Map<String, Object> graphData = buildFallbackGraph(scenarioId);
+        String targetNodeId = "target-1";
         List<Map<String, Object>> cascadeAffected = new ArrayList<>();
-        try {
-            graphData = digitalTwinService.getGraphData(userId);
-            List<Map<String, Object>> nodes = (List<Map<String, Object>>) graphData.get("nodes");
-            if (nodes != null && !nodes.isEmpty()) {
-                String targetType = (String) scenario.get("targetNodeType");
-                // Find a node matching the scenario target type
-                targetNodeId = nodes.stream()
-                    .filter(n -> targetType.equals(n.get("group")))
-                    .map(n -> (String) n.get("id"))
-                    .findFirst()
-                    .orElse((String) nodes.get(0).get("id"));
-                // Simulate cascade
-                Map<String, Object> cascadeResult = digitalTwinService.simulateRemoval(userId, targetNodeId);
-                if (cascadeResult != null && cascadeResult.containsKey("affectedFunctions")) {
-                    List<String> af = (List<String>) cascadeResult.get("affectedFunctions");
-                    List<String> aa = (List<String>) cascadeResult.get("affectedAssets");
-                    if (af != null) af.forEach(f -> cascadeAffected.add(Map.of("id", f, "type", "function")));
-                    if (aa != null) aa.forEach(a -> cascadeAffected.add(Map.of("id", a, "type", "asset")));
-                }
-            }
-        } catch (Exception e) {
-            log.debug("No digital twin data for user {}, using fallback graph", userId);
-        }
-
-        // Fallback graph if no digital twin data
-        if (graphData == null || graphData.get("nodes") == null || ((List<?>) graphData.get("nodes")).isEmpty()) {
-            graphData = buildFallbackGraph(scenarioId);
-            targetNodeId = "target-1";
-        }
 
         // Get phases for this scenario
         List<Phase> phases = ALL_PHASES.getOrDefault(scenarioId, ALL_PHASES.get("ransomware"));

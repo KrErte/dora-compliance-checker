@@ -772,27 +772,6 @@ export class ApiService {
     return this.http.get<{ count: number }>(`${this.baseUrl}/regulatory-impact/unacknowledged-count`);
   }
 
-  // ─── Compliance Genome ──────────────────────────────
-  getGenome(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/genome`);
-  }
-  getGenomeHistory(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/genome/history`);
-  }
-  getGenomeComparison(fromId: string, toId: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/genome/compare?from=${fromId}&to=${toId}`);
-  }
-
-  // ─── Regulatory Time Machine ────────────────────────
-  getTimeline(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/time-machine`);
-  }
-  getStateAtDate(date: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/time-machine/state?date=${date}`);
-  }
-  whatIfScenario(scenarioId: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/time-machine/whatif`, { scenarioId });
-  }
 
   // ─── DORA Stress Test ───────────────────────────────
   getStressExercises(): Observable<any> {
