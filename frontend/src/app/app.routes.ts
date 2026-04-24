@@ -709,12 +709,6 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'Regulator Compliance View' }
   },
   {
-    path: 'chain-reaction',
-    loadComponent: () => import('./pages/chain-reaction.component').then(m => m.ChainReactionComponent),
-    canActivate: [authGuard],
-    data: { seoTitle: 'Chain Reaction Engine', seoDescription: 'Simulate compliance cascade effects. Visualize how vendor breaches, evidence expiry, or regulation changes impact your DORA compliance score.' }
-  },
-  {
     path: 'evidence-harvester',
     loadComponent: () => import('./pages/evidence-harvester.component').then(m => m.EvidenceHarvesterComponent),
     canActivate: [authGuard],
@@ -725,18 +719,6 @@ const coreRoutes: Routes = [
     loadComponent: () => import('./pages/compliance-network.component').then(m => m.ComplianceNetworkComponent),
     canActivate: [authGuard],
     data: { seoTitle: 'Compliance Network', seoDescription: 'Anonymous peer intelligence from DoraAudit users. Industry benchmarks, threat radar, peer comparison, and Baltic compliance heat map.' }
-  },
-  {
-    path: 'stress-test',
-    loadComponent: () => import('./pages/stress-test.component').then(m => m.StressTestComponent),
-    canActivate: [authGuard],
-    data: { seoTitle: 'DORA Stress Test', seoDescription: 'Real-time timed crisis simulator for compliance officers. 5-minute exercises with random events, reaction scoring, and leaderboard.' }
-  },
-  {
-    path: 'autopsy',
-    loadComponent: () => import('./pages/compliance-autopsy.component').then(m => m.ComplianceAutopsyComponent),
-    canActivate: [authGuard],
-    data: { seoTitle: 'Compliance Autopsy', seoDescription: 'Forensic post-mortem tool tracing compliance failures to root causes. Medical-style autopsy report with prevention recommendations.' }
   },
   {
     path: 'regulatory-translator',

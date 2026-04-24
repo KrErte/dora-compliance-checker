@@ -702,16 +702,6 @@ export class ApiService {
     return this.http.get<any>(`${this.baseUrl}/public/regulator/${token}`);
   }
 
-  // ─── Chain Reaction Engine ────────────────────────
-  getChainReactionTriggers(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/chain-reaction/triggers`);
-  }
-  simulateCascade(triggerId: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/chain-reaction/simulate`, { triggerId });
-  }
-  simulateQuickScenario(scenarioId: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/chain-reaction/simulate/scenario`, { scenarioId });
-  }
 
   // ─── Evidence Harvester ───────────────────────────
   getSupportedHarvesters(): Observable<any> {
@@ -773,44 +763,6 @@ export class ApiService {
   }
 
 
-  // ─── DORA Stress Test ───────────────────────────────
-  getStressExercises(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/stress-test/exercises`);
-  }
-  startStressExercise(scenarioId: string, difficulty: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/stress-test/start`, { scenarioId, difficulty });
-  }
-  getStressEvents(sessionId: string, elapsed: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/stress-test/events/${sessionId}?elapsed=${elapsed}`);
-  }
-  respondToStressEvent(sessionId: string, eventId: string, optionIndex: number, reactionTimeMs: number): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/stress-test/respond`, { sessionId, eventId, optionIndex, reactionTimeMs });
-  }
-  completeStressExercise(sessionId: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/stress-test/complete/${sessionId}`, {});
-  }
-  getStressLeaderboard(scenarioId?: string, difficulty?: string): Observable<any> {
-    let url = `${this.baseUrl}/stress-test/leaderboard`;
-    const params: string[] = [];
-    if (scenarioId) params.push(`scenarioId=${scenarioId}`);
-    if (difficulty) params.push(`difficulty=${difficulty}`);
-    if (params.length) url += '?' + params.join('&');
-    return this.http.get<any>(url);
-  }
-
-  // ─── Compliance Autopsy ─────────────────────────────
-  getAutopsyEvents(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/autopsy/events`);
-  }
-  performAutopsy(failureEventId: string): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/autopsy/perform`, { failureEventId });
-  }
-  getAutopsyReport(id: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/autopsy/${id}`);
-  }
-  getAutopsyHistory(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/autopsy/history`);
-  }
 
   // ─── Regulatory Translator ───────────────────────────
   getTranslatorUpdates(page: number = 0, size: number = 20): Observable<any> {

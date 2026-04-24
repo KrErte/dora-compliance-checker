@@ -762,11 +762,8 @@ export class AppComponent implements OnInit, OnDestroy {
     '/incident-war-room': { et: 'Intsidendi Sõjaruum | DoraAudit.eu', en: 'Incident War Room | DoraAudit.eu' },
     '/regulator-portal': { et: 'Regulaatori Portaal | DoraAudit.eu', en: 'Regulator Portal | DoraAudit.eu' },
     '/regulator-view': { et: 'Regulaatori Vaade | DoraAudit.eu', en: 'Regulator Compliance View | DoraAudit.eu' },
-    '/chain-reaction': { et: 'Doominoefekti Mootor | DoraAudit.eu', en: 'Chain Reaction Engine | DoraAudit.eu' },
     '/evidence-harvester': { et: 'Tõendite Automaatne Kogumine | DoraAudit.eu', en: 'Evidence Auto-Harvester | DoraAudit.eu' },
     '/compliance-network': { et: 'Vastavusvõrgustik | DoraAudit.eu', en: 'Compliance Network | DoraAudit.eu' },
-    '/stress-test': { et: 'DORA Stressitest | DoraAudit.eu', en: 'DORA Stress Test | DoraAudit.eu' },
-    '/autopsy': { et: 'Vastavuse Lahkamine | DoraAudit.eu', en: 'Compliance Autopsy | DoraAudit.eu' },
     '/regulatory-translator': { et: 'Regulatiivne Tõlkija | DoraAudit.eu', en: 'Live Regulatory Translator | DoraAudit.eu' },
     '/tools': { et: 'Tööriistad | DoraAudit.eu', en: 'Tools | DoraAudit.eu' },
   };
@@ -845,11 +842,8 @@ export class AppComponent implements OnInit, OnDestroy {
     '/pillar': { et: 'DORA samba detailne ülevaade ja vastavusnõuded.', en: 'DORA pillar detailed overview and compliance requirements.' },
     '/regulator-portal': { et: 'Loo turvalisi, ainult-lugemise vastavusportaale regulaatoritele ja audiitoritele.', en: 'Create secure, read-only compliance portals for regulators and auditors via token-based links.' },
     '/regulator-view': { et: 'Regulaatori vastavusülevaade. Ainult-lugemise juurdepääs hindamistele ja tõenditele.', en: 'Regulator compliance overview. Read-only access to assessments and evidence.' },
-    '/chain-reaction': { et: 'Simuleeri vastavuse kaskaadefekte. Visualiseeri kuidas tarnija rikkumine mõjutab DORA skoori.', en: 'Simulate compliance cascade effects. Visualize how vendor breaches impact your DORA compliance score.' },
     '/evidence-harvester': { et: 'Ühenda Jira, GitHub, Azure, AWS, Slack ja Confluence tõendite automaatseks kogumiseks.', en: 'Connect Jira, GitHub, Azure, AWS, Slack and Confluence to automatically harvest compliance evidence.' },
     '/compliance-network': { et: 'Anonüümne kollegiaalne luure DoraAudit kasutajatelt. Tööstuse võrdlus ja Baltikumi soojuskaart.', en: 'Anonymous peer intelligence from DoraAudit users. Industry benchmarks, threat radar, and Baltic heat map.' },
-    '/stress-test': { et: 'Reaalajas ajastatud kriisisimulaator vastavusspetsialistidele. 5-minutilised harjutused juhuslike sündmustega.', en: 'Real-time timed crisis simulator for compliance officers. 5-minute exercises with random events and reaction scoring.' },
-    '/autopsy': { et: 'Kohtumeditsiiniline lahkamistööriist, mis jälgib vastavuse tõrkeid nende algpõhjusteni.', en: 'Forensic post-mortem tool tracing compliance failures to root causes with prevention recommendations.' },
     '/tools': { et: 'Kõik DoraAudit.eu tööriistad ühes kohas. DORA ja NIS2 vastavuskontrolli tööriistade kataloog.', en: 'All DoraAudit.eu tools in one place. Complete catalog of DORA and NIS2 compliance tools.' },
   };
 
