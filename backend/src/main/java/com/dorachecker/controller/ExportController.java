@@ -1,15 +1,6 @@
 package com.dorachecker.controller;
 
-import com.dorachecker.model.AssessmentRepository;
-import com.dorachecker.model.ContractAnalysisRepository;
-import com.dorachecker.model.GapAnalysisRepository;
-import com.dorachecker.model.IncidentReportRepository;
-import com.dorachecker.service.BoardPackageService;
-import com.dorachecker.service.ComplianceReportService;
-import com.dorachecker.service.ExcelExportService;
-import com.dorachecker.service.ICalExportService;
-import com.dorachecker.service.PdfExportService;
-import com.dorachecker.service.ProfessionalReportService;
+import com.dorachecker.service.ExportFacade;
 import com.dorachecker.service.SubscriptionGuardService;
 import com.dorachecker.service.SubscriptionGuardService.Feature;
 import java.util.Map;
@@ -22,40 +13,11 @@ import org.springframework.web.bind.annotation.*;
 public class ExportController {
 
   private final SubscriptionGuardService guardService;
-  private final AssessmentRepository assessmentRepository;
-  private final ContractAnalysisRepository contractAnalysisRepository;
-  private final GapAnalysisRepository gapAnalysisRepository;
-  private final IncidentReportRepository incidentReportRepository;
-  private final PdfExportService pdfExportService;
-  private final ExcelExportService excelExportService;
-  private final ProfessionalReportService professionalReportService;
-  private final ComplianceReportService complianceReportService;
-  private final ICalExportService iCalExportService;
-  private final BoardPackageService boardPackageService;
+  private final ExportFacade exportFacade;
 
-  public ExportController(
-      SubscriptionGuardService guardService,
-      AssessmentRepository assessmentRepository,
-      ContractAnalysisRepository contractAnalysisRepository,
-      GapAnalysisRepository gapAnalysisRepository,
-      IncidentReportRepository incidentReportRepository,
-      PdfExportService pdfExportService,
-      ExcelExportService excelExportService,
-      ProfessionalReportService professionalReportService,
-      ComplianceReportService complianceReportService,
-      ICalExportService iCalExportService,
-      BoardPackageService boardPackageService) {
+  public ExportController(SubscriptionGuardService guardService, ExportFacade exportFacade) {
     this.guardService = guardService;
-    this.assessmentRepository = assessmentRepository;
-    this.contractAnalysisRepository = contractAnalysisRepository;
-    this.gapAnalysisRepository = gapAnalysisRepository;
-    this.incidentReportRepository = incidentReportRepository;
-    this.pdfExportService = pdfExportService;
-    this.excelExportService = excelExportService;
-    this.professionalReportService = professionalReportService;
-    this.complianceReportService = complianceReportService;
-    this.iCalExportService = iCalExportService;
-    this.boardPackageService = boardPackageService;
+    this.exportFacade = exportFacade;
   }
 
   @PostMapping("/pdf/assessment/{id}")
@@ -69,7 +31,7 @@ public class ExportController {
       return premiumRequiredResponse(Feature.PDF_EXPORT);
     }
 
-    var assessment = assessmentRepository.findById(id);
+    var assessment = exportFacade.findAssessment(id);
     if (assessment.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
@@ -79,7 +41,7 @@ public class ExportController {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "ACCESS_DENIED"));
     }
 
-    byte[] pdfBytes = pdfExportService.generateAssessmentPdf(assessment.get());
+    byte[] pdfBytes = exportFacade.exportAssessmentPdf(assessment.get());
     return fileResponse(pdfBytes, "assessment-report.pdf", MediaType.APPLICATION_PDF);
   }
 
@@ -94,7 +56,7 @@ public class ExportController {
       return premiumRequiredResponse(Feature.PDF_EXPORT);
     }
 
-    var contract = contractAnalysisRepository.findById(id);
+    var contract = exportFacade.findContractAnalysis(id);
     if (contract.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
@@ -103,7 +65,7 @@ public class ExportController {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "ACCESS_DENIED"));
     }
 
-    byte[] pdfBytes = pdfExportService.generateContractPdf(contract.get());
+    byte[] pdfBytes = exportFacade.exportContractPdf(contract.get());
     return fileResponse(pdfBytes, "contract-analysis-report.pdf", MediaType.APPLICATION_PDF);
   }
 
@@ -118,7 +80,7 @@ public class ExportController {
       return premiumRequiredResponse(Feature.PDF_EXPORT);
     }
 
-    var incident = incidentReportRepository.findById(id);
+    var incident = exportFacade.findIncidentReport(id);
     if (incident.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
@@ -127,7 +89,7 @@ public class ExportController {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "ACCESS_DENIED"));
     }
 
-    byte[] pdfBytes = pdfExportService.generateIncidentReportPdf(incident.get());
+    byte[] pdfBytes = exportFacade.exportIncidentPdf(incident.get());
     return fileResponse(pdfBytes, "incident-report.pdf", MediaType.APPLICATION_PDF);
   }
 
@@ -142,7 +104,7 @@ public class ExportController {
       return premiumRequiredResponse(Feature.PDF_EXPORT);
     }
 
-    var gap = gapAnalysisRepository.findById(id);
+    var gap = exportFacade.findGapAnalysis(id);
     if (gap.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
@@ -151,7 +113,7 @@ public class ExportController {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "ACCESS_DENIED"));
     }
 
-    byte[] pdfBytes = pdfExportService.generateGapAnalysisPdf(gap.get());
+    byte[] pdfBytes = exportFacade.exportGapAnalysisPdf(gap.get());
     String docTitle =
         gap.get().getDocumentTitle() != null
             ? gap.get().getDocumentTitle().replaceAll("[^a-zA-Z0-9-_]", "_")
@@ -170,7 +132,7 @@ public class ExportController {
       return premiumRequiredResponse(Feature.EXCEL_EXPORT);
     }
 
-    var assessment = assessmentRepository.findById(id);
+    var assessment = exportFacade.findAssessment(id);
     if (assessment.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
@@ -180,7 +142,7 @@ public class ExportController {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "ACCESS_DENIED"));
     }
 
-    byte[] excelBytes = excelExportService.generateAssessmentExcel(assessment.get());
+    byte[] excelBytes = exportFacade.exportAssessmentExcel(assessment.get());
     return fileResponse(
         excelBytes,
         "assessment-report.xlsx",
@@ -199,7 +161,7 @@ public class ExportController {
       return premiumRequiredResponse(Feature.EXCEL_EXPORT);
     }
 
-    var contract = contractAnalysisRepository.findById(id);
+    var contract = exportFacade.findContractAnalysis(id);
     if (contract.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
@@ -208,68 +170,12 @@ public class ExportController {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "ACCESS_DENIED"));
     }
 
-    byte[] excelBytes = excelExportService.generateContractExcel(contract.get());
+    byte[] excelBytes = exportFacade.exportContractExcel(contract.get());
     return fileResponse(
         excelBytes,
         "contract-analysis-report.xlsx",
         MediaType.parseMediaType(
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
-  }
-
-  @PostMapping("/xbrl-csv/{id}")
-  public ResponseEntity<?> exportXbrlCsv(
-      @PathVariable String id,
-      @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
-      Authentication authentication) {
-    String userId = authentication != null ? (String) authentication.getPrincipal() : null;
-
-    if (!guardService.canAccess(userId, sessionId, Feature.XBRL_EXPORT)) {
-      return premiumRequiredResponse(Feature.XBRL_EXPORT);
-    }
-
-    // xBRL-CSV export is handled by RoiExportController for RoI data
-    return ResponseEntity.ok(Map.of("success", true, "message", "xBRL-CSV generation authorized"));
-  }
-
-  @PostMapping("/certificate/{id}")
-  public ResponseEntity<?> exportCertificate(
-      @PathVariable String id,
-      @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
-      Authentication authentication) {
-    String userId = authentication != null ? (String) authentication.getPrincipal() : null;
-
-    if (!guardService.canAccess(userId, sessionId, Feature.CERTIFICATE)) {
-      return premiumRequiredResponse(Feature.CERTIFICATE);
-    }
-
-    var assessment = assessmentRepository.findById(id);
-    if (assessment.isEmpty()) {
-      return ResponseEntity.notFound().build();
-    }
-
-    if (!isOwner(
-        userId, sessionId, assessment.get().getUserId(), assessment.get().getSessionId())) {
-      return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "ACCESS_DENIED"));
-    }
-
-    return ResponseEntity.ok(
-        Map.of(
-            "success", true, "message", "Certificate generation authorized", "assessmentId", id));
-  }
-
-  @PostMapping("/action-plan/{id}")
-  public ResponseEntity<?> exportActionPlan(
-      @PathVariable String id,
-      @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
-      Authentication authentication) {
-    String userId = authentication != null ? (String) authentication.getPrincipal() : null;
-
-    if (!guardService.canAccess(userId, sessionId, Feature.ACTION_PLAN_PDF)) {
-      return premiumRequiredResponse(Feature.ACTION_PLAN_PDF);
-    }
-
-    return ResponseEntity.ok(
-        Map.of("success", true, "message", "Action plan PDF generation authorized"));
   }
 
   @PostMapping("/report/assessment/{id}")
@@ -284,7 +190,7 @@ public class ExportController {
       return premiumRequiredResponse(Feature.PROFESSIONAL_REPORT);
     }
 
-    var assessment = assessmentRepository.findById(id);
+    var assessment = exportFacade.findAssessment(id);
     if (assessment.isEmpty()) {
       return ResponseEntity.notFound().build();
     }
@@ -294,7 +200,7 @@ public class ExportController {
       return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "ACCESS_DENIED"));
     }
 
-    byte[] pdfBytes = professionalReportService.generate(assessment.get(), userId, language);
+    byte[] pdfBytes = exportFacade.exportProfessionalReport(assessment.get(), userId, language);
     String companyName =
         assessment.get().getCompanyName() != null
             ? assessment.get().getCompanyName().replaceAll("[^a-zA-Z0-9-_]", "_")
@@ -320,7 +226,7 @@ public class ExportController {
       return premiumRequiredResponse(Feature.COMPLIANCE_REPORT);
     }
 
-    byte[] pdfBytes = complianceReportService.generate(userId, language);
+    byte[] pdfBytes = exportFacade.exportComplianceReport(userId, language);
     return fileResponse(pdfBytes, "dora-compliance-report.pdf", MediaType.APPLICATION_PDF);
   }
 
@@ -340,7 +246,7 @@ public class ExportController {
       return premiumRequiredResponse(Feature.ICAL_EXPORT);
     }
 
-    String ical = iCalExportService.generateIcal(userId);
+    String ical = exportFacade.exportIcalDeadlines(userId);
     byte[] bytes = ical.getBytes(java.nio.charset.StandardCharsets.UTF_8);
 
     HttpHeaders headers = new HttpHeaders();
@@ -350,6 +256,34 @@ public class ExportController {
     headers.setContentLength(bytes.length);
     return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
   }
+
+  // ─── Board Package ──────────────────────────────────
+
+  @GetMapping("/board-package/data")
+  public ResponseEntity<Map<String, Object>> getBoardPackageData(Authentication auth) {
+    String userId = auth != null ? (String) auth.getPrincipal() : null;
+    if (userId == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    return ResponseEntity.ok(exportFacade.getBoardPackageData(userId));
+  }
+
+  @PostMapping("/pdf/board-package")
+  public ResponseEntity<?> exportBoardPackagePdf(
+      @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
+      Authentication auth) {
+    String userId = auth != null ? (String) auth.getPrincipal() : null;
+    if (!guardService.canAccess(userId, sessionId, Feature.PDF_EXPORT)) {
+      return premiumRequiredResponse(Feature.PDF_EXPORT);
+    }
+
+    try {
+      byte[] pdf = exportFacade.exportBoardPackagePdf(userId);
+      return fileResponse(pdf, "board-package-report.pdf", MediaType.APPLICATION_PDF);
+    } catch (Exception e) {
+      return ResponseEntity.internalServerError().body(Map.of("error", "PDF generation failed"));
+    }
+  }
+
+  // ─── Helpers ──────────────────────────────────
 
   private boolean isOwner(
       String userId, String sessionId, String resourceUserId, String resourceSessionId) {
@@ -370,42 +304,11 @@ public class ExportController {
     return new ResponseEntity<>(data, headers, HttpStatus.OK);
   }
 
-  // ─── Board Package ──────────────────────────────────
-
-  @GetMapping("/board-package/data")
-  public ResponseEntity<Map<String, Object>> getBoardPackageData(Authentication auth) {
-    String userId = auth != null ? (String) auth.getPrincipal() : null;
-    if (userId == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-    return ResponseEntity.ok(boardPackageService.getBoardPackageData(userId));
-  }
-
-  @PostMapping("/pdf/board-package")
-  public ResponseEntity<?> exportBoardPackagePdf(
-      @RequestHeader(value = "X-Session-Id", required = false) String sessionId,
-      Authentication auth) {
-    String userId = auth != null ? (String) auth.getPrincipal() : null;
-    if (!guardService.canAccess(userId, sessionId, Feature.PDF_EXPORT)) {
-      return premiumRequiredResponse(Feature.PDF_EXPORT);
-    }
-
-    Map<String, Object> data = boardPackageService.getBoardPackageData(userId);
-    // Generate a simple PDF summary
-    try {
-      byte[] pdf = pdfExportService.generateBoardPackagePdf(data);
-      return fileResponse(pdf, "board-package-report.pdf", MediaType.APPLICATION_PDF);
-    } catch (Exception e) {
-      return ResponseEntity.internalServerError().body(Map.of("error", "PDF generation failed"));
-    }
-  }
-
   private ResponseEntity<Map<String, Object>> premiumRequiredResponse(Feature feature) {
     String message =
         switch (feature) {
           case PDF_EXPORT -> "PDF eksport on saadaval Standard ja Enterprise plaanidel";
           case EXCEL_EXPORT -> "Excel eksport on saadaval Standard ja Enterprise plaanidel";
-          case XBRL_EXPORT -> "xBRL-CSV eksport on saadaval ainult Enterprise plaanil";
-          case CERTIFICATE -> "Vastavustunnistus on saadaval Standard ja Enterprise plaanidel";
-          case ACTION_PLAN_PDF -> "Tegevuskava PDF on saadaval Standard ja Enterprise plaanidel";
           case PROFESSIONAL_REPORT ->
               "Professionaalne DORA raport on saadaval Standard ja Enterprise plaanidel";
           case COMPLIANCE_REPORT ->
