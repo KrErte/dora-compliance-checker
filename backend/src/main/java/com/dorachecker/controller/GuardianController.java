@@ -3,7 +3,7 @@ package com.dorachecker.controller;
 import com.dorachecker.model.ContractAlertEntity;
 import com.dorachecker.model.MonitoredContractEntity;
 import com.dorachecker.model.RegulatoryUpdateEntity;
-import com.dorachecker.service.ContractAlertService;
+import com.dorachecker.service.AlertService;
 import com.dorachecker.service.MonitoredContractService;
 import com.dorachecker.service.RegulatoryFeedService;
 import java.time.LocalDate;
@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.*;
 public class GuardianController {
 
   private final MonitoredContractService monitoredContractService;
-  private final ContractAlertService alertService;
+  private final AlertService alertService;
   private final RegulatoryFeedService feedService;
 
   public GuardianController(
       MonitoredContractService monitoredContractService,
-      ContractAlertService alertService,
+      AlertService alertService,
       RegulatoryFeedService feedService) {
     this.monitoredContractService = monitoredContractService;
     this.alertService = alertService;
@@ -81,17 +81,18 @@ public class GuardianController {
 
   @GetMapping("/alerts")
   public ResponseEntity<List<ContractAlertEntity>> getAlerts(Authentication auth) {
-    return ResponseEntity.ok(alertService.getAlerts(getUserId(auth)));
+    return ResponseEntity.ok(alertService.getContractAlerts(getUserId(auth)));
   }
 
   @GetMapping("/alerts/count")
   public ResponseEntity<Map<String, Long>> getAlertCount(Authentication auth) {
-    return ResponseEntity.ok(Map.of("count", alertService.getUnreadCount(getUserId(auth))));
+    return ResponseEntity.ok(
+        Map.of("count", alertService.getUnreadContractAlertCount(getUserId(auth))));
   }
 
   @PutMapping("/alerts/{id}/read")
   public ResponseEntity<Void> markAlertRead(@PathVariable String id, Authentication auth) {
-    alertService.markAsRead(id, getUserId(auth));
+    alertService.markContractAlertAsRead(id, getUserId(auth));
     return ResponseEntity.ok().build();
   }
 

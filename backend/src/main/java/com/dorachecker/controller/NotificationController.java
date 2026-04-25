@@ -1,7 +1,7 @@
 package com.dorachecker.controller;
 
 import com.dorachecker.model.NotificationEntity;
-import com.dorachecker.service.ComplianceAlertService;
+import com.dorachecker.service.AlertService;
 import com.dorachecker.service.NotificationService;
 import java.util.List;
 import java.util.Map;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 public class NotificationController {
 
   private final NotificationService notificationService;
-  private final ComplianceAlertService complianceAlertService;
+  private final AlertService alertService;
 
   public NotificationController(
-      NotificationService notificationService, ComplianceAlertService complianceAlertService) {
+      NotificationService notificationService, AlertService alertService) {
     this.notificationService = notificationService;
-    this.complianceAlertService = complianceAlertService;
+    this.alertService = alertService;
   }
 
   private String getUserId(Authentication auth) {
@@ -55,11 +55,11 @@ public class NotificationController {
 
   @GetMapping("/alerts")
   public ResponseEntity<List<Map<String, Object>>> alerts(Authentication auth) {
-    return ResponseEntity.ok(complianceAlertService.getComplianceAlerts(getUserId(auth)));
+    return ResponseEntity.ok(alertService.getComplianceAlerts(getUserId(auth)));
   }
 
   @GetMapping("/alerts/count")
   public ResponseEntity<Map<String, Long>> alertCounts(Authentication auth) {
-    return ResponseEntity.ok(complianceAlertService.getAlertCounts(getUserId(auth)));
+    return ResponseEntity.ok(alertService.getComplianceAlertCounts(getUserId(auth)));
   }
 }

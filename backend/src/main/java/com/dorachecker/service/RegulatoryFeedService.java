@@ -25,9 +25,8 @@ public class RegulatoryFeedService {
   private final RegulatoryUpdateRepository updateRepository;
   private final RegulatorySourceRepository sourceRepository;
   private final MonitoredContractService monitoredContractService;
-  private final ContractAlertService alertService;
+  private final AlertService alertService;
   private final ClaudeApiService claudeApiService;
-  private final AlertMatchingService alertMatchingService;
   private final RssFeedParser rssFeedParser = new RssFeedParser();
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final HttpClient httpClient =
@@ -46,15 +45,13 @@ public class RegulatoryFeedService {
       RegulatoryUpdateRepository updateRepository,
       RegulatorySourceRepository sourceRepository,
       MonitoredContractService monitoredContractService,
-      ContractAlertService alertService,
-      ClaudeApiService claudeApiService,
-      AlertMatchingService alertMatchingService) {
+      AlertService alertService,
+      ClaudeApiService claudeApiService) {
     this.updateRepository = updateRepository;
     this.sourceRepository = sourceRepository;
     this.monitoredContractService = monitoredContractService;
     this.alertService = alertService;
     this.claudeApiService = claudeApiService;
-    this.alertMatchingService = alertMatchingService;
   }
 
   public List<RegulatoryUpdateEntity> getAllUpdates() {
@@ -106,7 +103,7 @@ public class RegulatoryFeedService {
         }
         try {
           enrichWithAi(update);
-          alertMatchingService.matchAndCreateAlerts(update);
+          alertService.matchAndCreateAlerts(update);
           enriched++;
         } catch (Exception e) {
           log.warn("Uuenduse AI rikastamine ebaõnnestus {}: {}", update.getId(), e.getMessage());

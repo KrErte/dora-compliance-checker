@@ -2,7 +2,7 @@ package com.dorachecker.controller;
 
 import com.dorachecker.model.RegulatoryUpdateEntity;
 import com.dorachecker.model.UserAlertEntity;
-import com.dorachecker.service.UserAlertService;
+import com.dorachecker.service.AlertService;
 import java.util.List;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/alerts")
 public class UserAlertController {
 
-  private final UserAlertService alertService;
+  private final AlertService alertService;
 
-  public UserAlertController(UserAlertService alertService) {
+  public UserAlertController(AlertService alertService) {
     this.alertService = alertService;
   }
 
   @GetMapping
   public ResponseEntity<List<AlertResponse>> getAlerts(Authentication auth) {
     String userId = auth.getName();
-    List<UserAlertEntity> alerts = alertService.getAlerts(userId);
+    List<UserAlertEntity> alerts = alertService.getUserAlerts(userId);
 
     List<AlertResponse> response =
         alerts.stream()
@@ -39,19 +39,19 @@ public class UserAlertController {
 
   @GetMapping("/unread-count")
   public ResponseEntity<Map<String, Long>> getUnreadCount(Authentication auth) {
-    long count = alertService.getUnreadCount(auth.getName());
+    long count = alertService.getUnreadUserAlertCount(auth.getName());
     return ResponseEntity.ok(Map.of("count", count));
   }
 
   @PutMapping("/{id}/read")
   public ResponseEntity<Void> markRead(@PathVariable String id, Authentication auth) {
-    alertService.markRead(auth.getName(), id);
+    alertService.markUserAlertRead(auth.getName(), id);
     return ResponseEntity.ok().build();
   }
 
   @PutMapping("/read-all")
   public ResponseEntity<Void> markAllRead(Authentication auth) {
-    alertService.markAllRead(auth.getName());
+    alertService.markAllUserAlertsRead(auth.getName());
     return ResponseEntity.ok().build();
   }
 
@@ -60,7 +60,7 @@ public class UserAlertController {
       @PathVariable String id, Authentication auth) {
     String userId = auth.getName();
     return alertService
-        .getAlert(userId, id)
+        .getUserAlert(userId, id)
         .map(
             alert -> {
               RegulatoryUpdateEntity update =

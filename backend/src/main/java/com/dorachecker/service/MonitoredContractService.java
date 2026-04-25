@@ -11,13 +11,13 @@ public class MonitoredContractService {
   private final MonitoredContractRepository monitoredRepo;
   private final ContractAnalysisRepository analysisRepo;
   private final ContractAnalysisService analysisService;
-  private final ContractAlertService alertService;
+  private final AlertService alertService;
 
   public MonitoredContractService(
       MonitoredContractRepository monitoredRepo,
       ContractAnalysisRepository analysisRepo,
       ContractAnalysisService analysisService,
-      ContractAlertService alertService) {
+      AlertService alertService) {
     this.monitoredRepo = monitoredRepo;
     this.analysisRepo = analysisRepo;
     this.analysisService = analysisService;
