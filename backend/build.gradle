@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.1'
     id 'io.spring.dependency-management' version '1.1.4'
+    id 'com.diffplug.spotless' version '7.0.2'
 }
 
 group = 'com.dorachecker'
@@ -16,6 +17,18 @@ java {
 repositories {
     mavenCentral()
 }
+
+spotless {
+    java {
+        target 'src/*/java/**/*.java'
+        googleJavaFormat('1.25.2')
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
+
+compileJava.dependsOn 'spotlessCheck'
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
