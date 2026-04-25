@@ -1,0 +1,10 @@
+#!/bin/sh
+BLOCKED='\.stackdump$|screenshot.*\.png$|pw_.*\.txt$|bondora_.*\.txt$|^NUL$|\.log$|-prompt\.md$'
+STAGED=$(git diff --cached --name-only)
+JUNK=$(echo "$STAGED" | grep -E "$BLOCKED" || true)
+if [ -n "$JUNK" ]; then
+    echo "BLOCKED: junk files staged for commit:"
+    echo "$JUNK"
+    echo "Use git commit --no-verify to override."
+    exit 1
+fi
