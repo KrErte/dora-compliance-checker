@@ -76,7 +76,7 @@ import { ApiService } from '../api.service';
                         <div class="w-5 h-5 border-2 border-indigo-500/30 border-t-indigo-400 rounded-full animate-spin"></div>
                         <span class="ml-2 text-xs text-slate-500">Loading deliveries...</span>
                       </div>
-                    } @else if (deliveries[config.id]?.length) {
+                    } @else if (deliveries[config.id].length) {
                       <div class="space-y-2 max-h-64 overflow-y-auto pr-1 custom-scrollbar">
                         @for (delivery of deliveries[config.id]; track delivery.id || $index) {
                           <div class="bg-slate-800/50 border border-slate-700/50 rounded-lg px-3 py-2.5">

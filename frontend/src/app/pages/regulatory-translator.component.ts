@@ -105,8 +105,8 @@ import { SubscriptionService } from '../services/subscription.service';
                   [class]="activeTab() === 'translations' ? 'tab-active' : 'tab-inactive'"
                   class="pb-3 text-sm font-medium transition-colors">
             {{ lang.l('Minu tõlked', 'My Translations') }}
-            @if ((translations()?.length || 0) > 0) {
-              <span class="ml-2 px-2 py-0.5 text-[10px] bg-purple-500/20 text-purple-400 rounded-full">{{ translations()?.length }}</span>
+            @if ((translations().length || 0) > 0) {
+              <span class="ml-2 px-2 py-0.5 text-[10px] bg-purple-500/20 text-purple-400 rounded-full">{{ translations().length }}</span>
             }
           </button>
         </div>
@@ -204,7 +204,7 @@ import { SubscriptionService } from '../services/subscription.service';
             <div class="flex items-center justify-center py-20">
               <div class="w-8 h-8 border-2 border-purple-400 border-t-transparent rounded-full animate-spin"></div>
             </div>
-          } @else if ((translations()?.length || 0) === 0) {
+          } @else if ((translations().length || 0) === 0) {
             <div class="text-center py-20">
               <div class="w-16 h-16 rounded-full bg-slate-800/50 flex items-center justify-center mx-auto mb-4">
                 <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

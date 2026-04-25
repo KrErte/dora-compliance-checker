@@ -1,7 +1,6 @@
 import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { LangService } from '../lang.service';
 import { SubscriptionService } from '../services/subscription.service';
@@ -65,7 +64,7 @@ const POLICY_TYPES: PolicyType[] = [
 @Component({
   selector: 'app-ai-policy-writer',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   template: `
     <div class="max-w-5xl mx-auto px-4 py-8">
       <!-- Header -->

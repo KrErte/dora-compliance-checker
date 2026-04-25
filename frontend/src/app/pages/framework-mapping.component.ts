@@ -329,28 +329,28 @@ interface FrameworkMapping {
                         <div class="text-xs font-semibold text-emerald-400 mb-1">ISO 27001:2022</div>
                         <div class="text-xs text-slate-300 font-mono mb-1">{{ m.iso27001 }}</div>
                         <div *ngIf="m.iso27001Detail" class="text-xs text-slate-400">
-                          {{ l(m.iso27001Detail?.et, m.iso27001Detail?.en) }}
+                          {{ l(m.iso27001Detail.et, m.iso27001Detail.en) }}
                         </div>
                       </div>
                       <div *ngIf="showNis2 && m.nis2" class="bg-slate-800/60 rounded-lg p-3 border border-cyan-500/20">
                         <div class="text-xs font-semibold text-cyan-400 mb-1">NIS2 Directive</div>
                         <div class="text-xs text-slate-300 font-mono mb-1">{{ m.nis2 }}</div>
                         <div *ngIf="m.nis2Detail" class="text-xs text-slate-400">
-                          {{ l(m.nis2Detail?.et, m.nis2Detail?.en) }}
+                          {{ l(m.nis2Detail.et, m.nis2Detail.en) }}
                         </div>
                       </div>
                       <div *ngIf="showGdpr && m.gdpr" class="bg-slate-800/60 rounded-lg p-3 border border-violet-500/20">
                         <div class="text-xs font-semibold text-violet-400 mb-1">GDPR</div>
                         <div class="text-xs text-slate-300 font-mono mb-1">{{ m.gdpr }}</div>
                         <div *ngIf="m.gdprDetail" class="text-xs text-slate-400">
-                          {{ l(m.gdprDetail?.et, m.gdprDetail?.en) }}
+                          {{ l(m.gdprDetail.et, m.gdprDetail.en) }}
                         </div>
                       </div>
                       <div *ngIf="showCobit && m.cobit" class="bg-slate-800/60 rounded-lg p-3 border border-amber-500/20">
                         <div class="text-xs font-semibold text-amber-400 mb-1">COBIT 2019</div>
                         <div class="text-xs text-slate-300 font-mono mb-1">{{ m.cobit }}</div>
                         <div *ngIf="m.cobitDetail" class="text-xs text-slate-400">
-                          {{ l(m.cobitDetail?.et, m.cobitDetail?.en) }}
+                          {{ l(m.cobitDetail.et, m.cobitDetail.en) }}
                         </div>
                       </div>
                     </div>

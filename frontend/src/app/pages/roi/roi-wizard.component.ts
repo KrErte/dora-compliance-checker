@@ -347,19 +347,19 @@ import { SubscriptionService } from '../../services/subscription.service';
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="bg-slate-800/30 rounded-lg p-4">
                   <h4 class="text-sm font-semibold text-slate-300 mb-2">B_03.01 — {{ lang.t('roi.recipients') }}</h4>
-                  <p class="text-2xl font-bold text-emerald-400">{{ register.recipients?.length || 0 }}</p>
+                  <p class="text-2xl font-bold text-emerald-400">{{ register.recipients.length || 0 }}</p>
                 </div>
                 <div class="bg-slate-800/30 rounded-lg p-4">
                   <h4 class="text-sm font-semibold text-slate-300 mb-2">B_03.02 — {{ lang.t('roi.provider_signings') }}</h4>
-                  <p class="text-2xl font-bold text-blue-400">{{ register.providerSignings?.length || 0 }}</p>
+                  <p class="text-2xl font-bold text-blue-400">{{ register.providerSignings.length || 0 }}</p>
                 </div>
                 <div class="bg-slate-800/30 rounded-lg p-4">
                   <h4 class="text-sm font-semibold text-slate-300 mb-2">B_04.01 — {{ lang.t('roi.service_users') }}</h4>
-                  <p class="text-2xl font-bold text-purple-400">{{ register.serviceUsers?.length || 0 }}</p>
+                  <p class="text-2xl font-bold text-purple-400">{{ register.serviceUsers.length || 0 }}</p>
                 </div>
                 <div class="bg-slate-800/30 rounded-lg p-4">
                   <h4 class="text-sm font-semibold text-slate-300 mb-2">B_03.03 — {{ lang.t('roi.internal_providers') }}</h4>
-                  <p class="text-2xl font-bold text-amber-400">{{ register.internalProviders?.length || 0 }}</p>
+                  <p class="text-2xl font-bold text-amber-400">{{ register.internalProviders.length || 0 }}</p>
                 </div>
               </div>
             }

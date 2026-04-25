@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { LangService } from '../lang.service';
 
@@ -61,7 +61,7 @@ interface RegulatorPortalData {
 @Component({
   selector: 'app-regulator-view',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   template: `
     <div class="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
 
@@ -178,7 +178,7 @@ interface RegulatorPortalData {
             </div>
 
             <!-- 5 Pillar Score Cards -->
-            @if (hasPermission('assessment_scores') && data()!.pillars?.length) {
+            @if (hasPermission('assessment_scores') && data()!.pillars.length) {
               <div class="mb-8">
                 <h2 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                   <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

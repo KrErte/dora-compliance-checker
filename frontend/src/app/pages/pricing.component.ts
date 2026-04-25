@@ -174,7 +174,7 @@ import { SubscriptionService } from '../services/subscription.service';
             </li>
           </ul>
 
-          <a [href]="paymentConfig.lemonsqueezy.products.professional?.checkoutUrl || '#'"
+          <a [href]="paymentConfig.lemonsqueezy.products.professional.checkoutUrl || '#'"
              target="_blank"
              class="w-full py-3 px-4 rounded-xl text-center font-semibold text-sm
                     bg-cyan-500/20 text-cyan-400 border border-cyan-500/30
@@ -253,7 +253,7 @@ import { SubscriptionService } from '../services/subscription.service';
             </li>
           </ul>
 
-          <a [href]="paymentConfig.lemonsqueezy.products.business?.checkoutUrl || '#'"
+          <a [href]="paymentConfig.lemonsqueezy.products.business.checkoutUrl || '#'"
              target="_blank"
              class="magnetic-btn w-full py-3 px-4 rounded-xl text-center font-bold text-sm
                     bg-gradient-to-r from-emerald-500 to-cyan-500 text-white
@@ -341,7 +341,7 @@ import { SubscriptionService } from '../services/subscription.service';
             </li>
           </ul>
 
-          <a [href]="paymentConfig.lemonsqueezy.products.enterprise?.checkoutUrl || '#'"
+          <a [href]="paymentConfig.lemonsqueezy.products.enterprise.checkoutUrl || '#'"
              target="_blank"
              class="magnetic-btn w-full py-3 px-4 rounded-xl text-center font-bold text-sm
                     bg-gradient-to-r from-purple-500 to-pink-500 text-white

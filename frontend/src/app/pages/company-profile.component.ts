@@ -197,7 +197,7 @@ interface SearchResult {
             </h2>
             <div class="text-right">
               <p class="text-3xl font-bold" [class]="getRiskScoreClass(selectedProfile()!.digitalRiskScore)">
-                {{ selectedProfile()!.digitalRiskScore ?? 'N/A' }}
+                {{ selectedProfile()!.digitalRiskScore }}
               </p>
               <p class="text-xs text-slate-500">/ 100 ({{ lang.t('company.lower_is_better') }})</p>
             </div>
@@ -220,11 +220,11 @@ interface SearchResult {
             <div class="bg-slate-800/50 rounded-lg p-4">
               <p class="text-xs text-slate-500 mb-2">{{ lang.t('company.security_headers') }}</p>
               <div class="flex items-center gap-2">
-                <span class="text-white font-medium">{{ selectedProfile()!.securityHeadersScore ?? 0 }}/7</span>
+                <span class="text-white font-medium">{{ selectedProfile()!.securityHeadersScore }}/7</span>
               </div>
               <div class="w-full bg-slate-700 rounded-full h-1.5 mt-2">
                 <div class="h-1.5 rounded-full transition-all"
-                     [style.width.%]="(selectedProfile()!.securityHeadersScore ?? 0) / 7 * 100"
+                     [style.width.%]="selectedProfile()!.securityHeadersScore / 7 * 100"
                      [class]="getHeadersBarClass(selectedProfile()!.securityHeadersScore)"></div>
               </div>
             </div>

@@ -92,9 +92,9 @@ import { RoiService, RoiRegister } from '../../services/roi.service';
                   </div>
                 </div>
                 <div class="flex gap-6 mt-3 text-xs text-slate-500">
-                  <span>{{ reg.contracts?.length || 0 }} {{ lang.t('roi.contracts_label') }}</span>
-                  <span>{{ reg.providers?.length || 0 }} {{ lang.t('roi.providers_label') }}</span>
-                  <span>{{ reg.functions?.length || 0 }} {{ lang.t('roi.functions_label') }}</span>
+                  <span>{{ reg.contracts.length || 0 }} {{ lang.t('roi.contracts_label') }}</span>
+                  <span>{{ reg.providers.length || 0 }} {{ lang.t('roi.providers_label') }}</span>
+                  <span>{{ reg.functions.length || 0 }} {{ lang.t('roi.functions_label') }}</span>
                 </div>
               </a>
             }

@@ -1,7 +1,6 @@
 import { Component, signal } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { LangService } from '../lang.service';
 import { ApiService } from '../api.service';
 import { forkJoin } from 'rxjs';
@@ -19,7 +18,7 @@ interface PillarScore {
 @Component({
   selector: 'app-board-report-generator',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule],
   template: `
     <div class="max-w-7xl mx-auto space-y-8">
       <!-- Header -->
@@ -286,7 +285,8 @@ interface PillarScore {
                     <path d="m6 9 6 6 6-6"/>
                   </svg>
                 </button>
-                <div *ngIf="exportMenuOpen" class="absolute left-0 top-full mt-1 w-56 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
+                @if (exportMenuOpen) {
+                <div class="absolute left-0 top-full mt-1 w-56 bg-slate-800 border border-slate-700/50 rounded-xl shadow-xl shadow-black/20 py-2 z-50">
                   <button (click)="exportAsPdf(); exportMenuOpen = false" [disabled]="pdfExporting()"
                           class="w-full text-left flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-700/30 transition-colors">
                     <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
@@ -304,6 +304,7 @@ interface PillarScore {
                     {{ lang.t('boardrep.gen_pdf') }}
                   </button>
                 </div>
+                }
               </div>
               <!-- Icon buttons: Copy & Print -->
               <button (click)="copyToClipboard()" [title]="lang.t('boardrep.copy_to_clipboard')"

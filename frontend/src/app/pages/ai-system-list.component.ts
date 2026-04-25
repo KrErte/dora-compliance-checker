@@ -2,7 +2,7 @@ import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { LangService } from '../lang.service';
 import { AuthService } from '../auth/auth.service';
 import { ToastService } from '../auth/toast.service';
@@ -29,7 +29,7 @@ interface PagedResult {
 @Component({
   selector: 'app-ai-system-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule],
   template: `
     <div class="space-y-6">
       <!-- Header -->

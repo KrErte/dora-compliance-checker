@@ -138,7 +138,7 @@ interface Classification {
                      [class]="computedSize === 'MICRO' ? 'bg-blue-500/20 text-blue-400' :
                               (computedSize === 'SMALL' ? 'bg-cyan-500/20 text-cyan-400' :
                               (computedSize === 'MEDIUM' ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'))">
-                  {{ computedSize?.charAt(0) }}
+                  {{ computedSize.charAt(0) }}
                 </div>
                 <div>
                   <h3 class="text-lg font-bold text-white">{{ lang.t('prop.size_' + computedSize.toLowerCase()) }}</h3>

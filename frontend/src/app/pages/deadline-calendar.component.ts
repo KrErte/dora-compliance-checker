@@ -1,6 +1,5 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 import { ApiService } from '../api.service';
@@ -19,7 +18,7 @@ interface Deadline {
 
 @Component({
   selector: 'app-deadline-calendar',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   template: `
     <div class="max-w-5xl mx-auto">
       <!-- Header -->
