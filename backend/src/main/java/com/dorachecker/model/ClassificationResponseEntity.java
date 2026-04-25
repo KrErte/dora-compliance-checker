@@ -4,50 +4,78 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "ai_act_classification_responses",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"aiSystemId", "questionId"}))
+@Table(
+    name = "ai_act_classification_responses",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"aiSystemId", "questionId"}))
 public class ClassificationResponseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
-    @Column(nullable = false, length = 100)
-    private String aiSystemId;
+  @Column(nullable = false, length = 100)
+  private String aiSystemId;
 
-    @Column(nullable = false, length = 100)
-    private String questionId;
+  @Column(nullable = false, length = 100)
+  private String questionId;
 
-    @Column(nullable = false, length = 200)
-    private String answer;
+  @Column(nullable = false, length = 200)
+  private String answer;
 
-    @Column(nullable = false, length = 100)
-    private String userId;
+  @Column(nullable = false, length = 100)
+  private String userId;
 
-    private LocalDateTime createdAt;
+  private LocalDateTime createdAt;
 
-    public ClassificationResponseEntity() {}
+  public ClassificationResponseEntity() {}
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
+  @PrePersist
+  protected void onCreate() {
+    createdAt = LocalDateTime.now();
+  }
 
-    // Getters and setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+  // Getters and setters
+  public String getId() {
+    return id;
+  }
 
-    public String getAiSystemId() { return aiSystemId; }
-    public void setAiSystemId(String aiSystemId) { this.aiSystemId = aiSystemId; }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public String getQuestionId() { return questionId; }
-    public void setQuestionId(String questionId) { this.questionId = questionId; }
+  public String getAiSystemId() {
+    return aiSystemId;
+  }
 
-    public String getAnswer() { return answer; }
-    public void setAnswer(String answer) { this.answer = answer; }
+  public void setAiSystemId(String aiSystemId) {
+    this.aiSystemId = aiSystemId;
+  }
 
-    public String getUserId() { return userId; }
-    public void setUserId(String userId) { this.userId = userId; }
+  public String getQuestionId() {
+    return questionId;
+  }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
+  public void setQuestionId(String questionId) {
+    this.questionId = questionId;
+  }
+
+  public String getAnswer() {
+    return answer;
+  }
+
+  public void setAnswer(String answer) {
+    this.answer = answer;
+  }
+
+  public String getUserId() {
+    return userId;
+  }
+
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
+
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
 }

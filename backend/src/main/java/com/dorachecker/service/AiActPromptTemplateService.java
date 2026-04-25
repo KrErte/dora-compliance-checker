@@ -6,39 +6,40 @@ import org.springframework.stereotype.Service;
 @Service
 public class AiActPromptTemplateService {
 
-    public String buildPrompt(String documentType, AiSystemEntity system, String additionalContext) {
-        String systemContext = buildSystemContext(system);
-        String extra = additionalContext != null ? "\n\nAdditional context: " + additionalContext : "";
+  public String buildPrompt(String documentType, AiSystemEntity system, String additionalContext) {
+    String systemContext = buildSystemContext(system);
+    String extra = additionalContext != null ? "\n\nAdditional context: " + additionalContext : "";
 
-        return switch (documentType) {
-            case "FRIA" -> buildFriaPrompt(systemContext, extra);
-            case "TECHNICAL_DOC" -> buildTechnicalDocPrompt(systemContext, extra);
-            case "RISK_MANAGEMENT" -> buildRiskManagementPrompt(systemContext, extra);
-            case "HUMAN_OVERSIGHT" -> buildHumanOversightPrompt(systemContext, extra);
-            case "DATA_GOVERNANCE" -> buildDataGovernancePrompt(systemContext, extra);
-            case "CONFORMITY_DECLARATION" -> buildConformityPrompt(systemContext, extra);
-            case "POST_MARKET_MONITORING" -> buildPostMarketPrompt(systemContext, extra);
-            case "TRANSPARENCY_NOTICE" -> buildTransparencyPrompt(systemContext, extra);
-            default -> "Generate a compliance document for this AI system.\n\n" + systemContext + extra;
-        };
-    }
+    return switch (documentType) {
+      case "FRIA" -> buildFriaPrompt(systemContext, extra);
+      case "TECHNICAL_DOC" -> buildTechnicalDocPrompt(systemContext, extra);
+      case "RISK_MANAGEMENT" -> buildRiskManagementPrompt(systemContext, extra);
+      case "HUMAN_OVERSIGHT" -> buildHumanOversightPrompt(systemContext, extra);
+      case "DATA_GOVERNANCE" -> buildDataGovernancePrompt(systemContext, extra);
+      case "CONFORMITY_DECLARATION" -> buildConformityPrompt(systemContext, extra);
+      case "POST_MARKET_MONITORING" -> buildPostMarketPrompt(systemContext, extra);
+      case "TRANSPARENCY_NOTICE" -> buildTransparencyPrompt(systemContext, extra);
+      default -> "Generate a compliance document for this AI system.\n\n" + systemContext + extra;
+    };
+  }
 
-    public String getDocumentTitle(String documentType, String systemName) {
-        return switch (documentType) {
-            case "FRIA" -> "Fundamental Rights Impact Assessment — " + systemName;
-            case "TECHNICAL_DOC" -> "Technical Documentation — " + systemName;
-            case "RISK_MANAGEMENT" -> "Risk Management Plan — " + systemName;
-            case "HUMAN_OVERSIGHT" -> "Human Oversight Protocol — " + systemName;
-            case "DATA_GOVERNANCE" -> "Data Governance Plan — " + systemName;
-            case "CONFORMITY_DECLARATION" -> "EU Declaration of Conformity — " + systemName;
-            case "POST_MARKET_MONITORING" -> "Post-Market Monitoring Plan — " + systemName;
-            case "TRANSPARENCY_NOTICE" -> "Transparency Notice — " + systemName;
-            default -> documentType + " — " + systemName;
-        };
-    }
+  public String getDocumentTitle(String documentType, String systemName) {
+    return switch (documentType) {
+      case "FRIA" -> "Fundamental Rights Impact Assessment — " + systemName;
+      case "TECHNICAL_DOC" -> "Technical Documentation — " + systemName;
+      case "RISK_MANAGEMENT" -> "Risk Management Plan — " + systemName;
+      case "HUMAN_OVERSIGHT" -> "Human Oversight Protocol — " + systemName;
+      case "DATA_GOVERNANCE" -> "Data Governance Plan — " + systemName;
+      case "CONFORMITY_DECLARATION" -> "EU Declaration of Conformity — " + systemName;
+      case "POST_MARKET_MONITORING" -> "Post-Market Monitoring Plan — " + systemName;
+      case "TRANSPARENCY_NOTICE" -> "Transparency Notice — " + systemName;
+      default -> documentType + " — " + systemName;
+    };
+  }
 
-    private String buildSystemContext(AiSystemEntity system) {
-        return String.format("""
+  private String buildSystemContext(AiSystemEntity system) {
+    return String.format(
+        """
             AI System Name: %s
             Description: %s
             Vendor: %s
@@ -48,22 +49,24 @@ public class AiActPromptTemplateService {
             Deployment Context: %s
             Organization Role: %s
             """,
-                system.getName(),
-                system.getDescription() != null ? system.getDescription() : "Not specified",
-                system.getVendor() != null ? system.getVendor() : "Not specified",
-                system.getVersion() != null ? system.getVersion() : "Not specified",
-                system.getPurpose() != null ? system.getPurpose() : "Not specified",
-                system.getRiskLevel() != null ? system.getRiskLevel() : "Not classified",
-                system.getDeploymentContext() != null ? system.getDeploymentContext() : "Not specified",
-                system.getOrganizationRole() != null ? system.getOrganizationRole() : "Not specified"
-        );
-    }
+        system.getName(),
+        system.getDescription() != null ? system.getDescription() : "Not specified",
+        system.getVendor() != null ? system.getVendor() : "Not specified",
+        system.getVersion() != null ? system.getVersion() : "Not specified",
+        system.getPurpose() != null ? system.getPurpose() : "Not specified",
+        system.getRiskLevel() != null ? system.getRiskLevel() : "Not classified",
+        system.getDeploymentContext() != null ? system.getDeploymentContext() : "Not specified",
+        system.getOrganizationRole() != null ? system.getOrganizationRole() : "Not specified");
+  }
 
-    private String buildFriaPrompt(String ctx, String extra) {
-        return """
+  private String buildFriaPrompt(String ctx, String extra) {
+    return """
             You are an EU AI Act compliance expert. Generate a comprehensive Fundamental Rights Impact Assessment (FRIA) document for the following AI system under EU Regulation 2024/1689 (AI Act) Article 27.
 
-            """ + ctx + extra + """
+            """
+        + ctx
+        + extra
+        + """
 
             The FRIA must include:
             1. Executive Summary
@@ -78,13 +81,16 @@ public class AiActPromptTemplateService {
 
             Format the output as professional Markdown. Be thorough but practical.
             """;
-    }
+  }
 
-    private String buildTechnicalDocPrompt(String ctx, String extra) {
-        return """
+  private String buildTechnicalDocPrompt(String ctx, String extra) {
+    return """
             You are an EU AI Act compliance expert. Generate Technical Documentation for the following AI system as required by EU Regulation 2024/1689 (AI Act) Article 11 and Annex IV.
 
-            """ + ctx + extra + """
+            """
+        + ctx
+        + extra
+        + """
 
             The documentation must cover:
             1. General Description of the AI System
@@ -100,13 +106,16 @@ public class AiActPromptTemplateService {
 
             Format as professional Markdown.
             """;
-    }
+  }
 
-    private String buildRiskManagementPrompt(String ctx, String extra) {
-        return """
+  private String buildRiskManagementPrompt(String ctx, String extra) {
+    return """
             You are an EU AI Act compliance expert. Generate a Risk Management Plan for the following AI system under EU Regulation 2024/1689 (AI Act) Article 9.
 
-            """ + ctx + extra + """
+            """
+        + ctx
+        + extra
+        + """
 
             Include:
             1. Risk Management Framework
@@ -120,13 +129,16 @@ public class AiActPromptTemplateService {
 
             Format as professional Markdown.
             """;
-    }
+  }
 
-    private String buildHumanOversightPrompt(String ctx, String extra) {
-        return """
+  private String buildHumanOversightPrompt(String ctx, String extra) {
+    return """
             You are an EU AI Act compliance expert. Generate a Human Oversight Protocol for the following AI system under EU Regulation 2024/1689 (AI Act) Article 14.
 
-            """ + ctx + extra + """
+            """
+        + ctx
+        + extra
+        + """
 
             Include:
             1. Oversight Requirements and Scope
@@ -140,13 +152,16 @@ public class AiActPromptTemplateService {
 
             Format as professional Markdown.
             """;
-    }
+  }
 
-    private String buildDataGovernancePrompt(String ctx, String extra) {
-        return """
+  private String buildDataGovernancePrompt(String ctx, String extra) {
+    return """
             You are an EU AI Act compliance expert. Generate a Data Governance Plan for the following AI system under EU Regulation 2024/1689 (AI Act) Article 10.
 
-            """ + ctx + extra + """
+            """
+        + ctx
+        + extra
+        + """
 
             Include:
             1. Data Governance Framework
@@ -160,13 +175,16 @@ public class AiActPromptTemplateService {
 
             Format as professional Markdown.
             """;
-    }
+  }
 
-    private String buildConformityPrompt(String ctx, String extra) {
-        return """
+  private String buildConformityPrompt(String ctx, String extra) {
+    return """
             You are an EU AI Act compliance expert. Generate an EU Declaration of Conformity for the following AI system under EU Regulation 2024/1689 (AI Act) Article 47 and Annex V.
 
-            """ + ctx + extra + """
+            """
+        + ctx
+        + extra
+        + """
 
             Include:
             1. AI System Identification
@@ -179,13 +197,16 @@ public class AiActPromptTemplateService {
 
             Format as professional Markdown. Use formal legal language.
             """;
-    }
+  }
 
-    private String buildPostMarketPrompt(String ctx, String extra) {
-        return """
+  private String buildPostMarketPrompt(String ctx, String extra) {
+    return """
             You are an EU AI Act compliance expert. Generate a Post-Market Monitoring Plan for the following AI system under EU Regulation 2024/1689 (AI Act) Article 72.
 
-            """ + ctx + extra + """
+            """
+        + ctx
+        + extra
+        + """
 
             Include:
             1. Monitoring Objectives and Scope
@@ -199,13 +220,16 @@ public class AiActPromptTemplateService {
 
             Format as professional Markdown.
             """;
-    }
+  }
 
-    private String buildTransparencyPrompt(String ctx, String extra) {
-        return """
+  private String buildTransparencyPrompt(String ctx, String extra) {
+    return """
             You are an EU AI Act compliance expert. Generate a Transparency Notice for the following AI system under EU Regulation 2024/1689 (AI Act) Article 50.
 
-            """ + ctx + extra + """
+            """
+        + ctx
+        + extra
+        + """
 
             Include:
             1. AI System Identification
@@ -219,5 +243,5 @@ public class AiActPromptTemplateService {
 
             Format as professional Markdown. Write for a non-technical audience.
             """;
-    }
+  }
 }

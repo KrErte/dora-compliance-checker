@@ -4,108 +4,111 @@ import com.dorachecker.model.RemediationItemEntity;
 import com.dorachecker.model.RemediationItemRepository;
 import com.dorachecker.model.UserEntity;
 import com.dorachecker.model.UserRepository;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.stream.Collectors;
-
 @Service
 public class DeadlineReminderScheduler {
 
-    private static final Logger log = LoggerFactory.getLogger(DeadlineReminderScheduler.class);
+  private static final Logger log = LoggerFactory.getLogger(DeadlineReminderScheduler.class);
 
-    private final RemediationItemRepository remediationRepository;
-    private final UserRepository userRepository;
-    private final ResendEmailService emailService;
+  private final RemediationItemRepository remediationRepository;
+  private final UserRepository userRepository;
+  private final ResendEmailService emailService;
 
-    public DeadlineReminderScheduler(
-            RemediationItemRepository remediationRepository,
-            UserRepository userRepository,
-            ResendEmailService emailService
-    ) {
-        this.remediationRepository = remediationRepository;
-        this.userRepository = userRepository;
-        this.emailService = emailService;
+  public DeadlineReminderScheduler(
+      RemediationItemRepository remediationRepository,
+      UserRepository userRepository,
+      ResendEmailService emailService) {
+    this.remediationRepository = remediationRepository;
+    this.userRepository = userRepository;
+    this.emailService = emailService;
+  }
+
+  @Scheduled(cron = "0 0 8 * * *")
+  public void sendDeadlineReminders() {
+    LocalDate today = LocalDate.now();
+    LocalDate threeDays = today.plusDays(3);
+    LocalDate oneDay = today.plusDays(1);
+
+    // Find items due in 3 days
+    List<RemediationItemEntity> dueSoon =
+        remediationRepository.findByDueDateAndStatusNot(threeDays, "COMPLETED");
+    // Find items due tomorrow
+    List<RemediationItemEntity> dueTomorrow =
+        remediationRepository.findByDueDateAndStatusNot(oneDay, "COMPLETED");
+
+    // Merge and group by userId
+    Map<String, List<RemediationItemEntity>> byUser = new HashMap<>();
+    for (RemediationItemEntity item : dueSoon) {
+      byUser.computeIfAbsent(item.getUserId(), k -> new ArrayList<>()).add(item);
+    }
+    for (RemediationItemEntity item : dueTomorrow) {
+      byUser.computeIfAbsent(item.getUserId(), k -> new ArrayList<>()).add(item);
     }
 
-    @Scheduled(cron = "0 0 8 * * *")
-    public void sendDeadlineReminders() {
-        LocalDate today = LocalDate.now();
-        LocalDate threeDays = today.plusDays(3);
-        LocalDate oneDay = today.plusDays(1);
-
-        // Find items due in 3 days
-        List<RemediationItemEntity> dueSoon = remediationRepository.findByDueDateAndStatusNot(threeDays, "COMPLETED");
-        // Find items due tomorrow
-        List<RemediationItemEntity> dueTomorrow = remediationRepository.findByDueDateAndStatusNot(oneDay, "COMPLETED");
-
-        // Merge and group by userId
-        Map<String, List<RemediationItemEntity>> byUser = new HashMap<>();
-        for (RemediationItemEntity item : dueSoon) {
-            byUser.computeIfAbsent(item.getUserId(), k -> new ArrayList<>()).add(item);
-        }
-        for (RemediationItemEntity item : dueTomorrow) {
-            byUser.computeIfAbsent(item.getUserId(), k -> new ArrayList<>()).add(item);
-        }
-
-        if (byUser.isEmpty()) {
-            log.debug("No deadline reminders to send today");
-            return;
-        }
-
-        log.info("Sending deadline reminders to {} users", byUser.size());
-
-        for (Map.Entry<String, List<RemediationItemEntity>> entry : byUser.entrySet()) {
-            String userId = entry.getKey();
-            List<RemediationItemEntity> items = entry.getValue();
-
-            Optional<UserEntity> userOpt = userRepository.findById(userId);
-            if (userOpt.isEmpty()) continue;
-
-            UserEntity user = userOpt.get();
-            if (user.isEmailOptOut()) {
-                log.debug("Skipping opted-out user: {}", user.getEmail());
-                continue;
-            }
-
-            try {
-                String subject = "DORA tähtaeg läheneb – " + items.size() + " ülesanne" + (items.size() > 1 ? "t" : "");
-                String html = buildReminderEmail(user, items);
-                emailService.sendEmail(user.getEmail(), subject, html);
-                log.info("Deadline reminder sent to {} for {} items", user.getEmail(), items.size());
-            } catch (Exception e) {
-                log.error("Failed to send deadline reminder to {}: {}", user.getEmail(), e.getMessage());
-            }
-        }
+    if (byUser.isEmpty()) {
+      log.debug("No deadline reminders to send today");
+      return;
     }
 
-    private String getOrCreateUnsubscribeToken(UserEntity user) {
-        if (user.getUnsubscribeToken() == null) {
-            user.setUnsubscribeToken(UUID.randomUUID().toString());
-            userRepository.save(user);
-        }
-        return user.getUnsubscribeToken();
+    log.info("Sending deadline reminders to {} users", byUser.size());
+
+    for (Map.Entry<String, List<RemediationItemEntity>> entry : byUser.entrySet()) {
+      String userId = entry.getKey();
+      List<RemediationItemEntity> items = entry.getValue();
+
+      Optional<UserEntity> userOpt = userRepository.findById(userId);
+      if (userOpt.isEmpty()) continue;
+
+      UserEntity user = userOpt.get();
+      if (user.isEmailOptOut()) {
+        log.debug("Skipping opted-out user: {}", user.getEmail());
+        continue;
+      }
+
+      try {
+        String subject =
+            "DORA tähtaeg läheneb – " + items.size() + " ülesanne" + (items.size() > 1 ? "t" : "");
+        String html = buildReminderEmail(user, items);
+        emailService.sendEmail(user.getEmail(), subject, html);
+        log.info("Deadline reminder sent to {} for {} items", user.getEmail(), items.size());
+      } catch (Exception e) {
+        log.error("Failed to send deadline reminder to {}: {}", user.getEmail(), e.getMessage());
+      }
     }
+  }
 
-    private String buildReminderEmail(UserEntity user, List<RemediationItemEntity> items) {
-        String name = user.getFullName() != null ? user.getFullName() : user.getEmail().split("@")[0];
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+  private String getOrCreateUnsubscribeToken(UserEntity user) {
+    if (user.getUnsubscribeToken() == null) {
+      user.setUnsubscribeToken(UUID.randomUUID().toString());
+      userRepository.save(user);
+    }
+    return user.getUnsubscribeToken();
+  }
 
-        StringBuilder itemRows = new StringBuilder();
-        for (RemediationItemEntity item : items) {
-            String priorityColor = switch (item.getPriority()) {
-                case "CRITICAL" -> "#ef4444";
-                case "HIGH" -> "#f97316";
-                case "MEDIUM" -> "#eab308";
-                default -> "#3b82f6";
-            };
-            long daysLeft = java.time.temporal.ChronoUnit.DAYS.between(LocalDate.now(), item.getDueDate());
-            itemRows.append("""
+  private String buildReminderEmail(UserEntity user, List<RemediationItemEntity> items) {
+    String name = user.getFullName() != null ? user.getFullName() : user.getEmail().split("@")[0];
+    DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+    StringBuilder itemRows = new StringBuilder();
+    for (RemediationItemEntity item : items) {
+      String priorityColor =
+          switch (item.getPriority()) {
+            case "CRITICAL" -> "#ef4444";
+            case "HIGH" -> "#f97316";
+            case "MEDIUM" -> "#eab308";
+            default -> "#3b82f6";
+          };
+      long daysLeft =
+          java.time.temporal.ChronoUnit.DAYS.between(LocalDate.now(), item.getDueDate());
+      itemRows.append(
+          """
                     <tr>
                         <td style="padding: 10px 12px; border-bottom: 1px solid #e5e7eb;">
                             <span style="display:inline-block;width:8px;height:8px;border-radius:50%%;background:%s;margin-right:8px;"></span>
@@ -114,16 +117,16 @@ public class DeadlineReminderScheduler {
                         <td style="padding: 10px 12px; border-bottom: 1px solid #e5e7eb; color: #6b7280;">%s</td>
                         <td style="padding: 10px 12px; border-bottom: 1px solid #e5e7eb; font-weight: bold; color: %s;">%d päeva</td>
                     </tr>
-                    """.formatted(
-                    priorityColor,
-                    escapeHtml(item.getTitle()),
-                    item.getDueDate().format(fmt),
-                    daysLeft <= 1 ? "#ef4444" : "#f97316",
-                    daysLeft
-            ));
-        }
+                    """
+              .formatted(
+                  priorityColor,
+                  escapeHtml(item.getTitle()),
+                  item.getDueDate().format(fmt),
+                  daysLeft <= 1 ? "#ef4444" : "#f97316",
+                  daysLeft));
+    }
 
-        return """
+    return """
                 <!DOCTYPE html>
                 <html>
                 <head><meta charset="UTF-8"></head>
@@ -160,16 +163,18 @@ public class DeadlineReminderScheduler {
                     </div>
                 </body>
                 </html>
-                """.formatted(escapeHtml(name), items.size(), itemRows.toString(), getOrCreateUnsubscribeToken(user));
-    }
+                """
+        .formatted(
+            escapeHtml(name), items.size(), itemRows.toString(), getOrCreateUnsubscribeToken(user));
+  }
 
-    private String escapeHtml(String input) {
-        if (input == null) return "";
-        return input
-                .replace("&", "&amp;")
-                .replace("<", "&lt;")
-                .replace(">", "&gt;")
-                .replace("\"", "&quot;")
-                .replace("'", "&#39;");
-    }
+  private String escapeHtml(String input) {
+    if (input == null) return "";
+    return input
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace("\"", "&quot;")
+        .replace("'", "&#39;");
+  }
 }

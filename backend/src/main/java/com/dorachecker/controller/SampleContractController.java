@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/sample")
 public class SampleContractController {
 
-    private final SampleContractService sampleContractService;
+  private final SampleContractService sampleContractService;
 
-    public SampleContractController(SampleContractService sampleContractService) {
-        this.sampleContractService = sampleContractService;
-    }
+  public SampleContractController(SampleContractService sampleContractService) {
+    this.sampleContractService = sampleContractService;
+  }
 
-    @GetMapping("/sample-pdf")
-    public ResponseEntity<byte[]> getSampleContract() {
-        byte[] pdf = sampleContractService.generateSamplePdf();
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=sample_ikt_leping.pdf")
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(pdf);
-    }
+  @GetMapping("/sample-pdf")
+  public ResponseEntity<byte[]> getSampleContract() {
+    byte[] pdf = sampleContractService.generateSamplePdf();
+    return ResponseEntity.ok()
+        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=sample_ikt_leping.pdf")
+        .contentType(MediaType.APPLICATION_PDF)
+        .body(pdf);
+  }
 }

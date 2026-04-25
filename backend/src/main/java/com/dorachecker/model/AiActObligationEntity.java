@@ -5,94 +5,156 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "ai_act_obligations", indexes = {
-    @Index(name = "idx_obligation_ai_system", columnList = "aiSystemId"),
-    @Index(name = "idx_obligation_status", columnList = "status")
-})
+@Table(
+    name = "ai_act_obligations",
+    indexes = {
+      @Index(name = "idx_obligation_ai_system", columnList = "aiSystemId"),
+      @Index(name = "idx_obligation_status", columnList = "status")
+    })
 public class AiActObligationEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
-    @Column(nullable = false, length = 100)
-    private String aiSystemId;
+  @Column(nullable = false, length = 100)
+  private String aiSystemId;
 
-    @Column(nullable = false, length = 50)
-    private String articleRef; // e.g., "Article 9"
+  @Column(nullable = false, length = 50)
+  private String articleRef; // e.g., "Article 9"
 
-    @Column(nullable = false, length = 200)
-    private String articleTitle;
+  @Column(nullable = false, length = 200)
+  private String articleTitle;
 
-    @Column(columnDefinition = "TEXT")
-    private String description;
+  @Column(columnDefinition = "TEXT")
+  private String description;
 
-    @Column(nullable = false, length = 20)
-    private String status = "NOT_STARTED"; // NOT_STARTED, IN_PROGRESS, COMPLETED, NOT_APPLICABLE
+  @Column(nullable = false, length = 20)
+  private String status = "NOT_STARTED"; // NOT_STARTED, IN_PROGRESS, COMPLETED, NOT_APPLICABLE
 
-    @Column(length = 100)
-    private String assignedToUserId;
+  @Column(length = 100)
+  private String assignedToUserId;
 
-    private LocalDate dueDate;
+  private LocalDate dueDate;
 
-    @Column(columnDefinition = "TEXT")
-    private String notes;
+  @Column(columnDefinition = "TEXT")
+  private String notes;
 
-    private int sortOrder;
+  private int sortOrder;
 
-    @Column(nullable = false, length = 100)
-    private String userId;
+  @Column(nullable = false, length = 100)
+  private String userId;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
 
-    public AiActObligationEntity() {}
+  public AiActObligationEntity() {}
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
+  @PrePersist
+  protected void onCreate() {
+    createdAt = LocalDateTime.now();
+    updatedAt = LocalDateTime.now();
+  }
 
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+  @PreUpdate
+  protected void onUpdate() {
+    updatedAt = LocalDateTime.now();
+  }
 
-    // Getters and setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+  // Getters and setters
+  public String getId() {
+    return id;
+  }
 
-    public String getAiSystemId() { return aiSystemId; }
-    public void setAiSystemId(String aiSystemId) { this.aiSystemId = aiSystemId; }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public String getArticleRef() { return articleRef; }
-    public void setArticleRef(String articleRef) { this.articleRef = articleRef; }
+  public String getAiSystemId() {
+    return aiSystemId;
+  }
 
-    public String getArticleTitle() { return articleTitle; }
-    public void setArticleTitle(String articleTitle) { this.articleTitle = articleTitle; }
+  public void setAiSystemId(String aiSystemId) {
+    this.aiSystemId = aiSystemId;
+  }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+  public String getArticleRef() {
+    return articleRef;
+  }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+  public void setArticleRef(String articleRef) {
+    this.articleRef = articleRef;
+  }
 
-    public String getAssignedToUserId() { return assignedToUserId; }
-    public void setAssignedToUserId(String assignedToUserId) { this.assignedToUserId = assignedToUserId; }
+  public String getArticleTitle() {
+    return articleTitle;
+  }
 
-    public LocalDate getDueDate() { return dueDate; }
-    public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
+  public void setArticleTitle(String articleTitle) {
+    this.articleTitle = articleTitle;
+  }
 
-    public String getNotes() { return notes; }
-    public void setNotes(String notes) { this.notes = notes; }
+  public String getDescription() {
+    return description;
+  }
 
-    public int getSortOrder() { return sortOrder; }
-    public void setSortOrder(int sortOrder) { this.sortOrder = sortOrder; }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public String getUserId() { return userId; }
-    public void setUserId(String userId) { this.userId = userId; }
+  public String getStatus() {
+    return status;
+  }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public String getAssignedToUserId() {
+    return assignedToUserId;
+  }
+
+  public void setAssignedToUserId(String assignedToUserId) {
+    this.assignedToUserId = assignedToUserId;
+  }
+
+  public LocalDate getDueDate() {
+    return dueDate;
+  }
+
+  public void setDueDate(LocalDate dueDate) {
+    this.dueDate = dueDate;
+  }
+
+  public String getNotes() {
+    return notes;
+  }
+
+  public void setNotes(String notes) {
+    this.notes = notes;
+  }
+
+  public int getSortOrder() {
+    return sortOrder;
+  }
+
+  public void setSortOrder(int sortOrder) {
+    this.sortOrder = sortOrder;
+  }
+
+  public String getUserId() {
+    return userId;
+  }
+
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
+
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
+
+  public LocalDateTime getUpdatedAt() {
+    return updatedAt;
+  }
 }

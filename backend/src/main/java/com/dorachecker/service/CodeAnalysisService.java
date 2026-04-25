@@ -1,12 +1,6 @@
 package com.dorachecker.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -14,86 +8,106 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class CodeAnalysisService {
 
-    private static final Logger log = LoggerFactory.getLogger(CodeAnalysisService.class);
-    private final ObjectMapper objectMapper;
-    private final String apiKey;
-    private final String model;
+  private static final Logger log = LoggerFactory.getLogger(CodeAnalysisService.class);
+  private final ObjectMapper objectMapper;
+  private final String apiKey;
+  private final String model;
 
-    public CodeAnalysisService(
-            ObjectMapper objectMapper,
-            @Value("${anthropic.api.key}") String apiKey,
-            @Value("${anthropic.api.model}") String model) {
-        this.objectMapper = objectMapper;
-        this.apiKey = apiKey;
-        this.model = model;
+  public CodeAnalysisService(
+      ObjectMapper objectMapper,
+      @Value("${anthropic.api.key}") String apiKey,
+      @Value("${anthropic.api.model}") String model) {
+    this.objectMapper = objectMapper;
+    this.apiKey = apiKey;
+    this.model = model;
+  }
+
+  public Map<String, Object> analyze(
+      List<MultipartFile> files,
+      String companyName,
+      long annualRevenue,
+      int iteration,
+      String qualityContext) {
+    StringBuilder codeContent = new StringBuilder();
+    List<Map<String, Object>> fileInfos = new ArrayList<>();
+    int totalLines = 0;
+
+    for (MultipartFile file : files) {
+      try {
+        String content = new String(file.getBytes(), StandardCharsets.UTF_8);
+        String name = file.getOriginalFilename() != null ? file.getOriginalFilename() : "unknown";
+        int lines = content.split("\n").length;
+        totalLines += lines;
+        fileInfos.add(Map.of("name", name, "lines", lines, "size", file.getSize()));
+        codeContent
+            .append("\n\n=== FILE: ")
+            .append(name)
+            .append(" (")
+            .append(lines)
+            .append(" lines) ===\n");
+        // Limit per file to avoid token overflow
+        if (content.length() > 50_000) {
+          codeContent.append(content, 0, 50_000).append("\n[TRUNCATED]");
+        } else {
+          codeContent.append(content);
+        }
+      } catch (Exception e) {
+        log.warn("Failed to read file: {}", file.getOriginalFilename(), e);
+      }
     }
 
-    public Map<String, Object> analyze(List<MultipartFile> files, String companyName, long annualRevenue, int iteration, String qualityContext) {
-        StringBuilder codeContent = new StringBuilder();
-        List<Map<String, Object>> fileInfos = new ArrayList<>();
-        int totalLines = 0;
-
-        for (MultipartFile file : files) {
-            try {
-                String content = new String(file.getBytes(), StandardCharsets.UTF_8);
-                String name = file.getOriginalFilename() != null ? file.getOriginalFilename() : "unknown";
-                int lines = content.split("\n").length;
-                totalLines += lines;
-                fileInfos.add(Map.of("name", name, "lines", lines, "size", file.getSize()));
-                codeContent.append("\n\n=== FILE: ").append(name).append(" (").append(lines).append(" lines) ===\n");
-                // Limit per file to avoid token overflow
-                if (content.length() > 50_000) {
-                    codeContent.append(content, 0, 50_000).append("\n[TRUNCATED]");
-                } else {
-                    codeContent.append(content);
-                }
-            } catch (Exception e) {
-                log.warn("Failed to read file: {}", file.getOriginalFilename(), e);
-            }
-        }
-
-        // Limit total content
-        String code = codeContent.toString();
-        if (code.length() > 200_000) {
-            code = code.substring(0, 200_000) + "\n[TRUNCATED - too large]";
-        }
-
-        String prompt = buildPrompt(code, companyName, annualRevenue, iteration, qualityContext);
-        String claudeResponse = callClaude(prompt);
-
-        try {
-            @SuppressWarnings("unchecked")
-            Map<String, Object> result = objectMapper.readValue(claudeResponse, Map.class);
-            result.put("files", fileInfos);
-            result.put("totalLines", totalLines);
-            result.put("iteration", iteration);
-            result.put("companyName", companyName);
-            result.put("annualRevenue", annualRevenue);
-            return result;
-        } catch (Exception e) {
-            log.error("Failed to parse Claude response: {}", claudeResponse, e);
-            return Map.of(
-                "error", "Analysis failed - Claude returned unparseable response",
-                "files", fileInfos,
-                "totalLines", totalLines,
-                "iteration", iteration
-            );
-        }
+    // Limit total content
+    String code = codeContent.toString();
+    if (code.length() > 200_000) {
+      code = code.substring(0, 200_000) + "\n[TRUNCATED - too large]";
     }
 
-    private String buildPrompt(String code, String companyName, long annualRevenue, int iteration, String qualityContext) {
-        String revenueContext = annualRevenue > 0
-            ? "Company annual revenue: €" + String.format("%,d", annualRevenue) + ". Calculate SPECIFIC euro amounts for potential losses."
+    String prompt = buildPrompt(code, companyName, annualRevenue, iteration, qualityContext);
+    String claudeResponse = callClaude(prompt);
+
+    try {
+      @SuppressWarnings("unchecked")
+      Map<String, Object> result = objectMapper.readValue(claudeResponse, Map.class);
+      result.put("files", fileInfos);
+      result.put("totalLines", totalLines);
+      result.put("iteration", iteration);
+      result.put("companyName", companyName);
+      result.put("annualRevenue", annualRevenue);
+      return result;
+    } catch (Exception e) {
+      log.error("Failed to parse Claude response: {}", claudeResponse, e);
+      return Map.of(
+          "error", "Analysis failed - Claude returned unparseable response",
+          "files", fileInfos,
+          "totalLines", totalLines,
+          "iteration", iteration);
+    }
+  }
+
+  private String buildPrompt(
+      String code, String companyName, long annualRevenue, int iteration, String qualityContext) {
+    String revenueContext =
+        annualRevenue > 0
+            ? "Company annual revenue: €"
+                + String.format("%,d", annualRevenue)
+                + ". Calculate SPECIFIC euro amounts for potential losses."
             : "No revenue provided. Use industry averages (€5M for SME) to estimate potential losses.";
 
-        String qualityOverride = "";
-        if (qualityContext != null && !qualityContext.isBlank()) {
-            qualityOverride = switch (qualityContext) {
-                case "strong" -> """
+    String qualityOverride = "";
+    if (qualityContext != null && !qualityContext.isBlank()) {
+      qualityOverride =
+          switch (qualityContext) {
+            case "strong" ->
+                """
                     QUALITY ASSESSMENT LENS: PRODUCTION-GRADE
                     The user claims this is production-grade code. Be SKEPTICAL. Even "good" code has hidden costs.
                     Focus on: subtle architectural flaws, missing edge cases, technical debt that compounds over years,
@@ -102,7 +116,8 @@ public class CodeAnalysisService {
                     cost of each missing test in potential production incidents.
                     Show the PM: even "clean" code has a maintenance price tag. Calculate it ruthlessly in hours and EUR.
                     """;
-                case "average" -> """
+            case "average" ->
+                """
                     QUALITY ASSESSMENT LENS: TYPICAL STARTUP CODE
                     This is average quality code - the kind most companies ship. Find the ticking time bombs.
                     Focus on: shortcuts that will explode under scale, missing validations that "never happen" until they do,
@@ -111,7 +126,8 @@ public class CodeAnalysisService {
                     developer frustration cost (turnover risk at €30K per replacement).
                     Show the PM: every month of delay in fixing these issues adds X hours of future work. Compound it.
                     """;
-                case "weak" -> """
+            case "weak" ->
+                """
                     QUALITY ASSESSMENT LENS: AI-VIBE-CODED / WEAK QUALITY
                     This code was likely generated by AI or written by juniors without review. MAXIMUM SEVERITY.
                     Assume EVERY common vulnerability exists. Assume NO tests exist. Assume NO code review happened.
@@ -123,20 +139,26 @@ public class CodeAnalysisService {
                     For "strong" code evaluated as weak: show what would happen IF this quality level produced this code -
                     the gap between what exists and what SHOULD exist, measured in hours and euros.
                     """;
-                default -> "";
-            };
-        }
+            default -> "";
+          };
+    }
 
-        String iterationContext = switch (iteration) {
-            case 1 -> "ITERATION 1: Initial scan. Find ALL AI-generated code patterns, security vulnerabilities, and code quality issues. Be thorough but fast. Identify the surface-level problems.";
-            case 2 -> "ITERATION 2: Deep dive. For each problem found, explain WHY it's dangerous. Reference real-world disasters. Knight Capital lost $460M in 45 minutes from untested code deployment. Therac-25 killed patients from race conditions. Find similar patterns in this code.";
-            case 3 -> "ITERATION 3: Attack surface analysis. Think like a malicious attacker. What can be exploited? What data can be leaked? What services can be disrupted? Calculate the financial impact of each attack vector.";
-            case 4 -> "ITERATION 4: Existing solutions critique. For each problem, suggest what tools/practices exist to fix it. Then CRITICIZE those solutions - why do most implementations of those solutions still fail? What are the hidden costs?";
-            case 5 -> "ITERATION 5: Executive summary. Synthesize all findings into a brutal honest assessment. What is the TOTAL financial exposure? What must be fixed THIS WEEK vs this month vs this quarter? If this code goes to production as-is, what is the probability of a catastrophic failure within 12 months?";
-            default -> "ITERATION " + iteration + ": Continue deepening the analysis.";
+    String iterationContext =
+        switch (iteration) {
+          case 1 ->
+              "ITERATION 1: Initial scan. Find ALL AI-generated code patterns, security vulnerabilities, and code quality issues. Be thorough but fast. Identify the surface-level problems.";
+          case 2 ->
+              "ITERATION 2: Deep dive. For each problem found, explain WHY it's dangerous. Reference real-world disasters. Knight Capital lost $460M in 45 minutes from untested code deployment. Therac-25 killed patients from race conditions. Find similar patterns in this code.";
+          case 3 ->
+              "ITERATION 3: Attack surface analysis. Think like a malicious attacker. What can be exploited? What data can be leaked? What services can be disrupted? Calculate the financial impact of each attack vector.";
+          case 4 ->
+              "ITERATION 4: Existing solutions critique. For each problem, suggest what tools/practices exist to fix it. Then CRITICIZE those solutions - why do most implementations of those solutions still fail? What are the hidden costs?";
+          case 5 ->
+              "ITERATION 5: Executive summary. Synthesize all findings into a brutal honest assessment. What is the TOTAL financial exposure? What must be fixed THIS WEEK vs this month vs this quarter? If this code goes to production as-is, what is the probability of a catastrophic failure within 12 months?";
+          default -> "ITERATION " + iteration + ": Continue deepening the analysis.";
         };
 
-        return """
+    return """
             You are a senior code auditor with 20 years of experience. You have personally witnessed the Knight Capital Group disaster ($460M lost in 45 minutes), investigated Therac-25 (patients killed by software bugs), analyzed the Ariane 5 explosion ($370M lost from integer overflow), and consulted on the Boeing 737 MAX investigation (346 deaths from MCAS software).
 
             You do NOT sugarcoat. You do NOT "recommend considering". You STATE FACTS about what WILL go wrong.
@@ -202,60 +224,64 @@ public class CodeAnalysisService {
 
             CODE TO ANALYZE:
             %s
-            """.formatted(iterationContext, revenueContext, qualityOverride, code);
+            """
+        .formatted(iterationContext, revenueContext, qualityOverride, code);
+  }
+
+  private String callClaude(String prompt) {
+    if (apiKey == null || apiKey.isBlank() || apiKey.equals("${ANTHROPIC_API_KEY}")) {
+      throw new RuntimeException("ANTHROPIC_API_KEY is not configured");
     }
 
-    private String callClaude(String prompt) {
-        if (apiKey == null || apiKey.isBlank() || apiKey.equals("${ANTHROPIC_API_KEY}")) {
-            throw new RuntimeException("ANTHROPIC_API_KEY is not configured");
+    try {
+      String requestBody =
+          objectMapper.writeValueAsString(
+              Map.of(
+                  "model",
+                  model,
+                  "max_tokens",
+                  8000,
+                  "messages",
+                  List.of(Map.of("role", "user", "content", prompt))));
+
+      HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(30)).build();
+
+      HttpRequest request =
+          HttpRequest.newBuilder()
+              .uri(URI.create("https://api.anthropic.com/v1/messages"))
+              .header("Content-Type", "application/json")
+              .header("x-api-key", apiKey)
+              .header("anthropic-version", "2023-06-01")
+              .timeout(Duration.ofMinutes(3))
+              .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+              .build();
+
+      HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+      if (response.statusCode() != 200) {
+        log.error("Claude API error {}: {}", response.statusCode(), response.body());
+        throw new RuntimeException("Claude API returned " + response.statusCode());
+      }
+
+      @SuppressWarnings("unchecked")
+      Map<String, Object> responseMap = objectMapper.readValue(response.body(), Map.class);
+      @SuppressWarnings("unchecked")
+      List<Map<String, Object>> content = (List<Map<String, Object>>) responseMap.get("content");
+
+      if (content != null && !content.isEmpty()) {
+        String text = (String) content.get(0).get("text");
+        // Strip markdown code fences if present
+        if (text.startsWith("```")) {
+          text = text.replaceAll("^```[a-z]*\\n?", "").replaceAll("\\n?```$", "");
         }
+        return text.trim();
+      }
 
-        try {
-            String requestBody = objectMapper.writeValueAsString(Map.of(
-                "model", model,
-                "max_tokens", 8000,
-                "messages", List.of(Map.of("role", "user", "content", prompt))
-            ));
-
-            HttpClient client = HttpClient.newBuilder()
-                .connectTimeout(Duration.ofSeconds(30))
-                .build();
-
-            HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.anthropic.com/v1/messages"))
-                .header("Content-Type", "application/json")
-                .header("x-api-key", apiKey)
-                .header("anthropic-version", "2023-06-01")
-                .timeout(Duration.ofMinutes(3))
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                .build();
-
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            if (response.statusCode() != 200) {
-                log.error("Claude API error {}: {}", response.statusCode(), response.body());
-                throw new RuntimeException("Claude API returned " + response.statusCode());
-            }
-
-            @SuppressWarnings("unchecked")
-            Map<String, Object> responseMap = objectMapper.readValue(response.body(), Map.class);
-            @SuppressWarnings("unchecked")
-            List<Map<String, Object>> content = (List<Map<String, Object>>) responseMap.get("content");
-
-            if (content != null && !content.isEmpty()) {
-                String text = (String) content.get(0).get("text");
-                // Strip markdown code fences if present
-                if (text.startsWith("```")) {
-                    text = text.replaceAll("^```[a-z]*\\n?", "").replaceAll("\\n?```$", "");
-                }
-                return text.trim();
-            }
-
-            throw new RuntimeException("Empty response from Claude");
-        } catch (RuntimeException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to call Claude API", e);
-        }
+      throw new RuntimeException("Empty response from Claude");
+    } catch (RuntimeException e) {
+      throw e;
+    } catch (Exception e) {
+      throw new RuntimeException("Failed to call Claude API", e);
     }
+  }
 }

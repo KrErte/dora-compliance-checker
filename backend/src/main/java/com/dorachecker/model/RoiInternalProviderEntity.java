@@ -7,29 +7,52 @@ import jakarta.persistence.*;
 @Table(name = "roi_internal_providers")
 public class RoiInternalProviderEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "register_id", nullable = false)
-    @JsonIgnore
-    private RoiRegisterEntity register;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "register_id", nullable = false)
+  @JsonIgnore
+  private RoiRegisterEntity register;
 
-    @Column(nullable = false)
-    private String contractRefNumber;
+  @Column(nullable = false)
+  private String contractRefNumber;
 
-    @Column(length = 20, nullable = false)
-    private String entityLei;
+  @Column(length = 20, nullable = false)
+  private String entityLei;
 
-    public RoiInternalProviderEntity() {}
+  public RoiInternalProviderEntity() {}
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-    public RoiRegisterEntity getRegister() { return register; }
-    public void setRegister(RoiRegisterEntity register) { this.register = register; }
-    public String getContractRefNumber() { return contractRefNumber; }
-    public void setContractRefNumber(String contractRefNumber) { this.contractRefNumber = contractRefNumber; }
-    public String getEntityLei() { return entityLei; }
-    public void setEntityLei(String entityLei) { this.entityLei = entityLei; }
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public RoiRegisterEntity getRegister() {
+    return register;
+  }
+
+  public void setRegister(RoiRegisterEntity register) {
+    this.register = register;
+  }
+
+  public String getContractRefNumber() {
+    return contractRefNumber;
+  }
+
+  public void setContractRefNumber(String contractRefNumber) {
+    this.contractRefNumber = contractRefNumber;
+  }
+
+  public String getEntityLei() {
+    return entityLei;
+  }
+
+  public void setEntityLei(String entityLei) {
+    this.entityLei = entityLei;
+  }
 }

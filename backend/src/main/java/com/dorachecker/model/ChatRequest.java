@@ -7,5 +7,4 @@ public record ChatRequest(
     @NotBlank @Size(max = 5000) String message,
     @Size(max = 100) String sessionId,
     @Size(max = 10) String language,
-    @Size(max = 200) String currentPage
-) {}
+    @Size(max = 200) String currentPage) {}

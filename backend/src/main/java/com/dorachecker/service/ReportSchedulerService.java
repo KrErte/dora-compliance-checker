@@ -4,92 +4,99 @@ import com.dorachecker.model.ScheduledReportEntity;
 import com.dorachecker.model.ScheduledReportRepository;
 import com.dorachecker.model.UserEntity;
 import com.dorachecker.model.UserRepository;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalAdjusters;
-import java.util.List;
-
 @Service
 public class ReportSchedulerService {
 
-    private static final Logger log = LoggerFactory.getLogger(ReportSchedulerService.class);
+  private static final Logger log = LoggerFactory.getLogger(ReportSchedulerService.class);
 
-    private final ScheduledReportRepository reportRepository;
-    private final UserRepository userRepository;
-    private final PdfExportService pdfExportService;
-    private final ResendEmailService emailService;
+  private final ScheduledReportRepository reportRepository;
+  private final UserRepository userRepository;
+  private final PdfExportService pdfExportService;
+  private final ResendEmailService emailService;
 
-    public ReportSchedulerService(
-            ScheduledReportRepository reportRepository,
-            UserRepository userRepository,
-            PdfExportService pdfExportService,
-            ResendEmailService emailService
-    ) {
-        this.reportRepository = reportRepository;
-        this.userRepository = userRepository;
-        this.pdfExportService = pdfExportService;
-        this.emailService = emailService;
+  public ReportSchedulerService(
+      ScheduledReportRepository reportRepository,
+      UserRepository userRepository,
+      PdfExportService pdfExportService,
+      ResendEmailService emailService) {
+    this.reportRepository = reportRepository;
+    this.userRepository = userRepository;
+    this.pdfExportService = pdfExportService;
+    this.emailService = emailService;
+  }
+
+  @Scheduled(cron = "0 0 6 * * *")
+  public void processScheduledReports() {
+    List<ScheduledReportEntity> dueReports =
+        reportRepository.findByEnabledTrueAndNextRunAtBefore(LocalDateTime.now());
+
+    if (dueReports.isEmpty()) {
+      log.debug("No scheduled reports due");
+      return;
     }
 
-    @Scheduled(cron = "0 0 6 * * *")
-    public void processScheduledReports() {
-        List<ScheduledReportEntity> dueReports = reportRepository
-                .findByEnabledTrueAndNextRunAtBefore(LocalDateTime.now());
+    log.info("Processing {} scheduled reports", dueReports.size());
 
-        if (dueReports.isEmpty()) {
-            log.debug("No scheduled reports due");
-            return;
-        }
-
-        log.info("Processing {} scheduled reports", dueReports.size());
-
-        for (ScheduledReportEntity report : dueReports) {
-            try {
-                userRepository.findById(report.getUserId()).ifPresent(user -> {
-                    // Send notification email about report generation
-                    String recipients = report.getRecipients() != null ? report.getRecipients() : user.getEmail();
-                    for (String email : recipients.split(",")) {
-                        String trimmedEmail = email.trim();
-                        if (!trimmedEmail.isBlank()) {
-                            String subject = "DoraAudit – Scheduled " + report.getReportType() + " Report";
-                            String html = buildReportEmail(user, report);
-                            emailService.sendEmail(trimmedEmail, subject, html);
-                        }
+    for (ScheduledReportEntity report : dueReports) {
+      try {
+        userRepository
+            .findById(report.getUserId())
+            .ifPresent(
+                user -> {
+                  // Send notification email about report generation
+                  String recipients =
+                      report.getRecipients() != null ? report.getRecipients() : user.getEmail();
+                  for (String email : recipients.split(",")) {
+                    String trimmedEmail = email.trim();
+                    if (!trimmedEmail.isBlank()) {
+                      String subject =
+                          "DoraAudit – Scheduled " + report.getReportType() + " Report";
+                      String html = buildReportEmail(user, report);
+                      emailService.sendEmail(trimmedEmail, subject, html);
                     }
+                  }
                 });
 
-                report.setLastRunAt(LocalDateTime.now());
-                report.setNextRunAt(calculateNextRun(report));
-                reportRepository.save(report);
-                log.info("Scheduled report {} processed successfully", report.getId());
-            } catch (Exception e) {
-                log.error("Failed to process scheduled report {}: {}", report.getId(), e.getMessage());
-            }
-        }
+        report.setLastRunAt(LocalDateTime.now());
+        report.setNextRunAt(calculateNextRun(report));
+        reportRepository.save(report);
+        log.info("Scheduled report {} processed successfully", report.getId());
+      } catch (Exception e) {
+        log.error("Failed to process scheduled report {}: {}", report.getId(), e.getMessage());
+      }
     }
+  }
 
-    public LocalDateTime calculateNextRun(ScheduledReportEntity report) {
-        LocalDateTime now = LocalDateTime.now();
-        if ("WEEKLY".equals(report.getFrequency())) {
-            int dayOfWeek = report.getDayOfWeek() != null ? report.getDayOfWeek() : 1;
-            DayOfWeek targetDay = DayOfWeek.of(dayOfWeek);
-            return now.with(TemporalAdjusters.next(targetDay)).withHour(6).withMinute(0).withSecond(0);
-        } else {
-            int dayOfMonth = report.getDayOfMonth() != null ? report.getDayOfMonth() : 1;
-            LocalDateTime next = now.plusMonths(1).withDayOfMonth(Math.min(dayOfMonth, 28))
-                    .withHour(6).withMinute(0).withSecond(0);
-            return next;
-        }
+  public LocalDateTime calculateNextRun(ScheduledReportEntity report) {
+    LocalDateTime now = LocalDateTime.now();
+    if ("WEEKLY".equals(report.getFrequency())) {
+      int dayOfWeek = report.getDayOfWeek() != null ? report.getDayOfWeek() : 1;
+      DayOfWeek targetDay = DayOfWeek.of(dayOfWeek);
+      return now.with(TemporalAdjusters.next(targetDay)).withHour(6).withMinute(0).withSecond(0);
+    } else {
+      int dayOfMonth = report.getDayOfMonth() != null ? report.getDayOfMonth() : 1;
+      LocalDateTime next =
+          now.plusMonths(1)
+              .withDayOfMonth(Math.min(dayOfMonth, 28))
+              .withHour(6)
+              .withMinute(0)
+              .withSecond(0);
+      return next;
     }
+  }
 
-    private String buildReportEmail(UserEntity user, ScheduledReportEntity report) {
-        String name = user.getFullName() != null ? user.getFullName() : user.getEmail().split("@")[0];
-        return """
+  private String buildReportEmail(UserEntity user, ScheduledReportEntity report) {
+    String name = user.getFullName() != null ? user.getFullName() : user.getEmail().split("@")[0];
+    return """
                 <!DOCTYPE html>
                 <html>
                 <head><meta charset="UTF-8"></head>
@@ -114,12 +121,16 @@ public class ReportSchedulerService {
                     </div>
                 </body>
                 </html>
-                """.formatted(escapeHtml(name), report.getReportType());
-    }
+                """
+        .formatted(escapeHtml(name), report.getReportType());
+  }
 
-    private String escapeHtml(String input) {
-        if (input == null) return "";
-        return input.replace("&", "&amp;").replace("<", "&lt;")
-                .replace(">", "&gt;").replace("\"", "&quot;");
-    }
+  private String escapeHtml(String input) {
+    if (input == null) return "";
+    return input
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace("\"", "&quot;");
+  }
 }

@@ -8,5 +8,4 @@ public record RoiViolation(
     String field,
     String entityRef,
     String messageEt,
-    String messageEn
-) {}
+    String messageEn) {}

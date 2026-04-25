@@ -3,20 +3,10 @@ package com.dorachecker.controller;
 import com.dorachecker.model.UserBrandingEntity;
 import com.dorachecker.model.UserBrandingRepository;
 import com.dorachecker.service.SubscriptionGuardService;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,249 +16,272 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/branding")
 public class BrandingController {
 
-    private static final long MAX_LOGO_SIZE = 2 * 1024 * 1024; // 2MB
-    private static final Set<String> ALLOWED_TYPES = Set.of(
-            "image/png", "image/jpeg", "image/jpg", "image/svg+xml"
-    );
-    private static final String LOGO_BASE_DIR = "/app/data/branding/logos";
+  private static final long MAX_LOGO_SIZE = 2 * 1024 * 1024; // 2MB
+  private static final Set<String> ALLOWED_TYPES =
+      Set.of("image/png", "image/jpeg", "image/jpg", "image/svg+xml");
+  private static final String LOGO_BASE_DIR = "/app/data/branding/logos";
 
-    private final UserBrandingRepository brandingRepository;
-    private final SubscriptionGuardService subscriptionGuard;
+  private final UserBrandingRepository brandingRepository;
+  private final SubscriptionGuardService subscriptionGuard;
 
-    public BrandingController(UserBrandingRepository brandingRepository,
-                               SubscriptionGuardService subscriptionGuard) {
-        this.brandingRepository = brandingRepository;
-        this.subscriptionGuard = subscriptionGuard;
+  public BrandingController(
+      UserBrandingRepository brandingRepository, SubscriptionGuardService subscriptionGuard) {
+    this.brandingRepository = brandingRepository;
+    this.subscriptionGuard = subscriptionGuard;
+  }
+
+  private String getUserId(Authentication auth) {
+    return (String) auth.getPrincipal();
+  }
+
+  @GetMapping
+  public ResponseEntity<?> getBranding(Authentication auth) {
+    String userId = getUserId(auth);
+
+    if (!subscriptionGuard.isPremium(userId, null)) {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN)
+          .body(Map.of("error", "Premium subscription required"));
     }
 
-    private String getUserId(Authentication auth) {
-        return (String) auth.getPrincipal();
+    Optional<UserBrandingEntity> branding = brandingRepository.findByUserId(userId);
+    if (branding.isEmpty()) {
+      return ResponseEntity.ok(
+          Map.of(
+              "companyName", "",
+              "primaryColorHex", "#22c55e",
+              "hasLogo", false));
     }
 
-    @GetMapping
-    public ResponseEntity<?> getBranding(Authentication auth) {
-        String userId = getUserId(auth);
+    UserBrandingEntity b = branding.get();
+    return ResponseEntity.ok(
+        Map.of(
+            "companyName", b.getCompanyName() != null ? b.getCompanyName() : "",
+            "primaryColorHex", b.getPrimaryColorHex() != null ? b.getPrimaryColorHex() : "#22c55e",
+            "hasLogo", b.getLogoPath() != null && !b.getLogoPath().isEmpty(),
+            "updatedAt", b.getUpdatedAt() != null ? b.getUpdatedAt().toString() : ""));
+  }
 
-        if (!subscriptionGuard.isPremium(userId, null)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(Map.of("error", "Premium subscription required"));
-        }
+  @PutMapping
+  public ResponseEntity<?> updateBranding(
+      @Valid @RequestBody UpdateBrandingRequest body, Authentication auth) {
+    String userId = getUserId(auth);
 
-        Optional<UserBrandingEntity> branding = brandingRepository.findByUserId(userId);
-        if (branding.isEmpty()) {
-            return ResponseEntity.ok(Map.of(
-                    "companyName", "",
-                    "primaryColorHex", "#22c55e",
-                    "hasLogo", false
-            ));
-        }
-
-        UserBrandingEntity b = branding.get();
-        return ResponseEntity.ok(Map.of(
-                "companyName", b.getCompanyName() != null ? b.getCompanyName() : "",
-                "primaryColorHex", b.getPrimaryColorHex() != null ? b.getPrimaryColorHex() : "#22c55e",
-                "hasLogo", b.getLogoPath() != null && !b.getLogoPath().isEmpty(),
-                "updatedAt", b.getUpdatedAt() != null ? b.getUpdatedAt().toString() : ""
-        ));
+    if (!subscriptionGuard.isPremium(userId, null)) {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN)
+          .body(Map.of("error", "Premium subscription required"));
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateBranding(@Valid @RequestBody UpdateBrandingRequest body, Authentication auth) {
-        String userId = getUserId(auth);
+    String companyName = body.companyName();
+    String primaryColorHex = body.primaryColorHex();
 
-        if (!subscriptionGuard.isPremium(userId, null)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(Map.of("error", "Premium subscription required"));
+    UserBrandingEntity branding =
+        brandingRepository
+            .findByUserId(userId)
+            .orElseGet(
+                () -> {
+                  UserBrandingEntity newBranding = new UserBrandingEntity();
+                  newBranding.setUserId(userId);
+                  return newBranding;
+                });
+
+    branding.setCompanyName(companyName);
+    if (primaryColorHex != null) {
+      branding.setPrimaryColorHex(primaryColorHex);
+    }
+    branding.setUpdatedAt(LocalDateTime.now());
+
+    brandingRepository.save(branding);
+
+    return ResponseEntity.ok(
+        Map.of(
+            "companyName",
+            branding.getCompanyName(),
+            "primaryColorHex",
+            branding.getPrimaryColorHex() != null ? branding.getPrimaryColorHex() : "#22c55e",
+            "hasLogo",
+            branding.getLogoPath() != null && !branding.getLogoPath().isEmpty(),
+            "updatedAt",
+            branding.getUpdatedAt().toString()));
+  }
+
+  @PostMapping("/logo")
+  public ResponseEntity<?> uploadLogo(
+      @RequestParam("file") MultipartFile file, Authentication auth) {
+    String userId = getUserId(auth);
+
+    if (!subscriptionGuard.isPremium(userId, null)) {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN)
+          .body(Map.of("error", "Premium subscription required"));
+    }
+
+    if (file.isEmpty()) {
+      return ResponseEntity.badRequest().body(Map.of("error", "File is empty"));
+    }
+
+    if (file.getSize() > MAX_LOGO_SIZE) {
+      return ResponseEntity.badRequest().body(Map.of("error", "File size exceeds 2MB limit"));
+    }
+
+    String contentType = file.getContentType();
+    if (contentType == null || !ALLOWED_TYPES.contains(contentType)) {
+      return ResponseEntity.badRequest()
+          .body(Map.of("error", "Only PNG, JPG, and SVG files are allowed"));
+    }
+
+    // Validate file magic bytes match declared content type
+    if (!"image/svg+xml".equals(contentType) && !validateMagicBytes(file, contentType)) {
+      return ResponseEntity.badRequest()
+          .body(Map.of("error", "File content does not match declared type"));
+    }
+
+    try {
+      Path logoDir = Paths.get(LOGO_BASE_DIR, userId);
+      Files.createDirectories(logoDir);
+
+      // Delete existing logo files
+      if (Files.exists(logoDir)) {
+        try (var stream = Files.list(logoDir)) {
+          stream.forEach(
+              p -> {
+                try {
+                  Files.deleteIfExists(p);
+                } catch (IOException ignored) {
+                }
+              });
         }
+      }
 
-        String companyName = body.companyName();
-        String primaryColorHex = body.primaryColorHex();
+      String extension = getExtension(file.getOriginalFilename(), contentType);
+      Path logoPath = logoDir.resolve("logo" + extension).normalize();
 
-        UserBrandingEntity branding = brandingRepository.findByUserId(userId)
-                .orElseGet(() -> {
+      // Guard against path traversal
+      if (!logoPath.startsWith(logoDir)) {
+        return ResponseEntity.badRequest().body(Map.of("error", "Invalid file"));
+      }
+
+      Files.copy(file.getInputStream(), logoPath, StandardCopyOption.REPLACE_EXISTING);
+
+      UserBrandingEntity branding =
+          brandingRepository
+              .findByUserId(userId)
+              .orElseGet(
+                  () -> {
                     UserBrandingEntity newBranding = new UserBrandingEntity();
                     newBranding.setUserId(userId);
                     return newBranding;
-                });
+                  });
 
-        branding.setCompanyName(companyName);
-        if (primaryColorHex != null) {
-            branding.setPrimaryColorHex(primaryColorHex);
-        }
-        branding.setUpdatedAt(LocalDateTime.now());
+      branding.setLogoPath(logoPath.toString());
+      branding.setLogoContentType(contentType);
+      branding.setUpdatedAt(LocalDateTime.now());
+      brandingRepository.save(branding);
 
-        brandingRepository.save(branding);
+      return ResponseEntity.ok(Map.of("success", true, "message", "Logo uploaded successfully"));
+    } catch (IOException e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(Map.of("error", "Failed to save logo"));
+    }
+  }
 
-        return ResponseEntity.ok(Map.of(
-                "companyName", branding.getCompanyName(),
-                "primaryColorHex", branding.getPrimaryColorHex() != null ? branding.getPrimaryColorHex() : "#22c55e",
-                "hasLogo", branding.getLogoPath() != null && !branding.getLogoPath().isEmpty(),
-                "updatedAt", branding.getUpdatedAt().toString()
-        ));
+  @GetMapping("/logo")
+  public ResponseEntity<Resource> getLogo(@Nullable Authentication auth) {
+    if (auth == null) {
+      return ResponseEntity.notFound().build();
+    }
+    String userId = getUserId(auth);
+
+    Optional<UserBrandingEntity> branding = brandingRepository.findByUserId(userId);
+    if (branding.isEmpty() || branding.get().getLogoPath() == null) {
+      return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/logo")
-    public ResponseEntity<?> uploadLogo(@RequestParam("file") MultipartFile file, Authentication auth) {
-        String userId = getUserId(auth);
-
-        if (!subscriptionGuard.isPremium(userId, null)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(Map.of("error", "Premium subscription required"));
-        }
-
-        if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "File is empty"));
-        }
-
-        if (file.getSize() > MAX_LOGO_SIZE) {
-            return ResponseEntity.badRequest().body(Map.of("error", "File size exceeds 2MB limit"));
-        }
-
-        String contentType = file.getContentType();
-        if (contentType == null || !ALLOWED_TYPES.contains(contentType)) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Only PNG, JPG, and SVG files are allowed"));
-        }
-
-        // Validate file magic bytes match declared content type
-        if (!"image/svg+xml".equals(contentType) && !validateMagicBytes(file, contentType)) {
-            return ResponseEntity.badRequest().body(Map.of("error", "File content does not match declared type"));
-        }
-
-        try {
-            Path logoDir = Paths.get(LOGO_BASE_DIR, userId);
-            Files.createDirectories(logoDir);
-
-            // Delete existing logo files
-            if (Files.exists(logoDir)) {
-                try (var stream = Files.list(logoDir)) {
-                    stream.forEach(p -> {
-                        try { Files.deleteIfExists(p); } catch (IOException ignored) {}
-                    });
-                }
-            }
-
-            String extension = getExtension(file.getOriginalFilename(), contentType);
-            Path logoPath = logoDir.resolve("logo" + extension).normalize();
-
-            // Guard against path traversal
-            if (!logoPath.startsWith(logoDir)) {
-                return ResponseEntity.badRequest().body(Map.of("error", "Invalid file"));
-            }
-
-            Files.copy(file.getInputStream(), logoPath, StandardCopyOption.REPLACE_EXISTING);
-
-            UserBrandingEntity branding = brandingRepository.findByUserId(userId)
-                    .orElseGet(() -> {
-                        UserBrandingEntity newBranding = new UserBrandingEntity();
-                        newBranding.setUserId(userId);
-                        return newBranding;
-                    });
-
-            branding.setLogoPath(logoPath.toString());
-            branding.setLogoContentType(contentType);
-            branding.setUpdatedAt(LocalDateTime.now());
-            brandingRepository.save(branding);
-
-            return ResponseEntity.ok(Map.of("success", true, "message", "Logo uploaded successfully"));
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", "Failed to save logo"));
-        }
+    Path logoPath = Paths.get(branding.get().getLogoPath());
+    if (!Files.exists(logoPath)) {
+      return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/logo")
-    public ResponseEntity<Resource> getLogo(@Nullable Authentication auth) {
-        if (auth == null) {
-            return ResponseEntity.notFound().build();
-        }
-        String userId = getUserId(auth);
+    Resource resource = new FileSystemResource(logoPath);
+    String contentType = branding.get().getLogoContentType();
+    if (contentType == null) contentType = "application/octet-stream";
 
-        Optional<UserBrandingEntity> branding = brandingRepository.findByUserId(userId);
-        if (branding.isEmpty() || branding.get().getLogoPath() == null) {
-            return ResponseEntity.notFound().build();
-        }
+    return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).body(resource);
+  }
 
-        Path logoPath = Paths.get(branding.get().getLogoPath());
-        if (!Files.exists(logoPath)) {
-            return ResponseEntity.notFound().build();
-        }
+  @DeleteMapping("/logo")
+  public ResponseEntity<?> deleteLogo(Authentication auth) {
+    String userId = getUserId(auth);
 
-        Resource resource = new FileSystemResource(logoPath);
-        String contentType = branding.get().getLogoContentType();
-        if (contentType == null) contentType = "application/octet-stream";
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .body(resource);
+    if (!subscriptionGuard.isPremium(userId, null)) {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN)
+          .body(Map.of("error", "Premium subscription required"));
     }
 
-    @DeleteMapping("/logo")
-    public ResponseEntity<?> deleteLogo(Authentication auth) {
-        String userId = getUserId(auth);
-
-        if (!subscriptionGuard.isPremium(userId, null)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(Map.of("error", "Premium subscription required"));
-        }
-
-        Optional<UserBrandingEntity> branding = brandingRepository.findByUserId(userId);
-        if (branding.isEmpty() || branding.get().getLogoPath() == null) {
-            return ResponseEntity.ok(Map.of("success", true));
-        }
-
-        UserBrandingEntity b = branding.get();
-        try {
-            Path logoPath = Paths.get(b.getLogoPath());
-            Files.deleteIfExists(logoPath);
-        } catch (IOException ignored) {}
-
-        b.setLogoPath(null);
-        b.setLogoContentType(null);
-        b.setUpdatedAt(LocalDateTime.now());
-        brandingRepository.save(b);
-
-        return ResponseEntity.ok(Map.of("success", true, "message", "Logo deleted"));
+    Optional<UserBrandingEntity> branding = brandingRepository.findByUserId(userId);
+    if (branding.isEmpty() || branding.get().getLogoPath() == null) {
+      return ResponseEntity.ok(Map.of("success", true));
     }
 
-    private boolean validateMagicBytes(MultipartFile file, String contentType) {
-        try {
-            byte[] header = new byte[8];
-            int read = file.getInputStream().read(header);
-            if (read < 4) return false;
-
-            return switch (contentType) {
-                case "image/png" ->
-                    // PNG: 89 50 4E 47
-                    header[0] == (byte) 0x89 && header[1] == 0x50 && header[2] == 0x4E && header[3] == 0x47;
-                case "image/jpeg", "image/jpg" ->
-                    // JPEG: FF D8 FF
-                    header[0] == (byte) 0xFF && header[1] == (byte) 0xD8 && header[2] == (byte) 0xFF;
-                default -> false;
-            };
-        } catch (IOException e) {
-            return false;
-        }
+    UserBrandingEntity b = branding.get();
+    try {
+      Path logoPath = Paths.get(b.getLogoPath());
+      Files.deleteIfExists(logoPath);
+    } catch (IOException ignored) {
     }
 
-    private String getExtension(String filename, String contentType) {
-        // Derive extension from content type only — never trust user-supplied filename
-        return switch (contentType) {
-            case "image/png" -> ".png";
-            case "image/jpeg", "image/jpg" -> ".jpg";
-            case "image/svg+xml" -> ".svg";
-            default -> ".bin";
-        };
-    }
+    b.setLogoPath(null);
+    b.setLogoContentType(null);
+    b.setUpdatedAt(LocalDateTime.now());
+    brandingRepository.save(b);
 
-    public record UpdateBrandingRequest(
-        @NotBlank @Size(max = 200) String companyName,
-        @Pattern(regexp = "^#[0-9a-fA-F]{6}$", message = "Invalid color hex format") String primaryColorHex
-    ) {}
+    return ResponseEntity.ok(Map.of("success", true, "message", "Logo deleted"));
+  }
+
+  private boolean validateMagicBytes(MultipartFile file, String contentType) {
+    try {
+      byte[] header = new byte[8];
+      int read = file.getInputStream().read(header);
+      if (read < 4) return false;
+
+      return switch (contentType) {
+        case "image/png" ->
+            // PNG: 89 50 4E 47
+            header[0] == (byte) 0x89 && header[1] == 0x50 && header[2] == 0x4E && header[3] == 0x47;
+        case "image/jpeg", "image/jpg" ->
+            // JPEG: FF D8 FF
+            header[0] == (byte) 0xFF && header[1] == (byte) 0xD8 && header[2] == (byte) 0xFF;
+        default -> false;
+      };
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  private String getExtension(String filename, String contentType) {
+    // Derive extension from content type only — never trust user-supplied filename
+    return switch (contentType) {
+      case "image/png" -> ".png";
+      case "image/jpeg", "image/jpg" -> ".jpg";
+      case "image/svg+xml" -> ".svg";
+      default -> ".bin";
+    };
+  }
+
+  public record UpdateBrandingRequest(
+      @NotBlank @Size(max = 200) String companyName,
+      @Pattern(regexp = "^#[0-9a-fA-F]{6}$", message = "Invalid color hex format")
+          String primaryColorHex) {}
 }

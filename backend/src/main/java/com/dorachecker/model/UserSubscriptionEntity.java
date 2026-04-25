@@ -4,111 +4,171 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user_subscriptions", indexes = {
-    @Index(name = "idx_subscriptions_user_id", columnList = "userId"),
-    @Index(name = "idx_subscriptions_session_id", columnList = "sessionId"),
-    @Index(name = "idx_subscriptions_ls_sub_id", columnList = "lemon_squeezy_subscription_id"),
-    @Index(name = "idx_subscriptions_ls_order_id", columnList = "lemon_squeezy_order_id"),
-    @Index(name = "idx_subscriptions_ls_customer_id", columnList = "lemon_squeezy_customer_id")
-})
+@Table(
+    name = "user_subscriptions",
+    indexes = {
+      @Index(name = "idx_subscriptions_user_id", columnList = "userId"),
+      @Index(name = "idx_subscriptions_session_id", columnList = "sessionId"),
+      @Index(name = "idx_subscriptions_ls_sub_id", columnList = "lemon_squeezy_subscription_id"),
+      @Index(name = "idx_subscriptions_ls_order_id", columnList = "lemon_squeezy_order_id"),
+      @Index(name = "idx_subscriptions_ls_customer_id", columnList = "lemon_squeezy_customer_id")
+    })
 public class UserSubscriptionEntity {
 
-    public enum Plan { FREE, STANDARD, ENTERPRISE }
-    public enum Status { ACTIVE, EXPIRED, CANCELLED }
+  public enum Plan {
+    FREE,
+    STANDARD,
+    ENTERPRISE
+  }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+  public enum Status {
+    ACTIVE,
+    EXPIRED,
+    CANCELLED
+  }
 
-    @Column(name = "user_id")
-    private String userId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
-    @Column(name = "session_id")
-    private String sessionId;
+  @Column(name = "user_id")
+  private String userId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Plan plan = Plan.FREE;
+  @Column(name = "session_id")
+  private String sessionId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Status status = Status.ACTIVE;
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private Plan plan = Plan.FREE;
 
-    @Column(name = "lemon_squeezy_subscription_id")
-    private String lemonSqueezySubscriptionId;
+  @Enumerated(EnumType.STRING)
+  @Column(nullable = false)
+  private Status status = Status.ACTIVE;
 
-    @Column(name = "lemon_squeezy_customer_id")
-    private String lemonSqueezyCustomerId;
+  @Column(name = "lemon_squeezy_subscription_id")
+  private String lemonSqueezySubscriptionId;
 
-    @Column(name = "lemon_squeezy_order_id")
-    private String lemonSqueezyOrderId;
+  @Column(name = "lemon_squeezy_customer_id")
+  private String lemonSqueezyCustomerId;
 
-    @Column(name = "valid_until")
-    private LocalDateTime validUntil;
+  @Column(name = "lemon_squeezy_order_id")
+  private String lemonSqueezyOrderId;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+  @Column(name = "valid_until")
+  private LocalDateTime validUntil;
 
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
+  @Column(name = "created_at", nullable = false)
+  private LocalDateTime createdAt;
 
-    public UserSubscriptionEntity() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
+  @Column(name = "updated_at", nullable = false)
+  private LocalDateTime updatedAt;
 
-    // Getters and Setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+  public UserSubscriptionEntity() {
+    this.createdAt = LocalDateTime.now();
+    this.updatedAt = LocalDateTime.now();
+  }
 
-    public String getUserId() { return userId; }
-    public void setUserId(String userId) { this.userId = userId; }
+  // Getters and Setters
+  public String getId() {
+    return id;
+  }
 
-    public String getSessionId() { return sessionId; }
-    public void setSessionId(String sessionId) { this.sessionId = sessionId; }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public Plan getPlan() { return plan; }
-    public void setPlan(Plan plan) { this.plan = plan; }
+  public String getUserId() {
+    return userId;
+  }
 
-    public Status getStatus() { return status; }
-    public void setStatus(Status status) { this.status = status; }
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
 
-    public String getLemonSqueezySubscriptionId() { return lemonSqueezySubscriptionId; }
-    public void setLemonSqueezySubscriptionId(String lemonSqueezySubscriptionId) {
-        this.lemonSqueezySubscriptionId = lemonSqueezySubscriptionId;
-    }
+  public String getSessionId() {
+    return sessionId;
+  }
 
-    public String getLemonSqueezyCustomerId() { return lemonSqueezyCustomerId; }
-    public void setLemonSqueezyCustomerId(String lemonSqueezyCustomerId) {
-        this.lemonSqueezyCustomerId = lemonSqueezyCustomerId;
-    }
+  public void setSessionId(String sessionId) {
+    this.sessionId = sessionId;
+  }
 
-    public String getLemonSqueezyOrderId() { return lemonSqueezyOrderId; }
-    public void setLemonSqueezyOrderId(String lemonSqueezyOrderId) {
-        this.lemonSqueezyOrderId = lemonSqueezyOrderId;
-    }
+  public Plan getPlan() {
+    return plan;
+  }
 
-    public LocalDateTime getValidUntil() { return validUntil; }
-    public void setValidUntil(LocalDateTime validUntil) { this.validUntil = validUntil; }
+  public void setPlan(Plan plan) {
+    this.plan = plan;
+  }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+  public Status getStatus() {
+    return status;
+  }
 
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+  public void setStatus(Status status) {
+    this.status = status;
+  }
 
-    public boolean isActive() {
-        if (status != Status.ACTIVE) return false;
-        if (validUntil != null && LocalDateTime.now().isAfter(validUntil)) return false;
-        return true;
-    }
+  public String getLemonSqueezySubscriptionId() {
+    return lemonSqueezySubscriptionId;
+  }
 
-    public boolean isPremium() {
-        return isActive() && (plan == Plan.STANDARD || plan == Plan.ENTERPRISE);
-    }
+  public void setLemonSqueezySubscriptionId(String lemonSqueezySubscriptionId) {
+    this.lemonSqueezySubscriptionId = lemonSqueezySubscriptionId;
+  }
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
+  public String getLemonSqueezyCustomerId() {
+    return lemonSqueezyCustomerId;
+  }
+
+  public void setLemonSqueezyCustomerId(String lemonSqueezyCustomerId) {
+    this.lemonSqueezyCustomerId = lemonSqueezyCustomerId;
+  }
+
+  public String getLemonSqueezyOrderId() {
+    return lemonSqueezyOrderId;
+  }
+
+  public void setLemonSqueezyOrderId(String lemonSqueezyOrderId) {
+    this.lemonSqueezyOrderId = lemonSqueezyOrderId;
+  }
+
+  public LocalDateTime getValidUntil() {
+    return validUntil;
+  }
+
+  public void setValidUntil(LocalDateTime validUntil) {
+    this.validUntil = validUntil;
+  }
+
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(LocalDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public LocalDateTime getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(LocalDateTime updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+  public boolean isActive() {
+    if (status != Status.ACTIVE) return false;
+    if (validUntil != null && LocalDateTime.now().isAfter(validUntil)) return false;
+    return true;
+  }
+
+  public boolean isPremium() {
+    return isActive() && (plan == Plan.STANDARD || plan == Plan.ENTERPRISE);
+  }
+
+  @PreUpdate
+  protected void onUpdate() {
+    this.updatedAt = LocalDateTime.now();
+  }
 }

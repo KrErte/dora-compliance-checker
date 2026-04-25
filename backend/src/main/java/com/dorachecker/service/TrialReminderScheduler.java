@@ -2,70 +2,69 @@ package com.dorachecker.service;
 
 import com.dorachecker.model.UserEntity;
 import com.dorachecker.model.UserRepository;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
-
 @Service
 public class TrialReminderScheduler {
 
-    private static final Logger log = LoggerFactory.getLogger(TrialReminderScheduler.class);
+  private static final Logger log = LoggerFactory.getLogger(TrialReminderScheduler.class);
 
-    private final UserRepository userRepository;
-    private final ResendEmailService emailService;
+  private final UserRepository userRepository;
+  private final ResendEmailService emailService;
 
-    public TrialReminderScheduler(UserRepository userRepository, ResendEmailService emailService) {
-        this.userRepository = userRepository;
-        this.emailService = emailService;
+  public TrialReminderScheduler(UserRepository userRepository, ResendEmailService emailService) {
+    this.userRepository = userRepository;
+    this.emailService = emailService;
+  }
+
+  @Scheduled(cron = "0 0 9 * * *")
+  public void sendTrialExpiryReminders() {
+    LocalDateTime threeDaysFromNow = LocalDateTime.now().plusDays(3);
+    LocalDateTime start = threeDaysFromNow.minusHours(12);
+    LocalDateTime end = threeDaysFromNow.plusHours(12);
+
+    List<UserEntity> expiringUsers = userRepository.findByTrialEndsAtBetween(start, end);
+
+    if (expiringUsers.isEmpty()) {
+      log.debug("No trial expiry reminders to send today");
+      return;
     }
 
-    @Scheduled(cron = "0 0 9 * * *")
-    public void sendTrialExpiryReminders() {
-        LocalDateTime threeDaysFromNow = LocalDateTime.now().plusDays(3);
-        LocalDateTime start = threeDaysFromNow.minusHours(12);
-        LocalDateTime end = threeDaysFromNow.plusHours(12);
+    log.info("Sending trial expiry reminders to {} users", expiringUsers.size());
 
-        List<UserEntity> expiringUsers = userRepository.findByTrialEndsAtBetween(start, end);
-
-        if (expiringUsers.isEmpty()) {
-            log.debug("No trial expiry reminders to send today");
-            return;
-        }
-
-        log.info("Sending trial expiry reminders to {} users", expiringUsers.size());
-
-        for (UserEntity user : expiringUsers) {
-            if (user.isEmailOptOut()) {
-                log.debug("Skipping opted-out user: {}", user.getEmail());
-                continue;
-            }
-            try {
-                String subject = "Teie DoraAudit Professional prooviaeg l\u00f5ppeb peagi";
-                String html = buildReminderEmail(user);
-                emailService.sendEmail(user.getEmail(), subject, html);
-                log.info("Trial reminder sent to: {}", user.getEmail());
-            } catch (Exception e) {
-                log.error("Failed to send trial reminder to {}: {}", user.getEmail(), e.getMessage());
-            }
-        }
+    for (UserEntity user : expiringUsers) {
+      if (user.isEmailOptOut()) {
+        log.debug("Skipping opted-out user: {}", user.getEmail());
+        continue;
+      }
+      try {
+        String subject = "Teie DoraAudit Professional prooviaeg l\u00f5ppeb peagi";
+        String html = buildReminderEmail(user);
+        emailService.sendEmail(user.getEmail(), subject, html);
+        log.info("Trial reminder sent to: {}", user.getEmail());
+      } catch (Exception e) {
+        log.error("Failed to send trial reminder to {}: {}", user.getEmail(), e.getMessage());
+      }
     }
+  }
 
-    private String getOrCreateUnsubscribeToken(UserEntity user) {
-        if (user.getUnsubscribeToken() == null) {
-            user.setUnsubscribeToken(UUID.randomUUID().toString());
-            userRepository.save(user);
-        }
-        return user.getUnsubscribeToken();
+  private String getOrCreateUnsubscribeToken(UserEntity user) {
+    if (user.getUnsubscribeToken() == null) {
+      user.setUnsubscribeToken(UUID.randomUUID().toString());
+      userRepository.save(user);
     }
+    return user.getUnsubscribeToken();
+  }
 
-    private String buildReminderEmail(UserEntity user) {
-        String name = user.getFullName() != null ? user.getFullName() : user.getEmail().split("@")[0];
-        return """
+  private String buildReminderEmail(UserEntity user) {
+    String name = user.getFullName() != null ? user.getFullName() : user.getEmail().split("@")[0];
+    return """
                 <!DOCTYPE html>
                 <html>
                 <head>
@@ -109,6 +108,7 @@ public class TrialReminderScheduler {
                     </div>
                 </body>
                 </html>
-                """.formatted(name, getOrCreateUnsubscribeToken(user));
-    }
+                """
+        .formatted(name, getOrCreateUnsubscribeToken(user));
+  }
 }

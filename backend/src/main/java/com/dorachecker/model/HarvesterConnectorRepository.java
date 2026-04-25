@@ -1,13 +1,14 @@
 package com.dorachecker.model;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface HarvesterConnectorRepository extends JpaRepository<HarvesterConnectorEntity, String> {
+public interface HarvesterConnectorRepository
+    extends JpaRepository<HarvesterConnectorEntity, String> {
 
-    List<HarvesterConnectorEntity> findByUserId(String userId);
+  List<HarvesterConnectorEntity> findByUserId(String userId);
 
-    Optional<HarvesterConnectorEntity> findByUserIdAndConnectorType(String userId, String connectorType);
+  Optional<HarvesterConnectorEntity> findByUserIdAndConnectorType(
+      String userId, String connectorType);
 }

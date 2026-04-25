@@ -7,42 +7,71 @@ import java.time.LocalDateTime;
 @Table(name = "contact_messages")
 public class ContactMessage {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
-    @Column(nullable = false)
-    private String name;
+  @Column(nullable = false)
+  private String name;
 
-    @Column(nullable = false)
-    private String email;
+  @Column(nullable = false)
+  private String email;
 
-    @Column
-    private String reason;
+  @Column private String reason;
 
-    @Column(nullable = false, length = 2000)
-    private String message;
+  @Column(nullable = false, length = 2000)
+  private String message;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+  @Column(nullable = false)
+  private LocalDateTime createdAt;
 
-    public ContactMessage() {}
+  public ContactMessage() {}
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+  public String getId() {
+    return id;
+  }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+  public String getName() {
+    return name;
+  }
 
-    public String getReason() { return reason; }
-    public void setReason(String reason) { this.reason = reason; }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public String getMessage() { return message; }
-    public void setMessage(String message) { this.message = message; }
+  public String getEmail() {
+    return email;
+  }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getReason() {
+    return reason;
+  }
+
+  public void setReason(String reason) {
+    this.reason = reason;
+  }
+
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
+
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(LocalDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
 }

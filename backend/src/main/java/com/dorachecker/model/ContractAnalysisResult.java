@@ -16,16 +16,14 @@ public record ContractAnalysisResult(
     double scorePercentage,
     String complianceLevel,
     String summary,
-    List<ContractFinding> findings
-) {
-    public record ContractFinding(
-        int requirementId,
-        String requirementEt,
-        String requirementEn,
-        String status,
-        String quote,
-        String recommendationEt,
-        String recommendationEn,
-        String doraReference
-    ) {}
+    List<ContractFinding> findings) {
+  public record ContractFinding(
+      int requirementId,
+      String requirementEt,
+      String requirementEn,
+      String status,
+      String quote,
+      String recommendationEt,
+      String recommendationEn,
+      String doraReference) {}
 }

@@ -4,90 +4,91 @@ import com.dorachecker.model.FineCalculatorResultEntity;
 import com.dorachecker.model.FineCalculatorResultRepository;
 import com.dorachecker.service.ResendEmailService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Map;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/fine-calculator")
 public class FineCalculatorController {
 
-    private final FineCalculatorResultRepository repository;
-    private final ResendEmailService emailService;
-    private final ObjectMapper objectMapper;
+  private final FineCalculatorResultRepository repository;
+  private final ResendEmailService emailService;
+  private final ObjectMapper objectMapper;
 
-    public FineCalculatorController(FineCalculatorResultRepository repository,
-                                    ResendEmailService emailService,
-                                    ObjectMapper objectMapper) {
-        this.repository = repository;
-        this.emailService = emailService;
-        this.objectMapper = objectMapper;
+  public FineCalculatorController(
+      FineCalculatorResultRepository repository,
+      ResendEmailService emailService,
+      ObjectMapper objectMapper) {
+    this.repository = repository;
+    this.emailService = emailService;
+    this.objectMapper = objectMapper;
+  }
+
+  @PostMapping
+  public ResponseEntity<?> saveResult(@RequestBody FineCalculatorRequest request) {
+    try {
+      FineCalculatorResultEntity entity = new FineCalculatorResultEntity();
+      entity.setCompanyType(request.companyType());
+      entity.setRevenue(request.revenue());
+      entity.setEmployees(request.employees());
+      entity.setCountry(request.country());
+      entity.setRiskAnswersJson(objectMapper.writeValueAsString(request.riskAnswers()));
+      entity.setCalculatedFineMin(request.calculatedFineMin());
+      entity.setCalculatedFineMax(request.calculatedFineMax());
+      entity.setRiskLevel(request.riskLevel());
+
+      repository.save(entity);
+      return ResponseEntity.ok(Map.of("status", "saved", "id", entity.getId()));
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
     }
+  }
 
-    @PostMapping
-    public ResponseEntity<?> saveResult(@RequestBody FineCalculatorRequest request) {
-        try {
-            FineCalculatorResultEntity entity = new FineCalculatorResultEntity();
-            entity.setCompanyType(request.companyType());
-            entity.setRevenue(request.revenue());
-            entity.setEmployees(request.employees());
-            entity.setCountry(request.country());
-            entity.setRiskAnswersJson(objectMapper.writeValueAsString(request.riskAnswers()));
-            entity.setCalculatedFineMin(request.calculatedFineMin());
-            entity.setCalculatedFineMax(request.calculatedFineMax());
-            entity.setRiskLevel(request.riskLevel());
+  @PostMapping("/report")
+  public ResponseEntity<?> sendReport(@RequestBody FineCalculatorReportRequest request) {
+    try {
+      // Save to database with email
+      FineCalculatorResultEntity entity = new FineCalculatorResultEntity();
+      entity.setEmail(request.email());
+      entity.setCompanyType(request.companyType());
+      entity.setRevenue(request.revenue());
+      entity.setEmployees(request.employees());
+      entity.setCountry(request.country());
+      entity.setRiskAnswersJson(objectMapper.writeValueAsString(request.riskAnswers()));
+      entity.setCalculatedFineMin(request.calculatedFineMin());
+      entity.setCalculatedFineMax(request.calculatedFineMax());
+      entity.setRiskLevel(request.riskLevel());
+      entity.setLanguage(request.language());
 
-            repository.save(entity);
-            return ResponseEntity.ok(Map.of("status", "saved", "id", entity.getId()));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        }
+      repository.save(entity);
+
+      // Send email report
+      String subject =
+          "et".equals(request.language())
+              ? "Teie DORA trahvikalkulaatori raport"
+              : "Your DORA Fine Calculator Report";
+
+      String htmlContent = buildReportEmail(request);
+      emailService.sendEmail(request.email(), subject, htmlContent);
+
+      return ResponseEntity.ok(Map.of("status", "sent"));
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
     }
+  }
 
-    @PostMapping("/report")
-    public ResponseEntity<?> sendReport(@RequestBody FineCalculatorReportRequest request) {
-        try {
-            // Save to database with email
-            FineCalculatorResultEntity entity = new FineCalculatorResultEntity();
-            entity.setEmail(request.email());
-            entity.setCompanyType(request.companyType());
-            entity.setRevenue(request.revenue());
-            entity.setEmployees(request.employees());
-            entity.setCountry(request.country());
-            entity.setRiskAnswersJson(objectMapper.writeValueAsString(request.riskAnswers()));
-            entity.setCalculatedFineMin(request.calculatedFineMin());
-            entity.setCalculatedFineMax(request.calculatedFineMax());
-            entity.setRiskLevel(request.riskLevel());
-            entity.setLanguage(request.language());
+  private String buildReportEmail(FineCalculatorReportRequest request) {
+    boolean isEstonian = "et".equals(request.language());
+    NumberFormat formatter = NumberFormat.getInstance(new Locale("et", "EE"));
 
-            repository.save(entity);
+    String companyTypeLabel = getCompanyTypeLabel(request.companyType(), isEstonian);
+    String riskLevelLabel = getRiskLevelLabel(request.riskLevel(), isEstonian);
+    String riskColor = getRiskColor(request.riskLevel());
 
-            // Send email report
-            String subject = "et".equals(request.language())
-                ? "Teie DORA trahvikalkulaatori raport"
-                : "Your DORA Fine Calculator Report";
-
-            String htmlContent = buildReportEmail(request);
-            emailService.sendEmail(request.email(), subject, htmlContent);
-
-            return ResponseEntity.ok(Map.of("status", "sent"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        }
-    }
-
-    private String buildReportEmail(FineCalculatorReportRequest request) {
-        boolean isEstonian = "et".equals(request.language());
-        NumberFormat formatter = NumberFormat.getInstance(new Locale("et", "EE"));
-
-        String companyTypeLabel = getCompanyTypeLabel(request.companyType(), isEstonian);
-        String riskLevelLabel = getRiskLevelLabel(request.riskLevel(), isEstonian);
-        String riskColor = getRiskColor(request.riskLevel());
-
-        return """
+    return """
             <!DOCTYPE html>
             <html>
             <head>
@@ -148,121 +149,143 @@ public class FineCalculatorController {
                 </div>
             </body>
             </html>
-            """.formatted(
-                riskColor, riskColor, riskColor, riskColor,
-                isEstonian ? "DORA Trahvikalkulaatori Raport" : "DORA Fine Calculator Report",
-                isEstonian ? "Teie potentsiaalne DORA trahv" : "Your Potential DORA Fine",
-                formatter.format(request.calculatedFineMax()),
-                isEstonian ? "Tõenäoline vahemik" : "Likely Range",
-                formatter.format(request.calculatedFineMin()),
-                formatter.format(request.calculatedFineMax()),
-                riskLevelLabel,
-                isEstonian ? "Ettevõtte andmed" : "Company Details",
-                isEstonian ? "Ettevõtte tüüp" : "Company Type", companyTypeLabel,
-                isEstonian ? "Aastakäive" : "Annual Revenue", formatter.format(request.revenue()),
-                isEstonian ? "Töötajate arv" : "Employees", request.employees().toString(),
-                isEstonian ? "Riik" : "Country", request.country(),
-                buildGapsSection(request.riskAnswers(), isEstonian),
-                isEstonian ? "Tee põhjalik DORA vastavuse hindamine" : "Take a comprehensive DORA compliance assessment",
-                isEstonian ? "Alusta hindamist" : "Start Assessment",
-                isEstonian ? "DORA vastavuse kontroll" : "DORA Compliance Check"
-            );
+            """
+        .formatted(
+            riskColor,
+            riskColor,
+            riskColor,
+            riskColor,
+            isEstonian ? "DORA Trahvikalkulaatori Raport" : "DORA Fine Calculator Report",
+            isEstonian ? "Teie potentsiaalne DORA trahv" : "Your Potential DORA Fine",
+            formatter.format(request.calculatedFineMax()),
+            isEstonian ? "Tõenäoline vahemik" : "Likely Range",
+            formatter.format(request.calculatedFineMin()),
+            formatter.format(request.calculatedFineMax()),
+            riskLevelLabel,
+            isEstonian ? "Ettevõtte andmed" : "Company Details",
+            isEstonian ? "Ettevõtte tüüp" : "Company Type",
+            companyTypeLabel,
+            isEstonian ? "Aastakäive" : "Annual Revenue",
+            formatter.format(request.revenue()),
+            isEstonian ? "Töötajate arv" : "Employees",
+            request.employees().toString(),
+            isEstonian ? "Riik" : "Country",
+            request.country(),
+            buildGapsSection(request.riskAnswers(), isEstonian),
+            isEstonian
+                ? "Tee põhjalik DORA vastavuse hindamine"
+                : "Take a comprehensive DORA compliance assessment",
+            isEstonian ? "Alusta hindamist" : "Start Assessment",
+            isEstonian ? "DORA vastavuse kontroll" : "DORA Compliance Check");
+  }
+
+  private String buildGapsSection(Map<String, Boolean> riskAnswers, boolean isEstonian) {
+    StringBuilder sb = new StringBuilder();
+    boolean hasGaps = false;
+
+    for (Map.Entry<String, Boolean> entry : riskAnswers.entrySet()) {
+      if (entry.getValue() != null && !entry.getValue()) {
+        hasGaps = true;
+        break;
+      }
     }
 
-    private String buildGapsSection(Map<String, Boolean> riskAnswers, boolean isEstonian) {
-        StringBuilder sb = new StringBuilder();
-        boolean hasGaps = false;
+    if (!hasGaps) return "";
 
-        for (Map.Entry<String, Boolean> entry : riskAnswers.entrySet()) {
-            if (entry.getValue() != null && !entry.getValue()) {
-                hasGaps = true;
-                break;
-            }
-        }
+    sb.append("<div class=\"section\">");
+    sb.append("<div class=\"section-title\">")
+        .append(isEstonian ? "Tuvastatud puudujäägid" : "Identified Gaps")
+        .append("</div>");
 
-        if (!hasGaps) return "";
-
-        sb.append("<div class=\"section\">");
-        sb.append("<div class=\"section-title\">").append(isEstonian ? "Tuvastatud puudujäägid" : "Identified Gaps").append("</div>");
-
-        if (riskAnswers.get("q1") != null && !riskAnswers.get("q1")) {
-            sb.append("<div class=\"gap-item\">").append(isEstonian
-                ? "Puuduv ICT riskijuhtimise raamistik (DORA Art. 6-16)"
-                : "Missing ICT risk management framework (DORA Art. 6-16)").append("</div>");
-        }
-        if (riskAnswers.get("q2") != null && !riskAnswers.get("q2")) {
-            sb.append("<div class=\"gap-item\">").append(isEstonian
-                ? "Puuduv intsidentide raporteerimise protsess (DORA Art. 17-23)"
-                : "Missing incident reporting process (DORA Art. 17-23)").append("</div>");
-        }
-        if (riskAnswers.get("q3") != null && !riskAnswers.get("q3")) {
-            sb.append("<div class=\"gap-item\">").append(isEstonian
-                ? "ICT lepingud ei vasta DORA Art. 30 nõuetele"
-                : "ICT contracts not compliant with DORA Art. 30").append("</div>");
-        }
-        if (riskAnswers.get("q4") != null && !riskAnswers.get("q4")) {
-            sb.append("<div class=\"gap-item\">").append(isEstonian
-                ? "Puuduv digitaalse vastupidavuse testimise programm (DORA Art. 24-27)"
-                : "Missing digital resilience testing program (DORA Art. 24-27)").append("</div>");
-        }
-
-        sb.append("</div>");
-        return sb.toString();
+    if (riskAnswers.get("q1") != null && !riskAnswers.get("q1")) {
+      sb.append("<div class=\"gap-item\">")
+          .append(
+              isEstonian
+                  ? "Puuduv ICT riskijuhtimise raamistik (DORA Art. 6-16)"
+                  : "Missing ICT risk management framework (DORA Art. 6-16)")
+          .append("</div>");
+    }
+    if (riskAnswers.get("q2") != null && !riskAnswers.get("q2")) {
+      sb.append("<div class=\"gap-item\">")
+          .append(
+              isEstonian
+                  ? "Puuduv intsidentide raporteerimise protsess (DORA Art. 17-23)"
+                  : "Missing incident reporting process (DORA Art. 17-23)")
+          .append("</div>");
+    }
+    if (riskAnswers.get("q3") != null && !riskAnswers.get("q3")) {
+      sb.append("<div class=\"gap-item\">")
+          .append(
+              isEstonian
+                  ? "ICT lepingud ei vasta DORA Art. 30 nõuetele"
+                  : "ICT contracts not compliant with DORA Art. 30")
+          .append("</div>");
+    }
+    if (riskAnswers.get("q4") != null && !riskAnswers.get("q4")) {
+      sb.append("<div class=\"gap-item\">")
+          .append(
+              isEstonian
+                  ? "Puuduv digitaalse vastupidavuse testimise programm (DORA Art. 24-27)"
+                  : "Missing digital resilience testing program (DORA Art. 24-27)")
+          .append("</div>");
     }
 
-    private String getCompanyTypeLabel(String type, boolean isEstonian) {
-        return switch (type) {
-            case "credit" -> isEstonian ? "Krediidiasutus (pank)" : "Credit Institution (Bank)";
-            case "investment" -> isEstonian ? "Investeerimisühing" : "Investment Firm";
-            case "payment" -> isEstonian ? "Makseasutus" : "Payment Institution";
-            case "insurance" -> isEstonian ? "Kindlustusandja" : "Insurance Company";
-            case "ict_provider" -> isEstonian ? "Kriitiline ICT teenusepakkuja" : "Critical ICT Service Provider";
-            case "other_financial" -> isEstonian ? "Muu finantsasutus" : "Other Financial Entity";
-            default -> type;
-        };
-    }
+    sb.append("</div>");
+    return sb.toString();
+  }
 
-    private String getRiskLevelLabel(String level, boolean isEstonian) {
-        return switch (level) {
-            case "critical" -> isEstonian ? "KRIITILINE RISK" : "CRITICAL RISK";
-            case "high" -> isEstonian ? "KÕRGE RISK" : "HIGH RISK";
-            case "medium" -> isEstonian ? "KESKMINE RISK" : "MEDIUM RISK";
-            case "low" -> isEstonian ? "MADAL RISK" : "LOW RISK";
-            default -> level;
-        };
-    }
+  private String getCompanyTypeLabel(String type, boolean isEstonian) {
+    return switch (type) {
+      case "credit" -> isEstonian ? "Krediidiasutus (pank)" : "Credit Institution (Bank)";
+      case "investment" -> isEstonian ? "Investeerimisühing" : "Investment Firm";
+      case "payment" -> isEstonian ? "Makseasutus" : "Payment Institution";
+      case "insurance" -> isEstonian ? "Kindlustusandja" : "Insurance Company";
+      case "ict_provider" ->
+          isEstonian ? "Kriitiline ICT teenusepakkuja" : "Critical ICT Service Provider";
+      case "other_financial" -> isEstonian ? "Muu finantsasutus" : "Other Financial Entity";
+      default -> type;
+    };
+  }
 
-    private String getRiskColor(String level) {
-        return switch (level) {
-            case "critical" -> "#ef4444";
-            case "high" -> "#f97316";
-            case "medium" -> "#eab308";
-            case "low" -> "#22c55e";
-            default -> "#64748b";
-        };
-    }
+  private String getRiskLevelLabel(String level, boolean isEstonian) {
+    return switch (level) {
+      case "critical" -> isEstonian ? "KRIITILINE RISK" : "CRITICAL RISK";
+      case "high" -> isEstonian ? "KÕRGE RISK" : "HIGH RISK";
+      case "medium" -> isEstonian ? "KESKMINE RISK" : "MEDIUM RISK";
+      case "low" -> isEstonian ? "MADAL RISK" : "LOW RISK";
+      default -> level;
+    };
+  }
 
-    record FineCalculatorRequest(
-        @jakarta.validation.constraints.Size(max = 50) String companyType,
-        Long revenue,
-        Integer employees,
-        @jakarta.validation.constraints.Size(max = 100) String country,
-        Map<String, Boolean> riskAnswers,
-        Long calculatedFineMin,
-        Long calculatedFineMax,
-        @jakarta.validation.constraints.Size(max = 20) String riskLevel
-    ) {}
+  private String getRiskColor(String level) {
+    return switch (level) {
+      case "critical" -> "#ef4444";
+      case "high" -> "#f97316";
+      case "medium" -> "#eab308";
+      case "low" -> "#22c55e";
+      default -> "#64748b";
+    };
+  }
 
-    record FineCalculatorReportRequest(
-        @jakarta.validation.constraints.Size(max = 255) String email,
-        @jakarta.validation.constraints.Size(max = 50) String companyType,
-        Long revenue,
-        Integer employees,
-        @jakarta.validation.constraints.Size(max = 100) String country,
-        Map<String, Boolean> riskAnswers,
-        Long calculatedFineMin,
-        Long calculatedFineMax,
-        @jakarta.validation.constraints.Size(max = 20) String riskLevel,
-        @jakarta.validation.constraints.Size(max = 5) String language
-    ) {}
+  record FineCalculatorRequest(
+      @jakarta.validation.constraints.Size(max = 50) String companyType,
+      Long revenue,
+      Integer employees,
+      @jakarta.validation.constraints.Size(max = 100) String country,
+      Map<String, Boolean> riskAnswers,
+      Long calculatedFineMin,
+      Long calculatedFineMax,
+      @jakarta.validation.constraints.Size(max = 20) String riskLevel) {}
+
+  record FineCalculatorReportRequest(
+      @jakarta.validation.constraints.Size(max = 255) String email,
+      @jakarta.validation.constraints.Size(max = 50) String companyType,
+      Long revenue,
+      Integer employees,
+      @jakarta.validation.constraints.Size(max = 100) String country,
+      Map<String, Boolean> riskAnswers,
+      Long calculatedFineMin,
+      Long calculatedFineMax,
+      @jakarta.validation.constraints.Size(max = 20) String riskLevel,
+      @jakarta.validation.constraints.Size(max = 5) String language) {}
 }

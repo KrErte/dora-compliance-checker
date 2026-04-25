@@ -7,129 +7,224 @@ import java.time.LocalDateTime;
 @Table(name = "gap_analyses")
 public class GapAnalysisEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
-    @Column(nullable = false)
-    private String userId;
+  @Column(nullable = false)
+  private String userId;
 
-    @Column(nullable = false)
-    private String documentTitle;
+  @Column(nullable = false)
+  private String documentTitle;
 
-    @Column(nullable = false)
-    private String fileName;
+  @Column(nullable = false)
+  private String fileName;
 
-    @Column(nullable = false)
-    private String documentCategory;
+  @Column(nullable = false)
+  private String documentCategory;
 
-    @Column(nullable = false)
-    private String articleNumbers;
+  @Column(nullable = false)
+  private String articleNumbers;
 
-    @Column(nullable = false)
-    private LocalDateTime analysisDate;
+  @Column(nullable = false)
+  private LocalDateTime analysisDate;
 
-    @Column(nullable = false)
-    private int totalRequirements;
+  @Column(nullable = false)
+  private int totalRequirements;
 
-    @Column(nullable = false)
-    private int foundCount;
+  @Column(nullable = false)
+  private int foundCount;
 
-    @Column(nullable = false)
-    private int missingCount;
+  @Column(nullable = false)
+  private int missingCount;
 
-    @Column(nullable = false)
-    private int partialCount;
+  @Column(nullable = false)
+  private int partialCount;
 
-    @Column(nullable = false)
-    private double scorePercentage;
+  @Column(nullable = false)
+  private double scorePercentage;
 
-    @Column(nullable = false)
-    private String complianceLevel;
+  @Column(nullable = false)
+  private String complianceLevel;
 
-    @Column(length = 3000)
-    private String summaryEt;
+  @Column(length = 3000)
+  private String summaryEt;
 
-    @Column(length = 3000)
-    private String summaryEn;
+  @Column(length = 3000)
+  private String summaryEn;
 
-    @Column(columnDefinition = "TEXT")
-    private String findingsJson;
+  @Column(columnDefinition = "TEXT")
+  private String findingsJson;
 
-    private String linkedEvidenceId;
+  private String linkedEvidenceId;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+  @Column(nullable = false)
+  private LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt;
+  private LocalDateTime updatedAt;
 
-    public GapAnalysisEntity() {}
+  public GapAnalysisEntity() {}
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
+  @PrePersist
+  protected void onCreate() {
+    createdAt = LocalDateTime.now();
+  }
 
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+  @PreUpdate
+  protected void onUpdate() {
+    updatedAt = LocalDateTime.now();
+  }
 
-    // Getters and setters
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+  // Getters and setters
+  public String getId() {
+    return id;
+  }
 
-    public String getUserId() { return userId; }
-    public void setUserId(String userId) { this.userId = userId; }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public String getDocumentTitle() { return documentTitle; }
-    public void setDocumentTitle(String documentTitle) { this.documentTitle = documentTitle; }
+  public String getUserId() {
+    return userId;
+  }
 
-    public String getFileName() { return fileName; }
-    public void setFileName(String fileName) { this.fileName = fileName; }
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
 
-    public String getDocumentCategory() { return documentCategory; }
-    public void setDocumentCategory(String documentCategory) { this.documentCategory = documentCategory; }
+  public String getDocumentTitle() {
+    return documentTitle;
+  }
 
-    public String getArticleNumbers() { return articleNumbers; }
-    public void setArticleNumbers(String articleNumbers) { this.articleNumbers = articleNumbers; }
+  public void setDocumentTitle(String documentTitle) {
+    this.documentTitle = documentTitle;
+  }
 
-    public LocalDateTime getAnalysisDate() { return analysisDate; }
-    public void setAnalysisDate(LocalDateTime analysisDate) { this.analysisDate = analysisDate; }
+  public String getFileName() {
+    return fileName;
+  }
 
-    public int getTotalRequirements() { return totalRequirements; }
-    public void setTotalRequirements(int totalRequirements) { this.totalRequirements = totalRequirements; }
+  public void setFileName(String fileName) {
+    this.fileName = fileName;
+  }
 
-    public int getFoundCount() { return foundCount; }
-    public void setFoundCount(int foundCount) { this.foundCount = foundCount; }
+  public String getDocumentCategory() {
+    return documentCategory;
+  }
 
-    public int getMissingCount() { return missingCount; }
-    public void setMissingCount(int missingCount) { this.missingCount = missingCount; }
+  public void setDocumentCategory(String documentCategory) {
+    this.documentCategory = documentCategory;
+  }
 
-    public int getPartialCount() { return partialCount; }
-    public void setPartialCount(int partialCount) { this.partialCount = partialCount; }
+  public String getArticleNumbers() {
+    return articleNumbers;
+  }
 
-    public double getScorePercentage() { return scorePercentage; }
-    public void setScorePercentage(double scorePercentage) { this.scorePercentage = scorePercentage; }
+  public void setArticleNumbers(String articleNumbers) {
+    this.articleNumbers = articleNumbers;
+  }
 
-    public String getComplianceLevel() { return complianceLevel; }
-    public void setComplianceLevel(String complianceLevel) { this.complianceLevel = complianceLevel; }
+  public LocalDateTime getAnalysisDate() {
+    return analysisDate;
+  }
 
-    public String getSummaryEt() { return summaryEt; }
-    public void setSummaryEt(String summaryEt) { this.summaryEt = summaryEt; }
+  public void setAnalysisDate(LocalDateTime analysisDate) {
+    this.analysisDate = analysisDate;
+  }
 
-    public String getSummaryEn() { return summaryEn; }
-    public void setSummaryEn(String summaryEn) { this.summaryEn = summaryEn; }
+  public int getTotalRequirements() {
+    return totalRequirements;
+  }
 
-    public String getFindingsJson() { return findingsJson; }
-    public void setFindingsJson(String findingsJson) { this.findingsJson = findingsJson; }
+  public void setTotalRequirements(int totalRequirements) {
+    this.totalRequirements = totalRequirements;
+  }
 
-    public String getLinkedEvidenceId() { return linkedEvidenceId; }
-    public void setLinkedEvidenceId(String linkedEvidenceId) { this.linkedEvidenceId = linkedEvidenceId; }
+  public int getFoundCount() {
+    return foundCount;
+  }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+  public void setFoundCount(int foundCount) {
+    this.foundCount = foundCount;
+  }
 
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+  public int getMissingCount() {
+    return missingCount;
+  }
+
+  public void setMissingCount(int missingCount) {
+    this.missingCount = missingCount;
+  }
+
+  public int getPartialCount() {
+    return partialCount;
+  }
+
+  public void setPartialCount(int partialCount) {
+    this.partialCount = partialCount;
+  }
+
+  public double getScorePercentage() {
+    return scorePercentage;
+  }
+
+  public void setScorePercentage(double scorePercentage) {
+    this.scorePercentage = scorePercentage;
+  }
+
+  public String getComplianceLevel() {
+    return complianceLevel;
+  }
+
+  public void setComplianceLevel(String complianceLevel) {
+    this.complianceLevel = complianceLevel;
+  }
+
+  public String getSummaryEt() {
+    return summaryEt;
+  }
+
+  public void setSummaryEt(String summaryEt) {
+    this.summaryEt = summaryEt;
+  }
+
+  public String getSummaryEn() {
+    return summaryEn;
+  }
+
+  public void setSummaryEn(String summaryEn) {
+    this.summaryEn = summaryEn;
+  }
+
+  public String getFindingsJson() {
+    return findingsJson;
+  }
+
+  public void setFindingsJson(String findingsJson) {
+    this.findingsJson = findingsJson;
+  }
+
+  public String getLinkedEvidenceId() {
+    return linkedEvidenceId;
+  }
+
+  public void setLinkedEvidenceId(String linkedEvidenceId) {
+    this.linkedEvidenceId = linkedEvidenceId;
+  }
+
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(LocalDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public LocalDateTime getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(LocalDateTime updatedAt) {
+    this.updatedAt = updatedAt;
+  }
 }

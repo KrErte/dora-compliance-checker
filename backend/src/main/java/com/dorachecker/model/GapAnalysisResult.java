@@ -22,17 +22,15 @@ public record GapAnalysisResult(
     List<GapFinding> findings,
     String linkedEvidenceId,
     LocalDateTime createdAt,
-    LocalDateTime updatedAt
-) {
-    public record GapFinding(
-        int requirementId,
-        String articleNumber,
-        String subRequirementEt,
-        String subRequirementEn,
-        String status,
-        String quoteFromDocument,
-        String recommendationEt,
-        String recommendationEn,
-        String doraReference
-    ) {}
+    LocalDateTime updatedAt) {
+  public record GapFinding(
+      int requirementId,
+      String articleNumber,
+      String subRequirementEt,
+      String subRequirementEn,
+      String status,
+      String quoteFromDocument,
+      String recommendationEt,
+      String recommendationEn,
+      String doraReference) {}
 }

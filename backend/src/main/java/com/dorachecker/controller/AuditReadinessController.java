@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/audit-readiness")
 public class AuditReadinessController {
 
-    private final AuditReadinessService auditReadinessService;
+  private final AuditReadinessService auditReadinessService;
 
-    public AuditReadinessController(AuditReadinessService auditReadinessService) {
-        this.auditReadinessService = auditReadinessService;
-    }
+  public AuditReadinessController(AuditReadinessService auditReadinessService) {
+    this.auditReadinessService = auditReadinessService;
+  }
 
-    @GetMapping
-    public ResponseEntity<?> getReadinessScore(Authentication auth) {
-        String userId = (String) auth.getPrincipal();
-        return ResponseEntity.ok(auditReadinessService.getReadinessScore(userId));
-    }
+  @GetMapping
+  public ResponseEntity<?> getReadinessScore(Authentication auth) {
+    String userId = (String) auth.getPrincipal();
+    return ResponseEntity.ok(auditReadinessService.getReadinessScore(userId));
+  }
 }

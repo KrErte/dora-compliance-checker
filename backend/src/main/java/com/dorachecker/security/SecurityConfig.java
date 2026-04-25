@@ -17,72 +17,113 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtFilter;
-    private final CorsConfigurationSource corsConfigurationSource;
+  private final JwtAuthenticationFilter jwtFilter;
+  private final CorsConfigurationSource corsConfigurationSource;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtFilter, CorsConfigurationSource corsConfigurationSource) {
-        this.jwtFilter = jwtFilter;
-        this.corsConfigurationSource = corsConfigurationSource;
-    }
+  public SecurityConfig(
+      JwtAuthenticationFilter jwtFilter, CorsConfigurationSource corsConfigurationSource) {
+    this.jwtFilter = jwtFilter;
+    this.corsConfigurationSource = corsConfigurationSource;
+  }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource))
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/actuator/health", "/actuator/info").permitAll()
-                .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/api-docs/**", "/v3/api-docs/**").permitAll()
-                // Free tier - contract analysis and assessment without login
-                .requestMatchers("/api/sample/**").permitAll()
-                .requestMatchers("/api/contracts/analyze").permitAll()
-                .requestMatchers("/api/contracts/*").permitAll()
-                .requestMatchers("/api/questions").permitAll()
-                .requestMatchers("/api/assessments/**").permitAll()
-                .requestMatchers("/api/contact").permitAll()
-                .requestMatchers("/api/regulations/**").permitAll()
-                .requestMatchers("/api/v2/**").permitAll()
-                .requestMatchers("/api/emtak/**").permitAll()
-                .requestMatchers("/api/company/**").permitAll()
-                .requestMatchers("/api/companies/admin/**").hasRole("ADMIN")
-                .requestMatchers("/api/companies/**").permitAll()
-                .requestMatchers("/api/ariregister/**").permitAll()
-                .requestMatchers("/api/stats/**").permitAll()
-                .requestMatchers("/api/early-adopter/**").permitAll()
-                .requestMatchers("/api/subscribe/**").permitAll()
-                .requestMatchers("/api/public/**").permitAll()
-                .requestMatchers("/api/fine-calculator/**").permitAll()
-                .requestMatchers("/api/workspace/checklists").permitAll()
-                .requestMatchers("/api/subscription/status").permitAll()
-                .requestMatchers("/api/subscription/check/**").permitAll()
-                .requestMatchers("/api/exports/**").permitAll()
-                .requestMatchers("/api/webhooks/**").permitAll()
-                .requestMatchers("/api/benchmarks/**").permitAll()
-                .requestMatchers("/api/global-providers/**").permitAll()
-                .requestMatchers("/api/branding/logo").permitAll()
-                .requestMatchers("/api/tenant-branding/public/**").permitAll()
-                .requestMatchers("/api/roi/gleif/**").permitAll()
-                .requestMatchers("/api/proportionality/entity-types").permitAll()
-                .requestMatchers("/api/chat/**").permitAll()
-                // AI Act public classifier - no auth required
-                .requestMatchers("/api/public/ai-act/**").permitAll()
-                .requestMatchers("/api/bulk-import/**").authenticated()
-                .requestMatchers("/api/guardian/regulatory-updates").hasRole("ADMIN")
-                .requestMatchers("/api/regulatory-impact/admin").hasRole("ADMIN")
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .requestMatchers("/api/**").authenticated()
-                .anyRequest().authenticated()
-            )
-            .headers(headers -> headers.frameOptions(fo -> fo.sameOrigin()))
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http.cors(cors -> cors.configurationSource(corsConfigurationSource))
+        .csrf(csrf -> csrf.disable())
+        .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(
+            auth ->
+                auth.requestMatchers("/api/auth/**")
+                    .permitAll()
+                    .requestMatchers("/actuator/health", "/actuator/info")
+                    .permitAll()
+                    .requestMatchers(
+                        "/swagger-ui/**", "/swagger-ui.html", "/api-docs/**", "/v3/api-docs/**")
+                    .permitAll()
+                    // Free tier - contract analysis and assessment without login
+                    .requestMatchers("/api/sample/**")
+                    .permitAll()
+                    .requestMatchers("/api/contracts/analyze")
+                    .permitAll()
+                    .requestMatchers("/api/contracts/*")
+                    .permitAll()
+                    .requestMatchers("/api/questions")
+                    .permitAll()
+                    .requestMatchers("/api/assessments/**")
+                    .permitAll()
+                    .requestMatchers("/api/contact")
+                    .permitAll()
+                    .requestMatchers("/api/regulations/**")
+                    .permitAll()
+                    .requestMatchers("/api/v2/**")
+                    .permitAll()
+                    .requestMatchers("/api/emtak/**")
+                    .permitAll()
+                    .requestMatchers("/api/company/**")
+                    .permitAll()
+                    .requestMatchers("/api/companies/admin/**")
+                    .hasRole("ADMIN")
+                    .requestMatchers("/api/companies/**")
+                    .permitAll()
+                    .requestMatchers("/api/ariregister/**")
+                    .permitAll()
+                    .requestMatchers("/api/stats/**")
+                    .permitAll()
+                    .requestMatchers("/api/early-adopter/**")
+                    .permitAll()
+                    .requestMatchers("/api/subscribe/**")
+                    .permitAll()
+                    .requestMatchers("/api/public/**")
+                    .permitAll()
+                    .requestMatchers("/api/fine-calculator/**")
+                    .permitAll()
+                    .requestMatchers("/api/workspace/checklists")
+                    .permitAll()
+                    .requestMatchers("/api/subscription/status")
+                    .permitAll()
+                    .requestMatchers("/api/subscription/check/**")
+                    .permitAll()
+                    .requestMatchers("/api/exports/**")
+                    .permitAll()
+                    .requestMatchers("/api/webhooks/**")
+                    .permitAll()
+                    .requestMatchers("/api/benchmarks/**")
+                    .permitAll()
+                    .requestMatchers("/api/global-providers/**")
+                    .permitAll()
+                    .requestMatchers("/api/branding/logo")
+                    .permitAll()
+                    .requestMatchers("/api/tenant-branding/public/**")
+                    .permitAll()
+                    .requestMatchers("/api/roi/gleif/**")
+                    .permitAll()
+                    .requestMatchers("/api/proportionality/entity-types")
+                    .permitAll()
+                    .requestMatchers("/api/chat/**")
+                    .permitAll()
+                    // AI Act public classifier - no auth required
+                    .requestMatchers("/api/public/ai-act/**")
+                    .permitAll()
+                    .requestMatchers("/api/bulk-import/**")
+                    .authenticated()
+                    .requestMatchers("/api/guardian/regulatory-updates")
+                    .hasRole("ADMIN")
+                    .requestMatchers("/api/regulatory-impact/admin")
+                    .hasRole("ADMIN")
+                    .requestMatchers("/api/admin/**")
+                    .hasRole("ADMIN")
+                    .requestMatchers("/api/**")
+                    .authenticated()
+                    .anyRequest()
+                    .authenticated())
+        .headers(headers -> headers.frameOptions(fo -> fo.sameOrigin()))
+        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+    return http.build();
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 }

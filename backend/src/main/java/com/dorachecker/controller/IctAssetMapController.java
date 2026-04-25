@@ -1,112 +1,88 @@
 package com.dorachecker.controller;
 
 import com.dorachecker.service.IctAssetMapService;
+import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/ict-asset-map")
 public class IctAssetMapController {
 
-    private final IctAssetMapService assetMapService;
+  private final IctAssetMapService assetMapService;
 
-    public IctAssetMapController(IctAssetMapService assetMapService) {
-        this.assetMapService = assetMapService;
-    }
+  public IctAssetMapController(IctAssetMapService assetMapService) {
+    this.assetMapService = assetMapService;
+  }
 
-    private String getUserId(Authentication auth) {
-        return (String) auth.getPrincipal();
-    }
+  private String getUserId(Authentication auth) {
+    return (String) auth.getPrincipal();
+  }
 
-    /**
-     * Get the full dependency map: business functions -> ICT assets -> providers
-     */
-    @GetMapping
-    public ResponseEntity<Map<String, Object>> getDependencyMap(Authentication auth) {
-        return ResponseEntity.ok(assetMapService.getDependencyMap(getUserId(auth)));
-    }
+  /** Get the full dependency map: business functions -> ICT assets -> providers */
+  @GetMapping
+  public ResponseEntity<Map<String, Object>> getDependencyMap(Authentication auth) {
+    return ResponseEntity.ok(assetMapService.getDependencyMap(getUserId(auth)));
+  }
 
-    /**
-     * Add a business function
-     */
-    @PostMapping("/functions")
-    public ResponseEntity<Map<String, Object>> addFunction(
-            Authentication auth,
-            @RequestBody Map<String, Object> body) {
-        Map<String, Object> result = assetMapService.addBusinessFunction(getUserId(auth), body);
-        if (result.containsKey("error")) {
-            return ResponseEntity.badRequest().body(result);
-        }
-        return ResponseEntity.ok(result);
+  /** Add a business function */
+  @PostMapping("/functions")
+  public ResponseEntity<Map<String, Object>> addFunction(
+      Authentication auth, @RequestBody Map<String, Object> body) {
+    Map<String, Object> result = assetMapService.addBusinessFunction(getUserId(auth), body);
+    if (result.containsKey("error")) {
+      return ResponseEntity.badRequest().body(result);
     }
+    return ResponseEntity.ok(result);
+  }
 
-    /**
-     * Add an ICT asset
-     */
-    @PostMapping("/assets")
-    public ResponseEntity<Map<String, Object>> addAsset(
-            Authentication auth,
-            @RequestBody Map<String, Object> body) {
-        Map<String, Object> result = assetMapService.addIctAsset(getUserId(auth), body);
-        if (result.containsKey("error")) {
-            return ResponseEntity.badRequest().body(result);
-        }
-        return ResponseEntity.ok(result);
+  /** Add an ICT asset */
+  @PostMapping("/assets")
+  public ResponseEntity<Map<String, Object>> addAsset(
+      Authentication auth, @RequestBody Map<String, Object> body) {
+    Map<String, Object> result = assetMapService.addIctAsset(getUserId(auth), body);
+    if (result.containsKey("error")) {
+      return ResponseEntity.badRequest().body(result);
     }
+    return ResponseEntity.ok(result);
+  }
 
-    /**
-     * Link an asset to a function
-     */
-    @PostMapping("/links")
-    public ResponseEntity<Map<String, Object>> addLink(
-            Authentication auth,
-            @RequestBody Map<String, Object> body) {
-        Map<String, Object> result = assetMapService.addLink(getUserId(auth), body);
-        if (result.containsKey("error")) {
-            return ResponseEntity.badRequest().body(result);
-        }
-        return ResponseEntity.ok(result);
+  /** Link an asset to a function */
+  @PostMapping("/links")
+  public ResponseEntity<Map<String, Object>> addLink(
+      Authentication auth, @RequestBody Map<String, Object> body) {
+    Map<String, Object> result = assetMapService.addLink(getUserId(auth), body);
+    if (result.containsKey("error")) {
+      return ResponseEntity.badRequest().body(result);
     }
+    return ResponseEntity.ok(result);
+  }
 
-    /**
-     * Delete a business function
-     */
-    @DeleteMapping("/functions/{functionId}")
-    public ResponseEntity<Map<String, Object>> deleteFunction(
-            Authentication auth,
-            @PathVariable String functionId) {
-        return ResponseEntity.ok(assetMapService.deleteBusinessFunction(getUserId(auth), functionId));
-    }
+  /** Delete a business function */
+  @DeleteMapping("/functions/{functionId}")
+  public ResponseEntity<Map<String, Object>> deleteFunction(
+      Authentication auth, @PathVariable String functionId) {
+    return ResponseEntity.ok(assetMapService.deleteBusinessFunction(getUserId(auth), functionId));
+  }
 
-    /**
-     * Delete an ICT asset
-     */
-    @DeleteMapping("/assets/{assetId}")
-    public ResponseEntity<Map<String, Object>> deleteAsset(
-            Authentication auth,
-            @PathVariable String assetId) {
-        return ResponseEntity.ok(assetMapService.deleteIctAsset(getUserId(auth), assetId));
-    }
+  /** Delete an ICT asset */
+  @DeleteMapping("/assets/{assetId}")
+  public ResponseEntity<Map<String, Object>> deleteAsset(
+      Authentication auth, @PathVariable String assetId) {
+    return ResponseEntity.ok(assetMapService.deleteIctAsset(getUserId(auth), assetId));
+  }
 
-    /**
-     * Remove a link
-     */
-    @DeleteMapping("/links/{linkId}")
-    public ResponseEntity<Map<String, Object>> deleteLink(
-            Authentication auth,
-            @PathVariable String linkId) {
-        return ResponseEntity.ok(assetMapService.deleteLink(getUserId(auth), linkId));
-    }
+  /** Remove a link */
+  @DeleteMapping("/links/{linkId}")
+  public ResponseEntity<Map<String, Object>> deleteLink(
+      Authentication auth, @PathVariable String linkId) {
+    return ResponseEntity.ok(assetMapService.deleteLink(getUserId(auth), linkId));
+  }
 
-    /**
-     * Get risk analysis for the dependency map — single points of failure, concentration risks
-     */
-    @GetMapping("/risk-analysis")
-    public ResponseEntity<Map<String, Object>> getRiskAnalysis(Authentication auth) {
-        return ResponseEntity.ok(assetMapService.analyzeRisks(getUserId(auth)));
-    }
+  /** Get risk analysis for the dependency map — single points of failure, concentration risks */
+  @GetMapping("/risk-analysis")
+  public ResponseEntity<Map<String, Object>> getRiskAnalysis(Authentication auth) {
+    return ResponseEntity.ok(assetMapService.analyzeRisks(getUserId(auth)));
+  }
 }
