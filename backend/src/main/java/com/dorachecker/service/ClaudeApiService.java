@@ -11,11 +11,16 @@ import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ClaudeApiService {
+
+  private static final Logger log = LoggerFactory.getLogger(ClaudeApiService.class);
 
   @Value("${anthropic.api.key:}")
   private String apiKey;
@@ -26,6 +31,12 @@ public class ClaudeApiService {
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final HttpClient httpClient =
       HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(30)).build();
+
+  // Circuit breaker state
+  private static final int FAILURE_THRESHOLD = 5;
+  private static final long CIRCUIT_OPEN_DURATION_MS = 60_000;
+  private final AtomicInteger consecutiveFailures = new AtomicInteger(0);
+  private volatile long circuitOpenUntil = 0;
 
   /**
    * Generate negotiation strategy for contract gaps. Returns raw JSON string with overallStrategy +
@@ -196,6 +207,7 @@ public class ClaudeApiService {
     if (apiKey == null || apiKey.isBlank()) {
       throw new IllegalStateException("Anthropic API key is not configured.");
     }
+    checkCircuitBreaker();
 
     try {
       Map<String, Object> body = new LinkedHashMap<>();
@@ -219,10 +231,12 @@ public class ClaudeApiService {
       HttpResponse<String> response =
           httpClient.send(request, HttpResponse.BodyHandlers.ofString());
       if (response.statusCode() != 200) {
+        recordFailure();
         throw new RuntimeException(
             "Chat API error (HTTP " + response.statusCode() + "): " + response.body());
       }
 
+      recordSuccess();
       var root = objectMapper.readTree(response.body());
       var content = root.get("content");
       if (content == null || !content.isArray() || content.isEmpty()) {
@@ -232,6 +246,7 @@ public class ClaudeApiService {
     } catch (RuntimeException e) {
       throw e;
     } catch (Exception e) {
+      recordFailure();
       throw new RuntimeException("Chat API call failed: " + e.getMessage(), e);
     }
   }
@@ -240,8 +255,10 @@ public class ClaudeApiService {
   private static final java.util.Set<Integer> RETRYABLE_STATUS_CODES =
       java.util.Set.of(429, 500, 502, 503);
 
-  /** Shared API call method with exponential backoff retry. */
+  /** Shared API call method with exponential backoff retry and circuit breaker. */
   private String callApi(String prompt, int maxTokens) {
+    checkCircuitBreaker();
+
     String requestBody;
     try {
       requestBody =
@@ -273,6 +290,7 @@ public class ClaudeApiService {
             httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() == 200) {
+          recordSuccess();
           return parseApiResponse(response.body());
         }
 
@@ -281,6 +299,7 @@ public class ClaudeApiService {
           continue;
         }
 
+        recordFailure();
         throw new RuntimeException(
             "Anthropic API viga (HTTP " + response.statusCode() + "): " + response.body());
 
@@ -289,16 +308,46 @@ public class ClaudeApiService {
         throw new RuntimeException("API päring katkestati", e);
       } catch (RuntimeException e) {
         lastException = e;
-        if (attempt >= MAX_RETRIES) throw e;
+        if (attempt >= MAX_RETRIES) {
+          recordFailure();
+          throw e;
+        }
       } catch (Exception e) {
         lastException = e;
         if (attempt >= MAX_RETRIES) {
+          recordFailure();
           throw new RuntimeException("API päring ebaõnnestus: " + e.getMessage(), e);
         }
       }
     }
+    recordFailure();
     throw new RuntimeException(
         "API päring ebaõnnestus pärast " + MAX_RETRIES + " katset", lastException);
+  }
+
+  private void checkCircuitBreaker() {
+    if (System.currentTimeMillis() < circuitOpenUntil) {
+      throw new RuntimeException(
+          "Claude API circuit breaker is open — service temporarily unavailable. Retry after "
+              + ((circuitOpenUntil - System.currentTimeMillis()) / 1000)
+              + "s.");
+    }
+  }
+
+  private void recordSuccess() {
+    consecutiveFailures.set(0);
+  }
+
+  private void recordFailure() {
+    int failures = consecutiveFailures.incrementAndGet();
+    if (failures >= FAILURE_THRESHOLD) {
+      circuitOpenUntil = System.currentTimeMillis() + CIRCUIT_OPEN_DURATION_MS;
+      consecutiveFailures.set(0);
+      log.warn(
+          "Circuit breaker OPEN after {} consecutive failures. Blocking requests for {}s.",
+          FAILURE_THRESHOLD,
+          CIRCUIT_OPEN_DURATION_MS / 1000);
+    }
   }
 
   private String parseApiResponse(String body) {
