@@ -140,7 +140,6 @@ export class ToolsHubComponent {
         { icon: '\u26A0\uFE0F', titleEt: 'Regulatiivsed hoiatused', titleEn: 'Regulatory Alerts', descEt: 'Personaalsed vastavushoiatused', descEn: 'Personalized compliance alerts', link: '/alerts' },
         { icon: '\u{1F4E1}', titleEt: 'Regulatiivne radar', titleEn: 'Regulatory Radar', descEt: 'Regulatiivse muutuste j\u00e4lgimine', descEn: 'Live regulatory change feed', link: '/regulatory-radar' },
         { icon: '\u{1F50D}', titleEt: 'Kolmanda osapoole monitor', titleEn: 'Third-Party Monitor', descEt: 'Tarnijate riski monitooring', descEn: 'Vendor risk monitoring dashboard', link: '/third-party-monitor' },
-        { icon: '\u{1F4C8}', titleEt: 'Vastavuse prognoos', titleEn: 'Compliance Forecast', descEt: 'Vastavuse aegumise ennustamine', descEn: 'Predict compliance decay over time', link: '/compliance-forecast' },
         { icon: '\u{1F4F1}', titleEt: 'Teavituskeskus', titleEn: 'Notification Center', descEt: 'K\u00f5ik teavitused \u00fches kohas', descEn: 'All notifications in one place', link: '/notifications' },
       ]
     },

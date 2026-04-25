@@ -661,18 +661,6 @@ const coreRoutes: Routes = [
     data: { seoTitle: 'Third-Party Risk Monitor', seoDescription: 'Live ICT third-party risk monitoring dashboard. Track vendor risk scores, concentration risks, and compliance dimensions.' }
   },
   {
-    path: 'compliance-forecast',
-    loadComponent: () => import('./pages/compliance-forecast.component').then(m => m.ComplianceForecastComponent),
-    canActivate: [authGuard],
-    data: { seoTitle: 'Compliance Decay Predictor', seoDescription: 'Predict compliance decay with health score forecasting. Track evidence expiry, remediation deadlines, and contract renewals.' }
-  },
-  {
-    path: 'incident-war-room/:id',
-    loadComponent: () => import('./pages/incident-war-room.component').then(m => m.IncidentWarRoomComponent),
-    canActivate: [authGuard],
-    data: { seoTitle: 'Incident War Room', seoDescription: 'Real-time incident response war room with countdown timers, phase management, communication logs, and decision tracking.' }
-  },
-  {
     path: 'regulator-portal',
     loadComponent: () => import('./pages/regulator-portal.component').then(m => m.RegulatorPortalComponent),
     canActivate: [authGuard],

@@ -642,34 +642,6 @@ export class ApiService {
     return this.http.get<any>(`${this.baseUrl}/third-party-monitor/concentration`);
   }
 
-  // ─── Compliance Forecast (Decay Predictor) ────────
-  getComplianceForecast(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/compliance-forecast`);
-  }
-  getComplianceHealthScore(days: number = 30): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/compliance-forecast/health-score?days=${days}`);
-  }
-
-  // ─── War Room ─────────────────────────────────────
-  activateWarRoom(incidentId: string): Observable<IncidentReport> {
-    return this.http.post<IncidentReport>(`${this.baseUrl}/incidents/${incidentId}/war-room/activate`, {});
-  }
-  closeWarRoom(incidentId: string): Observable<IncidentReport> {
-    return this.http.post<IncidentReport>(`${this.baseUrl}/incidents/${incidentId}/war-room/close`, {});
-  }
-  addWarRoomCommunication(incidentId: string, entry: any): Observable<IncidentReport> {
-    return this.http.post<IncidentReport>(`${this.baseUrl}/incidents/${incidentId}/war-room/communication`, entry);
-  }
-  addWarRoomDecision(incidentId: string, entry: any): Observable<IncidentReport> {
-    return this.http.post<IncidentReport>(`${this.baseUrl}/incidents/${incidentId}/war-room/decision`, entry);
-  }
-  updateWarRoomPhase(incidentId: string, phase: string): Observable<IncidentReport> {
-    return this.http.put<IncidentReport>(`${this.baseUrl}/incidents/${incidentId}/war-room/phase`, { phase });
-  }
-  updateWarRoomRoles(incidentId: string, roles: any): Observable<IncidentReport> {
-    return this.http.put<IncidentReport>(`${this.baseUrl}/incidents/${incidentId}/war-room/roles`, { roles });
-  }
-
   // ─── Board Package ────────────────────────────────
   getBoardPackageData(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/exports/board-package/data`);

@@ -733,7 +733,6 @@ export class AppComponent implements OnInit, OnDestroy {
     '/bulk-import': { et: 'Hulgiimport | DoraAudit.eu', en: 'Bulk Import | DoraAudit.eu' },
     '/regulatory-radar': { et: 'Regulatiivne Radar | DoraAudit.eu', en: 'Regulatory Radar | DoraAudit.eu' },
     '/third-party-monitor': { et: 'Kolmanda Osapoole Monitor | DoraAudit.eu', en: 'Third-Party Monitor | DoraAudit.eu' },
-    '/compliance-forecast': { et: 'Vastavuse Prognoos | DoraAudit.eu', en: 'Compliance Forecast | DoraAudit.eu' },
     '/clause-rewriter': { et: 'Klausli Ümberkirjutaja | DoraAudit.eu', en: 'Clause Rewriter | DoraAudit.eu' },
     '/incident-war-room': { et: 'Intsidendi Sõjaruum | DoraAudit.eu', en: 'Incident War Room | DoraAudit.eu' },
     '/regulator-portal': { et: 'Regulaatori Portaal | DoraAudit.eu', en: 'Regulator Portal | DoraAudit.eu' },

@@ -927,9 +927,9 @@ export class ResultsComponent implements OnInit {
   weakPillarRecommendations: { icon: string; label: string; pillarLabel: string; percentage: number; route: string }[] = [];
 
   doraPillars: { id: string; icon: string; labelKey: string; percentage: number; route: string; ctaKey: string }[] = [
-    { id: 'ICT_RISK_MANAGEMENT', icon: '\u{1F6E1}\uFE0F', labelKey: 'dashboard.pillar_risk', percentage: 0, route: '/compliance-forecast', ctaKey: 'results.pillar_cta_risk' },
+    { id: 'ICT_RISK_MANAGEMENT', icon: '\u{1F6E1}\uFE0F', labelKey: 'dashboard.pillar_risk', percentage: 0, route: '/gap-analysis', ctaKey: 'results.pillar_cta_risk' },
     { id: 'INCIDENT_MANAGEMENT', icon: '\u{1F4CB}', labelKey: 'dashboard.pillar_incidents', percentage: 0, route: '/incident-reporting', ctaKey: 'results.pillar_cta_incidents' },
-    { id: 'TESTING', icon: '\u{1F50D}', labelKey: 'dashboard.pillar_testing', percentage: 0, route: '/compliance-forecast', ctaKey: 'results.pillar_cta_testing' },
+    { id: 'TESTING', icon: '\u{1F50D}', labelKey: 'dashboard.pillar_testing', percentage: 0, route: '/gap-analysis', ctaKey: 'results.pillar_cta_testing' },
     { id: 'THIRD_PARTY', icon: '\u{1F91D}', labelKey: 'dashboard.pillar_third_party', percentage: 0, route: '/third-party-monitor', ctaKey: 'results.pillar_cta_third_party' },
     { id: 'INFORMATION_SHARING', icon: '\u{1F4E1}', labelKey: 'dashboard.pillar_info', percentage: 0, route: '/regulatory-radar', ctaKey: 'results.pillar_cta_info' }
   ];

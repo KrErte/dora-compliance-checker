@@ -69,8 +69,6 @@ public class SecurityConfig {
                     .permitAll()
                     .requestMatchers("/api/stats/**")
                     .permitAll()
-                    .requestMatchers("/api/early-adopter/**")
-                    .permitAll()
                     .requestMatchers("/api/subscribe/**")
                     .permitAll()
                     .requestMatchers("/api/public/**")
