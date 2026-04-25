@@ -24,7 +24,7 @@ import org.springframework.web.client.RestTemplate;
  * Register
  */
 @Service
-public class IctProviderCrawlerService {
+public class IctProviderCrawlerService implements CrawlSource {
 
   private static final Logger log = LoggerFactory.getLogger(IctProviderCrawlerService.class);
 
@@ -2086,5 +2086,22 @@ public class IctProviderCrawlerService {
     stats.put("googleEnabled", googleSearchEnabled);
     stats.put("ebaCtppEnabled", ebaCtppEnabled);
     return stats;
+  }
+
+  // CrawlSource interface
+
+  @Override
+  public String getName() {
+    return "ict-providers";
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return crawlerEnabled;
+  }
+
+  @Override
+  public Map<String, Object> execute() {
+    return runManualCrawl();
   }
 }

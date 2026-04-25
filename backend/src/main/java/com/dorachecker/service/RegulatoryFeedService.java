@@ -11,6 +11,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +19,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RegulatoryFeedService {
+public class RegulatoryFeedService implements CrawlSource {
 
   private static final Logger log = LoggerFactory.getLogger(RegulatoryFeedService.class);
 
@@ -329,5 +330,24 @@ public class RegulatoryFeedService {
   private String truncate(String text, int maxLength) {
     if (text == null) return "";
     return text.length() <= maxLength ? text : text.substring(0, maxLength) + "...";
+  }
+
+  // CrawlSource interface
+
+  @Override
+  public String getName() {
+    return "regulatory-feeds";
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return feedEnabled;
+  }
+
+  @Override
+  public Map<String, Object> execute() {
+    checkRegulatoryFeeds();
+    long total = updateRepository.count();
+    return Map.of("source", getName(), "status", "COMPLETED", "totalUpdates", total);
   }
 }

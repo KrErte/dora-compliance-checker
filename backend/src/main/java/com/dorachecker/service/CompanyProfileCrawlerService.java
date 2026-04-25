@@ -39,7 +39,7 @@ import org.springframework.web.client.RestTemplate;
  * Registry (Äriregister) - company details 3. Domain security checks - SSL, headers, DNS
  */
 @Service
-public class CompanyProfileCrawlerService {
+public class CompanyProfileCrawlerService implements CrawlSource {
 
   private static final Logger log = LoggerFactory.getLogger(CompanyProfileCrawlerService.class);
 
@@ -848,5 +848,24 @@ public class CompanyProfileCrawlerService {
     stats.put("lastCrawlNew", newCount.get());
     stats.put("lastCrawlUpdated", updatedCount.get());
     return stats;
+  }
+
+  // ========================================================================
+  // CrawlSource interface
+  // ========================================================================
+
+  @Override
+  public String getName() {
+    return "company-profiles";
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return crawlerEnabled;
+  }
+
+  @Override
+  public Map<String, Object> execute() {
+    return runFullCrawl();
   }
 }
