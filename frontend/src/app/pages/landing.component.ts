@@ -735,6 +735,11 @@ interface DoraRequirement {
       transition: all 0.3s ease;
       animation: fadeInUp 0.6s ease-out both;
     }
+    :host-context(.light) .how-it-works-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: rgba(100, 116, 139, 0.2);
+      box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    }
     .how-it-works-card:hover {
       border-color: rgba(0, 212, 170, 0.4);
       box-shadow: 0 0 24px rgba(0, 212, 170, 0.08);

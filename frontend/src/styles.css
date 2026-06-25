@@ -130,6 +130,12 @@ html:not(.dark) .shadow-xl.shadow-black\/30 {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
 }
 
+html:not(.dark) .how-it-works-card {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(100, 116, 139, 0.2) !important;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.07) !important;
+}
+
 html:not(.dark) .gradient-mesh {
   background:
     radial-gradient(ellipse at 20% 50%, rgba(52, 211, 153, 0.05) 0%, transparent 50%),
