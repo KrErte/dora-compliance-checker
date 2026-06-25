@@ -6,6 +6,7 @@ import { Title } from '@angular/platform-browser';
 import { LangService } from '../lang.service';
 import { ApiService } from '../api.service';
 import { TrackingService } from '../tracking.service';
+import { ThemeService } from '../services/theme.service';
 import { Subject } from 'rxjs';
 
 interface DoraRequirement {
@@ -112,7 +113,11 @@ interface DoraRequirement {
           <div class="how-it-works-grid">
             <ng-container *ngFor="let step of steps; let i = index; let last = last">
               <!-- Step card -->
-              <div class="how-it-works-card group" [style.animation-delay]="i * 150 + 'ms'">
+              <div class="how-it-works-card group" [style.animation-delay]="i * 150 + 'ms'"
+                   [style.background]="themeService.isDark() ? 'rgba(15,23,42,0.6)' : 'rgba(255,255,255,0.95)'"
+                   [style.border-color]="themeService.isDark() ? 'rgba(100,116,139,0.3)' : 'rgba(100,116,139,0.2)'"
+                   [style.box-shadow]="themeService.isDark() ? 'none' : '0 1px 8px rgba(0,0,0,0.08)'"
+                   [style.color]="themeService.isDark() ? '' : '#1e293b'">
                 <!-- Step number badge -->
                 <span class="hiw-badge">{{ i + 1 }}</span>
 
@@ -885,6 +890,7 @@ export class LandingComponent implements OnInit, OnDestroy, AfterViewInit {
   private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private destroy$ = new Subject<void>();
   private promoViewTracked = false;
+  public themeService = inject(ThemeService);
 
   steps = [
     { titleKey: 'landing.step1_title', descKey: 'landing.step1_desc', icon: 'M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12' },
